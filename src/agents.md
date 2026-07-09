@@ -39,8 +39,6 @@ Os domínios cooperam, mas não se incorporam, substituem ou sobrepõem; a autor
 
 ### 0.12 — Atualização automática da governança operacional
 
-#### 0.12.1 Obrigação, fonte e interface
-
 Todo repositório regido por este `AGENTS.md` deve possuir comando local de atualização da governança, criado na adoção desta norma se inexistente:
 
 - ecossistema Node.js: `npm run agents:update`;
