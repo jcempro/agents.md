@@ -68,7 +68,7 @@ Esta seção é a autoridade global para edição de RCFs, AGENTS, `agents.local
 
 ### 2.1 Regra de ouro
 
-Maximizar a informação por caractere por meio de normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos reutilizáveis (referênciáveis) de alta densidade informacional, eliminando redundâncias, introduções extensas, floreios, preenchimentos e explicações óbvias, mas preservando integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis; concisão deve reduzir apenas a forma, nunca a substância, priorizando referências internas e microexplicações sempre que reduzirem tokens sem perda semântica.
+Maximizar a informação por caractere por meio de normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos reutilizáveis (referênciáveis) de alta densidade informacional, eliminando redundâncias, introduções extensas, floreios, preenchimentos e explicações óbvias, mas preservando integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis; concisão deve reduzir apenas a forma, nunca a substância, priorizando referências internas e microexplicações (reaproveitáveis e referênciáveis) sempre que reduzirem tokens sem perda semântica.
 
 ### 2.2 Perfis obrigatórios
 
@@ -397,6 +397,33 @@ Aplicar a interpretação mais restritiva, de menor alteração e maior preserva
 ```text
 AMBIGUIDADE INSOLUVEL: <ponto>. Preservando original.
 ```
+
+### 12.6 Implementações Reutilizáveis e Exportáveis, e Hierarquia sem Clausura
+
+Toda lógica potencialmente reutilizável — como cálculos, verificações, transformações, validações, consultas, regras ou fluxos — deve ser isolada na menor unidade coesa adequada: MicroFunção, MicroServiço, MicroObjeto ou equivalente.
+
+A unidade poderá permanecer no mesmo arquivo ou ser distribuída em arquivos, módulos, pacotes ou diretórios, conforme coesão, responsabilidade, ciclo de vida e reutilização; a localização física não altera sua obrigação de preservar responsabilidade única, baixo acoplamento, composição e ausência de duplicação.
+
+Herança, abstração, especialização, composição, hierarquias e polimorfismo são legítimos e, quando aderentes ao domínio, necessários. Contudo, pertinência conceitual não implica clausura implementacional: uma operação pertencente à interface ou ao comportamento de uma classe não precisa ter toda sua lógica encerrada nela ou em sua árvore hierárquica.
+
+Classes e subclasses podem expor, coordenar, adaptar ou especializar comportamentos delegados a componentes comuns, genéricos ou externos, desde que sejam preservados seus contratos, invariantes, responsabilidades e encapsulamento. Delegação não descaracteriza orientação a objetos; herança não justifica internalizar lógica independente da identidade, do estado ou das invariantes da hierarquia.
+
+Componentes generalizáveis devem permanecer independentes do domínio consumidor sempre que essa independência não introduzir abstração artificial. Componentes específicos podem depender dos genéricos; a dependência inversa é vedada, salvo quando mediada por contrato abstrato pertencente à camada mais estável.
+
+As dependências devem apontar para políticas, abstrações e componentes mais estáveis. Elementos sujeitos às mesmas causas de mudança devem permanecer coesos; elementos com razões de mudança, ciclos de vida, consumidores ou potencial de reutilização distintos devem permanecer separáveis.
+
+Exportabilidade não exige extração antecipada. Exige contratos, limites e dependências que permitam futura migração para biblioteca, pacote ou repositório próprio com impacto mínimo. Permanecer local deve resultar de conveniência arquitetural, nunca de acoplamento acidental.
+
+**Microprincípios referenciáveis:**
+
+* **Pertinência sem clausura:** pertencer ao comportamento não obriga conter toda a implementação.
+* **Especialização por delegação:** a hierarquia especializa; componentes reutilizáveis executam.
+* **Dependência centrípeta:** o específico depende do genérico e do estável, não o contrário.
+* **Coesão por mudança:** permanecem juntos os elementos alterados pelas mesmas causas.
+* **Separabilidade por projeto:** o que pode ser extraído não deve ser aprisionado por dependências locais.
+* **Exportabilidade latente:** projetar para extração futura sem impor extração prematura.
+
+* O repositório pode, preferencialmente, manter um arquivo de mapa (ou equivalente), que centralize definições de cada MicroFunção, MicroServiço, MicroObjeto ou equivalente, contendo descrição ultra sucinta, precisa e inequívoca de sua finalidade, entradas, saídas, responsabilidades, dependências relevantes e restrições de uso, baixo uso de tokens (foco 100% maquina/IA), objetivando reduzir duplicação, reimplementações acidentais e ambiguidades. Na ausência de padrão previamente definido, `continue.ia` poderá indicar um índice exclusivo para consumo da IA (introduzido por ela mesmo), otimizado para reduzir tempo de processamento/análise e contexto, preferencialmente localizado em `./.agents/` ou no diretório que vier a substituí-lo. Tal aquivo deverá ser em formato que reduza custo de processamento.
 
 ## 13. Validação
 
