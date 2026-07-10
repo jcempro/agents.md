@@ -22,7 +22,7 @@ Se a edição/alteração a ser feita em AGENTS.md`ou cenários for alterar algo
 
 ### 0.1 Regra de ouro
 
-Maximizar informação por caractere mediante normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos referenciáveis de alta densidade; eliminar redundâncias, introduções extensas, floreios, preenchimentos e explicações óbvias; preservar integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis. **Concisão reduz somente a forma, nunca a substância.**
+Maximizar a informação por caractere mediante normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos reutilizáveis, referenciáveis e de alta densidade informacional; eliminar introduções extensas, floreios, preenchimentos, repetições e explicações óbvias, preservando integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis. Priorizar referências internas e microexplicações sempre que reduzirem tokens sem perda semântica, sobretudo em documentos destinados a máquinas ou IAs. **Concisão reduz somente a forma, nunca a substância; toda redução que suprima significado, rigor ou rastreabilidade é degradação, não otimização.**
 
 ### 0.2 Perfil editorial
 
