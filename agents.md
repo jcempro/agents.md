@@ -156,7 +156,9 @@ Uma FT contém uma ou mais etapas; cada etapa, uma ou mais tarefas. Só conclui 
 
 Quando reduzir contexto e processamento, cada FT pode residir em subarquivo próprio, dentro de subdiretório claramente nomeado na raiz. Esses arquivos devem permanecer versionados; se padrões do `.gitignore` os alcançarem, usar exceção explícita (`!`) para impedir exclusão acidental.
 
-## 6. Planejamento, etapas e tarefas
+## 6. Codificação, Planejamento, implementações, alterações, etapas e tarefas
+
+Antes de qualquer implementação, independentemente de porte ou natureza (incluindo feature, correção, refatoração, ajuste ou alteração), é obrigatório registrar previamente o planejamento correspondente no `continue.ia` aplicável. Nenhuma codificação deverá ser iniciada antes desse registro. Caso a implementação introduza, altere, amplie, restrinja ou remova requisitos, regras, contratos ou comportamento esperado, o respectivo RCF do projeto (Negócio) deverá ser atualizado e consolidado antes de qualquer modificação nos códigos-fonte. Se, durante a implementação, forem identificadas necessidades de ajuste no planejamento, nos requisitos ou na solução prevista, tais alterações deverão ser previamente refletidas e consolidadas no `continue.ia` e no RCF correspondente antes da continuidade da implementação. A implementação deve sempre decorrer de documentação previamente vigente, nunca o inverso.
 
 ### 6.1 Planejamento
 
