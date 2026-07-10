@@ -74,7 +74,7 @@ Esta seção é a autoridade global para edição de RCFs, AGENTS, `agents.local
 
 ### 2.1 Regra de ouro
 
-Maximizar a informação por caractere por meio de normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos reutilizáveis (referênciáveis) de alta densidade informacional, eliminando redundâncias, introduções extensas, floreios, preenchimentos e explicações óbvias, mas preservando integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis; concisão deve reduzir apenas a forma, nunca a substância, priorizando referências internas e microexplicações (reaproveitáveis e referênciáveis) sempre que reduzirem tokens sem perda semântica.
+Maximizar a informação por caractere por meio de normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos reutilizáveis (referênciáveis) de alta densidade informacional, eliminando redundâncias, introduções extensas, floreios, preenchimentos e explicações óbvias, mas preservando integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis; concisão deve reduzir apenas a forma, nunca a substância, priorizando referências internas e microexplicações (reaproveitáveis e referênciáveis) sempre que reduzirem tokens sem perda semântica.Evitar Verbozidade desnecessária, em especial ao documentos destinado à maquina/IA.
 
 ### 2.2 Perfis obrigatórios
 
