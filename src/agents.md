@@ -647,6 +647,8 @@ Sequência recorrente, mecanicamente componível ou custosa em comandos/contexto
 
 ### 18.2 Matriz mínima obrigatória
 
+Todos as implementações de comandos com finalide única de ser usada pela IA, ou que tenham baixo uso contextual para o desenvolvedor, devem localizar-se de forma aninhada e heirarquia em `./scripts/.agents/`. Caso, opte-se por biblioteca, a localização dela uará será o padrão definido pelo repositório.
+
 Todos os comandos abaixo DEVEM existir exatamente como nomeados, salvo dispensa conforme §18.1:
 
 - **Workspace:** `agent:setup` preparar ambiente; `agent:doctor` diagnosticar ambiente/dependências/configuração; `agent:repair` corrigir inconsistências conhecidas; `agent:clean` remover caches/temporários/artefatos definidos; `agent:status` resumir workspace e expor capacidades; `agent:context` gerar contexto executivo para IA; `agent:workspace` gerar snapshot consolidado.
