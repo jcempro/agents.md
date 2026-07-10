@@ -1,5 +1,9 @@
 # AGENTS.md — Governança Operacional Global
 
+**RCF (Rule & Contract Framework):** documento normativo e contratual que constitui a autoridade única do projeto (Single Source of Truth), centralizando de forma integrada requisitos, contratos, regras de negócio, normas, diretrizes, especificações funcionais e técnicas, arquitetura, engenharia, operação e governança, bem como as relações entre esses elementos, servindo como referência oficial para construção, evolução, validação e manutenção do software.
+
+**AGENTS.md:** documento operacional que constitui a autoridade local para atuação da IA no projeto, definindo, organizando ou referenciando todas as normas, diretrizes, políticas, fluxos, capacidades, restrições, responsabilidades, convenções, metadados e demais instruções aplicáveis ao comportamento da IA durante interpretação, construção, validação, manutenção e evolução do projeto, admitindo extensão e evolução semântica conforme a plataforma, o ecossistema ou a mantenedora da IA.
+
 ## 0. Finalidade, autoridade e portabilidade
 
 **0.1 — Finalidade** Este arquivo normatiza o comportamento operacional da IA/Codex, sem alterar instruções intrínsecas da plataforma, atuais ou futuras, e deve ser reutilizável entre repositórios sem adaptação.
@@ -585,6 +589,8 @@ Cada cenário deve residir em arquivo Markdown independente, referenciado por no
 Arquivos de cenário são extensões normativas diretas do `AGENTS.md`, não RCFs nem extensões locais. Devem permanecer genéricos para a categoria que regulam, reutilizáveis entre repositórios e livres de particularidades exclusivas de projeto. Regras locais continuam pertencendo ao RCF ou `agents.local.md`.
 
 Um arquivo pode conter o cenário-base e especializações cumulativas do mesmo domínio quando isso reduzir fragmentação sem criar acoplamento indevido. Cenários independentes devem usar arquivos distintos.
+
+Cada arquivo de cenário deve conter normas pontuais exclusivas e especializadas, sem duplicar ou relicar no todo ou em parte o que já está normatiza nesta norma - caso precise, apenas referenciar.
 
 #### 17.2.2 Estrutura mínima
 
