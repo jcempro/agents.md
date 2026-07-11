@@ -14,7 +14,7 @@ const path = require("path");
 
 const { extractZip } = require("../lib/archive");
 
-const ROOT_DIR = path.resolve(__dirname, "..");
+const ROOT_DIR = path.resolve(__dirname, "..", "..");
 const SOURCE_OWNER = "JeanCarloEM";
 const SOURCE_REPO = "agents.md";
 const SOURCE_API = `https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}`;

@@ -8,14 +8,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const ROOT_DIR = path.resolve(__dirname, "..");
+const ROOT_DIR = path.resolve(__dirname, "..", "..");
 const CANONICAL_FILES = [
   "continue.ia",
-  "continue.dev",
-  path.join(".agents", "continue.ia"),
-  path.join(".agents", "continue.dev"),
 ];
-const STATUS_FILE = "IMPLEMENTACOES.md";
+const STATUS_FILE = "handoff.md";
 
 function main() {
   const canonical = resolveCanonicalContinueFile(ROOT_DIR);
@@ -32,7 +29,7 @@ function resolveCanonicalContinueFile(rootDir) {
     .filter((entry) => fs.existsSync(entry.path) && fs.statSync(entry.path).isFile());
 
   if (found.length !== 1) {
-    throw new Error(`Deve existir exatamente um arquivo canonico: ${CANONICAL_FILES.join(" ou ")}.`);
+    throw new Error("Deve existir exatamente um arquivo canonico na raiz: continue.ia.");
   }
 
   return found[0];
@@ -123,7 +120,7 @@ function parseFrontLine(line) {
 
 function renderImplementationsStatus(sourceName, fronts) {
   const lines = [
-    "<!-- Gerado por npm run agents:update. Nao editar manualmente. -->",
+    "<!-- Gerado por npm run agent:handoff. Nao editar manualmente. -->",
     "# Implementacoes em andamento",
     "",
     `Resumo operacional gerado de \`${sourceName}\`.`,

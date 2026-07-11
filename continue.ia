@@ -1,0 +1,16 @@
+FT-001|nome=Aderencia operacional ao RCF|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.000000|atualizacao=20260711.000000|conclusao=20260711.000000
+objetivo=Remover scripts alienigenas, preservar implementacoes parciais aderentes e criar superficie operacional minima exigida por RCF/AGENTS.
+1/3 Auditoria e remocao de scripts [concluido]
+  1/2 Classificar scripts por aderencia [concluido]
+  2/2 Remover scripts alienigenas e preservar update-agents/handoff/archive [concluido]
+2/3 Superficie operacional minima [concluido]
+  1/4 Corrigir raizes dos scripts preservados [concluido]
+  2/4 Criar package.json com comandos agent canonicos [concluido]
+  3/4 Criar indexador/dist/verificador local [concluido]
+  4/4 Criar README e memoria operacional canonica continue.ia [concluido]
+3/3 Validacao e fechamento [concluido]
+  1/3 Executar agent:index, agent:dist, agent:verify e agent:status [concluido]
+  2/3 Auditar diff e aderencia residual [concluido]
+  3/3 Commitar etapa funcional [concluido]
+verificacoes=npm run agent:index; npm run agent:dist; npm run agent:status; npm run agent:handoff; npm run agent:verify.
+pendencias=release automatico/workflow e comandos agent ainda classificados n/a devem evoluir em FT propria; push remoto bloqueado por credenciais/politica.
