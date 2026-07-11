@@ -114,23 +114,25 @@ falhas=O smoke test exibiu `info`, `warning`, `result`, `error`, contrariando a 
 verificacoes=node --check scripts/.agents/to-ia.js; smoke confirmou ordem error->warning->result->info; smoke de falha retornou envelope e codigo 2; agent:status confirmou truncamento e artefato integral; npm run agent:verify OK.
 pendencias=nenhuma local; update remoto de governanca permanece condicionado a rede, credenciais e politica.
 
-FT-008|nome=Separacao dos cenarios Release e Publicacao de Conteudo|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260711.220000|atualizacao=20260711.220000
+FT-008|nome=Separacao dos cenarios Release e Publicacao de Conteudo|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.220000|atualizacao=20260711.234500|conclusao=20260711.234500
 objetivo=Normatizar cenarios independentes e migrar o mecanismo de release de publish para release, reservando publish para conteudo de Negocio e preservando rastreabilidade e extensibilidade por hooks.
-1/4 Norma e arquitetura [em_andamento]
-  1/3 Ler integralmente normas, RCF, fontes e implementacao atual [em andamento]
-  2/3 Criar cenarios Release e Publicacao de Conteudo e indexa-los [pendente]
-  3/3 Sincronizar AGENTS, RCF, fonte e README [pendente]
-2/4 Release tecnico [pendente]
-  1/3 Migrar scripts, API e metadados de publish para release [pendente]
-  2/3 Implementar inferencia deterministica e hooks [pendente]
-  3/3 Migrar workflow e gatilho transitorio [pendente]
-3/4 Atualizacao do framework [pendente]
-  1/2 Preservar especializacoes locais por extensoes formais [pendente]
-  2/2 Validar descoberta, artefato e compatibilidade [pendente]
-4/4 Validacao e fechamento [pendente]
-  1/3 Executar sintaxe, verificacao e fluxos focados [pendente]
-  2/3 Gerar handoff e atualizar memoria [pendente]
-  3/3 Commitar etapas funcionais [pendente]
+1/4 Norma e arquitetura [concluido]
+  1/3 Ler integralmente normas, RCF, fontes e implementacao atual [concluido]
+  2/3 Criar cenarios Release e Publicacao de Conteudo e indexa-los [concluido]
+  3/3 Sincronizar AGENTS, RCF, fonte e README [concluido]
+2/4 Release tecnico [concluido]
+  1/3 Migrar scripts, API e metadados de publish para release [concluido]
+  2/3 Implementar inferencia deterministica e hooks [concluido]
+  3/3 Migrar workflow e gatilho transitorio [concluido]
+3/4 Atualizacao do framework [concluido]
+  1/2 Preservar especializacoes locais por extensoes formais [concluido]
+  2/2 Validar descoberta, artefato e compatibilidade [concluido]
+4/4 Validacao e fechamento [concluido]
+  1/3 Executar sintaxe, verificacao e fluxos focados [concluido]
+  2/3 Gerar handoff e atualizar memoria [concluido]
+  3/3 Commitar etapas funcionais [concluido]
 decisoes=Release e publish possuem dominios incompatíveis: qualquer compatibilidade que perpetue publish como alias de release viola a reserva semantica solicitada; migracao preservara rastreabilidade por metadados e gatilho release transitorio.
 invariantes=release deve ser deterministico, auditavel e hookeavel; publish somente deve existir onde o cenario de Conteudo se aplicar; especializacao local nao deve ser sobrescrita pela atualizacao.
-pendencias=nenhuma conhecida.
+verificacoes=node --check scripts/.agents/repo-tools.js e release-workflow.js; release.beta rejeitado; agent:release:trigger sem versao retornou PARAMETRO_NORMATIVO_AUSENTE:version e processo 4; agent:release 0.0.0-beta seguido de agent:verify preservou ZIP e metadado completo.
+pendencias=nenhuma local; publicacao remota depende de push e credenciais.
+falhas=agent:verify reconstroi release.json sem metadado de release; detector aceita extensao de gatilho sem autorizacao explicita do RCF; agent:release:trigger pode sobrescrever sinalizador existente.

@@ -302,7 +302,8 @@ function buildIndex() {
 }
 
 function buildDist(options = {}) {
-  const releaseVersion = normalizeReleaseVersion(options.version || "");
+  const preservedRelease = options.releaseMetadata || readExistingReleaseMetadata();
+  const releaseVersion = normalizeReleaseVersion(options.version || (preservedRelease && preservedRelease.version) || "");
   const releaseNotes = typeof options.releaseNotes === "string" ? options.releaseNotes.trim() : readExistingReleaseNotes();
   const index = buildIndex();
   const archiveName = resolveArchiveName(releaseVersion);
@@ -324,13 +325,14 @@ function buildDist(options = {}) {
   if (releaseNotes) {
     fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}\n`, "utf8");
   }
-  if (options.releaseMetadata) {
+  if (preservedRelease) {
     releaseIndex.release = {
       asset: toPosix(path.join("dist", archiveName)),
-      baseTag: options.releaseMetadata.baseTag || "",
-      commit: options.releaseMetadata.commit,
-      inference: options.releaseMetadata.inference,
+      baseTag: preservedRelease.baseTag || "",
+      commit: preservedRelease.commit,
+      inference: preservedRelease.inference,
       notesSha256: crypto.createHash("sha256").update(releaseNotes, "utf8").digest("hex"),
+      previousRelease: preservedRelease.previousRelease || preservedRelease.baseTag || "",
       tag: `v${releaseVersion}`,
       version: releaseVersion,
     };
@@ -373,6 +375,21 @@ function readExistingReleaseNotes() {
   }
 
   return fs.readFileSync(RELEASE_NOTE_PATH, "utf8").trim();
+}
+
+function readExistingReleaseMetadata() {
+  if (!fs.existsSync(RELEASE_PATH)) {
+    return null;
+  }
+
+  const release = JSON.parse(fs.readFileSync(RELEASE_PATH, "utf8")).release;
+  if (!release) {
+    return null;
+  }
+  if (!release.commit || !release.version) {
+    throw new Error("METADADO_RELEASE_INVALIDO");
+  }
+  return release;
 }
 
 function verify() {
@@ -561,8 +578,17 @@ function releaseLocal(args = []) {
 }
 
 function releaseTrigger(args = []) {
-  const release = resolveRelease(args[0] || "");
+  const requestedVersion = String(args[0] || "").trim();
+  if (!requestedVersion) {
+    console.error("PARAMETRO_NORMATIVO_AUSENTE:version");
+    return 4;
+  }
+
+  const release = resolveRelease(requestedVersion);
   const targetPath = path.join(ROOT_DIR, "release");
+  if (fs.existsSync(targetPath)) {
+    throw new Error("GATILHO_RELEASE_EXISTENTE:release");
+  }
   fs.writeFileSync(targetPath, `${release.version}\n`, "utf8");
   return ok("RELEASE_TRIGGER_OK", {
     file: "release",

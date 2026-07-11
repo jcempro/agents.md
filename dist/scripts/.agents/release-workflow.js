@@ -123,7 +123,7 @@ function inspectCommitForRelease(commit) {
 }
 
 function isReleaseTriggerPath(filePath) {
-  return /^release(?:\.[^/\\]+)?$/u.test(String(filePath || "").trim());
+  return String(filePath || "").trim() === "release";
 }
 
 function normalizeReleaseVersion(value) {
