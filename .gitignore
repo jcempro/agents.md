@@ -8,6 +8,11 @@ node_modules/
 tmp/
 
 0. Autoriza .md em ./.agents/
+/.agents/
+/.agents/continue.ia
+/.agents/continue.dev
+!/.agents/*.md
+!/.agents/**/*.md
 /src/.agents/
 !/src/.agents/*.md
 !/src/.agents/**/*.md
