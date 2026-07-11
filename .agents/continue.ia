@@ -42,3 +42,20 @@ objetivo=Converter comandos canonicos de baixo risco de degradado generico para 
   1/2 Executar agent:status, agent:verify e comandos amostrais [concluido]
   2/2 Commitar etapa funcional [concluido]
 verificacoes=agent:verify OK; agent:status total=80 available=30 degraded=50 n/a=0; agent:security OK; agent:deps OK; agent:git-release-notes OK.
+
+FT-005|nome=Release automatico aderente ao RCF|escopo=Tecnico|prioridade=alta|status=em andamento|inicio=20260710.231500|atualizacao=20260710.231500|conclusao=
+objetivo=Implementar comandos locais e workflow de release/publicacao alinhados ao RCF, incluindo gatilho publish, release-note e commit release.
+1/4 Lacunas normativas de release [concluido]
+  1/2 Auditar RCF, scripts ativos e ausencia de workflow [concluido]
+  2/2 Delimitar comandos canonicos faltantes para release/publicacao [concluido]
+2/4 Superficie local de release [concluido]
+  1/3 Implementar clean/repair reais em repo-tools [concluido]
+  2/3 Implementar agent:release, agent:publish e agent:deploy com versionamento local [concluido]
+  3/3 Gerar release-note.txt e pacote versionado em dist [concluido]
+3/4 Workflow GitHub Actions [concluido]
+  1/2 Criar detector de commit publish e finalizador release [concluido]
+  2/2 Criar .github/workflows/release.yml para manual/push [concluido]
+4/4 Validacao e sincronizacao [em andamento]
+  1/3 Atualizar README e memoria canonica [concluido]
+  2/3 Executar validacoes locais dos scripts e comandos [em andamento]
+  3/3 Consolidar aderencia residual e registrar pendencias reais [pendente]

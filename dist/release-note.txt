@@ -1,0 +1,45 @@
+Release v0.0.1-beta
+
+- fc75eae manter multuplas linhas
+- e331821 melhoria: implementa comandos seguros
+- 3e7a8f5 ajuste: degrada comandos pendentes
+- c87538a ajuste: restaura continue em agents
+- ee04eb3 ajuste: fixa continue canonico
+- 480e899 já aplicado em f82924d ajuste: cria superficie operacional
+- f82924d ajuste: cria superficie operacional
+- 4a74006 ajuste do que ignorar em .agents/
+- 31049aa ajuste menor
+- 015a0ec ajuste: preserva scripts aderentes
+- 4a59a99 ajuste: preserva scripts aderentes
+- 58f41c8 COMMIT_SUGERIDO: fix: tornar obrigatório o filtro universal agent:filter e impedir leitura de saídas brutas; melhoria: limitar respostas a 50 linhas e 8.192 bytes, instituir paginação, persistência integral, envelope JSONL, defaults de timeout, retries, concorrência e códigos de retorno; ajuste: fechar estados de conformidade, limiares de consolidação e bloqueio de parâmetros normativos ausentes PENDENCIAS: realizar auditoria antidiscricionariedade nas seções externas ao §18, especialmente expressões como “quando tecnicamente possível”, “conforme aplicabilidade”, “decurso significativo”, “solução mais simples” e equivalentes ainda não acompanhadas de critérios objetivos
+- e167a85 nomeado handoff
+- 757295b adicionado especificação da localização de scripts
+- e4fed36 aplicado melhores práticas da web
+- c4981c1 aderência a  RFC 2119, adicionado novos comandos npm, e melhores práticas coletadas da WEB
+- c639a76 planejamento reforça previsibilidade
+- 782f195 corrije a inclusão.
+- 03cc5fa faz commit e push de atualização de agents.md
+- 6655454 melhorado titulo da regra de outro
+- 7c688bd melhorado regra de ouro
+- c5d53d8 correção gramatical
+- 6e1ed17 ajuste gramatical
+- 9263ebd adicionado ` Evitar Verbozidade desnecessária.`
+- 80c3aab explicitado conceito de RCF e de agents.md
+- a822db2 adicionado [referência]
+- 92e11e9 melhora do texto 'secunddário'
+- 1634fd3 adicionado o que é obietivo e o que não é e o secundário
+- 4d97e67 definito traget construtivo
+- 936123d adicionado conceito de pontos de exceção e demais ajuste pequenos relativo a timestamp
+- 33731fe melhora do titulo do RCF
+- 59c7b2b correção de ortografia e equqlização.
+- 1659627 ajuste pequeno
+- 1ff7c87 pequeno ajuste
+- 0bd262d adicionado trecho sobre distinção de normas e sub normas de IA/agents.
+- bbab9bf adicionado 12.6
+- a9e65df alterado `autoupdate.md `=> `.autoupdate.md`
+- 977698c compatibilizaçÃo com contexto
+- 52ee70f fix menor
+- 8c721c9 correção
+- fe273d1 adiciona necessidade de existir auto atualizaçÃo
+- e08eb37 correção da ausencia de ./src/.agents
+- 8237b6c inicial

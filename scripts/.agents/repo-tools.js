@@ -17,6 +17,7 @@ const SRC_DIR = path.join(ROOT_DIR, "src");
 const DIST_DIR = path.join(ROOT_DIR, "dist");
 const INDEX_PATH = path.join(ROOT_DIR, "index.json");
 const RELEASE_PATH = path.join(DIST_DIR, "release.json");
+const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 const ALIEN_SCRIPT_TERMS = [
   "What" + "Send",
@@ -53,6 +54,16 @@ const COMMANDS = {
   "agent:verify": {
     description: "valida scripts, indexador e dist",
     run: verify,
+    status: "available",
+  },
+  "agent:clean": {
+    description: "remove artefatos gerados locais com escopo controlado",
+    run: cleanGeneratedArtifacts,
+    status: "available",
+  },
+  "agent:repair": {
+    description: "reconstroi artefatos gerados e memoria visual derivada",
+    run: repairGeneratedArtifacts,
     status: "available",
   },
   "agent:build": {
@@ -118,6 +129,21 @@ Object.assign(COMMANDS, {
     run: () => COMMANDS["agent:dist"].run(),
     status: "available",
   },
+  "agent:release": {
+    description: "gera release local com release-note.txt e pacote versionado",
+    run: releaseLocal,
+    status: "available",
+  },
+  "agent:publish": {
+    description: "cria gatilho local publish para o workflow de release",
+    run: publishTrigger,
+    status: "available",
+  },
+  "agent:deploy": {
+    description: "alias de agent:publish para acionar publicacao remota",
+    run: publishTrigger,
+    status: "available",
+  },
   "agent:test": {
     description: "alias seguro de agent:verify",
     run: () => COMMANDS["agent:verify"].run(),
@@ -158,9 +184,19 @@ Object.assign(COMMANDS, {
     run: () => runGitReadOnly(["branch", "--list"]),
     status: "available",
   },
+  "agent:git-status": {
+    description: "exibe status local compacto",
+    run: () => runGitReadOnly(["status", "--short"]),
+    status: "available",
+  },
   "agent:git-tag": {
     description: "lista tags locais",
     run: () => runGitReadOnly(["tag", "--list"]),
+    status: "available",
+  },
+  "agent:git-log": {
+    description: "exibe log local compacto",
+    run: () => runGitReadOnly(["log", "--oneline", "-20"]),
     status: "available",
   },
   "agent:git-show": {
@@ -171,6 +207,11 @@ Object.assign(COMMANDS, {
   "agent:git-history": {
     description: "exibe historico local compacto",
     run: () => runGitReadOnly(["log", "--oneline", "-50"]),
+    status: "available",
+  },
+  "agent:git-diff": {
+    description: "exibe diff local resumido",
+    run: (args) => runGitReadOnly(["diff", "--stat", ...(args || [])]),
     status: "available",
   },
   "agent:git-blame": {
@@ -208,9 +249,6 @@ const DEGRADED_COMMANDS = new Set([
   "agent:stat",
   "agent:size",
   "agent:hash",
-  "agent:git-status",
-  "agent:git-log",
-  "agent:git-diff",
 ]);
 
 const CANONICAL_COMMANDS = [
@@ -260,7 +298,9 @@ function buildIndex() {
   };
 }
 
-function buildDist() {
+function buildDist(options = {}) {
+  const releaseVersion = normalizeReleaseVersion(options.version || "");
+  const releaseNotes = typeof options.releaseNotes === "string" ? options.releaseNotes.trim() : "";
   const index = buildIndex();
   cleanDirectory(DIST_DIR);
   fs.mkdirSync(DIST_DIR, { recursive: true });
@@ -282,15 +322,23 @@ function buildDist() {
     schema: 1,
   };
   writeJsonMinified(RELEASE_PATH, releaseIndex);
+  if (releaseNotes) {
+    fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}\n`, "utf8");
+  }
 
-  const archiveName = resolveArchiveName();
+  const archiveName = resolveArchiveName(releaseVersion);
   const archivePath = path.join(DIST_DIR, archiveName);
   createZipFromDirectory(DIST_DIR, archivePath, {
     exclude: [/^agents-v.+\.zip$/u],
   });
 
   validateDist();
-  return { archive: toPosix(path.relative(ROOT_DIR, archivePath)), files: releaseIndex.files.length };
+  return {
+    archive: toPosix(path.relative(ROOT_DIR, archivePath)),
+    files: releaseIndex.files.length,
+    releaseNote: releaseNotes ? toPosix(path.relative(ROOT_DIR, RELEASE_NOTE_PATH)) : "",
+    version: releaseVersion || readPackageVersion(),
+  };
 }
 
 function verify() {
@@ -332,6 +380,35 @@ function validateDist() {
   if (release.root !== "." || !Array.isArray(release.files)) {
     throw new Error("dist/release.json invalido.");
   }
+}
+
+function cleanGeneratedArtifacts() {
+  const removed = [];
+  for (const relativePath of ["dist", "index.json", "handoff.md"]) {
+    const target = path.join(ROOT_DIR, relativePath);
+    if (!fs.existsSync(target)) {
+      continue;
+    }
+    if (fs.statSync(target).isDirectory()) {
+      cleanDirectory(target);
+    } else {
+      fs.rmSync(target, { force: true });
+    }
+    removed.push(toPosix(relativePath));
+  }
+  return ok("CLEAN_OK", { removed });
+}
+
+function repairGeneratedArtifacts() {
+  const index = buildIndex();
+  writeJsonMinified(INDEX_PATH, index);
+  runNodeScript(path.join("scripts", ".agents", "generate-agents-status.js"));
+  const dist = buildDist();
+  return ok("REPAIR_OK", {
+    archive: dist.archive,
+    files: index.files.length,
+    handoff: "handoff.md",
+  });
 }
 
 function setup() {
@@ -434,6 +511,23 @@ function gitReleaseNotes() {
   const range = last ? `${last}..HEAD` : "HEAD";
   const log = runProcess("git", ["log", "--oneline", range], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean);
   return ok("GIT_RELEASE_NOTES_OK", { commits: log });
+}
+
+function releaseLocal(args = []) {
+  const version = normalizeReleaseVersion(args[0] || readPackageVersion());
+  const notes = buildReleaseNotes(version);
+  const result = buildDist({ releaseNotes: notes, version });
+  return ok("RELEASE_OK", result);
+}
+
+function publishTrigger(args = []) {
+  const version = normalizeReleaseVersion(args[0] || readPackageVersion());
+  const targetPath = path.join(ROOT_DIR, "publish");
+  fs.writeFileSync(targetPath, `${version}\n`, "utf8");
+  return ok("PUBLISH_TRIGGER_OK", {
+    file: "publish",
+    version,
+  });
 }
 
 function runGitReadOnly(args) {
@@ -558,9 +652,57 @@ function releaseRelativePath(sourcePath) {
   return relative === "agents.md" ? "AGENTS.md" : relative;
 }
 
-function resolveArchiveName() {
+function resolveArchiveName(versionOverride = "") {
+  return `agents-v${normalizeReleaseVersion(versionOverride || readPackageVersion())}.zip`;
+}
+
+function readPackageVersion() {
   const pkg = fs.existsSync(PACKAGE_PATH) ? JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8")) : {};
-  return `agents-v${pkg.version || "0.0.0-beta"}.zip`;
+  return normalizeReleaseVersion(pkg.version || "0.0.0-beta");
+}
+
+function normalizeReleaseVersion(value) {
+  const raw = String(value || "").trim();
+
+  if (!raw) {
+    return "";
+  }
+
+  const match = raw.match(/^(\d+)\.(\d+)(?:\.(\d+))?(?:-([0-9A-Za-z.-]+))?$/u);
+
+  if (!match) {
+    throw new Error(`Versao de release invalida: ${value}`);
+  }
+
+  const major = match[1];
+  const minor = match[2];
+  const patch = match[3] || "0";
+  const suffix = match[4] ? `-${match[4]}` : "";
+  return `${major}.${minor}.${patch}${suffix}`;
+}
+
+function buildReleaseNotes(version) {
+  const last = runProcess("git", ["log", "--grep=^release:", "--format=%H", "-1"], { optional: true }).stdout.trim();
+  const range = last ? `${last}..HEAD` : "HEAD";
+  const commits = runProcess("git", ["log", "--format=%h %s", range], { optional: true }).stdout
+    .trim()
+    .split(/\r?\n/u)
+    .filter(Boolean);
+
+  const lines = [
+    `Release v${version}`,
+    "",
+  ];
+
+  if (commits.length === 0) {
+    lines.push("- Sem alteracoes registradas desde o ultimo marcador release.");
+  } else {
+    for (const commit of commits) {
+      lines.push(`- ${commit}`);
+    }
+  }
+
+  return lines.join("\n");
 }
 
 function readPackageScripts() {
