@@ -85,11 +85,27 @@ jobs:
       - name: Validar tag inexistente
         shell: bash
         run: |
+          retry() {
+            local attempt status
+            local delays=(1 3)
+            for attempt in 0 1 2; do
+              if "$@"; then
+                return 0
+              else
+                status=$?
+              fi
+              if [ "$attempt" -lt 2 ]; then
+                sleep "${delays[$attempt]}"
+              fi
+            done
+            return "$status"
+          }
           if git rev-parse --verify "refs/tags/v${RELEASE_VERSION}" >/dev/null 2>&1; then
             echo "Tag local v${RELEASE_VERSION} ja existe." >&2
             exit 1
           fi
-          if git ls-remote --tags origin "refs/tags/v${RELEASE_VERSION}" | grep . >/dev/null 2>&1; then
+          remote_tag="$(retry git ls-remote --tags origin "refs/tags/v${RELEASE_VERSION}")"
+          if [ -n "$remote_tag" ]; then
             echo "Tag remota v${RELEASE_VERSION} ja existe." >&2
             exit 1
           fi
@@ -98,27 +114,29 @@ jobs:
         run: node scripts/.agents/repo-tools.js agent:release "$env:RELEASE_VERSION"
         shell: pwsh
 
-      - name: Finalizar commit release
-        run: node scripts/.agents/release-workflow.js finalize "$env:RELEASE_VERSION" "$env:RELEASE_FILE"
-        shell: pwsh
-
-      - name: Publicar commit release
-        run: git push origin "HEAD:${{ github.ref_name }}"
-
-      - name: Criar tag da versao
-        run: git tag "v${RELEASE_VERSION}"
-        shell: bash
-
-      - name: Publicar tag
-        run: git push origin "v${RELEASE_VERSION}"
-        shell: bash
-
-      - name: Publicar release GitHub
+      - name: Publicar release e finalizar marcador
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "v${RELEASE_VERSION}" "dist/agents-v${RELEASE_VERSION}.zip" "dist/release-note.txt" --title "v${RELEASE_VERSION}" --notes-file "dist/release-note.txt" --latest
         shell: bash
-
-      - name: Executar hook publicado
-        run: node scripts/.agents/release-hooks.js published "$env:RELEASE_VERSION" "dist/agents-v$env:RELEASE_VERSION.zip"
-        shell: pwsh
+        run: |
+          retry() {
+            local attempt status
+            local delays=(1 3)
+            for attempt in 0 1 2; do
+              if "$@"; then
+                return 0
+              else
+                status=$?
+              fi
+              if [ "$attempt" -lt 2 ]; then
+                sleep "${delays[$attempt]}"
+              fi
+            done
+            return "$status"
+          }
+          git tag "v${RELEASE_VERSION}"
+          retry git push origin "v${RELEASE_VERSION}"
+          retry gh release create "v${RELEASE_VERSION}" "dist/agents-v${RELEASE_VERSION}.zip" "dist/release-note.txt" --title "v${RELEASE_VERSION}" --notes-file "dist/release-note.txt" --latest
+          node scripts/.agents/release-hooks.js published "$RELEASE_VERSION" "dist/agents-v${RELEASE_VERSION}.zip"
+          node scripts/.agents/release-workflow.js finalize "$RELEASE_VERSION" "$RELEASE_FILE"
+          retry git push origin "HEAD:${{ github.ref_name }}"
