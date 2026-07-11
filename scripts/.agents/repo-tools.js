@@ -307,7 +307,7 @@ function buildIndex() {
 
 function buildDist(options = {}) {
   const releaseVersion = normalizeReleaseVersion(options.version || "");
-  const releaseNotes = typeof options.releaseNotes === "string" ? options.releaseNotes.trim() : "";
+  const releaseNotes = typeof options.releaseNotes === "string" ? options.releaseNotes.trim() : readExistingReleaseNotes();
   const index = buildIndex();
   cleanDirectory(DIST_DIR);
   fs.mkdirSync(DIST_DIR, { recursive: true });
@@ -346,6 +346,14 @@ function buildDist(options = {}) {
     releaseNote: releaseNotes ? toPosix(path.relative(ROOT_DIR, RELEASE_NOTE_PATH)) : "",
     version: releaseVersion || readPackageVersion(),
   };
+}
+
+function readExistingReleaseNotes() {
+  if (!fs.existsSync(RELEASE_NOTE_PATH)) {
+    return "";
+  }
+
+  return fs.readFileSync(RELEASE_NOTE_PATH, "utf8").trim();
 }
 
 function verify() {

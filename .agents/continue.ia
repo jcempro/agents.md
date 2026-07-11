@@ -43,7 +43,7 @@ objetivo=Converter comandos canonicos de baixo risco de degradado generico para 
   2/2 Commitar etapa funcional [concluido]
 verificacoes=agent:verify OK; agent:status total=80 available=30 degraded=50 n/a=0; agent:security OK; agent:deps OK; agent:git-release-notes OK.
 
-FT-005|nome=Release automatico aderente ao RCF|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260710.231500|atualizacao=20260711.204500|conclusao=20260711.204500
+FT-005|nome=Release automatico aderente ao RCF|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260710.231500|atualizacao=20260711.211500|conclusao=20260711.211500
 objetivo=Implementar comandos locais e workflow de release/publicacao alinhados ao RCF, incluindo gatilho publish, release-note e commit release.
 1/4 Lacunas normativas de release [concluido]
   1/2 Auditar RCF, scripts ativos e ausencia de workflow [concluido]
@@ -61,6 +61,8 @@ objetivo=Implementar comandos locais e workflow de release/publicacao alinhados 
   3/3 Consolidar aderencia residual e registrar pendencias reais [concluido]
 verificacoes=node --check scripts/.agents/release-workflow.js; workflow ordem release->finalize->push confirmada; npm run agent:verify OK; npm run agent:release -- 0.0.2-beta OK com release-note populado.
 pendencias=nenhuma local; execucao remota do GitHub Actions depende de push e credencial do repositorio.
+falhas=agent:verify reconstruia dist sem preservar release-note.txt e alterava o ZIP rastreado apos uma validacao; a correcao preserva a nota existente quando nao houver nota explicita.
+verificacoes_reprodutibilidade=agent:release 0.0.0-beta seguido de agent:verify manteve SHA-256 16450A5944228266E33045C4B88734D9B2EC034AD33680764B30C44474F874AE.
 
 FT-006|nome=Densificacao normativa e preparo para IA|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.000000|atualizacao=20260711.000000|conclusao=20260711.000000
 objetivo=Refatorar integralmente os conteudos de src com microconceitos referenciaveis, reduzir tokens sem perda semantica e instituir interface to-ia deterministica para comandos verbosos.
