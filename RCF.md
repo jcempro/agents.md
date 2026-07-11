@@ -349,6 +349,33 @@ COMMIT_SUGERIDO: <PT-BR; objetivo; até 512 caracteres; distinguir fix, melhoria
 PENDENCIAS: <etapas/tarefas restantes ou “nenhuma”>
 ```
 
+### 3.14 Seção 18 — API operacional do repositório
+
+DEVE normatizar API operacional local por comandos padronizados, determinísticos, não interativos e reutilizáveis, preferencialmente `agent:*`, para reduzir contexto, tokens, processamento por LLM, tempo, erro e acoplamento. Havendo comando equivalente, o agente DEVE usá-lo antes de compor comandos manuais de sistema, Git ou ecossistema.
+
+Cada comando DEVE:
+
+- encapsular operação recorrente, mecânica ou custosa, com filtros, validações, retries, tratamento de erro, paralelização, paginação, sumarização e consolidação quando cabíveis;
+- produzir saída compacta, estável, acionável e automatizável, omitindo progresso, transferências, arquivos inalterados, repetição e logs sem valor;
+- retornar somente resultados, diagnósticos, métricas, resumos e erros relevantes, com códigos de retorno compatíveis com automação;
+- ser idempotente quando a finalidade não exigir efeito cumulativo;
+- admitir execução não interativa, contrato explícito e salvaguardas para operações destrutivas.
+
+Sequência recorrente, multicomando ou consumidora de contexto DEVE virar comando único da API. A API DEVE evoluir continuamente para deslocar trabalho mecânico da LLM sem ocultar erro, decisão, valor ou rastreabilidade.
+
+Matriz mínima, quando aplicável ao ecossistema:
+
+- **Workspace:** `agent:setup`, `agent:doctor`, `agent:repair`, `agent:clean`, `agent:status`, `agent:context`, `agent:workspace`.
+- **Sistema operacional:** `agent:pwd`, `agent:ls`, `agent:tree`, `agent:find`, `agent:search`, `agent:grep`, `agent:head`, `agent:tail`, `agent:view`, `agent:stat`, `agent:size`, `agent:hash`, `agent:diff-file`, `agent:logs`, `agent:process`, `agent:kill`, `agent:ports`, `agent:compress`, `agent:extract`.
+- **Git:** `agent:git-status`, `agent:git-fetch`, `agent:git-pull`, `agent:git-push`, `agent:git-sync`, `agent:git-add`, `agent:git-commit`, `agent:git-branch`, `agent:git-switch`, `agent:git-tag`, `agent:git-log`, `agent:git-show`, `agent:git-history`, `agent:git-diff`, `agent:git-blame`, `agent:git-reset`, `agent:git-restore`, `agent:git-clean`, `agent:git-stash`, `agent:git-prune`, `agent:git-gc`, `agent:git-last-release`, `agent:git-release-notes`, `agent:git-changelog`.
+- **Build/publicação:** `agent:build`, `agent:verify`, `agent:dist`, `agent:package`, `agent:release`, `agent:publish`, `agent:deploy`, `agent:rollback`.
+- **Qualidade:** `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`.
+- **Dependências:** `agent:deps`, `agent:update-deps`, `agent:licenses`.
+- **Documentação/governança:** `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `agent:agents`.
+- **Dados:** `agent:parse-data`, `agent:summarize`, `agent:convert`, `agent:validate-data`, `agent:index-data`, `agent:query-data`.
+
+Novos comandos PODEM ser adicionados sem enfraquecer os canônicos. Alias NÃO substitui nome padronizado. Comando inaplicável DEVE possuir dispensa expressa por autoridade normativa competente.
+
 ---
 
 ## 4. Contrato do item 17 — Núcleo de cenários
@@ -710,12 +737,13 @@ Executar nesta ordem:
 4. centralizar regras comuns; substituir cópias por referências;
 5. reconstruir seções 0–16 conforme §3;
 6. reconstruir item 17 conforme §4;
-7. gerar `webPageLike.md` conforme §5;
-8. validar a matriz de 42 linhas;
-9. comparar efeitos normativos com as fontes;
-10. auditar perda, enfraquecimento, deslocamento de domínio, arbitrariedade e conflito;
-11. produzir diff mínimo e rastreável;
-12. atualizar memória operacional e documentação correlata.
+7. reconstruir seção 18/API operacional conforme §3.14;
+8. gerar `webPageLike.md` conforme §5;
+9. validar a matriz de 42 linhas;
+10. comparar efeitos normativos com as fontes;
+11. auditar perda, enfraquecimento, deslocamento de domínio, arbitrariedade e conflito;
+12. produzir diff mínimo e rastreável;
+13. atualizar memória operacional e documentação correlata.
 
 ### 6.1 Tratamento de conflito
 
@@ -761,6 +789,7 @@ Confirmar:
 - AGENTS governa IA;
 - item 17 governa arquitetura de cenários;
 - `webPageLike.md` governa Web;
+- API operacional possui contrato, matriz e dispensa rastreável;
 - RCF governa projeto;
 - extensão local governa operação local;
 - memória governa estado.
@@ -798,7 +827,8 @@ A reconstrução só é concluída quando todas as respostas forem “sim”:
 7. Nenhuma particularidade local contaminou a camada global?
 8. A densidade aumentou sem perda semântica?
 9. A rastreabilidade permite auditar origem e destino?
-10. A arquitetura pode ser recriada somente com este RCF?
+10. A API operacional preserva comandos, preferência de uso, saída compacta e evolução contínua?
+11. A arquitetura pode ser recriada somente com este RCF?
 
 ---
 
@@ -808,6 +838,7 @@ A implementação deste RCF deve produzir, conforme escopo:
 
 - `AGENTS.md` completo ou seções integralmente alteradas;
 - item 17 desacoplado;
+- seção 18/API operacional consolidada;
 - `webPageLike.md` completo;
 - RCFs/README/memória sincronizados quando afetados;
 - relatório sucinto de validação;
