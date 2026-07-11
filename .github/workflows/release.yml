@@ -5,7 +5,7 @@ on:
     inputs:
       version:
         description: Versao do release no formato 0.0.0 ou 0.0.0-beta
-        required: true
+        required: false
         type: string
   push:
     branches:
@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 jobs:
-  detect-publish:
+  detect-release:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     outputs:
@@ -44,8 +44,8 @@ jobs:
 
   release:
     needs:
-      - detect-publish
-    if: github.event_name == 'workflow_dispatch' || needs.detect-publish.outputs.triggered == 'true'
+      - detect-release
+    if: github.event_name == 'workflow_dispatch' || needs.detect-release.outputs.triggered == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -66,18 +66,21 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           INPUT_VERSION: ${{ inputs.version }}
-          DETECT_FILE: ${{ needs.detect-publish.outputs.file }}
-          DETECT_VERSION: ${{ needs.detect-publish.outputs.version }}
+          DETECT_FILE: ${{ needs.detect-release.outputs.file }}
+          DETECT_VERSION: ${{ needs.detect-release.outputs.version }}
         run: |
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             version="$INPUT_VERSION"
-            publish_file='publish'
+            release_file=''
+            if [ -z "$version" ]; then
+              version="$(node -e "const {resolveRelease}=require('./scripts/.agents/repo-tools');process.stdout.write(resolveRelease('').version)")"
+            fi
           else
             version="$DETECT_VERSION"
-            publish_file="$DETECT_FILE"
+            release_file="$DETECT_FILE"
           fi
           printf 'RELEASE_VERSION=%s\n' "$version" >> "$GITHUB_ENV"
-          printf 'PUBLISH_FILE=%s\n' "$publish_file" >> "$GITHUB_ENV"
+          printf 'RELEASE_FILE=%s\n' "$release_file" >> "$GITHUB_ENV"
 
       - name: Validar tag inexistente
         shell: bash
@@ -96,7 +99,7 @@ jobs:
         shell: pwsh
 
       - name: Finalizar commit release
-        run: node scripts/.agents/release-workflow.js finalize "$env:RELEASE_VERSION" "$env:PUBLISH_FILE"
+        run: node scripts/.agents/release-workflow.js finalize "$env:RELEASE_VERSION" "$env:RELEASE_FILE"
         shell: pwsh
 
       - name: Publicar commit release
@@ -115,3 +118,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh release create "v${RELEASE_VERSION}" "dist/agents-v${RELEASE_VERSION}.zip" "dist/release-note.txt" --title "v${RELEASE_VERSION}" --notes-file "dist/release-note.txt" --latest
         shell: bash
+
+      - name: Executar hook publicado
+        run: node scripts/.agents/release-hooks.js published "$env:RELEASE_VERSION" "dist/agents-v$env:RELEASE_VERSION.zip"
+        shell: pwsh

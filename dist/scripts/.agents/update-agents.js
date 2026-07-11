@@ -19,13 +19,7 @@ const SOURCE_OWNER = "JeanCarloEM";
 const SOURCE_REPO = "agents.md";
 const SOURCE_API = `https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}`;
 const LOCK_FILE = path.join(".agents", "agents-update.lock.json");
-const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md"]);
-const BOOTSTRAP_MANAGED = new Set([
-  "AGENTS.md",
-  ".agents/.autoupdate.md",
-  ".agents/microconceitos.md",
-  ".agents/webPageLike.md",
-]);
+const TEXT_EXTENSIONS = new Set([".md", ".json"]);
 
 async function main(argv = process.argv.slice(2), options = {}) {
   const parsed = parseArgs(argv);
@@ -52,7 +46,6 @@ async function main(argv = process.argv.slice(2), options = {}) {
   }
 
   assertManagedFilesClean(rootDir, parsed.force, plan);
-  assertNoUnmanagedCollisions(rootDir, parsed.force, plan);
   applyPlan(rootDir, plan);
   commitAndPushNormativeUpdate(rootDir, plan);
   console.log(`Governanca operacional atualizada de ${plan.source.label}.`);
@@ -182,28 +175,19 @@ function scoreAgentsPath(filePath) {
 
 function collectRemoteGovernanceFiles(remoteRoot) {
   const files = new Map();
-  const agentsPath = resolveCaseInsensitiveFile(remoteRoot, "agents.md");
-  const distributionRoot = fs.existsSync(path.join(remoteRoot, "scripts")) ? remoteRoot : path.dirname(remoteRoot);
+  const agentsPath = path.join(remoteRoot, "AGENTS.md");
 
-  addRemoteFile(files, remoteRoot, path.basename(agentsPath), "AGENTS.md");
+  addRemoteFile(files, remoteRoot, "AGENTS.md");
 
   for (const rel of discoverReferencedMarkdown(fs.readFileSync(agentsPath, "utf8"))) {
     addRemoteFile(files, remoteRoot, normalizeGovernanceRelativePath(rel));
   }
 
-  for (const filePath of listFiles(path.join(remoteRoot, ".agents"))) {
-    const relativePath = path.relative(remoteRoot, filePath);
-    if (MANAGED_EXTENSIONS.has(path.extname(filePath).toLocaleLowerCase("en-US"))) {
-      addRemoteFile(files, remoteRoot, relativePath);
-    }
-  }
+  for (const rel of [path.join(".agents", ".autoupdate.md"), path.join(".agents", "webPageLike.md")]) {
+    const sourcePath = path.join(remoteRoot, rel);
 
-  for (const folder of [path.join("scripts", ".agents"), path.join("scripts", "lib")]) {
-    for (const filePath of listFiles(path.join(distributionRoot, folder))) {
-      const relativePath = path.relative(distributionRoot, filePath);
-      if (MANAGED_EXTENSIONS.has(path.extname(filePath).toLocaleLowerCase("en-US"))) {
-        addRemoteFile(files, distributionRoot, relativePath);
-      }
+    if (fs.existsSync(sourcePath) && fs.statSync(sourcePath).isFile()) {
+      addRemoteFile(files, remoteRoot, rel);
     }
   }
 
@@ -232,7 +216,7 @@ function normalizeGovernanceRelativePath(value) {
   return normalized;
 }
 
-function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = relativePath) {
+function addRemoteFile(files, remoteRoot, relativePath) {
   const safeRel = safeRelativePath(relativePath);
   const sourcePath = path.join(remoteRoot, safeRel);
 
@@ -240,13 +224,13 @@ function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = rel
     throw new Error(`Arquivo normativo remoto ausente: ${toPosixPath(safeRel)}`);
   }
 
-  if (!MANAGED_EXTENSIONS.has(path.extname(sourcePath).toLocaleLowerCase("en-US"))) {
+  if (!TEXT_EXTENSIONS.has(path.extname(sourcePath).toLocaleLowerCase("en-US"))) {
     throw new Error(`Tipo normativo não permitido: ${toPosixPath(safeRel)}`);
   }
 
-  files.set(toPosixPath(targetRelativePath), {
+  files.set(toPosixPath(safeRel), {
     content: fs.readFileSync(sourcePath),
-    relativePath: safeRelativePath(targetRelativePath),
+    relativePath: safeRel,
   });
 }
 
@@ -315,29 +299,6 @@ function assertManagedFilesClean(rootDir, force, plan) {
 
   if (result.stdout.trim()) {
     throw new Error("Arquivos normativos locais modificados; use --force somente após revisar o diff.");
-  }
-}
-
-function assertNoUnmanagedCollisions(rootDir, force, plan) {
-  if (force) {
-    return;
-  }
-
-  const previousLock = readUpdateLock(rootDir);
-  const managed = new Set([
-    ...BOOTSTRAP_MANAGED,
-    ...listPreviouslyManagedFiles(previousLock).map(toPosixPath),
-  ]);
-
-  for (const change of plan.changes) {
-    if (change.action === "unchanged" || change.action === "remove") {
-      continue;
-    }
-    const relativePath = toPosixPath(change.relativePath);
-    const target = path.join(rootDir, relativePath);
-    if (fs.existsSync(target) && !managed.has(relativePath)) {
-      throw new Error(`Colisao com arquivo local nao gerenciado: ${relativePath}. Use agents.local.md ou .agents/hooks/.`);
-    }
   }
 }
 
@@ -477,16 +438,6 @@ function safeRelativePath(value) {
   return normalized;
 }
 
-function resolveCaseInsensitiveFile(dirPath, name) {
-  const expected = String(name || "").toLocaleLowerCase("en-US");
-  const entry = fs.readdirSync(dirPath, { withFileTypes: true })
-    .find((candidate) => candidate.isFile() && candidate.name.toLocaleLowerCase("en-US") === expected);
-  if (!entry) {
-    throw new Error(`Arquivo normativo remoto ausente: ${name}`);
-  }
-  return path.join(dirPath, entry.name);
-}
-
 function readUpdateLock(rootDir) {
   const lockPath = path.join(rootDir, LOCK_FILE);
 
@@ -515,9 +466,6 @@ function createUpdateLock(source, remoteFiles) {
 }
 
 function listFiles(dirPath) {
-  if (!fs.existsSync(dirPath)) {
-    return [];
-  }
   const result = [];
 
   for (const entry of fs.readdirSync(dirPath, { withFileTypes: true })) {
@@ -588,10 +536,8 @@ module.exports = {
   buildUpdatePlan,
   collectRemoteGovernanceFiles,
   compareRemoteFiles,
-  assertNoUnmanagedCollisions,
   main,
   normalizeGovernanceRelativePath,
   parseArgs,
   resolveRemoteSource,
-  resolveCaseInsensitiveFile,
 };
