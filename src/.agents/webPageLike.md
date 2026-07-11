@@ -2,6 +2,8 @@
 
 Este arquivo é extensão normativa especializada do `AGENTS.md` §17. Aplica-se somente aos projetos classificados pelos escopos abaixo, cumulativamente com `AGENTS.md`, RCFs e demais cenários pertinentes. Herda integralmente as diretrizes gerais de cenários (`AGENTS.md` §17.1), sem repeti-las. Regra deste arquivo especializa a regra geral apenas em seu escopo; RCF específico prevalece na matéria do projeto conforme a hierarquia global.
 
+Aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-IA-OPT`, `MN-VAL` e `MN-REF` de `./microconceitos.md`; regras de interface operacional também aplicam `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`. Esta abertura é agregador normativo: evita repetir garantias transversais sem reduzir qualquer regra específica abaixo.
+
 As tecnologias, combinações, comandos, valores e estruturas aqui definidos são padrões oficiais do cenário quando a condição correspondente existir. Não constituem regra global para projetos externos ao cenário.
 
 ## 1. Web Page Like
@@ -34,6 +36,8 @@ Stacks podem evoluir, coexistir ou ser substituídas sem mudar a interface públ
 Este cenário não impede evolução nem novas tecnologias, não substitui RCF específico e define contratos públicos e padrões oficiais, não implementação interna imutável. Entretanto, as combinações, comandos, capacidades e comportamentos aqui normatizados são obrigatórios quando o projeto se enquadrar na linha, capacidade ou condição correspondente; equivalência abstrata não autoriza removê-los.
 
 ### 1.4 Combinações tecnológicas normativas
+
+Aplicar `W-MTX-42`; a tabela seguinte é sua expansão de auditoria e NÃO PODE divergir do microconceito.
 
 |   # | Linguagem  | UI   | Framework | Estilos      | Build | Jekyll | Rust/WASM | Dev | Prod | Lib | Bundle | Offline |
 | --: | ---------- | ---- | --------- | ------------ | ----- | :----: | :-------: | :-: | :--: | :-: | :----: | :-----: |

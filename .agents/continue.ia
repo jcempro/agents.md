@@ -71,13 +71,13 @@ objetivo=Refatorar integralmente os conteudos de src com microconceitos referenc
   1/3 Implementar encapsulador to-ia portavel e deterministico [concluido]
   2/3 Expor invocacao canonica e contratos de entrada/saida [concluido]
   3/3 Encapsular comandos potencialmente verbosos usados pela IA [concluido]
-3/5 Nucleo normativo [pendente]
-  1/3 Densificar src/agents.md por referencias internas [pendente]
-  2/3 Integrar vocabulario RFC 2119 e otimizacao simultanea para IA [pendente]
-  3/3 Atualizar vinculos e indice normativo [pendente]
-4/5 Cenários e manutencao [pendente]
-  1/2 Densificar src/.agents/webPageLike.md [pendente]
-  2/2 Densificar src/.agents/.autoupdate.md [pendente]
+3/5 Nucleo normativo [em andamento]
+  1/3 Densificar src/agents.md por referencias internas [em andamento]
+  2/3 Integrar vocabulario RFC 2119 e otimizacao simultanea para IA [concluido]
+  3/3 Atualizar vinculos e indice normativo [em andamento]
+4/5 Cenários e manutencao [em andamento]
+  1/2 Densificar src/.agents/webPageLike.md [em andamento]
+  2/2 Densificar src/.agents/.autoupdate.md [concluido]
 5/5 Validacao e sincronizacao [pendente]
   1/4 Gerar artefatos derivados e validar referencias [pendente]
   2/4 Executar verificacao integral e testes focados [pendente]
@@ -88,4 +88,6 @@ invariantes=Preservar integralmente forca normativa, excecoes, exemplos, context
 falhas=Listagem inicial de src falhou por expansao prematura de $_ no shell; repeticao corrigida com alvo PowerShell entre aspas simples e registrada para evitar tentativa identica.
 inventario=Repeticoes principais: densidade/conservacao, API compacta, filtragem de saida, nao regressao, interface estavel, validacao e preservacao editorial. Fonte adiciona agente:filter, JSONL, 50 linhas/8192 bytes, artefato integral e defaults; estes itens nao constavam do artefato raiz gerado. src contem apenas agents.md, .autoupdate.md e webPageLike.md; pipeline indexa todo Markdown/JSON e copia para dist.
 verificacoes_interface=node scripts/.agents/to-ia.js --run git status --short: envelope JSONL valido; node --check scripts/.agents/to-ia.js: OK; node scripts/.agents/repo-tools.js agent:status: limite de 8192 bytes, truncamento e artefato integral confirmados.
-proximo=Versionar a interface funcional; em seguida, criar o arquivo de microconceitos e densificar src/agents.md, preservando suas secoes contratuais.
+progresso_documental=Microconceitos estaveis criados; agents.md e webPageLike.md passaram a referenciar agregadores; .autoupdate.md foi condensado sem perda dos seis contratos. W-MTX-42 preserva a matriz gerativa de 42 combinacoes e passou a ser autoridade adicional de auditoria.
+verificacoes_documentais=agent:build OK; agent:verify OK; indexador encontrou 4 fontes normativas.
+proximo=Concluir a substituicao das repeticoes remanescentes de agents.md/webPageLike.md por microconceitos e normalizar todos os verbos normativos legados para RFC 2119 antes do fechamento.

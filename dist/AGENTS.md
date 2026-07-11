@@ -95,7 +95,13 @@ Maximizar a informação por caractere mediante normas coesas, baixo acoplamento
 
 Termos em maiúsculas são normativos: **DEVE/DEVEM** = obrigação; **NÃO DEVE/NÃO DEVEM** = proibição; **DEVERIA/DEVERIAM** = recomendação forte, dispensável somente por motivo documentado; **NÃO DEVERIA/NÃO DEVERIAM** = desaconselhamento forte; **PODE/PODEM** = permissão. Formulações equivalentes (`obrigatório`, `proibido`, `somente`, `vedado`) mantêm a mesma força. Novas redações e trechos alterados DEVEM preferir esse vocabulário; termos não capitalizados são descritivos, salvo imperativo inequívoco.
 
+### 2.5 Microconceitos e custo de IA
+
+`./.agents/microconceitos.md` é extensão obrigatória deste arquivo; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-IA-OPT`, `MN-PREP`, `MN-OUT`, `MN-CMD`, `MN-API`, `MN-DEF`, `MN-STATE`, `MN-VAL` e `MN-REF`. Norma nova DEVE reutilizar microconceito aplicável; repetição só PODE permanecer quando delimitar exceção, autoridade ou efeito próprio.
+
 ## 3. Mapa de arquivos, leitura e cache
+
+Aplicar `MN-IA-OPT`, `MN-PREP` e `MN-OUT`.
 
 Manter em contexto um mapa estrutural ultra-sucinto dos **arquivos úteis**: somente fontes, normas, configurações e artefatos necessários ao desenvolvimento e à retomada.
 
@@ -108,6 +114,8 @@ Manter em contexto um mapa estrutural ultra-sucinto dos **arquivos úteis**: som
 - Otimização não autoriza superficialidade: quando o contexto for insuficiente, executar toda leitura, análise e validação necessárias para maximizar eficiência, desempenho, acerto, segurança e aderência, buscando erro nulo.
 
 ## 4. Modelo de execução orientado por estado
+
+Aplicar `MN-STATE`.
 
 Ciclo obrigatório:
 
@@ -412,6 +420,8 @@ AMBIGUIDADE INSOLUVEL: <ponto>. Preservando original.
 
 ## 13. Validação
 
+Aplicar `MN-VAL`.
+
 Comprovar objetivamente, conforme finalidade e RCF:
 
 - ausência de regressões;
@@ -626,6 +636,8 @@ Novos cenários DEVEM ser acrescentados somente a esta tabela, preservando §17.
 ## 18. API operacional do repositório
 
 ### 18.1 Contrato fechado
+
+Aplicar `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`; `agent:filter` materializa `to-ia` e é infraestrutura anterior aos demais comandos.
 
 Todo repositório regido por este arquivo DEVE expor API operacional local, determinística, não interativa e reutilizável pela interface nativa do ecossistema, com os nomes canônicos de §18.2, para reduzir contexto, tokens, processamento por LLM, tempo, comandos, erro e acoplamento.
 
