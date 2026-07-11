@@ -370,7 +370,7 @@ Matriz mínima, quando aplicável ao ecossistema:
 - **Workspace:** `agent:filter`, `agent:setup`, `agent:doctor`, `agent:repair`, `agent:clean`, `agent:status`, `agent:context`, `agent:workspace`.
 - **Sistema operacional:** `agent:pwd`, `agent:ls`, `agent:tree`, `agent:find`, `agent:search`, `agent:grep`, `agent:head`, `agent:tail`, `agent:view`, `agent:stat`, `agent:size`, `agent:hash`, `agent:diff-file`, `agent:logs`, `agent:process`, `agent:kill`, `agent:ports`, `agent:compress`, `agent:extract`.
 - **Git:** `agent:git-status`, `agent:git-fetch`, `agent:git-pull`, `agent:git-push`, `agent:git-sync`, `agent:git-add`, `agent:git-commit`, `agent:git-branch`, `agent:git-switch`, `agent:git-tag`, `agent:git-log`, `agent:git-show`, `agent:git-history`, `agent:git-diff`, `agent:git-blame`, `agent:git-reset`, `agent:git-restore`, `agent:git-clean`, `agent:git-stash`, `agent:git-prune`, `agent:git-gc`, `agent:git-last-release`, `agent:git-release-notes`, `agent:git-changelog`.
-- **Build/publicação:** `agent:build`, `agent:verify`, `agent:dist`, `agent:package`, `agent:release`, `agent:publish`, `agent:deploy`, `agent:rollback`.
+- **Build/release:** `agent:build`, `agent:verify`, `agent:dist`, `agent:package`, `agent:release`, `agent:release:trigger`, `agent:rollback`; conteúdo, somente no cenário aplicável: `agent:publish`, `agent:deploy`.
 - **Qualidade:** `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`.
 - **Dependências:** `agent:deps`, `agent:update-deps`, `agent:licenses`.
 - **Documentação/governança:** `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `agent:agents`.
@@ -441,6 +441,8 @@ O índice deve registrar:
 - **Web Page Like** → `webPageLike.md` §1;
 - **Web Page Like com gerador estático/hospedagem** → `webPageLike.md` §2; depende de §1;
 - **Sites/blogs com conteúdo editorial** → `webPageLike.md` §3; depende de §1 e §2 quando aplicável.
+- **Release** → `release.md`; aplica-se somente a versão/tag/asset/release publicável.
+- **Publicação de Conteúdo** → `publish.md`; aplica-se somente a artefato de Negócio publicável e depende do cenário técnico/RCF pertinente.
 
 Novo cenário exige somente novo arquivo, nova linha no índice, dependências e validação de não duplicidade.
 
@@ -500,7 +502,7 @@ publish:test publish:beta publish:live publish:github publish:pages
 Fluxo composto:
 
 ```text
-release → clean → check → build → publish
+`release` e `publish` possuem cenários independentes: release não aciona publicação de conteúdo; publish não cria versão, tag, asset ou release.
 ```
 
 Proibidos comandos redundantes como `vite-dev`, `react-build`, `jekyll-build`, `publish-react` quando houver equivalentes semânticos.
@@ -875,6 +877,7 @@ A geração deve:
 - Incluir o indexador gerado, renomeando `index.json` para `release.json`.
 - Preservar somente arquivos necessários para execução/publicação, removendo artefatos temporários ou desnecessários.
 - Aplicar otimizações compatíveis com produção.
+- Incluir scripts gerenciados necessários ao mecanismo distribuído, sem incluir hook, extensão local, memória, RCF ou conteúdo de Negócio.
 
 O processo deve ser resiliente, prevendo falhas de ambiente, inconsistências, erros temporários, conflitos e etapas parcialmente concluídas, utilizando validações, tratamentos adequados e retries quando aplicável.
 
@@ -908,23 +911,23 @@ O workflow deve permitir execução manual e automática.
 
 Além da execução manual, deve detectar push contendo um commit cujo único arquivo adicionado seja:
 
-`publish`
+`release`
 
 ou
 
-`publish` com qualquer extensão.
+`release` com extensão autorizada pelo RCF.
 
 Regras:
 
 - O arquivo deve estar localizado no root do repositório.
 - A extensão, caso exista, deve ser ignorada.
-- A existência do arquivo deve funcionar exclusivamente como gatilho de publicação.
+- A existência do arquivo deve funcionar exclusivamente como gatilho de release.
 - COnteúdo do arquivo indica a versão a ser usada e usa o padrão `0.0.0-beta` ou apenas `0.0.0` ou resumido `0.0`.
 
 Após identificar o gatilho:
 
 1. Gerar e publicar o release.
-2. Remover o arquivo `publish`.
+2. Remover o arquivo `release`.
 3. Criar commit garantindo que o arquivo nunca permaneça no repositório remoto.
 4. O novo commit deve iniciar obrigatoriamente com texto:
 
@@ -932,7 +935,7 @@ Após identificar o gatilho:
 
    O restante da mensagem é livre.
 
-O arquivo `publish` deve funcionar apenas como sinalizador transitório, nunca como conteúdo persistente do repositório.
+O arquivo `release` deve funcionar apenas como sinalizador transitório, nunca como conteúdo persistente do repositório. `publish`/`publicar` são reservados exclusivamente à Publicação de Conteúdo.
 
 
 ### 11.2 Rastreabilidade de Releases
@@ -971,3 +974,15 @@ O mecanismo escolhido deve priorizar:
 - previsibilidade;
 - ausência de dependências obrigatórias externas para o processo principal de release.
 - saída em pt-br.
+
+### 11.4 Versão, metadados e extensões
+
+Versão explícita DEVE ser validada. Ausente, a inferência DEVE ser determinística e auditável por tag/marcador alcançável, commits posteriores compatíveis e manifesto coerente; evidência insuficiente, pré-release ambíguo, convenção ausente, divergência ou candidato existente DEVEM bloquear e solicitar confirmação. `feat`, `fix`/`perf` e quebra explícita incrementam respectivamente minor, patch e major somente quando a convenção for comprovada.
+
+`release.json` DEVE vincular versão, tag, commit, release anterior, arquivos, asset e hash das notas. Mesmo commit/input DEVE gerar conteúdo lógico idêntico. Hooks formais `prepare`, `verify` e `published` DEVEM permitir especialização local sem alterar mecanismo comum; hook NÃO DEVE modificar versão, tag, asset ou metadado sem contrato explícito. `latest` DEVE apontar ao release mais recente e releases anteriores DEVEM manter tag histórica.
+
+## 12. Publicação de Conteúdo
+
+Este cenário de Negócio só se aplica quando o RCF declarar conteúdo público. `publish`/`publicar` publica artigos, páginas, posts, documentação ou equivalente por comando, manifesto, sinalizador, workflow ou arquitetura superior; integra apenas build, hospedagem, CI, cache, SEO, feed, índice, agenda e distribuição já aplicáveis. Deve usar hooks formais, ser idempotente, auditável e validar disponibilidade real.
+
+É independente de Release: NÃO DEVE criar/alterar versão, tag, asset, `latest`, nota de release ou commit `release:`. Repositório sem conteúdo publicável NÃO DEVE expor comando, gatilho, workflow ou custo deste cenário. Falha antes da disponibilidade DEVE bloquear dependente; segredo, dado privado e conteúdo inelegível NÃO DEVEM ser publicados.
