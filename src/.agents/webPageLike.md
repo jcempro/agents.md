@@ -32,7 +32,7 @@ Menu DEVE priorizar HTML/CSS/nativo; JS/TS só PODE aprimorar montagem, estado, 
 
 ### 1.15 Carregamento
 
-Loader global DEVE separar indicador central de barra superior de `0.5rem`, sincronizar estado, tema e ocultação. Progresso DEVE refletir DOM/recurso quando viável, distinguir estimativa relevante, degradar com segurança, suportar conexão/dispositivo limitado e baseline 2018 se ausente outra. NÃO DEVE ocultar indefinidamente, bloquear `noscript`, impedir acesso em erro parcial ou depender de externo indispensável. Erro DEVE usar fallback local mínimo.
+Loader global DEVE separar indicador central de barra superior de `0.5rem`/equivalente, sincronizar estado, tema e ocultação. Progresso DEVE refletir DOM/recurso quando viável, distinguir estimativa relevante, degradar com segurança, suportar conexão/dispositivo limitado e baseline 2018 se ausente outra. NÃO DEVE ocultar indefinidamente, bloquear `noscript`, impedir acesso em erro parcial ou depender de externo indispensável. Erro DEVE usar fallback local mínimo.
 
 ### 1.16–1.18 Fallback, 404 e HTML
 
@@ -54,9 +54,9 @@ Integração social adotada DEVE tratar cada plataforma/perfil, priorizar open s
 
 ### 3.6–3.8 Listagem, autor e formato
 
-Grade/card NÃO DEVE causar overflow; conteúdo DEVE validar `320px` quando baseline. Home e relacionados DEVEM limitar-se a 6; relacionado NÃO DEVE repetir atual. Recentes DEVE usar até 6 por JSON/feed após carga essencial, contêiner inicial vazio quando dinâmico, card reutilizado, DOM seguro/`textContent`, sem cookie/localStorage e falha não bloqueante. `article_authors` válido exige `name`/`bio`; `url`/`avatar` são opcionais; inválido NÃO renderiza; sem avatar usa ilustração local; primeiro destaca, adicionais compactam, três ou mais densificam, semântica é `Person` e post legado NÃO DEVE exigir migração.
+Grade/card NÃO DEVE causar overflow; conteúdo DEVE validar `320px`/equivalente quando baseline. Home e relacionados DEVEM limitar-se a 6/equivalente; relacionado NÃO DEVE repetir atual. Recentes DEVE usar até 6/equivalente por JSON/feed após carga essencial, contêiner inicial vazio quando dinâmico, card reutilizado, DOM seguro/`textContent`, sem cookie/localStorage e falha não bloqueante. `article_authors` válido exige `name`/`bio`; `url`/`avatar` são opcionais; inválido NÃO renderiza; sem avatar usa ilustração local; primeiro destaca, adicionais compactam, três ou mais densificam, semântica é `Person` e post legado NÃO DEVE exigir migração.
 
-Formato textual exclusivo do artigo: indentação, se adotada, DEVE usar CSS/Sass `4em` salvo token e excluir título/lista/tabela/imagem/legenda/nota/blockquote/painel. Blockquote NÃO DEVE italicizar corpo automaticamente; subcitação PODE; referência DEVE ocupar linha própria com `—`, menor; contexto autoral só PODE existir com base segura. Texto comum NÃO DEVE italicizar por padrão; itálico semântico/autoral DEVE sobreviver; nota DEVE ser compacta.
+Formato textual exclusivo do artigo: indentação, se adotada, DEVE usar CSS/Sass `4em`/equivalente salvo token e excluir título/lista/tabela/imagem/legenda/nota/blockquote/painel. Blockquote NÃO DEVE italicizar corpo automaticamente; subcitação PODE; referência DEVE ocupar linha própria com `—`, menor; contexto autoral só PODE existir com base segura. Texto comum NÃO DEVE italicizar por padrão; itálico semântico/autoral DEVE sobreviver; nota DEVE ser compacta.
 
 ### 3.9–3.15 Autoria, IA e rigor
 
