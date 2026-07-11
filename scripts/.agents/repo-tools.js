@@ -66,7 +66,7 @@ const COMMANDS = {
     status: "available",
   },
   "agent:handoff": {
-    description: "gera handoff.md de continue.ia",
+    description: "gera handoff.md de .agents/continue.ia",
     run: () => runNodeScript(path.join("scripts", ".agents", "generate-agents-status.js")),
     status: "available",
   },

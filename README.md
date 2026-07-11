@@ -9,7 +9,7 @@ Governanca operacional portavel para agentes IA. O target construtivo fica em `s
 - `npm run agent:dist`: gera `dist/`, `dist/release.json` e pacote `agents-v<versao>.zip`.
 - `npm run agent:verify`: valida scripts, indexador e dist.
 - `npm run agent:agents`: executa atualizacao automatica da governanca operacional.
-- `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `continue.ia`.
+- `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `.agents/continue.ia`.
 
 ## Normas
 

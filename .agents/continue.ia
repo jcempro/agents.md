@@ -14,3 +14,10 @@ objetivo=Remover scripts alienigenas, preservar implementacoes parciais aderente
   3/3 Commitar etapa funcional [concluido]
 verificacoes=npm run agent:index; npm run agent:dist; npm run agent:status; npm run agent:handoff; npm run agent:verify.
 pendencias=release automatico/workflow e comandos agent ainda classificados n/a devem evoluir em FT propria; push remoto bloqueado por credenciais/politica.
+
+FT-002|nome=Correcao da memoria canonica|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.000000|atualizacao=20260711.000000|conclusao=20260711.000000
+objetivo=Restaurar `continue.ia` para `./.agents/continue.ia`, conforme AGENTS.md §0.10 e apontamento humano.
+1/1 Correcao de localizacao [concluido]
+  1/3 Mover `continue.ia` da raiz para `./.agents/continue.ia` [concluido]
+  2/3 Ajustar gerador de handoff e README para o caminho canonico [concluido]
+  3/3 Validar handoff e verificacao local [concluido]
