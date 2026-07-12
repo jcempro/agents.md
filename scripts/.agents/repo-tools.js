@@ -909,7 +909,18 @@ function readPackageScripts() {
 
 function cleanDirectory(dirPath) {
   if (fs.existsSync(dirPath)) {
-    fs.rmSync(dirPath, { force: true, maxRetries: 5, recursive: true, retryDelay: 100 });
+    try {
+      fs.rmSync(dirPath, { force: true, maxRetries: 5, recursive: true, retryDelay: 100 });
+    } catch (error) {
+      if (error.code !== "ENOTEMPTY" || !fs.existsSync(dirPath)) {
+        throw error;
+      }
+
+      // PROTECAO: Windows pode manter o diretorio vazio apos remover suas entradas.
+      for (const entry of fs.readdirSync(dirPath)) {
+        fs.rmSync(path.join(dirPath, entry), { force: true, maxRetries: 5, recursive: true, retryDelay: 100 });
+      }
+    }
   }
 }
 

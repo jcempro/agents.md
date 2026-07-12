@@ -219,3 +219,26 @@ decisoes=Convergencia usa merge normal ou fast-forward conforme historico; confl
 pendencias=Nenhuma.
 verificacoes=CONVERGENCIA_NORMATIVA_OK; node --check release-workflow.js; agent:verify OK; fast-forward 58f41c8..76fa22f publicado em origin/main.
 falhas=agent:verify reconstroi release.json sem metadado de release; detector aceita extensao de gatilho sem autorizacao explicita do RCF; agent:release:trigger pode sobrescrever sinalizador existente.
+
+FT-013|nome=Release estavel do manifesto executavel|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260711.233000|atualizacao=20260711.233000
+objetivo=Publicar a versao estavel 0.0.1 com manifesto distribuivel, asset verificavel, GitHub Release e convergencia final de dev para a branch primaria.
+1/4 Preparo versionado [concluido]
+  1/3 Registrar versao explicitamente confirmada [concluido]
+  2/3 Alinhar manifesto e estado operacional a 0.0.1 [concluido]
+  3/3 Validar build, pacote e verificacao integral [concluido]
+2/4 Gatilho remoto [em andamento]
+  1/3 Gerar artefato e metadado de release local [concluido]
+  2/3 Criar commit exclusivo do sinalizador release [pendente]
+  3/3 Publicar dev e acionar workflow [pendente]
+3/4 Comprovacao remota [pendente]
+  1/3 Confirmar workflow concluido, tag e GitHub Release [pendente]
+  2/3 Conferir ZIP, manifesto, notas e hashes [pendente]
+  3/3 Confirmar commit release e remocao do gatilho [pendente]
+4/4 Fechamento [pendente]
+  1/3 Atualizar memoria canonica e handoff derivado [pendente]
+  2/3 Convergir dev para main/master [pendente]
+  3/3 Comprovar branches remotas e encerrar FT [pendente]
+decisoes=Versao explicitamente confirmada pelo humano=0.0.1; o pacote distribuido deve declarar a mesma versao da tag e do arquivo ZIP. Limpeza de dist aceita diretório vazio residual somente apos remover estritamente todas as entradas.
+falhas=agent:verify falhou apos agent:release com ENOTEMPTY ao remover dist no Windows; a correcao preserva a garantia de diretorio vazio e sera validada antes do gatilho remoto.
+verificacoes=node --check scripts/.agents/repo-tools.js OK; agent:verify OK antes e depois de agent:release 0.0.1; RELEASE_OK archive=dist/agents-v0.0.1.zip files=14 releaseNote=dist/release-note.txt version=0.0.1; git diff --check OK.
+pendencias=nenhuma ate evidencia contraria.
