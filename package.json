@@ -5,6 +5,13 @@
   "license": "MPL-2.0",
   "description": "Governanca operacional portavel para agentes IA.",
   "main": "src/agents.md",
+  "agentsGovernance": {
+    "schema": 1,
+    "managedScriptPrefixes": ["agent:"],
+    "managedScripts": ["agents:update"],
+    "dependencies": [],
+    "optionalDependencies": []
+  },
   "scripts": {
     "build": "npm run agent:build",
     "clean": "npm run agent:clean",

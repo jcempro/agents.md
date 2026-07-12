@@ -20,11 +20,21 @@ const SOURCE_REPO = "agents.md";
 const SOURCE_API = `https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}`;
 const LOCK_FILE = path.join(".agents", "agents-update.lock.json");
 const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md"]);
+const PACKAGE_RELATIVE_PATH = "package.json";
 const BOOTSTRAP_MANAGED = new Set([
   "AGENTS.md",
   ".agents/.autoupdate.md",
   ".agents/microconceitos.md",
   ".agents/webPageLike.md",
+]);
+const LEGACY_MANAGED_FILES = new Set([
+  "scripts/.agents/generate-agents-status.js",
+  "scripts/.agents/release-hooks.js",
+  "scripts/.agents/release-workflow.js",
+  "scripts/.agents/repo-tools.js",
+  "scripts/.agents/to-ia.js",
+  "scripts/.agents/update-agents.js",
+  "scripts/lib/archive.js",
 ]);
 
 async function main(argv = process.argv.slice(2), options = {}) {
@@ -207,6 +217,11 @@ function collectRemoteGovernanceFiles(remoteRoot) {
     }
   }
 
+  const packagePath = path.join(distributionRoot, PACKAGE_RELATIVE_PATH);
+  if (fs.existsSync(packagePath)) {
+    addRemoteFile(files, distributionRoot, PACKAGE_RELATIVE_PATH, PACKAGE_RELATIVE_PATH, "package");
+  }
+
   return [...files.values()];
 }
 
@@ -232,7 +247,7 @@ function normalizeGovernanceRelativePath(value) {
   return normalized;
 }
 
-function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = relativePath) {
+function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = relativePath, kind = "file") {
   const safeRel = safeRelativePath(relativePath);
   const sourcePath = path.join(remoteRoot, safeRel);
 
@@ -246,6 +261,7 @@ function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = rel
 
   files.set(toPosixPath(targetRelativePath), {
     content: fs.readFileSync(sourcePath),
+    kind,
     relativePath: safeRelativePath(targetRelativePath),
   });
 }
@@ -257,16 +273,19 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
   for (const entry of remoteFiles) {
     const localPath = path.join(rootDir, entry.relativePath);
     const localContent = fs.existsSync(localPath) ? fs.readFileSync(localPath) : null;
-    const same = localContent && hashBuffer(localContent) === hashBuffer(entry.content);
+    const content = entry.kind === "package" && localContent ? mergePackageManifest(localContent, entry.content) : entry.content;
+    const same = localContent && hashBuffer(localContent) === hashBuffer(content);
     changes.push({
       action: same ? "unchanged" : localContent ? "update" : "add",
-      content: entry.content,
+      content,
+      kind: entry.kind,
       relativePath: entry.relativePath,
     });
   }
 
   for (const localRel of listPreviouslyManagedFiles(previousLock)) {
-    if (toPosixPath(localRel) !== toPosixPath(LOCK_FILE) && !remotePaths.has(toPosixPath(localRel))) {
+    if (toPosixPath(localRel) !== toPosixPath(LOCK_FILE) && toPosixPath(localRel) !== PACKAGE_RELATIVE_PATH &&
+      !remotePaths.has(toPosixPath(localRel))) {
       changes.push({
         action: "remove",
         relativePath: localRel,
@@ -326,6 +345,7 @@ function assertNoUnmanagedCollisions(rootDir, force, plan) {
   const previousLock = readUpdateLock(rootDir);
   const managed = new Set([
     ...BOOTSTRAP_MANAGED,
+    PACKAGE_RELATIVE_PATH,
     ...listPreviouslyManagedFiles(previousLock).map(toPosixPath),
   ]);
 
@@ -335,10 +355,84 @@ function assertNoUnmanagedCollisions(rootDir, force, plan) {
     }
     const relativePath = toPosixPath(change.relativePath);
     const target = path.join(rootDir, relativePath);
-    if (fs.existsSync(target) && !managed.has(relativePath)) {
+    if (fs.existsSync(target) && !managed.has(relativePath) && !isRecognizedLegacyGovernanceFile(relativePath)) {
       throw new Error(`Colisao com arquivo local nao gerenciado: ${relativePath}. Use agents.local.md ou .agents/hooks/.`);
     }
   }
+}
+
+function mergePackageManifest(localContent, remoteContent) {
+  const localPackage = parsePackageManifest(localContent, "local");
+  const remotePackage = parsePackageManifest(remoteContent, "distribuido");
+  const policy = readGovernancePolicy(remotePackage);
+  const merged = { ...localPackage };
+  const localScripts = localPackage.scripts && typeof localPackage.scripts === "object" ? localPackage.scripts : {};
+  const remoteScripts = remotePackage.scripts && typeof remotePackage.scripts === "object" ? remotePackage.scripts : {};
+
+  merged.scripts = { ...localScripts };
+  for (const [name, command] of Object.entries(remoteScripts)) {
+    if (isManagedScriptName(name, policy)) {
+      merged.scripts[name] = command;
+    }
+  }
+
+  mergeManagedDependencies(merged, localPackage, remotePackage, "dependencies", policy.dependencies);
+  mergeManagedDependencies(merged, localPackage, remotePackage, "optionalDependencies", policy.optionalDependencies);
+  merged.agentsGovernance = policy;
+  return Buffer.from(`${JSON.stringify(merged, null, 2)}\n`, "utf8");
+}
+
+function parsePackageManifest(content, label) {
+  let manifest;
+  try {
+    manifest = JSON.parse(content.toString("utf8"));
+  } catch (error) {
+    throw new Error(`package.json ${label} invalido: ${error.message}`);
+  }
+  if (!manifest || Array.isArray(manifest) || typeof manifest !== "object") {
+    throw new Error(`package.json ${label} invalido.`);
+  }
+  return manifest;
+}
+
+function readGovernancePolicy(remotePackage) {
+  const policy = remotePackage.agentsGovernance;
+  if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) ||
+    !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) ||
+    !Array.isArray(policy.optionalDependencies)) {
+    throw new Error("package.json distribuido sem agentsGovernance valido.");
+  }
+  return {
+    schema: 1,
+    managedScriptPrefixes: policy.managedScriptPrefixes.map(String),
+    managedScripts: policy.managedScripts.map(String),
+    dependencies: policy.dependencies.map(String),
+    optionalDependencies: policy.optionalDependencies.map(String),
+  };
+}
+
+function isManagedScriptName(name, policy) {
+  return policy.managedScripts.includes(name) || policy.managedScriptPrefixes.some((prefix) => name.startsWith(prefix));
+}
+
+function mergeManagedDependencies(merged, localPackage, remotePackage, group, names) {
+  if (!names.length) {
+    return;
+  }
+  const localDependencies = localPackage[group] && typeof localPackage[group] === "object" ? localPackage[group] : {};
+  const remoteDependencies = remotePackage[group] && typeof remotePackage[group] === "object" ? remotePackage[group] : {};
+  merged[group] = { ...localDependencies };
+
+  for (const name of names) {
+    if (typeof remoteDependencies[name] !== "string") {
+      throw new Error(`Dependencia gerenciada ausente no pacote distribuido: ${group}.${name}.`);
+    }
+    merged[group][name] = remoteDependencies[name];
+  }
+}
+
+function isRecognizedLegacyGovernanceFile(relativePath) {
+  return LEGACY_MANAGED_FILES.has(toPosixPath(relativePath));
 }
 
 function applyPlan(rootDir, plan) {
@@ -589,7 +683,9 @@ module.exports = {
   collectRemoteGovernanceFiles,
   compareRemoteFiles,
   assertNoUnmanagedCollisions,
+  isRecognizedLegacyGovernanceFile,
   main,
+  mergePackageManifest,
   normalizeGovernanceRelativePath,
   parseArgs,
   resolveRemoteSource,

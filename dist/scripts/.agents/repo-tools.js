@@ -21,6 +21,7 @@ const INDEX_PATH = path.join(ROOT_DIR, "index.json");
 const RELEASE_PATH = path.join(DIST_DIR, "release.json");
 const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
+const DISTRIBUTION_PACKAGE_PATH = path.join(DIST_DIR, "package.json");
 const ALIEN_SCRIPT_TERMS = [
   "What" + "Send",
   "what" + "sender",
@@ -316,9 +317,13 @@ function buildDist(options = {}) {
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.copyFileSync(path.join(ROOT_DIR, file.sourcePath), targetPath);
   }
+  writeJsonMinified(DISTRIBUTION_PACKAGE_PATH, buildDistributionPackage());
 
   const releaseIndex = {
-    files: files.map(({ name, path: releasePath }) => ({ name, path: releasePath })),
+    files: [...files.map(({ name, path: releasePath }) => ({ name, path: releasePath })), {
+      name: "package.json",
+      path: "package.json",
+    }],
     root: ".",
     schema: 1,
   };
@@ -367,6 +372,35 @@ function buildDistributionFiles(index) {
       sourcePath: toPosix(path.relative(ROOT_DIR, filePath)),
     }));
   return [...normative, ...scripts].sort((a, b) => a.path.localeCompare(b.path, "en"));
+}
+
+function buildDistributionPackage() {
+  const source = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
+  const sourceScripts = source.scripts || {};
+  const aliases = new Set(["build", "check", "clean", "lint", "prepare", "release", "release:trigger", "test"]);
+  const scripts = Object.fromEntries(Object.entries(sourceScripts)
+    .filter(([name]) => name === "agents:update" || name.startsWith("agent:") || aliases.has(name)));
+  const dependencies = source.dependencies || {};
+  const optionalDependencies = source.optionalDependencies || {};
+
+  return {
+    name: source.name || "agents-governance",
+    version: readPackageVersion(),
+    private: false,
+    license: source.license || "MPL-2.0",
+    description: source.description || "Governanca operacional portavel para agentes IA.",
+    main: source.main || "AGENTS.md",
+    scripts,
+    ...(Object.keys(dependencies).length ? { dependencies } : {}),
+    ...(Object.keys(optionalDependencies).length ? { optionalDependencies } : {}),
+    agentsGovernance: {
+      schema: 1,
+      managedScriptPrefixes: ["agent:"],
+      managedScripts: ["agents:update"],
+      dependencies: Object.keys(dependencies).sort((a, b) => a.localeCompare(b, "en")),
+      optionalDependencies: Object.keys(optionalDependencies).sort((a, b) => a.localeCompare(b, "en")),
+    },
+  };
 }
 
 function readExistingReleaseNotes() {
@@ -430,10 +464,22 @@ function validateDist() {
   assertFile(path.join(DIST_DIR, ".agents", "release.md"), "dist/.agents/release.md ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "webPageLike.md"), "dist/.agents/webPageLike.md ausente.");
   assertFile(path.join(DIST_DIR, "scripts", ".agents", "release-hooks.js"), "dist/scripts/.agents/release-hooks.js ausente.");
+  assertFile(DISTRIBUTION_PACKAGE_PATH, "dist/package.json ausente.");
   assertFile(RELEASE_PATH, "dist/release.json ausente.");
   const release = JSON.parse(fs.readFileSync(RELEASE_PATH, "utf8"));
   if (release.root !== "." || !Array.isArray(release.files)) {
     throw new Error("dist/release.json invalido.");
+  }
+  if (!release.files.some((file) => file.path === "package.json")) {
+    throw new Error("dist/release.json nao indexa package.json.");
+  }
+  const distributionPackage = JSON.parse(fs.readFileSync(DISTRIBUTION_PACKAGE_PATH, "utf8"));
+  const policy = distributionPackage.agentsGovernance;
+  if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) ||
+    !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) ||
+    !Array.isArray(policy.optionalDependencies) || !distributionPackage.scripts ||
+    !distributionPackage.scripts["agent:agents"] || !distributionPackage.scripts["agents:update"]) {
+    throw new Error("dist/package.json nao contem contrato executavel de governanca.");
   }
 }
 
@@ -937,6 +983,7 @@ if (require.main === module) {
 
 module.exports = {
   buildDist,
+  buildDistributionPackage,
   buildIndex,
   main,
   resolveRelease,
