@@ -153,4 +153,21 @@ decisoes=O commit release permanece posterior ao asset publicado para obedecer a
 verificacoes=WORKFLOW_RELEASE_ORDER_OK; WORKFLOW_RESILIENCE_OK; node --check release-workflow.js; npm run agent:verify OK.
 push=origin/dev publicado com sucesso de 19076ed ate 611a0bc em 20260712.001500.
 pendencias=nenhuma local; execucao remota integral aguarda gatilho release real.
+
+FT-010|nome=Execucao remota inicial do release|escopo=Tecnico|prioridade=alta|status=em andamento|inicio=20260712.001000|atualizacao=20260712.001000|conclusao=
+objetivo=Executar e comprovar o primeiro release remoto versionado, incluindo tag, asset, GitHub Release e marcador release.
+1/3 Preparo e gatilho [em andamento]
+  1/3 Confirmar versao explicita e autenticacao remota [concluido]
+  2/3 Publicar estado operacional anterior ao gatilho [em andamento]
+  3/3 Criar e publicar commit exclusivo do arquivo release [pendente]
+2/3 Monitoramento remoto [pendente]
+  1/3 Confirmar inicio do workflow [pendente]
+  2/3 Confirmar tag, asset e GitHub Release latest [pendente]
+  3/3 Confirmar commit release e limpeza do gatilho [pendente]
+3/3 Fechamento [pendente]
+  1/3 Validar estado local/remoto final [pendente]
+  2/3 Atualizar memoria e handoff [pendente]
+  3/3 Commitar registro final [pendente]
+decisoes=Versao explicitamente confirmada=0.0.0-beta; o gatilho release sera o unico arquivo adicionado em seu commit para acionar o workflow tecnico.
+pendencias=nenhuma conhecida antes do disparo.
 falhas=agent:verify reconstroi release.json sem metadado de release; detector aceita extensao de gatilho sem autorizacao explicita do RCF; agent:release:trigger pode sobrescrever sinalizador existente.
