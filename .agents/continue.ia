@@ -228,9 +228,9 @@ objetivo=Publicar a versao estavel 0.0.1 com manifesto distribuivel, asset verif
   3/3 Validar build, pacote e verificacao integral [concluido]
 2/4 Gatilho remoto [em andamento]
   1/3 Gerar artefato e metadado de release local [concluido]
-  2/3 Criar commit exclusivo do sinalizador release [pendente]
-  3/3 Publicar dev e acionar workflow [pendente]
-3/4 Comprovacao remota [pendente]
+  2/3 Criar commit exclusivo do sinalizador release [concluido]
+  3/3 Publicar dev e acionar workflow [concluido]
+3/4 Comprovacao remota e reparo [em andamento]
   1/3 Confirmar workflow concluido, tag e GitHub Release [pendente]
   2/3 Conferir ZIP, manifesto, notas e hashes [pendente]
   3/3 Confirmar commit release e remocao do gatilho [pendente]
@@ -239,6 +239,6 @@ objetivo=Publicar a versao estavel 0.0.1 com manifesto distribuivel, asset verif
   2/3 Convergir dev para main/master [pendente]
   3/3 Comprovar branches remotas e encerrar FT [pendente]
 decisoes=Versao explicitamente confirmada pelo humano=0.0.1; o pacote distribuido deve declarar a mesma versao da tag e do arquivo ZIP. Limpeza de dist aceita diretório vazio residual somente apos remover estritamente todas as entradas.
-falhas=agent:verify falhou apos agent:release com ENOTEMPTY ao remover dist no Windows; a correcao preserva a garantia de diretorio vazio e sera validada antes do gatilho remoto.
-verificacoes=node --check scripts/.agents/repo-tools.js OK; agent:verify OK antes e depois de agent:release 0.0.1; RELEASE_OK archive=dist/agents-v0.0.1.zip files=14 releaseNote=dist/release-note.txt version=0.0.1; git diff --check OK.
+falhas=agent:verify falhou apos agent:release com ENOTEMPTY ao remover dist no Windows; a correcao preserva a garantia de diretorio vazio e foi validada. Workflow 29177067832 publicou tag, asset, release e marcador c8d0f5e, mas falhou ao trocar para main porque dist/release.json rastreado foi alterado por agent:release; workflow agora restaura artefatos rastreados antes do checkout e a convergencia sera concluida sem recriar o release.
+verificacoes=node --check scripts/.agents/repo-tools.js e release-workflow.js OK; agent:verify OK antes e depois de agent:release 0.0.1; RELEASE_OK archive=dist/agents-v0.0.1.zip files=14 releaseNote=dist/release-note.txt version=0.0.1; ensaio confirmou dist/release.json modificado por release e git restore --worktree -- dist o limpa antes de checkout; git diff --check OK.
 pendencias=nenhuma ate evidencia contraria.

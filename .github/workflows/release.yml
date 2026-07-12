@@ -140,6 +140,8 @@ jobs:
           node scripts/.agents/release-hooks.js published "$RELEASE_VERSION" "dist/agents-v${RELEASE_VERSION}.zip"
           node scripts/.agents/release-workflow.js finalize "$RELEASE_VERSION" "$RELEASE_FILE"
           retry git push origin "HEAD:${{ github.ref_name }}"
+          # PROTECAO: release local altera artefatos rastreados que bloqueiam o checkout da primaria.
+          git restore --worktree -- dist
           primary=''
           for candidate in main master; do
             if git ls-remote --exit-code --heads origin "$candidate" >/dev/null 2>&1; then
