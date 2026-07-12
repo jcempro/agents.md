@@ -39,15 +39,15 @@ Objetivo: Publicar a versao estavel 0.0.1 com manifesto distribuivel, asset veri
 <tr>
 <td rowspan="3">Comprovacao remota e reparo</td>
 <td>Confirmar workflow concluido, tag e GitHub Release</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Conferir ZIP, manifesto, notas e hashes</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Confirmar commit release e remocao do gatilho</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Fechamento</td>
