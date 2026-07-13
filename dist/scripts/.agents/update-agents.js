@@ -183,7 +183,7 @@ function discoverRemoteRoot(tempRoot) {
 function scoreAgentsPath(filePath) {
   const rel = toPosixPath(filePath).toLocaleLowerCase("en-US");
 
-  if (rel.endsWith("/src/agents.md")) {
+  if (rel.toLocaleLowerCase("en-US").endsWith("/src/agents.md")) {
     return "0";
   }
 

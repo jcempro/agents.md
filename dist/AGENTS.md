@@ -4,7 +4,7 @@
 
 ## Apendice - GESTAO DE CONTEXTO (RFC_COMPLIANT)
 
-- O Agente DEVE executar `/compact` para comprimir o histórico sob alto volume de mensagens (12+).
+- O Agente DEVE executar `/compact` para comprimir o histórico sob alto volume de mensagens (12+). Quando a plataforma não expuser `/compact`, `agent:compress` DEVE gerar projeção resumida e retomável a partir da memória canônica, atualizar somente derivados autorizados e NÃO DEVE apagar FT dentro da retenção.
 
 ## 0. Finalidade, autoridade e portabilidade
 
@@ -21,6 +21,10 @@ Somente `./AGENTS.md`, `./.agents/` e importações governam a IA; homônimo sob
 ### 0.12 Atualização
 
 Todo repositório DEVE expor `agent:agents`; `agents:update` PODE ser alias. Criação/reparo DEVE observar `./.agents/.autoupdate.md` quando aplicável.
+
+### 0.13 Raízes arquiteturais
+
+Repositório DEVE distinguir raiz do repositório, raiz da aplicação e raiz do artefato publicado; elas NÃO são intercambiáveis. Raiz do repositório contém somente governança ativa, documentação, manifesto, automação e infraestrutura transversal; código, implementação e recurso internos DEVEM ficar sob estrutura-fonte `src`/equivalente declarada, salvo exigência superior comprovável de framework, ecossistema, gerador ou compilador. Essa estrutura-fonte NÃO é a raiz da aplicação. Conveniência NÃO justifica exceção. Em Web Page Like, raiz da aplicação e raiz do artefato publicado DEVEM coincidir com o `/` percebido pelo usuário; fonte interna NÃO DEVE vazar para essa superfície. RCF PODE declarar nomes e pipeline físicos, mas NÃO PODE inverter precedência, deslocar governança ativa para artefato ou dispensar segregação.
 
 ## 1. Domínios e precedência
 

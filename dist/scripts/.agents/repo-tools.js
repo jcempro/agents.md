@@ -22,6 +22,14 @@ const RELEASE_PATH = path.join(DIST_DIR, "release.json");
 const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 const DISTRIBUTION_PACKAGE_PATH = path.join(DIST_DIR, "package.json");
+const NORMATIVE_MIRRORS = [
+  "AGENTS.md",
+  path.join(".agents", ".autoupdate.md"),
+  path.join(".agents", "microconceitos.md"),
+  path.join(".agents", "publish.md"),
+  path.join(".agents", "release.md"),
+  path.join(".agents", "webPageLike.md"),
+];
 const ALIEN_SCRIPT_TERMS = [
   "What" + "Send",
   "what" + "sender",
@@ -87,6 +95,11 @@ const COMMANDS = {
   "agent:handoff": {
     description: "gera handoff.md de .agents/continue.ia",
     run: () => runNodeScript(path.join("scripts", ".agents", "generate-agents-status.js")),
+    status: "available",
+  },
+  "agent:compress": {
+    description: "gera projecao operacional compacta sem descartar memoria canonica",
+    run: compactOperationalContext,
     status: "available",
   },
   "agent:agents": {
@@ -360,7 +373,7 @@ function buildDist(options = {}) {
 
 function buildDistributionFiles(index) {
   const normative = index.files.map((file) => ({
-    name: file.name === "agents.md" ? "AGENTS.md" : file.name,
+    name: file.name.toLocaleLowerCase("en-US") === "agents.md" ? "AGENTS.md" : file.name,
     path: releaseRelativePath(file.path),
     sourcePath: file.path,
   }));
@@ -427,6 +440,7 @@ function readExistingReleaseMetadata() {
 }
 
 function verify() {
+  assertNormativeMirrors();
   const checks = [];
   for (const script of listFiles(path.join(ROOT_DIR, "scripts")).filter((filePath) => path.extname(filePath) === ".js")) {
     const content = fs.readFileSync(script, "utf8");
@@ -474,6 +488,7 @@ function validateDist() {
     throw new Error("dist/release.json nao indexa package.json.");
   }
   const distributionPackage = JSON.parse(fs.readFileSync(DISTRIBUTION_PACKAGE_PATH, "utf8"));
+  assertPublishedMain(distributionPackage);
   const policy = distributionPackage.agentsGovernance;
   if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) ||
     !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) ||
@@ -513,7 +528,7 @@ function repairGeneratedArtifacts() {
 }
 
 function setup() {
-  const required = ["package.json", "README.md", "RCF.md", "agents.md", path.join(".agents", "continue.ia")];
+  const required = ["package.json", "README.md", "RCF.md", "AGENTS.md", path.join(".agents", "continue.ia")];
   const missing = required.filter((entry) => !fs.existsSync(path.join(ROOT_DIR, entry)));
   return ok(missing.length ? "SETUP_DEGRADED" : "SETUP_OK", { missing });
 }
@@ -521,7 +536,7 @@ function setup() {
 function doctor() {
   const scripts = readPackageScripts();
   const commandSummary = summarizeCommands(scripts);
-  const requiredFiles = ["README.md", "RCF.md", "agents.md", "package.json", "index.json", path.join(".agents", "continue.ia")];
+  const requiredFiles = ["README.md", "RCF.md", "AGENTS.md", "package.json", "index.json", path.join(".agents", "continue.ia")];
   const missing = requiredFiles.filter((entry) => !fs.existsSync(path.join(ROOT_DIR, entry)));
   const git = runProcess("git", ["status", "--short"], { optional: true });
   return ok(missing.length ? "DOCTOR_DEGRADED" : "DOCTOR_OK", {
@@ -549,7 +564,7 @@ function workspace() {
 }
 
 function docs() {
-  const docsFiles = ["README.md", "RCF.md", "agents.md", "handoff.md"].filter((entry) => fs.existsSync(path.join(ROOT_DIR, entry)));
+  const docsFiles = ["README.md", "RCF.md", "AGENTS.md", "handoff.md"].filter((entry) => fs.existsSync(path.join(ROOT_DIR, entry)));
   return ok("DOCS_OK", { files: docsFiles });
 }
 
@@ -762,7 +777,7 @@ function runProcess(command, args, options = {}) {
 
 function releaseRelativePath(sourcePath) {
   const relative = toPosix(sourcePath).replace(/^src\//u, "");
-  return relative === "agents.md" ? "AGENTS.md" : relative;
+  return relative.toLocaleLowerCase("en-US") === "agents.md" ? "AGENTS.md" : relative;
 }
 
 function resolveArchiveName(versionOverride = "") {
@@ -955,6 +970,41 @@ function assertFile(filePath, message) {
   if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     throw new Error(message);
   }
+}
+
+function compactOperationalContext() {
+  const memoryPath = path.join(ROOT_DIR, ".agents", "continue.ia");
+  const handoffPath = path.join(ROOT_DIR, "handoff.md");
+  assertFile(memoryPath, ".agents/continue.ia ausente.");
+  const result = runProcess(process.execPath, [path.join(ROOT_DIR, "scripts", ".agents", "generate-agents-status.js")]);
+  if (result.status !== 0) {
+    throw new Error("Falha ao gerar projecao compacta do estado operacional.");
+  }
+  assertFile(handoffPath, "handoff.md ausente apos compactacao operacional.");
+  const activeFronts = fs.readFileSync(memoryPath, "utf8")
+    .split(/\r?\n/u)
+    .filter((line) => /^FT-\d+\|.*\|status=em_andamento\b/u.test(line))
+    .map((line) => line.split("|")[0]);
+  return ok("COMPACT_OK", { activeFronts, canonical: ".agents/continue.ia", projection: "handoff.md" });
+}
+
+function assertNormativeMirrors() {
+  for (const relativePath of NORMATIVE_MIRRORS) {
+    const activePath = path.join(ROOT_DIR, relativePath);
+    const sourcePath = path.join(SRC_DIR, relativePath);
+    assertFile(activePath, `Norma ativa ausente: ${toPosix(relativePath)}.`);
+    assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(path.join("src", relativePath))}.`);
+    if (!fs.readFileSync(activePath).equals(fs.readFileSync(sourcePath))) {
+      throw new Error(`Paridade normativa divergente: ${toPosix(relativePath)} vs ${toPosix(path.join("src", relativePath))}.`);
+    }
+  }
+}
+
+function assertPublishedMain(distributionPackage) {
+  if (distributionPackage.main !== "AGENTS.md") {
+    throw new Error("dist/package.json.main deve apontar para AGENTS.md na raiz publicada.");
+  }
+  assertFile(path.join(DIST_DIR, distributionPackage.main), "Entrada principal publicada ausente em dist/AGENTS.md.");
 }
 
 function ok(code, data) {

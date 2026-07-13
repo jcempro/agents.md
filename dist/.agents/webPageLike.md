@@ -18,6 +18,8 @@ Aplicar `W-MTX-42`; ele expande exatamente 42 combinações, capacidades e incor
 
 Porta, parâmetro, variável, target, artefato, diretório e modos DEVEM ser estáveis e transparentes; RCF PODE especializá-los. Manifesto, lock, compilador, gerador, bundler e CI/CD DEVEM permanecer compatíveis com hospedagem. Ignorado NÃO DEVE ser fonte normativa sem autoridade explícita.
 
+Raiz do repositório, raiz da aplicação e raiz publicada DEVEM obedecer `AGENTS.md` §0.13. Em Web Page Like, raiz da aplicação e raiz publicada são o `/` público; estrutura-fonte `src`/equivalente permanece interna. Build DEVE projetar a fonte para essa raiz sem expor prefixo, caminho, comentário ou recurso interno. Framework ou hospedagem que imponha estrutura diversa DEVE declarar a exceção, preservar o `/` público e validar o artefato real.
+
 ### 1.9–1.11 Estrutura e interface
 
 Conteúdo/navegação essencial NÃO DEVE depender apenas de JS: HTML estrutura, CSS/Sass apresentação/estado, nativo interação básica, JS/TS aprimoramento/fallback. Código cliente novo DEVERIA usar TS compatível. Validação DEVE cobrir estado, tema, desktop/mobile, teclado, foco, contraste, toque e overflow; alvo interativo DEVE suportar clique/toque. Componente DEVE ser adotado se reduzir duplicação/isolamento/teste/manutenção; em cliente, preferir TSX, contrato explícito e escopo proporcional; em template, include/partial é suficiente e runtime extra NÃO DEVE ser introduzido. Bundler só PODE entrar após compatibilidade, custo, build, depuração e vantagem comprovada; alternativa simples DEVE permanecer quando proporcional.
