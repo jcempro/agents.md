@@ -217,6 +217,29 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
   3/3 Publicar branches convergidas [concluido]
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
+FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.015000|atualizacao=20260712.016000|conclusao=
+objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie commit exclusivo release, envie o gatilho ao GitHub, acompanhe o workflow e confirme release e convergencia.
+1/4 Diagnostico e seguranca [concluido]
+  1/3 Mapear release local, gatilho e workflow remoto [concluido]
+  2/3 Preservar alteracoes preexistentes release=0.0.2 e dist/release.json [concluido]
+  3/3 Definir precondicao de branch dev e worktree limpo [concluido]
+2/4 Orquestracao [em_andamento]
+  1/4 Implementar agent:release:publish com versao explicita e dry-run [concluido]
+  2/4 Atualizar manifesto, build, validacao e commits isolados [concluido]
+  3/4 Enviar gatilho, aguardar GitHub Actions e confirmar release [pendente]
+  4/4 Confirmar convergencia remota dev-main/master [pendente]
+3/4 Documentacao e validacao [em_andamento]
+  1/3 Atualizar normas, RCF e README com contrato e exemplos [concluido]
+  2/3 Validar sintaxe, dry-run e integridade sem consumir gatilho existente [concluido]
+  3/3 Regenerar artefato somente em estado seguro [pendente]
+4/4 Fechamento [pendente]
+  1/3 Atualizar memoria e handoff derivado [pendente]
+  2/3 Compactar contexto operacional [pendente]
+  3/3 Commitar, publicar e convergir branches [pendente]
+decisoes=O orquestrador exige versao explicita, branch dev e worktree limpo; nao sobrescreve gatilho, metadado ou alteracao existente. O push do commit exclusivo release aciona o workflow existente; gh acompanha a execucao e consulta o GitHub Release quando disponivel; sem gh, envia o gatilho e retorna estado remoto pendente. O comando nao usa publish. A superficie e exposta diretamente por to-ia para evitar dependencia do dispatcher bloqueado.
+verificacoes=Estado preexistente preservado: release=0.0.2 adicionado e dist/release.json preparado para v0.0.2 no indice. Workflow release.yml ja aceita push de release e workflow_dispatch; repo-tools ja possui releaseLocal e releaseTrigger. node --check release-publish.js/repo-tools.js/release-workflow.js OK; npm run release:publish -- 0.0.2 --dry-run OK sem mutacao; execucao real bloqueou antes de escrever com WORKTREE_NAO_LIMPO.
+falhas=apply_patch nao conseguiu gravar scripts/.agents/repo-tools.js embora o arquivo esteja gravavel; a superficie equivalente usa to-ia diretamente e permanece filtrada. gh existe no shell, mas configuracao do GitHub CLI esta inacessivel neste sandbox; observacao remota fica condicional ao gh autenticado.
+pendencias=Regenerar artefato e validar ciclo real apos resolver o release 0.0.2 preexistente; enviar gatilho, comprovar GitHub Release e convergir branches.
 FT-014|nome=Topologia explicita de repositorio aplicacao e artefato|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.010000|atualizacao=20260712.014000|conclusao=20260712.014000
 objetivo=Eliminar ambiguidade entre root do repositorio, root da aplicacao e root do artefato publicado; corrigir caminhos e validacoes para que a fonte interna nao vaze ao pacote distribuivel.
 1/4 Diagnostico arquitetural [concluido]
