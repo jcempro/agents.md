@@ -217,7 +217,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
   3/3 Publicar branches convergidas [concluido]
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
-FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.015000|atualizacao=20260712.016000|conclusao=
+FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.015000|atualizacao=20260712.020500|conclusao=
 objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie commit exclusivo release, envie o gatilho ao GitHub, acompanhe o workflow e confirme release e convergencia.
 1/4 Diagnostico e seguranca [concluido]
   1/3 Mapear release local, gatilho e workflow remoto [concluido]
@@ -236,8 +236,8 @@ objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie 
   1/3 Atualizar memoria e handoff derivado [pendente]
   2/3 Compactar contexto operacional [pendente]
   3/3 Commitar, publicar e convergir branches [pendente]
-decisoes=O orquestrador exige versao explicita, branch dev e worktree limpo; nao sobrescreve gatilho, metadado ou alteracao existente. O push do commit exclusivo release aciona o workflow existente; gh acompanha a execucao e consulta o GitHub Release quando disponivel; sem gh, envia o gatilho e retorna estado remoto pendente. O comando nao usa publish. A superficie e exposta diretamente por to-ia para evitar dependencia do dispatcher bloqueado.
-verificacoes=Estado preexistente preservado: release=0.0.2 adicionado e dist/release.json preparado para v0.0.2 no indice. Workflow release.yml ja aceita push de release e workflow_dispatch; repo-tools ja possui releaseLocal e releaseTrigger. node --check release-publish.js/repo-tools.js/release-workflow.js OK; npm run release:publish -- 0.0.2 --dry-run OK sem mutacao; execucao real bloqueou antes de escrever com WORKTREE_NAO_LIMPO.
+decisoes=O orquestrador exige versao explicita, branch dev e worktree limpo; nao sobrescreve alteracao incidental. O usuario autorizou publicar v0.0.2: o release/dist/release.json manuais e inconsistentes serao removidos do indice e recriados transacionalmente pelo orquestrador, que cria commits separados de preparo, artefato e gatilho. O push do commit exclusivo release aciona o workflow existente; gh acompanha a execucao e consulta o GitHub Release quando disponivel; sem gh, envia o gatilho e retorna estado remoto pendente. O comando nao usa publish. A superficie e exposta diretamente por to-ia para evitar dependencia do dispatcher bloqueado.
+verificacoes=Estado preexistente preservado antes da autorizacao: release=0.0.2 adicionado e dist/release.json preparado para v0.0.2 no indice, porem package.json ainda declara 0.0.1. Workflow release.yml ja aceita push de release e workflow_dispatch; repo-tools ja possui releaseLocal e releaseTrigger. node --check release-publish.js/repo-tools.js/release-workflow.js OK; npm run release:publish -- 0.0.2 --dry-run OK sem mutacao; execucao real bloqueou antes de escrever com WORKTREE_NAO_LIMPO.
 falhas=apply_patch nao conseguiu gravar scripts/.agents/repo-tools.js embora o arquivo esteja gravavel; a superficie equivalente usa to-ia diretamente e permanece filtrada. gh existe no shell, mas configuracao do GitHub CLI esta inacessivel neste sandbox; observacao remota fica condicional ao gh autenticado.
 pendencias=Regenerar artefato e validar ciclo real apos resolver o release 0.0.2 preexistente; enviar gatilho, comprovar GitHub Release e convergir branches.
 FT-016|nome=Contrato transversal e metaarquivos de scripts reutilizaveis|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.017000|atualizacao=20260712.019000|conclusao=
