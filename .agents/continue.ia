@@ -217,7 +217,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
   3/3 Publicar branches convergidas [concluido]
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
-FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.015000|atualizacao=20260712.020500|conclusao=
+FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.015000|atualizacao=20260712.233000|conclusao=
 objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie commit exclusivo release, envie o gatilho ao GitHub, acompanhe o workflow e confirme release e convergencia.
 1/4 Diagnostico e seguranca [concluido]
   1/3 Mapear release local, gatilho e workflow remoto [concluido]
@@ -228,19 +228,19 @@ objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie 
   2/4 Atualizar manifesto, build, validacao e commits isolados [concluido]
   3/4 Enviar gatilho, aguardar GitHub Actions e confirmar release [pendente]
   4/4 Confirmar convergencia remota dev-main/master [pendente]
-3/4 Documentacao e validacao [em_andamento]
+3/4 Documentacao e validacao [concluido]
   1/3 Atualizar normas, RCF e README com contrato e exemplos [concluido]
   2/3 Validar sintaxe, dry-run e integridade sem consumir gatilho existente [concluido]
-  3/3 Regenerar artefato somente em estado seguro [pendente]
-4/4 Fechamento [pendente]
-  1/3 Atualizar memoria e handoff derivado [pendente]
+  3/3 Regenerar artefato somente em estado seguro [concluido]
+4/4 Fechamento [em_andamento]
+  1/3 Atualizar memoria e handoff derivado [em_andamento]
   2/3 Compactar contexto operacional [pendente]
   3/3 Commitar, publicar e convergir branches [pendente]
 decisoes=O orquestrador exige versao explicita, branch dev e worktree limpo; nao sobrescreve alteracao incidental. O usuario autorizou publicar v0.0.2: o release/dist/release.json manuais e inconsistentes serao removidos do indice e recriados transacionalmente pelo orquestrador, que cria commits separados de preparo, artefato e gatilho. O push do commit exclusivo release aciona o workflow existente; gh acompanha a execucao e consulta o GitHub Release quando disponivel; sem gh, envia o gatilho e retorna estado remoto pendente. O comando nao usa publish. A superficie e exposta diretamente por to-ia para evitar dependencia do dispatcher bloqueado.
-verificacoes=Estado preexistente preservado antes da autorizacao: release=0.0.2 adicionado e dist/release.json preparado para v0.0.2 no indice, porem package.json ainda declara 0.0.1. Workflow release.yml ja aceita push de release e workflow_dispatch; repo-tools ja possui releaseLocal e releaseTrigger. node --check release-publish.js/repo-tools.js/release-workflow.js OK; npm run release:publish -- 0.0.2 --dry-run OK sem mutacao; execucao real bloqueou antes de escrever com WORKTREE_NAO_LIMPO.
+verificacoes=Estado preexistente preservado antes da autorizacao: release=0.0.2 adicionado e dist/release.json preparado para v0.0.2 no indice, porem package.json ainda declara 0.0.1. A autorizacao permitiu remover somente esses arquivos e recria-los pelo orquestrador. npm run release:publish -- 0.0.2 criou f016475/a68ad01/618a5df, tag v0.0.2 e GitHub Release com agents-v0.0.2.zip SHA-256 0733be0d744fe68c3c0d060ac1679c9de0e078b006d7a8fbda3da4c29211927b; workflow 29218800004 concluiu sucesso e origin/dev=origin/main=9d768a4. agent:verify OK scripts=8 indexedFiles=15; dist contem metaarquivos e release-publish.
 falhas=apply_patch nao conseguiu gravar scripts/.agents/repo-tools.js embora o arquivo esteja gravavel; a superficie equivalente usa to-ia diretamente e permanece filtrada. gh existe no shell, mas configuracao do GitHub CLI esta inacessivel neste sandbox; observacao remota fica condicional ao gh autenticado.
-pendencias=Regenerar artefato e validar ciclo real apos resolver o release 0.0.2 preexistente; enviar gatilho, comprovar GitHub Release e convergir branches.
-FT-016|nome=Contrato transversal e metaarquivos de scripts reutilizaveis|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.017000|atualizacao=20260712.019000|conclusao=
+pendencias=Regenerar handoff, compactar, commitar o encerramento e convergir o estado final apos finalizar FT-016.
+FT-016|nome=Contrato transversal e metaarquivos de scripts reutilizaveis|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260712.017000|atualizacao=20260712.233000|conclusao=
 objetivo=Normatizar interface comum, extensibilidade, metaarquivos contextuais, reutilizacao multiplataforma, atualizacao segura e empacotamento de scripts reutilizaveis.
 1/5 Norma e FT [concluido]
   1/4 Definir contrato CLI/API comum, ajuda, erros, modos e compatibilidade [concluido]
@@ -257,19 +257,19 @@ objetivo=Normatizar interface comum, extensibilidade, metaarquivos contextuais, 
   2/4 Generalizar release-publish e interfaces de ajuda/configuracao [concluido]
   3/4 Ajustar scripts reutilizaveis e dependencias declaradas [concluido]
   4/4 Preservar especializacoes locais na atualizacao [concluido]
-4/5 Validacao e empacotamento [em_andamento]
+4/5 Validacao e empacotamento [concluido]
   1/4 Validar contratos, parametros desconhecidos, dry-run e hooks [concluido]
-  2/4 Gerar index, dist e release em estado seguro [pendente]
-  3/4 Inspecionar metaarquivos, scripts e manifestos distribuidos [pendente]
-  4/4 Comprovar compatibilidade de atualizacao sem sobrescrita local [pendente]
-5/5 Fechamento [pendente]
-  1/3 Atualizar memoria e handoff derivado [pendente]
+  2/4 Gerar index, dist e release em estado seguro [concluido]
+  3/4 Inspecionar metaarquivos, scripts e manifestos distribuidos [concluido]
+  4/4 Comprovar compatibilidade de atualizacao sem sobrescrita local [concluido]
+5/5 Fechamento [em_andamento]
+  1/3 Atualizar memoria e handoff derivado [em_andamento]
   2/3 Compactar contexto operacional [pendente]
   3/3 Commitar, publicar e convergir dev-main/master [pendente]
-decisoes=Metaarquivos residem em .agents/meta/<contexto>.md; sao normas gerenciadas e distribuidas, enquanto especializacao local usa agents.local.md, .agents/local/ ou .agents/hooks/ e nunca e sobrescrita. Contrato comum usa CLI explicita, --help, parametros tipados, codigos 0/1/2/3/4/130, saida filtrada, modos local/CI e extensoes documentadas. meta/index.json mapeia script para contextos minimos; indexador distribui Markdown/JSON recursivamente; atualizador exclui local/hooks.
-verificacoes=FT-015 permanece ativa e release=0.0.2/dist/release.json preexistentes permanecem no indice; FT-016 nao os altera. Scripts auditados: archive, to-ia, repo-tools, update-agents, generate-agents-status, release-hooks, release-workflow e release-publish. node --check nos seis scripts ajustados OK; ajuda validada; parametros invalidos retornaram 2; raiz e src/.agents/meta possuem paridade. agent:index=INDEX_OK files=15; index.json publicado em 5ca4591.
-falhas=apply_patch continua sem conseguir gravar repo-tools.js para adicionar asserts explicitos de meta no dist; a copia recursiva atual ja inclui src/.agents/meta, mas a verificacao final em worktree seguro deve comprovar o artefato.
-pendencias=Regenerar e inspecionar dist sem alterar release 0.0.2; validar update com especializacao local; encerrar FT-015/FT-016, publicar e convergir branches.
+decisoes=Metaarquivos residem em .agents/meta/<contexto>.md; sao normas gerenciadas e distribuidas, enquanto especializacao local usa agents.local.md, .agents/local/ ou .agents/hooks/ e nunca e sobrescrita. Contrato comum usa CLI explicita, --help, parametros tipados, codigos 0/1/2/3/4/130, saida filtrada, modos local/CI e extensoes documentadas. meta/index.json mapeia script para contextos minimos; indexador distribui Markdown/JSON recursivamente; atualizador exclui local/hooks. Atualizacao faz fallback por gh api somente diante de 403 da API e normaliza CRLF/LF somente na comparacao textual, sem expor credencial nem alterar bytes da origem.
+verificacoes=Scripts auditados: archive, to-ia, repo-tools, update-agents, generate-agents-status, release-hooks, release-workflow e release-publish. node --check nos scripts ajustados OK; ajuda validada; parametros invalidos retornaram 2; raiz e src/.agents/meta possuem paridade. agent:index=INDEX_OK files=15; v0.0.2 contem index, metaarquivos, manifestos e release-publish; agent:verify OK scripts=8 indexedFiles=15. UPDATE_EXTENSION_PRESERVATION_OK; UPDATE_GH_FALLBACK_OK; UPDATE_EOL_COMPARISON_OK. agents:update --check autenticado lista somente .agents/.autoupdate.md e update-agents.js locais, sem falso positivo CRLF/LF.
+falhas=apply_patch nao conseguiu gravar repo-tools.js para asserts explicitos de meta; a copia recursiva e a inspecao de dist/release v0.0.2 comprovam inclusao. A consulta HTTP anonima recebeu 403; corrigida por fallback opcional gh api restrito a api.github.com.
+pendencias=Regenerar handoff, compactar, commitar e publicar a correcao posterior a v0.0.2; a proxima versao de release requer definicao humana explicita.
 FT-014|nome=Topologia explicita de repositorio aplicacao e artefato|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.010000|atualizacao=20260712.014000|conclusao=20260712.014000
 objetivo=Eliminar ambiguidade entre root do repositorio, root da aplicacao e root do artefato publicado; corrigir caminhos e validacoes para que a fonte interna nao vaze ao pacote distribuivel.
 1/4 Diagnostico arquitetural [concluido]

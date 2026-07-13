@@ -151,7 +151,15 @@ async function resolveRemoteSource(httpClient = defaultHttpClient) {
 }
 
 async function requestJsonAllow404(httpClient, url) {
-  const response = await httpClient(url);
+  let response = await httpClient(url);
+
+  // PROTECAO: limita o fallback autenticado a consultas JSON da API GitHub.
+  if (response.statusCode === 403) {
+    const authenticated = githubCliJsonResponse(url);
+    if (authenticated) {
+      response = authenticated;
+    }
+  }
 
   if (response.statusCode === 404) {
     return response;
@@ -164,6 +172,34 @@ async function requestJsonAllow404(httpClient, url) {
   return {
     ...response,
     json: JSON.parse(response.body.toString("utf8")),
+  };
+}
+
+function githubCliJsonResponse(url) {
+  const target = new URL(url);
+
+  if (target.protocol !== "https:" || target.hostname !== "api.github.com") {
+    return null;
+  }
+
+  const result = childProcess.spawnSync("gh", [
+    "api",
+    `${target.pathname}${target.search}`,
+    "-H",
+    "Accept: application/vnd.github+json",
+  ], {
+    encoding: "utf8",
+    windowsHide: true,
+  });
+
+  if (result.error || result.status !== 0 || !result.stdout.trim()) {
+    return null;
+  }
+
+  return {
+    body: Buffer.from(result.stdout, "utf8"),
+    headers: {},
+    statusCode: 200,
   };
 }
 
@@ -288,7 +324,7 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
     const localPath = path.join(rootDir, entry.relativePath);
     const localContent = fs.existsSync(localPath) ? fs.readFileSync(localPath) : null;
     const content = entry.kind === "package" && localContent ? mergePackageManifest(localContent, entry.content) : entry.content;
-    const same = localContent && hashBuffer(localContent) === hashBuffer(content);
+    const same = localContent && hashTextContent(localContent) === hashTextContent(content);
     changes.push({
       action: same ? "unchanged" : localContent ? "update" : "add",
       content,
@@ -681,6 +717,10 @@ function hashBuffer(buffer) {
   return crypto.createHash("sha256").update(buffer).digest("hex");
 }
 
+function hashTextContent(buffer) {
+  return hashBuffer(Buffer.from(buffer.toString("utf8").replace(/\r\n/gu, "\n"), "utf8"));
+}
+
 function toPosixPath(value) {
   return String(value || "").split(path.sep).join("/");
 }
@@ -702,6 +742,8 @@ module.exports = {
   collectRemoteGovernanceFiles,
   compareRemoteFiles,
   assertNoUnmanagedCollisions,
+  githubCliJsonResponse,
+  hashTextContent,
   isRecognizedLegacyGovernanceFile,
   isLocalExtensionPath,
   help,
