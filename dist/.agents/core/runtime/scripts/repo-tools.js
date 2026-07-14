@@ -105,7 +105,7 @@ const COMMANDS = {
   },
   "agent:agents": {
     description: "atualiza governanca operacional gerenciada",
-    run: (_args) => runNodeScript(path.join("scripts", ".agents", "update-agents.js"), _args),
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "update-agents.js"), _args),
     status: "available",
   },
 };

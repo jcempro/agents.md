@@ -294,6 +294,12 @@ verificacoes=Diagnostico confirmou package.json.main=src/agents.md enquanto dist
 falhas=Interpretacao inicial tratou src como raiz da aplicacao; correcao aplicada antes de commit e validada.
 pendencias=Nenhuma.
 
+FT-018|nome=Composicao tipada de cenarios e scripts aninhados|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.230000|atualizacao=20260714.235000|conclusao=20260714.235000
+objetivo=Sincronizar RCF explicativo e AGENTS objetivo; decompor cenarios por composicao tipada e aninhar scripts no nucleo ou cenario correspondente.
+decisoes=Web Page Like compoe capacidades, sem heranca multipla nem inferencia de Jekyll, GitHub Pages, Git, hospedagem ou saida estatica. RCF explica e AGENTS projeta; mudanca material atualiza ambos. Core runtime concentra scripts transversais; release concentra seus scripts e hooks encadeiam core para adaptador local.
+verificacoes=agent:verify OK scripts=10 indexedFiles=16; agent:handoff e agent:status OK; contrato validou cadeia; agents:update --help OK apos corrigir despachante legado; diff check OK.
+pendencias=Publicacao remota condicionada a autorizacao.
+
 FT-018|nome=Composicao tipada de cenarios e scripts aninhados|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.230000|atualizacao=20260714.234000|conclusao=20260714.234000
 objetivo=Vincular RCF explicativo a AGENTS objetivo, decompor cenarios por composicao tipada e mover scripts para o nucleo ou cenario correspondente sem regressao.
 1/5 Inventario [concluido]
