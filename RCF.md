@@ -100,6 +100,8 @@ Arquivos de cenário contêm regras reutilizáveis de uma categoria técnica/fun
 - permitam alternativa comprovadamente superior;
 - não incorporem particularidade exclusiva de um projeto.
 
+Valor numérico, rótulo, dimensão, limite de densidade ou detalhe visual só DEVE integrar cenário reutilizável quando representar contrato necessário e verificável em múltiplos repositórios. Medida de viewport, quantidade de cards, ordem visual, espaçamento, recuo, título editorial e limiar de compactação que variem por público, template ou identidade DEVEM ser parâmetros declarados pelo RCF específico, token de design ou configuração do projeto. A abstração só é válida quando preserva critério observável, dono do parâmetro e validação; não autoriza suprimir requisito material.
+
 ### 1.4 Extensão local
 
 `agents.local.md`, quando existir, contém apenas particularidades operacionais não replicáveis do repositório. No consumidor, é a via mandatória para especializar comportamento de governança gerenciada, com `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado; essas extensões são carregadas subordinadamente e preservadas pela atualização. Não pode receber regra potencialmente global, substituir RCF ou alterar diretamente `AGENTS.md`/associado gerenciado.
@@ -613,9 +615,9 @@ Quando necessário:
 
 ### 5.1.11 Loader
 
-Componente como `carregandoPagina` contém indicador central e barra fixa superior de `0.5rem`, separada da animação.
+Componente de carregamento, quando adotado, contém indicador central e barra superior visualmente separada da animação; dimensão e identidade pertencem ao token ou RCF específico.
 
-Progresso acompanha DOM/recursos quando possível, distingue real/estimado, degrada seguramente, suporta conexões lentas e baseline mínima de navegadores de 2018 na ausência de outra, permanece leve e local.
+Progresso acompanha DOM/recursos quando possível, distingue real/estimado, degrada seguramente, suporta conexões lentas e a baseline de navegadores declarada pelo projeto, permanece leve e local.
 
 Nunca ocultar indefinidamente, bloquear `noscript`, impedir acesso após erro parcial ou depender de recurso remoto indispensável. Página de erro usa fallback local mínimo.
 
@@ -673,7 +675,7 @@ Regras:
 
 Área `_scheduled` ou equivalente separa rascunho, aprovado/agendado e publicado. Conteúdo futuro não aparece no build, não possui URL acessível e resulta em 404/indisponibilidade até a data.
 
-Workflow ao menos diário, na zona de publicação; `00:01` quando adotado deve converter fuso explicitamente.
+Cadência e horário DEVEM ser declarados pela política editorial, com zona de publicação explícita; horário de corte, quando adotado, DEVE converter fuso explicitamente.
 
 Fluxo: verificar → selecionar elegíveis → preparar → compilar → atualizar público → publicar → validar → registrar.
 
@@ -681,7 +683,7 @@ Fluxo: verificar → selecionar elegíveis → preparar → compilar → atualiz
 
 Distribuição externa somente após compilação, publicação e disponibilidade validadas. Dependentes exigem estado final conhecido.
 
-Social automática, quando adotada, trata Facebook, Instagram e X separadamente no perfil correspondente. Prioridade:
+Social automática, quando adotada, trata cada plataforma e perfil declarado separadamente. Prioridade:
 
 1. open source madura;
 2. método oficial;
@@ -692,34 +694,32 @@ Publicar título, resumo, imagem, hashtags e link. Exigir segredos isolados, ide
 
 ### 5.3.3 Listagens
 
-Sem overflow; validar em `320px` quando parte da baseline.
+Sem overflow; validar na menor viewport e nos pontos de quebra declarados pela baseline do projeto. Na ausência de baseline explícita, a RCF específica DEVE registrar a superfície representativa e o critério de responsividade antes da implementação.
 
 Padrões:
 
-- home: máximo 6 cards;
-- relacionados: título `Relacionados`, máximo 6, sem artigo atual;
-- recentes: título `Recentes`, 6 itens por JSON/feed, após conteúdo essencial, contêiner vazio no HTML quando dinâmico, cards reutilizados, `textContent`, sem cookies/localStorage, falha não bloqueante.
+- home, relacionados e recentes: limite de itens, paginação ou carregamento progressivo declarados pelo template/RCF específico, com densidade compatível com leitura, desempenho e navegação;
+- relacionados: rótulo localizado/semântico declarado pelo projeto e sem artigo atual;
+- recentes: fonte JSON/feed após conteúdo essencial, contêiner inicial vazio quando dinâmico, card reutilizado, `textContent`, sem cookies/localStorage e falha não bloqueante.
 
 ### 5.3.4 Autores
 
-Metadado `article_authors` ordenado:
+Modelo de autoria ordenado:
 
-- obrigatórios: `name`, `bio`;
-- opcionais: `url`, `avatar`;
+- identidade e resumo obrigatórios declarados pelo adaptador;
+- campos opcionais declarados pelo projeto;
 - entrada incompleta não renderiza;
 - sem autor válido, sem bloco;
-- avatar ausente → ilustração local;
-- primeiro autor destacado;
-- adicionais compactos;
-- três ou mais → composição densa;
-- semântica `Person`;
+- representação ausente usa fallback local;
+- destaque e compactação declarados pelo componente/editorial;
+- semântica de pessoa/autoria quando aplicável;
 - sem migração forçada de posts antigos.
 
 ### 5.3.5 Formatação editorial
 
 Quando houver indentação:
 
-- padrão `4em`;
+- token de espaçamento declarado pelo projeto;
 - CSS/Sass, nunca espaços Markdown;
 - excluir títulos, listas, tabelas, imagens, legendas, notas, blockquotes e painéis.
 
@@ -758,7 +758,7 @@ Referenciar fatos, história, estatísticas, estudos, técnica, citações, trad
 Afirmação → referência imediata
 ```
 
-Notas de rodapé devem apontar, retornar, funcionar por teclado e mobile. Referências/Bibliografia devem ser geradas de notas/metadados quando possível; ABNT é padrão quando adotado ou quando não houver outro.
+Notas de rodapé devem apontar, retornar, funcionar por teclado e mobile. Referências/Bibliografia devem ser geradas de notas/metadados quando possível; padrão bibliográfico decorre da política editorial, jurisdição ou RCF específico.
 
 ### 5.3.8 Privacidade e conclusão
 
@@ -780,7 +780,7 @@ Executar nesta ordem:
 6. reconstruir item 17 conforme §4;
 7. reconstruir seção 18/API operacional conforme §3.14;
 8. gerar `webPageLike.md` conforme §5;
-9. validar a matriz de 42 linhas;
+9. validar a matriz W-MTX-42 e os parâmetros editoriais declarados;
 10. comparar efeitos normativos com as fontes;
 11. auditar perda, enfraquecimento, deslocamento de domínio, arbitrariedade e conflito;
 12. produzir diff mínimo e rastreável;
@@ -799,7 +799,7 @@ Executar nesta ordem:
 
 É regressão:
 
-- substituir número concreto essencial por abstração;
+- substituir número concreto essencial por abstração sem critério, dono e validação; ou manter no cenário número que seja apenas escolha visual/local sem promovê-lo a parâmetro;
 - remover tabela sem reconstrução gerativa exata;
 - trocar “deverá” por “poderá”;
 - converter ferramenta oficial do cenário em exemplo não normativo sem autorização;
@@ -821,7 +821,7 @@ Confirmar:
 - referências internas resolvem;
 - exceções e condicionantes sobreviveram;
 - nenhum exemplo normativo foi convertido em ilustração descartável;
-- nenhum valor essencial foi abstraído.
+- nenhum valor essencial foi abstraído sem critério, dono e validação; valores locais foram convertidos em parâmetros declarados.
 
 ### 7.2 Compartimentação
 
@@ -853,7 +853,7 @@ Confirmar:
 - padrões Dev/Prod/Lib/Bundle/Offline;
 - UX, acessibilidade, loader, fallback, 404 e compactação;
 - gerador/hospedagem;
-- agendamento, social, listagens, autores, editorial, IA, referências e privacidade.
+- agendamento, social, listagens, autores, editorial, IA, referências e privacidade; parâmetros de viewport, densidade, rótulo, composição e espaçamento declarados quando aplicáveis.
 
 ### 7.5 Critério de aceitação
 
