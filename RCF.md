@@ -28,7 +28,7 @@ Se a edição/alteração a ser feita em AGENTS.md`ou cenários for alterar algo
 
 ### 0.0 Topologia, segregação e precedência arquitetural
 
-A raiz do repositório contém exclusivamente governança ativa, documentação, manifesto, automação e infraestrutura transversal. Implementação, código-fonte e recursos internos DEVEM permanecer em `./src/` ou estrutura-fonte equivalente; essa estrutura NÃO é a raiz da aplicação. Exceção exige imposição verificável de framework, convenção obrigatória do ecossistema, gerador ou compilador. Conveniência NÃO constitui exceção. `./dist/` contém somente o artefato distribuível/publicado e NÃO DEVE depender de `./src/` em caminho, manifesto ou runtime. Em cenário Web Page Like, raiz da aplicação e `./dist/`/saída declarada correspondem ao `/` público percebido pelo usuário e NÃO DEVEM expor fonte interna. AGENTS possui precedência operacional: RCF somente especializa o produto sem deslocar a governança ativa, inverter os roots ou reduzir esta segregação. O espelho local entre governança ativa e fonte distribuível deste repositório somente valida o pacote produzido; NÃO escreve em `./src/`, NÃO altera consumidor e NÃO participa do `agents:update` de outro repositório.
+A raiz do repositório contém exclusivamente governança ativa, documentação, manifesto, automação e infraestrutura transversal. Implementação, código-fonte e recursos internos DEVEM permanecer em `./src/` ou estrutura-fonte equivalente; essa estrutura NÃO é a raiz da aplicação. Exceção exige imposição verificável de framework, convenção obrigatória do ecossistema, gerador ou compilador. Conveniência NÃO constitui exceção. `./dist/` contém somente o artefato distribuível/publicado e NÃO DEVE depender de `./src/` em caminho, manifesto ou runtime. Em cenário Web Page Like, raiz da aplicação e `./dist/`/saída declarada correspondem ao `/` público percebido pelo usuário e NÃO DEVEM expor fonte interna. AGENTS possui precedência operacional: RCF somente especializa o produto sem deslocar a governança ativa, inverter os roots ou reduzir esta segregação. Neste repositório produtor, `./src/AGENTS.md` e associados são a fonte construtiva da governança distribuível, não a governança ativa desta execução; sua manutenção é autorizada pela FT do produto. Após materialização no consumidor, tornam-se núcleo gerenciado: não aceitam edição local para alterar comportamento, que DEVE usar `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` ou adaptador subordinado e preservável. O espelho local entre governança ativa e fonte distribuível somente valida o pacote produzido; NÃO altera consumidor e NÃO participa do `agents:update` de outro repositório.
 
 ### 0.1 Regra de ouro ao criar, editar e refatorar
 
@@ -98,7 +98,7 @@ Arquivos de cenário contêm regras reutilizáveis de uma categoria técnica/fun
 
 ### 1.4 Extensão local
 
-`agents.local.md`, quando existir, contém apenas particularidades operacionais não replicáveis do repositório. Não pode receber regra potencialmente global nem substituir RCF.
+`agents.local.md`, quando existir, contém apenas particularidades operacionais não replicáveis do repositório. No consumidor, é a via mandatória para especializar comportamento de governança gerenciada, com `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado; essas extensões são carregadas subordinadamente e preservadas pela atualização. Não pode receber regra potencialmente global, substituir RCF ou alterar diretamente `AGENTS.md`/associado gerenciado.
 
 ### 1.5 Precedência
 
@@ -171,6 +171,7 @@ Deve estabelecer:
 - proibição de URLs, paths físicos, nomes próprios e regras exclusivas de projeto no núcleo global;
 - permissão de conceitos universais e artefatos do próprio domínio da IA;
 - separação entre AGENTS, RCF e extensão local;
+- imutabilidade, no consumidor, do AGENTS e associado gerenciado para especialização; uso obrigatório de extensão local preservável e subordinada;
 - bloqueio de manutenção de terceiros, salvo incorporação definitiva ao repositório.
 
 ### 3.2 Seção 1 — Domínios e precedência
@@ -386,7 +387,7 @@ Matriz mínima, quando aplicável ao ecossistema:
 
 ### 4.0 Scripts reutilizáveis e metaarquivos
 
-Aplicar `MN-CLI` e `MN-META`. Script reutilizável DEVE declarar contrato comum, `--help`, parâmetro tipado/default, saída, erro, modo local/CI, configuração, compatibilidade, hook/adaptador e código `0/1/2/3/4/130`; argumento desconhecido falha, salvo `--` documentado para extensão. Configuração local/hook/adaptador NÃO DEVE ser sobrescrito por atualização. Metaarquivos gerenciados ficam em `./.agents/meta/<contexto>.md`, são indexados/distribuídos recursivamente e segmentam `cli`, `build`, `release`, `publish`, `maintenance`, `update`, `validation` e `ia` quando aplicáveis. Cada comando carrega somente `cli` e o contexto pertinente; README/RCF referenciam, sem repetir contratos. Release inclui scripts, metaarquivos, manifesto, dependências declaradas, hooks e exemplo mínimo, mas NÃO inclui dependência instalada salvo autonomia expressa.
+Aplicar `MN-CLI` e `MN-META`. Script reutilizável DEVE declarar contrato comum, `--help`, parâmetro tipado/default, saída, erro, modo local/CI, configuração, compatibilidade, hook/adaptador e código `0/1/2/3/4/130`; argumento desconhecido falha, salvo `--` documentado para extensão. Conteúdo gerenciado NÃO DEVE receber edição local para especialização; configuração, hook e adaptador locais DEVEM residir fora dele, permanecer subordinados e NÃO DEVEM ser sobrescritos por atualização. Metaarquivos gerenciados ficam em `./.agents/meta/<contexto>.md`, são indexados/distribuídos recursivamente e segmentam `cli`, `build`, `release`, `publish`, `maintenance`, `update`, `validation` e `ia` quando aplicáveis. Cada comando carrega somente `cli` e o contexto pertinente; README/RCF referenciam, sem repetir contratos. Release inclui scripts, metaarquivos, manifesto, dependências declaradas, hooks e exemplo mínimo, mas NÃO inclui dependência instalada salvo autonomia expressa.
 - **Qualidade:** `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`.
 - **Dependências:** `agent:deps`, `agent:update-deps`, `agent:licenses`.
 - **Documentação/governança:** `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `agent:agents`.

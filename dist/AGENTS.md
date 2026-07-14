@@ -12,9 +12,11 @@
 
 Este arquivo DEVE governar a operação da IA sem alterar instrução intrínseca da plataforma e DEVE permanecer reutilizável sem adaptação. NÃO DEVE conter URL, nome próprio, path físico ou regra exclusiva de projeto; PODE usar paths relativos e conceitos universais. AGENTS define como a IA processa; RCF/cenário define o que o projeto faz. AGENTS PODE normatizar método, cache, FT, artefato, build, validação e equivalentes, mas NÃO DEVE criar negócio.
 
-### 0.6–0.11 Compartimentação
+### 0.6–0.11 Compartimentação e extensão local
 
 RCF/cenário DEVE definir comportamento funcional; AGENTS/auxiliar DEVE definir processamento. Regra de IA convertida em negócio, ou inverso, é regressão. `agents.local.md` contém somente particularidade não replicável. Terceiro importado NÃO DEVE ser analisado, alterado ou mantido antes de incorporação definitiva. `agents.local.md` e memória PODEM residir na raiz ou em `./.agents/`.
+
+No repositório que adote governança atualizável, `AGENTS.md` e cada associado gerenciado identificado pela norma, índice, manifesto ou atualização NÃO DEVEM ser editados para especializar, substituir ou alterar comportamento obrigatório. Necessidade local DEVE residir em `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado; a leitura DEVE incluí-la como especialização subordinada e a atualização DEVE preservá-la sem remoção ou sobrescrita. `--force` PODE substituir somente conteúdo gerenciado por origem validada após revisão, nunca legitimar customização local do núcleo. Repositório declarado pelo próprio RCF como fonte construtiva da governança distribuível PODE editar essa fonte em FT de manutenção; sua governança ativa continua distinta e superior à fonte, espelho ou artefato produzido.
 
 Somente `./AGENTS.md`, `./.agents/` e importações governam a IA; homônimo sob `src`, `dist` ou equivalente é artefato do produto e NÃO DEVE contaminar a governança. Alteração de RCF exige confirmação humana diante de ambiguidade, risco interpretativo ou regressão possível.
 
