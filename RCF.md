@@ -921,6 +921,8 @@ O processo deve ser resiliente, prevendo falhas de ambiente, inconsistências, e
 
 Deve existir um comando NPM ou equivalente e um workflow de GitHub Actions capaz de gerar, versionar, compactar e publicar releases automaticamente.
 
+Limpeza de artefato gerado DEVE tolerar bloqueio transitório do sistema de arquivos com retentativa limitada e determinística. Após falha, o processo DEVE reconstruir integralmente o artefato ou interromper com causa identificável; não PODE publicar árvore parcialmente limpa, ignorar arquivo bloqueado ou usar remoção forçada sem escopo.
+
 O processo deve:
 
 - Gerar o conteúdo de `./dist/`.

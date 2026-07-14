@@ -927,16 +927,17 @@ function readPackageScripts() {
 function cleanDirectory(dirPath) {
   if (fs.existsSync(dirPath)) {
     try {
-      fs.rmSync(dirPath, { force: true, maxRetries: 5, recursive: true, retryDelay: 100 });
+      fs.rmSync(dirPath, { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
     } catch (error) {
-      if (error.code !== "ENOTEMPTY" || !fs.existsSync(dirPath)) {
+      if (!new Set(["ENOTEMPTY", "EPERM", "EBUSY"]).has(error.code) || !fs.existsSync(dirPath)) {
         throw error;
       }
 
-      // PROTECAO: Windows pode manter o diretorio vazio apos remover suas entradas.
+      // FIX-BUG: Windows pode manter o ZIP ou o diretorio transitoriamente bloqueado apos a geracao.
       for (const entry of fs.readdirSync(dirPath)) {
-        fs.rmSync(path.join(dirPath, entry), { force: true, maxRetries: 5, recursive: true, retryDelay: 100 });
+        fs.rmSync(path.join(dirPath, entry), { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
       }
+      fs.rmSync(dirPath, { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
     }
   }
 }
