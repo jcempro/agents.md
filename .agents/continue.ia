@@ -293,6 +293,23 @@ decisoes=AGENTS e .agents da raiz permanecem governanca ativa excepcional; src e
 verificacoes=Diagnostico confirmou package.json.main=src/agents.md enquanto dist/package.json nao contem src; RCF ja distingue dominio normativo e dominio de negocio, mas nao formaliza os tres roots; paridade entre raiz operacional e fonte distribuivel nao era validada. Correcao: AGENTS.md e src/AGENTS.md canonicos; package.main=AGENTS.md; validateDist exige main publicado e verify exige seis espelhos normativos; publish beta residual removido. node --check repo-tools.js/update-agents.js e agent:verify=VERIFY_OK scripts=7 indexedFiles=6; arvore do artefato nao contem src/.
 falhas=Interpretacao inicial tratou src como raiz da aplicacao; correcao aplicada antes de commit e validada.
 pendencias=Nenhuma.
+
+FT-017|nome=Extensao local imutavel da governanca distribuida|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.000000|atualizacao=20260714.003000|conclusao=20260714.003000
+objetivo=Impedir que consumidor especialize AGENTS ou associado gerenciado por edicao direta, reservando agents.local, local, hooks e adaptador subordinados e preservaveis; explicitar a excecao da fonte construtiva deste repositorio.
+1/3 Contrato e estado [concluido]
+  1/2 Reler AGENTS, associados, RCF e memoria [concluido]
+  2/2 Delimitar consumidor, extensao local e fonte construtiva [concluido]
+2/3 Norma sincronizada [concluido]
+  1/3 Atualizar AGENTS e fonte distribuivel [concluido]
+  2/3 Atualizar contrato de atualizacao e metaarquivo [concluido]
+  3/3 Sincronizar RCF e topologia do produtor [concluido]
+3/3 Validacao e fechamento [concluido]
+  1/3 Regenerar indice, dist e handoff [concluido]
+  2/3 Validar paridade, artefato e diff [concluido]
+  3/3 Registrar fechamento e commit [concluido]
+decisoes=Associado gerenciado significa arquivo identificado por norma, indice, manifesto ou atualizacao; memoria e extensoes locais nao integram esse conjunto. Consumidor altera comportamento obrigatorio somente por agents.local.md, .agents/local/, .agents/hooks/ ou adaptador declarado; leitura os inclui subordinadamente e atualizacao os preserva. Neste repositorio, src e fonte construtiva do pacote, nao governanca ativa da execucao.
+verificacoes=Falha inicial do to-ia com npm.cmd=EINVAL resolvida por cmd.exe /d /s /c. agent:verify=VERIFY_OK scripts=9 indexedFiles=15; dist e index regenerados; paridade binaria dos seis espelhos normativos=OK; git diff --check=OK; handoff regenerado.
+pendencias=Nenhuma.
 verificacoes=CONVERGENCIA_NORMATIVA_OK; node --check release-workflow.js; agent:verify OK; fast-forward 58f41c8..76fa22f publicado em origin/main.
 falhas=agent:verify reconstroi release.json sem metadado de release; detector aceita extensao de gatilho sem autorizacao explicita do RCF; agent:release:trigger pode sobrescrever sinalizador existente.
 
