@@ -4,14 +4,13 @@ Governanca operacional portavel para agentes IA. `./` organiza o repositorio e a
 
 ## Contratos de Scripts
 
-Os contratos reutilizaveis ficam em `.agents/meta/`: `cli` e o contexto minimo (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). O indice `.agents/meta/index.json` relaciona scripts e contextos. Especializacoes do consumidor pertencem a `agents.local.md`, `.agents/local/` ou `.agents/hooks/` e nao sao sobrescritas por `agents:update`.
+O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.agents/meta/`. O índice `.agents/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.agents/local/` ou `.agents/hooks/` e não são sobrescritas por `agents:update`.
 
 ## Operacao
 
 - `npm run clean`: remove `dist/`, `index.json` e `handoff.md` gerados.
 - `npm run check`: executa a verificacao local completa.
-- `npm run release -- <versao>`: gera `dist/`, `release-note.txt` e `agents-v<versao>.zip`.
-- `npm run release -- <versao>`: gera o release local; sem versão, infere somente quando a evidência é determinística.
+- `npm run release -- <versao>`: gera `dist/`, `release-note.txt` e `agents-v<versao>.zip`; sem versão, infere somente quando a evidência é determinística.
 - `npm run release:trigger -- <versao>`: cria o gatilho transitório `release` para o workflow técnico.
 - `npm run release:publish -- <versao>`: executa o ciclo completo de release e aguarda a comprovação remota.
 - `npm run agent:status`: resume capacidades canonicas.
@@ -28,6 +27,24 @@ Os contratos reutilizaveis ficam em `.agents/meta/`: `cli` e o contexto minimo (
 - Somente o arquivo `release` no root funciona como gatilho transitório; o workflow remove o arquivo e cria commit `release:`. `publish` fica reservado à Publicação de Conteúdo e este repositório não a aplica.
 - `dist/release-note.txt` e o pacote versionado sao gerados localmente por `agent:release` antes da publicacao do GitHub Release marcado como latest.
 - Release publicado em `dev` converge a branch primária (`main`, senão `master`); conflito de merge interrompe o workflow.
+
+### Convergência manual de `dev` para `main`
+
+Use este procedimento somente após concluir a FT, com o worktree limpo e a validação integral aprovada. O caminho padrão é fast-forward; não use `--force`, rebase de `main` publicado ou descarte de alterações para contornar divergência.
+
+```powershell
+git switch dev
+git pull --ff-only origin dev
+npm run agent:verify
+git switch main
+git pull --ff-only origin main
+git merge --ff-only dev
+git push origin main
+git switch dev
+git merge-base --is-ancestor main dev
+```
+
+O último comando deve retornar sucesso: `main` está no mesmo commit de `dev` ou é ancestral dele. Se o fast-forward falhar, interrompa a publicação, revise a divergência, realize merge normal somente quando ela for compatível, resolva conflito explicitamente, execute novamente `npm run agent:verify` e só então envie `main`.
 
 ### Publicação assistida
 

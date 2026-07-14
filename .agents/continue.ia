@@ -325,6 +325,28 @@ verificacoes=agent:verify=VERIFY_OK scripts=10 indexedFiles=16; npm run agent:ve
 falhas=Handoff inicialmente referia o caminho legado scripts/.agents/generate-agents-status.js; caminho migrado e handoff aprovado.
 pendencias=Publicacao remota condicionada a autorizacao.
 
+FT-019|nome=Parametrizacao editorial e release 0.0.4|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260714.203830|atualizacao=20260714.203830
+objetivo=Remover especializacoes editoriais indevidas da RCF e do cenario distribuivel, preservar a matriz W-MTX-42, documentar a convergencia dev-main e publicar a correcao na versao 0.0.4.
+1/4 Diagnostico [concluido]
+  1/3 Ler AGENTS, RCF, cenario Web, README, memoria e estado Git [concluido]
+  2/3 Inspecionar anexo e delimitar marcacoes recuperaveis [concluido]
+  3/3 Classificar W-MTX-42 como cobertura concreta preservada e quantificacoes editoriais como parametros locais [concluido]
+2/4 Norma e documentacao [concluido]
+  1/3 Parametrizar baseline, limite de listagem e indentacao no RCF [concluido]
+  2/3 Sincronizar cenario Web de raiz e fonte distribuivel [concluido]
+  3/3 Documentar convergencia segura de dev para main no README [concluido]
+3/4 Validacao e commit [em_andamento]
+  1/3 Regenerar artefatos derivados e validar pacote [concluido]
+  2/3 Atualizar memoria e handoff [concluido]
+  3/3 Commitar e publicar dev [pendente]
+4/4 Convergencia e release [pendente]
+  1/3 Convergir dev para main e publicar main [pendente]
+  2/3 Acionar e comprovar release 0.0.4 [pendente]
+  3/3 Confirmar tag, release, branches e encerrar FT [pendente]
+decisoes=W-MTX-42 permanece integral porque modela cobertura util e nao decoracao de projeto. Valores de viewport, densidade de listagem e indentacao pertencem ao RCF especifico, template ou token declarado; a norma global preserva criterio verificavel sem impor numero arbitrario. Horario editorial, plataforma social, modelo de autoria, baseline de navegador, loader e padrao bibliografico tambem permanecem declaraveis pelo projeto.
+verificacoes=Imagem anexada foi aberta e nao possui anotacao visivel; leitura direta confirmou as quantificacoes em RCF 5.3.3 e 5.3.5 e nos espelhos do cenario. agent:verify=VERIFY_OK scripts=10 indexedFiles=16; paridade SHA-256 raiz-fonte do cenario=OK; W-MTX-42 preservada.
+pendencias=Edicao normativa, validacao, commit, push, merge e release 0.0.4.
+
 FT-017|nome=Extensao local imutavel da governanca distribuida|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.000000|atualizacao=20260714.003000|conclusao=20260714.003000
 objetivo=Impedir que consumidor especialize AGENTS ou associado gerenciado por edicao direta, reservando agents.local, local, hooks e adaptador subordinados e preservaveis; explicitar a excecao da fonte construtiva deste repositorio.
 1/3 Contrato e estado [concluido]
