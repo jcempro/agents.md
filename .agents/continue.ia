@@ -294,6 +294,31 @@ verificacoes=Diagnostico confirmou package.json.main=src/agents.md enquanto dist
 falhas=Interpretacao inicial tratou src como raiz da aplicacao; correcao aplicada antes de commit e validada.
 pendencias=Nenhuma.
 
+FT-018|nome=Composicao tipada de cenarios e scripts aninhados|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260714.230000|atualizacao=20260714.233000
+objetivo=Vincular RCF explicativo a AGENTS objetivo, decompor cenarios por composicao tipada e mover scripts para o nucleo ou cenario correspondente sem regressao.
+1/5 Inventario [concluido]
+  1/2 Mapear cenarios, scripts, indice, pacote e workflow [concluido]
+  2/2 Confirmar concentracao indevida em Web Page Like e scripts paralelos [concluido]
+2/5 Contrato e RCF [concluido]
+  1/3 Normatizar sincronizacao RCF maior -> AGENTS aderente [concluido]
+  2/3 Definir composicao, contrato tipado, estado protegido e hooks encadeados [concluido]
+  3/3 Delimitar Web Page Like como borda composta [concluido]
+3/5 Migracao estrutural [concluido]
+  1/3 Aninhar nucleo e cenarios [concluido]
+  2/3 Migrar scripts runtime e release aos respectivos escopos [concluido]
+  3/3 Atualizar pacote, workflow, indice, build e atualizador [concluido]
+4/5 Validacao [concluido]
+  1/3 Validar sintaxe, build, dist e paridade normativa [concluido]
+  2/3 Exercitar contrato e cadeia de hooks [concluido]
+  3/3 Regenerar index e handoff [concluido]
+5/5 Fechamento [em_andamento]
+  1/2 Registrar memoria e handoff derivado [concluido]
+  2/2 Auditar diff e commitar migracao isolada [pendente]
+decisoes=Composicao prevalece sobre heranca; Web Page Like e cenario de borda que ordena capacidades, sem inferir Jekyll, GitHub Pages, Git, hospedagem ou saida estatica. Scripts transversais residem em .agents/core/runtime/scripts; scripts de release residem em .agents/scenarios/release/scripts. RCF mantem explicacao e AGENTS sua projecao operacional; mudanca material exige ambos na mesma FT.
+verificacoes=agent:verify=VERIFY_OK scripts=10 indexedFiles=16; npm run agent:verify=OK; contrato validou tipo e cadeia core->local com duas observacoes; build atualizou dist na nova topologia; git diff --check=OK.
+falhas=Handoff inicialmente referia o caminho legado scripts/.agents/generate-agents-status.js; caminho migrado e handoff aprovado.
+pendencias=Commit isolado e publicacao remota condicionada a autorizacao.
+
 FT-017|nome=Extensao local imutavel da governanca distribuida|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.000000|atualizacao=20260714.003000|conclusao=20260714.003000
 objetivo=Impedir que consumidor especialize AGENTS ou associado gerenciado por edicao direta, reservando agents.local, local, hooks e adaptador subordinados e preservaveis; explicitar a excecao da fonte construtiva deste repositorio.
 1/3 Contrato e estado [concluido]

@@ -1,6 +1,6 @@
 # AGENTS.md — Governança Operacional Global
 
-`AGENTS.md` governa a atuação da IA; RCF governa requisitos, contratos, arquitetura e negócio. Aplicar cumulativamente `./.agents/microconceitos.md` (`MN-2119`, `MN-DENS`, `MN-PRES`, `MN-IA-OPT`, `MN-PREP`, `MN-OUT`, `MN-CMD`, `MN-API`, `MN-DEF`, `MN-STATE`, `MN-VAL`, `MN-REF`, `MN-CLI`, `MN-META`). Referência a microconceito o incorpora integralmente.
+`AGENTS.md` governa a atuação da IA; RCF governa requisitos, contratos, arquitetura e negócio. Aplicar cumulativamente `./.agents/core/concepts/microconceitos.md` (`MN-2119`, `MN-DENS`, `MN-PRES`, `MN-IA-OPT`, `MN-PREP`, `MN-OUT`, `MN-CMD`, `MN-API`, `MN-DEF`, `MN-STATE`, `MN-VAL`, `MN-REF`, `MN-CLI`, `MN-META`). Referência a microconceito o incorpora integralmente.
 
 ## Apendice - GESTAO DE CONTEXTO (RFC_COMPLIANT)
 
@@ -12,6 +12,8 @@
 
 Este arquivo DEVE governar a operação da IA sem alterar instrução intrínseca da plataforma e DEVE permanecer reutilizável sem adaptação. NÃO DEVE conter URL, nome próprio, path físico ou regra exclusiva de projeto; PODE usar paths relativos e conceitos universais. AGENTS define como a IA processa; RCF/cenário define o que o projeto faz. AGENTS PODE normatizar método, cache, FT, artefato, build, validação e equivalentes, mas NÃO DEVE criar negócio.
 
+RCF aplicável DEVE especificar, com contexto e critérios suficientes para impedir perda interpretativa, a regra de negócio projetada de forma objetiva neste AGENTS. Ajuste, correção, aprimoramento ou melhoria que altere regra, contrato, capacidade, cenário, script ou validação DEVE sincronizar RCF e AGENTS/fonte na mesma FT; RCF mantém a explicação mais completa e AGENTS conserva somente a projeção operacional aderente.
+
 ### 0.6–0.11 Compartimentação e extensão local
 
 RCF/cenário DEVE definir comportamento funcional; AGENTS/auxiliar DEVE definir processamento. Regra de IA convertida em negócio, ou inverso, é regressão. `agents.local.md` contém somente particularidade não replicável. Terceiro importado NÃO DEVE ser analisado, alterado ou mantido antes de incorporação definitiva. `agents.local.md` e memória PODEM residir na raiz ou em `./.agents/`.
@@ -22,7 +24,7 @@ Somente `./AGENTS.md`, `./.agents/` e importações governam a IA; homônimo sob
 
 ### 0.12 Atualização
 
-Todo repositório DEVE expor `agent:agents`; `agents:update` PODE ser alias. Criação/reparo DEVE observar `./.agents/.autoupdate.md` quando aplicável.
+Todo repositório DEVE expor `agent:agents`; `agents:update` PODE ser alias. Criação/reparo DEVE observar `./.agents/core/update/scenario.md` quando aplicável.
 
 ### 0.13 Raízes arquiteturais
 
@@ -96,21 +98,21 @@ Entrega DEVE terminar com `COMMIT_SUGERIDO: <PT-BR; até 512 caracteres>` e `PEN
 
 ## 17. Cenários
 
-Cenário é especialização reutilizável; regra específica só PODE restringir geral no próprio escopo, com justificativa e preservação. Novo cenário DEVE estar em Markdown independente e indexado; regra multicenário DEVERIA estar neste núcleo. Antes de criar solução, DEVE reutilizar universal → grupo → composição → parâmetro → criação. Interface pública DEVE permanecer estável; fluxo composto NÃO DEVE duplicar lógica; escolha técnica DEVE ser proporcional; processo existente DEVE ser preservado; correção textual incidental DEVE limitar-se à região alterada.
+Cenário é especialização reutilizável; regra específica só PODE restringir geral no próprio escopo, com justificativa e preservação. Núcleo reside em `./.agents/core/`; cenário reside em `./.agents/scenarios/<domínio>/<nome>/scenario.md`, com scripts e recursos no próprio diretório. Novo cenário DEVE estar indexado; regra multicenário DEVERIA tornar-se capacidade reutilizável. Antes de criar solução, DEVE reutilizar universal → grupo → composição → parâmetro → criação. Herança só PODE existir em cadeia única estável; cenário de borda NÃO DEVE simular herança múltipla e DEVE compor capacidades ordenadas por contrato. Interface pública DEVE permanecer estável; fluxo composto NÃO DEVE duplicar lógica; escolha técnica DEVE ser proporcional; processo existente DEVE ser preservado; correção textual incidental DEVE limitar-se à região alterada.
 
-Arquivo de cenário DEVE declarar escopo, limites, dependências, contratos, exceções, precedência, segurança, privacidade, acessibilidade, desempenho, compatibilidade e validação; DEVE referenciar regra comum, não copiá-la. Antes de implementar, IA DEVE classificar projeto, carregar cenário/dependência integral, aplicar cumulativamente e registrar aplicação/dispensa. Falha de integridade normativa NÃO DEVE ser suprida por inferência. Contradição DEVE registrar `CONTRADIÇÃO DETECTADA: <origem> vs <regra> — Aplicando a regra de maior precedência.`
+Arquivo de cenário DEVE declarar escopo, limites, dependências, contratos, exceções, precedência, segurança, privacidade, acessibilidade, desempenho, compatibilidade e validação; DEVE referenciar regra comum, não copiá-la. Script/capacidade plugável DEVE obedecer `./.agents/core/contracts.md`: tipo, versão, dependências, métodos e eventos validados; estado só POR getter imutável e setter/ação validada; intermediário só PODE fazer passthrough com observação de entrada, saída, alteração e evento. Hook DEVE propagar núcleo → capacidade → cenário → adaptador local, sem isolamento silencioso. Antes de implementar, IA DEVE classificar projeto, carregar cenário/dependência integral, aplicar cumulativamente e registrar aplicação/dispensa. Falha de integridade normativa NÃO DEVE ser suprida por inferência. Contradição DEVE registrar `CONTRADIÇÃO DETECTADA: <origem> vs <regra> — Aplicando a regra de maior precedência.`
 
 | Cenário                 | Arquivo/seção                 | Dependência              | Aplicação                                |
 | ----------------------- | ----------------------------- | ------------------------ | ---------------------------------------- |
-| Web Page Like           | `./.agents/webPageLike.md` §1 | —                        | navegador/engine web                     |
-| Web estático/hospedagem | mesmo §2                      | §1                       | gerador, template, páginas               |
-| Editorial               | mesmo §3                      | §1; §2 quando aplicável  | artigo, post, sermão, ensaio, notícia    |
-| Release                 | `./.agents/release.md`        | —                        | versão, tag, asset ou release publicável |
-| Publicação de Conteúdo  | `./.agents/publish.md`        | Web/RCF quando aplicável | artefato de Negócio publicável           |
+| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` §1 | capacidades Web | navegador/engine web |
+| Web estático/hospedagem | mesmo §2 | Web Page Like; capacidade estática/hospedagem | gerador, template, páginas |
+| Editorial | mesmo §3 | Web Page Like; estático quando aplicável | artigo, post, sermão, ensaio, notícia |
+| Release | `./.agents/scenarios/release/scenario.md` | núcleo/release | versão, tag, asset ou release publicável |
+| Publicação de Conteúdo | `./.agents/scenarios/content-publication/scenario.md` | Web/RCF quando aplicável | artefato de Negócio publicável |
 
 ## 18. API operacional
 
-Aplicar `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`. `agent:filter`/`to-ia` DEVE existir antes dos demais; toda saída para IA DEVE atravessá-lo. Entrada exclusiva/predominante de IA DEVE residir em `./scripts/.agents/`. Sequência repetida 2 vezes, com 3+ comandos, saída provável acima do orçamento ou filtragem repetida DEVE virar comando composto.
+Aplicar `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`. `agent:filter`/`to-ia` DEVE existir antes dos demais; toda saída para IA DEVE atravessá-lo. Entrada exclusiva/predominante de IA DEVE residir em `./.agents/core/runtime/scripts/`; script especializado DEVE residir com seu cenário. Sequência repetida 2 vezes, com 3+ comandos, saída provável acima do orçamento ou filtragem repetida DEVE virar comando composto.
 
 Script reutilizável DEVE aplicar `MN-CLI` e carregar somente `./.agents/meta/cli.md` e metaarquivo contextual aplicável. Convenção gerenciada: `./.agents/meta/<contexto>.md`, com `<contexto>` estável e sem duplicar AGENTS/microconceito; grupos possíveis incluem `build`, `release`, `publish`, `maintenance`, `update`, `validation` e `ia`, criados somente quando aplicáveis. `./.agents/meta/index.json` DEVE mapear script reutilizável, entry e contextos mínimos. Metaarquivo DEVE declarar escopo, comandos, dependências, configuração, hooks, extensões, validação e referência de precedência. Especialização local DEVE residir em `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado; atualização NÃO DEVE sobrescrevê-la. Parâmetro desconhecido DEVE falhar, salvo encaminhamento explícito após `--` a hook/extensão documentado.
 

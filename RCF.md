@@ -24,6 +24,10 @@ Se a edição/alteração a ser feita em AGENTS.md`ou cenários for alterar algo
 
 **<sup>1</sup> Secundário:** neste caso específico, o _target_ é o RCF localizado no root do próprio repositório, atualizar sua especificação conforme solicitações explícitas do desenvolvedor, preservando e consolidando todos os aprimoramentos já incorporados, vedando regressões. Sempre que modificações no **Target Construtivo** alterarem, ampliarem, restringirem ou impactarem regras de negócio, garantir seu espelhamento integral, consistente e sincronizado no próprio RCF.
 
+### 0.0.1 Projeção RCF → fonte normativa
+
+O RCF é a especificação de maior explicação do produto normativo em `./src/`: DEVE registrar finalidade, motivação, domínio, limites, exceções, alternativas rejeitadas, precedência, transição e critérios de validação suficientes para preservar interpretação e permitir correção posterior. `src/AGENTS.md` é a projeção operacional concisa dessa especificação: DEVE ser aderente, referenciável e não introduzir negócio autônomo. Portanto, solicitação de ajuste, aprimoramento, correção ou melhoria que toque regra, cenário, capacidade, script, hook, contrato, caminho, build, atualização ou validação DEVE atualizar RCF e fonte na mesma FT; o RCF DEVE conservar o contexto adicional e AGENTS DEVE conservar a instrução executável correspondente. Divergência entre ambos bloqueia conclusão, build distribuível e atualização.
+
 **referência**: a normatização correspondente deve ser feita, mas a criação do arquivo não.
 
 ### 0.0 Topologia, segregação e precedência arquitetural
@@ -110,6 +114,14 @@ Após instruções superiores da plataforma:
 
 Regra específica prevalece sobre geral somente em seu escopo e sem contrariar norma superior.
 
+### 1.6 Composição de cenários e extensões executáveis
+
+Especialização DEVE usar composição antes de herança. Herança única PODE existir quando contrato, estado, ciclo de vida e substituibilidade forem estáveis; herança múltipla NÃO DEVE ser usada para agregar capacidades de borda. `Web Page Like` permanece cenário de consumo final, porém DEVE compor capacidades Web independentes — interface de navegador, saída estática, hospedagem, publicação editorial e outras aplicáveis — em ordem declarada, sem assumir Jekyll, GitHub Pages, gerador, hospedagem ou VCS exclusivos. Capacidade estática, hospedagem GitHub Pages, Jekyll e Git de sites DEVEM poder existir isoladamente, ser combinadas quando compatíveis e validar a combinação real.
+
+Núcleo reutilizável fica em `./.agents/core/`; cenário fica em `./.agents/scenarios/<domínio>/<nome>/`, com `scenario.md`, `scripts/`, recursos e contratos somente daquele escopo. Script transversal fica em `core/runtime/scripts/`; script de cenário fica no diretório do cenário. Repositório consumidor especializa somente por `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado, nunca movendo comportamento local ao núcleo distribuído.
+
+Capacidade ou script plugável DEVE declarar identidade, tipo, versão, dependências requeridas/oferecidas, eventos, validação, execução e descarte quando aplicável. Interface deve validar método, variável e versão antes do uso; estado NÃO DEVE ser exposto mutável, devendo usar getter imutável e setter/ação validada, auditável e autorizada. Camada intermediária só PODE fazer passthrough quando observar entrada, saída, alteração e evento. Eventos/hooks DEVEM alcançar núcleo, capacidades, cenário e adaptador final; camada intermediária NÃO DEVE isolá-los, absorvê-los ou renomeá-los sem contrato. Falha DEVE identificar camada, evento e contrato, sem impedir a observação das demais camadas quando isso não violar segurança ou consistência.
+
 ---
 
 ## 2. Arquitetura documental obrigatória
@@ -122,9 +134,15 @@ A arquitetura deve suportar:
 AGENTS.md
 ├── agents.local.md              # opcional; particularidades locais
 ├── continue.ia | continue.dev   # exatamente um arquivo canônico
-└── cenários
-    ├── webPageLike.md
-    └── <futuros-cenarios>.md
+└── .agents/
+    ├── core/                     # conceitos, contratos, atualização e runtime transversal
+    │   ├── contracts.md
+    │   └── runtime/scripts/
+    └── scenarios/<domínio>/<nome>/
+        ├── scenario.md
+        ├── scripts/
+        ├── assets/
+        └── tests/
 ```
 
 A localização física dos cenários pode variar por decisão normativa da IA, desde que:
@@ -143,6 +161,8 @@ A localização física dos cenários pode variar por decisão normativa da IA, 
 - RCF: especificidade do projeto.
 - Extensão local: particularidade operacional do repositório.
 - Memória operacional: estado transitório, decisões, progresso e histórico de execução.
+
+Diretório de cenário DEVE ser a unidade coesa de distribuição: sua norma, scripts, testes, assets e metadados ficam aninhados nele, salvo componente comprovadamente transversal promovido a `core/`. Índice DEVE mapear caminho, tipo, dependências e camada; build DEVE preservar a relação sem vazar `src/`; atualizador DEVE descobrir recursivamente conteúdo gerenciado, preservar extensões locais e rejeitar colisão ambígua.
 
 ### 2.3 Proibição de duplicação
 

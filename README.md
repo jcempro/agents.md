@@ -51,7 +51,7 @@ O comando interrompe antes de escrever quando houver alteração local, tag exis
 - [RCF.md](RCF.md): contrato material do projeto.
 - [AGENTS.md](AGENTS.md): governanca operacional aplicavel a este workspace.
 - [src/AGENTS.md](src/AGENTS.md): fonte do artefato normativo distribuivel.
-- [src/.agents/.autoupdate.md](src/.agents/.autoupdate.md): contrato de atualizacao automatica.
-- [src/.agents/webPageLike.md](src/.agents/webPageLike.md): cenario Web Page Like.
-- [src/.agents/release.md](src/.agents/release.md): cenario Release.
-- [src/.agents/publish.md](src/.agents/publish.md): cenario Publicação de Conteúdo.
+- [src/.agents/core/update/scenario.md](src/.agents/core/update/scenario.md): contrato de atualizacao automatica.
+- [src/.agents/scenarios/web/page-like/scenario.md](src/.agents/scenarios/web/page-like/scenario.md): cenario Web Page Like.
+- [src/.agents/scenarios/release/scenario.md](src/.agents/scenarios/release/scenario.md): cenario Release.
+- [src/.agents/scenarios/content-publication/scenario.md](src/.agents/scenarios/content-publication/scenario.md): cenario Publicação de Conteúdo.

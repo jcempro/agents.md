@@ -36,7 +36,7 @@ jobs:
       - id: detect
         shell: bash
         run: |
-          result="$(node scripts/.agents/release-workflow.js detect '${{ github.event.before }}' '${{ github.sha }}')"
+          result="$(node .agents/scenarios/release/scripts/release-workflow.js detect '${{ github.event.before }}' '${{ github.sha }}')"
           printf '%s\n' "$result"
           printf 'triggered=%s\n' "$(node -e "const data=JSON.parse(process.argv[1]); process.stdout.write(String(Boolean(data.triggered))); " "$result")" >> "$GITHUB_OUTPUT"
           printf 'version=%s\n' "$(node -e "const data=JSON.parse(process.argv[1]); process.stdout.write(data.version || '');" "$result")" >> "$GITHUB_OUTPUT"
@@ -73,7 +73,7 @@ jobs:
             version="$INPUT_VERSION"
             release_file=''
             if [ -z "$version" ]; then
-              version="$(node -e "const {resolveRelease}=require('./scripts/.agents/repo-tools');process.stdout.write(resolveRelease('').version)")"
+              version="$(node -e "const {resolveRelease}=require('./.agents/core/runtime/scripts/repo-tools');process.stdout.write(resolveRelease('').version)")"
             fi
           else
             version="$DETECT_VERSION"
@@ -111,7 +111,7 @@ jobs:
           fi
 
       - name: Gerar release local
-        run: node scripts/.agents/repo-tools.js agent:release "$env:RELEASE_VERSION"
+        run: node .agents/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
         shell: pwsh
 
       - name: Publicar release e finalizar marcador
@@ -137,8 +137,8 @@ jobs:
           git tag "v${RELEASE_VERSION}"
           retry git push origin "v${RELEASE_VERSION}"
           retry gh release create "v${RELEASE_VERSION}" "dist/agents-v${RELEASE_VERSION}.zip" "dist/release-note.txt" --title "v${RELEASE_VERSION}" --notes-file "dist/release-note.txt" --latest
-          node scripts/.agents/release-hooks.js published "$RELEASE_VERSION" "dist/agents-v${RELEASE_VERSION}.zip"
-          node scripts/.agents/release-workflow.js finalize "$RELEASE_VERSION" "$RELEASE_FILE"
+          node .agents/scenarios/release/scripts/release-hooks.js published "$RELEASE_VERSION" "dist/agents-v${RELEASE_VERSION}.zip"
+          node .agents/scenarios/release/scripts/release-workflow.js finalize "$RELEASE_VERSION" "$RELEASE_FILE"
           retry git push origin "HEAD:${{ github.ref_name }}"
           # PROTECAO: release local altera artefatos rastreados que bloqueiam o checkout da primaria.
           git restore --worktree -- dist
