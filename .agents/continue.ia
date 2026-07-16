@@ -232,7 +232,7 @@ riscos=Quebrar consumidores antigos; manter alias apontando a comportamento dive
   2/3 Testar mesclagem do package legado [concluido]
   3/3 Executar build e verify [concluido]
 3/3 Entrega [em andamento]
-  1/2 Commitar mudanca funcional [em andamento]
+  1/2 Commitar mudanca funcional [concluido]
   2/2 Informar recuperacao de bootstrap ao consumidor [pendente]
 decisoes=Comando canonico=agent:autoupdate; agents:autoupdate, agent:agents e agents:update permanecem aliases temporarios equivalentes. Sem argumento aplica, commita e publica; --check e --dry-run nao escrevem.
 falhas=Consumidor legado bloqueia em scripts/.agents/repo-tools.js antes de chamar update-agents.js; chamada direta em --dry-run resolveu release:v0.0.6 e comprovou que o atualizador subjacente aceita modo normal. O upstream historico consultado pelo bootstrap antigo ainda aponta a v0.0.6, enquanto v0.0.9 reside no sucessor; nova versao isolada nao basta sem ponte de migracao do upstream historico.
