@@ -87,7 +87,7 @@ function parseArgs(argv = []) {
 }
 
 function help() {
-  return "Uso: agents:update [--check|--dry-run] [--force] [--help]";
+  return "Uso: agent:autoupdate [--check|--dry-run] [--force] [--help]";
 }
 
 async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
@@ -686,7 +686,7 @@ function runGit(rootDir, args) {
 }
 
 function printPlan(plan, mode) {
-  console.log(`agents:update ${mode}: ${plan.source.label}`);
+  console.log(`agent:autoupdate ${mode}: ${plan.source.label}`);
 
   for (const change of plan.changes) {
     if (change.action !== "unchanged") {

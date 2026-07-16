@@ -20,7 +20,7 @@ RCF/cenário DEVE definir comportamento; AGENTS/auxiliar, processamento. Convers
 
 ### 0.12 Atualização
 
-Todo repositório DEVE expor `agent:agents`; `agents:update` PODE ser alias. Criação/reparo aplica `./.agents/core/update/scenario.md`. Origem recebida validada define exaustivamente o gerenciado; preexistente serve somente a migração, legado comprovado, limpeza ou restauração transacional. Mudança de formato/path/notação/recurso/estrutura DEVE incluir descritor versionado, marcador e conversor permanente da versão anterior; ausência futura do original NÃO autoriza retirar conversor. Configuração equivalente DEVERIA compartilhar parser e descritor formal.
+Todo repositório DEVE expor `agent:autoupdate`; `agents:autoupdate`, `agent:agents` e `agents:update` PODEM ser aliases transitórios equivalentes. Sem argumento aplica, commita e publica; `--check` e `--dry-run` não escrevem. Criação/reparo aplica `./.agents/core/update/scenario.md`. Origem recebida validada define exaustivamente o gerenciado; preexistente serve somente a migração, legado comprovado, limpeza ou restauração transacional. Mudança de formato/path/notação/recurso/estrutura DEVE incluir descritor versionado, marcador e conversor permanente da versão anterior; ausência futura do original NÃO autoriza retirar conversor. Configuração equivalente DEVERIA compartilhar parser e descritor formal.
 
 ### 0.13 Raízes arquiteturais
 

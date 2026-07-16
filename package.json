@@ -16,6 +16,7 @@
       "agent:"
     ],
     "managedScripts": [
+      "agents:autoupdate",
       "agents:update"
     ],
     "dependencies": [],
@@ -31,8 +32,10 @@
     "release:trigger": "npm run agent:release:trigger",
     "release:publish": "npm run agent:release:publish --",
     "test": "npm run agent:test",
-    "agents:update": "node .agents/core/runtime/scripts/repo-tools.js agent:agents",
-    "agent:agents": "node .agents/core/runtime/scripts/repo-tools.js agent:agents",
+    "agents:autoupdate": "node .agents/core/runtime/scripts/repo-tools.js agent:autoupdate",
+    "agents:update": "node .agents/core/runtime/scripts/repo-tools.js agent:autoupdate",
+    "agent:autoupdate": "node .agents/core/runtime/scripts/repo-tools.js agent:autoupdate",
+    "agent:agents": "node .agents/core/runtime/scripts/repo-tools.js agent:autoupdate",
     "agent:upstream:check": "node .agents/core/runtime/scripts/repo-tools.js agent:upstream:check",
     "agent:upstream:prepare": "node .agents/core/runtime/scripts/repo-tools.js agent:upstream:prepare",
     "agent:upstream:publish": "node .agents/core/runtime/scripts/repo-tools.js agent:upstream:publish",

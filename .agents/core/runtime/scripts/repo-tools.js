@@ -95,8 +95,13 @@ const COMMANDS = {
     run: compactOperationalContext,
     status: "available",
   },
-  "agent:agents": {
+  "agent:autoupdate": {
     description: "atualiza governanca operacional gerenciada",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "update-agents.js"), _args),
+    status: "available",
+  },
+  "agent:agents": {
+    description: "alias transitorio de agent:autoupdate",
     run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "update-agents.js"), _args),
     status: "available",
   },
@@ -496,7 +501,7 @@ function buildDistributionPackage() {
   const sourceScripts = source.scripts || {};
   const aliases = new Set(["build", "check", "clean", "lint", "prepare", "release", "release:trigger", "test"]);
   const scripts = Object.fromEntries(Object.entries(sourceScripts)
-    .filter(([name]) => name === "agents:update" || name.startsWith("agent:") || aliases.has(name)));
+    .filter(([name]) => name === "agents:update" || name === "agents:autoupdate" || name.startsWith("agent:") || aliases.has(name)));
   const dependencies = source.dependencies || {};
   const optionalDependencies = source.optionalDependencies || {};
 
@@ -514,7 +519,7 @@ function buildDistributionPackage() {
     agentsGovernance: {
       schema: 1,
       managedScriptPrefixes: ["agent:"],
-      managedScripts: ["agents:update"],
+      managedScripts: ["agents:autoupdate", "agents:update"],
       dependencies: Object.keys(dependencies).sort((a, b) => a.localeCompare(b, "en")),
       optionalDependencies: Object.keys(optionalDependencies).sort((a, b) => a.localeCompare(b, "en")),
     },
@@ -570,7 +575,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "upstream-share.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-inbox.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-lifecycle.test.js")]);
-  return ok("TEST_OK", { suites: 3 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "autoupdate.test.js")]);
+  return ok("TEST_OK", { suites: 4 });
 }
 
 function validateIndex(index) {
@@ -659,6 +665,7 @@ function validateDist() {
   if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) ||
     !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) ||
     !Array.isArray(policy.optionalDependencies) || !distributionPackage.scripts ||
+    !distributionPackage.scripts["agent:autoupdate"] || !distributionPackage.scripts["agents:autoupdate"] ||
     !distributionPackage.scripts["agent:agents"] || !distributionPackage.scripts["agents:update"]) {
     throw new Error("dist/package.json nao contem contrato executavel de governanca.");
   }
