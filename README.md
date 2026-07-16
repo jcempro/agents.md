@@ -108,6 +108,6 @@ Migrado de [https://github.com/JeanCarloEM/agents.md](https://github.com/JeanCar
 
 ## Licença
 
-Mozilla Public License 2.0 (MPL-2.0) - https://mozilla.org
+Mozilla Public License 2.0 [MPL-2.0](https://choosealicense.com/pt/licenses/mpl-2.0/)
 
-Este código-fonte está sujeito aos termos da Mozilla Public License, v. 2.0. Se uma cópia da MPL não foi distribuída com este arquivo, você pode obter uma em https://mozilla.org.
+Este código-fonte está sujeito aos termos da Mozilla Public License, v. 2.0. Se uma cópia da MPL não foi distribuída com este arquivo, você pode obter uma em https://choosealicense.com/pt/licenses/mpl-2.0/.
