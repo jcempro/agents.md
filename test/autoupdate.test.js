@@ -30,6 +30,8 @@ async function main() {
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "cache", "legacy-consumer", ".agents", "core", "runtime", "scripts", "to-ia.js")), false);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "local", "custom.js")), false);
   assert.equal(isManagedDistributionFile(path.join(__dirname, "..", ".agents", "core", "runtime", "scripts", "package.json")), true);
+  assert.equal(isManagedDistributionFile(path.join(__dirname, "..", ".agents", "package.json")), true);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", ".agents", "package.json"), "utf8")).type, "commonjs");
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", ".agents", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {

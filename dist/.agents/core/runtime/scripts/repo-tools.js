@@ -1247,6 +1247,7 @@ function isManagedScriptPath(filePath) {
 function isManagedDistributionFile(filePath) {
   const relativePath = toPosix(path.relative(ROOT_DIR, filePath));
   return (path.extname(filePath).toLocaleLowerCase("en-US") === ".js" && isManagedScriptPath(filePath))
+    || relativePath === ".agents/package.json"
     || relativePath === ".agents/core/runtime/scripts/package.json";
 }
 
