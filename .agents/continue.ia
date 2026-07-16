@@ -218,7 +218,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
-FT-026|nome=Inbox e decisao construtora de issues upstream|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.010000|atualizacao=20260715.015000
+FT-026|nome=Inbox e decisao construtora de issues upstream|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.010000|atualizacao=20260715.021000|conclusao=20260715.021000
 objetivo=Implementar o fluxo construtor para receber, sanitizar, indexar, encaminhar e avaliar issues recebidas, aplicando decisao rastreavel sem publicar efeito externo sem autorizacao do workflow.
 escopo=RCF; cenario upstream; inbox local/artefato; scripts agent; workflow GitHub Actions; testes; indice; README; dist; memoria.
 nao_escopo=Aceitar ou fechar issue automaticamente, alterar AGENTS.md raiz, chamar IA remota obrigatoria, criar release ou expor conteudo sensivel.
@@ -241,11 +241,14 @@ ordem=1
   2/4 Implementar avaliacao, resposta e aplicacao autorizada [concluido]
   3/4 Integrar despachante, pacote e testes [concluido]
   4/4 Criar workflow por evento de issue e artifact [concluido]
-4/4 Validacao e fechamento [em_andamento]
+4/4 Validacao e fechamento [concluido]
   1/4 Executar fixtures, sintaxe e checks [concluido]
   2/4 Regenerar indice, dist e handoff [concluido]
-  3/4 Commitar e convergir conforme politica [em_andamento]
-  4/4 Registrar resultado e pendencias externas [pendente]
+  3/4 Commitar e convergir conforme politica [concluido]
+  4/4 Registrar resultado e pendencias externas [concluido]
+verificacoes=node --check issue-inbox.js; npm run agent:test; npm run agent:build; npm run agent:verify; ruby YAML.load_file issues-inbox.yml; fixture process dry-run e repeticao idempotente.
+resultado=INBOX_SELF_TEST_OK; TEST_OK suites=2; DIST_OK files=34; VERIFY_OK scripts=14 indexedFiles=19; YAML_OK; fluxo fixture retornou highly_recommended sem efeito remoto e a segunda execucao retornou INBOX_ALREADY_INDEXED.
+pendencias=Nenhuma.
 FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.015000|atualizacao=20260713.025500|conclusao=20260713.025500
 objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie commit exclusivo release, envie o gatilho ao GitHub, acompanhe o workflow e confirme release e convergencia.
 1/4 Diagnostico e seguranca [concluido]
