@@ -218,7 +218,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
-FT-027|nome=Otimizacao agressiva do contexto em src|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.221708|atualizacao=20260715.231429|conclusao=
+FT-027|nome=Otimizacao agressiva do contexto em src|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.221708|atualizacao=20260715.231727|conclusao=
 objetivo=Auditar e refatorar `./src` para reduzir carga de contexto e ambiguidade sem perda normativa, centralizando recorrencias, modularizando o cenario Web e validando equivalencia contra o RCF.
 escopo=RCF.md; src/AGENTS.md; src/.agents/core/concepts/; src/.agents/meta/; src/.agents/scenarios/; indice/dist derivados; validadores; memoria e handoff.
 nao_escopo=Alterar a governanca ativa `./AGENTS.md`; reduzir obrigacao, excecao, nuance ou matriz normativa; publicar release; especializar o produto para um consumidor.
@@ -246,14 +246,14 @@ ordem=5
   2/3 Eliminar falsos positivos, inferencias e duplicacoes residuais [concluido]
   3/3 Auditar resolucao, modalidade e propriedade normativa [concluido]
 5/5 Validacao e fechamento [em_andamento]
-  1/4 Medir reducao de bytes/tokens e equivalencia conceitual [pendente]
-  2/4 Regenerar indice/dist e executar testes/verify [pendente]
-  3/4 Produzir quatro commits funcionais e convergir branches [pendente]
+  1/4 Medir reducao de bytes/tokens e equivalencia conceitual [concluido]
+  2/4 Regenerar indice/dist e executar testes/verify [concluido]
+  3/4 Produzir quatro commits funcionais e convergir branches [em_andamento]
   4/4 Atualizar memoria/handoff e registrar resultado [pendente]
 decisoes=Preservar paths publicos existentes como roteadores de compatibilidade; modularizar por arquivos subordinados dentro do diretorio do cenario; RCF deve declarar predicados e dependencias antes da movimentacao; quatro commits sao obrigatorios pela classificacao agressiva. MN-ROLE centraliza identidade/autoridade; MN-EXT, fronteira gerenciado/local; MN-REF, resolucao seletiva; MN-SCEN, composicao/roteamento. WEB-BROWSER, WEB-STATIC e WEB-EDITORIAL possuem predicados autoritativos e ordem fechada.
-verificacoes=Baseline deterministico: src possui 19 arquivos, 71059 bytes UTF-8 e 14069 tokens_proxy lexicais; AGENTS.md=19439 bytes/4156 proxy; page-like/scenario.md=12498 bytes/2366 proxy. Referencias inexistentes detectadas em meta/publish.md, meta/release.md e meta/update.md; RCF usava nomes legados webPageLike.md/release.md/publish.md. RCF agora declara resolucao seletiva, roteador Web, tres modulos condicionais e metrica comparavel; busca legada vazia e git diff --check OK. Roteador+modulos geraram INDEX_OK files=22 e DIST_OK files=37. Verificador corrigido comprovou src->dist sem comparar governanca ativa e passou a rejeitar microconceito indefinido/duplicado e path Markdown inexistente, externo ou com caixa divergente: agent:verify=VERIFY_OK scripts=14 indexedFiles=22; agent:test=TEST_OK suites=2.
+verificacoes=Baseline: 19 arquivos, 71059 bytes UTF-8, 14069 tokens_proxy lexicais; AGENTS=19439/4156; Web monolitico=12498/2366. Resultado: 22 arquivos, 64234 bytes, 13452 proxy e 439 linhas; reducao global 6825 bytes/9,60% e 617 proxy/4,39%. Rota Web basica conservadora, contando registro integral: 33610 bytes/7074 proxy contra 40074/8173, reducao 16,13%/13,45%; resolucao seletiva por secao reduz adicionalmente. Referencias legadas/inexistentes eliminadas. Teste negativo rejeitou ./CLI.md por caixa divergente. Matriz final: INDEX_OK files=22; DIST_OK files=37; VERIFY_OK scripts=14 indexedFiles=22; TEST_OK suites=2; LINT_OK; git diff --check OK; worktree limpa.
 falhas=agent:view/agent:tree encaminham `--help` ao Node e nao exibem ajuda propria; comando PowerShell encapsulado perdeu variaveis por interpolacao, substituido por pipeline local curto e filtrado. agent:verify exigia paridade incorreta entre governanca ativa e fonte do produto; autorizacao humana permitiu corrigir a causa raiz para paridade fonte/publicado.
-pendencias=Medir resultado final; executar matriz completa; atualizar memoria/handoff; concluir dois commits e convergir branches.
+pendencias=Gerar handoff; concluir quarto commit; publicar dev e convergir branch primaria; encerrar memoria.
 
 FT-026|nome=Inbox e decisao construtora de issues upstream|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.010000|atualizacao=20260715.021000|conclusao=20260715.021000
 objetivo=Implementar o fluxo construtor para receber, sanitizar, indexar, encaminhar e avaliar issues recebidas, aplicando decisao rastreavel sem publicar efeito externo sem autorizacao do workflow.
