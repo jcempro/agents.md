@@ -231,13 +231,17 @@ riscos=Quebrar consumidores antigos; manter alias apontando a comportamento dive
   1/3 Testar execucao padrao sem argumentos [concluido]
   2/3 Testar mesclagem do package legado [concluido]
   3/3 Executar build e verify [concluido]
-3/3 Entrega [em andamento]
+3/4 Ponte de upstream [concluido]
+  1/3 Declarar sucessor e predecessor em metadado gerenciado [concluido]
+  2/3 Implementar wrapper sem escrita em check/dry-run [concluido]
+  3/3 Validar resolucao do sucessor e lock dinamico [concluido]
+4/4 Entrega [em andamento]
   1/2 Commitar mudanca funcional [concluido]
   2/2 Informar recuperacao de bootstrap ao consumidor [pendente]
 decisoes=Comando canonico=agent:autoupdate; agents:autoupdate, agent:agents e agents:update permanecem aliases temporarios equivalentes. Sem argumento aplica, commita e publica; --check e --dry-run nao escrevem.
 falhas=Consumidor legado bloqueia em scripts/.agents/repo-tools.js antes de chamar update-agents.js; chamada direta em --dry-run resolveu release:v0.0.6 e comprovou que o atualizador subjacente aceita modo normal. O upstream historico consultado pelo bootstrap antigo ainda aponta a v0.0.6, enquanto v0.0.9 reside no sucessor; nova versao isolada nao basta sem ponte de migracao do upstream historico.
-verificacoes=parseArgs vazio aceita modo efetivo; mergePackageManifest migra quatro aliases e preserva publish local; agent:autoupdate --help e alias agent:agents --help equivalentes; agent:test TEST_OK suites=4; build DIST_OK files=38; verify scripts=15 indexedFiles=22; diff-check OK.
-pendencias=Commitar; definir versao explicita e estrategia autorizada da ponte entre upstream historico e sucessor antes de publicar.
+verificacoes=parseArgs vazio aceita modo efetivo; mergePackageManifest migra quatro aliases e preserva publish local; agent:autoupdate --help e alias agent:agents --help equivalentes; wrapper virtual nao grava .agents/upstream.json; agent:autoupdate --dry-run resolveu release:v0.0.9 em jcempro/agents.md; agent:test TEST_OK suites=4; build DIST_OK files=40; verify scripts=16 indexedFiles=23; diff-check OK.
+pendencias=Commitar; publicar v0.0.10 no sucessor e ponte v0.0.10 no predecessor; validar consumidor isolado.
 
 FT-028|nome=Cabeçalho portátil e release 0.0.8|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.234731|atualizacao=20260715.235901|conclusao=20260715.235901
 objetivo=Normatizar preservação/inclusão de cabeçalho próprio de autoria/licença em código-fonte e entrega e publicar 0.0.8.

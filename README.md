@@ -50,6 +50,8 @@ O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horári
 
 `agents:update` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. O estado local anterior é consultado apenas para converter formatos e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.agents/local/`, `.agents/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
 
+Migração de upstream usa `.agents/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `agent:autoupdate` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
+
 Cada alteração estrutural do formato traz um descritor de linguagem, marcador de variação e conversor histórico. Configurações equivalentes devem preferir o mesmo parser e descritor para manter transições verificáveis.
 
 - `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `.agents/continue.ia`.
