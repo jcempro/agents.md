@@ -45,6 +45,7 @@ O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarqu
 `agents:update` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. O estado local anterior é consultado apenas para converter formatos e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.agents/local/`, `.agents/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
 
 Cada alteração estrutural do formato traz um descritor de linguagem, marcador de variação e conversor histórico. Configurações equivalentes devem preferir o mesmo parser e descritor para manter transições verificáveis.
+
 - `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `.agents/continue.ia`.
 
 ## Release
@@ -98,3 +99,15 @@ O comando interrompe antes de escrever quando houver alteração local, tag exis
 - [src/.agents/scenarios/web/page-like/scenario.md](src/.agents/scenarios/web/page-like/scenario.md): cenario Web Page Like.
 - [src/.agents/scenarios/release/scenario.md](src/.agents/scenarios/release/scenario.md): cenario Release.
 - [src/.agents/scenarios/content-publication/scenario.md](src/.agents/scenarios/content-publication/scenario.md): cenario Publicação de Conteúdo.
+
+## Autor
+
+[JeanCarloEM](https://www.jeancarloem.com)
+
+Migrado de [https://github.com/JeanCarloEM/agents.md](https://github.com/JeanCarloEM/agents.md).
+
+## Licença
+
+Mozilla Public License 2.0 (MPL-2.0) - https://mozilla.org
+
+Este código-fonte está sujeito aos termos da Mozilla Public License, v. 2.0. Se uma cópia da MPL não foi distribuída com este arquivo, você pode obter uma em https://mozilla.org.
