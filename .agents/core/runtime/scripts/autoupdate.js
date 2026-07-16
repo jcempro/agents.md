@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const childProcess = require("child_process");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const BACKEND_PATH = path.join(__dirname, "update-agents.js");
@@ -9,8 +10,70 @@ async function main(argv = process.argv.slice(2), options = {}) {
   const policy = readSuccessorPolicy(rootDir);
   global.SOURCE_OWNER = policy.upstreamRepository.split("/")[0];
   global.SOURCE_REPO = policy.upstreamRepository.split("/")[1];
-  return withVirtualUpstream(policy, rootDir, async () => require(BACKEND_PATH).main(argv, options));
+  const result = await withVirtualUpstream(policy, rootDir, async () => require(BACKEND_PATH).main(argv, options));
+  const migration = planPackageMigration(rootDir, policy);
+  if (migration.changed && (argv.includes("--dry-run") || argv.includes("--check"))) {
+    console.log("migrate: package.json aliases para agent:autoupdate");
+    if (argv.includes("--check")) process.exitCode = 2;
+  } else if (migration.changed && !argv.includes("--help")) {
+    applyPackageMigration(rootDir, migration);
+  }
+  return result;
 }
+
+function planPackageMigration(rootDir, policy) {
+  const packagePath = path.join(rootDir, "package.json");
+  if (!fs.existsSync(packagePath)) throw new Error("PACKAGE_JSON_AUSENTE");
+  const raw = fs.readFileSync(packagePath, "utf8");
+  const pkg = JSON.parse(raw);
+  const canonical = "node .agents/core/runtime/scripts/repo-tools.js agent:autoupdate";
+  const scripts = { ...(pkg.scripts || {}) };
+  for (const name of ["agent:autoupdate", "agents:autoupdate", "agent:agents", "agents:update"]) scripts[name] = canonical;
+  const next = {
+    ...pkg,
+    agentsUpstream: policy,
+    agentsGovernance: {
+      ...(pkg.agentsGovernance || {}),
+      schema: 1,
+      managedScriptPrefixes: ["agent:"],
+      managedScripts: ["agents:autoupdate", "agents:update"],
+      dependencies: Array.isArray(pkg.agentsGovernance && pkg.agentsGovernance.dependencies) ? pkg.agentsGovernance.dependencies : [],
+      optionalDependencies: Array.isArray(pkg.agentsGovernance && pkg.agentsGovernance.optionalDependencies) ? pkg.agentsGovernance.optionalDependencies : [],
+    },
+    scripts,
+  };
+  const indent = (raw.match(/\n([ \t]+)"[^"]+"\s*:/u) || [null, "  "])[1];
+  const eol = raw.includes("\r\n") ? "\r\n" : "\n";
+  const content = `${JSON.stringify(next, null, indent).replace(/\n/gu, eol)}${eol}`;
+  return { changed: normalizeText(raw) !== normalizeText(content), content, packagePath };
+}
+
+function applyPackageMigration(rootDir, migration) {
+  assertGitClean(rootDir);
+  fs.writeFileSync(migration.packagePath, migration.content, "utf8");
+  runGit(rootDir, ["add", "--", "package.json"]);
+  const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout.trim().split(/\r?\n/u).filter(Boolean);
+  if (staged.length !== 1 || staged[0] !== "package.json") throw new Error(`STAGING_MIGRACAO_INVALIDO:${staged.join(",")}`);
+  runGit(rootDir, ["commit", "-m", "ajuste: migra comando agent:autoupdate"]);
+  const branch = runGit(rootDir, ["branch", "--show-current"]).stdout.trim();
+  if (!branch) throw new Error("BRANCH_ATUAL_AUSENTE");
+  runGit(rootDir, ["push", "-u", "origin", branch]);
+  console.log("package.json migrado para agent:autoupdate.");
+}
+
+function assertGitClean(rootDir) {
+  const worktree = childProcess.spawnSync("git", ["-C", rootDir, "diff", "--quiet"], { encoding: "utf8" });
+  const staged = childProcess.spawnSync("git", ["-C", rootDir, "diff", "--cached", "--quiet"], { encoding: "utf8" });
+  if (worktree.status !== 0 || staged.status !== 0) throw new Error("WORKTREE_RASTREADO_SUJO_APOS_ATUALIZACAO");
+}
+
+function runGit(rootDir, args) {
+  const result = childProcess.spawnSync("git", ["-C", rootDir, ...args], { encoding: "utf8" });
+  if (result.status !== 0) throw new Error(`git ${args.join(" ")} falhou: ${result.stderr || result.stdout}`);
+  return result;
+}
+
+function normalizeText(value) { return String(value).replace(/\r\n/gu, "\n").trimEnd(); }
 
 function readSuccessorPolicy(rootDir) {
   const packagePath = path.join(rootDir, "package.json");
@@ -45,4 +108,4 @@ async function withVirtualUpstream(policy, rootDir, operation) {
 
 if (require.main === module) main().catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 
-module.exports = { main, readSuccessorPolicy, withVirtualUpstream };
+module.exports = { main, planPackageMigration, readSuccessorPolicy, withVirtualUpstream };

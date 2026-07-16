@@ -1239,7 +1239,9 @@ function toPosix(value) {
 
 function isManagedScriptPath(filePath) {
   const relativePath = toPosix(path.relative(ROOT_DIR, filePath));
-  return !relativePath.startsWith(".agents/hooks/") && !relativePath.startsWith(".agents/local/");
+  return relativePath.startsWith(".agents/core/runtime/scripts/")
+    || relativePath.startsWith(".agents/core/update/migrations/")
+    || /^\.agents\/scenarios\/[^/]+\/scripts\//u.test(relativePath);
 }
 
 if (require.main === module) {
@@ -1266,6 +1268,7 @@ module.exports = {
   buildDist,
   buildDistributionPackage,
   buildIndex,
+  isManagedScriptPath,
   main,
   resolveRelease,
   validateDist,

@@ -3,7 +3,8 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { mergePackageManifest, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
-const { readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
+const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
+const { isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
@@ -23,6 +24,11 @@ async function main() {
   assert.equal(merged.scripts["agent:agents"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:autoupdate"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:update"], merged.scripts["agent:autoupdate"]);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "core", "runtime", "scripts", "repo-tools.js")), true);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "core", "update", "migrations", "v1-to-v2.js")), true);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "scenarios", "release", "scripts", "release-hooks.js")), true);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "cache", "legacy-consumer", ".agents", "core", "runtime", "scripts", "to-ia.js")), false);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "local", "custom.js")), false);
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {
     fs.mkdirSync(path.join(root, ".agents", "core", "update"), { recursive: true });
@@ -30,6 +36,11 @@ async function main() {
     fs.writeFileSync(path.join(root, ".agents", "core", "update", "upstream.json"), JSON.stringify({ schema: 1, upstreamRepository: "new/repository", predecessorRepositories: ["old/repository"] }));
     const policy = readSuccessorPolicy(root);
     assert.equal(policy.upstreamRepository, "new/repository");
+    const migration = planPackageMigration(root, policy);
+    assert.equal(migration.changed, true);
+    const migrated = JSON.parse(migration.content);
+    assert.equal(migrated.scripts["agent:autoupdate"], migrated.scripts["agent:agents"]);
+    assert.equal(migrated.agentsUpstream.upstreamRepository, "new/repository");
     const local = path.join(root, ".agents", "upstream.json");
     await withVirtualUpstream(policy, root, async () => {
       assert.equal(fs.existsSync(local), true);
