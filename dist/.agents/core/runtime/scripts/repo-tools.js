@@ -472,7 +472,7 @@ function buildDistributionFiles(index) {
     sourcePath: file.path,
   }));
   const scripts = listFiles(path.join(ROOT_DIR, ".agents"))
-    .filter((filePath) => path.extname(filePath).toLocaleLowerCase("en-US") === ".js" && isManagedScriptPath(filePath))
+    .filter((filePath) => isManagedDistributionFile(filePath))
     .map((filePath) => ({
       name: path.basename(filePath),
       path: toPosix(path.relative(ROOT_DIR, filePath)),
@@ -1244,6 +1244,12 @@ function isManagedScriptPath(filePath) {
     || /^\.agents\/scenarios\/[^/]+\/scripts\//u.test(relativePath);
 }
 
+function isManagedDistributionFile(filePath) {
+  const relativePath = toPosix(path.relative(ROOT_DIR, filePath));
+  return (path.extname(filePath).toLocaleLowerCase("en-US") === ".js" && isManagedScriptPath(filePath))
+    || relativePath === ".agents/core/runtime/scripts/package.json";
+}
+
 if (require.main === module) {
   const stdout = process.stdout.write.bind(process.stdout);
   const stderr = process.stderr.write.bind(process.stderr);
@@ -1268,6 +1274,7 @@ module.exports = {
   buildDist,
   buildDistributionPackage,
   buildIndex,
+  isManagedDistributionFile,
   isManagedScriptPath,
   main,
   resolveRelease,

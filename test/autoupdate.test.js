@@ -4,7 +4,7 @@ const os = require("os");
 const path = require("path");
 const { mergePackageManifest, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
-const { isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
+const { isManagedDistributionFile, isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
@@ -29,6 +29,8 @@ async function main() {
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "scenarios", "release", "scripts", "release-hooks.js")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "cache", "legacy-consumer", ".agents", "core", "runtime", "scripts", "to-ia.js")), false);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", ".agents", "local", "custom.js")), false);
+  assert.equal(isManagedDistributionFile(path.join(__dirname, "..", ".agents", "core", "runtime", "scripts", "package.json")), true);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", ".agents", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {
     fs.mkdirSync(path.join(root, ".agents", "core", "update"), { recursive: true });
