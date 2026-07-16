@@ -620,7 +620,7 @@ verificacoes=node --check scripts/.agents/repo-tools.js e release-workflow.js OK
 convergencia=main recebeu fast-forward de origin/dev em 9662bb7 sem conflito; o registro final desta conclusao sera reconvergido antes do encerramento operacional.
 pendencias=Nenhuma.
 
-FT-029|nome=Aprovacao humana de issue e release 0.0.9|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260716.022319|atualizacao=20260716.022319
+FT-029|nome=Aprovacao humana de issue e release 0.0.9|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260716.022319|atualizacao=20260716.024345|conclusao=20260716.024345
 objetivo=Instituir ciclo inequivoco e auditavel da aprovacao humana ate o fechamento de todas as issues corrigidas por release e publicar a versao 0.0.9.
 escopo=RCF, cenarios upstream/release, CLI local, workflows online, continue.ia, manifesto/notas, README, testes, artefato distribuivel, release remoto e convergencia dev-main.
 nao_escopo=Aprovacao automatica por IA, fechamento automatico da issue ou implementacao do conteudo de uma issue aprovada.
@@ -640,14 +640,15 @@ aceite=O comando canonico exige issue, FT, papel construtor e --authorize; aplic
   1/3 Executar testes focados [concluido]
   2/3 Executar build e verificacao integral [concluido]
   3/3 Auditar diff e artefato [concluido]
-4/5 Release 0.0.9 [pendente]
-  1/3 Criar commits funcionais e preparatorio [pendente]
-  2/3 Publicar gatilho e acompanhar workflow [pendente]
-  3/3 Comprovar tag, asset e Latest [pendente]
-5/5 Fechamento [pendente]
-  1/3 Atualizar memoria e handoff [pendente]
-  2/3 Convergir dev para main [pendente]
-  3/3 Comprovar estado remoto final [pendente]
+4/5 Release 0.0.9 [concluido]
+  1/3 Criar commits funcionais e preparatorio [concluido]
+  2/3 Publicar gatilho e acompanhar workflow [concluido]
+  3/3 Comprovar tag, asset e Latest [concluido]
+5/5 Fechamento [concluido]
+  1/3 Atualizar memoria e handoff [concluido]
+  2/3 Convergir dev para main [concluido]
+  3/3 Comprovar estado remoto final [concluido]
 decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem aceite. Aceite humano usa agents:approved e comentario explicito; a sincronizacao cria FT unica por github:repositorio#numero. Push precede estado em desenvolvimento. Somente FTs concluidas vinculadas a versao sao fechadas pelo release, em lote e idempotentemente.
-verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK.
-pendencias=Criar commits restantes e publicar/comprovar release 0.0.9.
+verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK; workflow 29474724084 success; v0.0.9 Latest com agents-v0.0.9.zip e release-note.txt; tag=90c78db; dev/main=37ad389 antes do commit final.
+convergencia=Workflow convergiu dev e main em 37ad389; commit final de encerramento sera publicado e reconvergido imediatamente.
+pendencias=Nenhuma.
