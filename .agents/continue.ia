@@ -218,6 +218,43 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
+FT-027|nome=Otimizacao agressiva do contexto em src|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.221708|atualizacao=20260715.221708|conclusao=
+objetivo=Auditar e refatorar `./src` para reduzir carga de contexto e ambiguidade sem perda normativa, centralizando recorrencias, modularizando o cenario Web e validando equivalencia contra o RCF.
+escopo=RCF.md; src/AGENTS.md; src/.agents/core/concepts/; src/.agents/meta/; src/.agents/scenarios/; indice/dist derivados; validadores; memoria e handoff.
+nao_escopo=Alterar a governanca ativa `./AGENTS.md`; reduzir obrigacao, excecao, nuance ou matriz normativa; publicar release; especializar o produto para um consumidor.
+dependencias=FT-006, FT-016, FT-018 e FT-020 concluidas; branch dev limpa; RCF atual como autoridade de negocio.
+arquivos_previstos=RCF.md; src/AGENTS.md; src/.agents/core/concepts/microconceitos.md; src/.agents/meta/*.md; src/.agents/scenarios/web/page-like/; index.json; dist/; .agents/continue.ia; handoff.md.
+riscos=Perda semantica por densificacao; referencia circular/ausente; carregamento condicional omitir dependencia; fragmentacao violar compatibilidade; RCF e fonte divergirem; contagem de tokens cair por supressao indevida.
+testes=Inventario recursivo; auditoria de referencias; matriz W-MTX-42; comparacao de bytes/tokens; agent:index; agent:build; agent:test; agent:lint; agent:verify; git diff --check; paridade src/dist.
+aceite=Todas as regras conservam dono, modalidade, condicao, excecao e dependencia; referencias resolvem; cenario Web carrega apenas modulos aplicaveis; caminhos legados inexistentes sao eliminados; bytes/tokens diminuem sem regressao; build e verify passam.
+ordem=5
+1/5 Leitura e mapeamento [concluido]
+  1/4 Confirmar governanca, estado, branch e FT [concluido]
+  2/4 Inventariar arquivos, volume, referencias e concentracao [concluido]
+  3/4 Cruzar arquitetura viva com RCF e localizar divergencias [concluido]
+  4/4 Registrar baseline de bytes/tokens e duplicacoes [concluido]
+2/5 Contrato e microconceitos [em andamento]
+  1/3 Atualizar RCF antes da implementacao estrutural [concluido]
+  2/3 Centralizar regras recorrentes em microconceitos estaveis [pendente]
+  3/3 Densificar AGENTS sem reduzir substancia [pendente]
+3/5 Modularizacao critica [pendente]
+  1/3 Transformar scenario Web em roteador declarativo [pendente]
+  2/3 Segregar capacidades Web, hospedagem e editorial [pendente]
+  3/3 Declarar predicados, dependencias e ordem de carregamento [pendente]
+4/5 Saneamento semantico [pendente]
+  1/3 Corrigir referencias inexistentes e nomes legados [pendente]
+  2/3 Eliminar falsos positivos, inferencias e duplicacoes residuais [pendente]
+  3/3 Auditar resolucao, modalidade e propriedade normativa [pendente]
+5/5 Validacao e fechamento [pendente]
+  1/4 Medir reducao de bytes/tokens e equivalencia conceitual [pendente]
+  2/4 Regenerar indice/dist e executar testes/verify [pendente]
+  3/4 Produzir quatro commits funcionais e convergir branches [pendente]
+  4/4 Atualizar memoria/handoff e registrar resultado [pendente]
+decisoes=Preservar paths publicos existentes como roteadores de compatibilidade; modularizar por arquivos subordinados dentro do diretorio do cenario; RCF deve declarar predicados e dependencias antes da movimentacao; quatro commits sao obrigatorios pela classificacao agressiva.
+verificacoes=Baseline deterministico: src possui 19 arquivos, 71059 bytes UTF-8 e 14069 tokens_proxy lexicais; AGENTS.md=19439 bytes/4156 proxy; page-like/scenario.md=12498 bytes/2366 proxy. Referencias inexistentes detectadas em meta/publish.md, meta/release.md e meta/update.md; RCF usava nomes legados webPageLike.md/release.md/publish.md. RCF agora declara resolucao seletiva, roteador Web, tres modulos condicionais e metrica comparavel; busca legada vazia e git diff --check OK.
+falhas=agent:view/agent:tree encaminham `--help` ao Node e nao exibem ajuda propria; comando PowerShell encapsulado perdeu variaveis por interpolacao, substituido por pipeline local curto e filtrado.
+pendencias=Concluir baseline semantico; atualizar RCF; implementar, validar e commitar quatro marcos.
+
 FT-026|nome=Inbox e decisao construtora de issues upstream|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.010000|atualizacao=20260715.021000|conclusao=20260715.021000
 objetivo=Implementar o fluxo construtor para receber, sanitizar, indexar, encaminhar e avaliar issues recebidas, aplicando decisao rastreavel sem publicar efeito externo sem autorizacao do workflow.
 escopo=RCF; cenario upstream; inbox local/artefato; scripts agent; workflow GitHub Actions; testes; indice; README; dist; memoria.

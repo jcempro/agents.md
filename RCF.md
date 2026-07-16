@@ -15,7 +15,7 @@ Este RCF define as regras de negócio necessárias para reconstruir, validar e e
 - [objetivo] `AGENTS.md`: governança operacional global da IA ;
 - [!objetivo] `agents.local.md`: extensão local opcional [referência];
 - [!objetivo] `continue.ia` ou `continue.dev`: memória operacional oficial [referência];
-- [objetivo] arquivos especializados de cenário, inicialmente `webPageLike.md` e outros;
+- [objetivo] roteadores e módulos especializados sob `./.agents/scenarios/`;
 - [secundário] RCFs globais/específicos, README e demais documentos subordinados <sup>1</sup>.
 
 Seu objetivo não é reproduzir texto literal, mas preservar integralmente comportamento normativo, domínios, precedências, contratos, exceções, rastreabilidade e extensibilidade. Qualquer implementação conforme este RCF deve ser semanticamente equivalente ou superior, nunca mais fraca.
@@ -92,11 +92,17 @@ A raiz do repositório contém exclusivamente governança ativa, documentação,
 
 Maximizar a informação por caractere mediante normas coesas, baixo acoplamento, mínima redundância, máxima reutilização e microtextos reutilizáveis, referenciáveis e de alta densidade informacional; eliminar introduções extensas, floreios, preenchimentos, repetições e explicações óbvias, preservando integralmente regras, restrições, exceções, prioridades, precedências, condicionantes, dependências, precisão, profundidade, contexto, rastreabilidade, nuances interpretativas, exemplos, analogias, contraexemplos e referências úteis. Priorizar referências internas e microexplicações sempre que reduzirem tokens sem perda semântica, sobretudo em documentos destinados a máquinas ou IAs. **Concisão reduz somente a forma, nunca a substância; toda redução que suprima significado, rigor ou rastreabilidade é degradação, não otimização.**
 
+#### 0.1.1 Resolução seletiva e auditoria de contexto
+
+Referência a microconceito DEVE resolver somente os identificadores citados e suas dependências explícitas; não autoriza carregar por proximidade outro identificador do mesmo arquivo. Arquivo agregador DEVE conter somente índice, predicado, dependência e path estável. Roteador de cenário DEVE ser carregado antes dos módulos, avaliar predicados apenas por evidência do RCF/configuração/entrega e formar o fecho transitivo de dependências em ordem declarada. Módulo cujo predicado seja falso NÃO DEVE ser aberto; predicado sem evidência, dependência circular/ausente ou referência sem seção/path DEVE bloquear aplicação, nunca ser tratado como verdadeiro por analogia.
+
+Refatoração de contexto DEVE registrar baseline e resultado por arquivo e rota aplicável: bytes UTF-8, linhas, métrica de tokens declarada e dependências carregadas. Comparação só é válida com o mesmo método; proxy lexical DEVE ser identificado como proxy, nunca como tokenizador de modelo. Redução global NÃO compensa perda local: modalidade, dono, condição, exceção, valor, ordem e aceite DEVEM permanecer rastreáveis antes e depois.
+
 ### 0.2 Perfil editorial
 
 Aplicar **75% máquina/IA; 25% humano**:
 
-- sintaxe normativa, - consisão, elevado rigor, insicividade determinística, modular e indexável;
+- sintaxe normativa, concisão, rigor, incisividade determinística, modularidade e indexação;
 - contexto humano mínimo suficiente para impedir inferência incorreta;
 - referências internas preferidas à repetição;
 - exemplos somente quando delimitarem semântica, exceção ou contrato;
@@ -193,9 +199,12 @@ AGENTS.md
 └── .agents/
     ├── core/                     # conceitos, contratos, atualização e runtime transversal
     │   ├── contracts.md
+    │   ├── concepts/microconceitos.md
     │   └── runtime/scripts/
+    ├── meta/                     # contextos de script, resolvidos por index.json
     └── scenarios/<domínio>/<nome>/
-        ├── scenario.md
+        ├── scenario.md           # norma atômica ou roteador estável
+        ├── capabilities/         # módulos condicionais, quando multifuncional
         ├── scripts/
         ├── assets/
         └── tests/
@@ -220,6 +229,8 @@ A localização física dos cenários pode variar por decisão normativa da IA, 
 
 Diretório de cenário DEVE ser a unidade coesa de distribuição: sua norma, scripts, testes, assets e metadados ficam aninhados nele, salvo componente comprovadamente transversal promovido a `core/`. Índice DEVE mapear caminho, tipo, dependências e camada; build DEVE preservar a relação sem vazar `src/`; atualizador DEVE descobrir recursivamente conteúdo gerenciado, preservar extensões locais e rejeitar colisão ambígua.
 
+Arquivo com mais de um predicado independente DEVE tornar-se roteador e módulos atômicos no próprio diretório. O roteador conserva path público, define identificador, aplicabilidade, ordem, módulos e dependências, mas NÃO DEVE repetir suas regras. Módulo declara um único predicado observável, escopo, dependências e conteúdo integral; fragmentação por tamanho sem fronteira semântica é vedada.
+
 ### 2.3 Proibição de duplicação
 
 Regra deve existir em um único nível:
@@ -230,7 +241,7 @@ Regra deve existir em um único nível:
 - operação local específica → `agents.local.md`;
 - estado de execução → memória operacional.
 
-Repetição só é admitida como microresumo com referência explícita à autoridade original.
+Repetição só é admitida como microresumo com referência explícita à autoridade original. Referência DEVE resolver path e identificador/seção existentes; nome legado, destino implícito, path relativo ambíguo ou referência circular são não conformidade.
 
 ---
 
@@ -509,7 +520,7 @@ Todos os cenários devem observar:
 
 Cada cenário:
 
-- reside em Markdown independente;
+- mantém `scenario.md` estável como norma atômica ou roteador de módulos coesos;
 - é extensão direta do AGENTS, não RCF;
 - permanece genérico para sua categoria;
 - declara definição, escopo, aplicabilidade, limites, dependências, contratos, regras, exceções, precedência, segurança, privacidade, acessibilidade, desempenho, compatibilidade, validações e conclusão;
@@ -521,29 +532,35 @@ Antes de implementar:
 
 1. classificar projeto/entrega;
 2. localizar cenários no índice;
-3. carregar integralmente arquivos e dependências;
-4. aplicar cumulativamente AGENTS, cenários e RCF;
-5. registrar cenários aplicados e dispensas na memória.
+3. carregar o `scenario.md` do cenário selecionado;
+4. avaliar cada predicado somente com evidência autoritativa;
+5. calcular dependências transitivas, rejeitando ausência/ciclo;
+6. carregar integralmente apenas módulos verdadeiros e suas dependências, na ordem declarada;
+7. aplicar cumulativamente AGENTS, módulos/cenários e RCF;
+8. registrar módulos aplicados, dispensas e evidência na memória.
 
-Arquivo ausente, ilegível, divergente ou com dependência irresolvida é falha normativa; inferência silenciosa é proibida.
+Arquivo ausente, ilegível, divergente ou com dependência irresolvida é falha normativa; inferência silenciosa é proibida. Cenário atômico sem módulos aplica o próprio `scenario.md` integralmente.
 
 ### 4.5 Índice inicial
 
 O índice deve registrar:
 
-- **Web Page Like** → `webPageLike.md` §1;
-- **Web Page Like com gerador estático/hospedagem** → `webPageLike.md` §2; depende de §1;
-- **Sites/blogs com conteúdo editorial** → `webPageLike.md` §3; depende de §1 e §2 quando aplicável.
-- **Release** → `release.md`; aplica-se somente a versão/tag/asset/release publicável.
-- **Publicação de Conteúdo** → `publish.md`; aplica-se somente a artefato de Negócio publicável e depende do cenário técnico/RCF pertinente.
+- **Web Page Like** → `./.agents/scenarios/web/page-like/scenario.md` → `capabilities/browser.md`;
+- **Web estático/hospedagem** → mesmo roteador → `capabilities/static-hosting.md`; depende de `browser.md`;
+- **Editorial** → mesmo roteador → `capabilities/editorial.md`; depende de `browser.md` e de `static-hosting.md` somente quando a entrega for estática.
+- **Release** → `./.agents/scenarios/release/scenario.md`; aplica-se somente a versão/tag/asset/release publicável.
+- **Publicação de Conteúdo** → `./.agents/scenarios/content-publication/scenario.md`; aplica-se somente a artefato de Negócio publicável e depende do cenário técnico/RCF pertinente.
+- **Evolução upstream** → `./.agents/scenarios/governance/upstream-sharing/scenario.md`; aplica-se ao consumidor contribuinte e à inbox formal do construtor.
 
-Novo cenário exige somente novo arquivo, nova linha no índice, dependências e validação de não duplicidade.
+Novo cenário exige `scenario.md`, nova linha no índice, dependências e validação de não duplicidade; módulos adicionais só são admitidos para predicados independentes comprovados.
 
 ---
 
-## 5. Contrato de `webPageLike.md`
+## 5. Contrato de `./.agents/scenarios/web/page-like/`
 
-O arquivo herda o item 17 e contém três cenários cumulativos: Web Page Like, gerador/hospedagem e conteúdo editorial.
+`scenario.md` DEVE conter apenas identidade, precedência, predicados, ordem e mapa de módulos. `capabilities/browser.md`, `capabilities/static-hosting.md` e `capabilities/editorial.md` projetam respectivamente §§5.1, 5.2 e 5.3; cada um DEVE declarar o próprio predicado e aplicar somente após resolução do roteador. O path do roteador permanece estável e a adição dos módulos é compatível por extensão recursivamente indexada, sem remover ou renomear artefato gerenciado anterior.
+
+O diretório herda o item 17 e compõe três capacidades cumulativas: Web Page Like, gerador/hospedagem e conteúdo editorial.
 
 ## 5.1 Cenário-base Web Page Like
 
@@ -833,7 +850,7 @@ Executar nesta ordem:
 5. reconstruir seções 0–16 conforme §3;
 6. reconstruir item 17 conforme §4;
 7. reconstruir seção 18/API operacional conforme §3.14;
-8. gerar `webPageLike.md` conforme §5;
+8. gerar o roteador e os módulos de `./.agents/scenarios/web/page-like/` conforme §5;
 9. validar a matriz W-MTX-42 e os parâmetros editoriais declarados;
 10. comparar efeitos normativos com as fontes;
 11. auditar perda, enfraquecimento, deslocamento de domínio, arbitrariedade e conflito;
@@ -883,7 +900,7 @@ Confirmar:
 
 - AGENTS governa IA;
 - item 17 governa arquitetura de cenários;
-- `webPageLike.md` governa Web;
+- o roteador e os módulos de `./.agents/scenarios/web/page-like/` governam Web;
 - API operacional possui contrato, matriz e dispensa rastreável;
 - RCF governa projeto;
 - extensão local governa operação local;
@@ -916,8 +933,8 @@ A reconstrução só é concluída quando todas as respostas forem “sim”:
 1. O documento resultante preserva integralmente a norma?
 2. AGENTS e RCF permanecem em domínios distintos?
 3. O item 17 está livre de Web Page Like?
-4. `webPageLike.md` contém toda regra Web?
-5. Novos cenários exigem apenas novo arquivo e índice?
+4. O roteador Web resolve toda regra ao módulo proprietário sem carregar módulo inaplicável?
+5. Novo cenário exige somente roteador/arquivo atômico, índice e módulos justificados por predicados independentes?
 6. Nenhuma obrigação foi enfraquecida?
 7. Nenhuma particularidade local contaminou a camada global?
 8. A densidade aumentou sem perda semântica?
@@ -934,7 +951,7 @@ A implementação deste RCF deve produzir, conforme escopo:
 - `AGENTS.md` completo ou seções integralmente alteradas;
 - item 17 desacoplado;
 - seção 18/API operacional consolidada;
-- `webPageLike.md` completo;
+- roteador e módulos Web completos;
 - RCFs/README/memória sincronizados quando afetados;
 - relatório sucinto de validação;
 - `COMMIT_SUGERIDO`;
