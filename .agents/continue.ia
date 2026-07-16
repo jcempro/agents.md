@@ -218,7 +218,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
-FT-030|nome=Autoupdate explicito e recuperacao de bootstrap legado|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260716.024500|atualizacao=20260716.025241
+FT-030|nome=Autoupdate explicito e recuperacao de bootstrap legado|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260716.024500|atualizacao=20260716.033823|conclusao=20260716.033823
 objetivo=Tornar explicita a atualizacao automatica pelo comando agent:autoupdate e impedir que despachantes legados bloqueiem a execucao normal sem argumentos.
 escopo=Contrato fonte, RCF, README, scripts npm, despachante, atualizador, mesclagem de manifesto, testes isolados e artefato distribuivel.
 nao_escopo=Aplicar mutacao no repositorio consumidor sem solicitacao explicita; remover aliases legados nesta versao.
@@ -231,17 +231,21 @@ riscos=Quebrar consumidores antigos; manter alias apontando a comportamento dive
   1/3 Testar execucao padrao sem argumentos [concluido]
   2/3 Testar mesclagem do package legado [concluido]
   3/3 Executar build e verify [concluido]
-3/4 Ponte de upstream [concluido]
+3/5 Ponte de upstream [concluido]
   1/3 Declarar sucessor e predecessor em metadado gerenciado [concluido]
   2/3 Implementar wrapper sem escrita em check/dry-run [concluido]
   3/3 Validar resolucao do sucessor e lock dinamico [concluido]
-4/4 Entrega [em andamento]
+4/5 Portabilidade e artefato [concluido]
+  1/3 Excluir cache e extensoes da coleta gerenciada [concluido]
+  2/3 Distribuir fronteira CommonJS na raiz .agents [concluido]
+  3/3 Validar consumidor type=module realista [concluido]
+5/5 Entrega [concluido]
   1/2 Commitar mudanca funcional [concluido]
-  2/2 Informar recuperacao de bootstrap ao consumidor [pendente]
+  2/2 Publicar sucessor, ponte historica e validar Latest [concluido]
 decisoes=Comando canonico=agent:autoupdate; agents:autoupdate, agent:agents e agents:update permanecem aliases temporarios equivalentes. Sem argumento aplica, commita e publica; --check e --dry-run nao escrevem.
-falhas=Consumidor legado bloqueia em scripts/.agents/repo-tools.js antes de chamar update-agents.js; chamada direta em --dry-run resolveu release:v0.0.6 e comprovou que o atualizador subjacente aceita modo normal. O upstream historico consultado pelo bootstrap antigo ainda aponta a v0.0.6, enquanto v0.0.9 reside no sucessor; nova versao isolada nao basta sem ponte de migracao do upstream historico.
-verificacoes=parseArgs vazio aceita modo efetivo; mergePackageManifest migra quatro aliases e preserva publish local; agent:autoupdate --help e alias agent:agents --help equivalentes; wrapper virtual nao grava .agents/upstream.json; agent:autoupdate --dry-run resolveu release:v0.0.9 em jcempro/agents.md; agent:test TEST_OK suites=4; build DIST_OK files=40; verify scripts=16 indexedFiles=23; diff-check OK.
-pendencias=Commitar; publicar v0.0.10 no sucessor e ponte v0.0.10 no predecessor; validar consumidor isolado.
+falhas=Bootstrap legado bloqueava no despachante e consultava predecessor em v0.0.6; v0.0.10 instalou o nucleo mas preservou package legado; coleta ampla incluiu .agents/cache; v0.0.12 delimitou somente runtime e ainda deixou migracao herdar type=module. A fronteira .agents/package.json da v0.0.13 resolveu nucleo, migracoes e cenarios. Dois workflows v0.0.13 concorreram; run 29477242364 publicou e convergiu, enquanto 29477242090 falhou apenas ao reencontrar tag/release existentes.
+verificacoes=parseArgs vazio aceita modo efetivo; aliases migram em commit exclusivo e preservam publish local; coleta gerenciada exclui cache/local/hooks; agent:test TEST_OK suites=4; build DIST_OK files=42; verify scripts=16 indexedFiles=23; diff-check OK. Releases Latest v0.0.13 em jcempro/agents.md e JeanCarloEM/agents.md com ZIP sha256 ef6488a5f257ecabae5b1b7fe5f8bda7f02c47ebcb7403a39c47a28dda75a7a2 e notas sha256 8aeb77247f02796e706f9f83a7dbc212a713f991758b0e4c149b70110e0b5936. Ensaio legado isolado: bootstrap v0.0.13, sucessor jcempro/agents.md, fronteira CommonJS, dois commits publicados, aliases canonicos, script publish preservado, dry-run sem alteracao e HEAD local/remoto 68d92648af45f330cea222ee72a4a4654111e8e0.
+pendencias=Nenhuma.
 
 FT-028|nome=Cabeçalho portátil e release 0.0.8|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.234731|atualizacao=20260715.235901|conclusao=20260715.235901
 objetivo=Normatizar preservação/inclusão de cabeçalho próprio de autoria/licença em código-fonte e entrega e publicar 0.0.8.
