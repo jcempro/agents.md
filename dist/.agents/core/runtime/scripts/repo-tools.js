@@ -141,6 +141,36 @@ const COMMANDS = {
     run: () => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "upstream-share.js"), ["self-test"]),
     status: "available",
   },
+  "agent:inbox:event": {
+    description: "sanitiza e indexa evento de issue no construtor",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["event", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:fetch": {
+    description: "busca e indexa issue para avaliacao construtora",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["fetch", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:evaluate": {
+    description: "avalia item sanitizado da inbox sem efeito remoto",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["evaluate", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:process": {
+    description: "processa evento da inbox e exige autorizacao para efeito remoto",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["process", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:apply": {
+    description: "aplica efeito da avaliacao construtora somente com autorizacao",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["apply", ..._args]),
+    status: "available",
+  },
+  "agent:test:inbox": {
+    description: "executa verificacao local da inbox construtora",
+    run: () => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["self-test"]),
+    status: "available",
+  },
 };
 
 Object.assign(COMMANDS, {
@@ -310,7 +340,7 @@ const CANONICAL_COMMANDS = [
   "agent:test", "agent:lint", "agent:format", "agent:typecheck", "agent:benchmark", "agent:security", "agent:analyze",
   "agent:deps", "agent:update-deps", "agent:licenses",
   "agent:index", "agent:map", "agent:handoff", "agent:docs", "agent:rcf", "agent:agents",
-  "agent:upstream:check", "agent:upstream:prepare", "agent:upstream:publish", "agent:upstream:assess", "agent:upstream:apply-assessment", "agent:test:upstream",
+  "agent:upstream:check", "agent:upstream:prepare", "agent:upstream:publish", "agent:upstream:assess", "agent:upstream:apply-assessment", "agent:test:upstream", "agent:inbox:event", "agent:inbox:fetch", "agent:inbox:evaluate", "agent:inbox:process", "agent:inbox:apply", "agent:test:inbox",
   "agent:parse-data", "agent:summarize", "agent:convert", "agent:validate-data", "agent:index-data", "agent:query-data",
 ];
 
@@ -522,7 +552,8 @@ function verify() {
 function testAll() {
   verify();
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "upstream-share.test.js")]);
-  return ok("TEST_OK", { suites: 1 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-inbox.test.js")]);
+  return ok("TEST_OK", { suites: 2 });
 }
 
 function validateIndex(index) {
@@ -547,6 +578,7 @@ function validateDist() {
   assertFile(path.join(DIST_DIR, ".agents", "scenarios", "release", "scenario.md"), "dist/.agents/scenarios/release/scenario.md ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "scenarios", "web", "page-like", "scenario.md"), "dist/.agents/scenarios/web/page-like/scenario.md ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "core", "runtime", "scripts", "public-client.js"), "dist/.agents/core/runtime/scripts/public-client.js ausente.");
+  assertFile(path.join(DIST_DIR, ".agents", "core", "runtime", "scripts", "issue-inbox.js"), "dist/.agents/core/runtime/scripts/issue-inbox.js ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "core", "runtime", "scripts", "upstream-share.js"), "dist/.agents/core/runtime/scripts/upstream-share.js ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "scenarios", "release", "scripts", "release-hooks.js"), "dist/.agents/scenarios/release/scripts/release-hooks.js ausente.");
   assertFile(DISTRIBUTION_PACKAGE_PATH, "dist/package.json ausente.");

@@ -217,6 +217,35 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
   3/3 Publicar branches convergidas [concluido]
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
+
+FT-026|nome=Inbox e decisao construtora de issues upstream|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.010000|atualizacao=20260715.015000
+objetivo=Implementar o fluxo construtor para receber, sanitizar, indexar, encaminhar e avaliar issues recebidas, aplicando decisao rastreavel sem publicar efeito externo sem autorizacao do workflow.
+escopo=RCF; cenario upstream; inbox local/artefato; scripts agent; workflow GitHub Actions; testes; indice; README; dist; memoria.
+nao_escopo=Aceitar ou fechar issue automaticamente, alterar AGENTS.md raiz, chamar IA remota obrigatoria, criar release ou expor conteudo sensivel.
+dependencias=FT-022 a FT-025 concluidas; cliente publico fail-safe; comandos upstream existentes.
+arquivos_previstos=RCF.md; .agents/core/runtime/scripts/issue-inbox.js; .agents/meta/upstream.md; .agents/meta/index.json; .agents/scenarios/governance/upstream-sharing/scenario.md; .github/workflows/issues-inbox.yml; package.json; README.md; test/; src/.agents/; src/AGENTS.md; index.json; dist/; handoff.md.
+riscos=Rotular/comentar issue indevida; duplicar notificacao; evento malformado; segredo em artifact; workflow com permissao excessiva; classificacao automatica apresentada como aceite humano.
+testes=Fixtures de payload issue; sanitizacao; indexacao idempotente; graus e mensagens; dry-run; node --check; agent:test; agent:build; agent:verify; validacao YAML e permissao minima.
+aceite=Evento issues gera inbox sanitizada e indexada; avaliacao retorna grau e proxima acao; recusa/not-recomendacao responde apenas quando autorizada; recomendacao aplica rotulo/comentario e notifica por opcao explicita; workflow usa permissions minimas e artifact sem segredo.
+ordem=1
+1/4 Estado e norma [concluido]
+  1/3 Confirmar lacuna de workflow e inbox [concluido]
+  2/3 Criar FT, riscos, testes e aceite [concluido]
+  3/3 Compactar contexto [concluido]
+2/4 Contrato construtor [concluido]
+  1/3 Normatizar inbox, graus e autoridade [concluido]
+  2/3 Declarar metaarquivo, comandos e configuracao [concluido]
+  3/3 Sincronizar fonte distribuivel [concluido]
+3/4 Implementacao [concluido]
+  1/4 Implementar ingestao, sanitizacao e indice [concluido]
+  2/4 Implementar avaliacao, resposta e aplicacao autorizada [concluido]
+  3/4 Integrar despachante, pacote e testes [concluido]
+  4/4 Criar workflow por evento de issue e artifact [concluido]
+4/4 Validacao e fechamento [em_andamento]
+  1/4 Executar fixtures, sintaxe e checks [concluido]
+  2/4 Regenerar indice, dist e handoff [concluido]
+  3/4 Commitar e convergir conforme politica [em_andamento]
+  4/4 Registrar resultado e pendencias externas [pendente]
 FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.015000|atualizacao=20260713.025500|conclusao=20260713.025500
 objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie commit exclusivo release, envie o gatilho ao GitHub, acompanhe o workflow e confirme release e convergencia.
 1/4 Diagnostico e seguranca [concluido]

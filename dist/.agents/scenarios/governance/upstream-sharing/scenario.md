@@ -1,6 +1,6 @@
 # Cenário Evolução upstream de AGENTS.md
 
-Extensão de `AGENTS.md` §§0, 17–18; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-OUT`, `MN-CMD`, `MN-API`, `MN-DEF`, `MN-STATE`, `MN-VAL`, `MN-REF` e `core/contracts.md`. Aplica-se somente à IA consumidora que identifica contribuição reutilizável à aplicação; não rege a IA construtora fora da avaliação formal de proposta.
+Extensão de `AGENTS.md` §§0, 17–18; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-OUT`, `MN-CMD`, `MN-API`, `MN-DEF`, `MN-STATE`, `MN-VAL`, `MN-REF` e `core/contracts.md`. Aplica-se à IA consumidora que identifica contribuição reutilizável e à automação/IA construtora somente para inbox e avaliação formal de issue; não transfere autoridade entre os papéis.
 
 ## 1. Papéis, fontes e autoridade
 
@@ -23,3 +23,11 @@ Automação valida função, destino, permissão, versão, atualização, não d
 ## 4. Integração, segurança e validação
 
 Comandos usam cliente público fail-safe, `to-ia`, timeout, tamanho máximo, classificação de HTTP/rede/sintaxe/servidor, retry somente de leitura idempotente e cache declarado. Mutação exige autorização e não recebe retry implícito. Segredo, dado pessoal, domínio/caminho privado, conteúdo de cliente e identificador sensível não entram em log, cache, estado, artefato ou issue. Falha externa retorna estado acionável, preserva proposta e permite dry-run/offline. Validar papéis, fontes, atualização, duplicação, recusa, sanitização, autorização, registro e ausência de alteração no núcleo do consumidor.
+
+## 5. Inbox e avaliação construtora
+
+Automação construtora recebe issue como entrada não confiável, valida evento/destino e cria inbox sanitizada com número, URL, autor, idioma, título, corpo, labels, estado, atualização e hash. Índice usa chave repositório+número+`updated_at`/hash, separa recebido, aguardando evidência, recusado, não recomendado, recomendado e altamente recomendado e não duplica efeito para mesma chave. CI efêmero publica somente artifact sanitizado; inbox local permanece em extensão/cache do construtor.
+
+A avaliação confere duplicação, recusa, substância, generalização, segurança, compatibilidade, custo, manutenção, evidência e alternativa por hook/cenário. IA opcional só recebe dado sanitizado e não decide aceite definitivo. Recusado/não recomendado gera resposta curta, cordial e no idioma do autor, com fallback pt-BR; recomendado/altamente recomendado recebe label e comentário técnico curto para decisão manual. Menção de colaboradores exige opção e configuração explícitas. Nenhuma automação fecha issue, aprova mudança, altera fonte, cria release ou repete comentário/label sem nova evidência/autorização.
+
+Workflow usa `issues` declarado, permissões mínimas `contents: read` e `issues: write`, concorrência por issue, validação de payload e artifact sanitizado. Execução manual aceita número e dry-run; reindexação/reavaliação local não emite efeito externo. Falha conserva inbox pendente e diagnóstico acionável.
