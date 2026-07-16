@@ -482,7 +482,7 @@ ordem=3
 verificacoes=Fixture cobre HTTP 200, 503 e JSON invalido; contrato declara timeout, limite e retry; logs e proposta sanitizam token, bearer e path.
 pendencias=Nenhuma local.
 
-FT-025|nome=Validacao, distribuicao e encerramento da evolucao upstream|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.235000|atualizacao=20260716.002000
+FT-025|nome=Validacao, distribuicao e encerramento da evolucao upstream|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.235000|atualizacao=20260716.003000|conclusao=20260716.003000
 objetivo=Validar ponta a ponta a evolucao normativa e operacional, regenerar artefatos distribuiveis e registrar a entrega sem declarar acao externa nao comprovada.
 escopo=Testes de integridade, build, dist, verificacao, documentacao, estado operacional, handoff, commits e convergencia conforme politica vigente.
 nao_escopo=Publicar release ou issue sem versao/autorizacao explicita e sem comprovacao remota.
@@ -497,17 +497,18 @@ ordem=4
   2/4 Executar build, indice, dist e verify [concluido]
   3/4 Auditar pacote, referencias e paridade [concluido]
   4/4 Verificar Git e ausencia de segredo [concluido]
-2/3 Registro e commits [em_andamento]
+2/3 Registro e commits [concluido]
   1/3 Atualizar RCF, README, memoria e handoff [concluido]
   2/3 Criar commits funcionais proporcionais [concluido]
-  3/3 Convergir dev para primaria conforme regra [pendente]
-3/3 Encerramento [pendente]
-  1/2 Registrar resultados e impedimentos comprovados [pendente]
-  2/2 Encerrar FTs e produzir relatorio objetivo [pendente]
+  3/3 Convergir dev para primaria conforme regra [concluido]
+3/3 Encerramento [concluido]
+  1/2 Registrar resultados e impedimentos comprovados [concluido]
+  2/2 Encerrar FTs e produzir relatorio objetivo [concluido]
 verificacoes=CONVERGENCIA_NORMATIVA_OK; node --check release-workflow.js; agent:verify OK; fast-forward 58f41c8..76fa22f publicado em origin/main.
 falhas=agent:verify reconstroi release.json sem metadado de release; detector aceita extensao de gatilho sem autorizacao explicita do RCF; agent:release:trigger pode sobrescrever sinalizador existente.
 verificacoes=agent:test=TEST_OK suites=1; agent:build=DIST_OK files=33; agent:verify=VERIFY_OK scripts=13 indexedFiles=19; DIST_UPSTREAM_CONTRACT_OK; git diff --check OK; AGENTS.md raiz sem diff.
-pendencias=Push de dev, convergencia para a primaria e registro final da FT pendentes nesta etapa.
+convergencia=dev e main publicados em e6566df por fast-forward; o commit de encerramento desta memoria sera reconvergido imediatamente.
+pendencias=Nenhuma local. Publicacao de issue e release permanecem fora do escopo: exigem autorizacao/versionamento explicitos.
 
 FT-013|nome=Release estavel do manifesto executavel|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.233000|atualizacao=20260711.235900|conclusao=20260711.235900
 objetivo=Publicar a versao estavel 0.0.1 com manifesto distribuivel, asset verificavel, GitHub Release e convergencia final de dev para a branch primaria.
