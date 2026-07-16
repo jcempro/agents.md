@@ -18,6 +18,7 @@ async function main(argv = process.argv.slice(2)) {
   if (command === "evaluate") return print(evaluateRecord(readJson(required(options.positionals[0], "record")), options));
   if (command === "process") return print(await processEvent(readJson(required(options.positionals[0], "event")), options));
   if (command === "apply") return print(await applyAssessment(readJson(required(options.positionals[0], "assessment")), options));
+  if (command === "approve") return print(await approveIssue(options));
   if (command === "self-test") return print(selfTest());
   throw new UsageError(`COMANDO_INBOX_INVALIDO:${command || "(vazio)"}`);
 }
@@ -164,6 +165,42 @@ async function applyAssessment(assessment, options = {}) {
   return { code: "INBOX_EFFECT_APPLIED", commented: !commented, issue, labeled, notified: Boolean(options.notifyCollaborators && config.notifyCollaborators === true) };
 }
 
+async function approveIssue(options = {}) {
+  assertConstructor(options);
+  if (!options.authorize) throw new Error("AUTORIZACAO_EXPLICITA_EXIGIDA");
+  const plan = approvalPlan(options.issue);
+  if (options.dryRun) return { code: "INBOX_APPROVAL_DRY_RUN", ...plan, published: false };
+  const config = readConfig();
+  const repository = required(validRepository(config.upstreamRepository) ? config.upstreamRepository : "", "upstreamRepository");
+  const token = required(process.env.AGENTS_GITHUB_TOKEN, "AGENTS_GITHUB_TOKEN");
+  const issueData = await github(config, `/repos/${repository}/issues/${plan.issue}`, "GET", { token });
+  if (!issueData.ok) return { code: "INBOX_APPROVAL_CHECK_UNAVAILABLE", issue: plan.issue, remote: projectResponse(issueData) };
+  const comments = await github(config, `/repos/${repository}/issues/${plan.issue}/comments?per_page=100`, "GET", { token });
+  if (!comments.ok) return { code: "INBOX_COMMENT_CHECK_UNAVAILABLE", issue: plan.issue, remote: projectResponse(comments) };
+  const existingLabels = normalizeLabels(issueData.data.labels);
+  const labeled = existingLabels.includes(plan.label);
+  const commented = Array.isArray(comments.data) && comments.data.some((entry) => String(entry.body || "").includes(plan.marker));
+  if (!labeled) {
+    const labelCheck = await github(config, `/repos/${repository}/labels/${encodeURIComponent(plan.label)}`, "GET", { token });
+    if (!labelCheck.ok && labelCheck.status === 404) {
+      const created = await github(config, `/repos/${repository}/labels`, "POST", { body: JSON.stringify({ color: "1d76db", description: "Aprovada pelo mantenedor para implementação", name: plan.label }), token });
+      if (!created.ok && created.status !== 422) return { code: "INBOX_APPROVAL_LABEL_CREATE_FAILED", issue: plan.issue, remote: projectResponse(created) };
+    } else if (!labelCheck.ok) return { code: "INBOX_APPROVAL_LABEL_CHECK_FAILED", issue: plan.issue, remote: projectResponse(labelCheck) };
+    const labelResult = await github(config, `/repos/${repository}/issues/${plan.issue}/labels`, "POST", { body: JSON.stringify({ labels: [plan.label] }), token });
+    if (!labelResult.ok) return { code: "INBOX_APPROVAL_LABEL_FAILED", issue: plan.issue, remote: projectResponse(labelResult) };
+  }
+  if (!commented) {
+    const comment = await github(config, `/repos/${repository}/issues/${plan.issue}/comments`, "POST", { body: JSON.stringify({ body: `${plan.message}\n\n${plan.marker}` }), token });
+    if (!comment.ok) return { code: "INBOX_APPROVAL_COMMENT_FAILED", issue: plan.issue, remote: projectResponse(comment) };
+  }
+  return { code: "INBOX_APPROVED", commented: !commented, issue: plan.issue, labeled: !labeled };
+}
+
+function approvalPlan(issueValue) {
+  const issue = positiveInt(issueValue, "issue");
+  return { issue, label: "agents:approved", marker: `<!-- agents-approved:${issue} -->`, message: "Aprovada para implementação.", planned: ["label", "comment"] };
+}
+
 async function collaboratorMentions(config, repository, token) {
   const result = await github(config, `/repos/${repository}/collaborators?per_page=100`, "GET", { token });
   if (!result.ok || !Array.isArray(result.data)) return "";
@@ -231,7 +268,7 @@ function relative(file) { return path.relative(ROOT_DIR, file).split(path.sep).j
 function sha256(value) { return crypto.createHash("sha256").update(String(value), "utf8").digest("hex"); }
 function projectResponse(response) { return { code: response.code, ok: response.ok, status: response.status }; }
 function print(value) { console.log(JSON.stringify(value)); return 0; }
-function help() { return "Uso: issue-inbox <event <evento.json>|fetch <numero>|evaluate <registro.json>|process <evento.json>|apply <avaliacao.json>|self-test> [--role constructor|dual] [--authorize] [--dry-run] [--issue <numero>] [--notify-collaborators]\n"; }
+function help() { return "Uso: issue-inbox <event <evento.json>|fetch <numero>|evaluate <registro.json>|process <evento.json>|apply <avaliacao.json>|approve --issue <n>|self-test> [--role constructor|dual] [--authorize] [--dry-run] [--notify-collaborators]\n"; }
 
 function selfTest() {
   const payload = { action: "opened", issue: { body: "## Proposta\nAdicionar hook reutilizável com teste e evidência.", html_url: "https://github.com/owner/repository/issues/7", labels: [{ name: "proposal" }], number: 7, state: "open", title: "Hook reutilizável", updated_at: "2026-07-15T00:00:00Z", user: { login: "contributor" } }, repository: { full_name: "owner/repository" } };
@@ -245,4 +282,4 @@ class UsageError extends Error { constructor(message) { super(message); this.exi
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 
-module.exports = { evaluateRecord, main, normalizeIssue, persistRecord, receiveEvent, sanitizeIssueText };
+module.exports = { approvalPlan, evaluateRecord, main, normalizeIssue, persistRecord, receiveEvent, sanitizeIssueText };

@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   detect-release:
@@ -111,7 +112,14 @@ jobs:
           fi
 
       - name: Gerar release local
-        run: node .agents/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
+        run: |
+          node .agents/core/runtime/scripts/issue-lifecycle.js bind-release "$env:RELEASE_VERSION" --role constructor
+          git diff --quiet -- .agents/continue.ia
+          if ($LASTEXITCODE -ne 0) {
+            git add .agents/continue.ia
+            git commit -m "chore: vincula issues ao release v$env:RELEASE_VERSION"
+          }
+          node .agents/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
         shell: pwsh
 
       - name: Publicar release e finalizar marcador
@@ -138,6 +146,8 @@ jobs:
           retry git push origin "v${RELEASE_VERSION}"
           retry gh release create "v${RELEASE_VERSION}" "dist/agents-v${RELEASE_VERSION}.zip" "dist/release-note.txt" --title "v${RELEASE_VERSION}" --notes-file "dist/release-note.txt" --latest
           node .agents/scenarios/release/scripts/release-hooks.js published "$RELEASE_VERSION" "dist/agents-v${RELEASE_VERSION}.zip"
+          AGENTS_GITHUB_TOKEN="$GH_TOKEN" node .agents/core/runtime/scripts/issue-lifecycle.js complete-release "$RELEASE_VERSION" --role constructor --authorize
+          git add .agents/continue.ia
           node .agents/scenarios/release/scripts/release-workflow.js finalize "$RELEASE_VERSION" "$RELEASE_FILE"
           retry git push origin "HEAD:${{ github.ref_name }}"
           # PROTECAO: release local altera artefatos rastreados que bloqueiam o checkout da primaria.

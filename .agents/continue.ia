@@ -636,10 +636,10 @@ aceite=O comando canonico exige issue, FT, papel construtor e --authorize; aplic
   1/3 Implementar aprovacao, sincronizacao e inicio [concluido]
   2/3 Vincular release e finalizar todas as issues correlacionadas [concluido]
   3/3 Expor API local e workflows online idempotentes [concluido]
-3/5 Validacao [em andamento]
-  1/3 Executar testes focados [pendente]
-  2/3 Executar build e verificacao integral [pendente]
-  3/3 Auditar diff e artefato [pendente]
+3/5 Validacao [concluido]
+  1/3 Executar testes focados [concluido]
+  2/3 Executar build e verificacao integral [concluido]
+  3/3 Auditar diff e artefato [concluido]
 4/5 Release 0.0.9 [pendente]
   1/3 Criar commits funcionais e preparatorio [pendente]
   2/3 Publicar gatilho e acompanhar workflow [pendente]
@@ -649,4 +649,5 @@ aceite=O comando canonico exige issue, FT, papel construtor e --authorize; aplic
   2/3 Convergir dev para main [pendente]
   3/3 Comprovar estado remoto final [pendente]
 decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem aceite. Aceite humano usa agents:approved e comentario explicito; a sincronizacao cria FT unica por github:repositorio#numero. Push precede estado em desenvolvimento. Somente FTs concluidas vinculadas a versao sao fechadas pelo release, em lote e idempotentemente.
-pendencias=Concluir validacao, commits e release 0.0.9.
+verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK.
+pendencias=Criar commits restantes e publicar/comprovar release 0.0.9.

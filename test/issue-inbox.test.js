@@ -2,7 +2,7 @@ const assert = require("assert");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { evaluateRecord, normalizeIssue, persistRecord, sanitizeIssueText } = require("../.agents/core/runtime/scripts/issue-inbox");
+const { approvalPlan, evaluateRecord, normalizeIssue, persistRecord, sanitizeIssueText } = require("../.agents/core/runtime/scripts/issue-inbox");
 
 function main() {
   const payload = {
@@ -29,6 +29,14 @@ function main() {
   const assessment = evaluateRecord(record, { persist: false });
   assert.equal(assessment.grade, "highly_recommended");
   assert.match(assessment.message, /Motivo/u);
+  const approval = approvalPlan("42");
+  assert.deepEqual(approval, {
+    issue: 42,
+    label: "agents:approved",
+    marker: "<!-- agents-approved:42 -->",
+    message: "Aprovada para implementação.",
+    planned: ["label", "comment"],
+  });
 
   const inbox = fs.mkdtempSync(path.join(os.tmpdir(), "agents-inbox-test-"));
   try {

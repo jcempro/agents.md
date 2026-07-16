@@ -155,6 +155,31 @@ const COMMANDS = {
     run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["apply", ..._args]),
     status: "available",
   },
+  "agent:inbox:approve": {
+    description: "registra aprovacao humana de issue vinculada a FT",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["approve", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:sync-approved": {
+    description: "baixa issues aprovadas e cria FTs correlacionadas",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-lifecycle.js"), ["sync-approved", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:start": {
+    description: "marca issues importadas como em desenvolvimento apos push",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-lifecycle.js"), ["start", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:bind-release": {
+    description: "vincula FTs concluidas e suas issues a uma versao",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-lifecycle.js"), ["bind-release", ..._args]),
+    status: "available",
+  },
+  "agent:inbox:complete-release": {
+    description: "comenta e fecha todas as issues corrigidas pelo release",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-lifecycle.js"), ["complete-release", ..._args]),
+    status: "available",
+  },
   "agent:test:inbox": {
     description: "executa verificacao local da inbox construtora",
     run: () => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "issue-inbox.js"), ["self-test"]),
@@ -413,6 +438,7 @@ function buildDist(options = {}) {
       inference: preservedRelease.inference,
       notesSha256: crypto.createHash("sha256").update(releaseNotes, "utf8").digest("hex"),
       previousRelease: preservedRelease.previousRelease || preservedRelease.baseTag || "",
+      issues: releaseIssueLinks(releaseVersion),
       tag: `v${releaseVersion}`,
       version: releaseVersion,
     };
@@ -543,7 +569,8 @@ function testAll() {
   verify();
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "upstream-share.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-inbox.test.js")]);
-  return ok("TEST_OK", { suites: 2 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-lifecycle.test.js")]);
+  return ok("TEST_OK", { suites: 3 });
 }
 
 function validateIndex(index) {
@@ -1066,7 +1093,24 @@ function buildReleaseNotes(version) {
     }
   }
 
+  const issues = releaseIssueLinks(version);
+  if (issues.length) {
+    lines.push("", "Issues corrigidas:");
+    for (const issue of issues) lines.push(`- ${issue.ft}: ${issue.id}`);
+  }
+
   return lines.join("\n");
+}
+
+function releaseIssueLinks(version) {
+  const memoryPath = path.join(ROOT_DIR, ".agents", "continue.ia");
+  if (!fs.existsSync(memoryPath) || !version) return [];
+  return fs.readFileSync(memoryPath, "utf8").split(/(?=^FT-\d+\|)/mu).map((block) => {
+    const ft = (block.match(/^(FT-\d+)\|.*\|status=concluido(?:\||$)/mu) || [])[1];
+    const id = (block.match(/^issue_id=([^\r\n]+)/mu) || [])[1];
+    const bound = (block.match(/^release=([^\r\n]+)/mu) || [])[1];
+    return ft && id && bound === version ? { ft, id } : null;
+  }).filter(Boolean).sort((left, right) => left.id.localeCompare(right.id));
 }
 
 function readPackageScripts() {

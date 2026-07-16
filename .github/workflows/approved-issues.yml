@@ -1,0 +1,64 @@
+name: approved-issues
+
+on:
+  issues:
+    types:
+      - labeled
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: agents-approved-issues
+  cancel-in-progress: false
+
+jobs:
+  synchronize:
+    if: github.event_name != 'issues' || github.event.label.name == 'agents:approved'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Baixar aprovadas e criar FTs
+        env:
+          AGENTS_GITHUB_TOKEN: ${{ github.token }}
+        run: node .agents/core/runtime/scripts/issue-lifecycle.js sync-approved --role constructor
+
+      - name: Publicar correlações antes do desenvolvimento
+        shell: bash
+        run: |
+          if ! git diff --quiet -- .agents/continue.ia; then
+            git add .agents/continue.ia
+            git commit -m "chore: importa issues aprovadas"
+            git push origin HEAD:dev
+          fi
+
+      - name: Marcar issues em desenvolvimento
+        env:
+          AGENTS_GITHUB_TOKEN: ${{ github.token }}
+        run: node .agents/core/runtime/scripts/issue-lifecycle.js start --role constructor --authorize
+
+      - name: Publicar estado de desenvolvimento
+        shell: bash
+        run: |
+          if ! git diff --quiet -- .agents/continue.ia; then
+            git add .agents/continue.ia
+            git commit -m "chore: inicia issues aprovadas"
+            git push origin HEAD:dev
+          fi
