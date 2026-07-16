@@ -619,3 +619,34 @@ falhas=agent:verify falhou apos agent:release com ENOTEMPTY ao remover dist no W
 verificacoes=node --check scripts/.agents/repo-tools.js e release-workflow.js OK; agent:verify OK antes e depois de agent:release 0.0.1; RELEASE_OK archive=dist/agents-v0.0.1.zip files=14 releaseNote=dist/release-note.txt version=0.0.1; ensaio confirmou dist/release.json modificado por release e git restore --worktree -- dist o limpa antes de checkout; workflow=29177067832 falhou apenas na convergencia apos publicar release; tag v0.0.1=08148f4; release=https://github.com/JeanCarloEM/agents.md/releases/tag/v0.0.1; marker=c8d0f5e; ZIP SHA-256=ccc938b997ec0bc498e50042be2e4048e8a4fcd24bdcdc24d899132f57081246; nota SHA-256=99d7fc3bb516dc57465ec11b2ed7c4496616ce755c6a37b17692f2f3ca690812; asset remoto confirmou package=0.0.1, release.tag=v0.0.1 e package.json indexado; git diff --check OK.
 convergencia=main recebeu fast-forward de origin/dev em 9662bb7 sem conflito; o registro final desta conclusao sera reconvergido antes do encerramento operacional.
 pendencias=Nenhuma.
+
+FT-029|nome=Aprovacao humana de issue e release 0.0.9|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260716.022319|atualizacao=20260716.022319
+objetivo=Instituir ciclo inequivoco e auditavel da aprovacao humana ate o fechamento de todas as issues corrigidas por release e publicar a versao 0.0.9.
+escopo=RCF, cenarios upstream/release, CLI local, workflows online, continue.ia, manifesto/notas, README, testes, artefato distribuivel, release remoto e convergencia dev-main.
+nao_escopo=Aprovacao automatica por IA, fechamento automatico da issue ou implementacao do conteudo de uma issue aprovada.
+dependencias=FT-022 a FT-025 concluidas; autorizacao humana explicita nesta solicitacao; versao 0.0.9 confirmada.
+riscos=Confundir recomendacao tecnica com aceite; permitir label sem FT; duplicar comentario; aprovar sem papel construtor ou autorizacao; release remoto incompleto.
+testes=Teste unitario do contrato de aprovacao; dry-run sem rede; agent:test; agent:build; agent:verify; git diff --check; verificacao remota de tag, asset, Latest e convergencia.
+aceite=O comando canonico exige issue, FT, papel construtor e --authorize; aplica label agents:approved e comentario com FT de forma idempotente; recomendacoes continuam nao vinculantes; release 0.0.9 torna-se Latest.
+1/5 Contrato e estado [concluido]
+  1/3 Registrar autorizacao, versao e plano [concluido]
+  2/3 Sincronizar RCF e cenario [concluido]
+  3/3 Definir marcador, comentario e invariantes [concluido]
+2/5 Implementacao [concluido]
+  1/3 Implementar aprovacao, sincronizacao e inicio [concluido]
+  2/3 Vincular release e finalizar todas as issues correlacionadas [concluido]
+  3/3 Expor API local e workflows online idempotentes [concluido]
+3/5 Validacao [em andamento]
+  1/3 Executar testes focados [pendente]
+  2/3 Executar build e verificacao integral [pendente]
+  3/3 Auditar diff e artefato [pendente]
+4/5 Release 0.0.9 [pendente]
+  1/3 Criar commits funcionais e preparatorio [pendente]
+  2/3 Publicar gatilho e acompanhar workflow [pendente]
+  3/3 Comprovar tag, asset e Latest [pendente]
+5/5 Fechamento [pendente]
+  1/3 Atualizar memoria e handoff [pendente]
+  2/3 Convergir dev para main [pendente]
+  3/3 Comprovar estado remoto final [pendente]
+decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem aceite. Aceite humano usa agents:approved e comentario explicito; a sincronizacao cria FT unica por github:repositorio#numero. Push precede estado em desenvolvimento. Somente FTs concluidas vinculadas a versao sao fechadas pelo release, em lote e idempotentemente.
+pendencias=Concluir validacao, commits e release 0.0.9.

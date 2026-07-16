@@ -38,6 +38,12 @@ O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarqu
 - `agent:inbox:process -- <evento.json> --role constructor` encadeia indexação e avaliação; `--authorize` é obrigatório para comentário e label.
 - `agent:inbox:fetch -- <numero> --role constructor` permite a execução manual; `--dry-run` não emite efeito remoto.
 - `agent:inbox:apply -- <avaliacao.json> --role constructor --authorize` comenta recusas e não-recomendações; nos graus recomendados adiciona somente o label configurado e uma justificativa técnica curta. Aceite, fechamento, alteração de fonte e release permanecem decisões humanas.
+- `agent:inbox:approve -- --issue <numero> --role constructor --authorize` registra o aceite humano aplicando `agents:approved` e o comentário `Aprovada para implementação.` de forma idempotente. Labels de recomendação, isoladamente, nunca autorizam implementação; a FT é criada e correlacionada pela sincronização posterior.
+- `agent:inbox:sync-approved -- --role constructor` baixa todas as issues abertas com `agents:approved`, persiste a inbox sanitizada e cria uma FT idempotente em `continue.ia` com identidade `github:<repositorio>#<numero>`.
+- `agent:inbox:start -- --role constructor --authorize` deve ser executado após o push da correlação; comenta a FT, adiciona `agents:in-development` e atualiza o estado local.
+- `agent:inbox:bind-release -- <versao> --role constructor` vincula à versão todas as FTs correlacionadas já concluídas. `agent:inbox:complete-release -- <versao> --role constructor --authorize` é usado pelo release para comentar, marcar `agents:fixed` e fechar todas as issues vinculadas.
+
+O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horária ou despacho manual. O workflow `release.yml` vincula as FTs antes do artefato e só finaliza o release após atualizar todas as issues corrigidas pela versão.
 - `agent:test:inbox` testa sanitização, classificação e índice idempotente sem rede.
 
 ### Atualização segura da governança
