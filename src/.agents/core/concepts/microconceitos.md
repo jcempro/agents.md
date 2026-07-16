@@ -1,6 +1,6 @@
 # Núcleo — Microconceitos normativos
 
-Extensão direta de `AGENTS.md` §2. Identificadores são estáveis; citação incorpora integralmente somente a seção identificada e suas dependências explícitas, conforme `MN-REF`. Proximidade no arquivo NÃO autoriza carregar outro conceito.
+Extensão direta de `./AGENTS.md` §2. Identificadores são estáveis; citação incorpora integralmente somente a seção identificada e suas dependências explícitas, conforme `MN-REF`. Proximidade no arquivo NÃO autoriza carregar outro conceito.
 
 ## MN-2119 — modalidade exclusiva
 
@@ -28,7 +28,7 @@ Toda atuação da IA DEVE minimizar simultaneamente tokens lidos, tokens emitido
 
 ## MN-PREP — preparo de entrada
 
-Volume relevante de texto, código, log, diagnóstico, markup, dado estruturado, build ou artefato equivalente DEVE passar por preparo automatizado quando existir parser/comando determinístico que preserve toda informação exigida; ausência ou perda material DEVE ser registrada e exige leitura integral. O preparo DEVE condensar estrutura/redundância, preservar informação útil, erro, aviso, diagnóstico e autocorreção. Biblioteca só PODE entrar com licença compatível, manutenção verificável e redução mensurada do custo total.
+Entrada bruta acima de 50 linhas, 8192 bytes ou 2 arquivos DEVE passar por preparo automatizado quando existir parser/comando determinístico que preserve toda informação exigida; ausência ou perda material DEVE ser registrada e exige leitura integral. O preparo DEVE condensar estrutura/redundância, preservar informação útil, erro, aviso, diagnóstico e autocorreção. Biblioteca só PODE entrar com licença compatível, manutenção verificável e redução mensurada do custo total.
 
 ## MN-OUT — envelope de saída
 
@@ -56,7 +56,7 @@ Alteração DEVE comprovar ausência de regressão, reprodutibilidade, produto f
 
 ## MN-REF — referência cruzada
 
-Referência normativa DEVE nomear path estável e identificador/seção exatos. Path `./` resolve pela raiz de `AGENTS.md`; demais paths resolvem pelo arquivo referenciador. Resolução DEVE verificar existência, caixa, ciclo e dependências antes da aplicação. Agregador contém somente índice, predicado, dependência e path; proximidade, nome legado ou analogia NÃO incorporam conteúdo. Roteador é carregado primeiro; predicados usam somente RCF/configuração/entrega autoritativa; dependências formam fecho transitivo ordenado. Módulo falso NÃO DEVE ser aberto; predicado sem evidência, ciclo ou destino ausente bloqueia. Arquivo selecionado é carregado integralmente.
+Referência normativa DEVE nomear path estável e identificador/seção exatos. `./AGENTS.md` e `./.agents/` resolvem pela raiz normativa; outro path resolve pelo arquivo referenciador. Resolução DEVE verificar existência, caixa, ciclo e dependências antes da aplicação. Agregador contém somente índice, predicado, dependência e path; proximidade, nome legado ou analogia NÃO incorporam conteúdo. Roteador é carregado primeiro; predicados usam somente RCF/configuração/entrega autoritativa; dependências formam fecho transitivo ordenado. Módulo falso NÃO DEVE ser aberto; predicado sem evidência, ciclo ou destino ausente bloqueia. Arquivo selecionado é carregado integralmente.
 
 ## MN-SCEN — composição e carregamento de cenário
 

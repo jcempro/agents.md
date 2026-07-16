@@ -1,6 +1,6 @@
 # Cenário Publicação de Conteúdo
 
-Extensão de `AGENTS.md` §17; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-API`, `MN-DEF`, `MN-OUT`, `MN-CMD`, `MN-VAL` e `MN-REF`. É cenário de Negócio e só se aplica a repositório cujo RCF declare publicação de artigo, página, post, documentação ou artefato público equivalente. Fora dessa condição, `publish`/`publicar`, workflow, manifesto e hook deste cenário NÃO DEVEM existir nem consumir processamento.
+Extensão de `./AGENTS.md` §17; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-API`, `MN-DEF`, `MN-OUT`, `MN-CMD`, `MN-VAL` e `MN-REF`. Só se aplica quando RCF declarar publicação de artigo, página, post, documentação ou outra classe pública nomeada. Fora dessa condição, `publish`/`publicar`, workflow, manifesto e hook deste cenário NÃO DEVEM existir nem consumir processamento.
 
 ## 1. Escopo e independência
 

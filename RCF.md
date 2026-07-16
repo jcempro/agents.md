@@ -98,7 +98,7 @@ Referência a microconceito DEVE resolver somente os identificadores citados e s
 
 A fonte PODE projetar §§0.0.3–0.0.5 como `MN-ROLE`, a fronteira de núcleo/extensão de §§0.0.2 e 0.0.5 como `MN-EXT`, e o núcleo de cenários do §4 como `MN-SCEN`; esses identificadores não criam regra, apenas centralizam sua projeção operacional.
 
-Refatoração de contexto DEVE registrar baseline e resultado por arquivo e rota aplicável: bytes UTF-8, linhas, métrica de tokens declarada e dependências carregadas. Comparação só é válida com o mesmo método; proxy lexical DEVE ser identificado como proxy, nunca como tokenizador de modelo. Redução global NÃO compensa perda local: modalidade, dono, condição, exceção, valor, ordem e aceite DEVEM permanecer rastreáveis antes e depois.
+Entrada bruta acima de 50 linhas, 8192 bytes ou 2 arquivos constitui volume relevante para preparo. Refatoração de contexto DEVE registrar baseline e resultado por arquivo e rota aplicável: bytes UTF-8, linhas, métrica de tokens declarada e dependências carregadas. Comparação só é válida com o mesmo método; proxy lexical DEVE ser identificado como proxy, nunca como tokenizador de modelo. Redução global NÃO compensa perda local: modalidade, dono, condição, exceção, valor, ordem e aceite DEVEM permanecer rastreáveis antes e depois.
 
 ### 0.2 Perfil editorial
 
@@ -988,7 +988,7 @@ A geração deve:
 - Incluir scripts gerenciados necessários ao mecanismo distribuído, sem incluir hook, extensão local, memória, RCF ou conteúdo de Negócio.
 - Incluir `package.json` executável com `agentsGovernance` que declare scripts e dependências gerenciados; na atualização de um anfitrião, esse manifesto DEVE ser mesclado sem substituir os campos, scripts, dependências, locks ou configurações não declarados.
 - Incluir manifesto de atualização com linguagem e versão declaradas, conjunto exaustivo de arquivos gerenciados e marcadores de variação; atualização de release ou branch deve usar esse manifesto como fonte exclusiva, usando lock anterior apenas para conversão e limpeza comprovada.
-- `verify` DEVE comparar cada arquivo indexado de `./src/` com seu path materializado em `./dist/`; NÃO DEVE exigir igualdade entre fonte do produto e governança ativa `./AGENTS.md`/`./.agents/`, pois esses domínios possuem autoridade distinta.
+- `verify` DEVE rejeitar microconceito citado sem definição, definição duplicada e referência Markdown explícita inexistente, fora de `./src/` ou com caixa divergente; depois DEVE comparar cada arquivo indexado de `./src/` com seu path materializado em `./dist/`. NÃO DEVE exigir igualdade entre fonte do produto e governança ativa `./AGENTS.md`/`./.agents/`, pois esses domínios possuem autoridade distinta.
 
 O processo deve ser resiliente, prevendo falhas de ambiente, inconsistências, erros temporários, conflitos e etapas parcialmente concluídas, utilizando validações, tratamentos adequados e retries quando aplicável.
 

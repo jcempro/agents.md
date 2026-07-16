@@ -62,7 +62,7 @@ Iminência de limite DEVE salvar estado e marcar `[INTERROMPIDO_POR_LIMITACAO_DE
 
 Desenvolvimento DEVE ocorrer em `dev`; merge em `main`/`master` só PODE ocorrer com FT concluída e sistema global funcional. Branch e working tree DEVEM ser verificados antes de alterar. Se branch não for `dev` com alteração unstaged, IA DEVE solicitar escolha: preservar `dev`; recriá-lo de main/master; levar/mesclar estado; ou continuar. Commit/push DEVEM ser comprovados e usar API quando disponível.
 
-Conclusão de FT ou release publicado DEVE convergir `dev` para a branch primária disponível (`main`, senão `master`) antes de encerrar o ciclo operacional. Merge DEVE preservar ambos os históricos; fast-forward é preferível quando possível, merge normal é obrigatório diante de divergência compatível e conflito DEVE bloquear publicação até resolução explícita. A branch primária NÃO DEVE permanecer ancestral defasada de `dev` após essa convergência.
+Conclusão de FT ou release publicado DEVE convergir `dev` para a branch primária disponível (`main`, senão `master`) antes de encerrar o ciclo. Merge preserva ambos os históricos: fast-forward se a primária for ancestral de `dev`; diante de divergência compatível, merge normal; conflito bloqueia publicação até resolução explícita. A primária NÃO DEVE permanecer ancestral defasada de `dev`.
 
 ## 10. Não regressão e sincronização
 
@@ -70,7 +70,7 @@ Implementação NÃO DEVE regredir arquitetura, negócio, UX, API, build, cache,
 
 ## 11. Runtime, build e CDN
 
-Implementação NÃO DEVE introduzir negócio não autorizado, dependência inútil, duplicação, complexidade gratuita ou refatoração extrínseca. Produto final DEVE conter somente runtime necessário; recurso de desenvolvimento NÃO DEVE integrá-lo. Build DEVE incorporar seletivamente recurso resolvido quando possível. RCF decide CDN; em silêncio, produto online DEVERIA usar CDN cacheável, solução local PODE prevalecer por tamanho/latência/banda, e bundle offline DEVE manter recursos locais.
+Implementação NÃO DEVE introduzir negócio não autorizado, dependência inútil, duplicação, complexidade gratuita ou refatoração extrínseca. Produto final contém somente runtime necessário; recurso de desenvolvimento NÃO DEVE integrá-lo. Build incorpora recurso resolvido se manifesto/licença/target forem compatíveis. RCF decide CDN; em silêncio, produto online DEVERIA usar CDN cacheável, solução local PODE prevalecer por tamanho/latência/banda, e bundle offline mantém recursos locais.
 
 ## 12. Padrões de implementação
 
@@ -98,11 +98,11 @@ Aplicar `MN-SCEN`, `MN-REF` e `./.agents/core/contracts.md`. Regra específica s
 
 | Cenário                 | Arquivo/seção                 | Dependência              | Aplicação                                |
 | ----------------------- | ----------------------------- | ------------------------ | ---------------------------------------- |
-| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` → `capabilities/browser.md` | capacidades Web | navegador/engine web |
-| Web estático/hospedagem | mesmo roteador → `capabilities/static-hosting.md` | `browser.md` | gerador, template, páginas |
-| Editorial | mesmo roteador → `capabilities/editorial.md` | `browser.md`; hospedagem se estática | artigo, post, sermão, ensaio, notícia |
+| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` → `./.agents/scenarios/web/page-like/capabilities/browser.md` | capacidades Web | navegador/engine web |
+| Web estático/hospedagem | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/static-hosting.md` | `WEB-BROWSER` | gerador, template, páginas |
+| Editorial | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/editorial.md` | `WEB-BROWSER`; `WEB-STATIC` se verdadeiro | artigo, post, sermão, ensaio, notícia |
 | Release | `./.agents/scenarios/release/scenario.md` | núcleo/release | versão, tag, asset ou release publicável |
-| Publicação de Conteúdo | `./.agents/scenarios/content-publication/scenario.md` | Web/RCF quando aplicável | artefato de Negócio publicável |
+| Publicação de Conteúdo | `./.agents/scenarios/content-publication/scenario.md` | cenário técnico selecionado pelo RCF | artefato de Negócio publicável |
 | Evolução upstream | `./.agents/scenarios/governance/upstream-sharing/scenario.md` | núcleo, atualização e CLI | consumidor que avalia contribuição reutilizável; construtor para inbox formal |
 
 ## 18. API operacional

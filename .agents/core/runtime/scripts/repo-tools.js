@@ -532,6 +532,7 @@ function verify() {
   const index = buildIndex();
   writeJsonMinified(INDEX_PATH, index);
   validateIndex(index);
+  validateNormativeReferences(index);
   buildDist();
   assertPublishedNorms(index);
 
@@ -555,6 +556,51 @@ function validateIndex(index) {
     }
   }
   validateGovernanceManifest(index.update, "index.json");
+}
+
+function validateNormativeReferences(index) {
+  const conceptPath = path.join(SRC_DIR, ".agents", "core", "concepts", "microconceitos.md");
+  const conceptText = fs.readFileSync(conceptPath, "utf8");
+  const definitions = new Set();
+  for (const match of conceptText.matchAll(/^## (MN-[A-Z0-9-]+|W-MTX-42)\b/gmu)) {
+    if (definitions.has(match[1])) {
+      throw new Error(`Microconceito duplicado: ${match[1]}.`);
+    }
+    definitions.add(match[1]);
+  }
+
+  for (const entry of index.files.filter((file) => path.extname(file.path) === ".md")) {
+    const filePath = path.join(ROOT_DIR, entry.path);
+    const content = fs.readFileSync(filePath, "utf8");
+    for (const match of content.matchAll(/\b(MN-[A-Z0-9-]+|W-MTX-42)\b/gu)) {
+      if (!definitions.has(match[1])) {
+        throw new Error(`Microconceito indefinido em ${entry.path}: ${match[1]}.`);
+      }
+    }
+    for (const match of content.matchAll(/`((?:\.\.\/|\.\/)[^`\r\n]*?\.md)(?:#[^`\s]*)?`/gu)) {
+      const reference = match[1];
+      if (reference.includes("<") || reference.includes(">")) {
+        continue;
+      }
+      const fromRoot = reference === "./AGENTS.md" || reference.startsWith("./.agents/");
+      const target = path.resolve(fromRoot ? SRC_DIR : path.dirname(filePath), reference);
+      const relative = path.relative(SRC_DIR, target);
+      if (!relative || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative) || !fs.existsSync(target) || !hasExactPathCase(SRC_DIR, relative)) {
+        throw new Error(`Referencia normativa invalida em ${entry.path}: ${reference}.`);
+      }
+    }
+  }
+}
+
+function hasExactPathCase(root, relativePath) {
+  let current = root;
+  for (const segment of relativePath.split(path.sep)) {
+    if (!fs.readdirSync(current).includes(segment)) {
+      return false;
+    }
+    current = path.join(current, segment);
+  }
+  return true;
 }
 
 function validateDist() {

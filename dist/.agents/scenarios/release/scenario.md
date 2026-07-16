@@ -1,6 +1,6 @@
 # Cenário Release
 
-Extensão de `AGENTS.md` §17; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-API`, `MN-DEF`, `MN-OUT`, `MN-CMD`, `MN-VAL` e `MN-REF`. Aplica-se somente a repositório que publique versões; fora desse escopo NÃO DEVE carregar script, comando, workflow ou custo adicional deste cenário.
+Extensão de `./AGENTS.md` §17; aplicar `MN-2119`, `MN-DENS`, `MN-PRES`, `MN-API`, `MN-DEF`, `MN-OUT`, `MN-CMD`, `MN-VAL` e `MN-REF`. Aplica-se somente a repositório que publique versões; fora desse escopo NÃO DEVE carregar script, comando, workflow ou custo adicional deste cenário.
 
 ## 1. Escopo e separação
 
@@ -16,7 +16,7 @@ Build DEVE ser determinístico, validar antes/depois, gerar manifestos e notas l
 
 Fluxo: validar versão/estado → hook `prepare` → build/notas/metadados → hook `verify` → tag → publicar asset/release como `latest` → hook `published` → commit `release:`. Falha DEVE impedir etapa dependente e manter vínculo auditável; tag/asset/release órfão DEVE ser detectado antes de nova execução. `latest` DEVE apontar somente ao release publicado mais recente; releases anteriores DEVEM preservar tag histórica.
 
-`agent:release:publish <versão>`/alias equivalente, quando adotado, DEVE exigir versão explícita, branch de desenvolvimento e worktree limpo; DEVE preparar manifesto e artefato em commits isolados, criar commit exclusivo do gatilho `release`, enviá-lo ao remoto, aguardar workflow, comprovar tag/release e confirmar convergência na primária. `--dry-run` NÃO DEVE escrever, commitar, enviar ou acessar GitHub; `--no-watch` PODE encerrar após o envio do gatilho com estado pendente explícito. Alteração, tag, gatilho ou metadado preexistente DEVE bloquear sem sobrescrita. Falha anterior a tag/release PODE retomar somente versão com commit preparatorio reconhecido; deve reconstruir, revalidar e nunca reaproveitar estado parcial.
+Se manifesto/pacote expuser `agent:release:publish <versão>` ou alias declarado, o comando DEVE exigir versão explícita, branch de desenvolvimento e worktree limpo; DEVE preparar manifesto e artefato em commits isolados, criar commit exclusivo do gatilho `release`, enviá-lo ao remoto, aguardar workflow, comprovar tag/release e confirmar convergência na primária. `--dry-run` NÃO DEVE escrever, commitar, enviar ou acessar GitHub; `--no-watch` PODE encerrar após o envio do gatilho com estado pendente explícito. Alteração, tag, gatilho ou metadado preexistente DEVE bloquear sem sobrescrita. Falha anterior a tag/release PODE retomar somente versão com commit preparatorio reconhecido; deve reconstruir, revalidar e nunca reaproveitar estado parcial.
 
 Gatilho automático, quando adotado, DEVE chamar-se `release` no root, aceitar extensão somente se o RCF autorizar, conter versão explícita validável, ser o único arquivo adicionado no commit e ser removido pelo commit `release:`. `agent:release:trigger` cria esse sinalizador; `agent:release` constrói o release local. Hook local opcional reside fora dos arquivos gerenciados, recebe evento/payload JSON, retorna efeito explícito e NÃO DEVE alterar versão, tag, asset ou metadado sem contrato declarado.
 
