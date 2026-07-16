@@ -218,6 +218,20 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
+FT-028|nome=Cabeçalho portátil e release 0.0.8|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260715.234731|atualizacao=20260715.235500
+objetivo=Normatizar preservação/inclusão de cabeçalho próprio de autoria/licença em código-fonte e entrega e publicar 0.0.8.
+escopo=src/AGENTS.md; RCF.md; índice/dist; release; memória/handoff.
+nao_escopo=Fixar autor, upstream ou licença deste construtor em consumidores; alterar scripts/cabeçalhos atuais; inferir dados ausentes.
+aceite=Regra portátil, sem licença fixa, distribuída e validada; v0.0.8 latest; dev/main convergentes.
+1/3 Norma cirúrgica [concluído]
+  1/2 Inserir regra no AGENTS e projeção mínima no RCF [concluído]
+  2/2 Validar diff e distribuição [concluído]
+2/3 Release 0.0.8 [em andamento]
+  1/2 Executar fluxo nativo [pendente]
+  2/2 Confirmar release latest e convergência [pendente]
+3/3 Fechamento [pendente]
+  1/1 Atualizar memória/handoff e encerrar [pendente]
+
 FT-027|nome=Otimizacao agressiva do contexto em src|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.221708|atualizacao=20260715.231954|conclusao=20260715.231954
 objetivo=Auditar e refatorar `./src` para reduzir carga de contexto e ambiguidade sem perda normativa, centralizando recorrencias, modularizando o cenario Web e validando equivalencia contra o RCF.
 escopo=RCF.md; src/AGENTS.md; src/.agents/core/concepts/; src/.agents/meta/; src/.agents/scenarios/; indice/dist derivados; validadores; memoria e handoff.

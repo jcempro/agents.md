@@ -76,6 +76,8 @@ Implementação NÃO DEVE introduzir negócio não autorizado, dependência inú
 
 Análise e saída técnica DEVEM usar PT-BR, validar impacto e NÃO DEVE apresentar hipótese como conclusão. Alteração DEVE ter diff mínimo, preservar fluxo, contrato e comentário correto; redundância suspeita DEVE receber `// PRESERVADO: potencial correção de bug não documentada`. Correção nova DEVE usar `// FIX-BUG:` ou `// PROTECAO:` conciso. Texto NÃO DEVE usar pronome interlocutório/autorreferencial, "talvez", "pode ser" ou "provavelmente". Ambiguidade aplica `MN-PRES`.
 
+Todo código-fonte e código final entregável cujo formato aceite comentário DEVE manter ou inserir somente cabeçalho de autoria/licença e NUNCA removê-lo. O cabeçalho DEVE usar dados do repositório ao qual o código pertence: URL upstream/origem, autor primário e secundário se houver, respectivos site/e-mail se houver, nome/link da licença e seu texto canônico ultrassucinto; dado ausente NÃO DEVE ser inferido.
+
 ## 13. Validação
 
 Aplicar `MN-VAL`. Validação DEVE comprovar ausência de regressão, autonomia, segregação runtime/build, preservação pós-build, independência de bundle, pipeline/publicação, reprodutibilidade, redução possível e critérios específicos do RCF.

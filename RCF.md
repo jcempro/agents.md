@@ -420,6 +420,7 @@ Devem preservar:
 - CDN decidida pelo RCF; em silêncio, avaliar online/offline, cache, latência, privacidade, segurança e customização;
 - PT-BR, análise rigorosa, hipótese não apresentada como conclusão;
 - diff mínimo, refatoração cirúrgica, preservação de comentários;
+- fonte e entrega comentáveis mantêm ou recebem somente cabeçalho de autoria/licença do próprio repositório, nunca removido nem preenchido por inferência;
 - marcações `PRESERVADO`, `FIX-BUG`, `PROTECAO`;
 - estilo determinístico, sem “eu”, “você”, “nós”, “talvez”, “provavelmente”;
 - ambiguidade: interpretação mais restritiva, menor alteração, maior preservação; insolúvel → `AMBIGUIDADE INSOLUVEL: <ponto>. Preservando original.`;
