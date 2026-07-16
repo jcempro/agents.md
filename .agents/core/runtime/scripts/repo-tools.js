@@ -23,17 +23,6 @@ const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 const DISTRIBUTION_PACKAGE_PATH = path.join(DIST_DIR, "package.json");
 const UPDATE_FORMAT_PATH = path.join(ROOT_DIR, ".agents", "core", "update", "formats", "governance-manifest.v2.json");
-const NORMATIVE_MIRRORS = [
-  path.join(".agents", "core", "contracts.md"),
-  path.join(".agents", "core", "update", "scenario.md"),
-  path.join(".agents", "core", "update", "formats", "governance-manifest.v2.json"),
-  path.join(".agents", "core", "concepts", "microconceitos.md"),
-  path.join(".agents", "scenarios", "content-publication", "scenario.md"),
-  path.join(".agents", "scenarios", "governance", "upstream-sharing", "scenario.md"),
-  path.join(".agents", "scenarios", "release", "scenario.md"),
-  path.join(".agents", "scenarios", "web", "page-like", "scenario.md"),
-  path.join(".agents", "meta", "upstream.md"),
-];
 const ALIEN_SCRIPT_TERMS = [
   "What" + "Send",
   "what" + "sender",
@@ -530,7 +519,6 @@ function readExistingReleaseMetadata() {
 }
 
 function verify() {
-  assertNormativeMirrors();
   const checks = [];
   for (const script of listFiles(path.join(ROOT_DIR, ".agents")).filter((filePath) => path.extname(filePath) === ".js" && isManagedScriptPath(filePath))) {
     const content = fs.readFileSync(script, "utf8");
@@ -545,6 +533,7 @@ function verify() {
   writeJsonMinified(INDEX_PATH, index);
   validateIndex(index);
   buildDist();
+  assertPublishedNorms(index);
 
   return ok("VERIFY_OK", { scripts: checks.length, indexedFiles: index.files.length });
 }
@@ -1116,14 +1105,15 @@ function compactOperationalContext() {
   return ok("COMPACT_OK", { activeFronts, canonical: ".agents/continue.ia", projection: "handoff.md" });
 }
 
-function assertNormativeMirrors() {
-  for (const relativePath of NORMATIVE_MIRRORS) {
-    const activePath = path.join(ROOT_DIR, relativePath);
-    const sourcePath = path.join(SRC_DIR, relativePath);
-    assertFile(activePath, `Norma ativa ausente: ${toPosix(relativePath)}.`);
-    assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(path.join("src", relativePath))}.`);
-    if (!fs.readFileSync(activePath).equals(fs.readFileSync(sourcePath))) {
-      throw new Error(`Paridade normativa divergente: ${toPosix(relativePath)} vs ${toPosix(path.join("src", relativePath))}.`);
+function assertPublishedNorms(index) {
+  // FIX-BUG: valida produto fonte/publicado sem contaminar a governanca ativa.
+  for (const file of index.files) {
+    const sourcePath = path.join(ROOT_DIR, file.path);
+    const publishedPath = path.join(DIST_DIR, releaseRelativePath(file.path));
+    assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(file.path)}.`);
+    assertFile(publishedPath, `Norma publicada ausente: ${toPosix(path.relative(ROOT_DIR, publishedPath))}.`);
+    if (!fs.readFileSync(sourcePath).equals(fs.readFileSync(publishedPath))) {
+      throw new Error(`Paridade fonte/publicado divergente: ${toPosix(file.path)}.`);
     }
   }
 }

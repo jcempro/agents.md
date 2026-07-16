@@ -233,14 +233,14 @@ ordem=5
   2/4 Inventariar arquivos, volume, referencias e concentracao [concluido]
   3/4 Cruzar arquitetura viva com RCF e localizar divergencias [concluido]
   4/4 Registrar baseline de bytes/tokens e duplicacoes [concluido]
-2/5 Contrato e microconceitos [em andamento]
+2/5 Contrato e microconceitos [concluido]
   1/3 Atualizar RCF antes da implementacao estrutural [concluido]
-  2/3 Centralizar regras recorrentes em microconceitos estaveis [pendente]
-  3/3 Densificar AGENTS sem reduzir substancia [pendente]
-3/5 Modularizacao critica [pendente]
-  1/3 Transformar scenario Web em roteador declarativo [pendente]
-  2/3 Segregar capacidades Web, hospedagem e editorial [pendente]
-  3/3 Declarar predicados, dependencias e ordem de carregamento [pendente]
+  2/3 Centralizar regras recorrentes em microconceitos estaveis [concluido]
+  3/3 Densificar AGENTS sem reduzir substancia [concluido]
+3/5 Modularizacao critica [concluido]
+  1/3 Transformar scenario Web em roteador declarativo [concluido]
+  2/3 Segregar capacidades Web, hospedagem e editorial [concluido]
+  3/3 Declarar predicados, dependencias e ordem de carregamento [concluido]
 4/5 Saneamento semantico [pendente]
   1/3 Corrigir referencias inexistentes e nomes legados [pendente]
   2/3 Eliminar falsos positivos, inferencias e duplicacoes residuais [pendente]
@@ -250,10 +250,10 @@ ordem=5
   2/4 Regenerar indice/dist e executar testes/verify [pendente]
   3/4 Produzir quatro commits funcionais e convergir branches [pendente]
   4/4 Atualizar memoria/handoff e registrar resultado [pendente]
-decisoes=Preservar paths publicos existentes como roteadores de compatibilidade; modularizar por arquivos subordinados dentro do diretorio do cenario; RCF deve declarar predicados e dependencias antes da movimentacao; quatro commits sao obrigatorios pela classificacao agressiva.
-verificacoes=Baseline deterministico: src possui 19 arquivos, 71059 bytes UTF-8 e 14069 tokens_proxy lexicais; AGENTS.md=19439 bytes/4156 proxy; page-like/scenario.md=12498 bytes/2366 proxy. Referencias inexistentes detectadas em meta/publish.md, meta/release.md e meta/update.md; RCF usava nomes legados webPageLike.md/release.md/publish.md. RCF agora declara resolucao seletiva, roteador Web, tres modulos condicionais e metrica comparavel; busca legada vazia e git diff --check OK.
-falhas=agent:view/agent:tree encaminham `--help` ao Node e nao exibem ajuda propria; comando PowerShell encapsulado perdeu variaveis por interpolacao, substituido por pipeline local curto e filtrado.
-pendencias=Concluir baseline semantico; atualizar RCF; implementar, validar e commitar quatro marcos.
+decisoes=Preservar paths publicos existentes como roteadores de compatibilidade; modularizar por arquivos subordinados dentro do diretorio do cenario; RCF deve declarar predicados e dependencias antes da movimentacao; quatro commits sao obrigatorios pela classificacao agressiva. MN-ROLE centraliza identidade/autoridade; MN-EXT, fronteira gerenciado/local; MN-REF, resolucao seletiva; MN-SCEN, composicao/roteamento. WEB-BROWSER, WEB-STATIC e WEB-EDITORIAL possuem predicados autoritativos e ordem fechada.
+verificacoes=Baseline deterministico: src possui 19 arquivos, 71059 bytes UTF-8 e 14069 tokens_proxy lexicais; AGENTS.md=19439 bytes/4156 proxy; page-like/scenario.md=12498 bytes/2366 proxy. Referencias inexistentes detectadas em meta/publish.md, meta/release.md e meta/update.md; RCF usava nomes legados webPageLike.md/release.md/publish.md. RCF agora declara resolucao seletiva, roteador Web, tres modulos condicionais e metrica comparavel; busca legada vazia e git diff --check OK. Roteador+modulos geraram INDEX_OK files=22 e DIST_OK files=37. Verificador corrigido comprovou src->dist sem comparar governanca ativa: agent:verify=VERIFY_OK scripts=14 indexedFiles=22; agent:test=TEST_OK suites=2.
+falhas=agent:view/agent:tree encaminham `--help` ao Node e nao exibem ajuda propria; comando PowerShell encapsulado perdeu variaveis por interpolacao, substituido por pipeline local curto e filtrado. agent:verify exigia paridade incorreta entre governanca ativa e fonte do produto; autorizacao humana permitiu corrigir a causa raiz para paridade fonte/publicado.
+pendencias=Sanear referencias e duplicacoes residuais; validar equivalencia, metricas, build e artefato; concluir tres commits restantes.
 
 FT-026|nome=Inbox e decisao construtora de issues upstream|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.010000|atualizacao=20260715.021000|conclusao=20260715.021000
 objetivo=Implementar o fluxo construtor para receber, sanitizar, indexar, encaminhar e avaliar issues recebidas, aplicando decisao rastreavel sem publicar efeito externo sem autorizacao do workflow.
