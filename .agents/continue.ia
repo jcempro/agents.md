@@ -218,6 +218,27 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
+FT-030|nome=Autoupdate explicito e recuperacao de bootstrap legado|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260716.024500|atualizacao=20260716.025241
+objetivo=Tornar explicita a atualizacao automatica pelo comando agent:autoupdate e impedir que despachantes legados bloqueiem a execucao normal sem argumentos.
+escopo=Contrato fonte, RCF, README, scripts npm, despachante, atualizador, mesclagem de manifesto, testes isolados e artefato distribuivel.
+nao_escopo=Aplicar mutacao no repositorio consumidor sem solicitacao explicita; remover aliases legados nesta versao.
+riscos=Quebrar consumidores antigos; manter alias apontando a comportamento divergente; atualizar package.json anfitriao fora dos campos gerenciados.
+1/3 Contrato e implementacao [concluido]
+  1/3 Definir agent:autoupdate canonico e aliases [concluido]
+  2/3 Atualizar API e manifesto distribuido [concluido]
+  3/3 Sincronizar RCF, cenario e README [concluido]
+2/3 Validacao [concluido]
+  1/3 Testar execucao padrao sem argumentos [concluido]
+  2/3 Testar mesclagem do package legado [concluido]
+  3/3 Executar build e verify [concluido]
+3/3 Entrega [em andamento]
+  1/2 Commitar mudanca funcional [em andamento]
+  2/2 Informar recuperacao de bootstrap ao consumidor [pendente]
+decisoes=Comando canonico=agent:autoupdate; agents:autoupdate, agent:agents e agents:update permanecem aliases temporarios equivalentes. Sem argumento aplica, commita e publica; --check e --dry-run nao escrevem.
+falhas=Consumidor legado bloqueia em scripts/.agents/repo-tools.js antes de chamar update-agents.js; chamada direta em --dry-run resolveu release:v0.0.6 e comprovou que o atualizador subjacente aceita modo normal. O upstream historico consultado pelo bootstrap antigo ainda aponta a v0.0.6, enquanto v0.0.9 reside no sucessor; nova versao isolada nao basta sem ponte de migracao do upstream historico.
+verificacoes=parseArgs vazio aceita modo efetivo; mergePackageManifest migra quatro aliases e preserva publish local; agent:autoupdate --help e alias agent:agents --help equivalentes; agent:test TEST_OK suites=4; build DIST_OK files=38; verify scripts=15 indexedFiles=22; diff-check OK.
+pendencias=Commitar; definir versao explicita e estrategia autorizada da ponte entre upstream historico e sucessor antes de publicar.
+
 FT-028|nome=Cabeçalho portátil e release 0.0.8|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.234731|atualizacao=20260715.235901|conclusao=20260715.235901
 objetivo=Normatizar preservação/inclusão de cabeçalho próprio de autoria/licença em código-fonte e entrega e publicar 0.0.8.
 escopo=src/AGENTS.md; RCF.md; índice/dist; release; memória/handoff.

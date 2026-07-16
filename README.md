@@ -18,7 +18,7 @@ O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarqu
 - `npm run agent:index`: gera `index.json` minificado a partir de `src/`.
 - `npm run agent:dist`: gera `dist/`, `dist/package.json`, `dist/release.json` e pacote `agents-v<versao>.zip`.
 - `npm run agent:verify`: valida scripts, indexador e dist.
-- `npm run agent:agents`: executa atualizacao automatica da governanca operacional pela superficie filtrada, mesclando somente scripts/dependencias declarados em `agentsGovernance` no `package.json` anfitriao.
+- `npm run agent:autoupdate`: executa a atualização automática da governança pela superfície filtrada, mesclando somente scripts/dependências declarados em `agentsGovernance` no `package.json` anfitrião. Sem argumentos aplica, commita e publica; `--check` e `--dry-run` são diagnósticos sem escrita. `agents:autoupdate`, `agent:agents` e `agents:update` permanecem aliases transitórios.
 
 ### Evolução upstream de AGENTS.md
 
