@@ -1,7 +1,11 @@
 const assert = require("assert");
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
 const { mergePackageManifest, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
+const { readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
 
-function main() {
+async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
   const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.agents/repo-tools.js agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
@@ -19,6 +23,22 @@ function main() {
   assert.equal(merged.scripts["agent:agents"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:autoupdate"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:update"], merged.scripts["agent:autoupdate"]);
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
+  try {
+    fs.mkdirSync(path.join(root, ".agents", "core", "update"), { recursive: true });
+    fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ agentsUpstream: { schema: 1, upstreamRepository: "old/repository" } }));
+    fs.writeFileSync(path.join(root, ".agents", "core", "update", "upstream.json"), JSON.stringify({ schema: 1, upstreamRepository: "new/repository", predecessorRepositories: ["old/repository"] }));
+    const policy = readSuccessorPolicy(root);
+    assert.equal(policy.upstreamRepository, "new/repository");
+    const local = path.join(root, ".agents", "upstream.json");
+    await withVirtualUpstream(policy, root, async () => {
+      assert.equal(fs.existsSync(local), true);
+      assert.equal(JSON.parse(fs.readFileSync(local, "utf8")).upstreamRepository, "new/repository");
+    });
+    assert.equal(fs.existsSync(local), false);
+  } finally {
+    fs.rmSync(root, { force: true, recursive: true });
+  }
 }
 
-main();
+main().catch((error) => { console.error(error); process.exitCode = 1; });

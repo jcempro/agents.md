@@ -7,8 +7,10 @@
   "main": "AGENTS.md",
   "agentsUpstream": {
     "schema": 1,
-    "upstreamRepository": "JeanCarloEM/agents.md",
-    "candidateRepository": "jcempro/agents.md"
+    "upstreamRepository": "jcempro/agents.md",
+    "predecessorRepositories": [
+      "JeanCarloEM/agents.md"
+    ]
   },
   "agentsGovernance": {
     "schema": 1,

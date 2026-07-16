@@ -96,13 +96,13 @@ const COMMANDS = {
     status: "available",
   },
   "agent:autoupdate": {
-    description: "atualiza governanca operacional gerenciada",
-    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "update-agents.js"), _args),
+    description: "atualiza automaticamente a governanca operacional gerenciada",
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "autoupdate.js"), _args),
     status: "available",
   },
   "agent:agents": {
     description: "alias transitorio de agent:autoupdate",
-    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "update-agents.js"), _args),
+    run: (_args) => runNodeScript(path.join(".agents", "core", "runtime", "scripts", "autoupdate.js"), _args),
     status: "available",
   },
   "agent:upstream:check": {
