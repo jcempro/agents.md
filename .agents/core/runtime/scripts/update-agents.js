@@ -18,6 +18,11 @@ const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require(".
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const LOCK_FILE = path.join(".agents", "agents-update.lock.json");
+const HANDOFF_FORMAT = "agents-update-handoff/v1";
+const HANDOFF_PHASE = "release-runtime-ready";
+const HANDOFF_RUNTIME_FORMAT = "agents-update-runtime/v1";
+const HANDOFF_STATE_ENV = "AGENTS_UPDATE_HANDOFF_STATE";
+const HANDOFF_KEY_ENV = "AGENTS_UPDATE_HANDOFF_KEY";
 const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md"]);
 const PACKAGE_RELATIVE_PATH = "package.json";
 const BOOTSTRAP_MANAGED = new Set([
@@ -40,6 +45,10 @@ const LEGACY_MANAGED_FILES = new Set([
 class UsageError extends Error {}
 
 async function main(argv = process.argv.slice(2), options = {}) {
+  const handoffStatePath = options.handoffStatePath || process.env[HANDOFF_STATE_ENV];
+  if (handoffStatePath) {
+    return resumeFromHandoff(handoffStatePath, options);
+  }
   const parsed = parseArgs(argv);
   if (parsed.help) {
     console.log(help());
@@ -47,7 +56,14 @@ async function main(argv = process.argv.slice(2), options = {}) {
   }
   const rootDir = options.rootDir || ROOT_DIR;
   const httpClient = options.httpClient || defaultHttpClient;
-  const plan = await buildUpdatePlan(rootDir, httpClient);
+  if (options.disableHandoff) {
+    const plan = await buildUpdatePlan(rootDir, httpClient);
+    return executeUpdatePlan(parsed, rootDir, plan);
+  }
+  return handoffToReleaseRuntime(argv, rootDir, httpClient, options);
+}
+
+function executeUpdatePlan(parsed, rootDir, plan) {
 
   if (parsed.dryRun) {
     printPlan(plan, "dry-run");
@@ -93,9 +109,169 @@ function help() {
   return "Uso: agent:autoupdate [--check|--dry-run] [--force] [--help]";
 }
 
+async function handoffToReleaseRuntime(argv, targetRoot, httpClient, options = {}) {
+  const prepared = await prepareReleaseHandoff(targetRoot, httpClient, { ...options, argv });
+  try {
+    const env = { ...process.env, [HANDOFF_KEY_ENV]: prepared.key, [HANDOFF_STATE_ENV]: prepared.statePath };
+    delete env.NODE_PATH;
+    const spawn = options.spawnRuntime || childProcess.spawnSync;
+    const result = spawn(process.execPath, [prepared.entryPath, ...argv], {
+      cwd: targetRoot,
+      env,
+      encoding: "utf8",
+      stdio: options.captureRuntime ? "pipe" : "inherit",
+      windowsHide: true,
+    });
+    if (result.error) throw new Error(`Falha ao iniciar runtime da release: ${result.error.message}`);
+    if (result.status !== 0) {
+      const detail = options.captureRuntime ? String(result.stderr || result.stdout || "").trim() : "";
+      throw new Error(`Runtime da release falhou com codigo ${result.status}${detail ? `: ${detail}` : "."}`);
+    }
+    return { handoff: true, source: prepared.payload.source, status: result.status };
+  } finally {
+    fs.rmSync(prepared.handoffRoot, { force: true, recursive: true });
+  }
+}
+
+async function prepareReleaseHandoff(targetRoot, httpClient = defaultHttpClient, options = {}) {
+  const canonicalTarget = realDirectory(targetRoot, "targetRoot");
+  const source = await resolveRemoteSource(httpClient, canonicalTarget);
+  const archive = await httpClient(source.archiveUrl, { binary: true });
+  assertArchiveResponse(archive, source);
+  const handoffRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-handoff-"));
+  const releaseContainer = path.join(handoffRoot, "release");
+  fs.mkdirSync(releaseContainer, { recursive: true });
+  try {
+    extractZip(archive.body, releaseContainer);
+    const remoteRoot = discoverRemoteRoot(releaseContainer);
+    const runtime = resolveReleaseRuntime(remoteRoot, releaseContainer);
+    const key = crypto.randomBytes(32).toString("hex");
+    const statePath = path.join(handoffRoot, "handoff-state.json");
+    const payload = {
+      argv: Array.isArray(options.argv) ? options.argv.map(String) : [],
+      entryPath: runtime.entryPath,
+      format: HANDOFF_FORMAT,
+      governanceRoot: fs.realpathSync(remoteRoot),
+      phase: HANDOFF_PHASE,
+      releaseRoot: fs.realpathSync(releaseContainer),
+      runtimeHashes: runtime.runtimeHashes,
+      schema: 1,
+      source,
+      targetRoot: canonicalTarget,
+    };
+    const state = signHandoffPayload(payload, key);
+    fs.writeFileSync(statePath, `${JSON.stringify(state)}\n`, { encoding: "utf8", mode: 0o600 });
+    return { entryPath: runtime.entryPath, handoffRoot, key, payload, statePath };
+  } catch (error) {
+    fs.rmSync(handoffRoot, { force: true, recursive: true });
+    throw error;
+  }
+}
+
+function resolveReleaseRuntime(remoteRoot, releaseRoot = remoteRoot) {
+  const source = discoverGovernanceManifest(remoteRoot);
+  const descriptor = source.raw && source.raw.handoff;
+  if (!descriptor || descriptor.format !== HANDOFF_RUNTIME_FORMAT || descriptor.schema !== 1 ||
+    !Array.isArray(descriptor.files) || descriptor.files.length === 0 || !descriptor.files.includes(descriptor.entry)) {
+    throw new Error("Release sem descritor de runtime de handoff valido.");
+  }
+  const declared = new Map(source.manifest.files.map((entry) => [toPosixPath(safeRelativePath(entry.path)), entry]));
+  const runtimeHashes = {};
+  let entryPath = "";
+  for (const value of descriptor.files) {
+    const target = toPosixPath(safeRelativePath(value));
+    const manifestEntry = declared.get(target);
+    if (!manifestEntry || !manifestEntry.sha256) throw new Error(`Runtime de handoff nao manifestado: ${target}`);
+    const origin = safeRelativePath(manifestEntry.source || manifestEntry.path);
+    const absolute = path.join(source.baseRoot, origin);
+    if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) throw new Error(`Runtime de handoff ausente: ${target}`);
+    const actualHash = hashTextContent(fs.readFileSync(absolute));
+    if (actualHash !== String(manifestEntry.sha256).toLocaleLowerCase("en-US")) throw new Error(`Runtime de handoff divergente: ${target}`);
+    if (!isPathInside(releaseRoot, absolute)) throw new Error(`Runtime fora da release: ${target}`);
+    runtimeHashes[toPosixPath(path.relative(releaseRoot, absolute))] = actualHash;
+    if (target === descriptor.entry) entryPath = fs.realpathSync(absolute);
+  }
+  if (!entryPath) throw new Error("Entrypoint de handoff ausente.");
+  return { entryPath, runtimeHashes };
+}
+
+function resumeFromHandoff(statePath, options = {}) {
+  const key = options.handoffKey || process.env[HANDOFF_KEY_ENV];
+  const payload = verifyHandoffState(statePath, key, options.currentScript || __filename);
+  delete process.env[HANDOFF_KEY_ENV];
+  delete process.env[HANDOFF_STATE_ENV];
+  const parsed = parseArgs(payload.argv || []);
+  const remoteFiles = collectRemoteGovernanceFiles(payload.governanceRoot);
+  const previousLock = readUpdateLock(payload.targetRoot);
+  const changes = compareRemoteFiles(payload.targetRoot, remoteFiles, previousLock);
+  const plan = {
+    changed: changes.some((change) => change.action !== "unchanged"),
+    changes,
+    remoteRoot: payload.releaseRoot,
+    source: payload.source,
+    lock: createUpdateLock(payload.source, remoteFiles),
+  };
+  return executeUpdatePlan(parsed, payload.targetRoot, plan);
+}
+
+function verifyHandoffState(statePath, key, currentScript = __filename) {
+  if (!key || !/^[a-f0-9]{64}$/iu.test(String(key))) throw new Error("Chave efemera de handoff ausente ou invalida.");
+  const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+  if (!state || !state.payload || !state.mac) throw new Error("Estado de handoff invalido.");
+  const expected = handoffMac(state.payload, key);
+  const actual = Buffer.from(String(state.mac), "hex");
+  const expectedBuffer = Buffer.from(expected, "hex");
+  if (actual.length !== expectedBuffer.length || !crypto.timingSafeEqual(actual, expectedBuffer)) throw new Error("HMAC do handoff divergente.");
+  const payload = state.payload;
+  if (payload.format !== HANDOFF_FORMAT || payload.schema !== 1 || payload.phase !== HANDOFF_PHASE) throw new Error("Protocolo ou fase de handoff invalida.");
+  const releaseRoot = realDirectory(payload.releaseRoot, "releaseRoot");
+  const governanceRoot = realDirectory(payload.governanceRoot, "governanceRoot");
+  const targetRoot = realDirectory(payload.targetRoot, "targetRoot");
+  if (releaseRoot === targetRoot || isPathInside(targetRoot, releaseRoot) || isPathInside(releaseRoot, targetRoot)) throw new Error("Roots de release e target nao estao segregados.");
+  const canonicalState = fs.realpathSync(statePath);
+  if (!isPathInside(path.dirname(canonicalState), releaseRoot)) throw new Error("Estado e release nao pertencem ao mesmo handoff temporario.");
+  if (!isPathInside(releaseRoot, governanceRoot)) throw new Error("Raiz de governanca fora da release.");
+  const entryPath = fs.realpathSync(payload.entryPath);
+  if (entryPath !== fs.realpathSync(currentScript) || !isPathInside(releaseRoot, entryPath)) throw new Error("Entrypoint executado nao corresponde ao runtime da release.");
+  for (const [relativePath, expectedHash] of Object.entries(payload.runtimeHashes || {})) {
+    const absolute = path.join(releaseRoot, safeRelativePath(relativePath));
+    if (!isPathInside(releaseRoot, absolute) || !fs.existsSync(absolute) || hashTextContent(fs.readFileSync(absolute)) !== expectedHash) {
+      throw new Error(`Runtime alterado apos handoff: ${relativePath}`);
+    }
+  }
+  return { ...payload, entryPath, governanceRoot, releaseRoot, targetRoot };
+}
+
+function signHandoffPayload(payload, key) {
+  return { mac: handoffMac(payload, key), payload };
+}
+
+function handoffMac(payload, key) {
+  return crypto.createHmac("sha256", Buffer.from(String(key), "hex")).update(JSON.stringify(payload), "utf8").digest("hex");
+}
+
+function assertArchiveResponse(response, source) {
+  if (!response || response.statusCode < 200 || response.statusCode >= 300 || !Buffer.isBuffer(response.body) || response.body.length === 0) {
+    throw new Error(`Download normativo invalido: HTTP ${response && response.statusCode ? response.statusCode : 0}.`);
+  }
+  if (source.archiveSha256 && hashBuffer(response.body) !== source.archiveSha256) throw new Error("SHA-256 do arquivo de release divergente.");
+}
+
+function realDirectory(value, label) {
+  const absolute = path.resolve(String(value || ""));
+  if (!fs.existsSync(absolute) || !fs.statSync(absolute).isDirectory()) throw new Error(`${label} ausente ou invalido.`);
+  return fs.realpathSync(absolute);
+}
+
+function isPathInside(root, candidate) {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+}
+
 async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
   const source = await resolveRemoteSource(httpClient, rootDir);
   const archive = await httpClient(source.archiveUrl, { binary: true });
+  assertArchiveResponse(archive, source);
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-"));
 
   try {
@@ -126,7 +302,9 @@ async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROO
     const asset = selectReleaseZipAsset(latest.json);
     return {
       archiveUrl: asset ? asset.browser_download_url : latest.json.zipball_url,
+      archiveSha256: asset && /^sha256:[a-f0-9]{64}$/iu.test(String(asset.digest || "")) ? String(asset.digest).slice(7).toLocaleLowerCase("en-US") : "",
       label: `release:${latest.json.tag_name || "latest"}`,
+      repository: source.repository,
       ref: latest.json.tag_name || "latest",
       type: "release",
     };
@@ -144,7 +322,9 @@ async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROO
 
       return {
         archiveUrl: `${sourceApi}/zipball/${sha}`,
+        archiveSha256: "",
         label: `branch:${branch}:${sha}`,
+        repository: source.repository,
         ref: sha,
         type: "branch",
       };
@@ -280,7 +460,7 @@ function discoverGovernanceManifest(remoteRoot) {
   for (const candidate of candidates) {
     if (!fs.existsSync(candidate.filePath)) continue;
     const raw = JSON.parse(fs.readFileSync(candidate.filePath, "utf8"));
-    return { ...candidate, manifest: parseGovernanceManifest(raw, candidate.label) };
+    return { ...candidate, manifest: parseGovernanceManifest(raw, candidate.label), raw };
   }
   throw new Error("Manifesto remoto de atualizacao ausente.");
 }
@@ -747,7 +927,7 @@ function createUpdateLock(source, remoteFiles) {
       label: source.label,
       ref: source.ref,
       type: source.type,
-      url: `${SOURCE_OWNER}/${SOURCE_REPO}`,
+      url: source.repository || `${SOURCE_OWNER}/${SOURCE_REPO}`,
     },
     updatedAt: new Date().toISOString(),
   };
@@ -838,7 +1018,10 @@ module.exports = {
   buildUpdatePlan,
   collectRemoteGovernanceFiles,
   compareRemoteFiles,
+  executeUpdatePlan,
   githubCliJsonResponse,
+  handoffMac,
+  handoffToReleaseRuntime,
   hashTextContent,
   isRecognizedLegacyGovernanceFile,
   isLocalExtensionPath,
@@ -848,6 +1031,11 @@ module.exports = {
   mergePackageManifest,
   normalizeGovernanceRelativePath,
   parseArgs,
+  prepareReleaseHandoff,
+  resolveReleaseRuntime,
   resolveRemoteSource,
   resolveCaseInsensitiveFile,
+  resumeFromHandoff,
+  signHandoffPayload,
+  verifyHandoffState,
 };
