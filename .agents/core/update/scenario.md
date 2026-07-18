@@ -4,7 +4,7 @@ Extensão de `./AGENTS.md` §0.12. Aplicar `MN-ROLE`, `MN-EXT`, `MN-REF`, `MN-OU
 
 ## AU-1 — fonte e execução
 
-Resolver upstream por `MN-ROLE`. `agent:autoupdate` DEVE atualizar `AGENTS.md` canônico e gerenciados somente dessa origem validada; `agents:autoupdate`, `agent:agents` e `agents:update` PODEM ser aliases transitórios de comportamento idêntico. Sem argumento aplica, commita e publica; `--check` e `--dry-run` não escrevem. RCF/cenário PODE definir cache, credencial ou toolchain, mas NÃO DEVE redirecionar a fonte. Usar runtime/biblioteca disponível, nunca executar código remoto e materializar só norma/metadado validados. Em `403` da API, PODE consultar exclusivamente `api.github.com` por `gh api` autenticado, sem ler, registrar, imprimir ou propagar credencial a download. Hash/comparação textual usam UTF-8 com `LF` canônico; lock, download e materialização preservam bytes da origem.
+Resolver upstream por `MN-ROLE`. `update:agents` DEVE atualizar `AGENTS.md` canônico e gerenciados somente dessa origem validada; `agent:autoupdate`, `agents:autoupdate`, `agent:agents` e `agents:update` PODEM ser aliases transitórios de comportamento idêntico. Sem argumento aplica, commita e publica; `--check` e `--dry-run` não escrevem. RCF/cenário PODE definir cache, credencial ou toolchain, mas NÃO DEVE redirecionar a fonte. Usar runtime/biblioteca disponível, nunca executar código remoto e materializar só norma/metadado validados. Em `403` da API, PODE consultar exclusivamente `api.github.com` por `gh api` autenticado, sem ler, registrar, imprimir ou propagar credencial a download. Hash/comparação textual usam UTF-8 com `LF` canônico; lock, download e materialização preservam bytes da origem.
 
 ## AU-2 — origem e descoberta
 

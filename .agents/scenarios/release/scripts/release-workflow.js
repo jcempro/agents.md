@@ -4,7 +4,7 @@
 // Licenca: Mozilla Public License 2.0
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
-// Disclaimer: fornecido "AS IS", sem garantias de qualquer tipo.
+// Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
 
 const childProcess = require("child_process");
 const fs = require("fs");
