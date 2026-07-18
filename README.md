@@ -6,11 +6,16 @@ Governanca operacional portavel para agentes IA. `./` organiza o repositorio e a
 
 O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.agents/meta/`. O índice `.agents/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.agents/local/` ou `.agents/hooks/` e não são sobrescritas por `agents:update`.
 
+Configuração central reside exclusivamente em `config/`: `core.json` contém defaults portáteis, `schema.json` versiona o formato, `repository.json` descreve este construtor e `agents.local.json` é a sobreposição local não versionada. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Hooks de `publish` e `dev-live` usam `.agents/hooks/<operacao>[.pre|.post].js`.
+
 ## Operacao
 
 - `npm run clean`: remove `dist/`, `index.json` e `handoff.md` gerados.
 - `npm run check`: executa a verificacao local completa.
-- `npm run release -- <versao>`: gera `dist/`, `release-note.txt` e `agents-v<versao>.zip`; sem versão, infere somente quando a evidência é determinística.
+- `npm run release -- <versao>`: executa o ciclo completo all-in-one e acompanha a comprovação remota.
+- `npm run publish -- [args]`: executa o fluxo hookable de publicação de conteúdo; neste construtor retorna `PUBLISH_NAO_APLICAVEL` sem hook local.
+- `npm run update:agents -- [--check|--dry-run]`: atualiza, commita e publica a governança; é o nome canônico.
+- `npm run dev-live`: expõe a configuração/hook local padronizado em `127.0.0.1:4000` por default.
 - `npm run release:trigger -- <versao>`: cria o gatilho transitório `release` para o workflow técnico.
 - `npm run release:publish -- <versao>`: executa o ciclo completo de release e aguarda a comprovação remota.
 - `npm run agent:status`: resume capacidades canonicas.
@@ -18,7 +23,7 @@ O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarqu
 - `npm run agent:index`: gera `index.json` minificado a partir de `src/`.
 - `npm run agent:dist`: gera `dist/`, `dist/package.json`, `dist/release.json` e pacote `agents-v<versao>.zip`.
 - `npm run agent:verify`: valida scripts, indexador e dist.
-- `npm run agent:autoupdate`: executa a atualização automática da governança pela superfície filtrada, mesclando somente scripts/dependências declarados em `agentsGovernance` no `package.json` anfitrião. Sem argumentos aplica, commita e publica; `--check` e `--dry-run` são diagnósticos sem escrita. `agents:autoupdate`, `agent:agents` e `agents:update` permanecem aliases transitórios.
+- `npm run agent:autoupdate`: alias transitório de `update:agents`; `agents:autoupdate`, `agent:agents` e `agents:update` permanecem equivalentes durante a migração.
 
 ### Evolução upstream de AGENTS.md
 
@@ -48,10 +53,10 @@ O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horári
 
 ### Atualização segura da governança
 
-`agents:update` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. O estado local anterior é consultado apenas para converter formatos e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.agents/local/`, `.agents/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
+`update:agents` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. O estado local anterior é consultado apenas para converter formatos e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.agents/local/`, `.agents/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
 
-Migração de upstream usa `.agents/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `agent:autoupdate` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
-Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez `node .agents/core/runtime/scripts/autoupdate.js`; o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os quatro aliases e publica a branch atual. Depois disso, `npm run agent:autoupdate` é a entrada canônica.
+Migração de upstream usa `.agents/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `update:agents` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
+Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez `node .agents/core/runtime/scripts/autoupdate.js`; o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os aliases e publica a branch atual. Depois disso, `npm run update:agents` é a entrada canônica.
 
 Cada alteração estrutural do formato traz um descritor de linguagem, marcador de variação e conversor histórico. Configurações equivalentes devem preferir o mesmo parser e descritor para manter transições verificáveis.
 
@@ -109,11 +114,13 @@ O comando interrompe antes de escrever quando houver alteração local, tag exis
 - [src/.agents/scenarios/release/scenario.md](src/.agents/scenarios/release/scenario.md): cenario Release.
 - [src/.agents/scenarios/content-publication/scenario.md](src/.agents/scenarios/content-publication/scenario.md): cenario Publicação de Conteúdo.
 
-## Autor
+## Autoria
 
 [JeanCarloEM](https://www.jeancarloem.com)
 
-Migrado de [https://github.com/JeanCarloEM/agents.md](https://github.com/JeanCarloEM/agents.md).
+## Repositório
+
+[jcempro/agents.md](https://github.com/jcempro/agents.md), migrado de [JeanCarloEM/agents.md](https://github.com/JeanCarloEM/agents.md).
 
 ## Licença
 

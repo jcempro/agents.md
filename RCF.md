@@ -432,6 +432,12 @@ Devem preservar:
 - ambiguidade: interpretação mais restritiva, menor alteração, maior preservação; insolúvel → `AMBIGUIDADE INSOLUVEL: <ponto>. Preservando original.`;
 - validação objetiva e documentação correlata.
 
+Configuração mutável ou personalizável DEVE ter uma única raiz `./config/`, com arquivos por contexto, schema e parser compartilhado; CLI → ambiente → configuração local → default permanece a precedência. Código só conserva constante intrínseca ao algoritmo. Paths de aplicação/artefato, URLs, portas, workflow, branches, estratégia web/offline e metadados de autoria/licença pertencem à configuração. Build e dev-live consomem essa raiz; parâmetro de CI/desenvolvimento não integra runtime final. Web usa arquivo versionado cacheável ou header global justificado; bundle offline/móvel embute apenas o subconjunto requerido ou URL homologada.
+
+`dev-live` DEVE ser previsível em todos os consumidores: `127.0.0.1`, porta `4000`, HTTP, sem proxy e reload por watch são defaults portáteis, substituíveis somente por configuração local declarada. Ausência de servidor aplicável exige dispensa explícita, não script ambíguo.
+
+Build DEVE inserir e validar banner comentável usando a mesma configuração central de autoria, upstream e licença. Minificação/compilação não autoriza removê-lo. README encerra com Autoria, Repositório e Licença equivalentes; ausência de dado permanece ausência, sem inferência.
+
 ### 3.12 Seção 15 — Implementações em andamento
 
 Gerar automaticamente, por script npm, Markdown na raiz, linkado pelo README, nunca editado manualmente.
@@ -484,9 +490,13 @@ Matriz mínima, quando aplicável ao ecossistema:
 ### 4.0 Scripts reutilizáveis e metaarquivos
 
 Aplicar `MN-CLI` e `MN-META`. Script reutilizável DEVE declarar contrato comum, `--help`, parâmetro tipado/default, saída, erro, modo local/CI, configuração, compatibilidade, hook/adaptador e código `0/1/2/3/4/130`; argumento desconhecido falha, salvo `--` documentado para extensão. Conteúdo gerenciado NÃO DEVE receber edição local para especialização; configuração, hook e adaptador locais DEVEM residir fora dele, permanecer subordinados e NÃO DEVEM ser sobrescritos por atualização. Metaarquivos gerenciados ficam em `./.agents/meta/<contexto>.md`, são indexados/distribuídos recursivamente e segmentam `cli`, `build`, `release`, `publish`, `maintenance`, `update`, `validation` e `ia` quando aplicáveis. Cada comando carrega somente `cli` e o contexto pertinente; README/RCF referenciam, sem repetir contratos. Release inclui scripts, metaarquivos, manifesto, dependências declaradas, hooks e exemplo mínimo, mas NÃO inclui dependência instalada salvo autonomia expressa.
+
+NPM DEVE possuir `release`, `publish` e `update:agents` como comandos universais all-in-one. Parcial/intermediário usa `:` em cadeia semântica. Implementação reutilizável fica em `shared:*`; `agent:*` e `agents:*` são reservados à IA e apenas delegam ao global/compartilhado com saída filtrada. Alias legado permanece durante transição explícita. Core recebe paths e hooks tipados `pre`/`post` por configuração, nunca presume `src`, `dist`, ativo ou hospedagem da aplicação. Orquestrador valida branch e tree, limpa somente target declarado, executa hooks/build/validação, cria commits isolados, envia upstream, acompanha pipeline e só interrompe para decisão humana em divergência crítica.
+
+CONTRADIÇÃO DETECTADA: comando canônico anterior `agent:autoupdate` vs aditamento humano `update:agents` — Aplicando a regra humana evolutiva e preservando aliases transitórios.
 - **Qualidade:** `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`.
 - **Dependências:** `agent:deps`, `agent:update-deps`, `agent:licenses`.
-- **Documentação/governança:** `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `agent:autoupdate`; `agents:autoupdate`, `agent:agents` e `agents:update` são aliases transitórios equivalentes.
+- **Documentação/governança:** `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `update:agents`; `agent:autoupdate`, `agents:autoupdate`, `agent:agents` e `agents:update` são aliases transitórios equivalentes.
 - **Dados:** `agent:parse-data`, `agent:summarize`, `agent:convert`, `agent:validate-data`, `agent:index-data`, `agent:query-data`.
 
 Novos comandos PODEM ser adicionados sem enfraquecer os canônicos. Alias NÃO substitui nome padronizado. Comando inaplicável DEVE possuir dispensa expressa por autoridade normativa competente.

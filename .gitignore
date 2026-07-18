@@ -11,6 +11,7 @@ node_modules/
 dist/release-note.txt
 *.7z
 tmp/
+config/agents.local.json
 
 0. Autoriza .md em ./.agents/
 /.agents/*

@@ -1,0 +1,5 @@
+{
+  "id": "agents-config/v1",
+  "version": 1,
+  "required": ["schema", "devLive", "distribution", "lifecycle", "output", "publicClient", "publicServices"]
+}
