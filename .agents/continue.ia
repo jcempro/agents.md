@@ -218,26 +218,26 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
-FT-032|nome=Atualizacao convergente em consumidores|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260718.144449|atualizacao=20260718.144449
+FT-032|nome=Atualizacao convergente em consumidores|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260718.144449|atualizacao=20260718.145515
 objetivo=Garantir que update:agents sempre converja todo caminho declarado como gerenciado pela release, inclusive diante de arquivo preexistente ou edicao local no consumidor, sem sobrescrever extensoes locais autorizadas.
 escopo=Contrato MN-EXT, cenario de update, RCF, atualizador, backup de divergencias, testes, distribuicao e release.
 nao_escopo=Sobrescrever agents.local.md, .agents/local, .agents/hooks ou adaptador declarado; converter falha de rede, origem ou integridade em sucesso.
 riscos=Perda de customizacao colocada indevidamente no nucleo; backup nao rastreavel; regressao transacional; commit incluir artefato local.
-1/3 Contrato convergente [em_andamento]
-  1/2 Declarar autoridade exaustiva da release sobre paths gerenciados [em_andamento]
-  2/2 Distinguir extensao preservada de divergencia substituida [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/3 Substituir bloqueios por backup local ignorado [pendente]
-  2/3 Testar consumidor com colisao e edicao gerenciada [pendente]
-  3/3 Executar testes, build e verify [pendente]
-3/3 Entrega [pendente]
-  1/3 Atualizar memoria e handoff [pendente]
-  2/3 Commitar e publicar [pendente]
+1/3 Contrato convergente [concluido]
+  1/2 Declarar autoridade exaustiva da release sobre paths gerenciados [concluido]
+  2/2 Distinguir extensao preservada de divergencia substituida [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/3 Substituir bloqueios por backup local ignorado [concluido]
+  2/3 Testar consumidor com colisao e edicao gerenciada [concluido]
+  3/3 Executar testes, build e verify [concluido]
+3/3 Entrega [em_andamento]
+  1/3 Atualizar memoria e handoff [em_andamento]
+  2/3 Commitar e publicar [em_andamento]
   3/3 Executar update final e convergir branches [pendente]
 decisoes=Diretriz humana esclarece que atualizar deve atualizar sempre. Path presente no manifesto remoto pertence ao nucleo gerenciado; divergencia local sera reunida em ZIP nivel 9 cross-platform sob ./agents-governance-backups/YYYY-MM-DD, com nome rastreavel e path informado para exclusao humana, e substituida. A raiz e ignorada pelo Git. Extensoes autorizadas permanecem fora do manifesto e intocadas.
 falhas=O contrato v0.0.15 ainda aborta em consumidor sem lock quando encontra arquivo preexistente em novo path gerenciado e aborta quando arquivo gerenciado foi editado localmente.
-verificacoes=Pendentes.
-pendencias=Concluir contrato, implementar convergencia, validar e publicar.
+verificacoes=Teste focado cria colisao no consumidor, gera ZIP nivel 9 em raiz interna datada, extrai conteudo e manifesto, aplica plano e comprova substituicao preservando backup; .gitignore cobre a raiz. Implementacao usa fs/path/os/zlib Node.js sem shell ou path de SO. agent:test TEST_OK suites=5; build DIST_OK files=46; verify scripts=18 indexedFiles=23; diff check OK.
+pendencias=Publicar release, executar update final, concluir memoria/handoff e convergir branches.
 
 FT-031|nome=Atualizacao autoritativa e aditamento estrutural|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260718.135506|atualizacao=20260718.143046|conclusao=20260718.143046
 objetivo=Corrigir a atualizacao da governanca ativa no checkout upstream e incorporar de forma coesa as diretrizes de configuracao central, matriz NPM hookable, automacao all-in-one, namespaces, ambiente dev-live e identificacao de autoria.
