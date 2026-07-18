@@ -1,8 +1,10 @@
 const assert = require("assert");
+const childProcess = require("child_process");
+const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, backupDivergentManagedFiles, mergePackageManifest, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
+const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.agents/core/runtime/scripts/update-agents");
 const { extractZip } = require("../.agents/core/runtime/scripts/archive");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
@@ -77,6 +79,115 @@ async function main() {
   } finally {
     fs.rmSync(root, { force: true, recursive: true });
   }
+
+  const repositoryRoot = path.join(__dirname, "..");
+  const distRoot = path.join(repositoryRoot, "dist");
+  const runtime = resolveReleaseRuntime(distRoot);
+  assert.equal(runtime.entryPath, fs.realpathSync(path.join(distRoot, ".agents", "core", "runtime", "scripts", "update-agents.js")));
+  assert.equal(Object.keys(runtime.runtimeHashes).length, 3);
+
+  const handoffRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-handoff-test-"));
+  try {
+    const releaseRoot = path.join(handoffRoot, "release");
+    const targetRoot = path.join(handoffRoot, "target");
+    fs.cpSync(distRoot, releaseRoot, { recursive: true });
+    fs.mkdirSync(targetRoot, { recursive: true });
+    const copiedRuntime = resolveReleaseRuntime(releaseRoot);
+    const key = crypto.randomBytes(32).toString("hex");
+    const statePath = path.join(handoffRoot, "handoff-state.json");
+    const payload = {
+      argv: ["--dry-run"],
+      entryPath: copiedRuntime.entryPath,
+      format: "agents-update-handoff/v1",
+      governanceRoot: fs.realpathSync(releaseRoot),
+      phase: "release-runtime-ready",
+      releaseRoot: fs.realpathSync(releaseRoot),
+      runtimeHashes: copiedRuntime.runtimeHashes,
+      schema: 1,
+      source: { archiveSha256: "", archiveUrl: "https://example.invalid/agents.zip", label: "release:v-test", ref: "v-test", repository: "test/agents", type: "release" },
+      targetRoot: fs.realpathSync(targetRoot),
+    };
+    fs.writeFileSync(statePath, JSON.stringify(signHandoffPayload(payload, key)), { mode: 0o600 });
+    assert.equal(verifyHandoffState(statePath, key, copiedRuntime.entryPath).phase, "release-runtime-ready");
+    const resumed = childProcess.spawnSync(process.execPath, [copiedRuntime.entryPath, "--check"], {
+      cwd: targetRoot,
+      encoding: "utf8",
+      env: { ...process.env, AGENTS_UPDATE_HANDOFF_KEY: key, AGENTS_UPDATE_HANDOFF_STATE: statePath, NODE_PATH: "" },
+      windowsHide: true,
+    });
+    assert.equal(resumed.status, 0, resumed.stderr || resumed.stdout);
+    assert.match(resumed.stdout, /agent:autoupdate dry-run: release:v-test/u);
+    assert.equal(fs.readdirSync(targetRoot).length, 0);
+
+    const tampered = JSON.parse(fs.readFileSync(statePath, "utf8"));
+    tampered.payload.phase = "download-pending";
+    fs.writeFileSync(statePath, JSON.stringify(tampered));
+    assert.throws(() => verifyHandoffState(statePath, key, copiedRuntime.entryPath), /HMAC do handoff divergente/u);
+
+    fs.writeFileSync(statePath, JSON.stringify(signHandoffPayload(payload, key)));
+    const invalidRoots = { ...payload, targetRoot: payload.releaseRoot };
+    fs.writeFileSync(statePath, JSON.stringify(signHandoffPayload(invalidRoots, key)));
+    assert.throws(() => verifyHandoffState(statePath, key, copiedRuntime.entryPath), /Roots de release e target nao estao segregados/u);
+
+    fs.writeFileSync(statePath, JSON.stringify(signHandoffPayload(payload, key)));
+    const archiveDependency = path.join(releaseRoot, ".agents", "core", "runtime", "scripts", "archive.js");
+    fs.appendFileSync(archiveDependency, "\n// adulterado\n");
+    assert.throws(() => verifyHandoffState(statePath, key, copiedRuntime.entryPath), /Runtime alterado apos handoff/u);
+  } finally {
+    fs.rmSync(handoffRoot, { force: true, recursive: true });
+  }
+
+  const archivePath = path.join(distRoot, `agents-v${JSON.parse(fs.readFileSync(path.join(repositoryRoot, "package.json"), "utf8")).version}.zip`);
+  const archiveBody = fs.readFileSync(archivePath);
+  let binaryDownloads = 0;
+  const prepared = await prepareReleaseHandoff(repositoryRoot, async (_url, options = {}) => {
+    if (options.binary) {
+      binaryDownloads += 1;
+      return { body: archiveBody, headers: {}, statusCode: 200 };
+    }
+    return {
+      body: Buffer.from(JSON.stringify({ assets: [{ browser_download_url: "https://example.invalid/agents.zip", digest: `sha256:${crypto.createHash("sha256").update(archiveBody).digest("hex")}`, name: "agents.zip" }], tag_name: "v-test" })),
+      headers: {},
+      statusCode: 200,
+    };
+  }, { argv: ["--check"] });
+  try {
+    assert.equal(binaryDownloads, 1);
+    assert.equal(prepared.payload.phase, "release-runtime-ready");
+    assert.equal(prepared.payload.targetRoot, fs.realpathSync(repositoryRoot));
+    assert.equal(fs.existsSync(prepared.statePath), true);
+  } finally {
+    fs.rmSync(prepared.handoffRoot, { force: true, recursive: true });
+  }
+
+  await assert.rejects(() => prepareReleaseHandoff(repositoryRoot, async (_url, options = {}) => {
+    if (options.binary) return { body: archiveBody, headers: {}, statusCode: 200 };
+    return {
+      body: Buffer.from(JSON.stringify({ assets: [{ browser_download_url: "https://example.invalid/agents.zip", digest: `sha256:${"0".repeat(64)}`, name: "agents.zip" }], tag_name: "v-test" })),
+      headers: {},
+      statusCode: 200,
+    };
+  }), /SHA-256 do arquivo de release divergente/u);
+
+  let cleanedHandoffRoot = "";
+  const handoffResult = await handoffToReleaseRuntime(["--dry-run"], repositoryRoot, async (_url, options = {}) => {
+    if (options.binary) return { body: archiveBody, headers: {}, statusCode: 200 };
+    return {
+      body: Buffer.from(JSON.stringify({ assets: [{ browser_download_url: "https://example.invalid/agents.zip", digest: `sha256:${crypto.createHash("sha256").update(archiveBody).digest("hex")}`, name: "agents.zip" }], tag_name: "v-test" })),
+      headers: {},
+      statusCode: 200,
+    };
+  }, {
+    captureRuntime: true,
+    spawnRuntime: (_executable, args, options) => {
+      cleanedHandoffRoot = path.dirname(options.env.AGENTS_UPDATE_HANDOFF_STATE);
+      const verified = verifyHandoffState(options.env.AGENTS_UPDATE_HANDOFF_STATE, options.env.AGENTS_UPDATE_HANDOFF_KEY, args[0]);
+      assert.deepEqual(verified.argv, ["--dry-run"]);
+      return { status: 0, stderr: "", stdout: "" };
+    },
+  });
+  assert.equal(handoffResult.handoff, true);
+  assert.equal(fs.existsSync(cleanedHandoffRoot), false);
 }
 
 main().catch((error) => { console.error(error); process.exitCode = 1; });
