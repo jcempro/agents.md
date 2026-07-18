@@ -1,3 +1,3 @@
 # CLI reutilizavel
 
-Subordinado a `AGENTS.md` §18 e `MN-CLI`; todo script carrega este arquivo e somente seu contexto. Declara `nome`, `finalidade`, `sintaxe`, parâmetros com tipo/obrigação/default, configuração, efeitos, idempotência, compatibilidade, extensões, códigos e validação. `--help` retorna `0` sem mutação; erro de uso/parâmetro retorna `2`; indisponibilidade retorna `3`; contrato/filtro ausente retorna `4`; interrupção retorna `130`. CLI → ambiente → arquivo local declarado → default; `--` só encaminha argumentos a hook/adaptador explicitamente declarado. Saída IA usa `to-ia`; logs são estruturados, sem segredo; paths são relativos seguros e runtime deve ser multiplataforma quando viável.
+Subordinado a `./AGENTS.md` §18, `MN-CLI`, `MN-META` e `MN-OUT`. Todo script reutilizável carrega este arquivo primeiro e somente os contextos mapeados aplicáveis. Não redefine contratos dos microconceitos.

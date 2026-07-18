@@ -1,6 +1,6 @@
 # AGENTS.md — Governança Operacional Global
 
-`AGENTS.md` governa a atuação da IA; RCF governa requisitos, contratos, arquitetura e negócio. Aplicar cumulativamente `./.agents/core/concepts/microconceitos.md` (`MN-2119`, `MN-DENS`, `MN-PRES`, `MN-IA-OPT`, `MN-PREP`, `MN-OUT`, `MN-CMD`, `MN-API`, `MN-DEF`, `MN-STATE`, `MN-VAL`, `MN-REF`, `MN-CLI`, `MN-META`). Referência a microconceito o incorpora integralmente.
+`AGENTS.md` governa atuação da IA; RCF governa requisito, contrato, arquitetura e negócio. Registro: `./.agents/core/concepts/microconceitos.md`. Aplicar sempre `MN-2119`, `MN-DENS`, `MN-PRES` e `MN-REF`; cada seção cita os demais conceitos aplicáveis, resolvidos seletivamente por `MN-REF`.
 
 ## Apendice - GESTAO DE CONTEXTO (RFC_COMPLIANT)
 
@@ -10,21 +10,17 @@
 
 ### 0.1–0.5 Finalidade e domínio
 
-Este arquivo DEVE governar a operação da IA sem alterar instrução intrínseca da plataforma e DEVE permanecer reutilizável sem adaptação. NÃO DEVE conter URL, nome próprio, path físico ou regra exclusiva de projeto; PODE usar paths relativos e conceitos universais. AGENTS define como a IA processa; RCF/cenário define o que o projeto faz. AGENTS PODE normatizar método, cache, FT, artefato, build, validação e equivalentes, mas NÃO DEVE criar negócio.
+Aplicar `MN-ROLE` e `MN-EXT`. Este arquivo DEVE governar a operação da IA sem alterar instrução intrínseca da plataforma e permanecer reutilizável sem adaptação. NÃO DEVE conter URL, nome próprio, path físico ou regra exclusiva; PODE usar path relativo e conceito universal. AGENTS define processamento; RCF/cenário define função do produto. AGENTS PODE normatizar método, cache, FT, artefato, build e validação, mas NÃO DEVE criar negócio.
 
-RCF aplicável DEVE especificar, com contexto e critérios suficientes para impedir perda interpretativa, a regra de negócio projetada de forma objetiva neste AGENTS. Ajuste, correção, aprimoramento ou melhoria que altere regra, contrato, capacidade, cenário, script ou validação DEVE sincronizar RCF e AGENTS/fonte na mesma FT; RCF mantém a explicação mais completa e AGENTS conserva somente a projeção operacional aderente.
+RCF aplicável DEVE explicar contexto e critérios da regra de negócio projetada na fonte. Alteração de regra, contrato, capacidade, cenário, script ou validação DEVE sincronizar RCF e fonte na mesma FT: RCF conserva explicação integral; AGENTS, projeção operacional.
 
 ### 0.6–0.11 Compartimentação e extensão local
 
-RCF/cenário DEVE definir comportamento funcional; AGENTS/auxiliar DEVE definir processamento. Regra de IA convertida em negócio, ou inverso, é regressão. `agents.local.md` contém somente particularidade não replicável. Terceiro importado NÃO DEVE ser analisado, alterado ou mantido antes de incorporação definitiva. `agents.local.md` e memória PODEM residir na raiz ou em `./.agents/`.
-
-No repositório que adote governança atualizável, `AGENTS.md` e cada associado gerenciado identificado pela norma, índice, manifesto ou atualização NÃO DEVEM ser editados para especializar, substituir ou alterar comportamento obrigatório. Necessidade local DEVE residir em `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado; a leitura DEVE incluí-la como especialização subordinada e a atualização DEVE preservá-la sem remoção ou sobrescrita. `--force` PODE substituir somente conteúdo gerenciado por origem validada após revisão, nunca legitimar customização local do núcleo. Repositório declarado pelo próprio RCF como fonte construtiva da governança distribuível PODE editar essa fonte em FT de manutenção; sua governança ativa continua distinta e superior à fonte, espelho ou artefato produzido.
-
-Somente `./AGENTS.md`, `./.agents/` e importações governam a IA; homônimo sob `src`, `dist` ou equivalente é artefato do produto e NÃO DEVE contaminar a governança. Alteração de RCF exige confirmação humana diante de ambiguidade, risco interpretativo ou regressão possível.
+RCF/cenário DEVE definir comportamento; AGENTS/auxiliar, processamento. Conversão entre domínios é regressão. `agents.local.md` e memória PODEM residir na raiz ou em `./.agents/`. Fonte, artefato, construtor, consumidor e dupla função DEVEM manter autoridade, contexto, arquivo e validação segregados. Atualizar norma raiz a partir da fonte exige solicitação humana explícita. Alterar RCF exige confirmação humana diante de ambiguidade, risco interpretativo ou regressão possível.
 
 ### 0.12 Atualização
 
-Todo repositório DEVE expor `agent:agents`; `agents:update` PODE ser alias. Criação/reparo DEVE observar `./.agents/core/update/scenario.md` quando aplicável. A origem recebida por release validado ou branch primária DEVE definir integralmente o estado gerenciado: dado preexistente só PODE servir à migração, à detecção de legado e à limpeza, nunca a repor ou conservar recurso gerenciado ausente da origem. Atualização DEVE remover somente legado cuja gestão anterior seja comprovada e preservar integralmente `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` e adaptador declarado. Alteração de formato, caminho, notação, recurso ou estrutura gerenciada DEVE trazer descritor versionado, marcador da variação e conversor permanente para a versão anterior; ausência futura do formato original NÃO autoriza apagar seu conversor ou perder equivalência transitória. Arquivo de configuração equivalente DEVERIA usar parser único e descritor formal de linguagem/versionamento, para reduzir mudanças estruturais e manter leitura, validação e conversão coerentes.
+Todo repositório DEVE expor `agent:autoupdate`; `agents:autoupdate`, `agent:agents` e `agents:update` PODEM ser aliases transitórios equivalentes. Sem argumento aplica, commita e publica; `--check` e `--dry-run` não escrevem. Criação/reparo aplica `./.agents/core/update/scenario.md`. Origem recebida validada define exaustivamente o gerenciado; preexistente serve somente a migração, legado comprovado, limpeza ou restauração transacional. Mudança de formato/path/notação/recurso/estrutura DEVE incluir descritor versionado, marcador e conversor permanente da versão anterior; ausência futura do original NÃO autoriza retirar conversor. Configuração equivalente DEVERIA compartilhar parser e descritor formal.
 
 ### 0.13 Raízes arquiteturais
 
@@ -44,29 +40,29 @@ Aplicar `MN-IA-OPT` e `MN-PREP`. Mapa DEVE conter somente fonte, norma, configur
 
 ## 4. Execução por estado
 
-Aplicar `MN-STATE`. Antes de implementar, IA DEVE identificar intenção, localizar/criar e classificar FT, identificar etapa/tarefa, atualizar plano e executar do estado registrado. FT incompatível pendente DEVE ser resolvida antes de implementação posterior incompatível.
+Aplicar `MN-STATE`. Antes de implementar, IA DEVE identificar intenção, localizar/criar/classificar FT, selecionar etapa/tarefa, atualizar plano e executar do estado registrado. FT pendente incompatível DEVE ser resolvida primeiro.
 
 ## 5. Frentes de Trabalho
 
-Cada solicitação pertence a uma FT: `FT-NNN`, nome, objetivo, prioridade, status, escopo Técnico/Negócio, início/atualização/conclusão `YYYYMMDD.HHMM.SS`, plano integral e retomada. Etapa contém tarefas; FT só conclui com todas concluídas. Técnico constrói mecanismo; Negócio produz substância. FT PODE ser segregada em subarquivo versionado quando reduzir contexto; `.gitignore` NÃO DEVE ocultá-la.
+Cada solicitação pertence a uma FT conforme `MN-STATE`; etapa contém tarefas e FT só conclui com todas concluídas. Técnico constrói mecanismo; Negócio produz substância. FT PODE usar subarquivo versionado quando reduzir contexto; `.gitignore` NÃO DEVE ocultá-la.
 
 ## 6. Plano, etapas e tarefas
 
-Plano vigente DEVE preceder implementação; requisito, contrato ou solução alterada DEVE atualizar RCF e memória antes da continuação. Etapa DEVE ter posição `X/N`, objetivo, dependência, tarefas e estado funcional. Tarefa DEVE ter posição, nome e previsão; DEVERIA deixar estado funcional. Plano pode evoluir, mas itens concluídos DEVEM permanecer enquanto FT ativa. Conclusão DEVE validar, atualizar memória, commitar, publicar quando possível e só então avançar. Alteração moderada DEVE ter pelo menos 2 commits; agressiva, 4. FT concluída DEVE ser comprimida sem perda, retida exatamente 15 dias e removida depois.
+Plano vigente DEVE preceder implementação; requisito, contrato ou solução alterada DEVE atualizar RCF/memória antes de continuar. Etapa declara posição `X/N`, objetivo, dependência, tarefas e estado funcional; tarefa declara posição, nome e previsão e DEVERIA entregar estado funcional. Plano PODE evoluir, preservando concluídos enquanto ativo. Conclusão valida e atualiza memória antes de avançar. Alteração moderada exige ≥2 commits; agressiva, ≥4. FT concluída DEVE ser comprimida sem perda, retida exatamente 15 dias e removida depois.
 
 ## 7. Memória operacional
 
-Exatamente um arquivo canônico `continue.ia` ou `continue.dev` DEVE existir; referência legada converge ao nome ativo. Formato DEVE ser rastreável, indexável e legível; XML NÃO DEVERIA ser usado sem justificativa. Registro de FT DEVE conter identidade, datas, etapa/tarefa, plano, progresso, próximo ponto, decisões, verificações, comandos, pendências, hipóteses descartadas, falhas e antirretrabalho. Atualização DEVE ser contínua. Aprendizado DEVE registrar `MACHINE_ID`, `DATA_REF`, cache e bloqueio de repetição falha sem evidência nova.
+Exatamente um `continue.ia` ou `continue.dev` canônico DEVE existir; referência legada converge ao ativo. Formato DEVE ser rastreável, indexável e legível; XML NÃO DEVERIA ser usado sem justificativa. Além de `MN-STATE`, aprendizado registra `MACHINE_ID`, `DATA_REF`, cache e bloqueio de repetir falha sem evidência nova.
 
 ## 8. Interrupção e retomada
 
-Iminência de limite DEVE interromper controladamente, salvar estado e marcar tarefa `[INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS]`. Retomada DEVE localizar a flag, validar alteração manual, retomar se equivalente ou solicitar decisão; remoção da flag só PODE ocorrer após retomada bem-sucedida.
+Iminência de limite DEVE salvar estado e marcar `[INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS]`. Retomada valida alteração manual, continua se equivalente ou solicita decisão; remove a flag somente após retomada validada.
 
 ## 9. Git
 
 Desenvolvimento DEVE ocorrer em `dev`; merge em `main`/`master` só PODE ocorrer com FT concluída e sistema global funcional. Branch e working tree DEVEM ser verificados antes de alterar. Se branch não for `dev` com alteração unstaged, IA DEVE solicitar escolha: preservar `dev`; recriá-lo de main/master; levar/mesclar estado; ou continuar. Commit/push DEVEM ser comprovados e usar API quando disponível.
 
-Conclusão de FT ou release publicado DEVE convergir `dev` para a branch primária disponível (`main`, senão `master`) antes de encerrar o ciclo operacional. Merge DEVE preservar ambos os históricos; fast-forward é preferível quando possível, merge normal é obrigatório diante de divergência compatível e conflito DEVE bloquear publicação até resolução explícita. A branch primária NÃO DEVE permanecer ancestral defasada de `dev` após essa convergência.
+Conclusão de FT ou release publicado DEVE convergir `dev` para a branch primária disponível (`main`, senão `master`) antes de encerrar o ciclo. Merge preserva ambos os históricos: fast-forward se a primária for ancestral de `dev`; diante de divergência compatível, merge normal; conflito bloqueia publicação até resolução explícita. A primária NÃO DEVE permanecer ancestral defasada de `dev`.
 
 ## 10. Não regressão e sincronização
 
@@ -74,11 +70,13 @@ Implementação NÃO DEVE regredir arquitetura, negócio, UX, API, build, cache,
 
 ## 11. Runtime, build e CDN
 
-Implementação NÃO DEVE introduzir negócio não autorizado, dependência inútil, duplicação, complexidade gratuita ou refatoração extrínseca. Produto final DEVE conter somente runtime necessário; recurso de desenvolvimento NÃO DEVE integrá-lo. Build DEVE incorporar seletivamente recurso resolvido quando possível. RCF decide CDN; em silêncio, produto online DEVERIA usar CDN cacheável, solução local PODE prevalecer por tamanho/latência/banda, e bundle offline DEVE manter recursos locais.
+Implementação NÃO DEVE introduzir negócio não autorizado, dependência inútil, duplicação, complexidade gratuita ou refatoração extrínseca. Produto final contém somente runtime necessário; recurso de desenvolvimento NÃO DEVE integrá-lo. Build incorpora recurso resolvido se manifesto/licença/target forem compatíveis. RCF decide CDN; em silêncio, produto online DEVERIA usar CDN cacheável, solução local PODE prevalecer por tamanho/latência/banda, e bundle offline mantém recursos locais.
 
 ## 12. Padrões de implementação
 
 Análise e saída técnica DEVEM usar PT-BR, validar impacto e NÃO DEVE apresentar hipótese como conclusão. Alteração DEVE ter diff mínimo, preservar fluxo, contrato e comentário correto; redundância suspeita DEVE receber `// PRESERVADO: potencial correção de bug não documentada`. Correção nova DEVE usar `// FIX-BUG:` ou `// PROTECAO:` conciso. Texto NÃO DEVE usar pronome interlocutório/autorreferencial, "talvez", "pode ser" ou "provavelmente". Ambiguidade aplica `MN-PRES`.
+
+Todo código-fonte e código final entregável cujo formato aceite comentário DEVE manter ou inserir somente cabeçalho de autoria/licença e NUNCA removê-lo. O cabeçalho DEVE usar dados do repositório ao qual o código pertence: URL upstream/origem, autor primário e secundário se houver, respectivos site/e-mail se houver, nome/link da licença e seu texto canônico ultrassucinto; dado ausente NÃO DEVE ser inferido.
 
 ## 13. Validação
 
@@ -98,22 +96,23 @@ Entrega DEVE terminar com `COMMIT_SUGERIDO: <PT-BR; até 512 caracteres>` e `PEN
 
 ## 17. Cenários
 
-Cenário é especialização reutilizável; regra específica só PODE restringir geral no próprio escopo, com justificativa e preservação. Núcleo reside em `./.agents/core/`; cenário reside em `./.agents/scenarios/<domínio>/<nome>/scenario.md`, com scripts e recursos no próprio diretório. Novo cenário DEVE estar indexado; regra multicenário DEVERIA tornar-se capacidade reutilizável. Antes de criar solução, DEVE reutilizar universal → grupo → composição → parâmetro → criação. Herança só PODE existir em cadeia única estável; cenário de borda NÃO DEVE simular herança múltipla e DEVE compor capacidades ordenadas por contrato. Interface pública DEVE permanecer estável; fluxo composto NÃO DEVE duplicar lógica; escolha técnica DEVE ser proporcional; processo existente DEVE ser preservado; correção textual incidental DEVE limitar-se à região alterada.
-
-Arquivo de cenário DEVE declarar escopo, limites, dependências, contratos, exceções, precedência, segurança, privacidade, acessibilidade, desempenho, compatibilidade e validação; DEVE referenciar regra comum, não copiá-la. Script/capacidade plugável DEVE obedecer `./.agents/core/contracts.md`: tipo, versão, dependências, métodos e eventos validados; estado só POR getter imutável e setter/ação validada; intermediário só PODE fazer passthrough com observação de entrada, saída, alteração e evento. Hook DEVE propagar núcleo → capacidade → cenário → adaptador local, sem isolamento silencioso. Antes de implementar, IA DEVE classificar projeto, carregar cenário/dependência integral, aplicar cumulativamente e registrar aplicação/dispensa. Falha de integridade normativa NÃO DEVE ser suprida por inferência. Contradição DEVE registrar `CONTRADIÇÃO DETECTADA: <origem> vs <regra> — Aplicando a regra de maior precedência.`
+Aplicar `MN-SCEN`, `MN-REF` e `./.agents/core/contracts.md`. Regra específica só PODE restringir geral no próprio escopo, com justificativa e preservação. Interface pública e processo existente DEVEM permanecer; correção incidental limita-se à região alterada. Contradição registra `CONTRADIÇÃO DETECTADA: <origem> vs <regra> — Aplicando a regra de maior precedência.`
 
 | Cenário                 | Arquivo/seção                 | Dependência              | Aplicação                                |
 | ----------------------- | ----------------------------- | ------------------------ | ---------------------------------------- |
-| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` §1 | capacidades Web | navegador/engine web |
-| Web estático/hospedagem | mesmo §2 | Web Page Like; capacidade estática/hospedagem | gerador, template, páginas |
-| Editorial | mesmo §3 | Web Page Like; estático quando aplicável | artigo, post, sermão, ensaio, notícia |
+| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` → `./.agents/scenarios/web/page-like/capabilities/browser.md` | capacidades Web | navegador/engine web |
+| Web estático/hospedagem | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/static-hosting.md` | `WEB-BROWSER` | gerador, template, páginas |
+| Editorial | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/editorial.md` | `WEB-BROWSER`; `WEB-STATIC` se verdadeiro | artigo, post, sermão, ensaio, notícia |
 | Release | `./.agents/scenarios/release/scenario.md` | núcleo/release | versão, tag, asset ou release publicável |
-| Publicação de Conteúdo | `./.agents/scenarios/content-publication/scenario.md` | Web/RCF quando aplicável | artefato de Negócio publicável |
+| Publicação de Conteúdo | `./.agents/scenarios/content-publication/scenario.md` | cenário técnico selecionado pelo RCF | artefato de Negócio publicável |
+| Evolução upstream | `./.agents/scenarios/governance/upstream-sharing/scenario.md` | núcleo, atualização e CLI | consumidor que avalia contribuição reutilizável; construtor para inbox formal |
 
 ## 18. API operacional
 
 Aplicar `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`. `agent:filter`/`to-ia` DEVE existir antes dos demais; toda saída para IA DEVE atravessá-lo. Entrada exclusiva/predominante de IA DEVE residir em `./.agents/core/runtime/scripts/`; script especializado DEVE residir com seu cenário. Sequência repetida 2 vezes, com 3+ comandos, saída provável acima do orçamento ou filtragem repetida DEVE virar comando composto.
 
-Script reutilizável DEVE aplicar `MN-CLI` e carregar somente `./.agents/meta/cli.md` e metaarquivo contextual aplicável. Convenção gerenciada: `./.agents/meta/<contexto>.md`, com `<contexto>` estável e sem duplicar AGENTS/microconceito; grupos possíveis incluem `build`, `release`, `publish`, `maintenance`, `update`, `validation` e `ia`, criados somente quando aplicáveis. `./.agents/meta/index.json` DEVE mapear script reutilizável, entry e contextos mínimos. Metaarquivo DEVE declarar escopo, comandos, dependências, configuração, hooks, extensões, validação e referência de precedência. Especialização local DEVE residir em `agents.local.md`, `./.agents/local/`, `./.agents/hooks/` ou adaptador declarado; atualização NÃO DEVE sobrescrevê-la. Parâmetro desconhecido DEVE falhar, salvo encaminhamento explícito após `--` a hook/extensão documentado.
+Script reutilizável DEVE aplicar `MN-CLI`, `MN-META` e `MN-EXT`; carrega apenas `./.agents/meta/cli.md` e contextos mapeados aplicáveis.
 
-Matriz canônica: Workspace `agent:filter`, `agent:setup`, `agent:doctor`, `agent:repair`, `agent:clean`, `agent:status`, `agent:context`, `agent:workspace`; SO `agent:pwd`, `agent:ls`, `agent:tree`, `agent:find`, `agent:search`, `agent:grep`, `agent:head`, `agent:tail`, `agent:view`, `agent:stat`, `agent:size`, `agent:hash`, `agent:diff-file`, `agent:logs`, `agent:process`, `agent:kill`, `agent:ports`, `agent:compress`, `agent:extract`; Git `agent:git-status`, `agent:git-fetch`, `agent:git-pull`, `agent:git-push`, `agent:git-sync`, `agent:git-add`, `agent:git-commit`, `agent:git-branch`, `agent:git-switch`, `agent:git-tag`, `agent:git-log`, `agent:git-show`, `agent:git-history`, `agent:git-diff`, `agent:git-blame`, `agent:git-reset`, `agent:git-restore`, `agent:git-clean`, `agent:git-stash`, `agent:git-prune`, `agent:git-gc`, `agent:git-last-release`, `agent:git-release-notes`, `agent:git-changelog`; build `agent:build`, `agent:verify`, `agent:dist`, `agent:package`, `agent:release`, `agent:release:trigger`, `agent:release:publish`, `agent:rollback`; conteúdo, somente com o cenário aplicável, `agent:publish`, `agent:deploy`; qualidade `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`; dependência `agent:deps`, `agent:update-deps`, `agent:licenses`; documentação `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `agent:agents`; dados `agent:parse-data`, `agent:summarize`, `agent:convert`, `agent:validate-data`, `agent:index-data`, `agent:query-data`. `publish` nunca representa release. Remoção, renomeação ou dispensa DEVE ter autoridade e transição explícita.
+Aceite humano de issue DEVE usar `agent:inbox:approve` com issue, papel construtor e autorização explícita; recomendação técnica não constitui aceite e a FT nasce na sincronização posterior.
+
+Matriz canônica: Workspace `agent:filter`, `agent:setup`, `agent:doctor`, `agent:repair`, `agent:clean`, `agent:status`, `agent:context`, `agent:workspace`; SO `agent:pwd`, `agent:ls`, `agent:tree`, `agent:find`, `agent:search`, `agent:grep`, `agent:head`, `agent:tail`, `agent:view`, `agent:stat`, `agent:size`, `agent:hash`, `agent:diff-file`, `agent:logs`, `agent:process`, `agent:kill`, `agent:ports`, `agent:compress`, `agent:extract`; Git `agent:git-status`, `agent:git-fetch`, `agent:git-pull`, `agent:git-push`, `agent:git-sync`, `agent:git-add`, `agent:git-commit`, `agent:git-branch`, `agent:git-switch`, `agent:git-tag`, `agent:git-log`, `agent:git-show`, `agent:git-history`, `agent:git-diff`, `agent:git-blame`, `agent:git-reset`, `agent:git-restore`, `agent:git-clean`, `agent:git-stash`, `agent:git-prune`, `agent:git-gc`, `agent:git-last-release`, `agent:git-release-notes`, `agent:git-changelog`; upstream `agent:upstream:check`, `agent:upstream:prepare`, `agent:upstream:publish`, `agent:upstream:assess`, `agent:upstream:apply-assessment`, `agent:test:upstream`, `agent:inbox:event`, `agent:inbox:fetch`, `agent:inbox:evaluate`, `agent:inbox:process`, `agent:inbox:apply`, `agent:test:inbox`; build `agent:build`, `agent:verify`, `agent:dist`, `agent:package`, `agent:release`, `agent:release:trigger`, `agent:release:publish`, `agent:rollback`; conteúdo, somente com o cenário aplicável, `agent:publish`, `agent:deploy`; qualidade `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`; dependência `agent:deps`, `agent:update-deps`, `agent:licenses`; documentação `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `agent:agents`; dados `agent:parse-data`, `agent:summarize`, `agent:convert`, `agent:validate-data`, `agent:index-data`, `agent:query-data`. `publish` nunca representa release. Remoção, renomeação ou dispensa DEVE ter autoridade e transição explícita.
