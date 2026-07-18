@@ -1,12 +1,22 @@
+// Autor: JeanCarloEM.com
+// Site do Autor: https://jeancarloem.com
+// Repositorio: https://github.com/jcempro/agents.md
+// Licenca: Mozilla Public License 2.0
+// Site da Licenca: https://www.mozilla.org/MPL/2.0/
+// Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
+// Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const { loadConfiguration } = require("./configuration");
 const { requestJson, sanitizeText } = require("./public-client");
 const { assessmentMessage } = require("./upstream-share");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
+const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const DEFAULT_INBOX_DIR = path.join(ROOT_DIR, ".agents", "local", "upstream", "inbox");
-const GITHUB_API = "https://api.github.com";
+const GITHUB_API = CONFIGURATION.publicServices.githubApi;
 const ACCEPTED_ACTIONS = new Set(["opened", "edited", "reopened", "labeled"]);
 
 async function main(argv = process.argv.slice(2)) {

@@ -1,16 +1,24 @@
 // Autor: JeanCarloEM.com
+// Site do Autor: https://jeancarloem.com
+// Repositorio: https://github.com/jcempro/agents.md
 // Licenca: Mozilla Public License 2.0
+// Site da Licenca: https://www.mozilla.org/MPL/2.0/
+// Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
+// Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+
 // Interface deterministica de preparo de saida para IA.
 
 const crypto = require("crypto");
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const { loadConfiguration } = require("./configuration");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
+const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const OUTPUT_DIR = path.join(ROOT_DIR, ".agents", "cache", "outputs");
-const MAX_BYTES = 8192;
-const MAX_LINES = 50;
+const MAX_BYTES = CONFIGURATION.output.maxBytes;
+const MAX_LINES = CONFIGURATION.output.maxLines;
 const LEVEL_ORDER = ["fatal", "error", "warning", "change", "result", "metric", "info", "debug"];
 
 function normalize(value) {

@@ -1,11 +1,21 @@
+// Autor: JeanCarloEM.com
+// Site do Autor: https://jeancarloem.com
+// Repositorio: https://github.com/jcempro/agents.md
+// Licenca: Mozilla Public License 2.0
+// Site da Licenca: https://www.mozilla.org/MPL/2.0/
+// Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
+// Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+
 const fs = require("fs");
 const path = require("path");
+const { loadConfiguration } = require("./configuration");
 const { requestJson, sanitizeText } = require("./public-client");
 const { normalizeIssue, persistRecord } = require("./issue-inbox");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
+const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const MEMORY_PATH = path.join(ROOT_DIR, ".agents", "continue.ia");
-const GITHUB_API = "https://api.github.com";
+const GITHUB_API = CONFIGURATION.publicServices.githubApi;
 
 async function main(argv = process.argv.slice(2)) {
   const [command = "", ...rest] = argv;

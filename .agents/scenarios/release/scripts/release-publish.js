@@ -1,13 +1,19 @@
 // Autor: JeanCarloEM.com
+// Site do Autor: https://jeancarloem.com
+// Repositorio: https://github.com/jcempro/agents.md
 // Licenca: Mozilla Public License 2.0
-// Disclaimer: fornecido "AS IS", sem garantias de qualquer tipo.
+// Site da Licenca: https://www.mozilla.org/MPL/2.0/
+// Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
+// Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
 
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const { loadConfiguration } = require("../../../core/runtime/scripts/configuration");
 const { normalizeReleaseVersion } = require("./release-workflow");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
+const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 
 class UsageError extends Error {}
@@ -45,14 +51,14 @@ function main(argv = process.argv.slice(2)) {
 
 function parseArgs(argv) {
   const options = {
-    branch: process.env.AGENTS_RELEASE_BRANCH || "dev",
+    branch: process.env.AGENTS_RELEASE_BRANCH || CONFIGURATION.lifecycle.developmentBranch,
     dryRun: false,
     help: false,
     noWatch: false,
     primary: process.env.AGENTS_RELEASE_PRIMARY || "",
-    remote: process.env.AGENTS_RELEASE_REMOTE || "origin",
+    remote: process.env.AGENTS_RELEASE_REMOTE || CONFIGURATION.lifecycle.remote,
     version: "",
-    workflow: process.env.AGENTS_RELEASE_WORKFLOW || "release.yml",
+    workflow: process.env.AGENTS_RELEASE_WORKFLOW || CONFIGURATION.lifecycle.workflow,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const value = argv[index];
