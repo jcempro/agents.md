@@ -20,7 +20,7 @@ RCF/cenário DEVE definir comportamento; AGENTS/auxiliar, processamento. Convers
 
 ### 0.12 Atualização
 
-Todo repositório DEVE expor `agent:autoupdate`; `agents:autoupdate`, `agent:agents` e `agents:update` PODEM ser aliases transitórios equivalentes. Sem argumento aplica, commita e publica; `--check` e `--dry-run` não escrevem. Criação/reparo aplica `./.agents/core/update/scenario.md`. Origem recebida validada define exaustivamente o gerenciado; preexistente serve somente a migração, legado comprovado, limpeza ou restauração transacional. Mudança de formato/path/notação/recurso/estrutura DEVE incluir descritor versionado, marcador e conversor permanente da versão anterior; ausência futura do original NÃO autoriza retirar conversor. Configuração equivalente DEVERIA compartilhar parser e descritor formal.
+Todo repositório DEVE expor `update:agents` como comando NPM canônico; `agent:autoupdate`, `agents:autoupdate`, `agent:agents` e `agents:update` PODEM ser aliases transitórios equivalentes. Sem argumento aplica, commita e publica; `--check` e `--dry-run` não escrevem. Criação/reparo aplica `./.agents/core/update/scenario.md`. Origem recebida validada define exaustivamente o gerenciado; preexistente serve somente a migração, legado comprovado, limpeza ou restauração transacional. Mudança de formato/path/notação/recurso/estrutura DEVE incluir descritor versionado, marcador e conversor permanente da versão anterior; ausência futura do original NÃO autoriza retirar conversor. Configuração equivalente DEVERIA compartilhar parser e descritor formal.
 
 ### 0.13 Raízes arquiteturais
 
@@ -72,11 +72,17 @@ Implementação NÃO DEVE regredir arquitetura, negócio, UX, API, build, cache,
 
 Implementação NÃO DEVE introduzir negócio não autorizado, dependência inútil, duplicação, complexidade gratuita ou refatoração extrínseca. Produto final contém somente runtime necessário; recurso de desenvolvimento NÃO DEVE integrá-lo. Build incorpora recurso resolvido se manifesto/licença/target forem compatíveis. RCF decide CDN; em silêncio, produto online DEVERIA usar CDN cacheável, solução local PODE prevalecer por tamanho/latência/banda, e bundle offline mantém recursos locais.
 
+Configuração personalizável DEVE residir somente em `./config/` ou raiz estrutural equivalente declarada, modularizada por contexto e com schema/versionamento; código NÃO DEVE redefinir URL, path de aplicação/artefato, porta, modo, hook ou metadado mutável. Precedência aplica `MN-CLI`; build/CLI materializa configuração para o target, sem vazar parâmetro exclusivo de desenvolvimento. Web DEVERIA referenciar configuração versionada cacheável sem duplicação entre páginas; bundle offline/móvel DEVE embutir somente o subconjunto necessário ou apontar à URL homologada declarada.
+
+Todo repositório DEVE declarar `dev-live` com host, porta, protocolo, proxy e reload na configuração central. Default portátil: `127.0.0.1:4000`, HTTP, sem proxy e reload por watch; especialização local PODE substituir valores sem alterar o contrato público.
+
 ## 12. Padrões de implementação
 
 Análise e saída técnica DEVEM usar PT-BR, validar impacto e NÃO DEVE apresentar hipótese como conclusão. Alteração DEVE ter diff mínimo, preservar fluxo, contrato e comentário correto; redundância suspeita DEVE receber `// PRESERVADO: potencial correção de bug não documentada`. Correção nova DEVE usar `// FIX-BUG:` ou `// PROTECAO:` conciso. Texto NÃO DEVE usar pronome interlocutório/autorreferencial, "talvez", "pode ser" ou "provavelmente". Ambiguidade aplica `MN-PRES`.
 
 Todo código-fonte e código final entregável cujo formato aceite comentário DEVE manter ou inserir somente cabeçalho de autoria/licença e NUNCA removê-lo. O cabeçalho DEVE usar dados do repositório ao qual o código pertence: URL upstream/origem, autor primário e secundário se houver, respectivos site/e-mail se houver, nome/link da licença e seu texto canônico ultrassucinto; dado ausente NÃO DEVE ser inferido.
+
+Build DEVE injetar/validar o cabeçalho a partir da configuração central em cada saída comentável, inclusive minificada/compilada. README DEVE encerrar com Autoria, Repositório e Licença equivalentes, sem fonte paralela de metadados.
 
 ## 13. Validação
 
@@ -112,6 +118,8 @@ Aplicar `MN-SCEN`, `MN-REF` e `./.agents/core/contracts.md`. Regra específica s
 Aplicar `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`. `agent:filter`/`to-ia` DEVE existir antes dos demais; toda saída para IA DEVE atravessá-lo. Entrada exclusiva/predominante de IA DEVE residir em `./.agents/core/runtime/scripts/`; script especializado DEVE residir com seu cenário. Sequência repetida 2 vezes, com 3+ comandos, saída provável acima do orçamento ou filtragem repetida DEVE virar comando composto.
 
 Script reutilizável DEVE aplicar `MN-CLI`, `MN-META` e `MN-EXT`; carrega apenas `./.agents/meta/cli.md` e contextos mapeados aplicáveis.
+
+NPM DEVE expor `release`, `publish` e `update:agents` como orquestradores universais all-in-one; comandos parciais usam namespace hierárquico por `:`. Implementação compartilhável reside em `shared:*`; `agent:*`/`agents:*` ficam reservados à operação da IA e DEVEM somente delegar ao comando global/compartilhado com saída filtrada, sem duplicar lógica. Core NÃO DEVE inferir raiz-fonte, saída ou ativo da aplicação: recebe paths/configuração e propaga hooks `pre`/`post` tipados. Fluxo all-in-one valida branch/tree, limpa somente saída declarada, executa hooks/build/validação, commita, publica, acompanha pipeline e solicita decisão humana apenas diante de divergência crítica não resolvível.
 
 Aceite humano de issue DEVE usar `agent:inbox:approve` com issue, papel construtor e autorização explícita; recomendação técnica não constitui aceite e a FT nasce na sincronização posterior.
 

@@ -1,3 +1,11 @@
+// Autor: JeanCarloEM.com
+// Site do Autor: https://jeancarloem.com
+// Repositorio: https://github.com/jcempro/agents.md
+// Licenca: Mozilla Public License 2.0
+// Site da Licenca: https://www.mozilla.org/MPL/2.0/
+// Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
+// Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+
 const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
@@ -26,7 +34,7 @@ function planPackageMigration(rootDir, policy) {
   if (!fs.existsSync(packagePath)) throw new Error("PACKAGE_JSON_AUSENTE");
   const raw = fs.readFileSync(packagePath, "utf8");
   const pkg = JSON.parse(raw);
-  const canonical = "node .agents/core/runtime/scripts/repo-tools.js agent:autoupdate";
+  const canonical = "npm run update:agents --";
   const scripts = { ...(pkg.scripts || {}) };
   for (const name of ["agent:autoupdate", "agents:autoupdate", "agent:agents", "agents:update"]) scripts[name] = canonical;
   const next = {
@@ -35,8 +43,8 @@ function planPackageMigration(rootDir, policy) {
     agentsGovernance: {
       ...(pkg.agentsGovernance || {}),
       schema: 1,
-      managedScriptPrefixes: ["agent:"],
-      managedScripts: ["agents:autoupdate", "agents:update"],
+      managedScriptPrefixes: Array.isArray(pkg.agentsGovernance && pkg.agentsGovernance.managedScriptPrefixes) ? pkg.agentsGovernance.managedScriptPrefixes : ["agent:", "shared:"],
+      managedScripts: Array.isArray(pkg.agentsGovernance && pkg.agentsGovernance.managedScripts) ? pkg.agentsGovernance.managedScripts : ["agents:autoupdate", "agents:update", "update:agents"],
       dependencies: Array.isArray(pkg.agentsGovernance && pkg.agentsGovernance.dependencies) ? pkg.agentsGovernance.dependencies : [],
       optionalDependencies: Array.isArray(pkg.agentsGovernance && pkg.agentsGovernance.optionalDependencies) ? pkg.agentsGovernance.optionalDependencies : [],
     },
