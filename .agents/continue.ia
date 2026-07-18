@@ -218,6 +218,36 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
+FT-031|nome=Atualizacao autoritativa e aditamento estrutural|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260718.135506|atualizacao=20260718.135506
+objetivo=Corrigir a atualizacao da governanca ativa no checkout upstream e incorporar de forma coesa as diretrizes de configuracao central, matriz NPM hookable, automacao all-in-one, namespaces, ambiente dev-live e identificacao de autoria.
+escopo=Autoupdate, fonte normativa, RCF, package.json, configuracao central, hooks, build, banners, testes, artefato e memoria operacional.
+nao_escopo=Inferir configuracoes particulares inexistentes; impor porta ou ferramenta sem configuracao declarada; alterar repositorios consumidores nesta FT.
+riscos=Sobrescrever especializacao local; converter regra de IA em negocio; duplicar comandos; vazar configuracao de build ao runtime; publicar artefato sem cabecalho.
+1/5 Atualizacao autoritativa [em andamento]
+  1/3 Corrigir colisao de arquivo gerenciado rastreado no upstream [em andamento]
+  2/3 Validar seguranca em consumidor nao autoritativo [pendente]
+  3/3 Executar update e reler governanca resultante [pendente]
+2/5 Contrato normativo [pendente]
+  1/3 Integrar aditamento em AGENTS fonte e RCF [pendente]
+  2/3 Resolver nomes canonicos e transicoes [pendente]
+  3/3 Declarar configuracao, hooks, dev-live e autoria [pendente]
+3/5 Implementacao [pendente]
+  1/4 Centralizar configuracao operacional [pendente]
+  2/4 Sanear matriz NPM e namespaces [pendente]
+  3/4 Implementar hooks e fluxos all-in-one [pendente]
+  4/4 Injetar e validar banners de distribuicao [pendente]
+4/5 Validacao [pendente]
+  1/3 Executar testes focados [pendente]
+  2/3 Executar build e verify [pendente]
+  3/3 Auditar fonte, configuracao e dist [pendente]
+5/5 Entrega [pendente]
+  1/3 Atualizar memoria e handoff [pendente]
+  2/3 Commitar etapas funcionais [pendente]
+  3/3 Publicar/convergir quando autorizado [pendente]
+decisoes=Solicitacao humana anexa confirma evolucao do contrato; contradicoes nominais serao resolvidas por comando canonico mais explicito com aliases de transicao e sem remocao abrupta.
+falhas=agents:update v0.0.13 recusou .agents/meta/build.md porque o checkout upstream nao possuia lock de consumidor e a deteccao de colisao nao reconhecia arquivo rastreado do proprio upstream autoritativo.
+pendencias=Concluir etapas 1 a 5.
+
 FT-030|nome=Autoupdate explicito e recuperacao de bootstrap legado|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260716.024500|atualizacao=20260716.033823|conclusao=20260716.033823
 objetivo=Tornar explicita a atualizacao automatica pelo comando agent:autoupdate e impedir que despachantes legados bloqueiem a execucao normal sem argumentos.
 escopo=Contrato fonte, RCF, README, scripts npm, despachante, atualizador, mesclagem de manifesto, testes isolados e artefato distribuivel.
