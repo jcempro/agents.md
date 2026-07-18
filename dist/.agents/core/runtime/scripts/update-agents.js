@@ -454,6 +454,7 @@ function assertNoUnmanagedCollisions(rootDir, force, plan) {
     PACKAGE_RELATIVE_PATH,
     ...listPreviouslyManagedFiles(previousLock).map(toPosixPath),
   ]);
+  const authoritativeCheckout = isAuthoritativeUpstreamCheckout(rootDir);
 
   for (const change of plan.changes) {
     if (change.action === "unchanged" || change.action === "remove") {
@@ -461,10 +462,35 @@ function assertNoUnmanagedCollisions(rootDir, force, plan) {
     }
     const relativePath = toPosixPath(change.relativePath);
     const target = path.join(rootDir, relativePath);
-    if (fs.existsSync(target) && !managed.has(relativePath) && !isRecognizedLegacyGovernanceFile(relativePath)) {
+    const trackedByAuthoritativeUpstream = authoritativeCheckout && isGitTrackedPath(rootDir, relativePath);
+    if (fs.existsSync(target) && !managed.has(relativePath) && !isRecognizedLegacyGovernanceFile(relativePath) && !trackedByAuthoritativeUpstream) {
       throw new Error(`Colisao com arquivo local nao gerenciado: ${relativePath}. Use agents.local.md ou .agents/hooks/.`);
     }
   }
+}
+
+function isAuthoritativeUpstreamCheckout(rootDir) {
+  let configured;
+  try {
+    configured = resolveConfiguredUpstream(rootDir).repository;
+  } catch {
+    return false;
+  }
+  const remote = childProcess.spawnSync("git", ["-C", rootDir, "remote", "get-url", "origin"], { encoding: "utf8" });
+  if (remote.status !== 0) return false;
+  return normalizeRepositoryIdentity(remote.stdout) === normalizeRepositoryIdentity(configured);
+}
+
+function isGitTrackedPath(rootDir, relativePath) {
+  const result = childProcess.spawnSync("git", ["-C", rootDir, "ls-files", "--error-unmatch", "--", relativePath], { encoding: "utf8" });
+  return result.status === 0;
+}
+
+function normalizeRepositoryIdentity(value) {
+  const normalized = String(value || "").trim().replace(/\\/gu, "/").replace(/\.git\/?$/iu, "").replace(/\/$/u, "");
+  const github = normalized.match(/github\.com[/:]([^/]+)\/([^/?#]+)$/iu);
+  const repository = github ? `${github[1]}/${github[2]}` : normalized;
+  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository) ? repository.toLocaleLowerCase("en-US") : "";
 }
 
 function mergePackageManifest(localContent, remoteContent) {
@@ -839,6 +865,7 @@ module.exports = {
   assertNoUnmanagedCollisions,
   githubCliJsonResponse,
   hashTextContent,
+  isAuthoritativeUpstreamCheckout,
   isRecognizedLegacyGovernanceFile,
   isLocalExtensionPath,
   parseGovernanceManifest,
@@ -846,6 +873,7 @@ module.exports = {
   main,
   mergePackageManifest,
   normalizeGovernanceRelativePath,
+  normalizeRepositoryIdentity,
   parseArgs,
   resolveRemoteSource,
   resolveCaseInsensitiveFile,

@@ -2,12 +2,16 @@ const assert = require("assert");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { mergePackageManifest, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
+const { isAuthoritativeUpstreamCheckout, mergePackageManifest, normalizeRepositoryIdentity, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
+  assert.equal(normalizeRepositoryIdentity("https://github.com/JCEMPRO/agents.md.git"), "jcempro/agents.md");
+  assert.equal(normalizeRepositoryIdentity("git@github.com:jcempro/agents.md.git"), "jcempro/agents.md");
+  assert.equal(normalizeRepositoryIdentity("https://example.invalid/jcempro/agents.md"), "");
+  assert.equal(isAuthoritativeUpstreamCheckout(path.join(__dirname, "..")), true);
   const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.agents/repo-tools.js agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
     scripts: {
@@ -38,6 +42,7 @@ async function main() {
     fs.mkdirSync(path.join(root, ".agents", "core", "update"), { recursive: true });
     fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ agentsUpstream: { schema: 1, upstreamRepository: "old/repository" } }));
     fs.writeFileSync(path.join(root, ".agents", "core", "update", "upstream.json"), JSON.stringify({ schema: 1, upstreamRepository: "new/repository", predecessorRepositories: ["old/repository"] }));
+    assert.equal(isAuthoritativeUpstreamCheckout(root), false);
     const policy = readSuccessorPolicy(root);
     assert.equal(policy.upstreamRepository, "new/repository");
     const migration = planPackageMigration(root, policy);
