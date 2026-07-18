@@ -218,7 +218,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
-FT-031|nome=Atualizacao autoritativa e aditamento estrutural|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260718.135506|atualizacao=20260718.142331
+FT-031|nome=Atualizacao autoritativa e aditamento estrutural|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260718.135506|atualizacao=20260718.143046|conclusao=20260718.143046
 objetivo=Corrigir a atualizacao da governanca ativa no checkout upstream e incorporar de forma coesa as diretrizes de configuracao central, matriz NPM hookable, automacao all-in-one, namespaces, ambiente dev-live e identificacao de autoria.
 escopo=Autoupdate, fonte normativa, RCF, package.json, configuracao central, hooks, build, banners, testes, artefato e memoria operacional.
 nao_escopo=Inferir configuracoes particulares inexistentes; impor porta ou ferramenta sem configuracao declarada; alterar repositorios consumidores nesta FT.
@@ -240,14 +240,14 @@ riscos=Sobrescrever especializacao local; converter regra de IA em negocio; dupl
   1/3 Executar testes focados [concluido]
   2/3 Executar build e verify [concluido]
   3/3 Auditar fonte, configuracao e dist [concluido]
-5/5 Entrega [pendente]
-  1/3 Atualizar memoria e handoff [pendente]
-  2/3 Commitar etapas funcionais [pendente]
-  3/3 Publicar/convergir quando autorizado [pendente]
+5/5 Entrega [concluido]
+  1/3 Atualizar memoria e handoff [concluido]
+  2/3 Commitar etapas funcionais [concluido]
+  3/3 Publicar/convergir quando autorizado [concluido]
 decisoes=Solicitacao humana anexa confirma evolucao do contrato. CONTRADIÇÃO DETECTADA: agent:autoupdate canonico anterior vs update:agents solicitado — Aplicando update:agents e preservando quatro aliases transitórios. Configuracao central usa config/core.json+schema.json portateis, repository.json do construtor e agents.local.json ignorado; dev-live default 127.0.0.1:4000 HTTP/watch; publish sem hook retorna n/a sem mutacao.
-falhas=agents:update v0.0.13 recusou .agents/meta/build.md porque o checkout upstream nao possuia lock de consumidor e a deteccao de colisao nao reconhecia arquivo rastreado do proprio upstream autoritativo. Correcao v0.0.14 compara origin com upstream e exige git tracked; teste temporario nao autoritativo retorna false. Update efetivo concluiu e publicou commit a215da6.
-verificacoes=v0.0.14 successor e ponte Latest; AGENTS, microconceitos, update scenario e contracts relidos integralmente. configuration/autoupdate focados OK; agent:test TEST_OK suites=5; build DIST_OK files=46; verify scripts=18 indexedFiles=23; publish e dev-live sem hook retornam n/a; update:agents --dry-run usa release v0.0.14 sem escrita; dist contem apenas config core/schema e banners centralizados; src nao possui codigo executavel com variavel hardcoded.
-pendencias=Concluir entrega, publicar nova release e executar update final da norma ativa.
+falhas=agents:update v0.0.13 recusou .agents/meta/build.md porque o checkout upstream nao possuia lock de consumidor e a deteccao de colisao nao reconhecia arquivo rastreado do proprio upstream autoritativo. Correcao v0.0.14 compara origin com upstream e exige git tracked; teste temporario nao autoritativo retorna false. Update efetivo concluiu e publicou commit a215da6; update final v0.0.15 concluiu e publicou bb4f568.
+verificacoes=v0.0.14 e v0.0.15 publicadas no sucessor e na ponte historica como Latest; workflow v0.0.15 29654020269 success; hashes v0.0.15 ZIP 590d52d76d76905edffac212117eec2fd92dc8ef0e93166aee028aa8ed4def1c e nota 8ce532281b68d34ae08e435e56648fb2b7c70805faf0299296a13a02180e4da0 identicos nos dois repositorios. AGENTS ativo v0.0.15 relido integralmente. configuration/autoupdate focados OK; agent:test TEST_OK suites=5; build DIST_OK files=46; verify scripts=18 indexedFiles=23; publish e dev-live sem hook retornam n/a; update:agents efetivo usa release v0.0.15 sem colisao; dist contem apenas config core/schema e banners centralizados; src nao possui codigo executavel com variavel hardcoded.
+pendencias=Nenhuma.
 
 FT-030|nome=Autoupdate explicito e recuperacao de bootstrap legado|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260716.024500|atualizacao=20260716.033823|conclusao=20260716.033823
 objetivo=Tornar explicita a atualizacao automatica pelo comando agent:autoupdate e impedir que despachantes legados bloqueiem a execucao normal sem argumentos.
