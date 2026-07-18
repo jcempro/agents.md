@@ -26,6 +26,11 @@ const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 const DISTRIBUTION_PACKAGE_PATH = path.join(DIST_DIR, "package.json");
 const UPDATE_FORMAT_PATH = path.join(ROOT_DIR, ".agents", "core", "update", "formats", "governance-manifest.v2.json");
+const UPDATE_HANDOFF_RUNTIME = [
+  ".agents/core/runtime/scripts/update-agents.js",
+  ".agents/core/runtime/scripts/archive.js",
+  ".agents/core/update/migrations/v1-to-v2.js",
+];
 const ALIEN_SCRIPT_TERMS = [
   "What" + "Send",
   "what" + "sender",
@@ -408,6 +413,7 @@ function buildIndex() {
     sha256: hashTextFile(PACKAGE_PATH),
     source: "package.json",
   });
+  index.handoff = createUpdateHandoffDescriptor(index.update);
   return index;
 }
 
@@ -454,6 +460,7 @@ function buildDist(options = {}) {
     };
   }
   releaseIndex.update = createGovernanceManifest(releaseIndex.files, (entry) => fs.readFileSync(path.join(DIST_DIR, entry.path)));
+  releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.update);
   writeJsonMinified(RELEASE_PATH, releaseIndex);
 
   const archivePath = path.join(DIST_DIR, archiveName);
@@ -544,6 +551,27 @@ function createGovernanceManifest(entries, contentForEntry) {
       sha256: hashTextBuffer(contentForEntry(entry)),
     })),
   };
+}
+
+function createUpdateHandoffDescriptor(manifest) {
+  const indexed = new Map(manifest.files.map((entry) => [entry.path, entry]));
+  for (const relativePath of UPDATE_HANDOFF_RUNTIME) {
+    if (!indexed.has(relativePath)) throw new Error(`Runtime de handoff ausente do manifesto: ${relativePath}`);
+  }
+  return {
+    entry: UPDATE_HANDOFF_RUNTIME[0],
+    files: [...UPDATE_HANDOFF_RUNTIME],
+    format: "agents-update-runtime/v1",
+    schema: 1,
+  };
+}
+
+function validateUpdateHandoffDescriptor(descriptor, label) {
+  if (!descriptor || descriptor.format !== "agents-update-runtime/v1" || descriptor.schema !== 1 ||
+    descriptor.entry !== UPDATE_HANDOFF_RUNTIME[0] || !Array.isArray(descriptor.files) ||
+    UPDATE_HANDOFF_RUNTIME.some((relativePath) => !descriptor.files.includes(relativePath))) {
+    throw new Error(`${label} sem runtime de handoff valido.`);
+  }
 }
 
 function buildDistributionPackage() {
@@ -653,6 +681,7 @@ function validateIndex(index) {
     }
   }
   validateGovernanceManifest(index.update, "index.json");
+  validateUpdateHandoffDescriptor(index.handoff, "index.json");
 }
 
 function validateNormativeReferences(index) {
@@ -725,6 +754,7 @@ function validateDist() {
     throw new Error("dist/release.json nao indexa package.json.");
   }
   validateGovernanceManifest(release.update, "dist/release.json");
+  validateUpdateHandoffDescriptor(release.handoff, "dist/release.json");
   const distributionPackage = JSON.parse(fs.readFileSync(DISTRIBUTION_PACKAGE_PATH, "utf8"));
   assertPublishedMain(distributionPackage);
   const policy = distributionPackage.agentsGovernance;
