@@ -12,6 +12,7 @@ dist/release-note.txt
 *.7z
 tmp/
 config/agents.local.json
+agents-governance-backups/
 
 0. Autoriza .md em ./.agents/
 /.agents/*
