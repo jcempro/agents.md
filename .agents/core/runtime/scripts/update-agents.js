@@ -13,7 +13,7 @@ const https = require("https");
 const os = require("os");
 const path = require("path");
 
-const { extractZip } = require("./archive");
+const { createZipFromDirectory, extractZip } = require("./archive");
 const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require("../../update/migrations/v1-to-v2");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
@@ -67,8 +67,10 @@ async function main(argv = process.argv.slice(2), options = {}) {
     return plan;
   }
 
-  assertManagedFilesClean(rootDir, parsed.force, plan);
-  assertNoUnmanagedCollisions(rootDir, parsed.force, plan);
+  const backupPath = backupDivergentManagedFiles(rootDir, plan);
+  if (backupPath) {
+    console.log(`Backup de divergencias locais: ${backupPath}`);
+  }
   applyPlan(rootDir, plan);
   commitAndPushNormativeUpdate(rootDir, plan);
   console.log(`Governanca operacional atualizada de ${plan.source.label}.`);
@@ -411,87 +413,59 @@ function listManagedCleanupPaths(lock) {
   ])].filter((relativePath) => !isLocalExtensionPath(relativePath) && toPosixPath(relativePath).toLocaleLowerCase("en-US") !== "agents.local.md");
 }
 
-function assertManagedFilesClean(rootDir, force, plan) {
-  if (force) {
-    return;
-  }
-
-  const paths = [...new Set(plan.changes
-    .filter((change) => change.action !== "unchanged")
-    .map((change) => toPosixPath(change.relativePath)))];
-
-  if (paths.length === 0) {
-    return;
-  }
-
-  const result = childProcess.spawnSync("git", [
-    "-C",
-    rootDir,
-    "status",
-    "--porcelain",
-    "--",
-    ...paths,
-  ], {
-    encoding: "utf8",
+function backupDivergentManagedFiles(rootDir, plan, options = {}) {
+  const previousLock = readUpdateLock(rootDir);
+  const divergences = plan.changes.filter((change) => {
+    if (change.action === "unchanged" || toPosixPath(change.relativePath) === PACKAGE_RELATIVE_PATH) return false;
+    const target = path.join(rootDir, change.relativePath);
+    if (!fs.existsSync(target) || !fs.statSync(target).isFile()) return false;
+    const relativePath = toPosixPath(change.relativePath);
+    const expectedHash = previousLock && previousLock.files ? previousLock.files[relativePath] : "";
+    const content = fs.readFileSync(target);
+    const currentHash = MANAGED_EXTENSIONS.has(path.extname(relativePath).toLocaleLowerCase("en-US"))
+      ? hashTextContent(content)
+      : hashBuffer(content);
+    return !expectedHash || currentHash !== expectedHash;
   });
 
-  if (result.status !== 0) {
-    throw new Error(`Falha ao verificar working tree: ${result.stderr || result.stdout}`);
-  }
+  if (divergences.length === 0) return "";
 
-  if (result.stdout.trim()) {
-    throw new Error("Arquivos normativos locais modificados; use --force somente após revisar o diff.");
-  }
-}
+  const now = options.now instanceof Date ? options.now : new Date();
+  const day = now.toISOString().slice(0, 10);
+  const instant = now.toISOString().replace(/[-:]/gu, "").replace(/\.\d{3}Z$/u, "Z");
+  const repository = sanitizeBackupName(path.basename(rootDir)) || "repository";
+  const version = sanitizeBackupName(plan.source && plan.source.ref) || "unknown";
+  const backupRoot = options.backupRoot || path.join(rootDir, "agents-governance-backups");
+  const dayRoot = path.join(backupRoot, day);
+  const stagingRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-governance-backup-stage-"));
+  const targetZip = path.join(dayRoot, `agents-update-${repository}-${version}-${instant}.zip`);
 
-function assertNoUnmanagedCollisions(rootDir, force, plan) {
-  if (force) {
-    return;
-  }
-
-  const previousLock = readUpdateLock(rootDir);
-  const managed = new Set([
-    ...BOOTSTRAP_MANAGED,
-    PACKAGE_RELATIVE_PATH,
-    ...listPreviouslyManagedFiles(previousLock).map(toPosixPath),
-  ]);
-  const authoritativeCheckout = isAuthoritativeUpstreamCheckout(rootDir);
-
-  for (const change of plan.changes) {
-    if (change.action === "unchanged" || change.action === "remove") {
-      continue;
-    }
-    const relativePath = toPosixPath(change.relativePath);
-    const target = path.join(rootDir, relativePath);
-    const trackedByAuthoritativeUpstream = authoritativeCheckout && isGitTrackedPath(rootDir, relativePath);
-    if (fs.existsSync(target) && !managed.has(relativePath) && !isRecognizedLegacyGovernanceFile(relativePath) && !trackedByAuthoritativeUpstream) {
-      throw new Error(`Colisao com arquivo local nao gerenciado: ${relativePath}. Use agents.local.md ou .agents/hooks/.`);
-    }
-  }
-}
-
-function isAuthoritativeUpstreamCheckout(rootDir) {
-  let configured;
   try {
-    configured = resolveConfiguredUpstream(rootDir).repository;
-  } catch {
-    return false;
+    const manifest = {
+      createdAt: now.toISOString(),
+      files: divergences.map((change) => ({
+        path: toPosixPath(change.relativePath),
+        sha256: hashBuffer(fs.readFileSync(path.join(rootDir, change.relativePath))),
+      })),
+      repositoryRoot: path.resolve(rootDir),
+      source: plan.source,
+    };
+    for (const change of divergences) {
+      const source = path.join(rootDir, change.relativePath);
+      const destination = path.join(stagingRoot, change.relativePath);
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      fs.copyFileSync(source, destination);
+    }
+    fs.writeFileSync(path.join(stagingRoot, "backup-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    createZipFromDirectory(stagingRoot, targetZip);
+    return targetZip;
+  } finally {
+    fs.rmSync(stagingRoot, { force: true, recursive: true });
   }
-  const remote = childProcess.spawnSync("git", ["-C", rootDir, "remote", "get-url", "origin"], { encoding: "utf8" });
-  if (remote.status !== 0) return false;
-  return normalizeRepositoryIdentity(remote.stdout) === normalizeRepositoryIdentity(configured);
 }
 
-function isGitTrackedPath(rootDir, relativePath) {
-  const result = childProcess.spawnSync("git", ["-C", rootDir, "ls-files", "--error-unmatch", "--", relativePath], { encoding: "utf8" });
-  return result.status === 0;
-}
-
-function normalizeRepositoryIdentity(value) {
-  const normalized = String(value || "").trim().replace(/\\/gu, "/").replace(/\.git\/?$/iu, "").replace(/\/$/u, "");
-  const github = normalized.match(/github\.com[/:]([^/]+)\/([^/?#]+)$/iu);
-  const repository = github ? `${github[1]}/${github[2]}` : normalized;
-  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository) ? repository.toLocaleLowerCase("en-US") : "";
+function sanitizeBackupName(value) {
+  return String(value || "").replace(/[^A-Za-z0-9._-]+/gu, "-").replace(/^-+|-+$/gu, "").slice(0, 80);
 }
 
 function mergePackageManifest(localContent, remoteContent) {
@@ -860,13 +834,12 @@ function isLocalExtensionPath(value) {
 
 module.exports = {
   applyPlan,
+  backupDivergentManagedFiles,
   buildUpdatePlan,
   collectRemoteGovernanceFiles,
   compareRemoteFiles,
-  assertNoUnmanagedCollisions,
   githubCliJsonResponse,
   hashTextContent,
-  isAuthoritativeUpstreamCheckout,
   isRecognizedLegacyGovernanceFile,
   isLocalExtensionPath,
   parseGovernanceManifest,
@@ -874,7 +847,6 @@ module.exports = {
   main,
   mergePackageManifest,
   normalizeGovernanceRelativePath,
-  normalizeRepositoryIdentity,
   parseArgs,
   resolveRemoteSource,
   resolveCaseInsensitiveFile,

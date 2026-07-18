@@ -2,16 +2,13 @@ const assert = require("assert");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { isAuthoritativeUpstreamCheckout, mergePackageManifest, normalizeRepositoryIdentity, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
+const { applyPlan, backupDivergentManagedFiles, mergePackageManifest, parseArgs } = require("../.agents/core/runtime/scripts/update-agents");
+const { extractZip } = require("../.agents/core/runtime/scripts/archive");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
-  assert.equal(normalizeRepositoryIdentity("https://github.com/JCEMPRO/agents.md.git"), "jcempro/agents.md");
-  assert.equal(normalizeRepositoryIdentity("git@github.com:jcempro/agents.md.git"), "jcempro/agents.md");
-  assert.equal(normalizeRepositoryIdentity("https://example.invalid/jcempro/agents.md"), "");
-  assert.equal(isAuthoritativeUpstreamCheckout(path.join(__dirname, "..")), true);
   const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.agents/repo-tools.js agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
     scripts: {
@@ -42,7 +39,6 @@ async function main() {
     fs.mkdirSync(path.join(root, ".agents", "core", "update"), { recursive: true });
     fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ agentsUpstream: { schema: 1, upstreamRepository: "old/repository" } }));
     fs.writeFileSync(path.join(root, ".agents", "core", "update", "upstream.json"), JSON.stringify({ schema: 1, upstreamRepository: "new/repository", predecessorRepositories: ["old/repository"] }));
-    assert.equal(isAuthoritativeUpstreamCheckout(root), false);
     const policy = readSuccessorPolicy(root);
     assert.equal(policy.upstreamRepository, "new/repository");
     const migration = planPackageMigration(root, policy);
@@ -56,6 +52,28 @@ async function main() {
       assert.equal(JSON.parse(fs.readFileSync(local, "utf8")).upstreamRepository, "new/repository");
     });
     assert.equal(fs.existsSync(local), false);
+
+    const collision = path.join(root, ".agents", "meta", "build.md");
+    fs.mkdirSync(path.dirname(collision), { recursive: true });
+    fs.writeFileSync(collision, "customizacao local\n", "utf8");
+    const backupRoot = path.join(root, "agents-governance-backups");
+    const updatePlan = {
+      changes: [{ action: "update", content: Buffer.from("governanca oficial\n"), relativePath: ".agents/meta/build.md" }],
+      lock: { files: { ".agents/meta/build.md": "novo-hash" }, managedFiles: [{ path: ".agents/meta/build.md" }] },
+      source: { label: "release:v9.9.9", ref: "v9.9.9", type: "release" },
+    };
+    const backupPath = backupDivergentManagedFiles(root, updatePlan, { now: new Date("2026-07-18T12:34:56.000Z") });
+    assert.equal(backupPath, path.join(backupRoot, "2026-07-18", `agents-update-${path.basename(root)}-v9.9.9-20260718T123456Z.zip`));
+    assert.equal(fs.existsSync(backupPath), true);
+    const extracted = path.join(root, "extracted-backup");
+    extractZip(fs.readFileSync(backupPath), extracted);
+    assert.equal(fs.readFileSync(path.join(extracted, ".agents", "meta", "build.md"), "utf8"), "customizacao local\n");
+    const backupManifest = JSON.parse(fs.readFileSync(path.join(extracted, "backup-manifest.json"), "utf8"));
+    assert.deepEqual(backupManifest.files.map((entry) => entry.path), [".agents/meta/build.md"]);
+    applyPlan(root, updatePlan);
+    assert.equal(fs.readFileSync(collision, "utf8"), "governanca oficial\n");
+    assert.equal(fs.existsSync(backupPath), true);
+    assert.match(fs.readFileSync(path.join(__dirname, "..", ".gitignore"), "utf8"), /^agents-governance-backups\/$/mu);
   } finally {
     fs.rmSync(root, { force: true, recursive: true });
   }
