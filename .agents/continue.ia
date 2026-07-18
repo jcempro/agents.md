@@ -218,7 +218,7 @@ objetivo=Impedir que main/master permaneça defasado ou órfão após FT conclu�
 decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
 pendencias=Nenhuma.
 
-FT-033|nome=Handoff fail-safe do atualizador|escopo=Tecnico|prioridade=critica|status=em_andamento|inicio=20260718.151203|atualizacao=20260718.152449
+FT-033|nome=Handoff fail-safe do atualizador|escopo=Tecnico|prioridade=critica|status=concluido|inicio=20260718.151203|atualizacao=20260718.153411|conclusao=20260718.153411
 objetivo=Implementar passagem de bastao zero-downtime para que o runtime de update contido na release baixada retome o processamento no ponto posterior ao download, usando a release como fonte de codigo/dependencias e o repositorio como target.
 escopo=Protocolo de handoff, autenticacao de estado, roots source/target, bootstrap, runtime de release, transacao, testes cross-platform, RCF, fonte normativa, distribuicao e release.
 nao_escopo=Executar codigo de release sem validacao de manifesto/hash; instalar dependencia externa; reiniciar download/rede apos handoff; alterar extensoes locais.
@@ -235,14 +235,14 @@ riscos=Executar runtime adulterado; confundir root da release com target; apagar
   1/3 Testar estado adulterado e runtime divergente [concluido]
   2/3 Testar dependencia carregada da release e target separado [concluido]
   3/3 Testar update legado, build e verify [concluido]
-4/4 Entrega [em_andamento]
-  1/3 Commitar etapas e atualizar handoff [pendente]
-  2/3 Publicar release e ponte historica [pendente]
-  3/3 Executar update final e convergir branches [pendente]
+4/4 Entrega [concluido]
+  1/3 Commitar etapas e atualizar handoff [concluido]
+  2/3 Publicar release e ponte historica [concluido]
+  3/3 Executar update final e convergir branches [concluido]
 decisoes=Bootstrap instalado faz somente resolucao/download/extracao e validacao minima do runtime listado no manifesto; estado agents-update-handoff/v1 usa HMAC-SHA256 com chave efemera via ambiente, paths absolutos canonicos, hashes do runtime, argumentos e fase release-runtime-ready. Processo filho executa o update-agents.js da release; requires relativos resolvem na release; targetRoot vem somente do estado validado. Filho recompõe plano localmente sem rede e assume backup/aplicacao/commit/push. Falha de integridade, estado ou processo sucessor fecha a operacao sem fallback ao runtime antigo.
 falhas=Nenhuma nesta FT.
-verificacoes=RCF, AGENTS fonte, cenario e meta update sincronizados. release.json e index.json declaram agents-update-runtime/v1 com entrypoint e tres arquivos transitivos. Testes comprovam HMAC adulterado bloqueado, roots sobrepostos bloqueados, dependencia da release adulterada bloqueada, digest ZIP divergente bloqueado, argumento retomado do estado prevalecendo sobre argv do filho, target vazio sem dependencias, nenhuma rede apos handoff, espera/limpeza posterior e download unico. Runtime usa somente Node.js cross-platform; agent:test TEST_OK suites=5; build DIST_OK files=46; verify scripts=18 indexedFiles=23; diff check OK.
-pendencias=Commitar etapas, publicar release/ponte, provar update legado e handoff efetivo, concluir memoria e convergir branches.
+verificacoes=RCF, AGENTS fonte, cenario e meta update sincronizados. release.json e index.json declaram agents-update-runtime/v1 com entrypoint e tres arquivos transitivos. Testes comprovam HMAC adulterado bloqueado, roots sobrepostos bloqueados, dependencia da release adulterada bloqueada, digest ZIP divergente bloqueado, argumento retomado do estado prevalecendo sobre argv do filho, target vazio sem dependencias, nenhuma rede apos handoff, espera/limpeza posterior e download unico. Runtime usa somente Node.js cross-platform; agent:test TEST_OK suites=5; build DIST_OK files=46; verify scripts=18 indexedFiles=23; diff check OK. v0.0.17 publicada no sucessor e ponte historica como Latest; workflow 29655965147 success; ZIP f41deea74862b149e2510c3bfa9c4a4db57a1106a923f3f8f8ec1315639ad1a4 e nota 8214be0e27078a0fed276840135cd33ffaf65a756b5772f9d5cd83026e3e8cc9 identicos. Fixture v0.0.16 atualizou efetivamente para v0.0.17 pelo runtime legado, publicou commit 7e8f98b e em seguida --check v0.0.17 concluiu via handoff. Update efetivo deste construtor concluiu por handoff e publicou 6ddac02; check final sem alteracoes normativas. Fixtures e safe.directory temporarios removidos.
+pendencias=Nenhuma.
 
 FT-032|nome=Atualizacao convergente em consumidores|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260718.144449|atualizacao=20260718.150007|conclusao=20260718.150007
 objetivo=Garantir que update:agents sempre converja todo caminho declarado como gerenciado pela release, inclusive diante de arquivo preexistente ou edicao local no consumidor, sem sobrescrever extensoes locais autorizadas.
