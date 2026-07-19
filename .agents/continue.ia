@@ -759,31 +759,3 @@ decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem ac
 verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK; workflow 29474724084 success; v0.0.9 Latest com agents-v0.0.9.zip e release-note.txt; tag=90c78db; dev/main=37ad389 antes do commit final.
 convergencia=Workflow convergiu dev e main em 37ad389; commit final de encerramento sera publicado e reconvergido imediatamente.
 pendencias=Nenhuma.
-
-FT-034|nome=[AGENTS] Distribuir os metadados exigidos pela validação de cabeçalhos|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260719.211717|atualizacao=20260719.214500|conclusao=20260719.214500
-objetivo=Implementar a issue aprovada github:jcempro/agents.md#2 com rastreabilidade ate o release.
-issue_id=github:jcempro/agents.md#2
-issue_repo=jcempro/agents.md
-issue_number=2
-issue_url=https://github.com/jcempro/agents.md/issues/2
-issue_state=em_desenvolvimento
-release=0.0.20
-  1/3 Analise e plano [concluido]
-    1/2 Validar escopo e criterios de aceite da issue [concluido]
-    2/2 Atualizar plano e contratos aplicaveis [concluido]
-  2/3 Implementacao e validacao [concluido]
-    1/2 Implementar sem regressao [concluido]
-    2/2 Executar validacoes proporcionais [concluido]
-  3/3 Entrega [concluido]
-    1/2 Commitar e publicar desenvolvimento [concluido]
-    2/2 Incluir em release e encerrar issue [concluido]
-  decisoes=config/repository.json integra o conjunto gerenciado porque contém a identidade necessária para validar os cabeçalhos do próprio runtime upstream; config/agents.local.json permanece extensão não gerenciada.
-  falhas=Release v0.0.18 omite config/repository.json do manifesto e upstream-share.js chama requireAuthorization inexistente, impedindo verify limpo e publicação canônica autorizada.
-  verificacoes=node --check upstream-share.js; teste upstream focado; agent:verify VERIFY_OK scripts=18 indexedFiles=23; agent:test TEST_OK suites=5; dist contém config/repository.json autenticado pelo manifesto.
-    verificacoes=Commits e0e6927 e 63abe49 publicados; release v0.0.19 publicada pelo workflow 29704248162; tag, dev e main convergiram em 19a549b.
-    verificacoes=agent:inbox:complete-release correlacionou FT-034, marcou a issue #2 como corrigida pela v0.0.19 e encerrou-a idempotentemente.
-    falhas=Aceite real no consumidor revelou que git add comum recusa paths gerenciados sob .agents/* ignorado; a issue #2 foi reaberta e a FT-034 retomada.
-    verificacoes=stageNormativePaths usa git add -f somente nos paths validados e mantém auditoria posterior do staging; fixture com .agents/* ignorado foi adicionada.
-    verificacoes=node --check update-agents.js; teste autoupdate focado; agent:verify VERIFY_OK scripts=18 indexedFiles=23; agent:test TEST_OK suites=5; git diff --check OK.
-    verificacoes=Commits dbce0cf e 12a5807 publicados; release v0.0.20 publicada com asset SHA-256 264414ade2ab86af9518b18839044fc67540c5e29d5e2db2367b3c8811e595d5; dev/main remotos convergiram em 7f58286.
-    pendencias=Nenhuma; executar atualização limpa no consumidor e fechamento idempotente da issue após confirmação.

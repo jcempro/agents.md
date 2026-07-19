@@ -254,8 +254,6 @@ function readProposal(file) { return readJson(file); }
 function readJson(file) { return JSON.parse(fs.readFileSync(path.resolve(ROOT_DIR, file), "utf8")); }
 function required(value, name) { if (!String(value || "").trim()) throw new UsageError(`PARAMETRO_NORMATIVO_AUSENTE:${name}`); return value; }
 function requiredEnv(name) { return required(process.env[name], name); }
-// FIX-BUG: preserva a barreira explícita antes de qualquer mutação upstream.
-function requireAuthorization(options) { if (!options.authorize) throw new Error("AUTORIZACAO_EXPLICITA_EXIGIDA"); }
 function validRepository(value) { return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(String(value || "")); }
 function positiveInt(value, name) { if (!/^\d+$/u.test(String(value)) || Number(value) < 1) throw new UsageError(`PARAMETRO_INVALIDO:${name}`); return Number(value); }
 function relative(file) { return path.relative(ROOT_DIR, file).split(path.sep).join("/"); }
@@ -267,4 +265,4 @@ class UsageError extends Error { constructor(message) { super(message); this.exi
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 
-module.exports = { assessmentMessage, issueBody, main, requireAuthorization, sanitizeProposal, validateProposal };
+module.exports = { assessmentMessage, issueBody, main, sanitizeProposal, validateProposal };
