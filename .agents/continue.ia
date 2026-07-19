@@ -766,8 +766,8 @@ issue_id=github:jcempro/agents.md#2
 issue_repo=jcempro/agents.md
 issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
-issue_state=em_desenvolvimento
-  release=0.0.19
+issue_state=corrigida
+release=0.0.19
   1/3 Analise e plano [concluido]
     1/2 Validar escopo e criterios de aceite da issue [concluido]
     2/2 Atualizar plano e contratos aplicaveis [concluido]
@@ -781,4 +781,5 @@ issue_state=em_desenvolvimento
   falhas=Release v0.0.18 omite config/repository.json do manifesto e upstream-share.js chama requireAuthorization inexistente, impedindo verify limpo e publicação canônica autorizada.
   verificacoes=node --check upstream-share.js; teste upstream focado; agent:verify VERIFY_OK scripts=18 indexedFiles=23; agent:test TEST_OK suites=5; dist contém config/repository.json autenticado pelo manifesto.
     verificacoes=Commits e0e6927 e 63abe49 publicados; release v0.0.19 publicada pelo workflow 29704248162; tag, dev e main convergiram em 19a549b.
-    pendencias=Nenhuma; executar fechamento idempotente da issue vinculada ao release 0.0.19.
+    verificacoes=agent:inbox:complete-release correlacionou FT-034, marcou a issue #2 como corrigida pela v0.0.19 e encerrou-a idempotentemente.
+    pendencias=Nenhuma.
