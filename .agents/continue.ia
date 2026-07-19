@@ -783,4 +783,6 @@ release=pendente
     verificacoes=Commits e0e6927 e 63abe49 publicados; release v0.0.19 publicada pelo workflow 29704248162; tag, dev e main convergiram em 19a549b.
     verificacoes=agent:inbox:complete-release correlacionou FT-034, marcou a issue #2 como corrigida pela v0.0.19 e encerrou-a idempotentemente.
     falhas=Aceite real no consumidor revelou que git add comum recusa paths gerenciados sob .agents/* ignorado; a issue #2 foi reaberta e a FT-034 retomada.
-    pendencias=Validar staging forçado restrito ao manifesto; publicar release 0.0.20; repetir atualização limpa e encerrar issue.
+    verificacoes=stageNormativePaths usa git add -f somente nos paths validados e mantém auditoria posterior do staging; fixture com .agents/* ignorado foi adicionada.
+    verificacoes=node --check update-agents.js; teste autoupdate focado; agent:verify VERIFY_OK scripts=18 indexedFiles=23; agent:test TEST_OK suites=5; git diff --check OK.
+    pendencias=Publicar correção e release 0.0.20; repetir atualização limpa e encerrar issue.

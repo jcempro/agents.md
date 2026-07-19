@@ -786,13 +786,7 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
 
   const upstream = resolveUpstream(rootDir);
   assertNoPendingLocalCommits(rootDir, upstream);
-  runGit(rootDir, ["add", "--", ...paths]);
-
-  const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout
-    .trim()
-    .split(/\r?\n/u)
-    .filter(Boolean)
-    .map(toPosixPath);
+  const staged = stageNormativePaths(rootDir, paths);
   const allowed = new Set(paths.map(toPosixPath));
   const invalid = staged.filter((entry) => !allowed.has(entry));
 
@@ -811,6 +805,16 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
   } else {
     runGit(rootDir, ["push", "-u", "origin", currentBranchName(rootDir)]);
   }
+}
+
+function stageNormativePaths(rootDir, paths) {
+  // FIX-BUG: o manifesto fechado autoriza estes paths mesmo sob ignore amplo do consumidor.
+  runGit(rootDir, ["add", "-f", "--", ...paths]);
+  return runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout
+    .trim()
+    .split(/\r?\n/u)
+    .filter(Boolean)
+    .map(toPosixPath);
 }
 
 function listChangedNormativePaths(plan) {
@@ -1037,5 +1041,6 @@ module.exports = {
   resolveCaseInsensitiveFile,
   resumeFromHandoff,
   signHandoffPayload,
+  stageNormativePaths,
   verifyHandoffState,
 };

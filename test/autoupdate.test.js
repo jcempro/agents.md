@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.agents/core/runtime/scripts/update-agents");
+const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, resolveReleaseRuntime, signHandoffPayload, stageNormativePaths, verifyHandoffState } = require("../.agents/core/runtime/scripts/update-agents");
 const { extractZip } = require("../.agents/core/runtime/scripts/archive");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.agents/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../.agents/core/runtime/scripts/repo-tools");
@@ -36,6 +36,16 @@ async function main() {
   assert.equal(isManagedDistributionFile(path.join(__dirname, "..", ".agents", "package.json")), true);
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", ".agents", "package.json"), "utf8")).type, "commonjs");
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", ".agents", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
+  const ignoredRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-ignored-stage-test-"));
+  try {
+    childProcess.execFileSync("git", ["init"], { cwd: ignoredRoot, stdio: "ignore" });
+    fs.writeFileSync(path.join(ignoredRoot, ".gitignore"), ".agents/*\n", "utf8");
+    fs.mkdirSync(path.join(ignoredRoot, ".agents", "core"), { recursive: true });
+    fs.writeFileSync(path.join(ignoredRoot, ".agents", "core", "managed.md"), "gerenciado\n", "utf8");
+    assert.deepEqual(stageNormativePaths(ignoredRoot, [".agents/core/managed.md"]), [".agents/core/managed.md"]);
+  } finally {
+    fs.rmSync(ignoredRoot, { force: true, recursive: true });
+  }
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {
     fs.mkdirSync(path.join(root, ".agents", "core", "update"), { recursive: true });
