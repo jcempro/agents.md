@@ -1,5 +1,7 @@
 # AGENTS.md — Governança Operacional Global
 
+RCF (Reference Compliance Framework): especificação arquitetural normativa e SSOT do sistema. Define, declarativa, determinística e verificavelmente, sua especificação integral (RF, RNF, regras, modelos, contratos, componentes, padrões, restrições, convenções, conformidade e correlatos), suficiente para que qualquer implementação conforme produza o mesmo sistema, independentemente de tecnologia, linguagem, framework, ferramenta ou equipe; ressalvado o domínio normativo de /agents.md e associados. Definição mandatória, integrante e irremovível (mas otimizável) desta norma.
+
 `AGENTS.md` governa atuação da IA; RCF governa requisito, contrato, arquitetura e negócio. Registro: `./.agents/core/concepts/microconceitos.md`. Aplicar sempre `MN-2119`, `MN-DENS`, `MN-PRES` e `MN-REF`; cada seção cita os demais conceitos aplicáveis, resolvidos seletivamente por `MN-REF`.
 
 ## Apendice - GESTAO DE CONTEXTO (RFC_COMPLIANT)
@@ -104,14 +106,14 @@ Entrega DEVE terminar com `COMMIT_SUGERIDO: <PT-BR; até 512 caracteres>` e `PEN
 
 Aplicar `MN-SCEN`, `MN-REF` e `./.agents/core/contracts.md`. Regra específica só PODE restringir geral no próprio escopo, com justificativa e preservação. Interface pública e processo existente DEVEM permanecer; correção incidental limita-se à região alterada. Contradição registra `CONTRADIÇÃO DETECTADA: <origem> vs <regra> — Aplicando a regra de maior precedência.`
 
-| Cenário                 | Arquivo/seção                 | Dependência              | Aplicação                                |
-| ----------------------- | ----------------------------- | ------------------------ | ---------------------------------------- |
-| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` → `./.agents/scenarios/web/page-like/capabilities/browser.md` | capacidades Web | navegador/engine web |
-| Web estático/hospedagem | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/static-hosting.md` | `WEB-BROWSER` | gerador, template, páginas |
-| Editorial | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/editorial.md` | `WEB-BROWSER`; `WEB-STATIC` se verdadeiro | artigo, post, sermão, ensaio, notícia |
-| Release | `./.agents/scenarios/release/scenario.md` | núcleo/release | versão, tag, asset ou release publicável |
-| Publicação de Conteúdo | `./.agents/scenarios/content-publication/scenario.md` | cenário técnico selecionado pelo RCF | artefato de Negócio publicável |
-| Evolução upstream | `./.agents/scenarios/governance/upstream-sharing/scenario.md` | núcleo, atualização e CLI | consumidor que avalia contribuição reutilizável; construtor para inbox formal |
+| Cenário                 | Arquivo/seção                                                                                                 | Dependência                               | Aplicação                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------- |
+| Web Page Like           | `./.agents/scenarios/web/page-like/scenario.md` → `./.agents/scenarios/web/page-like/capabilities/browser.md` | capacidades Web                           | navegador/engine web                                                          |
+| Web estático/hospedagem | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/static-hosting.md`                           | `WEB-BROWSER`                             | gerador, template, páginas                                                    |
+| Editorial               | mesmo roteador → `./.agents/scenarios/web/page-like/capabilities/editorial.md`                                | `WEB-BROWSER`; `WEB-STATIC` se verdadeiro | artigo, post, sermão, ensaio, notícia                                         |
+| Release                 | `./.agents/scenarios/release/scenario.md`                                                                     | núcleo/release                            | versão, tag, asset ou release publicável                                      |
+| Publicação de Conteúdo  | `./.agents/scenarios/content-publication/scenario.md`                                                         | cenário técnico selecionado pelo RCF      | artefato de Negócio publicável                                                |
+| Evolução upstream       | `./.agents/scenarios/governance/upstream-sharing/scenario.md`                                                 | núcleo, atualização e CLI                 | consumidor que avalia contribuição reutilizável; construtor para inbox formal |
 
 ## 18. API operacional
 
