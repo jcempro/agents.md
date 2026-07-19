@@ -759,3 +759,24 @@ decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem ac
 verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK; workflow 29474724084 success; v0.0.9 Latest com agents-v0.0.9.zip e release-note.txt; tag=90c78db; dev/main=37ad389 antes do commit final.
 convergencia=Workflow convergiu dev e main em 37ad389; commit final de encerramento sera publicado e reconvergido imediatamente.
 pendencias=Nenhuma.
+FT-035|nome=Retomada idempotente do gatilho de release|escopo=Tecnico|prioridade=critica|status=em_andamento|inicio=20260719.000000|atualizacao=20260719.000000
+objetivo=Permitir que o comando release retome a versao solicitada quando um gatilho transitório de release ja publicado reaparecer no checkout, sem sobrescrever release ainda pendente.
+escopo=Contrato RCF de gatilho, repo-tools, orquestradores release-publish, teste focado, derivados e handoff.
+excecao_ciclica=Solicitacao humana explicita autoriza editar minimamente o runtime gerenciado ativo porque o proprio bug em agent:release:trigger bloqueia a materializacao da correcao; autoridade definitiva permanece em src e contratos sincronizados.
+nao_escopo=Publicar nova versao, alterar tag/release remoto ou remover protecao contra conflito de versao pendente.
+dependencias=FTs de release anteriores concluidas; checkout dev limpo; falha reproduzida para 0.0.19 com release=0.0.18 e tag local v0.0.18 existente.
+riscos=Sobrescrever gatilho ainda nao processado; aceitar staging alheio; duplicar release; confundir idempotencia com sucesso remoto.
+testes=Teste puro da decisao novo/identico/substituivel/conflitante; node --check; agent:test; agent:verify; ensaio isolado do staging A/M; git diff --check.
+aceite=Gatilho inexistente e criado; gatilho da mesma versao e idempotente; gatilho divergente so e substituido quando a versao anterior possui tag publicada; divergencia pendente continua bloqueada; orquestrador aceita somente A/M do arquivo release.
+1/3 Contrato e diagnostico [concluido]
+  1/3 Confirmar branch, tree e estado canonico [concluido]
+  2/3 Reproduzir causa no fluxo resume [concluido]
+  3/3 Delimitar regra fail-safe de retomada [concluido]
+2/3 Implementacao [em andamento]
+  1/3 Tornar trigger idempotente e reconciliar residuo publicado [em andamento]
+  2/3 Aceitar staging estrito A/M nos orquestradores [pendente]
+  3/3 Sincronizar RCF e teste focado [pendente]
+3/3 Validacao e fechamento [pendente]
+  1/3 Executar testes e verificacao integral [pendente]
+  2/3 Regenerar handoff e auditar diff [pendente]
+  3/3 Registrar resultado e pendencias [pendente]
