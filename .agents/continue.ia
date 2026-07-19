@@ -771,12 +771,13 @@ release=pendente
   1/3 Analise e plano [concluido]
     1/2 Validar escopo e criterios de aceite da issue [concluido]
     2/2 Atualizar plano e contratos aplicaveis [concluido]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
+  2/3 Implementacao e validacao [concluido]
+    1/2 Implementar sem regressao [concluido]
+    2/2 Executar validacoes proporcionais [concluido]
+  3/3 Entrega [em andamento]
   1/2 Commitar e publicar desenvolvimento [pendente]
   2/2 Incluir em release e encerrar issue [pendente]
   decisoes=config/repository.json integra o conjunto gerenciado porque contém a identidade necessária para validar os cabeçalhos do próprio runtime upstream; config/agents.local.json permanece extensão não gerenciada.
   falhas=Release v0.0.18 omite config/repository.json do manifesto e upstream-share.js chama requireAuthorization inexistente, impedindo verify limpo e publicação canônica autorizada.
-  pendencias=Implementar manifesto, validação, autorização e testes; publicar release corretiva inferida deterministicamente como 0.0.19.
+  verificacoes=node --check upstream-share.js; teste upstream focado; agent:verify VERIFY_OK scripts=18 indexedFiles=23; agent:test TEST_OK suites=5; dist contém config/repository.json autenticado pelo manifesto.
+  pendencias=Commitar e publicar desenvolvimento; gerar e comprovar release corretiva 0.0.19; encerrar issue.

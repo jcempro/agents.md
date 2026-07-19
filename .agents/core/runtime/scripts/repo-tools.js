@@ -490,7 +490,7 @@ function buildDistributionFiles(index) {
       path: toPosix(path.relative(ROOT_DIR, filePath)),
       sourcePath: toPosix(path.relative(ROOT_DIR, filePath)),
     }));
-  const configuration = ["config/core.json", "config/schema.json"].map((relativePath) => ({
+  const configuration = ["config/core.json", "config/repository.json", "config/schema.json"].map((relativePath) => ({
     name: path.basename(relativePath),
     path: relativePath,
     sourcePath: relativePath,
@@ -740,6 +740,7 @@ function validateDist() {
   assertFile(path.join(DIST_DIR, ".agents", "scenarios", "web", "page-like", "scenario.md"), "dist/.agents/scenarios/web/page-like/scenario.md ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "core", "runtime", "scripts", "public-client.js"), "dist/.agents/core/runtime/scripts/public-client.js ausente.");
   assertFile(path.join(DIST_DIR, "config", "core.json"), "dist/config/core.json ausente.");
+  assertFile(path.join(DIST_DIR, "config", "repository.json"), "dist/config/repository.json ausente.");
   assertFile(path.join(DIST_DIR, "config", "schema.json"), "dist/config/schema.json ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "core", "runtime", "scripts", "issue-inbox.js"), "dist/.agents/core/runtime/scripts/issue-inbox.js ausente.");
   assertFile(path.join(DIST_DIR, ".agents", "core", "runtime", "scripts", "upstream-share.js"), "dist/.agents/core/runtime/scripts/upstream-share.js ausente.");
@@ -754,6 +755,9 @@ function validateDist() {
     throw new Error("dist/release.json nao indexa package.json.");
   }
   validateGovernanceManifest(release.update, "dist/release.json");
+  if (!release.update.files.some((entry) => entry.path === "config/repository.json")) {
+    throw new Error("dist/release.json nao autentica config/repository.json.");
+  }
   validateUpdateHandoffDescriptor(release.handoff, "dist/release.json");
   const distributionPackage = JSON.parse(fs.readFileSync(DISTRIBUTION_PACKAGE_PATH, "utf8"));
   assertPublishedMain(distributionPackage);

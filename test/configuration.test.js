@@ -20,3 +20,7 @@ assert.match(pkg.scripts.release, /shared:lifecycle:release/u);
 assert.match(pkg.scripts.publish, /shared:lifecycle:publish/u);
 assert.match(pkg.scripts["agent:autoupdate"], /update:agents/u);
 assert.ok(pkg.agentsGovernance.managedScriptPrefixes.includes("shared:"));
+
+const release = JSON.parse(fs.readFileSync(path.join(root, "dist", "release.json"), "utf8"));
+assert.ok(fs.existsSync(path.join(root, "dist", "config", "repository.json")));
+assert.ok(release.update.files.some((entry) => entry.path === "config/repository.json"));
