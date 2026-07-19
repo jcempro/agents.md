@@ -30,6 +30,18 @@ Todo repositório DEVE expor `update:agents` como comando NPM canônico; `agent:
 
 Repositório DEVE distinguir raiz do repositório, raiz da aplicação e raiz do artefato publicado; elas NÃO são intercambiáveis. Raiz do repositório contém somente governança ativa, documentação, manifesto, automação e infraestrutura transversal; código, implementação e recurso internos DEVEM ficar sob estrutura-fonte `src`/equivalente declarada, salvo exigência superior comprovável de framework, ecossistema, gerador ou compilador. Essa estrutura-fonte NÃO é a raiz da aplicação. Conveniência NÃO justifica exceção. Em Web Page Like, raiz da aplicação e raiz do artefato publicado DEVEM coincidir com o `/` percebido pelo usuário; fonte interna NÃO DEVE vazar para essa superfície. RCF PODE declarar nomes e pipeline físicos, mas NÃO PODE inverter precedência, deslocar governança ativa para artefato ou dispensar segregação.
 
+### 0.14 Raiz operacional `.ia.rules`
+
+`./.ia.rules/` é a raiz interna canônica e o SSOT operacional de regras auxiliares, contratos, configurações, scripts, templates, manifestos, mapas, metadados, cenários, automações e artefatos auxiliares governados por AGENTS. Novo arquivo dessas classes DEVE permanecer aninhado nessa raiz; equivalente disperso na raiz, em `./.agents/` ou em outro local é não conforme. `./.agents/` é legado reconhecido somente como entrada de migração versionada e NÃO PODE receber nova regra ou capacidade.
+
+Cada release DEVE manter em `./.ia.rules/` arquivo de versão atual com conteúdo exclusivamente semântico, manifesto versionado completo com hashes e projeção rastreável do `package.json`. O manifesto enumera arquivos gerenciados, tipos, destinos e perfil interno ou consumidor e é autoridade para comparação, auditoria, atualização e limpeza; varredura serve somente a diagnóstico ou conversão de legado. A projeção do pacote comprova versão e conteúdo sem constituir segunda fonte.
+
+Limpeza DEVE ser reutilizável, hookável, determinística, auditável e transacional: compara estado real ao manifesto vigente, remove somente legado ou path cuja gestão esteja comprovada e restaura integralmente em falha. Hooks, extensões, adaptadores e conteúdo local DEVEM ocupar namespaces próprios declarados, excluídos da remoção e cobertos por mapa local atualizado; ausência no mapa NÃO autoriza remover autoria ou gestão indeterminada.
+
+O ambiente interno PODE conter todas as ferramentas necessárias ao construtor; o release publicado DEVE conter somente contratos públicos, configuração mínima, runtime necessário e scripts reutilizáveis oficialmente declarados. Seu `package.json` DEVE ser sanitizado e minimizado, sem script experimental, desenvolvimento, automação exclusiva do construtor, dependência de processo interno ou metadado irrelevante. Validação DEVE comprovar estrutura, versão, manifesto, hashes, pacote, limpeza simulada, extensões preservadas e ausência de arquivo não declarado.
+
+A transição de `./.agents/` para `./.ia.rules/` DEVE possuir descritor de formato, marcador, conversor permanente da versão anterior, plano determinístico, backup reversível e validação anterior à troca. Ferramenta PODE ler ambas durante janela declarada, mas só `./.ia.rules/` recebe escrita no formato novo; após migração válida, coexistência ativa é proibida. Novo projeto DEVE iniciar exclusivamente em `./.ia.rules/`.
+
 ## 1. Domínios e precedência
 
 Governança: AGENTS → RCF global → RCF específico → README → memória → demais. Projeto/negócio: RCF global → específico → README → memória → demais; AGENTS DEVE permanecer aplicável quanto ao método. Regra local: `agents.local.md`, limitada pelos anteriores. Conflito transversal DEVE preservar comportamento e conteúdo; insolúvel aplica `MN-PRES`.
