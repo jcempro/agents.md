@@ -1,6 +1,6 @@
 {
   "name": "agents-governance",
-  "version": "0.0.21",
+  "version": "0.0.19",
   "private": false,
   "license": "MPL-2.0",
   "description": "Governanca operacional portavel para agentes IA.",
