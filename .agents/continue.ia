@@ -759,3 +759,22 @@ decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem ac
 verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK; workflow 29474724084 success; v0.0.9 Latest com agents-v0.0.9.zip e release-note.txt; tag=90c78db; dev/main=37ad389 antes do commit final.
 convergencia=Workflow convergiu dev e main em 37ad389; commit final de encerramento sera publicado e reconvergido imediatamente.
 pendencias=Nenhuma.
+
+FT-034|nome=[AGENTS] Distribuir os metadados exigidos pela validação de cabeçalhos|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260719.211717|atualizacao=20260719.211717
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#2 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#2
+issue_repo=jcempro/agents.md
+issue_number=2
+issue_url=https://github.com/jcempro/agents.md/issues/2
+issue_state=aprovada
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
