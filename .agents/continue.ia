@@ -759,7 +759,7 @@ decisoes=Recomendado e altamente recomendado permanecem avaliacao tecnica sem ac
 verificacoes=node --check issue-inbox.js e issue-lifecycle.js; testes focados de aprovacao, identidade, FT e versao; dry-run de bind/start sem rede; agent:test TEST_OK suites=3; agent:verify VERIFY_OK scripts=15 indexedFiles=22; build DIST_OK files=38; git diff --check OK; workflow 29474724084 success; v0.0.9 Latest com agents-v0.0.9.zip e release-note.txt; tag=90c78db; dev/main=37ad389 antes do commit final.
 convergencia=Workflow convergiu dev e main em 37ad389; commit final de encerramento sera publicado e reconvergido imediatamente.
 pendencias=Nenhuma.
-FT-035|nome=Retomada idempotente do gatilho de release|escopo=Tecnico|prioridade=critica|status=em_andamento|inicio=20260719.000000|atualizacao=20260719.000000
+FT-035|nome=Retomada idempotente do gatilho de release|escopo=Tecnico|prioridade=critica|status=concluido|inicio=20260719.000000|atualizacao=20260719.235900
 objetivo=Permitir que o comando release retome a versao solicitada quando um gatilho transitório de release ja publicado reaparecer no checkout, sem sobrescrever release ainda pendente.
 escopo=Contrato RCF de gatilho, repo-tools, orquestradores release-publish, teste focado, derivados e handoff.
 excecao_ciclica=Solicitacao humana explicita autoriza editar minimamente o runtime gerenciado ativo porque o proprio bug em agent:release:trigger bloqueia a materializacao da correcao; autoridade definitiva permanece em src e contratos sincronizados.
@@ -772,11 +772,14 @@ aceite=Gatilho inexistente e criado; gatilho da mesma versao e idempotente; gati
   1/3 Confirmar branch, tree e estado canonico [concluido]
   2/3 Reproduzir causa no fluxo resume [concluido]
   3/3 Delimitar regra fail-safe de retomada [concluido]
-2/3 Implementacao [em andamento]
-  1/3 Tornar trigger idempotente e reconciliar residuo publicado [em andamento]
-  2/3 Aceitar staging estrito A/M nos orquestradores [pendente]
-  3/3 Sincronizar RCF e teste focado [pendente]
-3/3 Validacao e fechamento [pendente]
-  1/3 Executar testes e verificacao integral [pendente]
-  2/3 Regenerar handoff e auditar diff [pendente]
-  3/3 Registrar resultado e pendencias [pendente]
+2/3 Implementacao [concluido]
+  1/3 Tornar trigger idempotente e reconciliar residuo publicado [concluido]
+  2/3 Aceitar staging estrito A/M nos orquestradores [concluido]
+  3/3 Sincronizar RCF e teste focado [concluido]
+3/3 Validacao e fechamento [concluido]
+  1/3 Executar testes e verificacao integral [concluido]
+  2/3 Regenerar handoff e auditar diff [concluido]
+  3/3 Registrar resultado e pendencias [concluido]
+decisoes=Gatilho identico e reutilizado; divergente substitui somente versao comprovadamente publicada por tag local; divergencia sem tag bloqueia; staging do marcador permanece restrito a A/M e reuso exige commit historico do path release.
+verificacoes=node --check nos quatro scripts; release-trigger.test.js RELEASE_TRIGGER_POLICY_OK; ensaio Git isolado RELEASE_TRIGGER_INTEGRATION_OK para substituicao, reuso e conflito; agent:test TEST_OK suites=5; agent:build DIST_OK files=47; agent:verify VERIFY_OK scripts=19 indexedFiles=23; git diff --check OK; fonte, nucleo ativo e dist com paridade funcional.
+pendencias=Nenhuma na FT-035; publicacao de release permanece fora do escopo e depende de solicitacao explicita.

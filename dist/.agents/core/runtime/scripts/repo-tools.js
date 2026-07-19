@@ -13,6 +13,7 @@ const path = require("path");
 
 const { createZipFromDirectory } = require("./archive");
 const { loadConfiguration } = require("./configuration");
+const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
 
@@ -934,13 +935,31 @@ function releaseTrigger(args = []) {
 
   const release = resolveRelease(requestedVersion);
   const targetPath = path.join(ROOT_DIR, "release");
+  let replacedPublishedTrigger = false;
   if (fs.existsSync(targetPath)) {
-    throw new Error("GATILHO_RELEASE_EXISTENTE:release");
+    const existingVersion = normalizeReleaseVersion(fs.readFileSync(targetPath, "utf8"));
+    const published = existingVersion
+      ? runProcess("git", ["rev-parse", "--verify", `refs/tags/v${existingVersion}`], { optional: true }).status === 0
+      : false;
+    const decision = resolveExistingReleaseTrigger(existingVersion, release.version, published);
+    if (decision === "preserve") {
+      return ok("RELEASE_TRIGGER_EXISTENTE", {
+        file: "release",
+        inference: release.inference,
+        reused: true,
+        version: release.version,
+      });
+    }
+    if (decision === "conflict") {
+      throw new Error(`GATILHO_RELEASE_PENDENTE:release=${existingVersion || "invalido"};solicitada=${release.version}`);
+    }
+    replacedPublishedTrigger = true;
   }
   fs.writeFileSync(targetPath, `${release.version}\n`, "utf8");
   return ok("RELEASE_TRIGGER_OK", {
     file: "release",
     inference: release.inference,
+    replacedPublishedTrigger,
     version: release.version,
   });
 }
@@ -1377,6 +1396,7 @@ module.exports = {
   isManagedDistributionFile,
   isManagedScriptPath,
   main,
+  resolveExistingReleaseTrigger,
   resolveRelease,
   validateDist,
   verify,

@@ -145,7 +145,14 @@ function prepareArtifactCommit(version, options) {
 function createAndPushTrigger(version, options) {
   run(process.execPath, [path.join(ROOT_DIR, ".agents", "core", "runtime", "scripts", "repo-tools.js"), "agent:release:trigger", version]);
   run("git", ["add", "--", "release"]);
-  assertStagedPaths(["release"], { statuses: ["A"] });
+  const stagedRelease = run("git", ["diff", "--cached", "--name-status", "--", "release"]).stdout.trim();
+  if (!stagedRelease) {
+    const commit = run("git", ["log", "-1", "--format=%H", "--", "release"]).stdout.trim();
+    if (!commit) throw new Error(`COMMIT_GATILHO_RELEASE_AUSENTE:v${version}`);
+    run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+    return { commit, reused: true };
+  }
+  assertStagedPaths(["release"], { statuses: ["A", "M"] });
   run("git", ["commit", "-m", `chore: aciona release v${version}`]);
   const commit = run("git", ["rev-parse", "HEAD"]).stdout.trim();
   run("git", ["push", options.remote, options.branch], { timeout: 120000 });
