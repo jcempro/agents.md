@@ -436,7 +436,7 @@ Configuração mutável ou personalizável DEVE ter uma única raiz `./config/`,
 
 `dev-live` DEVE ser previsível em todos os consumidores: `127.0.0.1`, porta `4000`, HTTP, sem proxy e reload por watch são defaults portáteis, substituíveis somente por configuração local declarada. Ausência de servidor aplicável exige dispensa explícita, não script ambíguo.
 
-Build DEVE inserir e validar banner comentável usando a mesma configuração central de autoria, upstream e licença. Minificação/compilação não autoriza removê-lo. README encerra com Autoria, Repositório e Licença equivalentes; ausência de dado permanece ausência, sem inferência.
+Build DEVE inserir e validar banner comentável usando a mesma configuração central de autoria, upstream e licença. O artefato de governança DEVE distribuir e autenticar no manifesto a configuração de repositório necessária para que o consumidor valide os cabeçalhos gerenciados sem depender de arquivo residual do construtor; sobreposição local continua fora do conjunto gerenciado. Minificação/compilação não autoriza remover o banner. README encerra com Autoria, Repositório e Licença equivalentes; ausência de dado permanece ausência, sem inferência.
 
 ### 3.12 Seção 15 — Implementações em andamento
 

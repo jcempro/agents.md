@@ -6,7 +6,7 @@ Governanca operacional portavel para agentes IA. `./` organiza o repositorio e a
 
 O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.agents/meta/`. O índice `.agents/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.agents/local/` ou `.agents/hooks/` e não são sobrescritas por `agents:update`.
 
-Configuração central reside exclusivamente em `config/`: `core.json` contém defaults portáteis, `schema.json` versiona o formato, `repository.json` descreve este construtor e `agents.local.json` é a sobreposição local não versionada. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Hooks de `publish` e `dev-live` usam `.agents/hooks/<operacao>[.pre|.post].js`.
+Configuração central reside exclusivamente em `config/`: `core.json` contém defaults portáteis, `schema.json` versiona o formato, `repository.json` descreve este construtor e integra o artefato autenticado para validar o runtime gerenciado no consumidor, enquanto `agents.local.json` é a sobreposição local não versionada. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Hooks de `publish` e `dev-live` usam `.agents/hooks/<operacao>[.pre|.post].js`.
 
 ## Operacao
 

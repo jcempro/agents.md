@@ -768,13 +768,15 @@ issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
 issue_state=em_desenvolvimento
 release=pendente
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
+  1/3 Analise e plano [concluido]
+    1/2 Validar escopo e criterios de aceite da issue [concluido]
+    2/2 Atualizar plano e contratos aplicaveis [concluido]
 2/3 Implementacao e validacao [pendente]
   1/2 Implementar sem regressao [pendente]
   2/2 Executar validacoes proporcionais [pendente]
 3/3 Entrega [pendente]
   1/2 Commitar e publicar desenvolvimento [pendente]
   2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+  decisoes=config/repository.json integra o conjunto gerenciado porque contém a identidade necessária para validar os cabeçalhos do próprio runtime upstream; config/agents.local.json permanece extensão não gerenciada.
+  falhas=Release v0.0.18 omite config/repository.json do manifesto e upstream-share.js chama requireAuthorization inexistente, impedindo verify limpo e publicação canônica autorizada.
+  pendencias=Implementar manifesto, validação, autorização e testes; publicar release corretiva inferida deterministicamente como 0.0.19.
