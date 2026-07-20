@@ -790,7 +790,7 @@ issue_id=github:jcempro/agents.md#3
 issue_repo=jcempro/agents.md
 issue_number=3
 issue_url=https://github.com/jcempro/agents.md/issues/3
-issue_state=aprovada
+issue_state=em_desenvolvimento
 release=pendente
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -809,7 +809,7 @@ issue_id=github:jcempro/agents.md#1
 issue_repo=jcempro/agents.md
 issue_number=1
 issue_url=https://github.com/jcempro/agents.md/issues/1
-issue_state=aprovada
+issue_state=em_desenvolvimento
 release=pendente
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
