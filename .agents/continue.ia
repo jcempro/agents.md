@@ -783,3 +783,22 @@ aceite=Gatilho inexistente e criado; gatilho da mesma versao e idempotente; gati
 decisoes=Gatilho identico e reutilizado; divergente substitui somente versao comprovadamente publicada por tag local; divergencia sem tag bloqueia; staging do marcador permanece restrito a A/M e reuso exige commit historico do path release.
 verificacoes=node --check nos quatro scripts; release-trigger.test.js RELEASE_TRIGGER_POLICY_OK; ensaio Git isolado RELEASE_TRIGGER_INTEGRATION_OK para substituicao, reuso e conflito; agent:test TEST_OK suites=5; agent:build DIST_OK files=47; agent:verify VERIFY_OK scripts=19 indexedFiles=23; git diff --check OK; fonte, nucleo ativo e dist com paridade funcional.
 pendencias=Nenhuma na FT-035; publicacao de release permanece fora do escopo e depende de solicitacao explicita.
+
+FT-036|nome=[AGENTS] Capacidade reutilizável para verificação de atualização de aplicações distribuídas|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260720.012928|atualizacao=20260720.012928
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#3 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#3
+issue_repo=jcempro/agents.md
+issue_number=3
+issue_url=https://github.com/jcempro/agents.md/issues/3
+issue_state=aprovada
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
