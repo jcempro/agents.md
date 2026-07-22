@@ -209,11 +209,11 @@ Objetivo: Materializar em código a intenção válida da issue github:jcempro/a
 <tr>
 <td rowspan="2">Entrega da etapa topológica</td>
 <td>Commitar e publicar desenvolvimento</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Registrar evidências e regenerar handoff</td>
-<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 </tbody>
 </table>
