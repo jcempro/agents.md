@@ -20,6 +20,7 @@ const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require(".
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const LOCK_FILE = path.join(".ia.rules", "agents-update.lock.json");
+const GITIGNORE_RELATIVE_PATH = ".gitignore";
 const HANDOFF_FORMAT = "agents-update-handoff/v1";
 const HANDOFF_PHASE = "release-runtime-ready";
 const HANDOFF_RUNTIME_FORMAT = "agents-update-runtime/v1";
@@ -846,7 +847,7 @@ function restoreTransactionalChanges(rootDir, backupRoot, touched) {
 }
 
 function commitAndPushNormativeUpdate(rootDir, plan) {
-  const paths = listChangedNormativePaths(plan);
+  const paths = [...new Set([...prepareUpdateAnalogFiles(rootDir, plan), ...listChangedNormativePaths(plan)].map(toPosixPath))];
 
   if (paths.length === 0) {
     return;
@@ -880,6 +881,39 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
   } else {
     runGit(rootDir, ["push", "-u", "origin", currentBranchName(rootDir)]);
   }
+}
+
+function prepareUpdateAnalogFiles(rootDir, plan) {
+  const changed = listChangedNormativePaths(plan);
+  const analogs = [];
+  if (changed.some((relativePath) => toPosixPath(relativePath).startsWith(".ia.rules/")) &&
+    ensureGitignoreAllowsManagedRules(rootDir)) {
+    analogs.push(GITIGNORE_RELATIVE_PATH);
+  }
+  return analogs;
+}
+
+function ensureGitignoreAllowsManagedRules(rootDir) {
+  const gitignorePath = path.join(rootDir, GITIGNORE_RELATIVE_PATH);
+  const eol = fs.existsSync(gitignorePath) && fs.readFileSync(gitignorePath, "utf8").includes("\r\n") ? "\r\n" : "\n";
+  const current = fs.existsSync(gitignorePath) ? fs.readFileSync(gitignorePath, "utf8") : "";
+  const block = [
+    "# BEGIN agents-governance managed",
+    "# Permite versionar o nucleo gerenciado atualizado por update:agents.",
+    "!/.ia.rules/",
+    "!/.ia.rules/**",
+    "/.ia.rules/cache/",
+    "/.ia.rules/local/",
+    "/.ia.rules/agents-update.lock.json",
+    "# END agents-governance managed",
+  ].join(eol);
+  const pattern = /(?:^|\r?\n)# BEGIN agents-governance managed\r?\n[\s\S]*?# END agents-governance managed(?:\r?\n|$)/u;
+  const next = pattern.test(current)
+    ? current.replace(pattern, `${current.startsWith("# BEGIN agents-governance managed") ? "" : eol}${block}${eol}`)
+    : `${current.trimEnd()}${current.trimEnd() ? eol + eol : ""}${block}${eol}`;
+  if (normalizeText(current) === normalizeText(next)) return false;
+  fs.writeFileSync(gitignorePath, next, "utf8");
+  return true;
 }
 
 function listChangedNormativePaths(plan) {
@@ -1066,6 +1100,10 @@ function hashTextContent(buffer) {
   return hashBuffer(Buffer.from(buffer.toString("utf8").replace(/\r\n/gu, "\n"), "utf8"));
 }
 
+function normalizeText(value) {
+  return String(value || "").replace(/\r\n/gu, "\n").trimEnd();
+}
+
 function toPosixPath(value) {
   return String(value || "").split(path.sep).join("/");
 }
@@ -1101,6 +1139,7 @@ module.exports = {
   mergePackageManifest,
   normalizeGovernanceRelativePath,
   parseArgs,
+  prepareUpdateAnalogFiles,
   prepareReleaseHandoff,
   resolveReleaseRuntime,
   resolveRemoteSource,

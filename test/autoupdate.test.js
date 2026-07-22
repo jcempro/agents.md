@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../src/.ia.rules/core/runtime/scripts/update-agents");
+const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../src/.ia.rules/core/runtime/scripts/update-agents");
 const { extractZip } = require("../src/.ia.rules/core/runtime/scripts/archive");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../src/.ia.rules/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../src/.ia.rules/core/runtime/scripts/repo-tools");
@@ -37,6 +37,7 @@ async function main() {
   assert.match(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "update-agents.js"), "utf8"), /"add", "-f", "--"/u);
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {
+    fs.writeFileSync(path.join(root, ".gitignore"), ".ia.rules\nnode_modules/\n", "utf8");
     fs.mkdirSync(path.join(root, ".ia.rules", "core", "update"), { recursive: true });
     fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ agentsUpstream: { schema: 1, upstreamRepository: "old/repository" } }));
     fs.writeFileSync(path.join(root, ".ia.rules", "core", "update", "upstream.json"), JSON.stringify({ schema: 1, upstreamRepository: "new/repository", predecessorRepositories: ["old/repository"] }));
@@ -75,6 +76,18 @@ async function main() {
     assert.equal(fs.readFileSync(collision, "utf8"), "governanca oficial\n");
     assert.equal(fs.existsSync(backupPath), true);
     assert.match(fs.readFileSync(path.join(__dirname, "..", ".gitignore"), "utf8"), /^agents-governance-backups\/$/mu);
+    const analogs = prepareUpdateAnalogFiles(root, {
+      changes: [{ action: "add", relativePath: ".ia.rules/core/runtime/scripts/repo-tools.js" }],
+    });
+    assert.deepEqual(analogs, [".gitignore"]);
+    const gitignore = fs.readFileSync(path.join(root, ".gitignore"), "utf8");
+    assert.match(gitignore, /BEGIN agents-governance managed/u);
+    assert.match(gitignore, /^!\/\.ia\.rules\/$/mu);
+    assert.match(gitignore, /^!\/\.ia\.rules\/\*\*$/mu);
+    assert.match(gitignore, /^\/\.ia\.rules\/cache\/$/mu);
+    assert.deepEqual(prepareUpdateAnalogFiles(root, {
+      changes: [{ action: "add", relativePath: ".ia.rules/core/runtime/scripts/repo-tools.js" }],
+    }), []);
   } finally {
     fs.rmSync(root, { force: true, recursive: true });
   }
