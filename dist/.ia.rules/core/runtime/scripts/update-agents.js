@@ -854,7 +854,8 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
 
   const upstream = resolveUpstream(rootDir);
   assertNoPendingLocalCommits(rootDir, upstream);
-  runGit(rootDir, ["add", "--", ...paths]);
+  // FIX-BUG: consumidor pode ignorar .ia.rules; paths gerenciados validados pelo manifesto devem ser staged mesmo assim.
+  runGit(rootDir, ["add", "-f", "--", ...paths]);
 
   const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout
     .trim()
