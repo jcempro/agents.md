@@ -1092,3 +1092,22 @@ aceite=RCF e fonte definem pré-condições, múltiplos vínculos, comentário, 
 decisoes=Encerramento foi generalizado sem enfraquecer release: vínculo explícito, todas as FTs obrigatórias concluídas, avaliação individual e retomada sem duplicação.
 verificacoes=Cobertura issue8 OK; precondições, múltiplos vínculos, comentário, impedimento e falha parcial estão normatizados; nenhuma issue foi fechada porque FTs de código permanecem abertas.
 pendencias=FT-042 permanece pendente de autorização humana para código.
+
+FT-050|nome=Reforçar a autoridade normativa do `AGENTS.md` e impedir desvios dos hooks oficiais|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260722.174320|atualizacao=20260722.174320
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#9 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#9
+issue_repo=jcempro/agents.md
+issue_number=9
+issue_url=https://github.com/jcempro/agents.md/issues/9
+issue_state=aprovada
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
