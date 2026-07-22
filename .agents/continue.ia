@@ -872,7 +872,7 @@ criterios=Integrar o artefato preexistente ao build apenas após revisão contra
   2/2 Incluir em release e encerrar issue [pendente]
 pendencias=Iniciar desenvolvimento e executar o plano da issue.
 
-FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-22T00:33:29Z|inicio=pendente|atualizacao=20260722.003329
+FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-22T00:33:29Z|inicio=2026-07-21T22:38:35-03:00|atualizacao=20260721.223835
 objetivo=Materializar em código a intenção válida da issue github:jcempro/agents.md#6 sob a raiz canônica `.ia.rules`, somente após FT-047 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#6
 issue_repo=jcempro/agents.md
@@ -883,15 +883,24 @@ release=pendente
 dependencias=FT-047 concluída; autorização humana explícita para código; migração `.agents` → `.ia.rules` vigente.
 norma=RCF §0.0.12; src/AGENTS.md §0.14.
 criterios=Não introduzir `.ia.gules`; implementar manifesto, templates, merge, rollback e preservação conforme RCF; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
+1/5 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/5 Topologia e empacotamento restritivo [concluido]
+  1/4 Consolidar runtime e configuração pública em src/.ia.rules [concluido]
+  2/4 Refatorar paths gerenciados para .ia.rules [concluido]
+  3/4 Restringir package.json, manifesto, dist e ZIP à allowlist [concluido]
+  4/4 Preservar a governança ativa raiz sem edição [concluido]
+3/5 Validação da etapa topológica [concluido]
+  1/3 Validar sintaxe dos scripts migrados [concluido]
+  2/3 Executar build e verify pela fonte [concluido]
+  3/3 Auditar dist, ZIP e npm pack --dry-run [concluido]
+4/5 Templates, merge e rollback da issue [pendente]
+  1/2 Implementar contratos de template e merge semântico [pendente]
+  2/2 Validar rollback e preservação de extensões [pendente]
+5/5 Entrega da etapa topológica [em andamento]
   1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
+  2/2 Registrar evidências e regenerar handoff [em andamento]
 pendencias=Iniciar desenvolvimento e executar o plano da issue.
 
 FT-041|nome=Código para o bloqueio norma antes de código|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-22T00:43:24Z|inicio=pendente|atualizacao=20260722.004324
@@ -936,7 +945,12 @@ criterios=Encerrar somente vínculo explícito com todo escopo concluído; retom
 3/3 Entrega [pendente]
   1/2 Commitar e publicar desenvolvimento [pendente]
   2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+autorizacao_codigo=Solicitação humana explícita de 2026-07-21 para purgar src/.agents, restringir o release a .ia.rules, refatorar paths e validar o pacote.
+evidencia_inicial=Commit humano 72d4fac removeu fisicamente src/.agents e migrou seus arquivos para src/.ia.rules; implementação deve permanecer na fonte, sem editar AGENTS.md raiz nem materializar .ia.rules raiz.
+decisoes_etapa=Runtime público completo foi consolidado em src/.ia.rules; build usa somente o índice da fonte; package.json.files contém apenas .ia.rules e arquivos raiz allowlisted; configuração pública reside em .ia.rules/config; governança ativa raiz permaneceu intocada.
+verificacoes_etapa=SOURCE_SYNTAX_OK; agent:dist DIST_OK files=50; agent:verify VERIFY_OK scripts=19 indexedFiles=49; dist e ZIP possuem somente .ia.rules como diretório estrutural; token de path legado ausente; manifesto allowlist OK; pacote npm dry-run com 51 entradas; runtime distribuído agent:setup SETUP_OK.
+falhas_etapa=Primeiro npm pack usou cache global sem permissão e retornou EPERM; repetição com cache temporário local concluiu. apply_patch recusou repetidamente repo-tools.js gravável; substituições mecânicas equivalentes foram aplicadas somente na fonte e revalidadas.
+pendencias=Implementar templates, merge semântico, rollback e preservação de extensões em autorização específica; publicar release somente após a FT integral.
 
 FT-043|nome=Norma de publicação atômica em registros de pacote|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:00-03:00|inicio=2026-07-21T22:08:00-03:00|atualizacao=20260721.222042|conclusao=2026-07-21T22:20:42-03:00
 objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#1 sem implementar código.

@@ -4,9 +4,9 @@ Governanca operacional portavel para agentes IA. `./` organiza o repositorio e a
 
 ## Contratos de Scripts
 
-O contrato tipado reutilizável fica em `.agents/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.agents/meta/`. O índice `.agents/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.agents/local/` ou `.agents/hooks/` e não são sobrescritas por `agents:update`.
+O contrato tipado reutilizável fica em `.ia.rules/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.ia.rules/meta/`. O índice `.ia.rules/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.ia.rules/local/` ou `.ia.rules/hooks/` e não são sobrescritas por `agents:update`.
 
-Configuração central reside exclusivamente em `config/`: `core.json` contém defaults portáteis, `schema.json` versiona o formato, `repository.json` descreve este construtor e `agents.local.json` é a sobreposição local não versionada. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Hooks de `publish` e `dev-live` usam `.agents/hooks/<operacao>[.pre|.post].js`.
+No produto e no release, configuração central reside exclusivamente em `.ia.rules/config/`: `core.json` contém defaults portáteis e `schema.json` versiona o formato. A configuração exclusiva do construtor permanece infraestrutura raiz e não integra o payload. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Hooks de `publish` e `dev-live` usam `.ia.rules/hooks/<operacao>[.pre|.post].js`.
 
 ## Operacao
 
@@ -27,7 +27,7 @@ Configuração central reside exclusivamente em `config/`: `core.json` contém d
 
 ### Evolução upstream de AGENTS.md
 
-`./AGENTS.md` na raiz rege este repositório construtor; `./src/AGENTS.md` é a aplicação-fonte distribuível e não a sincroniza automaticamente. Em um consumidor, `npm run agent:upstream:check -- --offline` identifica o estado sem rede. A configuração local opcional `.agents/upstream.json` ou `package.json.agentsUpstream` declara `role` (`consumer`, `constructor` ou `dual`), `upstreamRepository`, candidato, limites e cache; candidato não é destino autoritativo.
+`./AGENTS.md` na raiz rege este repositório construtor; `./src/AGENTS.md` é a aplicação-fonte distribuível e não a sincroniza automaticamente. Em um consumidor, `npm run agent:upstream:check -- --offline` identifica o estado sem rede. A configuração local opcional `.ia.rules/upstream.json` ou `package.json.agentsUpstream` declara `role` (`consumer`, `constructor` ou `dual`), `upstreamRepository`, candidato, limites e cache; candidato não é destino autoritativo.
 
 - `agent:upstream:prepare -- <evidence.json>` sanitiza e grava proposta revisável em extensão local.
 - `agent:upstream:publish -- <proposal.json> --authorize` verifica destino, duplicação e token externo antes de criar issue; sem `--authorize`, nenhuma ação externa ocorre.
@@ -36,7 +36,7 @@ Configuração central reside exclusivamente em `config/`: `core.json` contém d
 
 ### Inbox construtora de issues
 
-`.github/workflows/issues-inbox.yml` recebe somente eventos `issues` de abertura, edição, reabertura ou rotulagem. O payload é sanitizado antes de criar `.agents/local/upstream/inbox/`; o workflow publica essa inbox como artefato por 30 dias e não inclui credenciais ou cabeçalhos.
+`.github/workflows/issues-inbox.yml` recebe somente eventos `issues` de abertura, edição, reabertura ou rotulagem. O payload é sanitizado antes de criar `.ia.rules/local/upstream/inbox/`; o workflow publica essa inbox como artefato por 30 dias e não inclui credenciais ou cabeçalhos.
 
 - `agent:inbox:event -- <evento.json>` valida, sanitiza e indexa um evento localmente.
 - `agent:inbox:evaluate -- <registro.json>` produz `rejected`, `not_recommended`, `recommended` ou `highly_recommended`, sem efeito externo.
@@ -53,20 +53,21 @@ O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horári
 
 ### Atualização segura da governança
 
-`update:agents` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. Após download e extração únicos, o bootstrap valida o runtime manifestado e passa bastão ao `update-agents.js` da própria release por estado HMAC; esse processo carrega dependências da release, trata o repositório somente como target e retoma sem repetir rede ou fase. Falha de integridade encerra sem fallback ao runtime antigo. O estado local anterior é consultado apenas para converter formatos, gerar backup compactado de divergência e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.agents/local/`, `.agents/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
+`update:agents` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. Após download e extração únicos, o bootstrap valida o runtime manifestado e passa bastão ao `update-agents.js` da própria release por estado HMAC; esse processo carrega dependências da release, trata o repositório somente como target e retoma sem repetir rede ou fase. Falha de integridade encerra sem fallback ao runtime antigo. O estado local anterior é consultado apenas para converter formatos, gerar backup compactado de divergência e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.ia.rules/local/`, `.ia.rules/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
 
-Migração de upstream usa `.agents/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `update:agents` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
-Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez `node .agents/core/runtime/scripts/autoupdate.js`; o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os aliases e publica a branch atual. Depois disso, `npm run update:agents` é a entrada canônica.
+Migração de upstream usa `.ia.rules/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `update:agents` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
+Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez `node .ia.rules/core/runtime/scripts/autoupdate.js`; o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os aliases e publica a branch atual. Depois disso, `npm run update:agents` é a entrada canônica.
 
 Cada alteração estrutural do formato traz um descritor de linguagem, marcador de variação e conversor histórico. Configurações equivalentes devem preferir o mesmo parser e descritor para manter transições verificáveis.
 
-- `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `.agents/continue.ia`.
+- `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `.ia.rules/continue.ia`.
 
 ## Release
 
 - `.github/workflows/release.yml`: executa release manual ou por commit contendo apenas `release` no root.
 - Somente o arquivo `release` no root funciona como gatilho transitório; o workflow remove o arquivo e cria commit `release:`. `publish` fica reservado à Publicação de Conteúdo e este repositório não a aplica.
 - `dist/release-note.txt` e o pacote versionado sao gerados localmente por `agent:release` antes da publicacao do GitHub Release marcado como latest.
+- O ZIP contém somente arquivos raiz allowlisted e a árvore estrutural `.ia.rules/`; qualquer outro diretório ou path da árvore predecessora bloqueia `agent:verify`.
 - Release publicado em `dev` converge a branch primária (`main`, senão `master`); conflito de merge interrompe o workflow.
 
 ### Convergência manual de `dev` para `main`
@@ -109,13 +110,13 @@ O comando interrompe antes de escrever quando houver alteração local, tag exis
 - [RCF.md](RCF.md): contrato material do projeto.
 - [AGENTS.md](AGENTS.md): governanca operacional aplicavel a este workspace.
 - [src/AGENTS.md](src/AGENTS.md): fonte do artefato normativo distribuivel.
-- [src/.agents/core/update/scenario.md](src/.agents/core/update/scenario.md): contrato de atualizacao automatica.
-- [src/.agents/scenarios/web/page-like/scenario.md](src/.agents/scenarios/web/page-like/scenario.md): cenario Web Page Like.
-- [src/.agents/scenarios/release/scenario.md](src/.agents/scenarios/release/scenario.md): cenario Release.
+- [src/.ia.rules/core/update/scenario.md](src/.ia.rules/core/update/scenario.md): contrato de atualizacao automatica.
+- [src/.ia.rules/scenarios/web/page-like/scenario.md](src/.ia.rules/scenarios/web/page-like/scenario.md): cenario Web Page Like.
+- [src/.ia.rules/scenarios/release/scenario.md](src/.ia.rules/scenarios/release/scenario.md): cenario Release.
 - [src/.ia.rules/scenarios/release/capabilities/package-registry.md](src/.ia.rules/scenarios/release/capabilities/package-registry.md): capacidade normativa opt-in de registro de pacote.
 - [src/.ia.rules/scenarios/application-update/scenario.md](src/.ia.rules/scenarios/application-update/scenario.md): verificação normativa opt-in de atualização aplicacional.
 - [src/.ia.rules/scenarios/governance/issue-lifecycle.md](src/.ia.rules/scenarios/governance/issue-lifecycle.md): segregação e encerramento idempotente de issues vinculadas.
-- [src/.agents/scenarios/content-publication/scenario.md](src/.agents/scenarios/content-publication/scenario.md): cenario Publicação de Conteúdo.
+- [src/.ia.rules/scenarios/content-publication/scenario.md](src/.ia.rules/scenarios/content-publication/scenario.md): cenario Publicação de Conteúdo.
 
 ## Autoria
 
