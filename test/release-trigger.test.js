@@ -7,7 +7,7 @@
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
 
 const assert = require("assert");
-const { resolveExistingReleaseTrigger } = require("../src/.agents/core/runtime/scripts/release-trigger-policy");
+const { resolveExistingReleaseTrigger } = require("../src/.ia.rules/core/runtime/scripts/release-trigger-policy");
 
 assert.strictEqual(resolveExistingReleaseTrigger("0.0.19", "0.0.19", false), "preserve");
 assert.strictEqual(resolveExistingReleaseTrigger("0.0.18", "0.0.19", true), "replace");

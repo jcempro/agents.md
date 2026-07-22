@@ -1,7 +1,7 @@
 const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
-const { deepMerge, loadConfiguration, parseConfig } = require("../.agents/core/runtime/scripts/configuration");
+const { deepMerge, loadConfiguration, parseConfig } = require("../.ia.rules/core/runtime/scripts/configuration");
 
 const root = path.join(__dirname, "..");
 const config = loadConfiguration(root);

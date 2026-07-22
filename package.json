@@ -5,6 +5,17 @@
   "license": "MPL-2.0",
   "description": "Governanca operacional portavel para agentes IA.",
   "main": "AGENTS.md",
+  "files": [
+    "AGENTS.md",
+    "INIT-REPO.md",
+    "README.md",
+    "LICENSE",
+    "package.json",
+    ".ia.rules/config/",
+    ".ia.rules/core/",
+    ".ia.rules/meta/",
+    ".ia.rules/scenarios/"
+  ],
   "agentsUpstream": {
     "schema": 1,
     "upstreamRepository": "jcempro/agents.md",

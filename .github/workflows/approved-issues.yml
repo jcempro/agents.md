@@ -38,13 +38,13 @@ jobs:
       - name: Baixar aprovadas e criar FTs
         env:
           AGENTS_GITHUB_TOKEN: ${{ github.token }}
-        run: node .agents/core/runtime/scripts/issue-lifecycle.js sync-approved --role constructor
+        run: node .ia.rules/core/runtime/scripts/issue-lifecycle.js sync-approved --role constructor
 
       - name: Publicar correlações antes do desenvolvimento
         shell: bash
         run: |
-          if ! git diff --quiet -- .agents/continue.ia; then
-            git add .agents/continue.ia
+          if ! git diff --quiet -- .ia.rules/continue.ia; then
+            git add .ia.rules/continue.ia
             git commit -m "chore: importa issues aprovadas"
             git push origin HEAD:dev
           fi
@@ -52,13 +52,13 @@ jobs:
       - name: Marcar issues em desenvolvimento
         env:
           AGENTS_GITHUB_TOKEN: ${{ github.token }}
-        run: node .agents/core/runtime/scripts/issue-lifecycle.js start --role constructor --authorize
+        run: node .ia.rules/core/runtime/scripts/issue-lifecycle.js start --role constructor --authorize
 
       - name: Publicar estado de desenvolvimento
         shell: bash
         run: |
-          if ! git diff --quiet -- .agents/continue.ia; then
-            git add .agents/continue.ia
+          if ! git diff --quiet -- .ia.rules/continue.ia; then
+            git add .ia.rules/continue.ia
             git commit -m "chore: inicia issues aprovadas"
             git push origin HEAD:dev
           fi

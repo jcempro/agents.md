@@ -2,7 +2,7 @@ const assert = require("assert");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { approvalPlan, evaluateRecord, normalizeIssue, persistRecord, sanitizeIssueText } = require("../.agents/core/runtime/scripts/issue-inbox");
+const { approvalPlan, evaluateRecord, normalizeIssue, persistRecord, sanitizeIssueText } = require("../.ia.rules/core/runtime/scripts/issue-inbox");
 
 function main() {
   const payload = {

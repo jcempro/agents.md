@@ -47,17 +47,17 @@ jobs:
         run: |
           set -euo pipefail
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            result="$(node .agents/core/runtime/scripts/issue-inbox.js fetch "$INPUT_ISSUE" --role constructor)"
+            result="$(node .ia.rules/core/runtime/scripts/issue-inbox.js fetch "$INPUT_ISSUE" --role constructor)"
             printf '%s\n' "$result"
             record="$(node -e "const data=JSON.parse(process.argv[1]); process.stdout.write(data.file || '');" "$result")"
             test -n "$record"
-            assessment="$(node .agents/core/runtime/scripts/issue-inbox.js evaluate "$record" --role constructor)"
+            assessment="$(node .ia.rules/core/runtime/scripts/issue-inbox.js evaluate "$record" --role constructor)"
             printf '%s\n' "$assessment"
             if [ "$INPUT_APPLY" = "true" ]; then
-              node .agents/core/runtime/scripts/issue-inbox.js apply "${record%.json}.json.assessment.json" --role constructor --authorize --issue "$INPUT_ISSUE"
+              node .ia.rules/core/runtime/scripts/issue-inbox.js apply "${record%.json}.json.assessment.json" --role constructor --authorize --issue "$INPUT_ISSUE"
             fi
           else
-            node .agents/core/runtime/scripts/issue-inbox.js process "$GITHUB_EVENT_PATH" --role constructor --authorize
+            node .ia.rules/core/runtime/scripts/issue-inbox.js process "$GITHUB_EVENT_PATH" --role constructor --authorize
           fi
 
       - name: Publicar inbox sanitizada
@@ -65,6 +65,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: agents-issues-inbox-${{ github.run_id }}
-          path: .agents/local/upstream/inbox
+          path: .ia.rules/local/upstream/inbox
           if-no-files-found: warn
           retention-days: 30

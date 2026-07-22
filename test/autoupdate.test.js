@@ -11,7 +11,7 @@ const { isManagedDistributionFile, isManagedScriptPath } = require("../src/.ia.r
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
-  const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.agents/repo-tools.js agent:agents", publish: "ruby publish.rb" } }));
+  const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.ia.rules/repo-tools.js agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
     scripts: {
       "agent:autoupdate": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
@@ -30,7 +30,7 @@ async function main() {
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "repo-tools.js")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "update", "migrations", "v1-to-v2.js")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "scenarios", "release", "scripts", "release-hooks.js")), true);
-  assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "cache", "legacy-consumer", ".agents", "core", "runtime", "scripts", "to-ia.js")), false);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "cache", "legacy-consumer", ".ia.rules", "core", "runtime", "scripts", "to-ia.js")), false);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "local", "custom.js")), false);
   assert.equal(isManagedDistributionFile(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json")), true);
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
@@ -82,7 +82,7 @@ async function main() {
   const distRoot = path.join(repositoryRoot, "dist");
   const runtime = resolveReleaseRuntime(distRoot);
   assert.equal(runtime.entryPath, fs.realpathSync(path.join(distRoot, ".ia.rules", "core", "runtime", "scripts", "update-agents.js")));
-  assert.equal(Object.keys(runtime.runtimeHashes).length, 3);
+  assert.equal(Object.keys(runtime.runtimeHashes).length, 4);
 
   const handoffRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-handoff-test-"));
   try {

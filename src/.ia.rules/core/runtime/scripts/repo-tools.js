@@ -13,6 +13,7 @@ const path = require("path");
 
 const { createZipFromDirectory } = require("./archive");
 const { loadConfiguration } = require("./configuration");
+const { buildDistributionMap, distributionMapFileName, distributionMapRelativePath, validateDistributionMap } = require("./distribution-map");
 const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
@@ -35,6 +36,7 @@ const UPDATE_FORMAT_PATH = path.join(RUNTIME_RULES_DIR, "core", "update", "forma
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
   ".ia.rules/core/runtime/scripts/archive.js",
+  ".ia.rules/core/runtime/scripts/distribution-map.js",
   ".ia.rules/core/update/migrations/v1-to-v2.js",
 ];
 const LEGACY_RULES_ROOT = [".", "agents"].join("");
@@ -441,17 +443,34 @@ function buildDist(options = {}) {
     copyDistributionFile(path.join(ROOT_DIR, file.sourcePath), targetPath);
   }
   writeJsonMinified(DISTRIBUTION_PACKAGE_PATH, buildDistributionPackage());
+  const effectiveVersion = releaseVersion || readPackageVersion();
+  const distributionMapPath = distributionMapRelativePath(effectiveVersion);
 
   const releaseIndex = {
     files: [...files.map(({ name, path: releasePath }) => ({ name, path: releasePath })), {
       name: "package.json",
       path: "package.json",
+    }, {
+      name: "release.json",
+      path: "release.json",
+    }, {
+      name: distributionMapFileName(effectiveVersion),
+      path: distributionMapPath,
     }],
+    distributionMap: {
+      format: "agents-distribution-map/v1",
+      path: distributionMapPath,
+      version: effectiveVersion,
+    },
     root: ".",
     schema: 1,
   };
   if (releaseNotes) {
     fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}\n`, "utf8");
+    releaseIndex.files.push({
+      name: "release-note.txt",
+      path: "release-note.txt",
+    });
   }
   if (preservedRelease) {
     releaseIndex.release = {
@@ -466,9 +485,24 @@ function buildDist(options = {}) {
       version: releaseVersion,
     };
   }
-  releaseIndex.update = createGovernanceManifest(releaseIndex.files, (entry) => fs.readFileSync(path.join(DIST_DIR, entry.path)));
+  releaseIndex.update = createGovernanceManifest(
+    releaseIndex.files.filter((entry) => !["release.json", "release-note.txt", distributionMapPath].includes(entry.path)),
+    (entry) => fs.readFileSync(path.join(DIST_DIR, entry.path)),
+  );
   releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.update);
   writeJsonMinified(RELEASE_PATH, releaseIndex);
+  const distributionMap = buildDistributionMap({
+    files: releaseIndex.files.map((entry) => ({
+      path: entry.path,
+      source: entry.path,
+      status: entry.path === "release.json" || entry.path === distributionMapPath ? "generated" : "required",
+    })),
+    rootDir: DIST_DIR,
+    selfPath: distributionMapPath,
+    version: effectiveVersion,
+  });
+  fs.mkdirSync(path.dirname(path.join(DIST_DIR, distributionMapPath)), { recursive: true });
+  writeJsonMinified(path.join(DIST_DIR, distributionMapPath), distributionMap);
 
   const archivePath = path.join(DIST_DIR, archiveName);
   createZipFromDirectory(DIST_DIR, archivePath, {
@@ -480,7 +514,7 @@ function buildDist(options = {}) {
     archive: toPosix(path.relative(ROOT_DIR, archivePath)),
     files: releaseIndex.files.length,
     releaseNote: releaseNotes ? toPosix(path.relative(ROOT_DIR, RELEASE_NOTE_PATH)) : "",
-    version: releaseVersion || readPackageVersion(),
+    version: effectiveVersion,
   };
 }
 
@@ -661,6 +695,7 @@ function assertCodeBanner(content, label) {
 
 function testAll() {
   verify();
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "distribution-map.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "upstream-share.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-inbox.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-lifecycle.test.js")]);
@@ -670,7 +705,7 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "package-registry.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "todo-and-gate.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "template-merge.test.js")]);
-  return ok("TEST_OK", { suites: 9 });
+  return ok("TEST_OK", { suites: 10 });
 }
 
 function validateIndex(index) {
@@ -752,6 +787,14 @@ function validateDist() {
   if (release.root !== "." || !Array.isArray(release.files)) {
     throw new Error("dist/release.json invalido.");
   }
+  if (!release.distributionMap || release.distributionMap.format !== "agents-distribution-map/v1" || !release.distributionMap.path) {
+    throw new Error("dist/release.json nao aponta mapa de distribuicao versionado.");
+  }
+  const distributionMapPath = path.join(DIST_DIR, release.distributionMap.path);
+  assertFile(distributionMapPath, "Mapa de distribuicao versionado ausente.");
+  const distributionMap = JSON.parse(fs.readFileSync(distributionMapPath, "utf8"));
+  validateDistributionMap(distributionMap, { rootDir: DIST_DIR });
+  validateDistributionMapCompleteness(distributionMap);
   if (!release.files.some((file) => file.path === "package.json")) {
     throw new Error("dist/release.json nao indexa package.json.");
   }
@@ -773,6 +816,17 @@ function validateDist() {
     !distributionPackage.scripts.release || !distributionPackage.scripts.publish ||
     !policy.managedScriptPrefixes.includes("shared:")) {
     throw new Error("dist/package.json nao contem contrato executavel de governanca.");
+  }
+}
+
+function validateDistributionMapCompleteness(distributionMap) {
+  const declared = new Set(distributionMap.entries.map((entry) => entry.path));
+  for (const filePath of listFiles(DIST_DIR)) {
+    const relativePath = toPosix(path.relative(DIST_DIR, filePath));
+    if (/^agents-v.+\.zip$/u.test(relativePath)) continue;
+    if (!declared.has(relativePath)) {
+      throw new Error(`MAPA_DISTRIBUICAO_OMITE_ARQUIVO:${relativePath}`);
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { buildFront, correlatedFronts, normalizeFt, normalizeVersion } = require("../.agents/core/runtime/scripts/issue-lifecycle");
+const { buildFront, correlatedFronts, normalizeFt, normalizeVersion } = require("../.ia.rules/core/runtime/scripts/issue-lifecycle");
 
 function main() {
   const block = buildFront({ ft: "FT-030", issue: { number: 81, title: "Corrigir | fluxo\nexterno" }, issueId: "github:owner/repository#81", repository: "owner/repository" });

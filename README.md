@@ -27,7 +27,7 @@ No produto e no release, configuração central reside exclusivamente em `.ia.ru
 
 ### Evolução upstream de AGENTS.md
 
-`./AGENTS.md` na raiz rege este repositório construtor; `./src/AGENTS.md` é a aplicação-fonte distribuível e não a sincroniza automaticamente. Em um consumidor, `npm run agent:upstream:check -- --offline` identifica o estado sem rede. A configuração local opcional `.ia.rules/upstream.json` ou `package.json.agentsUpstream` declara `role` (`consumer`, `constructor` ou `dual`), `upstreamRepository`, candidato, limites e cache; candidato não é destino autoritativo.
+`./AGENTS.md` na raiz rege este repositório construtor; `./src/AGENTS.md` é a aplicação-fonte distribuível e não a sincroniza automaticamente. Em um consumidor, `npm run agent:upstream:check -- --offline` identifica o estado sem rede. A configuração local opcional `.ia.rules/upstream.json` ou `package.json.ia.rulesUpstream` declara `role` (`consumer`, `constructor` ou `dual`), `upstreamRepository`, candidato, limites e cache; candidato não é destino autoritativo.
 
 - `agent:upstream:prepare -- <evidence.json>` sanitiza e grava proposta revisável em extensão local.
 - `agent:upstream:publish -- <proposal.json> --authorize` verifica destino, duplicação e token externo antes de criar issue; sem `--authorize`, nenhuma ação externa ocorre.
@@ -54,6 +54,8 @@ O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horári
 ### Atualização segura da governança
 
 `update:agents` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. Após download e extração únicos, o bootstrap valida o runtime manifestado e passa bastão ao `update-agents.js` da própria release por estado HMAC; esse processo carrega dependências da release, trata o repositório somente como target e retoma sem repetir rede ou fase. Falha de integridade encerra sem fallback ao runtime antigo. O estado local anterior é consultado apenas para converter formatos, gerar backup compactado de divergência e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.ia.rules/local/`, `.ia.rules/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
+
+A release inclui `release.json` apontando para `./.ia.rules/distribution/distribution-map-<versao>.json`. Esse mapa audita o payload completo, separa arquivos gerenciados, locais, opcionais, gerados e obsoletos e torna a atualização fail-safe: mapa inválido na release bloqueia antes de escrita; mapa local antigo ausente ou quebrado vira diagnóstico e não impede convergência para uma release válida.
 
 Migração de upstream usa `.ia.rules/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `update:agents` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
 Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez `node .ia.rules/core/runtime/scripts/autoupdate.js`; o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os aliases e publica a branch atual. Depois disso, `npm run update:agents` é a entrada canônica.

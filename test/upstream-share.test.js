@@ -2,9 +2,9 @@ const assert = require("assert");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { requestJson, sanitizeText } = require("../.agents/core/runtime/scripts/public-client");
-const { assessmentMessage, issueBody, sanitizeProposal } = require("../.agents/core/runtime/scripts/upstream-share");
-const { resolveRemoteSource } = require("../.agents/core/runtime/scripts/update-agents");
+const { requestJson, sanitizeText } = require("../.ia.rules/core/runtime/scripts/public-client");
+const { assessmentMessage, issueBody, sanitizeProposal } = require("../.ia.rules/core/runtime/scripts/upstream-share");
+const { resolveRemoteSource } = require("../.ia.rules/core/runtime/scripts/update-agents");
 
 async function main() {
   const originalFetch = global.fetch;

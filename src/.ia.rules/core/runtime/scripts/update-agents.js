@@ -14,6 +14,7 @@ const os = require("os");
 const path = require("path");
 
 const { createZipFromDirectory, extractZip } = require("./archive");
+const { compareDistributionMaps, findInstalledDistributionMap, readDistributionMap } = require("./distribution-map");
 const { applyTemplate } = require("./template-merge");
 const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require("../../update/migrations/v1-to-v2");
 
@@ -205,12 +206,16 @@ function resumeFromHandoff(statePath, options = {}) {
   const remoteFiles = collectRemoteGovernanceFiles(payload.governanceRoot);
   const previousLock = readUpdateLock(payload.targetRoot);
   const changes = compareRemoteFiles(payload.targetRoot, remoteFiles, previousLock);
+  const distributionTransition = planDistributionTransition(payload.targetRoot, payload.governanceRoot);
+  const lock = createUpdateLock(payload.source, remoteFiles, changes);
+  if (distributionTransition) lock.distributionMap = distributionTransition;
   const plan = {
     changed: changes.some((change) => change.action !== "unchanged"),
     changes,
+    distributionTransition,
     remoteRoot: payload.releaseRoot,
     source: payload.source,
-    lock: createUpdateLock(payload.source, remoteFiles, changes),
+    lock,
   };
   return executeUpdatePlan(parsed, payload.targetRoot, plan);
 }
@@ -281,13 +286,17 @@ async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
     const remoteFiles = collectRemoteGovernanceFiles(remoteRoot);
     const previousLock = readUpdateLock(rootDir);
     const changes = compareRemoteFiles(rootDir, remoteFiles, previousLock);
+    const distributionTransition = planDistributionTransition(rootDir, remoteRoot);
+    const lock = createUpdateLock(source, remoteFiles, changes);
+    if (distributionTransition) lock.distributionMap = distributionTransition;
 
     return {
       changed: changes.some((change) => change.action !== "unchanged"),
       changes,
+      distributionTransition,
       remoteRoot,
       source,
-      lock: createUpdateLock(source, remoteFiles, changes),
+      lock,
     };
   } finally {
     fs.rmSync(tempRoot, { force: true, recursive: true });
@@ -436,6 +445,45 @@ function scoreAgentsPath(filePath) {
   }
 
   return `${String(rel.split("/").length).padStart(4, "0")}:${rel}`;
+}
+
+function planDistributionTransition(targetRoot, remoteRoot) {
+  const currentMap = findRemoteDistributionMap(remoteRoot);
+  if (!currentMap) throw new Error("MAPA_DISTRIBUICAO_RELEASE_AUSENTE");
+  let previousMap = null;
+  const diagnostics = [];
+  try {
+    previousMap = findInstalledDistributionMap(targetRoot);
+  } catch (error) {
+    // PROTECAO: mapa local anterior corrompido nao bloqueia convergencia para release valida.
+    diagnostics.push({ code: "MAPA_DISTRIBUICAO_LOCAL_IGNORADO", message: error.message });
+  }
+  return {
+    diagnostics,
+    failSafe: diagnostics.length > 0 || !previousMap,
+    format: currentMap.format,
+    path: currentMap.self,
+    plan: compareDistributionMaps(previousMap, currentMap, targetRoot),
+    version: currentMap.version,
+  };
+}
+
+function findRemoteDistributionMap(remoteRoot) {
+  const releasePath = path.join(remoteRoot, "release.json");
+  if (fs.existsSync(releasePath)) {
+    const release = JSON.parse(fs.readFileSync(releasePath, "utf8"));
+    const declared = release.distributionMap && release.distributionMap.path;
+    if (declared) {
+      const mapPath = path.join(remoteRoot, safeRelativePath(declared));
+      if (fs.existsSync(mapPath)) return readDistributionMap(mapPath);
+    }
+  }
+  const distributionRoot = path.join(remoteRoot, ".ia.rules", "distribution");
+  if (!fs.existsSync(distributionRoot)) return null;
+  const candidates = fs.readdirSync(distributionRoot)
+    .filter((name) => /^distribution-map-.+\.json$/u.test(name))
+    .sort((a, b) => b.localeCompare(a, "en"));
+  return candidates.length ? readDistributionMap(path.join(distributionRoot, candidates[0])) : null;
 }
 
 function collectRemoteGovernanceFiles(remoteRoot) {
@@ -1056,6 +1104,7 @@ module.exports = {
   resolveReleaseRuntime,
   resolveRemoteSource,
   resolveCaseInsensitiveFile,
+  planDistributionTransition,
   resumeFromHandoff,
   signHandoffPayload,
   verifyHandoffState,
