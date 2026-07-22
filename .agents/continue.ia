@@ -872,7 +872,7 @@ criterios=Integrar o artefato preexistente ao build apenas após revisão contra
   2/2 Incluir em release e encerrar issue [pendente]
 pendencias=Iniciar desenvolvimento e executar o plano da issue.
 
-FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-22T00:33:29Z|inicio=2026-07-21T22:38:35-03:00|atualizacao=20260721.225650
+FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-22T00:33:29Z|inicio=2026-07-21T22:38:35-03:00|atualizacao=20260722.010500
 objetivo=Materializar em código a intenção válida da issue github:jcempro/agents.md#6 sob a raiz canônica `.ia.rules`, somente após FT-047 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#6
 issue_repo=jcempro/agents.md
@@ -950,6 +950,8 @@ evidencia_inicial=Commit humano 72d4fac removeu fisicamente src/.agents e migrou
 decisoes_etapa=Runtime público completo foi consolidado em src/.ia.rules; build usa somente o índice da fonte; package.json.files contém apenas .ia.rules e arquivos raiz allowlisted; configuração pública reside em .ia.rules/config; governança ativa raiz permaneceu intocada.
 verificacoes_etapa=SOURCE_SYNTAX_OK; agent:dist DIST_OK files=50; agent:verify VERIFY_OK scripts=19 indexedFiles=49; dist e ZIP possuem somente .ia.rules como diretório estrutural; token de path legado ausente; manifesto allowlist OK; pacote npm dry-run com 51 entradas; runtime distribuído agent:setup SETUP_OK.
 falhas_etapa=Primeiro npm pack usou cache global sem permissão e retornou EPERM; repetição com cache temporário local concluiu. apply_patch recusou repetidamente repo-tools.js gravável; substituições mecânicas equivalentes foram aplicadas somente na fonte e revalidadas.
+correcao_release=Wrappers de release em src/.ia.rules/scenarios/release/scripts agora tratam RELEASE_TRIGGER_EXISTENTE/GATILHO_RELEASE_EXISTENTE como retomada idempotente, preservando conflito divergente como falha; artefato dist/index ja commitado tambem e reutilizado idempotentemente; a mesma correção mínima foi espelhada em .agents/scenarios/release/scripts por ciclo técnico, e o wrapper/workflow ativo passou a chamar src/.ia.rules/core/runtime/scripts/repo-tools.js para gerar/verificar/gatilhar o release na topologia vigente.
+verificacoes_release=node --check release-publish.js e release-publish-resume.js; classificação positiva do gatilho existente; classificação negativa do conflito divergente; agent:dist DIST_OK; agent:verify VERIFY_OK.
 commit_etapa=b435f0f restringe release a .ia.rules.
 pendencias=Implementar templates, merge semântico, rollback e preservação de extensões em autorização específica; publicar release somente após a FT integral.
 

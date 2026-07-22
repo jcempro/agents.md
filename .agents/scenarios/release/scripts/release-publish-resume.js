@@ -9,11 +9,13 @@
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const { inspectPreflight, main: standardMain, parseArgs } = require("./release-publish");
+const { inspectPreflight, main: standardMain, parseArgs, runReleaseTrigger } = require("./release-publish");
 const { normalizeReleaseVersion } = require("./release-workflow");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
+// FIX-BUG: retomada do construtor usa a fonte canônica migrada para src/.ia.rules.
+const SOURCE_REPO_TOOLS_PATH = path.join(ROOT_DIR, "src", ".ia.rules", "core", "runtime", "scripts", "repo-tools.js");
 
 function main(argv = process.argv.slice(2)) {
   const options = parseArgs(argv);
@@ -44,17 +46,23 @@ function assertPreflight(preflight) {
 }
 
 function prepareArtifactCommit(version, options) {
-  const repoTools = path.join(ROOT_DIR, ".agents", "core", "runtime", "scripts", "repo-tools.js");
-  runTransient(process.execPath, [repoTools, "agent:release", version]);
-  runTransient(process.execPath, [repoTools, "agent:verify"]);
+  runTransient(process.execPath, [SOURCE_REPO_TOOLS_PATH, "agent:release", version]);
+  runTransient(process.execPath, [SOURCE_REPO_TOOLS_PATH, "agent:verify"]);
   run("git", ["add", "--", "dist", "index.json"]);
+  const stagedArtifact = run("git", ["diff", "--cached", "--name-status", "--", "dist", "index.json"]).stdout.trim();
+  if (!stagedArtifact) {
+    const commit = run("git", ["log", "-1", "--format=%H", "--", "dist", "index.json"]).stdout.trim();
+    if (!commit) throw new Error(`COMMIT_ARTEFATO_RELEASE_AUSENTE:v${version}`);
+    run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+    return;
+  }
   assertStagedPaths(["dist/", "index.json"], { prefixes: true });
   run("git", ["commit", "-m", `chore: gera artefato v${version}`]);
   run("git", ["push", options.remote, options.branch], { timeout: 120000 });
 }
 
 function createAndPushTrigger(version, options) {
-  run(process.execPath, [path.join(ROOT_DIR, ".agents", "core", "runtime", "scripts", "repo-tools.js"), "agent:release:trigger", version]);
+  runReleaseTrigger(version);
   run("git", ["add", "--", "release"]);
   const stagedRelease = run("git", ["diff", "--cached", "--name-status", "--", "release"]).stdout.trim();
   if (!stagedRelease) {

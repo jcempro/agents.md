@@ -74,7 +74,7 @@ jobs:
             version="$INPUT_VERSION"
             release_file=''
             if [ -z "$version" ]; then
-              version="$(node -e "const {resolveRelease}=require('./.agents/core/runtime/scripts/repo-tools');process.stdout.write(resolveRelease('').version)")"
+                version="$(node -e "const {resolveRelease}=require('./src/.ia.rules/core/runtime/scripts/repo-tools');process.stdout.write(resolveRelease('').version)")"
             fi
           else
             version="$DETECT_VERSION"
@@ -119,7 +119,7 @@ jobs:
             git add .agents/continue.ia
             git commit -m "chore: vincula issues ao release v$env:RELEASE_VERSION"
           }
-          node .agents/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
+          node src/.ia.rules/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
         shell: pwsh
 
       - name: Publicar release e finalizar marcador

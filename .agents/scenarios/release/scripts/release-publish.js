@@ -15,6 +15,8 @@ const { normalizeReleaseVersion } = require("./release-workflow");
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
+// FIX-BUG: o construtor ainda lanca o release por .agents, mas o codigo autoritativo esta em src/.ia.rules.
+const SOURCE_REPO_TOOLS_PATH = path.join(ROOT_DIR, "src", ".ia.rules", "core", "runtime", "scripts", "repo-tools.js");
 
 class UsageError extends Error {}
 
@@ -134,16 +136,23 @@ function prepareVersionCommit(version, options) {
 }
 
 function prepareArtifactCommit(version, options) {
-  run(process.execPath, [path.join(ROOT_DIR, ".agents", "core", "runtime", "scripts", "repo-tools.js"), "agent:release", version], { timeout: 900000 });
-  run(process.execPath, [path.join(ROOT_DIR, ".agents", "core", "runtime", "scripts", "repo-tools.js"), "agent:verify"], { timeout: 900000 });
+  run(process.execPath, [SOURCE_REPO_TOOLS_PATH, "agent:release", version], { timeout: 900000 });
+  run(process.execPath, [SOURCE_REPO_TOOLS_PATH, "agent:verify"], { timeout: 900000 });
   run("git", ["add", "--", "dist", "index.json"]);
+  const stagedArtifact = run("git", ["diff", "--cached", "--name-status", "--", "dist", "index.json"]).stdout.trim();
+  if (!stagedArtifact) {
+    const commit = run("git", ["log", "-1", "--format=%H", "--", "dist", "index.json"]).stdout.trim();
+    if (!commit) throw new Error(`COMMIT_ARTEFATO_RELEASE_AUSENTE:v${version}`);
+    run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+    return;
+  }
   assertStagedPaths(["dist/", "index.json"], { prefixes: true });
   run("git", ["commit", "-m", `chore: gera artefato v${version}`]);
   run("git", ["push", options.remote, options.branch], { timeout: 120000 });
 }
 
 function createAndPushTrigger(version, options) {
-  run(process.execPath, [path.join(ROOT_DIR, ".agents", "core", "runtime", "scripts", "repo-tools.js"), "agent:release:trigger", version]);
+  runReleaseTrigger(version);
   run("git", ["add", "--", "release"]);
   const stagedRelease = run("git", ["diff", "--cached", "--name-status", "--", "release"]).stdout.trim();
   if (!stagedRelease) {
@@ -157,6 +166,18 @@ function createAndPushTrigger(version, options) {
   const commit = run("git", ["rev-parse", "HEAD"]).stdout.trim();
   run("git", ["push", options.remote, options.branch], { timeout: 120000 });
   return { commit };
+}
+
+function runReleaseTrigger(version) {
+  const result = run(process.execPath, [SOURCE_REPO_TOOLS_PATH, "agent:release:trigger", version], { optional: true });
+  if (!result.error && result.status === 0) return result;
+  if (isExistingTriggerResult(result)) return result;
+  throw new Error(`${process.execPath} src/.ia.rules/core/runtime/scripts/repo-tools.js agent:release:trigger ${version} falhou: ${result.error ? result.error.message : result.stderr || result.stdout}`);
+}
+
+function isExistingTriggerResult(result) {
+  const output = `${result.stdout || ""}\n${result.stderr || ""}`;
+  return /\b(?:RELEASE_TRIGGER_EXISTENTE|GATILHO_RELEASE_EXISTENTE)\b/u.test(output);
 }
 
 function waitForRemoteRelease(version, triggerCommit, options) {
@@ -249,4 +270,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { help, inspectPreflight, main, parseArgs };
+module.exports = { help, inspectPreflight, isExistingTriggerResult, main, parseArgs, runReleaseTrigger };
