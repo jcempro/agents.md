@@ -336,8 +336,10 @@ Campos mínimos:
 - id permanente `FT-NNN`;
 - nome, objetivo, prioridade, status;
 - escopo `Técnico` ou `Negócio`;
-- início, última atualização, conclusão;
+- `criado_em` imutável em ISO 8601/RFC 3339 com `Z` ou deslocamento explícito, início operacional, última atualização e conclusão;
 - etapas, tarefas e estado de retomada.
+
+`criado_em` é a identidade temporal cronologicamente ordenável da FT; colisão usa o ID permanente como desempate. O formato legado sem fuso permanece interpretável segundo o fuso historicamente declarado pelo repositório, preserva ID e instante e DEVE receber projeção ISO quando a FT for reaberta, conciliada ou migrada, sem renumeração destrutiva. Atualização, reabertura, suspensão ou conclusão NÃO alteram `criado_em`.
 
 Escopos:
 
@@ -377,7 +379,7 @@ Formato:
 
 Registro mínimo por FT:
 
-- identidade, escopo, objetivo, prioridade, status e `YYYYMMDD.HHMM.SS`;
+- identidade, escopo, objetivo, prioridade, status e `criado_em` ISO 8601 com fuso;
 - etapa/tarefa atuais e listas completas;
 - progresso, próximo ponto, raciocínio objetivo;
 - decisões, verificações, comandos, pendências, limitações;
@@ -390,7 +392,7 @@ Atualizar continuamente, não só em conclusões.
 Aprendizado de ambiente:
 
 - `MACHINE_ID`;
-- `DATA_REF` em `YYYYMMDD.HHMM.SS`;
+- `DATA_REF` em ISO 8601 com fuso;
 - cache contextual;
 - bloqueio de retentativas historicamente falhas, salvo mudança relevante.
 

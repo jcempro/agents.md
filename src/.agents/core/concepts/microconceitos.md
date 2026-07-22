@@ -50,7 +50,7 @@ Na ausência de regra mais específica: timeout local 30 s, rede 120 s, operaç�
 
 ## MN-STATE — FT e retomada
 
-Fluxo: solicitação → intenção → FT → plano → execução incremental → memória → validação → commit → push → próxima etapa. FT possui `FT-NNN`, nome, escopo Técnico/Negócio, objetivo, prioridade, status, datas `YYYYMMDD.HHMM.SS`, etapas, tarefas, decisões, verificações, comandos, hipóteses descartadas, falhas, pendências e próximo ponto. Planejamento precede implementação; memória é contínua; conclusão atualiza estado, valida, commita e publica quando autorizada/possível. Interrupção registra `[INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS]` e só remove a flag após retomada validada.
+Fluxo: solicitação → intenção → FT → plano → execução incremental → memória → validação → commit → push → próxima etapa. FT possui `FT-NNN`, `criado_em` imutável e único em ISO 8601 com fuso, nome, escopo Técnico/Negócio, objetivo, prioridade, status, etapas, tarefas, decisões, verificações, comandos, hipóteses descartadas, falhas, pendências e próximo ponto; empate temporal usa o ID. Data legada sem fuso preserva instante/ID segundo o fuso histórico declarado e converge ao ser reaberta ou migrada. Planejamento precede implementação; memória é contínua; conclusão atualiza estado, valida, commita e publica quando autorizada/possível. Interrupção registra `[INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS]` e só remove a flag após retomada validada.
 
 ## MN-VAL — validação e sincronização
 

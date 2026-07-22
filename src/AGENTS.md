@@ -60,7 +60,7 @@ Aplicar `MN-STATE`. Antes de implementar, IA DEVE identificar intenção, locali
 
 ## 5. Frentes de Trabalho
 
-Cada solicitação pertence a uma FT conforme `MN-STATE`; etapa contém tarefas e FT só conclui com todas concluídas. Técnico constrói mecanismo; Negócio produz substância. FT PODE usar subarquivo versionado quando reduzir contexto; `.gitignore` NÃO DEVE ocultá-la.
+Cada solicitação pertence a uma FT conforme `MN-STATE`; etapa contém tarefas e FT só conclui com todas concluídas. Técnico constrói mecanismo; Negócio produz substância. FT PODE usar subarquivo versionado quando reduzir contexto; `.gitignore` NÃO DEVE ocultá-la. Toda FT DEVE possuir `criado_em` ISO 8601 com `Z` ou deslocamento explícito, imutável e único; empate usa ID permanente. Formato legado sem fuso conserva o instante histórico segundo o fuso declarado do repositório e DEVE convergir sem renumeração quando a FT for reaberta ou migrada.
 
 ## 6. Plano, etapas e tarefas
 
@@ -68,7 +68,7 @@ Plano vigente DEVE preceder implementação; requisito, contrato ou solução al
 
 ## 7. Memória operacional
 
-Exatamente um `continue.ia` ou `continue.dev` canônico DEVE existir; referência legada converge ao ativo. Formato DEVE ser rastreável, indexável e legível; XML NÃO DEVERIA ser usado sem justificativa. Além de `MN-STATE`, aprendizado registra `MACHINE_ID`, `DATA_REF`, cache e bloqueio de repetir falha sem evidência nova.
+Exatamente um `continue.ia` ou `continue.dev` canônico DEVE existir; referência legada converge ao ativo. Formato DEVE ser rastreável, indexável e legível; XML NÃO DEVERIA ser usado sem justificativa. `criado_em` ordena FTs cronologicamente; atualização e conclusão NÃO alteram essa identidade temporal. Além de `MN-STATE`, aprendizado registra `MACHINE_ID`, `DATA_REF`, cache e bloqueio de repetir falha sem evidência nova.
 
 ## 8. Interrupção e retomada
 
