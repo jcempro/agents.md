@@ -44,9 +44,9 @@ Configuração central reside exclusivamente em `config/`: `core.json` contém d
 - `agent:inbox:fetch -- <numero> --role constructor` permite a execução manual; `--dry-run` não emite efeito remoto.
 - `agent:inbox:apply -- <avaliacao.json> --role constructor --authorize` comenta recusas e não-recomendações; nos graus recomendados adiciona somente o label configurado e uma justificativa técnica curta. Aceite, fechamento, alteração de fonte e release permanecem decisões humanas.
 - `agent:inbox:approve -- --issue <numero> --role constructor --authorize` registra o aceite humano aplicando `agents:approved` e o comentário `Aprovada para implementação.` de forma idempotente. Labels de recomendação, isoladamente, nunca autorizam implementação; a FT é criada e correlacionada pela sincronização posterior.
-- `agent:inbox:sync-approved -- --role constructor` baixa todas as issues abertas com `agents:approved`, persiste a inbox sanitizada e cria uma FT idempotente em `continue.ia` com identidade `github:<repositorio>#<numero>`.
-- `agent:inbox:start -- --role constructor --authorize` deve ser executado após o push da correlação; comenta a FT, adiciona `agents:in-development` e atualiza o estado local.
-- `agent:inbox:bind-release -- <versao> --role constructor` vincula à versão todas as FTs correlacionadas já concluídas. `agent:inbox:complete-release -- <versao> --role constructor --authorize` é usado pelo release para comentar, marcar `agents:fixed` e fechar todas as issues vinculadas.
+- `agent:inbox:sync-approved -- --role constructor` baixa todas as issues abertas com `agents:approved` e persiste a inbox sanitizada. O runtime 0.0.19 ainda importa uma FT genérica por identidade `github:<repositorio>#<numero>`; o contrato vigente exige reclassificá-la sem renumeração e criar a FT normativa ou de código complementar.
+- `agent:inbox:start -- --role constructor --authorize` deve ser executado após o push da correlação; `agents:in-development` indica ciclo da issue ativo, não início de código. O comentário futuro deve listar ambas as FTs e seus estados.
+- `agent:inbox:bind-release -- <versao> --role constructor` vincula à versão FTs correlacionadas concluídas. `agent:inbox:complete-release -- <versao> --role constructor --authorize` comenta, marca `agents:fixed` e fecha somente quando todas as FTs necessárias ao escopo da issue estiverem concluídas; a adequação do runtime permanece nas FTs de código abertas.
 
 O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horária ou despacho manual. O workflow `release.yml` vincula as FTs antes do artefato e só finaliza o release após atualizar todas as issues corrigidas pela versão.
 - `agent:test:inbox` testa sanitização, classificação e índice idempotente sem rede.
@@ -112,6 +112,9 @@ O comando interrompe antes de escrever quando houver alteração local, tag exis
 - [src/.agents/core/update/scenario.md](src/.agents/core/update/scenario.md): contrato de atualizacao automatica.
 - [src/.agents/scenarios/web/page-like/scenario.md](src/.agents/scenarios/web/page-like/scenario.md): cenario Web Page Like.
 - [src/.agents/scenarios/release/scenario.md](src/.agents/scenarios/release/scenario.md): cenario Release.
+- [src/.ia.rules/scenarios/release/capabilities/package-registry.md](src/.ia.rules/scenarios/release/capabilities/package-registry.md): capacidade normativa opt-in de registro de pacote.
+- [src/.ia.rules/scenarios/application-update/scenario.md](src/.ia.rules/scenarios/application-update/scenario.md): verificação normativa opt-in de atualização aplicacional.
+- [src/.ia.rules/scenarios/governance/issue-lifecycle.md](src/.ia.rules/scenarios/governance/issue-lifecycle.md): segregação e encerramento idempotente de issues vinculadas.
 - [src/.agents/scenarios/content-publication/scenario.md](src/.agents/scenarios/content-publication/scenario.md): cenario Publicação de Conteúdo.
 
 ## Autoria

@@ -793,6 +793,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/3
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-044 concluída; autorização humana explícita para código.
+norma=RCF §0.0.11; src/.ia.rules/scenarios/application-update/scenario.md.
 criterios=Implementar somente os contratos normativos aprovados; testes derivados do RCF; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -814,6 +815,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/1
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-043 concluída; autorização humana explícita para código.
+norma=RCF §0.0.13; src/.ia.rules/scenarios/release/capabilities/package-registry.md.
 criterios=Implementar capacidade opt-in e adaptadores previstos pelo RCF; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -835,6 +837,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/4
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-045 concluída; autorização humana explícita para código.
+norma=RCF §0.0.9; src/AGENTS.md §§4-8.
 criterios=Implementar triagem, hash, vínculo e atualização determinística previstos pelo RCF; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -856,6 +859,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/5
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-046 concluída; autorização humana explícita para código.
+norma=RCF §0.0.10; src/AGENTS.md §8.
 criterios=Integrar o artefato preexistente ao build apenas após revisão contra o RCF; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -877,6 +881,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/6
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-047 concluída; autorização humana explícita para código; migração `.agents` → `.ia.rules` vigente.
+norma=RCF §0.0.12; src/AGENTS.md §0.14.
 criterios=Não introduzir `.ia.gules`; implementar manifesto, templates, merge, rollback e preservação conforme RCF; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -898,6 +903,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/7
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-048 concluída; FT-045; FT-046; autorização humana explícita para código.
+norma=RCF §§0.0.9 e 3.5-3.6; src/AGENTS.md §§4-8.
 criterios=Bloquear transição técnica prematura e preservar solicitações transitórias conforme RCF; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -919,6 +925,7 @@ issue_url=https://github.com/jcempro/agents.md/issues/8
 issue_state=em_desenvolvimento
 release=pendente
 dependencias=FT-049 concluída; FT-048; autorização humana explícita para código.
+norma=RCF §0.0.8; src/.ia.rules/scenarios/governance/issue-lifecycle.md.
 criterios=Encerrar somente vínculo explícito com todo escopo concluído; retomada não duplica efeito; nenhuma tarefa iniciada neste ciclo.
 1/3 Analise e plano [pendente]
   1/2 Validar escopo e criterios de aceite da issue [pendente]
@@ -931,121 +938,135 @@ criterios=Encerrar somente vínculo explícito com todo escopo concluído; retom
   2/2 Incluir em release e encerrar issue [pendente]
 pendencias=Iniciar desenvolvimento e executar o plano da issue.
 
-FT-043|nome=Norma de publicação atômica em registros de pacote|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T21:58:00-03:00|inicio=pendente|atualizacao=20260721.215800
+FT-043|nome=Norma de publicação atômica em registros de pacote|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:00-03:00|inicio=2026-07-21T22:08:00-03:00|atualizacao=20260721.222042|conclusao=2026-07-21T22:20:42-03:00
 objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#1 sem implementar código.
 issue_id=github:jcempro/agents.md#1|issue_number=1|issue_url=https://github.com/jcempro/agents.md/issues/1
 dependencias=FT-015, FT-016, FT-035 e cenário Release vigentes; desbloqueia FT-037.
 conciliacao=Especializa hooks de release por capacidade opt-in; preserva `publish` exclusivo de conteúdo, pacote único e ausência de retry mutável.
 aceite=RCF e fonte definem papéis, ordem, contratos, falhas, segurança, aplicabilidade e critérios verificáveis; zero código funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=Capacidade `package-registry` é opt-in, fornecedor-agnóstica e anterior ao release externo; pacote único, confirmação idempotente e mutação sem retry foram preservados.
+verificacoes=Cobertura issue1 OK; módulos e links existem; nenhuma fonte executável, teste, workflow, dependência ou build foi alterado.
+pendencias=FT-037 permanece pendente de autorização humana para código.
 
-FT-044|nome=Norma de verificação de atualização de aplicações distribuídas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T21:58:01-03:00|inicio=pendente|atualizacao=20260721.215801
+FT-044|nome=Norma de verificação de atualização de aplicações distribuídas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:01-03:00|inicio=2026-07-21T22:08:01-03:00|atualizacao=20260721.222043|conclusao=2026-07-21T22:20:43-03:00
 objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#3 sem implementar código.
 issue_id=github:jcempro/agents.md#3|issue_number=3|issue_url=https://github.com/jcempro/agents.md/issues/3
 dependencias=Contratos plugáveis, configuração central e integrações fail-safe vigentes; desbloqueia FT-036.
 conciliacao=Capacidade aplicacional opt-in distinta de `update:agents`; separa detecção, apresentação e ação autorizada.
 aceite=RCF e fonte cobrem atores, estados, política, contratos, configuração, segurança, compatibilidade e validação; zero código funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=Capacidade aplicacional é opt-in e distinta de `update:agents`; detecção, apresentação e ação autorizada permanecem desacopladas e extensíveis.
+verificacoes=Cobertura issue3 OK; estados, contratos, política, segurança e dois adapters futuros estão normatizados; zero código alterado.
+pendencias=FT-036 permanece pendente de autorização humana para código.
 
-FT-045|nome=Norma de TODO.ia.md e demanda do desenvolvedor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T21:58:02-03:00|inicio=pendente|atualizacao=20260721.215802
+FT-045|nome=Norma de TODO.ia.md e demanda do desenvolvedor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:02-03:00|inicio=2026-07-21T22:08:02-03:00|atualizacao=20260721.222044|conclusao=2026-07-21T22:20:44-03:00
 objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#4 sem implementar código.
 issue_id=github:jcempro/agents.md#4|issue_number=4|issue_url=https://github.com/jcempro/agents.md/issues/4
 dependencias=MN-STATE e FT-048; desbloqueia FT-038.
 conciliacao=TODO é entrada do desenvolvedor e não issue nem norma; sua aceitação cria vínculo normativo antes de qualquer código e preserva precedência existente.
 aceite=RCF e fonte definem autoridade, ciclo, hash/vínculo, conflito, atualização e remoção/retensão; zero código funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=TODO é demanda do desenvolvedor, não issue/norma/autorização; delta bloqueia somente escopo afetado e a raiz canônica futura é `.ia.rules/state/`.
+verificacoes=Cobertura issue4 OK; autoridade, hash, triagem, vínculo, conflito e ciclo estão no RCF/fonte; arquivo TODO e automação não foram criados.
+pendencias=FT-038 permanece pendente de autorização humana para código.
 
-FT-046|nome=Norma do artefato INIT-REPO.md|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T21:58:03-03:00|inicio=pendente|atualizacao=20260721.215803
+FT-046|nome=Norma do artefato INIT-REPO.md|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:03-03:00|inicio=2026-07-21T22:08:03-03:00|atualizacao=20260721.222045|conclusao=2026-07-21T22:20:45-03:00
 objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#5 sem implementar ou distribuir o artefato.
 issue_id=github:jcempro/agents.md#5|issue_number=5|issue_url=https://github.com/jcempro/agents.md/issues/5
 dependencias=FT-048 e raiz canônica `.ia.rules`; desbloqueia FT-039.
 conciliacao=Bootstrap excepcional subordinado a AGENTS; arquivo `src/INIT-REPO.md` preexistente não prova conformidade nem será alterado nesta FT.
 aceite=RCF e fonte definem finalidade, ciclo, parametrização, distribuição futura, remoção, evolução e validação; zero alteração funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=INIT-REPO é bootstrap subordinado e excepcional na raiz do release; presença preexistente em `src` não comprova conformidade nem distribuição.
+verificacoes=Cobertura issue5 OK; ciclo, Prompt, README, commit/push, compactação e gate de código foram normatizados; `src/INIT-REPO.md` não foi alterado.
+pendencias=FT-039 permanece pendente de autorização humana para código.
 
-FT-047|nome=Norma de isolamento e templates na raiz `.ia.rules`|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T21:58:04-03:00|inicio=pendente|atualizacao=20260721.215804
+FT-047|nome=Norma de isolamento e templates na raiz `.ia.rules`|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:04-03:00|inicio=2026-07-21T22:08:04-03:00|atualizacao=20260721.222046|conclusao=2026-07-21T22:20:46-03:00
 objetivo=Preservar a intenção válida da issue github:jcempro/agents.md#6 sem adotar literalmente o namespace conflitante `.ia.gules` e sem implementar código.
 issue_id=github:jcempro/agents.md#6|issue_number=6|issue_url=https://github.com/jcempro/agents.md/issues/6
 dependencias=AGENTS §0.14 e migração `.agents` → `.ia.rules`; desbloqueia FT-040.
 conciliacao=Correção substancial: `.ia.rules` permanece SSOT superior; templates, regiões, merges, ignore, rollback e remoção especializam esse contrato.
 aceite=RCF e fonte registram conflito, conteúdo preservado, namespace prevalente, propriedade, migração e critérios; zero código funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=`.ia.gules` foi rejeitado por conflito com `.ia.rules`; isolamento, propriedade, templates, merge, ignore, rollback, remoção e segurança foram preservados sob o SSOT vigente.
+verificacoes=Cobertura issue6 OK; contradição e conteúdo preservado estão explícitos; `.ia.rules` raiz e configuração funcional não foram criadas/alteradas.
+pendencias=FT-040 permanece pendente de autorização humana para código.
 
-FT-048|nome=Norma da sequência solicitação → norma → autorização → código|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-21T21:58:05-03:00|inicio=pendente|atualizacao=20260721.215805
+FT-048|nome=Norma da sequência solicitação → norma → autorização → código|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-21T21:58:05-03:00|inicio=2026-07-21T22:08:05-03:00|atualizacao=20260721.222047|conclusao=2026-07-21T22:20:47-03:00
 objetivo=Normatizar a issue github:jcempro/agents.md#7 e centralizar o fluxo comum às issues 4, 5 e ao presente ciclo, sem implementar código.
 issue_id=github:jcempro/agents.md#7|issue_number=7|issue_url=https://github.com/jcempro/agents.md/issues/7
 dependencias=MN-STATE; especializa FT-045 e FT-046; desbloqueia FT-041.
 conciliacao=FT normativa e FT de código são distintas; solicitação transitória não substitui RCF; autorização técnica nunca é inferida; alteração mecânica conserva fluxo reduzido.
 aceite=RCF e fonte definem ordem, temporalidade, preservação, cobertura, remoção, emergência, autorização e validações; zero código funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=Fluxo comum foi centralizado; FTs não substituem RCF, entrada transitória é removida após cobertura e autorização técnica nunca é inferida.
+verificacoes=Cobertura issue7 OK; temporalidade, precedência cumulativa, emergência, estimativa, compactação e validações foram preservadas; zero código alterado.
+pendencias=FT-041 permanece pendente de autorização humana para código.
 
-FT-049|nome=Norma de encerramento idempotente de issues|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T21:58:06-03:00|inicio=pendente|atualizacao=20260721.215806
+FT-049|nome=Norma de encerramento idempotente de issues|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:06-03:00|inicio=2026-07-21T22:08:06-03:00|atualizacao=20260721.222048|conclusao=2026-07-21T22:20:48-03:00
 objetivo=Conciliar e normatizar a issue github:jcempro/agents.md#8 sem implementar código ou encerrar issue com FT de código aberta.
 issue_id=github:jcempro/agents.md#8|issue_number=8|issue_url=https://github.com/jcempro/agents.md/issues/8
 dependencias=FT-029, FT-048 e ciclo de release vigente; desbloqueia FT-042.
 conciliacao=Generaliza o encerramento além do release sem enfraquecer o gate: issue com múltiplas FTs só fecha quando todo escopo obrigatório estiver concluído; vínculo referencial não autoriza efeito.
 aceite=RCF e fonte definem pré-condições, múltiplos vínculos, comentário, idempotência, falha parcial, impedimento e sincronização; zero código funcional.
-1/3 Análise e conciliação [pendente]
-  1/2 Confrontar issue, normas e FTs relacionadas [pendente]
-  2/2 Registrar especializações, correções e conteúdo preservado [pendente]
-2/3 Implementação normativa [pendente]
-  1/2 Atualizar RCF e projeção normativa da fonte [pendente]
-  2/2 Atualizar referências e critérios da FT de código [pendente]
-3/3 Validação e entrega [pendente]
-  1/2 Validar cobertura, coerência e ausência de código [pendente]
-  2/2 Concluir estado normativo para o segundo commit [pendente]
-pendencias=Executar após o primeiro commit.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=Encerramento foi generalizado sem enfraquecer release: vínculo explícito, todas as FTs obrigatórias concluídas, avaliação individual e retomada sem duplicação.
+verificacoes=Cobertura issue8 OK; precondições, múltiplos vínculos, comentário, impedimento e falha parcial estão normatizados; nenhuma issue foi fechada porque FTs de código permanecem abertas.
+pendencias=FT-042 permanece pendente de autorização humana para código.
