@@ -878,3 +878,22 @@ release=pendente
   1/2 Commitar e publicar desenvolvimento [pendente]
   2/2 Incluir em release e encerrar issue [pendente]
 pendencias=Iniciar desenvolvimento e executar o plano da issue.
+
+FT-041|nome=Tornar obrigatória a sequência solicitação → FT normativa → RCF → autorização → código|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260722.004324|atualizacao=20260722.004324
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#7 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#7
+issue_repo=jcempro/agents.md
+issue_number=7
+issue_url=https://github.com/jcempro/agents.md/issues/7
+issue_state=aprovada
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
