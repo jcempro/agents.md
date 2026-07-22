@@ -85,7 +85,7 @@ async function completeRelease(versionValue, options = {}) {
   const config = readConfig();
   const token = options.dryRun ? "" : required(process.env.AGENTS_GITHUB_TOKEN, "AGENTS_GITHUB_TOKEN");
   const memory = readMemory();
-  const targets = correlatedFronts(memory).filter((front) => front.status === "concluido" && front.release === version && front.issueState === "em_desenvolvimento");
+  const targets = releaseCompletionTargets(memory, version);
   for (const target of targets) if (!options.dryRun) await markFixed(config, target, version, token);
   if (targets.length && !options.dryRun) writeMemory(updateIssueStates(memory, targets, "corrigida"));
   return { code: options.dryRun ? "ISSUE_RELEASE_DRY_RUN" : "RELEASE_ISSUES_COMPLETED", issues: targets.map(publicTarget), published: !options.dryRun, version };
@@ -101,6 +101,9 @@ async function markFixed(config, target, version, token) {
   await ensureLabel(config, target.repository, "agents:fixed", "0e8a16", "Correção publicada", token);
   await addIssueLabel(config, target, "agents:fixed", token);
   await ensureComment(config, target, `Correção publicada no release v${version}. FT: ${target.ft}.`, `<!-- agents-fixed:${target.issue}:${target.ft}:v${version} -->`, token);
+  const current = await github(config, `/repos/${target.repository}/issues/${target.issue}`, "GET", { token });
+  if (!current.ok) throw new Error(`ISSUE_STATE_CHECK_FAILED:${target.issue}:${current.code}`);
+  if (current.data && current.data.state === "closed") return;
   const closed = await github(config, `/repos/${target.repository}/issues/${target.issue}`, "PATCH", { body: JSON.stringify({ state: "closed", state_reason: "completed" }), token });
   if (!closed.ok) throw new Error(`ISSUE_CLOSE_FAILED:${target.issue}:${closed.code}`);
 }
@@ -163,6 +166,34 @@ function correlatedFronts(memory) {
   })).filter((front) => front.issueId && front.repository && front.issue);
 }
 
+function releaseCompletionTargets(memory, versionValue) {
+  const version = normalizeVersion(versionValue);
+  const fronts = correlatedFronts(memory);
+  const groups = groupByIssue(fronts);
+  return fronts.filter((front) => front.status === "concluido" && front.release === version && front.issueState === "em_desenvolvimento")
+    .filter((front) => issueGroupCanClose(groups.get(front.issueId), version));
+}
+
+function issueGroupCanClose(group = [], version = "") {
+  if (!group.length) return false;
+  return group.every((front) => front.status === "concluido" &&
+    front.issueState === "em_desenvolvimento" &&
+    front.release === version &&
+    !hasPendingInternalTask(front.block));
+}
+
+function groupByIssue(fronts) {
+  const groups = new Map();
+  for (const front of fronts) {
+    if (!groups.has(front.issueId)) groups.set(front.issueId, []);
+    groups.get(front.issueId).push(front);
+  }
+  return groups;
+}
+
+function hasPendingInternalTask(block) {
+  return /^\s*\d+\/\d+\s+.*\[(?:pendente|em andamento)\]\s*$/gmu.test(String(block));
+}
 function splitFronts(memory) { return String(memory).split(/(?=^FT-\d+\|)/mu).filter((block) => /^FT-\d+\|/u.test(block)); }
 function field(block, name) { return (block.match(new RegExp(`^${name}=([^\\r\\n]*)`, "mu")) || [])[1] || ""; }
 function appendFront(memory, front) { return `${String(memory).trimEnd()}\n\n${front}\n`; }
@@ -189,4 +220,4 @@ class UsageError extends Error { constructor(message) { super(message); this.exi
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 
-module.exports = { bindRelease, buildFront, correlatedFronts, main, normalizeFt, normalizeVersion };
+module.exports = { bindRelease, buildFront, correlatedFronts, hasPendingInternalTask, issueGroupCanClose, main, normalizeFt, normalizeVersion, releaseCompletionTargets };

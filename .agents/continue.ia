@@ -784,7 +784,7 @@ decisoes=Gatilho identico e reutilizado; divergente substitui somente versao com
 verificacoes=node --check nos quatro scripts; release-trigger.test.js RELEASE_TRIGGER_POLICY_OK; ensaio Git isolado RELEASE_TRIGGER_INTEGRATION_OK para substituicao, reuso e conflito; agent:test TEST_OK suites=5; agent:build DIST_OK files=47; agent:verify VERIFY_OK scripts=19 indexedFiles=23; git diff --check OK; fonte, nucleo ativo e dist com paridade funcional.
 pendencias=Nenhuma na FT-035; publicacao de release permanece fora do escopo e depende de solicitacao explicita.
 
-FT-036|nome=Código para verificação de atualização de aplicações distribuídas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-20T01:29:28Z|inicio=pendente|atualizacao=20260720.012928
+FT-036|nome=Código para verificação de atualização de aplicações distribuídas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-20T01:29:28Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Materializar em código a norma da issue github:jcempro/agents.md#3 somente após FT-044 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#3
 issue_repo=jcempro/agents.md
@@ -792,21 +792,23 @@ issue_number=3
 issue_url=https://github.com/jcempro/agents.md/issues/3
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-044 concluída; autorização humana explícita para código.
+dependencias=FT-044 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
 norma=RCF §0.0.11; src/.ia.rules/scenarios/application-update/scenario.md.
-criterios=Implementar somente os contratos normativos aprovados; testes derivados do RCF; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+criterios=Implementar somente contratos opt-in aprovados; dry-run/offline sem rede/escrita; estados controlados e comparação determinística.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=Capacidade implementada em src/.ia.rules/scenarios/application-update/scripts/application-update.js; sem ação de atualização embutida e sem efeito externo por padrão.
+verificacoes=node --check; application-update.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 
-FT-037|nome=Código para publicação atômica em registros de pacote|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-20T01:33:50Z|inicio=pendente|atualizacao=20260720.013350
+FT-037|nome=Código para publicação atômica em registros de pacote|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-20T01:33:50Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Materializar em código a norma da issue github:jcempro/agents.md#1 somente após FT-043 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#1
 issue_repo=jcempro/agents.md
@@ -814,21 +816,23 @@ issue_number=1
 issue_url=https://github.com/jcempro/agents.md/issues/1
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-043 concluída; autorização humana explícita para código.
+dependencias=FT-043 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
 norma=RCF §0.0.13; src/.ia.rules/scenarios/release/capabilities/package-registry.md.
-criterios=Implementar capacidade opt-in e adaptadores previstos pelo RCF; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+criterios=Implementar capacidade opt-in; prepare, verify, publish e confirm ordenados antes do release externo; dry-run sem mutação.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=Capacidade implementada em src/.ia.rules/scenarios/release/scripts/package-registry.js e integrada ao agent:release como opt-in, retornando skipped sem configuração.
+verificacoes=node --check; package-registry.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 
-FT-038|nome=Código para processamento de TODO.ia.md|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-20T23:35:36Z|inicio=pendente|atualizacao=20260720.233536
+FT-038|nome=Código para processamento de TODO.ia.md|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-20T23:35:36Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Materializar em código a norma da issue github:jcempro/agents.md#4 somente após FT-045 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#4
 issue_repo=jcempro/agents.md
@@ -836,21 +840,23 @@ issue_number=4
 issue_url=https://github.com/jcempro/agents.md/issues/4
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-045 concluída; autorização humana explícita para código.
+dependencias=FT-045 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
 norma=RCF §0.0.9; src/AGENTS.md §§4-8.
-criterios=Implementar triagem, hash, vínculo e atualização determinística previstos pelo RCF; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+criterios=Implementar triagem, hash e localização canônica de TODO.ia.md sem transformar demanda em issue, FT, RCF ou autorização.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=Processador implementado em src/.ia.rules/core/runtime/scripts/todo-intake.js; path canônico .ia.rules/state/TODO.ia.md e raiz legada somente como entrada de triagem.
+verificacoes=node --check; todo-and-gate.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 
-FT-039|nome=Código e distribuição de INIT-REPO.md|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-21T23:57:28Z|inicio=pendente|atualizacao=20260721.235728
+FT-039|nome=Código e distribuição de INIT-REPO.md|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T23:57:28Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Materializar, distribuir e testar a norma da issue github:jcempro/agents.md#5 somente após FT-046 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#5
 issue_repo=jcempro/agents.md
@@ -858,21 +864,23 @@ issue_number=5
 issue_url=https://github.com/jcempro/agents.md/issues/5
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-046 concluída; autorização humana explícita para código.
+dependencias=FT-046 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
 norma=RCF §0.0.10; src/AGENTS.md §8.
-criterios=Integrar o artefato preexistente ao build apenas após revisão contra o RCF; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+criterios=Garantir presença, integridade e distribuição de INIT-REPO.md no release sem norma concorrente.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=INIT-REPO.md permaneceu em src/ e a validação do dist confirma allowlist .ia.rules, AGENTS.md, INIT-REPO.md e release.json.
+verificacoes=agent:verify via runtime src; autoupdate.test.js atualizado para dist/.ia.rules e INIT-REPO.md distribuído.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 
-FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-22T00:33:29Z|inicio=2026-07-21T22:38:35-03:00|atualizacao=20260722.010500
+FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-22T00:33:29Z|inicio=2026-07-21T22:38:35-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Materializar em código a intenção válida da issue github:jcempro/agents.md#6 sob a raiz canônica `.ia.rules`, somente após FT-047 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#6
 issue_repo=jcempro/agents.md
@@ -880,9 +888,9 @@ issue_number=6
 issue_url=https://github.com/jcempro/agents.md/issues/6
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-047 concluída; autorização humana explícita para código; migração `.agents` → `.ia.rules` vigente.
+dependencias=FT-047 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs; migração `.agents` → `.ia.rules` vigente.
 norma=RCF §0.0.12; src/AGENTS.md §0.14.
-criterios=Não introduzir `.ia.gules`; implementar manifesto, templates, merge, rollback e preservação conforme RCF; nenhuma tarefa iniciada neste ciclo.
+criterios=Não introduzir `.ia.gules`; implementar manifesto, templates, merge, rollback e preservação conforme RCF.
 1/5 Analise e plano [concluido]
   1/2 Validar escopo e criterios de aceite da issue [concluido]
   2/2 Atualizar plano e contratos aplicaveis [concluido]
@@ -895,15 +903,17 @@ criterios=Não introduzir `.ia.gules`; implementar manifesto, templates, merge, 
   1/3 Validar sintaxe dos scripts migrados [concluido]
   2/3 Executar build e verify pela fonte [concluido]
   3/3 Auditar dist, ZIP e npm pack --dry-run [concluido]
-4/5 Templates, merge e rollback da issue [pendente]
-  1/2 Implementar contratos de template e merge semântico [pendente]
-  2/2 Validar rollback e preservação de extensões [pendente]
+4/5 Templates, merge e rollback da issue [concluido]
+  1/2 Implementar contratos de template e merge semântico [concluido]
+  2/2 Validar rollback e preservação de extensões [concluido]
 5/5 Entrega da etapa topológica [concluido]
   1/2 Commitar e publicar desenvolvimento [concluido]
   2/2 Registrar evidências e regenerar handoff [concluido]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+decisoes=template-merge.js implementa região textual gerenciada, merge JSON preservando campos locais e rollback com hashes; update-agents aplica kind=template e grava lock pelo conteúdo final aplicado.
+verificacoes=node --check; template-merge.test.js; autoupdate.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 
-FT-041|nome=Código para o bloqueio norma antes de código|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-22T00:43:24Z|inicio=pendente|atualizacao=20260722.004324
+FT-041|nome=Código para o bloqueio norma antes de código|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-22T00:43:24Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Automatizar a norma da issue github:jcempro/agents.md#7 somente após FT-048 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#7
 issue_repo=jcempro/agents.md
@@ -911,21 +921,23 @@ issue_number=7
 issue_url=https://github.com/jcempro/agents.md/issues/7
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-048 concluída; FT-045; FT-046; autorização humana explícita para código.
+dependencias=FT-048 concluída; FT-045; FT-046; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
 norma=RCF §§0.0.9 e 3.5-3.6; src/AGENTS.md §§4-8.
-criterios=Bloquear transição técnica prematura e preservar solicitações transitórias conforme RCF; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+criterios=Bloquear transição técnica prematura e preservar solicitações transitórias conforme RCF.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=Gate implementado em src/.ia.rules/core/runtime/scripts/request-code-gate.js; exige FT normativa concluída e autorização explícita no estado ou na chamada.
+verificacoes=node --check; todo-and-gate.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 
-FT-042|nome=Código para encerramento idempotente de issues|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-22T00:50:12Z|inicio=pendente|atualizacao=20260722.005012
+FT-042|nome=Código para encerramento idempotente de issues|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-22T00:50:12Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
 objetivo=Materializar em código a norma da issue github:jcempro/agents.md#8 somente após FT-049 concluída e autorização humana posterior.
 issue_id=github:jcempro/agents.md#8
 issue_repo=jcempro/agents.md
@@ -933,28 +945,21 @@ issue_number=8
 issue_url=https://github.com/jcempro/agents.md/issues/8
 issue_state=em_desenvolvimento
 release=pendente
-dependencias=FT-049 concluída; FT-048; autorização humana explícita para código.
+dependencias=FT-049 concluída; FT-048; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
 norma=RCF §0.0.8; src/.ia.rules/scenarios/governance/issue-lifecycle.md.
-criterios=Encerrar somente vínculo explícito com todo escopo concluído; retomada não duplica efeito; nenhuma tarefa iniciada neste ciclo.
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-autorizacao_codigo=Solicitação humana explícita de 2026-07-21 para purgar src/.agents, restringir o release a .ia.rules, refatorar paths e validar o pacote.
-evidencia_inicial=Commit humano 72d4fac removeu fisicamente src/.agents e migrou seus arquivos para src/.ia.rules; implementação deve permanecer na fonte, sem editar AGENTS.md raiz nem materializar .ia.rules raiz.
-decisoes_etapa=Runtime público completo foi consolidado em src/.ia.rules; build usa somente o índice da fonte; package.json.files contém apenas .ia.rules e arquivos raiz allowlisted; configuração pública reside em .ia.rules/config; governança ativa raiz permaneceu intocada.
-verificacoes_etapa=SOURCE_SYNTAX_OK; agent:dist DIST_OK files=50; agent:verify VERIFY_OK scripts=19 indexedFiles=49; dist e ZIP possuem somente .ia.rules como diretório estrutural; token de path legado ausente; manifesto allowlist OK; pacote npm dry-run com 51 entradas; runtime distribuído agent:setup SETUP_OK.
-falhas_etapa=Primeiro npm pack usou cache global sem permissão e retornou EPERM; repetição com cache temporário local concluiu. apply_patch recusou repetidamente repo-tools.js gravável; substituições mecânicas equivalentes foram aplicadas somente na fonte e revalidadas.
-correcao_release=Wrappers de release em src/.ia.rules/scenarios/release/scripts agora tratam RELEASE_TRIGGER_EXISTENTE/GATILHO_RELEASE_EXISTENTE como retomada idempotente, preservando conflito divergente como falha; artefato dist/index ja commitado tambem e reutilizado idempotentemente; a mesma correção mínima foi espelhada em .agents/scenarios/release/scripts por ciclo técnico, e o wrapper/workflow ativo passou a chamar src/.ia.rules/core/runtime/scripts/repo-tools.js para gerar/verificar/gatilhar o release na topologia vigente.
-verificacoes_release=node --check release-publish.js e release-publish-resume.js; classificação positiva do gatilho existente; classificação negativa do conflito divergente; agent:dist DIST_OK; agent:verify VERIFY_OK.
-commit_etapa=b435f0f restringe release a .ia.rules.
-pendencias=Implementar templates, merge semântico, rollback e preservação de extensões em autorização específica; publicar release somente após a FT integral.
-
+criterios=Encerrar somente vínculo explícito com todo escopo concluído; retomada não duplica efeito; permissão/vínculo/pendência insuficiente mantém aberta.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=issue-lifecycle.js agora calcula elegibilidade por grupo de issue, exige todas as FTs correlatas concluídas, release explícito e ausência de tarefas pendentes; fechamento remoto consulta estado atual antes de PATCH.
+verificacoes=node --check; todo-and-gate.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.
 FT-043|nome=Norma de publicação atômica em registros de pacote|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:00-03:00|inicio=2026-07-21T22:08:00-03:00|atualizacao=20260721.222042|conclusao=2026-07-21T22:20:42-03:00
 objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#1 sem implementar código.
 issue_id=github:jcempro/agents.md#1|issue_number=1|issue_url=https://github.com/jcempro/agents.md/issues/1

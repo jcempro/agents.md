@@ -14,6 +14,7 @@ const os = require("os");
 const path = require("path");
 
 const { createZipFromDirectory, extractZip } = require("./archive");
+const { applyTemplate } = require("./template-merge");
 const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require("../../update/migrations/v1-to-v2");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
@@ -209,7 +210,7 @@ function resumeFromHandoff(statePath, options = {}) {
     changes,
     remoteRoot: payload.releaseRoot,
     source: payload.source,
-    lock: createUpdateLock(payload.source, remoteFiles),
+    lock: createUpdateLock(payload.source, remoteFiles, changes),
   };
   return executeUpdatePlan(parsed, payload.targetRoot, plan);
 }
@@ -286,7 +287,7 @@ async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
       changes,
       remoteRoot,
       source,
-      lock: createUpdateLock(source, remoteFiles),
+      lock: createUpdateLock(source, remoteFiles, changes),
     };
   } finally {
     fs.rmSync(tempRoot, { force: true, recursive: true });
@@ -446,7 +447,7 @@ function collectRemoteGovernanceFiles(remoteRoot) {
       throw new Error(`Manifesto remoto inclui extensao local: ${toPosixPath(target)}`);
     }
     const origin = safeRelativePath(entry.source || entry.path);
-    addRemoteFile(files, source.baseRoot, origin, target, entry.kind || (target === PACKAGE_RELATIVE_PATH ? "package" : "file"), entry.sha256);
+    addRemoteFile(files, source.baseRoot, origin, target, entry.kind || (target === PACKAGE_RELATIVE_PATH ? "package" : "file"), entry.sha256, entry);
   }
   assertRequiredManagedFiles(files);
   return [...files.values()];
@@ -524,7 +525,7 @@ function normalizeGovernanceRelativePath(value) {
   return normalized;
 }
 
-function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = relativePath, kind = "file", expectedHash = "") {
+function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = relativePath, kind = "file", expectedHash = "", descriptor = {}) {
   const safeRel = safeRelativePath(relativePath);
   const sourcePath = path.join(remoteRoot, safeRel);
 
@@ -542,6 +543,7 @@ function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = rel
   }
   files.set(toPosixPath(targetRelativePath), {
     content,
+    descriptor,
     kind,
     relativePath: safeRelativePath(targetRelativePath),
   });
@@ -554,13 +556,15 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
   for (const entry of remoteFiles) {
     const localPath = path.join(rootDir, entry.relativePath);
     const localContent = fs.existsSync(localPath) ? fs.readFileSync(localPath) : null;
-    const content = entry.kind === "package" && localContent ? mergePackageManifest(localContent, entry.content) : entry.content;
+    const applied = resolveManagedContent(entry, localContent);
+    const content = applied.content;
     const same = localContent && hashTextContent(localContent) === hashTextContent(content);
     changes.push({
       action: same ? "unchanged" : localContent ? "update" : "add",
       content,
       kind: entry.kind,
       relativePath: entry.relativePath,
+      rollback: applied.rollback,
     });
   }
 
@@ -575,6 +579,22 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
   }
 
   return changes.sort((a, b) => toPosixPath(a.relativePath).localeCompare(toPosixPath(b.relativePath), "en"));
+}
+
+function resolveManagedContent(entry, localContent) {
+  if (entry.kind === "package" && localContent) return { content: mergePackageManifest(localContent, entry.content) };
+  if (entry.kind === "template") {
+    const descriptor = entry.descriptor || {};
+    const result = applyTemplate(localContent || Buffer.from(""), entry.content, {
+      id: descriptor.templateId || toPosixPath(entry.relativePath).replace(/[^a-z0-9_.-]+/giu, "-"),
+      path: entry.relativePath,
+      target: entry.relativePath,
+      type: descriptor.templateType,
+      version: descriptor.templateVersion,
+    });
+    return { content: result.content, rollback: result.rollback };
+  }
+  return { content: entry.content };
 }
 
 function listPreviouslyManagedFiles(lock) {
@@ -913,12 +933,13 @@ function readUpdateLock(rootDir) {
   return isCurrentLock(raw) ? raw : convertLegacyLock(raw);
 }
 
-function createUpdateLock(source, remoteFiles) {
+function createUpdateLock(source, remoteFiles, changes = []) {
+  const finalContent = new Map(changes.filter((change) => change.action !== "remove").map((change) => [toPosixPath(change.relativePath), change.content]));
   return {
     format: FORMAT,
     files: Object.fromEntries(remoteFiles.map((entry) => [
       toPosixPath(entry.relativePath),
-      hashBuffer(entry.content),
+      hashBuffer(finalContent.get(toPosixPath(entry.relativePath)) || entry.content),
     ])),
     managedFiles: remoteFiles.map((entry) => ({ path: toPosixPath(entry.relativePath) })),
     marker: MARKER,

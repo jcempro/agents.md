@@ -15,6 +15,7 @@ const { createZipFromDirectory } = require("./archive");
 const { loadConfiguration } = require("./configuration");
 const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
+const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
 
 const RUNTIME_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
@@ -665,7 +666,11 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-lifecycle.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "autoupdate.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "configuration.test.js")]);
-  return ok("TEST_OK", { suites: 5 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "application-update.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "package-registry.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "todo-and-gate.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "template-merge.test.js")]);
+  return ok("TEST_OK", { suites: 9 });
 }
 
 function validateIndex(index) {
@@ -946,8 +951,9 @@ function releaseLocal(args = []) {
   const prepare = runReleaseHook("prepare", release);
   const notes = buildReleaseNotes(release.version);
   const result = buildDist({ releaseMetadata: release, releaseNotes: notes, version: release.version });
+  const packageRegistry = runPackageRegistryLifecycle("release", { ...release, ...result, packageRegistry: CONFIGURATION.packageRegistry || {} }, { rootDir: ROOT_DIR });
   const verify = runReleaseHook("verify", { ...release, ...result });
-  return ok("RELEASE_OK", { ...result, inference: release.inference, prepare, verify });
+  return ok("RELEASE_OK", { ...result, inference: release.inference, packageRegistry, prepare, verify });
 }
 
 function releaseTrigger(args = []) {
