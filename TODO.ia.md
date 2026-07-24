@@ -100,8 +100,9 @@
     - conteúdo, evidências, riscos, reprodução, proposta, código e sanitização necessários;
     - vinculação com FTs ou correções provisórias quando aplicável;
     - proibição de tratar, movimentar, atribuir, implementar ou encerrar a issue após registrá-la.
-    
+
     Esse é exemplo delimitador do conceito de cenário técnico, NÃO seu único caso de uso.
+
   - [ ] **Isolar normas exclusivas do papel construtor:** regras de geração, compilação, validação, empacotamento, versionamento, release, atualização, distribuição, estrutura-fonte e manutenção de `AGENTS.md`, associados e scripts DEVEM permanecer em módulos carregados quando o papel de Repositório Construtor estiver ativo. Regras necessárias aos consumidores — como autoridade, imutabilidade dos produtos distribuídos e proibição de edição direta — DEVEM permanecer no núcleo ou no módulo de Repositório Final, ainda que também sejam relevantes ao construtor.
   - [ ] **Individualizar contratos por recurso:** cada script, comando, hook, callback, fallback, mecanismo de extensão, automação ou recurso disponibilizado por `AGENTS.md` DEVE possuir módulo próprio ou compartilhar módulo especializado somente quando houver contrato materialmente comum. O normativo aplicável DEVE conter finalidade, gatilhos, precedência, limitações, parâmetros, entradas, saídas, estados, efeitos, extensões permitidas, hooks, fallbacks, validação e modo correto de usar, ampliar ou especializar o recurso.
   - [ ] **Centralizar contratos transversais:** nomenclaturas, localização, configuração, parâmetros, retornos, códigos de estado, logs, saídas, hooks, callbacks, fallbacks, segurança e demais regras comuns DEVEM permanecer em módulos canônicos compartilhados. Módulos de papel, cenário ou recurso DEVEM declarar apenas especializações materiais e referenciar o contrato comum, sem redefinição ou duplicação.
@@ -112,8 +113,9 @@
     - finalidade e gatilhos de cada módulo;
     - obrigatoriedade, localização e dependências mínimas;
     - condições que tornam sua leitura compulsória.
-    
+
     O artefato PODE usar Markdown, YAML, JSON ou formato tecnicamente superior, desde que maximize compreensão, validação, roteamento seletivo e economia líquida de tokens.
+
   - [ ] **Garantir descoberta compulsória:** antes de implementar solução própria, a IA DEVE consultar o índice ou mecanismo equivalente para identificar papéis, cenários técnicos e recursos oficiais potencialmente aplicáveis. Havendo correspondência entre a solicitação e a finalidade catalogada, a leitura integral dos normativos aplicáveis torna-se obrigatória antes de utilizar, estender, complementar, substituir ou declarar insuficiente o mecanismo existente.
   - [ ] **Impedir reinvenção por opacidade:** a ausência de carregamento prévio de módulo especializado NÃO autoriza presumir inexistência de regra ou recurso. O núcleo e o índice DEVEM tornar evidente que conteúdo não carregado continua obrigatório quando seus gatilhos forem satisfeitos. A redução de tokens DEVE decorrer da exclusão segura do que é inaplicável, nunca da ignorância sobre o que precisa ser descoberto.
   - [ ] **Definir aplicabilidade determinística:** cada módulo DEVE declarar compactamente:
@@ -135,11 +137,16 @@
     - cenário de produto;
     - cenário técnico, inclusive criação de issue no construtor;
     - uso, extensão e insuficiência aparente de recurso oficial.
-    
+
     Os testes DEVEM comprovar que cada solicitação carrega todos e somente os módulos necessários, preserva precedência e impede que regra ou recurso oficial seja ignorado.
+
   - [ ] **Critério de aceite:** considerar concluído somente quando normas comuns, papéis cumulativos, cenários de produto, cenários técnicos e contratos de recursos estiverem inequivocamente separados; a dupla condição do Repositório Construtor estiver preservada; regras já existentes não tiverem sido semanticamente alteradas por mera reorganização; o cenário técnico de criação de issue estiver individualizado; contratos comuns estiverem centralizados; o índice garantir descoberta compulsória; e métricas demonstrarem redução de tokens efetivamente lidos sem perda normativa, opacidade, reinvenção ou aumento desproporcional do custo de navegação.
 
 - [ ] Normatizar, no RCF do construtor de `AGENTS.md` e no próprio `AGENTS.md`, como regra obrigatória, explicita e compusória, de operação da IA em qualquer repositório, que toda classe, função, procedure, type, interface ou unidade equivalente DEVE conter, quando técnica e linguisticamente aplicável, cabeçalho de documentação nativo ou convencional da linguagem, como JSDoc, ShellDoc ou equivalente.
   - O cabeçalho DEVE existir somente no código-fonte, preferencialmente sob `./src/` e `./scripts/`, e NÃO DEVE integrar o artefato final compilado, empacotado, otimizado ou minificado, salvo impossibilidade técnica ou exigência do formato.
   - Excetua-se o cabeçalho global de licença, autoria e repositório de origem que, conforme as normas vigentes, DEVE permanecer preservado no topo do produto final - quando aplicável e compatível.
   - Cada cabeçalho DEVE usar a sintaxe adequada à linguagem e a menor quantidade possível de tokens/bytes, sem perda de precisão/semantica, contendo descrição ultrassucinta, porém suficiente, da responsabilidade da unidade, comportamento, momento e contexto de execução, justificativa técnica de existência, restrições relevantes e condições de reutilização.
+
+  - [ ] Somente após a conclusão de todos os demais itens de TODO, reavaliar integralmente a issue [`jcempro/agents.md#2`](https://github.com/jcempro/agents.md/issues/2) perante o estado real e atual do repositório, das normas vigentes e da implementação efetiva, determinando se o problema permanece pertinente, válido e carente de correção.
+  - Independentemente da conclusão, publicar na própria issue comentário técnico, conciso e ajustado à realidade encontrada, contendo fundamentos verificáveis e indicação explícita, inequívoca e incisiva sobre sua aplicabilidade, pertinência e necessidade e realidades atuais do código/respositório - dado a existência de multiplas correções, evoluções e releases posteriores.
+  - Quando útil à clareza, atribuir nota de `0–10` aos aspectos avaliados para enfatizar relevância, impacto, validade ou prioridade, sem prolixidade.
