@@ -1,0 +1,389 @@
+{
+  "schema": "agents-normative-index/v1",
+  "id": "agents.normative-index",
+  "version": 1,
+  "generated": false,
+  "authority": "AGENTS.md",
+  "root": "core.agents",
+  "nodes": [
+    {
+      "id": "core.agents",
+      "path": "AGENTS.md",
+      "class": "core",
+      "type": "hybrid",
+      "roles": ["common"],
+      "triggers": ["always"],
+      "inputs": ["request", "repository-state"],
+      "outputs": ["governed-operation", "route"]
+    },
+    {
+      "id": "core.authority",
+      "path": ".ia.rules/core/authority.md",
+      "class": "core",
+      "type": "leaf",
+      "roles": ["common"],
+      "triggers": ["always"],
+      "inputs": ["governed-operation"],
+      "outputs": []
+    },
+    {
+      "id": "core.microconcepts",
+      "path": ".ia.rules/core/concepts/microconceitos.md",
+      "class": "core",
+      "type": "leaf",
+      "roles": ["common"],
+      "triggers": ["MN-* reference", "semantic ambiguity"],
+      "inputs": ["concept-id"],
+      "outputs": []
+    },
+    {
+      "id": "core.contracts",
+      "path": ".ia.rules/core/contracts.md",
+      "class": "core",
+      "type": "leaf",
+      "roles": ["common"],
+      "triggers": ["scenario", "resource", "hook", "integration", "manifest"],
+      "inputs": ["composition"],
+      "outputs": []
+    },
+    {
+      "id": "core.routing",
+      "path": ".ia.rules/core/routing.md",
+      "class": "core",
+      "type": "leaf",
+      "roles": ["common"],
+      "triggers": ["partial-context", "routing", "index", "graph", "token-cost", "cache"],
+      "inputs": ["request-context", "active-roles"],
+      "outputs": []
+    },
+    {
+      "id": "core.update",
+      "path": ".ia.rules/core/update/scenario.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["update:agents", "governance-install", "governance-repair", "governance-migration"],
+      "inputs": ["release-manifest", "target-state"],
+      "outputs": []
+    },
+    {
+      "id": "role.final",
+      "path": ".ia.rules/roles/final.md",
+      "class": "role",
+      "type": "leaf",
+      "roles": ["final"],
+      "triggers": ["always"],
+      "inputs": ["managed-governance"],
+      "outputs": []
+    },
+    {
+      "id": "role.constructor",
+      "path": ".ia.rules/roles/constructor.md",
+      "class": "role",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["src", "build", "verify", "package", "update", "distribution", "release"],
+      "inputs": ["product-source", "RCF"],
+      "outputs": []
+    },
+    {
+      "id": "resource.scripts",
+      "path": ".ia.rules/resources/scripts.md",
+      "class": "resource",
+      "type": "hybrid",
+      "roles": ["final", "constructor"],
+      "triggers": ["script", "command", "runtime", "hook", "callback", "fallback", "adapter"],
+      "inputs": ["resource-contract"],
+      "outputs": []
+    },
+    {
+      "id": "resource.workflows",
+      "path": ".ia.rules/resources/workflows.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["workflow", "github-actions", "workflow-install", "workflow-update"],
+      "inputs": ["workflow-contract", "workflow-manifest"],
+      "outputs": []
+    },
+    {
+      "id": "resource.traceability",
+      "path": ".ia.rules/resources/traceability.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["code-unit", "RCF-material-sentence", "material-commit", "traceability-sync"],
+      "inputs": ["RCF", "commit", "artifact"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.request-lifecycle",
+      "path": ".ia.rules/scenarios/governance/request-lifecycle.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["prompt", "issue", "TODO", "request", "scope-change", "resume"],
+      "inputs": ["request-source"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.official-gap",
+      "path": ".ia.rules/scenarios/governance/official-gap.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["final"],
+      "triggers": ["official-gap", "missing-mechanism", "incompatible-mechanism", "temporary-exception"],
+      "inputs": ["official-state", "evidence"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.upstream-sharing",
+      "path": ".ia.rules/scenarios/governance/upstream-sharing/scenario.md",
+      "class": "scenario",
+      "type": "hybrid",
+      "roles": ["final", "constructor"],
+      "triggers": ["upstream-sharing", "upstream-proposal", "constructor-inbox"],
+      "inputs": ["sanitized-evidence", "role"],
+      "outputs": ["proposal", "inbox"]
+    },
+    {
+      "id": "scenario.issue-lifecycle",
+      "path": ".ia.rules/scenarios/governance/issue-lifecycle.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["approved-issue", "issue-sync", "issue-release-closeout"],
+      "inputs": ["approved-issue", "explicit-authorization"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.release",
+      "path": ".ia.rules/scenarios/release/scenario.md",
+      "class": "scenario",
+      "type": "hybrid",
+      "roles": ["final", "constructor"],
+      "triggers": ["release", "version", "tag", "release-asset"],
+      "inputs": ["release-request", "RCF"],
+      "outputs": ["release-contract"]
+    },
+    {
+      "id": "capability.package-registry",
+      "path": ".ia.rules/scenarios/release/capabilities/package-registry.md",
+      "class": "capability",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["package-registry", "package-publication"],
+      "inputs": ["release-contract", "RCF-opt-in"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.application-update",
+      "path": ".ia.rules/scenarios/application-update/scenario.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["application-update", "version-detection", "update-notice"],
+      "inputs": ["RCF-opt-in", "version-state"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.content-publication",
+      "path": ".ia.rules/scenarios/content-publication/scenario.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["content-publication", "business-artifact-publish"],
+      "inputs": ["business-artifact", "technical-scenario"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.web-page-like",
+      "path": ".ia.rules/scenarios/web/page-like/scenario.md",
+      "class": "scenario",
+      "type": "hybrid",
+      "roles": ["final", "constructor"],
+      "triggers": ["web-page-like", "browser-product"],
+      "inputs": ["web-product", "RCF"],
+      "outputs": ["web-capability-route"]
+    },
+    {
+      "id": "capability.web-browser",
+      "path": ".ia.rules/scenarios/web/page-like/capabilities/browser.md",
+      "class": "capability",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["browser", "DOM", "web-runtime"],
+      "inputs": ["web-capability-route"],
+      "outputs": []
+    },
+    {
+      "id": "capability.web-static",
+      "path": ".ia.rules/scenarios/web/page-like/capabilities/static-hosting.md",
+      "class": "capability",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["static-hosting", "static-generator", "pages"],
+      "inputs": ["web-browser-capability"],
+      "outputs": []
+    },
+    {
+      "id": "capability.web-editorial",
+      "path": ".ia.rules/scenarios/web/page-like/capabilities/editorial.md",
+      "class": "capability",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["editorial", "article", "post", "sermon", "essay", "news"],
+      "inputs": ["web-browser-capability"],
+      "outputs": []
+    },
+    {
+      "id": "meta.cli",
+      "path": ".ia.rules/meta/cli.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["script", "command", "CLI"],
+      "inputs": ["command-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.build",
+      "path": ".ia.rules/meta/build.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["build", "dist", "package", "archive"],
+      "inputs": ["build-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.ia",
+      "path": ".ia.rules/meta/ia.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["agent-command", "AI-output"],
+      "inputs": ["AI-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.maintenance",
+      "path": ".ia.rules/meta/maintenance.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["maintenance", "status", "doctor", "repair"],
+      "inputs": ["maintenance-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.publish",
+      "path": ".ia.rules/meta/publish.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["publish", "deploy"],
+      "inputs": ["publish-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.release",
+      "path": ".ia.rules/meta/release.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["release", "release-publish"],
+      "inputs": ["release-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.update",
+      "path": ".ia.rules/meta/update.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["update:agents"],
+      "inputs": ["update-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.upstream",
+      "path": ".ia.rules/meta/upstream.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["upstream", "issue-inbox"],
+      "inputs": ["upstream-context"],
+      "outputs": []
+    },
+    {
+      "id": "meta.validation",
+      "path": ".ia.rules/meta/validation.md",
+      "class": "meta",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["test", "lint", "verify", "validation"],
+      "inputs": ["validation-context"],
+      "outputs": []
+    },
+    {
+      "id": "evaluation.logical-syntax",
+      "path": ".ia.rules/core/evaluations/logical-syntax.md",
+      "class": "evaluation",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["logical-syntax", "parser", "formatter", "normative-compression"],
+      "inputs": ["syntax-candidate", "corpus"],
+      "outputs": []
+    },
+    {
+      "id": "bootstrap.init-repo",
+      "path": "INIT-REPO.md",
+      "class": "bootstrap",
+      "type": "leaf",
+      "roles": ["final"],
+      "triggers": ["repository-initialization", "normative-bootstrap"],
+      "inputs": ["new-repository"],
+      "outputs": []
+    }
+  ],
+  "edges": [
+    { "from": "core.agents", "to": "core.authority", "mode": "passive", "condition": "always", "order": 1 },
+    { "from": "core.agents", "to": "core.routing", "mode": "passive", "condition": "partial-context or discovery", "order": 2 },
+    { "from": "core.agents", "to": "core.microconcepts", "mode": "passive", "condition": "MN-* reference or ambiguity", "order": 3 },
+    { "from": "core.agents", "to": "core.contracts", "mode": "passive", "condition": "scenario, resource, hook, integration or manifest", "order": 4 },
+    { "from": "core.agents", "to": "role.final", "mode": "passive", "condition": "always in a consuming repository", "order": 5 },
+    { "from": "core.agents", "to": "role.constructor", "mode": "passive", "condition": "constructor operation", "order": 6 },
+    { "from": "core.agents", "to": "scenario.request-lifecycle", "mode": "passive", "condition": "request intake or resume", "order": 7 },
+    { "from": "core.agents", "to": "scenario.official-gap", "mode": "passive", "condition": "apparent official gap", "order": 8 },
+    { "from": "core.agents", "to": "scenario.upstream-sharing", "mode": "passive", "condition": "upstream proposal or inbox", "order": 9 },
+    { "from": "scenario.upstream-sharing", "to": "scenario.issue-lifecycle", "mode": "passive", "condition": "constructor receives human-approved issue", "order": 1 },
+    { "from": "core.agents", "to": "core.update", "mode": "passive", "condition": "governance install, update, repair or migration", "order": 10 },
+    { "from": "core.agents", "to": "resource.scripts", "mode": "passive", "condition": "script, command, runtime, hook, callback, fallback or adapter", "order": 11 },
+    { "from": "resource.scripts", "to": "meta.cli", "mode": "passive", "condition": "reusable CLI", "order": 1 },
+    { "from": "core.agents", "to": "resource.workflows", "mode": "passive", "condition": "distributable workflow", "order": 12 },
+    { "from": "core.agents", "to": "resource.traceability", "mode": "passive", "condition": "technical unit or material traceability", "order": 13 },
+    { "from": "core.agents", "to": "scenario.release", "mode": "passive", "condition": "release", "order": 14 },
+    { "from": "scenario.release", "to": "capability.package-registry", "mode": "passive", "condition": "RCF opts into package registry", "order": 1 },
+    { "from": "core.agents", "to": "scenario.application-update", "mode": "passive", "condition": "RCF opts into application update", "order": 15 },
+    { "from": "core.agents", "to": "scenario.content-publication", "mode": "passive", "condition": "business content publication", "order": 16 },
+    { "from": "core.agents", "to": "scenario.web-page-like", "mode": "passive", "condition": "web page like product", "order": 17 },
+    { "from": "scenario.web-page-like", "to": "capability.web-browser", "mode": "passive", "condition": "browser capability", "order": 1 },
+    { "from": "scenario.web-page-like", "to": "capability.web-static", "mode": "passive", "condition": "static hosting capability", "order": 2 },
+    { "from": "scenario.web-page-like", "to": "capability.web-editorial", "mode": "passive", "condition": "editorial capability", "order": 3 },
+    { "from": "core.agents", "to": "meta.build", "mode": "passive", "condition": "build, dist, package or archive", "order": 18 },
+    { "from": "core.agents", "to": "meta.ia", "mode": "passive", "condition": "agent command or AI output", "order": 19 },
+    { "from": "core.agents", "to": "meta.maintenance", "mode": "passive", "condition": "maintenance", "order": 20 },
+    { "from": "core.agents", "to": "meta.publish", "mode": "passive", "condition": "publish or deploy", "order": 21 },
+    { "from": "core.agents", "to": "meta.release", "mode": "passive", "condition": "release execution", "order": 22 },
+    { "from": "core.agents", "to": "meta.update", "mode": "passive", "condition": "update:agents execution", "order": 23 },
+    { "from": "core.agents", "to": "meta.upstream", "mode": "passive", "condition": "upstream operation", "order": 24 },
+    { "from": "core.agents", "to": "meta.validation", "mode": "passive", "condition": "validation", "order": 25 },
+    { "from": "core.agents", "to": "evaluation.logical-syntax", "mode": "passive", "condition": "logical syntax evaluation or implementation", "order": 26 },
+    { "from": "core.agents", "to": "bootstrap.init-repo", "mode": "passive", "condition": "repository normative bootstrap", "order": 27 }
+  ],
+  "fallback": {
+    "on": ["missing-route", "conflict", "low-confidence", "fragmentation", "invalid-cache", "ambiguous-scope"],
+    "action": "read-all-normative-nodes-by-precedence"
+  }
+}
