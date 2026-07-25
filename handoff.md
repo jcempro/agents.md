@@ -3,64 +3,6 @@
 
 Resumo operacional gerado de `.ia.rules/continue.ia`.
 
-## FT-051 - Implementação da norma operacional integrada em src
-
-Objetivo: Materializar em src/AGENTS.md e associados toda a arquitetura concluída pela FT-050, incluindo reestruturação ou renomeação apenas mediante ganho líquido e necessidade comprovados.
-
-<table>
-<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
-<tbody>
-<tr>
-<td rowspan="3">Reconstrução e autoridade</td>
-<td>Implementar cláusula inicial, domínios, mecanismos oficiais e ciclo de solicitações</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Implementar rigor de codificação, documentação, preservação e validação</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Implementar contratos normativos de atualização, scripts, workflows e runtimes</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Arquitetura contextual</td>
-<td>Segregar núcleo, papéis, cenários técnicos e recursos sem perda</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Implementar índice/grafo/roteamento e metadados normativos aprovados</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Aplicar decisões aprovadas sobre RAG e sintaxe lógica, sem sobreengenharia</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Equivalência e métricas</td>
-<td>Comprovar equivalência semântica e cobertura RCF → src</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Medir bytes, tokens, rotas, profundidade e custo de recuperação</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Validar todos os papéis, cenários, recursos e fallback de leitura integral</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="2">Integração</td>
-<td>Atualizar índice e artefatos derivados normativos aplicáveis</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Commitar e entregar sem iniciar FT-052</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-</tbody>
-</table>
-
 ## FT-052 - Implementação integrada dos códigos, scripts e automações
 
 Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, workflows, geradores, validadores, atualizador e artefatos derivados exigidos pela FT-050 e materializados normativamente pela FT-051.

@@ -57,6 +57,16 @@
       "outputs": []
     },
     {
+      "id": "core.rcf-projection",
+      "path": ".ia.rules/core/rcf-projection.md",
+      "class": "core",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["RCF-13-20", "normative-architecture", "phase-acceptance"],
+      "inputs": ["RCF", "normative-source", "FT-state"],
+      "outputs": []
+    },
+    {
       "id": "core.update",
       "path": ".ia.rules/core/update/scenario.md",
       "class": "scenario",
@@ -380,7 +390,8 @@
     { "from": "core.agents", "to": "meta.upstream", "mode": "passive", "condition": "upstream operation", "order": 24 },
     { "from": "core.agents", "to": "meta.validation", "mode": "passive", "condition": "validation", "order": 25 },
     { "from": "core.agents", "to": "evaluation.logical-syntax", "mode": "passive", "condition": "logical syntax evaluation or implementation", "order": 26 },
-    { "from": "core.agents", "to": "bootstrap.init-repo", "mode": "passive", "condition": "repository normative bootstrap", "order": 27 }
+    { "from": "core.agents", "to": "bootstrap.init-repo", "mode": "passive", "condition": "repository normative bootstrap", "order": 27 },
+    { "from": "core.agents", "to": "core.rcf-projection", "mode": "passive", "condition": "RCF 13-20, normative architecture or phase acceptance", "order": 28 }
   ],
   "fallback": {
     "on": ["missing-route", "conflict", "low-confidence", "fragmentation", "invalid-cache", "ambiguous-scope"],
