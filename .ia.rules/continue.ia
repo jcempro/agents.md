@@ -1227,13 +1227,13 @@ resultado=Fase RCF concluída e refinada sem criar prematuramente o acervo ou au
 pendencias=FT-054 foi explicitamente autorizada na solicitação de refinamento; FT-055 permanece pendente e exige autorização humana posterior própria.
 proximo_ponto=Executar FT-054 após validar e commitar este refinamento; não iniciar FT-055.
 
-FT-054|nome=Norma Operacional e acervo local de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T19:21:56-03:00
+FT-054|nome=Norma Operacional e acervo local de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T19:21:56-03:00|inicio=2026-07-25T19:35:30-03:00|atualizacao=2026-07-25T19:37:09-03:00
 objetivo=Projetar em src/AGENTS.md e associados o contrato do RCF e criar, somente no estado local deste construtor, o diretório canônico, índice, schema, modelo e registros comprováveis, sem código executável nem conteúdo decisório em release.
 origens=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt; RCF produzido pela FT-053.
 dependencias=FT-053 concluída, validada e commitada; autorização humana explícita recebida em 2026-07-25 após refinamento de escopo.
-1/4 Projeção operacional [pendente]
-  1/3 Atualizar src/AGENTS.md e ciclo de solicitação com consulta e manutenção compulsórias [pendente]
-  2/3 Criar módulo normativo do registro decisório e integrá-lo ao roteamento [pendente]
+1/4 Projeção operacional [concluido]
+  1/3 Atualizar src/AGENTS.md e ciclo de solicitação com consulta e manutenção compulsórias [concluido]
+  2/3 Criar módulo normativo do registro decisório e integrá-lo ao roteamento [concluido]
   3/3 Atualizar índice normativo, schema e projeção RCF [pendente]
 2/4 Estrutura canônica [pendente]
   1/3 Criar diretório local único, índice geral e schema versionado [pendente]
