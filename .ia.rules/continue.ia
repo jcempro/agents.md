@@ -1221,13 +1221,13 @@ dependencias=FT-051 concluída; RCF §§13, 18 e 20; cenário de ciclo de solici
   3/3 Definir consulta prioritária, não reanálise e remoção após implementação [concluido]
 aceite=RCF reconstruível cobre todos os requisitos, limites, estados, reavaliação, estrutura, integração e validação; nenhuma alteração em src, código, script, workflow ou automação.
 decisoes=Raiz única refinada para .ia.rules/state/decisions/refused, sempre local ao Repositório Final ou Construtor e proibida em src, dist, pacote, release, manifesto ou update. A Norma distribuível define somente o contrato. O acervo inclui recusa expressa cuja matéria permaneça ausente e tenha risco de reapresentação; não implementação isolada, backlog, item aceito ou capacidade existente ficam fora. ADIADO foi proibido e substituído por RECUSADO_PARA_RECONSIDERACAO, que exige benefício potencial e gatilho técnico concreto. Toda solicitação consulta o índice após captura e antes de análise; equivalência sem mudança material encerra triagem sem reanálise/FT. Registro sai do acervo somente após implementação validada, com história preservada no Git e autoridades permanentes.
-verificacoes=Origem preservada integralmente com SHA-256 CBF43AC8EE637A90B2ECB0DE6D377E75EDCABCAE81162C25E6EAA2351F4A8FB7 no commit 84d4b3d. RCF §13.6 cobre inclusão restrita, não inundação, estrutura, campos, oito estados sem ADIADO, quatro graus, onze conteúdos, consulta prioritária, sete fatores de reavaliação, encerramento sem reanálise na ausência de mudança material, histórico enquanto ausente, remoção pós-implementação, trabalho ativo, migração apenas com evidência, propriedade local e validação. O diretório foi excluído expressamente de src, dist, pacote, release, manifesto, mapa e update; §§18.2 e 20.1–20.2 integram descoberta e fases. agent:rcf RCF_OK bytes=163335; git diff --check OK; zero arquivo sob src, JS, TS, YAML, workflow ou package alterado nesta revisão.
+verificacoes=Origem preservada integralmente com SHA-256 CBF43AC8EE637A90B2ECB0DE6D377E75EDCABCAE81162C25E6EAA2351F4A8FB7 no commit 84d4b3d. RCF §13.6 cobre inclusão restrita, não inundação, estrutura, campos, oito estados sem ADIADO, quatro graus, onze conteúdos, consulta prioritária, sete fatores de reavaliação, encerramento sem reanálise na ausência de mudança material, histórico enquanto ausente, remoção pós-implementação, trabalho ativo, migração apenas com evidência, propriedade local e validação. O diretório foi excluído expressamente de src, dist, pacote, release, manifesto, mapa e update; §§18.1–18.2 e 20.1–20.2 integram descoberta e fases. agent:rcf RCF_OK bytes=163491; git diff --check OK; zero arquivo sob src, JS, TS, YAML, workflow ou package alterado nesta revisão.
 falhas=agent:verify não foi repetido: a falha byte/EOL de archive.js já está comprovada e reservada à FT-052; não houve mudança executável ou evidência nova que justificasse repetir a mesma falha.
 resultado=Fase RCF concluída e refinada sem criar prematuramente o acervo ou automação. A captura temporária foi removida após auditoria bidirecional e permanece recuperável no commit inicial.
 pendencias=FT-054 foi explicitamente autorizada na solicitação de refinamento; FT-055 permanece pendente e exige autorização humana posterior própria.
 proximo_ponto=Executar FT-054 após validar e commitar este refinamento; não iniciar FT-055.
 
-FT-054|nome=Norma Operacional e acervo local de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T19:21:56-03:00|inicio=2026-07-25T19:35:30-03:00|atualizacao=2026-07-25T19:37:09-03:00
+FT-054|nome=Norma Operacional e acervo local de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T19:21:56-03:00|inicio=2026-07-25T19:35:30-03:00|atualizacao=2026-07-25T19:48:24-03:00|conclusao=2026-07-25T19:48:24-03:00
 objetivo=Projetar em src/AGENTS.md e associados o contrato do RCF e criar, somente no estado local deste construtor, o diretório canônico, índice, schema, modelo e registros comprováveis, sem código executável nem conteúdo decisório em release.
 origens=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt; RCF produzido pela FT-053.
 dependencias=FT-053 concluída, validada e commitada; autorização humana explícita recebida em 2026-07-25 após refinamento de escopo.
@@ -1235,20 +1235,24 @@ dependencias=FT-053 concluída, validada e commitada; autorização humana expl�
   1/3 Atualizar src/AGENTS.md e ciclo de solicitação com consulta e manutenção compulsórias [concluido]
   2/3 Criar módulo normativo do registro decisório e integrá-lo ao roteamento [concluido]
   3/3 Atualizar índice normativo, schema e projeção RCF [concluido]
-2/4 Estrutura canônica [pendente]
+2/4 Estrutura canônica [concluido]
   1/3 Criar diretório local único, índice geral e schema versionado [concluido]
   2/3 Criar modelo denso e estrutura estável sem fragmentação excessiva [concluido]
   3/3 Definir referências cruzadas e tratamento de concluído, parcial e em andamento [concluido]
 3/4 Migração comprovável [concluido]
   1/2 Migrar a rejeição documentada da sintaxe lógica sem duplicar sua evidência [concluido]
   2/2 Migrar a não adoção parcial de técnicas RAG somente com evidência suficiente [concluido]
-4/4 Validação e encerramento [pendente]
-  1/3 Validar manualmente IDs, estados, paths, links, cobertura e ausência de invenção [pendente]
-  2/3 Medir integração e atualizar memória/handoff derivados [pendente]
-  3/3 Commitar fase src e interromper antes de código [pendente]
+4/4 Validação e encerramento [concluido]
+  1/3 Validar manualmente IDs, estados, paths, links, cobertura e ausência de invenção [concluido]
+  2/3 Medir integração e atualizar memória/handoff derivados [concluido]
+  3/3 Commitar fase src e interromper antes de código [concluido]
 aceite=Diretório canônico e indexado existe somente no estado local do construtor; recusas totais/parciais e restrições em trabalho ativo são inequívocas; consulta e reavaliação estão operacionais na Norma; fonte e release não contêm registros; nenhum código executável alterado.
-pendencias=Autorização explícita recebida; iniciar somente após commit do refinamento da FT-053.
-proximo_ponto=Implementar exclusivamente a fase normativa em src; não iniciar FT-055.
+decisoes=A Norma distribuível contém somente cenário/roteamento; o acervo concreto reside exclusivamente em .ia.rules/state/decisions/refused e tem ownership repository-local. Inclusão exige recusa expressa, ausência, risco de recorrência, evidência e ganho líquido. ADIADO é inválido. Foram migrados somente DEC-20260725-001 (sintaxe lógica/parser, RECUSADO_PARA_RECONSIDERACAO) e DEC-20260725-002 (RAG avançado, PARCIALMENTE_RECUSADO); ambos possuem evidência material no commit eba4dcc e permanecem ausentes.
+verificacoes=Índice/schema JSON parseáveis; 2 entradas/2 registros; IDs e chaves únicos; zero path ausente ou entrada inválida; modelo e registros possuem 11 seções. Grafo normativo 36 nós/35 arestas, zero ID/path duplicado, path ausente, aresta inválida, leaf com saída ou nó inalcançável. Corpus 36 Markdown/155471 bytes; AGENTS 31636 bytes; rota de nova solicitação 5 arquivos/47008 bytes/5347 palavras. Acervo local 5 arquivos/13083 bytes fora do corpus. npm pack --dry-run --json lista 59 arquivos e nenhum state/decisions/refused. agent:rcf RCF_OK bytes=163491; agent:status OK; git diff --check OK; zero JS, TS, YAML, workflow ou package alterado.
+falhas=agent:verify alcançou a fonte nova e falhou na paridade byte/EOL já conhecida de src/.ia.rules/core/runtime/scripts/archive.js. Todos os derivados rastreados e não rastreados gerados pela tentativa foram restaurados/removidos; a correção permanece na FT-052 e nenhum acervo local entrou em dist.
+resultado=Consulta prioritária e encerramento sem reanálise foram projetados na Norma; acervo local mínimo e rastreável criado; fonte/release contêm somente o contrato; nenhum código executável iniciado.
+pendencias=FT-055 permanece pendente e exige nova autorização humana explícita; FT-052 mantém o bloqueio técnico EOL e demais implementações previamente planejadas.
+proximo_ponto=Interromper. Não iniciar FT-055 ou FT-052 nesta atuação.
 
 FT-055|nome=Validação automatizada do registro de decisões recusadas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=media|status=pendente|criado_em=2026-07-25T19:21:57-03:00
 objetivo=Integrar ao mecanismo oficial validação proporcional e determinística do índice e dos registros de decisões recusadas, sem fluxo paralelo.
@@ -1267,5 +1271,5 @@ dependencias=FT-053 e FT-054 concluídas, validadas e commitadas; nova autoriza�
   2/3 Executar validação global e atualizar estado/handoff [pendente]
   3/3 Commitar, publicar e convergir branches somente com sistema global funcional [pendente]
 aceite=Validação oficial detecta todas as inconsistências requeridas, não inventa equivalência semântica, não bloqueia reavaliação legítima e integra build/verify sem fluxo paralelo.
-pendencias=Aguardar FT-053, FT-054 e nova autorização humana explícita.
+pendencias=FT-053 e FT-054 concluídas; aguardar nova autorização humana explícita.
 proximo_ponto=Não iniciar nesta atuação.
