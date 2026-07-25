@@ -1196,3 +1196,68 @@ dependencias=FT-050 e FT-051 concluídas, validadas e commitadas; nova autoriza�
 aceite=Todos os critérios técnicos do RCF e das fontes satisfeitos; nenhuma implementação paralela; release reproduzível; issue #2 reavaliada somente no gate terminal.
 pendencias=Aguardar FT-050, FT-051 e autorização humana explícita.
 proximo_ponto=Não iniciar nesta atuação.
+
+FT-053|nome=Normatização RCF do registro de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T19:21:55-03:00
+objetivo=Incorporar ao RCF o registro canônico, indexado e evolutivo de recusas totais, parciais, adiamentos e restrições em trabalho ativo, sem alterar src ou implementar automação.
+origem=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt
+origem_sha256=CBF43AC8EE637A90B2ECB0DE6D377E75EDCABCAE81162C25E6EAA2351F4A8FB7
+registro_temporario=.ia.rules/state/requests/FT-053/request.md
+dependencias=FT-051 concluída; RCF §§13, 18 e 20; cenário de ciclo de solicitação e índice normativo.
+1/3 Análise e arquitetura [pendente]
+  1/3 Confrontar integralmente origem, RCF, Norma, estado e decisões comprováveis [pendente]
+  2/3 Definir autoridade, escopo, ciclo, estados, identidade e reavaliação [pendente]
+  3/3 Planejar diretório, índice, modelo, referências e validações das fases posteriores [pendente]
+2/3 Implementação RCF [pendente]
+  1/3 Normatizar consulta, registro, atualização, descarte referenciado e não proibição [pendente]
+  2/3 Normatizar conteúdo, granularidade, integração e solicitações em andamento [pendente]
+  3/3 Atualizar matriz bidirecional e gates das FTs posteriores [pendente]
+3/3 Validação e encerramento [pendente]
+  1/3 Auditar cobertura integral, coerência e ausência de história inventada [pendente]
+  2/3 Remover temporário somente após cobertura validada e atualizar derivados de estado [pendente]
+  3/3 Commitar fase RCF e interromper antes de src [pendente]
+aceite=RCF reconstruível cobre todos os requisitos, limites, estados, reavaliação, estrutura, integração e validação; nenhuma alteração em src, código, script, workflow ou automação.
+pendencias=FT-054 e FT-055 permanecem pendentes e exigem autorizações humanas posteriores próprias.
+proximo_ponto=Executar somente após o commit exclusivo de criação/conciliação das FTs.
+
+FT-054|nome=Norma Operacional e acervo canônico de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T19:21:56-03:00
+objetivo=Projetar em src/AGENTS.md e associados o contrato do RCF e criar o diretório canônico, índice, schema, modelo e registros comprováveis, sem código executável.
+origens=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt; RCF produzido pela FT-053.
+dependencias=FT-053 concluída, validada e commitada; nova autorização humana explícita.
+1/4 Projeção operacional [pendente]
+  1/3 Atualizar src/AGENTS.md e ciclo de solicitação com consulta e manutenção compulsórias [pendente]
+  2/3 Criar módulo normativo do registro decisório e integrá-lo ao roteamento [pendente]
+  3/3 Atualizar índice normativo, schema e projeção RCF [pendente]
+2/4 Estrutura canônica [pendente]
+  1/3 Criar diretório único, índice geral e schema versionado [pendente]
+  2/3 Criar modelo denso e estrutura estável sem fragmentação excessiva [pendente]
+  3/3 Definir referências cruzadas e tratamento de concluído, parcial e em andamento [pendente]
+3/4 Migração comprovável [pendente]
+  1/2 Migrar a rejeição documentada da sintaxe lógica sem duplicar sua evidência [pendente]
+  2/2 Migrar a não adoção parcial de técnicas RAG somente com evidência suficiente [pendente]
+4/4 Validação e encerramento [pendente]
+  1/3 Validar manualmente IDs, estados, paths, links, cobertura e ausência de invenção [pendente]
+  2/3 Medir integração e atualizar memória/handoff derivados [pendente]
+  3/3 Commitar fase src e interromper antes de código [pendente]
+aceite=Diretório canônico e indexado existe em src; recusas totais/parciais e restrições em trabalho ativo são inequívocas; consulta e reavaliação estão operacionais na Norma; nenhum código executável alterado.
+pendencias=Aguardar conclusão da FT-053 e nova autorização humana explícita.
+proximo_ponto=Não iniciar nesta atuação.
+
+FT-055|nome=Validação automatizada do registro de decisões recusadas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=media|status=pendente|criado_em=2026-07-25T19:21:57-03:00
+objetivo=Integrar ao mecanismo oficial validação proporcional e determinística do índice e dos registros de decisões recusadas, sem fluxo paralelo.
+origens=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt; RCF da FT-053; fonte da FT-054.
+dependencias=FT-053 e FT-054 concluídas, validadas e commitadas; nova autorização humana explícita.
+1/3 Implementação [pendente]
+  1/3 Validar identificadores, estados, índice, arquivos, links e schema [pendente]
+  2/3 Validar reabertura justificada, revisão e referências relacionadas [pendente]
+  3/3 Integrar ao indexador/verificador oficial sem comando ou fluxo duplicado [pendente]
+2/3 Testes [pendente]
+  1/3 Cobrir entradas válidas, duplicadas, órfãs, quebradas e com estado inválido [pendente]
+  2/3 Cobrir reabertura sem justificativa e obsolescência após mudança relevante [pendente]
+  3/3 Comprovar compatibilidade cross-platform, EOL, determinismo e custo proporcional [pendente]
+3/3 Integração e entrega [pendente]
+  1/3 Regenerar derivados, manifests, hashes e artefatos publicados aplicáveis [pendente]
+  2/3 Executar validação global e atualizar estado/handoff [pendente]
+  3/3 Commitar, publicar e convergir branches somente com sistema global funcional [pendente]
+aceite=Validação oficial detecta todas as inconsistências requeridas, não inventa equivalência semântica, não bloqueia reavaliação legítima e integra build/verify sem fluxo paralelo.
+pendencias=Aguardar FT-053, FT-054 e nova autorização humana explícita.
+proximo_ponto=Não iniciar nesta atuação.
