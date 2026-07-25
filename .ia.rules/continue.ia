@@ -1255,25 +1255,28 @@ resultado=Consulta prioritária e encerramento sem reanálise foram projetados n
 pendencias=FT-055 permanece pendente e exige nova autorização humana explícita; FT-052 mantém o bloqueio técnico EOL e demais implementações previamente planejadas.
 proximo_ponto=Interromper. Não iniciar FT-055 ou FT-052 nesta atuação.
 
-FT-055|nome=Validação automatizada do registro de decisões recusadas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=media|status=pendente|criado_em=2026-07-25T19:21:57-03:00
+FT-055|nome=Validação automatizada do registro de decisões recusadas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=media|status=concluido|criado_em=2026-07-25T19:21:57-03:00|inicio=2026-07-25T20:44:00-03:00|atualizacao=2026-07-25T20:49:55-03:00|conclusao=2026-07-25T20:49:55-03:00
 objetivo=Integrar ao mecanismo oficial validação proporcional e determinística do índice e dos registros de decisões recusadas, sem fluxo paralelo.
 origens=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt; RCF da FT-053; fonte da FT-054.
 dependencias=FT-053 e FT-054 concluídas, validadas e commitadas; nova autorização humana explícita.
-1/3 Implementação [pendente]
-  1/3 Validar identificadores, estados, índice, arquivos, links e schema [pendente]
-  2/3 Validar reabertura justificada, revisão e referências relacionadas [pendente]
-  3/3 Integrar ao indexador/verificador oficial sem comando ou fluxo duplicado [pendente]
-2/3 Testes [pendente]
-  1/3 Cobrir entradas válidas, duplicadas, órfãs, quebradas e com estado inválido [pendente]
-  2/3 Cobrir reabertura sem justificativa e obsolescência após mudança relevante [pendente]
-  3/3 Comprovar compatibilidade cross-platform, EOL, determinismo e custo proporcional [pendente]
-3/3 Integração e entrega [pendente]
-  1/3 Regenerar derivados, manifests, hashes e artefatos publicados aplicáveis [pendente]
-  2/3 Executar validação global e atualizar estado/handoff [pendente]
-  3/3 Commitar, publicar e convergir branches somente com sistema global funcional [pendente]
+1/3 Implementação [concluido]
+  1/3 Validar identificadores, estados, índice, arquivos, links e schema [concluido]
+  2/3 Validar reabertura justificada, revisão e referências relacionadas [concluido]
+  3/3 Integrar ao indexador/verificador oficial sem comando ou fluxo duplicado [concluido]
+2/3 Testes [concluido]
+  1/3 Cobrir entradas válidas, duplicadas, órfãs, quebradas e com estado inválido [concluido]
+  2/3 Cobrir reabertura sem justificativa e obsolescência após mudança relevante [concluido]
+  3/3 Comprovar compatibilidade cross-platform, EOL, determinismo e custo proporcional [concluido]
+3/3 Integração e entrega [concluido]
+  1/3 Regenerar derivados, manifests, hashes e artefatos publicados aplicáveis [concluido]
+  2/3 Executar validação global e atualizar estado/handoff [concluido]
+  3/3 Commitar, publicar e convergir branches somente com sistema global funcional [concluido]
 aceite=Validação oficial detecta todas as inconsistências requeridas, não inventa equivalência semântica, não bloqueia reavaliação legítima e integra build/verify sem fluxo paralelo.
-pendencias=FT-053 e FT-054 concluídas; aguardar nova autorização humana explícita.
-proximo_ponto=Não iniciar nesta atuação.
+decisoes=Validador único `refused-decisions.js` é runtime consumidor e lê somente o índice local quando presente; diretório ausente é válido. Estrutura, links e transições rastreáveis são automatizados; equivalência semântica e suficiência técnica permanecem julgamento humano. `ADIADO` não existe no conjunto aceito. Estados reaberto/superado/substituído/aceito exigem evolução, continuam com ausência confirmada e não autorizam remoção.
+verificacoes=Acervo real válido com 2 entradas/2 registros e commits/paths/âncoras resolvidos. refused-decisions.test OK cobre vazio, CRLF, duplicado, órfão, ausente, ADIADO, ausência falsa, reabertura sem evolução, revisão sem data, referência quebrada e vazamento em dist. agent:index OK 71; agent:dist OK 75; source-distribution.test OK; npm pack --dry-run OK 74 entradas e sem acervo local. agent:verify alcança o novo validador sem falha e para somente na divergência byte/EOL de archive.js pertencente à FT-052.
+resultado=Validação proporcional do registro local integra `agent:verify` e `agent:test`, sem comando paralelo. Somente o runtime/contrato é distribuído; índice, schema, template e registros permanecem locais e ausentes de todos os artefatos.
+pendencias=FT-052 deve corrigir EOL e concluir o sistema global; por isso a FT-055 envia somente `dev` e respeita o gate que proíbe convergir a branch primária antes do verde global.
+proximo_ponto=Commitar/enviar FT-055 e iniciar FT-052, já autorizada.
 
 FT-056|nome=Arquitetura RCF de fontes distribuíveis e internos do construtor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-25T19:58:13-03:00|inicio=2026-07-25T19:59:00-03:00|atualizacao=2026-07-25T20:14:00-03:00|conclusao=2026-07-25T20:14:00-03:00
 objetivo=Normatizar no RCF que `src/` contém exclusivamente fontes necessárias ao produto distribuído e que todo conteúdo interno do construtor reside fora dele, com release mínimo, raiz interna permitida, transição e validação verificáveis.

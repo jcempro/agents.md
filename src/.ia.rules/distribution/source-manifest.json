@@ -320,6 +320,23 @@
       ]
     },
     {
+      "path": ".ia.rules/core/runtime/scripts/refused-decisions.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/refused-decisions.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
       "path": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
       "profile": "consumer-runtime",
       "destination": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",

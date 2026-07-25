@@ -91,55 +91,6 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 </tbody>
 </table>
 
-## FT-055 - Validação automatizada do registro de decisões recusadas
-
-Objetivo: Integrar ao mecanismo oficial validação proporcional e determinística do índice e dos registros de decisões recusadas, sem fluxo paralelo.
-
-<table>
-<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
-<tbody>
-<tr>
-<td rowspan="3">Implementação</td>
-<td>Validar identificadores, estados, índice, arquivos, links e schema</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Validar reabertura justificada, revisão e referências relacionadas</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Integrar ao indexador/verificador oficial sem comando ou fluxo duplicado</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Testes</td>
-<td>Cobrir entradas válidas, duplicadas, órfãs, quebradas e com estado inválido</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Cobrir reabertura sem justificativa e obsolescência após mudança relevante</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Comprovar compatibilidade cross-platform, EOL, determinismo e custo proporcional</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Integração e entrega</td>
-<td>Regenerar derivados, manifests, hashes e artefatos publicados aplicáveis</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Executar validação global e atualizar estado/handoff</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Commitar, publicar e convergir branches somente com sistema global funcional</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-</tbody>
-</table>
-
 ## FT-059 - Integração e auditoria do release mínimo
 
 Objetivo: Validar integralmente a reorganização e comprovar que release/publish contêm somente artefatos úteis aos Repositórios Finais, com referências, scripts, workflows, documentação e índices íntegros.

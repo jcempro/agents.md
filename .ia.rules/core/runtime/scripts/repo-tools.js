@@ -14,6 +14,7 @@ const path = require("path");
 const { createZipFromDirectory } = require("./archive");
 const { loadConfiguration } = require("./configuration");
 const { buildDistributionMap, distributionMapFileName, distributionMapRelativePath, validateDistributionMap } = require("./distribution-map");
+const { validateRefusedDecisions } = require("./refused-decisions");
 const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
@@ -772,13 +773,14 @@ function verify() {
   writeJsonMinified(INDEX_PATH, index);
   validateIndex(index);
   validateNormativeReferences(index);
+  const refusedDecisions = validateRefusedDecisions(ROOT_DIR);
   buildDist();
   for (const script of listFiles(DIST_DIR).filter((filePath) => path.extname(filePath) === ".js")) {
     assertCodeBanner(fs.readFileSync(script, "utf8"), toPosix(path.relative(ROOT_DIR, script)));
   }
   assertPublishedNorms(index);
 
-  return ok("VERIFY_OK", { scripts: checks.length, indexedFiles: index.files.length });
+  return ok("VERIFY_OK", { scripts: checks.length, indexedFiles: index.files.length, refusedDecisions });
 }
 
 function assertCodeBanner(content, label) {
@@ -802,7 +804,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "todo-and-gate.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "template-merge.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "source-distribution.test.js")]);
-  return ok("TEST_OK", { suites: 11 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "refused-decisions.test.js")]);
+  return ok("TEST_OK", { suites: 12 });
 }
 
 function validateIndex(index) {
