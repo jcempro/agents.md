@@ -1197,27 +1197,31 @@ aceite=Todos os critérios técnicos do RCF e das fontes satisfeitos; nenhuma im
 pendencias=Aguardar FT-050, FT-051 e autorização humana explícita.
 proximo_ponto=Não iniciar nesta atuação.
 
-FT-053|nome=Normatização RCF do registro de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T19:21:55-03:00
+FT-053|nome=Normatização RCF do registro de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T19:21:55-03:00|inicio=2026-07-25T19:22:00-03:00|atualizacao=2026-07-25T19:25:58-03:00|conclusao=2026-07-25T19:25:58-03:00
 objetivo=Incorporar ao RCF o registro canônico, indexado e evolutivo de recusas totais, parciais, adiamentos e restrições em trabalho ativo, sem alterar src ou implementar automação.
 origem=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt
 origem_sha256=CBF43AC8EE637A90B2ECB0DE6D377E75EDCABCAE81162C25E6EAA2351F4A8FB7
-registro_temporario=.ia.rules/state/requests/FT-053/request.md
+registro_temporario=.ia.rules/state/requests/FT-053/request.md removido após cobertura integral validada; preservado no commit 84d4b3d.
 dependencias=FT-051 concluída; RCF §§13, 18 e 20; cenário de ciclo de solicitação e índice normativo.
-1/3 Análise e arquitetura [pendente]
-  1/3 Confrontar integralmente origem, RCF, Norma, estado e decisões comprováveis [pendente]
-  2/3 Definir autoridade, escopo, ciclo, estados, identidade e reavaliação [pendente]
-  3/3 Planejar diretório, índice, modelo, referências e validações das fases posteriores [pendente]
-2/3 Implementação RCF [pendente]
-  1/3 Normatizar consulta, registro, atualização, descarte referenciado e não proibição [pendente]
-  2/3 Normatizar conteúdo, granularidade, integração e solicitações em andamento [pendente]
-  3/3 Atualizar matriz bidirecional e gates das FTs posteriores [pendente]
-3/3 Validação e encerramento [pendente]
-  1/3 Auditar cobertura integral, coerência e ausência de história inventada [pendente]
-  2/3 Remover temporário somente após cobertura validada e atualizar derivados de estado [pendente]
-  3/3 Commitar fase RCF e interromper antes de src [pendente]
+1/3 Análise e arquitetura [concluido]
+  1/3 Confrontar integralmente origem, RCF, Norma, estado e decisões comprováveis [concluido]
+  2/3 Definir autoridade, escopo, ciclo, estados, identidade e reavaliação [concluido]
+  3/3 Planejar diretório, índice, modelo, referências e validações das fases posteriores [concluido]
+2/3 Implementação RCF [concluido]
+  1/3 Normatizar consulta, registro, atualização, descarte referenciado e não proibição [concluido]
+  2/3 Normatizar conteúdo, granularidade, integração e solicitações em andamento [concluido]
+  3/3 Atualizar matriz bidirecional e gates das FTs posteriores [concluido]
+3/3 Validação e encerramento [concluido]
+  1/3 Auditar cobertura integral, coerência e ausência de história inventada [concluido]
+  2/3 Remover temporário somente após cobertura validada e atualizar derivados de estado [concluido]
+  3/3 Commitar fase RCF e interromper antes de src [concluido]
 aceite=RCF reconstruível cobre todos os requisitos, limites, estados, reavaliação, estrutura, integração e validação; nenhuma alteração em src, código, script, workflow ou automação.
+decisoes=Raiz única escolhida: .ia.rules/decisions, com fonte construtora em src/.ia.rules/decisions. Índice e registros são complementares às autoridades existentes; ID DEC-AAAAMMDD-NNN é estável; estados, grau e situação atual são dimensões separadas. Correspondência semântica e mudança material permanecem julgamento fundamentado; automação só aponta inconsistências estruturais/candidatos. Propriedade local é preservada por merge semântico e colisão bloqueia.
+verificacoes=Origem preservada integralmente com SHA-256 CBF43AC8EE637A90B2ECB0DE6D377E75EDCABCAE81162C25E6EAA2351F4A8FB7 no commit 84d4b3d. RCF §13.6 cobre estrutura, campos, oito estados, quatro graus, onze conteúdos, consulta, sete fatores de reavaliação, ausência de mudança material, descarte referenciado, histórico imutável, transições, trabalho ativo, migração apenas com evidência, limites, propriedade e validação. §§18.2 e 20.1–20.2 integram descoberta e fases. agent:rcf RCF_OK bytes=160416; agent:status OK; agent:handoff OK; git diff --check OK; zero arquivo sob src, JS, TS, YAML, workflow ou package alterado.
+falhas=agent:verify não foi repetido: a falha byte/EOL de archive.js já está comprovada e reservada à FT-052; não houve mudança executável ou evidência nova que justificasse repetir a mesma falha.
+resultado=Fase RCF concluída sem criar prematuramente o acervo ou automação. A captura temporária foi removida após auditoria bidirecional e permanece recuperável no commit inicial.
 pendencias=FT-054 e FT-055 permanecem pendentes e exigem autorizações humanas posteriores próprias.
-proximo_ponto=Executar somente após o commit exclusivo de criação/conciliação das FTs.
+proximo_ponto=Interromper. Próxima fase autorizável: FT-054, Norma Operacional e acervo canônico em src; depois FT-055, validação automatizada.
 
 FT-054|nome=Norma Operacional e acervo canônico de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T19:21:56-03:00
 objetivo=Projetar em src/AGENTS.md e associados o contrato do RCF e criar o diretório canônico, índice, schema, modelo e registros comprováveis, sem código executável.
