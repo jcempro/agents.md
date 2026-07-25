@@ -1093,21 +1093,100 @@ decisoes=Encerramento foi generalizado sem enfraquecer release: vínculo explíc
 verificacoes=Cobertura issue8 OK; precondições, múltiplos vínculos, comentário, impedimento e falha parcial estão normatizados; nenhuma issue foi fechada porque FTs de código permanecem abertas.
 pendencias=FT-042 permanece pendente de autorização humana para código.
 
-FT-050|nome=Reforçar a autoridade normativa do `AGENTS.md` e impedir desvios dos hooks oficiais|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260722.174320|atualizacao=20260722.174320
-objetivo=Implementar a issue aprovada github:jcempro/agents.md#9 com rastreabilidade ate o release.
+FT-050|nome=Normatização integrada da governança operacional|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-22T17:43:20Z|inicio=2026-07-25T18:27:43-03:00|atualizacao=2026-07-25T18:27:43-03:00
+objetivo=Incorporar integralmente ao RCF canônico a issue aprovada github:jcempro/agents.md#9, todas as solicitações materiais versionadas em TODO.ia.md e a solicitação direta de consolidação, como uma arquitetura coerente e reconstruível, sem executar src, código ou scripts.
 issue_id=github:jcempro/agents.md#9
 issue_repo=jcempro/agents.md
 issue_number=9
 issue_url=https://github.com/jcempro/agents.md/issues/9
 issue_state=em_desenvolvimento
+origens=github:jcempro/agents.md#9; TODO.ia.md itens de topo posteriores a [1A]; solicitação direta de 2026-07-25 que determina a consolidação integral; github:jcempro/agents.md#2 apenas como gate terminal condicionado.
+registro_temporario=.ia.rules/state/requests/FT-050/issue-9.md
+contexto_mestre=.ia.rules/state/contexts/FT-050/master.md
+dependencias=nenhuma; FT-051 e FT-052 dependem desta FT concluída, validada e commitada.
 release=pendente
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+1/5 Preservação e decomposição das origens [em andamento]
+  1/4 Preservar integralmente issue #9, comentários materiais, metadados e integridade [concluido]
+  2/4 Ler todos os itens e subitens de TODO.ia.md [concluido]
+  3/4 Classificar sobreposições, dependências, conflitos, precedências e lacunas [concluido]
+  4/4 Manter contexto-mestre e subcontextos rastreáveis até integração [em andamento]
+2/5 Autoridade, ciclo e engenharia operacional [pendente]
+  1/4 Normatizar autoridade, mecanismos oficiais, lacunas, solicitações e compactação [pendente]
+  2/4 Normatizar atualização resiliente, scripts comuns, logs, configuração e fallbacks [pendente]
+  3/4 Normatizar intervenção mínima, microunidades, documentação e validação proporcional [pendente]
+  4/4 Normatizar rastreabilidade por hash, workflows distribuíveis e arquitetura multilíngue [pendente]
+3/5 Arquitetura contextual e linguagem normativa [pendente]
+  1/4 Normatizar núcleo, papéis cumulativos, cenários técnicos e contratos por recurso [pendente]
+  2/4 Normatizar modularização, índice, grafo, derivações e roteamento seletivo [pendente]
+  3/4 Normatizar avaliação RAG, tokenização, métricas, mapa, workflow e privacidade [pendente]
+  4/4 Normatizar avaliação condicionada da sintaxe lógica e seus gates formais [pendente]
+4/5 Integração e validação normativa [pendente]
+  1/4 Construir matriz bidirecional origem → RCF → fases posteriores [pendente]
+  2/4 Auditar cobertura literal de requisitos, exceções, nuances e critérios [pendente]
+  3/4 Auditar duplicação, contradição, reconstruibilidade e não regressão [pendente]
+  4/4 Validar que FT-051/FT-052 preservam a ordem RCF → src → código/scripts [pendente]
+5/5 Encerramento exclusivo da fase 1 [pendente]
+  1/4 Remover registro temporário e subcontextos após incorporação integral [pendente]
+  2/4 Marcar [1A] concluído sem alterar os demais itens-fonte [pendente]
+  3/4 Atualizar memória e handoff derivados [pendente]
+  4/4 Commitar exclusivamente RCF, referências, estado e remoções; interromper [pendente]
+decisoes=FT-050 foi reclassificada, sem troca de identidade, porque a issue #9 já estava formalmente vinculada a ela; a ampliação agrega todas as fontes materiais em uma única fase normativa para evitar normas parciais e sobrepostas. A implementação foi segregada em FT-051 e FT-052 porque o construtor exige fases próprias para fonte normativa e código/scripts. O item [1A] é comando de orquestração e não origem das FTs; suas regras materiais de segmentação vinculam-se à solicitação direta preservada no contexto-mestre.
+aceite=RCF integral e reconstruível; matriz sem requisito órfão; temporários removidos somente após cobertura; nenhum path sob src, código, script ou workflow alterado; FT-051 e FT-052 prontas, pendentes e não iniciadas.
+verificacoes=git diff --check; auditoria de paths proibidos; busca de origens e termos críticos; agent:rcf; agent:status; agent:handoff; agent:verify proporcional sem build mutante quando desnecessário.
+pendencias=Concluir as etapas 2–5 e interromper antes de FT-051.
+proximo_ponto=Commit exclusivo desta conciliação, do contexto-mestre e da preservação temporária; depois iniciar somente a edição do RCF.
+
+FT-051|nome=Implementação da norma operacional integrada em src|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T18:27:44-03:00
+objetivo=Materializar em src/AGENTS.md e associados toda a arquitetura concluída pela FT-050, incluindo reestruturação ou renomeação apenas mediante ganho líquido e necessidade comprovados.
+origens=github:jcempro/agents.md#9; fontes materiais enumeradas em FT-050; RCF.md seções produzidas pela FT-050.
+dependencias=FT-050 concluída, validada e commitada; nova autorização humana explícita.
+1/4 Reconstrução e autoridade [pendente]
+  1/3 Implementar cláusula inicial, domínios, mecanismos oficiais e ciclo de solicitações [pendente]
+  2/3 Implementar rigor de codificação, documentação, preservação e validação [pendente]
+  3/3 Implementar contratos normativos de atualização, scripts, workflows e runtimes [pendente]
+2/4 Arquitetura contextual [pendente]
+  1/3 Segregar núcleo, papéis, cenários técnicos e recursos sem perda [pendente]
+  2/3 Implementar índice/grafo/roteamento e metadados normativos aprovados [pendente]
+  3/3 Aplicar decisões aprovadas sobre RAG e sintaxe lógica, sem sobreengenharia [pendente]
+3/4 Equivalência e métricas [pendente]
+  1/3 Comprovar equivalência semântica e cobertura RCF → src [pendente]
+  2/3 Medir bytes, tokens, rotas, profundidade e custo de recuperação [pendente]
+  3/3 Validar todos os papéis, cenários, recursos e fallback de leitura integral [pendente]
+4/4 Integração [pendente]
+  1/2 Atualizar índice e artefatos derivados normativos aplicáveis [pendente]
+  2/2 Commitar e entregar sem iniciar FT-052 [pendente]
+aceite=Fonte operacional integralmente conforme ao RCF, sem regressão, duplicação, opacidade ou implementação de scripts.
+pendencias=Aguardar conclusão da FT-050 e autorização humana explícita.
+proximo_ponto=Não iniciar nesta atuação.
+
+FT-052|nome=Implementação integrada dos códigos, scripts e automações|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T18:27:45-03:00
+objetivo=Implementar, adaptar e validar todos os códigos, scripts, hooks, workflows, geradores, validadores, atualizador e artefatos derivados exigidos pela FT-050 e materializados normativamente pela FT-051.
+origens=github:jcempro/agents.md#9; fontes materiais enumeradas em FT-050; RCF.md e src produzidos por FT-050/FT-051; github:jcempro/agents.md#2 como tarefa terminal condicionada.
+dependencias=FT-050 e FT-051 concluídas, validadas e commitadas; nova autorização humana explícita; reavaliação da issue #2 somente após conclusão de todas as demais tarefas.
+1/6 Base transversal [pendente]
+  1/3 Implementar contratos comuns, configuração central, logs, estados, hooks e fallbacks [pendente]
+  2/3 Migrar fontes Node.js para TypeScript e instituir build/distribuição dual [pendente]
+  3/3 Implementar metadados por recurso e matriz multilíngue de runtime/compatibilidade [pendente]
+2/6 Atualização e distribuição [pendente]
+  1/3 Blindar atualizador, migrações, marcadores, checkpoints, backups e commit isolado [pendente]
+  2/3 Distribuir e instalar workflows oficiais de forma indexada e determinística [pendente]
+  3/3 Validar instalações limpas, saltos, cópias manuais, coexistência e árvores sujas [pendente]
+3/6 Roteamento e recuperação [pendente]
+  1/3 Implementar índice/grafo global e validações estruturais [pendente]
+  2/3 Implementar tokenização exata, custos por caminho, métricas e mapa visual [pendente]
+  3/3 Implementar workflow idempotente, concorrente e equivalente à execução local [pendente]
+4/6 Rastreabilidade e linguagem [pendente]
+  1/3 Implementar associação sentença RCF ↔ commit material em duas fases sem recursão [pendente]
+  2/3 Implementar parser/formatter de sintaxe lógica somente se aprovado pela FT-050/FT-051 [pendente]
+  3/3 Implementar validações contra degradação, fluxo paralelo e artefato obsoleto [pendente]
+5/6 Auditoria integral [pendente]
+  1/3 Inventariar e adequar todos os scripts distribuídos [pendente]
+  2/3 Executar corpus cross-platform, shells, runtimes, permissões, falhas e retomadas [pendente]
+  3/3 Comprovar reprodutibilidade, equivalência, privacidade, segurança e custo líquido [pendente]
+6/6 Fechamento [pendente]
+  1/3 Reavaliar issue github:jcempro/agents.md#2 contra o estado final e comentar tecnicamente [pendente]
+  2/3 Produzir relatório rastreável e incluir a issue #9 no ciclo de release [pendente]
+  3/3 Publicar, convergir branches e encerrar issues conforme contrato [pendente]
+aceite=Todos os critérios técnicos do RCF e das fontes satisfeitos; nenhuma implementação paralela; release reproduzível; issue #2 reavaliada somente no gate terminal.
+pendencias=Aguardar FT-050, FT-051 e autorização humana explícita.
+proximo_ponto=Não iniciar nesta atuação.
