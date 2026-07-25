@@ -16,6 +16,8 @@ Aplicar `MN-ROLE` e `MN-EXT`. Este arquivo DEVE governar a operação da IA sem 
 
 RCF aplicável DEVE explicar contexto e critérios da regra de negócio projetada na fonte. Alteração de regra, contrato, capacidade, cenário, script ou validação DEVE sincronizar RCF e fonte na mesma FT: RCF conserva explicação integral; AGENTS, projeção operacional.
 
+Vocabulário, proteção de Princípios Estruturantes e compulsoriedade de Mecanismos Oficiais aplicam `./.ia.rules/core/authority.md`. Antes de operação material, carregar os papéis cumulativos declarados no índice normativo: `./.ia.rules/roles/final.md` rege todo repositório consumidor, inclusive este construtor como consumidor da própria Norma; `./.ia.rules/roles/constructor.md` agrega-se somente durante fonte, build, validação, atualização, distribuição ou release do produto.
+
 ### 0.6–0.11 Compartimentação e extensão local
 
 RCF/cenário DEVE definir comportamento; AGENTS/auxiliar, processamento. Conversão entre domínios é regressão. `agents.local.md` e memória PODEM residir na raiz ou em `./.ia.rules/`. Fonte, artefato, construtor, consumidor e dupla função DEVEM manter autoridade, contexto, arquivo e validação segregados. Atualizar norma raiz a partir da fonte exige solicitação humana explícita. Alterar RCF exige confirmação humana diante de ambiguidade, risco interpretativo ou regressão possível.
@@ -56,7 +58,7 @@ Aplicar `MN-2119`, `MN-DENS`, `MN-PRES` e `MN-IA-OPT`. Perfil: AGENTS/memória/a
 
 ## 3. Mapa, leitura e cache
 
-Aplicar `MN-IA-OPT` e `MN-PREP`. Mapa DEVE conter somente fonte, norma, configuração e artefato útil; NÃO DEVE conter build, temporário, intermediário ou lixo. IA DEVE ler somente faltante, divergente ou indispensável, manter em contexto norma/FT/decisão/falha/resultado e NÃO DEVE reprocessar sem mudança, evidência, atualização ou ganho concreto. Cache insuficiente DEVE provocar leitura/validação completa.
+Aplicar `MN-IA-OPT`, `MN-PREP` e `./.ia.rules/core/routing.md`. `./.ia.rules/normative-index.json` é o índice estruturado canônico de descoberta, não substitui fonte e DEVE ser consultado antes de criar solução. Mapa DEVE conter somente fonte, norma, configuração e artefato útil; NÃO DEVE conter build, temporário, intermediário ou lixo. IA DEVE carregar o núcleo, papéis ativos, cenários/recursos disparados e dependências expressas; correspondência de finalidade torna a leitura integral do módulo obrigatória. IA DEVE ler somente faltante, divergente ou indispensável, manter em contexto norma/FT/decisão/falha/resultado e NÃO DEVE reprocessar sem mudança, evidência, atualização ou ganho concreto. Rota ausente, conflito, baixa confiança ou cache insuficiente DEVE provocar expansão ou leitura integral.
 
 ## 4. Execução por estado
 
@@ -137,6 +139,8 @@ Aplicar `MN-SCEN`, `MN-REF` e `./.ia.rules/core/contracts.md`. Regra específica
 | Publicação de Conteúdo  | `./.ia.rules/scenarios/content-publication/scenario.md`                                                         | cenário técnico selecionado pelo RCF      | artefato de Negócio publicável                                                |
 | Evolução upstream       | `./.ia.rules/scenarios/governance/upstream-sharing/scenario.md`                                                 | núcleo, atualização e CLI                 | consumidor que avalia contribuição reutilizável; construtor para inbox formal |
 | Ciclo de issue          | `./.ia.rules/scenarios/governance/issue-lifecycle.md`                                                         | Evolução upstream + vínculo explícito     | FTs segregadas, sincronização e encerramento idempotente                      |
+| Ciclo de solicitação    | `./.ia.rules/scenarios/governance/request-lifecycle.md`                                                       | núcleo, memória e papel ativo             | captura, decomposição, fases, contextos e integração                          |
+| Lacuna oficial          | `./.ia.rules/scenarios/governance/official-gap.md`                                                            | mecanismo oficial + papel Final           | validação, proposta upstream e exceção provisória extrema                     |
 
 ## 18. API operacional
 

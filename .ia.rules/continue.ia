@@ -1138,12 +1138,12 @@ resultado=Issue #9 e treze frentes materiais de TODO.ia.md consolidadas em RCF �
 pendencias=FT-051 e FT-052 aguardam nova autorização humana explícita; issue #2 permanece bloqueada pelo gate terminal da FT-052.
 proximo_ponto=Interromper. Próxima fase autorizável: FT-051, implementação da Norma Operacional em src/; depois FT-052, códigos/scripts.
 
-FT-051|nome=Implementação da norma operacional integrada em src|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T18:27:44-03:00
+FT-051|nome=Implementação da norma operacional integrada em src|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-25T18:27:44-03:00
 objetivo=Materializar em src/AGENTS.md e associados toda a arquitetura concluída pela FT-050, incluindo reestruturação ou renomeação apenas mediante ganho líquido e necessidade comprovados.
 origens=github:jcempro/agents.md#9; fontes materiais enumeradas em FT-050; RCF.md seções produzidas pela FT-050.
-dependencias=FT-050 concluída, validada e commitada; nova autorização humana explícita.
-1/4 Reconstrução e autoridade [pendente]
-  1/3 Implementar cláusula inicial, domínios, mecanismos oficiais e ciclo de solicitações [pendente]
+dependencias=FT-050 concluída, validada e commitada; autorização humana explícita recebida em 2026-07-25.
+1/4 Reconstrução e autoridade [em_andamento]
+  1/3 Implementar cláusula inicial, domínios, mecanismos oficiais e ciclo de solicitações [em_andamento]
   2/3 Implementar rigor de codificação, documentação, preservação e validação [pendente]
   3/3 Implementar contratos normativos de atualização, scripts, workflows e runtimes [pendente]
 2/4 Arquitetura contextual [pendente]
@@ -1158,8 +1158,9 @@ dependencias=FT-050 concluída, validada e commitada; nova autorização humana 
   1/2 Atualizar índice e artefatos derivados normativos aplicáveis [pendente]
   2/2 Commitar e entregar sem iniciar FT-052 [pendente]
 aceite=Fonte operacional integralmente conforme ao RCF, sem regressão, duplicação, opacidade ou implementação de scripts.
-pendencias=Aguardar conclusão da FT-050 e autorização humana explícita.
-proximo_ponto=Não iniciar nesta atuação.
+decisoes=FT-051 reclassificada sem troca de identidade para implementacao_normativa: seu produto é a projeção declarativa em src/AGENTS.md e associados; toda adaptação executável permanece exclusivamente na FT-052. A autorização atual cobre somente esta fase normativa.
+pendencias=Concluir as quatro etapas normativas e interromper antes da FT-052.
+proximo_ponto=Materializar autoridade, papéis, cenários, recursos e descoberta estruturada sem alterar código executável.
 
 FT-052|nome=Implementação integrada dos códigos, scripts e automações|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T18:27:45-03:00
 objetivo=Implementar, adaptar e validar todos os códigos, scripts, hooks, workflows, geradores, validadores, atualizador e artefatos derivados exigidos pela FT-050 e materializados normativamente pela FT-051.
