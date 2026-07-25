@@ -1093,7 +1093,7 @@ decisoes=Encerramento foi generalizado sem enfraquecer release: vínculo explíc
 verificacoes=Cobertura issue8 OK; precondições, múltiplos vínculos, comentário, impedimento e falha parcial estão normatizados; nenhuma issue foi fechada porque FTs de código permanecem abertas.
 pendencias=FT-042 permanece pendente de autorização humana para código.
 
-FT-050|nome=Normatização integrada da governança operacional|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-22T17:43:20Z|inicio=2026-07-25T18:27:43-03:00|atualizacao=2026-07-25T18:27:43-03:00
+FT-050|nome=Normatização integrada da governança operacional|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-22T17:43:20Z|inicio=2026-07-25T18:27:43-03:00|atualizacao=2026-07-25T18:42:41-03:00|conclusao=2026-07-25T18:42:41-03:00
 objetivo=Incorporar integralmente ao RCF canônico a issue aprovada github:jcempro/agents.md#9, todas as solicitações materiais versionadas em TODO.ia.md e a solicitação direta de consolidação, como uma arquitetura coerente e reconstruível, sem executar src, código ou scripts.
 issue_id=github:jcempro/agents.md#9
 issue_repo=jcempro/agents.md
@@ -1105,36 +1105,38 @@ registro_temporario=.ia.rules/state/requests/FT-050/issue-9.md
 contexto_mestre=.ia.rules/state/contexts/FT-050/master.md
 dependencias=nenhuma; FT-051 e FT-052 dependem desta FT concluída, validada e commitada.
 release=pendente
-1/5 Preservação e decomposição das origens [em andamento]
+1/5 Preservação e decomposição das origens [concluido]
   1/4 Preservar integralmente issue #9, comentários materiais, metadados e integridade [concluido]
   2/4 Ler todos os itens e subitens de TODO.ia.md [concluido]
   3/4 Classificar sobreposições, dependências, conflitos, precedências e lacunas [concluido]
-  4/4 Manter contexto-mestre e subcontextos rastreáveis até integração [em andamento]
-2/5 Autoridade, ciclo e engenharia operacional [pendente]
-  1/4 Normatizar autoridade, mecanismos oficiais, lacunas, solicitações e compactação [pendente]
-  2/4 Normatizar atualização resiliente, scripts comuns, logs, configuração e fallbacks [pendente]
-  3/4 Normatizar intervenção mínima, microunidades, documentação e validação proporcional [pendente]
-  4/4 Normatizar rastreabilidade por hash, workflows distribuíveis e arquitetura multilíngue [pendente]
-3/5 Arquitetura contextual e linguagem normativa [pendente]
-  1/4 Normatizar núcleo, papéis cumulativos, cenários técnicos e contratos por recurso [pendente]
-  2/4 Normatizar modularização, índice, grafo, derivações e roteamento seletivo [pendente]
-  3/4 Normatizar avaliação RAG, tokenização, métricas, mapa, workflow e privacidade [pendente]
-  4/4 Normatizar avaliação condicionada da sintaxe lógica e seus gates formais [pendente]
-4/5 Integração e validação normativa [pendente]
-  1/4 Construir matriz bidirecional origem → RCF → fases posteriores [pendente]
-  2/4 Auditar cobertura literal de requisitos, exceções, nuances e critérios [pendente]
-  3/4 Auditar duplicação, contradição, reconstruibilidade e não regressão [pendente]
-  4/4 Validar que FT-051/FT-052 preservam a ordem RCF → src → código/scripts [pendente]
-5/5 Encerramento exclusivo da fase 1 [pendente]
-  1/4 Remover registro temporário e subcontextos após incorporação integral [pendente]
-  2/4 Marcar [1A] concluído sem alterar os demais itens-fonte [pendente]
-  3/4 Atualizar memória e handoff derivados [pendente]
-  4/4 Commitar exclusivamente RCF, referências, estado e remoções; interromper [pendente]
+  4/4 Manter contexto-mestre e subcontextos rastreáveis até integração [concluido]
+2/5 Autoridade, ciclo e engenharia operacional [concluido]
+  1/4 Normatizar autoridade, mecanismos oficiais, lacunas, solicitações e compactação [concluido]
+  2/4 Normatizar atualização resiliente, scripts comuns, logs, configuração e fallbacks [concluido]
+  3/4 Normatizar intervenção mínima, microunidades, documentação e validação proporcional [concluido]
+  4/4 Normatizar rastreabilidade por hash, workflows distribuíveis e arquitetura multilíngue [concluido]
+3/5 Arquitetura contextual e linguagem normativa [concluido]
+  1/4 Normatizar núcleo, papéis cumulativos, cenários técnicos e contratos por recurso [concluido]
+  2/4 Normatizar modularização, índice, grafo, derivações e roteamento seletivo [concluido]
+  3/4 Normatizar avaliação RAG, tokenização, métricas, mapa, workflow e privacidade [concluido]
+  4/4 Normatizar avaliação condicionada da sintaxe lógica e seus gates formais [concluido]
+4/5 Integração e validação normativa [concluido]
+  1/4 Construir matriz bidirecional origem → RCF → fases posteriores [concluido]
+  2/4 Auditar cobertura literal de requisitos, exceções, nuances e critérios [concluido]
+  3/4 Auditar duplicação, contradição, reconstruibilidade e não regressão [concluido]
+  4/4 Validar que FT-051/FT-052 preservam a ordem RCF → src → código/scripts [concluido]
+5/5 Encerramento exclusivo da fase 1 [concluido]
+  1/4 Remover registro temporário e subcontextos após incorporação integral [concluido]
+  2/4 Marcar [1A] concluído sem alterar os demais itens-fonte [concluido]
+  3/4 Atualizar memória e handoff derivados [concluido]
+  4/4 Commitar exclusivamente RCF, referências, estado e remoções; interromper [concluido]
 decisoes=FT-050 foi reclassificada, sem troca de identidade, porque a issue #9 já estava formalmente vinculada a ela; a ampliação agrega todas as fontes materiais em uma única fase normativa para evitar normas parciais e sobrepostas. A implementação foi segregada em FT-051 e FT-052 porque o construtor exige fases próprias para fonte normativa e código/scripts. O item [1A] é comando de orquestração e não origem das FTs; suas regras materiais de segmentação vinculam-se à solicitação direta preservada no contexto-mestre.
 aceite=RCF integral e reconstruível; matriz sem requisito órfão; temporários removidos somente após cobertura; nenhum path sob src, código, script ou workflow alterado; FT-051 e FT-052 prontas, pendentes e não iniciadas.
-verificacoes=git diff --check; auditoria de paths proibidos; busca de origens e termos críticos; agent:rcf; agent:status; agent:handoff; agent:verify proporcional sem build mutante quando desnecessário.
-pendencias=Concluir as etapas 2–5 e interromper antes de FT-051.
-proximo_ponto=Commit exclusivo desta conciliação, do contexto-mestre e da preservação temporária; depois iniciar somente a edição do RCF.
+verificacoes=git diff --check OK; apenas RCF.md alterado durante a edição normativa; 38 contratos críticos auditados; agent:rcf RCF_OK bytes=153606; agent:status OK; agent:handoff OK; matriz RCF §20; source/dist archive.js possuem blob Git idêntico 4f766094bd86e57614f6e2e7dfa5c05637741bc1 e git diff --no-index vazio.
+falhas=agent:verify retornou `Paridade fonte/publicado divergente: src/.ia.rules/core/runtime/scripts/archive.js` sob core.autocrlf=true e reescreveu dist com EOL/mapa; as alterações geradas foram removidas porque dist/código são proibidos nesta fase. Evidência indica comparação de bytes/EOL no verificador, não divergência material do blob; a resiliência cross-platform/EOL permanece no escopo já planejado da FT-052.
+resultado=Issue #9 e treze frentes materiais de TODO.ia.md consolidadas em RCF §§13–20; princípios determinísticos de RAG adotados parcialmente; embeddings/reranking/banco vetorial não adotados sem baseline; nenhuma sintaxe lógica aprovada sem medição; `.ia.rule` reconciliado com `.ia.rules`; fases posteriores preservadas em FT-051/FT-052.
+pendencias=FT-051 e FT-052 aguardam nova autorização humana explícita; issue #2 permanece bloqueada pelo gate terminal da FT-052.
+proximo_ponto=Interromper. Próxima fase autorizável: FT-051, implementação da Norma Operacional em src/; depois FT-052, códigos/scripts.
 
 FT-051|nome=Implementação da norma operacional integrada em src|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T18:27:44-03:00
 objetivo=Materializar em src/AGENTS.md e associados toda a arquitetura concluída pela FT-050, incluindo reestruturação ou renomeação apenas mediante ganho líquido e necessidade comprovados.

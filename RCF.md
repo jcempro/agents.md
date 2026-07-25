@@ -1,8 +1,10 @@
 # RCF — Criação e Reconstrução da Governança Operacional e dos Cenários
 
+> **Princípio estruturante permanente:** no domínio operacional, `/AGENTS.md` e seus associados são obrigatórios, hierarquicamente prevalentes, determinísticos, rastreáveis, semanticamente íntegros e não regressivos. Implementação, documentação e extensão DEVEM obedecer aos mecanismos oficiais; Repositório Final NÃO DEVE omitir, relativizar, neutralizar, duplicar, substituir, renomear, reimplementar, contornar ou burlar contratos, nomenclaturas, hooks, gatilhos ou pontos oficiais, criar fluxo paralelo ou adaptar a norma para legitimar implementação divergente. Esta cláusula é índice interpretativo e NÃO substitui os contratos detalhados.
+
 ## Apendice - GESTAO DE CONTEXTO (RFC_COMPLIANT)
 
-- O Agente DEVE executar `/compact` para comprimir o histórico sob alto volume de mensagens (12+). Quando a plataforma não expuser `/compact`, `agent:compress` DEVE gerar projeção resumida e retomável a partir da memória canônica, atualizar somente derivados autorizados e NÃO DEVE apagar FT dentro da retenção.
+- O Agente DEVE avaliar compactação preventiva após marcos, persistência de decisões, substituição por fonte canônica, antes de operação extensa, sob redundância e ao alcançar 12 mensagens. Havendo ganho líquido e ausência de risco material, DEVE executar `/compact`; quando a plataforma não o expuser, `agent:compress` DEVE gerar projeção resumida e retomável da memória canônica, atualizar somente derivados autorizados e NÃO DEVE apagar FT dentro da retenção. Antes da compactação, objetivo, escopo, fonte ainda não normatizada, restrições, exceções, decisões, estados, alterações, falhas, verificações, contratos, riscos, bloqueios e próximo ponto DEVEM estar persistidos; conteúdo não persistido, operação indivisível, força normativa ou retomada determinística NÃO PODEM ser perdidos. Conteúdo já integralmente canônico DEVE ser substituído por referência confiável; compactação que exija reconstrução especulativa, suprima exceção ou custe mais do que economiza NÃO DEVE ocorrer.
 
 ## 0. Finalidade, escopo e autoridade
 
@@ -26,13 +28,13 @@ Se a edição/alteração a ser feita em AGENTS.md`ou cenários for alterar algo
 
 ### 0.0.1 Projeção RCF → fonte normativa
 
-O RCF é a especificação de maior explicação do produto normativo em `./src/`: DEVE registrar finalidade, motivação, domínio, limites, exceções, alternativas rejeitadas, precedência, transição e critérios de validação suficientes para preservar interpretação e permitir correção posterior. `src/AGENTS.md` é a projeção operacional concisa dessa especificação: DEVE ser aderente, referenciável e não introduzir negócio autônomo. Portanto, solicitação de ajuste, aprimoramento, correção ou melhoria que toque regra, cenário, capacidade, script, hook, contrato, caminho, build, atualização ou validação DEVE atualizar RCF e fonte na mesma FT; o RCF DEVE conservar o contexto adicional e AGENTS DEVE conservar a instrução executável correspondente. Divergência entre ambos bloqueia conclusão, build distribuível e atualização.
+O RCF é a especificação de maior explicação do produto normativo em `./src/`: DEVE registrar finalidade, motivação, domínio, limites, exceções, alternativas rejeitadas, precedência, transição e critérios de validação suficientes para preservar interpretação e permitir correção posterior. `src/AGENTS.md` é a projeção operacional concisa dessa especificação: DEVE ser aderente, referenciável e não introduzir negócio autônomo. Solicitação de ajuste, aprimoramento, correção ou melhoria que toque regra, cenário, capacidade, script, hook, contrato, caminho, build, atualização ou validação DEVE seguir FTs e commits segregados em **RCF → fonte operacional em `src/` → código/scripts**, com validação e autorização humana entre norma concluída e cada implementação posterior. O RCF DEVE conservar o contexto adicional; AGENTS DEVE conservar a instrução executável correspondente; código DEVE materializar somente contrato já normatizado. Divergência bloqueia conclusão, build distribuível e atualização. A norma NÃO DEVE ser alterada para legitimar, absorver, preservar ou ocultar implementação divergente; conflito exige corrigir, refazer ou descartar a implementação, salvo solicitação explícita cujo objeto seja a própria evolução normativa e que cumpra o ciclo desta seção.
 
 **referência**: a normatização correspondente deve ser feita, mas a criação do arquivo não.
 
 ### 0.0.2 Atualização declarativa, compatibilidade e limpeza
 
-O produto-fonte reside em `./src/`; dentro dele, `./src/.ia.rules/` é a única árvore estrutural publicável. A montagem copia arquivos raiz explicitamente allowlisted e materializa todo conteúdo técnico sob `./dist/.ia.rules/`. `./dist/` e o ZIP NÃO PODEM conter outro diretório, árvore predecessora, teste, infraestrutura, configuração externa, código de desenvolvimento ou referência de caminho ao layout expurgado. O `package.json` distribuído deve reescrever comandos gerenciados para `.ia.rules/`; `release.json`, manifesto e validação devem rejeitar qualquer entrada fora dessa allowlist. A governança ativa do construtor permanece domínio separado e não é fonte de payload.
+O produto-fonte reside em `./src/`; dentro dele, `./src/.ia.rules/` é a única árvore estrutural publicável. A montagem copia arquivos raiz explicitamente allowlisted e materializa todo conteúdo técnico sob `./dist/.ia.rules/`. `./dist/` e o ZIP NÃO PODEM conter outro diretório, árvore predecessora, teste, infraestrutura, configuração externa, código exclusivo de desenvolvimento ou referência de caminho ao layout expurgado. Fonte TypeScript distribuível declarada por §17 é contrato público versionado, não código exclusivo de desenvolvimento; DEVE permanecer manifestada e vinculada ao transpilado. O `package.json` distribuído deve reescrever comandos gerenciados para `.ia.rules/`; `release.json`, manifesto e validação devem rejeitar qualquer entrada fora dessa allowlist. A governança ativa do construtor permanece domínio separado e não é fonte de payload.
 
 O pacote recebido de release estável validado ou da branch primária é a única autoridade para o conjunto gerenciado após uma atualização. O atualizador deve ler seu manifesto versionado antes de tocar o destino e construir o resultado exclusivamente a partir das entradas, caminhos, versões e hashes recebidos. Antes do staging, o atualizador deve preparar `.gitignore`, `package.json` e manifestos análogos quando indispensáveis para versionar a árvore gerenciada recebida; essa edição é parte do update, mas deve ser mínima, rastreável, delimitada por bloco quando textual, preservadora de regras locais, e limitada a material reutilizável aplicável ao consumidor. Hash de conteúdo textual deve usar UTF-8 com LF canônico, para que checkout CRLF e ZIP/main LF sejam semanticamente iguais sem ocultar alteração material. Após download/extracao únicos, o bootstrap instalado valida o runtime mínimo manifestado e passa bastão ao atualizador contido na release. Estado autenticado `agents-update-handoff/v1` fixa a fase posterior ao download, argumentos, source, hashes, releaseRoot-fonte e targetRoot-destino; o sucessor retoma sem rede ou repetição de fase, carrega código/dependências somente da release e aplica exclusivamente no target. HMAC efêmero, paths reais, entrypoint/hashes revalidados, arquivo restrito, espera do filho e limpeza posterior impedem troca de contexto. Falha fecha sem fallback ao atualizador antigo. Conteúdo preexistente não é uma segunda fonte: serve somente para reconhecer gestão anterior, converter formato, gerar backup local ignorado de divergência, planejar remoção de legado ou restaurar uma transação interrompida. Todo path recebido deve convergir mesmo sem lock ou com edição local; arquivo que existia localmente, mas não integra o manifesto recebido, não pode sobreviver por inércia como parte da governança gerenciada.
 
@@ -146,7 +148,7 @@ Cada release mantém sob `./.ia.rules/` uma versão atual explícita, um manifes
 
 Cada release também mantém `./.ia.rules/distribution/distribution-map-<versao>.json`, referenciado por `release.json`, com classificação de arquivos efetivos, potenciais, obrigatórios, opcionais, condicionais, gerados e obsoletos; cada entrada declara path seguro, tipo, destino, hash/tamanho quando aplicável, propriedade e políticas de preservação, atualização e remoção. Ausência, JSON inválido ou semântica inválida no mapa da release recebida bloqueiam antes de escrita. Ausência ou corrupção do mapa local anterior não bloqueia convergência para release válida: o atualizador registra diagnóstico, ignora o mapa antigo e executa transição inicial conservadora, preservando extensões e autoria indeterminada.
 
-Limpeza compara o estado real ao manifesto vigente e só remove path cuja gestão ou condição de legado esteja comprovada. Deve ser determinística, hookável, auditável, transacional e reversível em falha; autoria ou gestão indeterminada bloqueia remoção. Ambiente construtor pode conter ferramentas internas, enquanto o pacote consumidor conserva somente contratos públicos, configuração mínima, runtime necessário e scripts reutilizáveis normatizados. Seu `package.json` exclui desenvolvimento, experimento, automação exclusiva do construtor, dependência interna e metadado irrelevante.
+Limpeza compara o estado real ao manifesto vigente e só remove path cuja gestão ou condição de legado esteja comprovada. Deve ser determinística, hookável, auditável, transacional e reversível em falha; autoria ou gestão indeterminada bloqueia remoção. Ambiente construtor pode conter ferramentas internas, enquanto o pacote consumidor conserva somente contratos públicos, configuração mínima, runtime necessário, scripts reutilizáveis e respectivas fontes distribuíveis exigidas por §17. Seu `package.json` exclui desenvolvimento exclusivo do construtor, experimento, automação interna, dependência de processo interno e metadado irrelevante.
 
 A migração da árvore predecessora para `./.ia.rules/` exige descritor de formato, marcador, conversor permanente da versão anterior, backup reversível, atualização de referências e validação integral antes da ativação atômica. Durante janela declarada, ferramentas podem ler ambas; escrita nova e estado final usam somente `./.ia.rules/`. Após conversão válida, coexistência ativa é proibida e o legado gerenciado é limpo conforme manifesto. Aceite comprova estrutura, versão, manifesto, hashes, pacote sanitizado, preservação das extensões, limpeza simulada e ausência de arquivo gerenciado excedente ou divergente.
 
@@ -1175,3 +1177,259 @@ Versão explícita DEVE ser validada. Ausente, a inferência DEVE ser determiní
 Este cenário de Negócio só se aplica quando o RCF declarar conteúdo público. `publish`/`publicar` publica artigos, páginas, posts, documentação ou equivalente por comando, manifesto, sinalizador, workflow ou arquitetura superior; integra apenas build, hospedagem, CI, cache, SEO, feed, índice, agenda e distribuição já aplicáveis. Deve usar hooks formais, ser idempotente, auditável e validar disponibilidade real.
 
 É independente de Release: NÃO DEVE criar/alterar versão, tag, asset, `latest`, nota de release ou commit `release:`. Repositório sem conteúdo publicável NÃO DEVE expor comando, gatilho, workflow ou custo deste cenário. Falha antes da disponibilidade DEVE bloquear dependente; segredo, dado privado e conteúdo inelegível NÃO DEVEM ser publicados.
+
+## 13. Autoridade operacional, mecanismos oficiais e solicitações
+
+### 13.1 Vocabulário canônico e proteção estrutural
+
+**Norma Operacional** é `/AGENTS.md` e associados, que regem como IA, processo, leitura, edição, validação, rastreabilidade, automação, scripts, hooks, comandos e FTs operam. **RCF** é a SSOT arquitetural declarativa, determinística e verificável do que o sistema é e DEVE fazer. **Repositório Construtor** mantém, constrói, valida ou distribui a Norma Operacional; **Repositório Final** a consome. Papéis são cumulativos: este construtor atua também como Repositório Final sob seu `/AGENTS.md`, sem usar um papel para afastar o outro; `src/AGENTS.md` permanece produto-fonte, não norma desta execução.
+
+**Mecanismo Oficial** é script, comando, hook, callback, adaptador, workflow, arquivo-gatilho, convenção, nomenclatura, contrato ou ponto de extensão normatizado. **Extensão Oficial** compõe o mecanismo sem substituir fluxo ou contrato. **Fluxo Paralelo** é mecanismo novo, duplicado, substitutivo ou funcionalmente equivalente que contorne o oficial. **Lacuna Oficial** é erro, risco, insuficiência ou ausência comprovada no mecanismo necessário. **Princípio Estruturante** é regra cuja degradação altera autoridade, alcance ou comportamento fundamental. **Microtexto Normativo** é unidade curta, coesa, autônoma, estável e referenciável. **Custo Líquido** compara tokens, bytes, tempo, processamento, navegação, manutenção, risco, precisão e reutilização.
+
+Esses conceitos DEVEM ter definição única e central. Revisão parcial, cirúrgica, ampla ou estrutural DEVE preservar autoridade, precedência, domínios, contratos, nomenclaturas, proibições, exceções, hooks, modus operandi, incisividade, rastreabilidade, força, efeitos e intenção. Princípios Estruturantes DEVEM ser identificáveis, permanentes, irremovíveis e não regressivos; validação futura DEVE detectar remoção, diluição, relativização, subordinação, abreviação com perda, facultatividade ou substituição. Densificação, modularização e otimização de tokens NÃO DEVEM reduzir rigor, minúcia, clareza, explicitabilidade, exigibilidade, previsibilidade ou resistência a interpretação desviada.
+
+### 13.2 Uso compulsório e evolução
+
+Agente e Repositório Final DEVEM obedecer contratos aplicáveis, consultar descoberta oficial, reutilizar finalidade e nomenclatura oficiais, inspecionar estado real e corrigir implementação divergente. Dúvida, desconhecimento, cópia possivelmente desatualizada ou inadequação aparente exigem releitura, inspeção, comparação de versão e rastreamento; NÃO autorizam improvisação, solução unilateral ou presunção de inexistência.
+
+Mecanismo Oficial NÃO DEVE ser neutralizado, duplicado, renomeado, reimplementado, contornado ou substituído; resultado funcionalmente correto NÃO legitima processo incompatível. Necessidade específica, complemento ou ausência de especialização NÃO autorizam reinvenção. Expansão PODE adicionar script, subcomando, callback, validação ou integração somente por hook, composição, adaptador, arquivo-gatilho, `agents.local.md` ou contrato oficial, preservando fluxo principal, nomes, precedência e compatibilidade comum. Havendo opções oficiais, critérios normatizados determinam a escolha.
+
+Contratos `release`, `publish`, seus subcomandos, arquivo-gatilho e execução por GitHub Actions são exemplos delimitadores, não exaustivos. Se o produto distribuir workflow para a finalidade, Repositório Final NÃO DEVE criar concorrente, trocar gatilho por `workflow_dispatch`, publicar localmente, exigir acesso adicional, duplicar script ou contornar hook sem exceção normativa expressa. A execução indireta por adaptador oficial NÃO reduz compulsoriedade.
+
+### 13.3 Lacuna oficial e exceção extrema
+
+Possível Lacuna Oficial DEVE ser validada contra estado canônico atual: resolver upstream, consultar versão, comparar contratos/scripts/documentação, recomendar atualização local e confirmar persistência após convergência. Issue no construtor somente PODE ser criada se atual, reproduzível, generalizável, oriunda do mecanismo oficial e documentada com impacto, risco, limites, evidência e estratégia aderente sanitizada. Particularidade local NÃO autoriza issue. No consumidor, a issue criada é somente proposta: NÃO DEVE ser tratada, movimentada, atribuída, implementada ou encerrada; FT dependente sem alternativa aderente é suspensa e FT independente prossegue.
+
+Correção provisória de código somente PODE ocorrer quando a suspensão impedir materialmente a continuidade e nenhuma solução aderente existir. DEVE ser extrema, mínima, temporária, testada, reversível, vinculada a `agents.local.md`, limitada ao modus operandi oficial, sem novo fluxo/nome/arquitetura e com critério objetivo de remoção. A issue generalizada é criada somente após a correção provisória estar funcional e sanitizada. Incorporação oficial exige nova FT para remover a exceção e seus resíduos.
+
+### 13.4 Captura, decomposição e ciclo obrigatório
+
+Toda solicitação — prompt, issue, TODO ou equivalente — DEVE possuir fonte canônica antes da execução material. Fonte local já versionada é referenciada diretamente, sem cópia. Fonte efêmera/remota DEVE ser preservada integralmente com complementações, referências, anexos, origem, data, ID, hash, FTs, RCFs de destino e estado de incorporação sob `./.ia.rules/state/requests/<FT-ID>/`; o registro é versionado, bidirecionalmente rastreável e NÃO depende do histórico da ferramenta. `.gitignore` PODE receber exceção cirúrgica que NÃO exponha cache, segredo ou log.
+
+Antes de criar FT ou alterar artefato, a IA DEVE ler e decompor o conjunto integral: objetivo global, escopo, requisitos, proibições, exceções, precedências, dependências, decisões, nuances, impactos, conflitos, lacunas, inferências legítimas, aceite e regressões. Solicitações extensas DEVEM ter contexto-mestre e subcontextos densos, encadeados e temporários sob `./.ia.rules/state/contexts/<FT-ID>/`; cada um declara identidade, ordem, fase, tarefa, escopo, objetivo, entradas, dependências, normas herdadas, restrições, fora de escopo, entregáveis, validações, estado e aceite. O contexto-mestre mantém mapa, arquitetura, relações, ordem, contratos de integração, estado e critérios globais.
+
+Subcontexto carrega integralmente somente contexto-mestre, seu arquivo, handoffs predecessores necessários e normas aplicáveis. Execução é unitária; paralelismo exige independência comprovada. Handoff registra decisões, arquivos, contratos, efeitos posteriores, riscos e validações. Alteração de escopo ou descoberta atualiza imediatamente mestre e dependentes. Conclusão local NÃO autoriza conclusão global; integração final revisa fluxo, divergências, lacunas, contratos e objetivo original. Temporários permanecem até auditoria e incorporação permanente e então DEVEM ser removidos no mesmo commit normativo, preservado o histórico Git.
+
+FTs vinculam-se diretamente à issue, TODO-fonte ou registro, nunca ao comando de orquestração. Unidades materialmente relacionadas DEVEM ser planejadas como objetivo único, segregadas somente por fase, dependência ou responsabilidade real. Criação/conciliação de todas as FTs e vínculos forma commit exclusivo antes da norma. No construtor, sequência obrigatória é: **(1) RCF; (2) Norma Operacional em `src/`; (3) código/scripts; (4) validação/integração**. Cada fase possui FT/estado próprios; conclusão da RCF NÃO autoriza `src/`, e conclusão de `src/` NÃO autoriza código. Após cada fase normativa validada e commitada, a execução DEVE interromper, informar as fases seguintes e aguardar nova autorização humana explícita.
+
+No Repositório Final aplica-se captura, análise, FTs, commit inicial e RCF antes de código, sem inventar dupla projeção própria do construtor. Registro temporário só é removido quando auditoria bidirecional comprovar que nenhuma regra, restrição, exceção, anexo relevante, nuance, motivação ou critério permanece exclusivo; removê-lo antes, retê-lo depois ou substituí-lo prematuramente por resumo é proibido.
+
+### 13.5 Custo temporal, automação e comandos compostos
+
+Antes de operação mecânica, a IA DEVE verificar brevemente se automação determinística reduz Custo Líquido; a avaliação NÃO DEVE custar mais que a tarefa. Filtragem, ordenação, extração, agregação, comparação, conversão, normalização, indexação, geração e validação DEVEM usar mecanismo oficial existente; script novo exige recorrência/benefício proporcional, entrada/saída estáveis, limites, erro explícito, diagnóstico preservado e ausência de dependência inútil. Julgamento normativo/arquitetural predominante NÃO DEVE ser transferido ao script.
+
+Em ambiente que cobre ou limita tempo ativo, processo demorado PODE ser desacoplado quando sobreviver à sessão, não exigir interação imediata, não expuser segredo, não gerar órfão e tiver comando/argumentos sanitizados, cwd, início, PID/ID, resumo, log integral, fim, duração, código, estados `executando|concluído|falhou|cancelado|interrompido`, cancelamento, limpeza e retomada. Erro, `stderr`, kill e debug DEVEM ser preservados; ausência de saída NÃO significa sucesso. Operação com decisão intermediária, lock abandonável ou polling mais caro que a espera NÃO DEVE ser desacoplada. Na retomada, ler estado, código e cauda antes do log integral e NÃO repetir operação concluída.
+
+Sequência dependente ou recorrente com três ou mais comandos DEVE tornar-se orquestrador quando melhorar reprodutibilidade, medição, interrupção, retomada, logs ou diagnóstico. Cada etapa registra ID, comando sanitizado, início/fim/duração, resultado/código, motivo de interrupção e log. Generalização aplicável a consumidores integra mecanismo `shared:*`; sequência estritamente local permanece local. Issue de promoção registra custo evitado, integração, estados, cancelamento, retomada, testes e sanitização e permanece somente registrada.
+
+## 14. Engenharia resiliente de scripts, atualização e distribuição
+
+### 14.1 Contrato comum e resiliência orientada à conclusão
+
+Todo script distribuível DEVE aplicar §§4.0 e 13 e declarar nome, finalidade, sintaxe, parâmetros/ordem/tipos/defaults, configuração, pré/pós-condições, entradas/saídas, estados, efeitos, idempotência, destrutividade, timeouts, retries, concorrência, limites, callbacks, hooks, fallbacks, modos local/CI, plataformas/runtimes, logs, ajuda e códigos `0/1/2/3/4/130`. Contrato derivado por tipo/contexto só PODE especializar diferença material; nomes de scripts, comandos, parâmetros, hooks, callbacks, fallbacks, arquivos e diretórios DEVEM ser canônicos, não ambíguos nem funcionalmente duplicados.
+
+Neste produto, failsafe significa concluir a finalidade por rotas seguras, não apenas falhar sem dano. Falha previsível, conhecida ou documentada DEVE possuir detecção, causa e alternativas finitas predefinidas: retry controlado, backoff, comando equivalente, execução por etapas, revalidação/reconstrução de estado, temporário, checkpoint ou fallback compatível. O script só PODE desistir após esgotar rotas tecnicamente aplicáveis; então restaura ou preserva estado íntegro, informa ambiente, causa, tentativas, incompatibilidades e ação necessária, sem sucesso falso. Quantidade, duração, profundidade e término DEVEM ser limitados; repetição cega ou laço infinito são proibidos.
+
+Extensibilidade usa contrato comum estável para gatilho, hook, callback, expansão, adaptador e fallback. Hook recebe contexto validado, localiza recurso por path normatizado, independe de cwd implícito, propaga argumentos, saída e código, não duplica lógica material e permanece portável. Configuração repetida — valores, paths relativos, strings, padrões, limites e nomes — DEVE ter SSOT sob raiz canônica de configuração em `.ia.rules/`, divisível por escopo com schema, versão, validação e documentação, sem busca/edição dispersa.
+
+Saída humana DEVE ser curta e uniforme, distinguindo progresso, informação, aviso, erro, resultado e ação. Log de máquina/IA DEVE ser estruturado, determinístico e persistente, com contexto, etapa, operação sanitizada, horários, duração, resultado, código, erros, fallbacks e estado final; especialização só acrescenta. Entrada/pré-condição, escopo, segredos, dados e estado preexistente DEVEM ser protegidos por sanitização, mínimos efeitos, permissões mínimas e operação atômica, reversível ou retomável. Diferença de SO, shell, permissão, caminho, caixa, encoding, EOL, runtime, dependência, Git ou release DEVE ser detectada, não presumida; indisponibilidade de um comando não torna a finalidade impossível se houver equivalente seguro.
+
+### 14.2 Atualizador convergente
+
+`update:agents` DEVE operar em instalação limpa, atualização incremental, salto, cópia manual, release coexistente, arquivo ausente/movido/renomeado/legado/parcial, árvore limpa/suja, permissão limitada, interrupção e versão desconhecida. Cada release distribui na raiz `.ia.rules/` marcador nomeadamente versionado e manifesto/mapa suficientes para identificar versão e artefatos oficiais. Após cópia manual, o comando autodetecta marcadores e artefatos antigos, atuais e recém-copiados, reconstrói histórico mínimo, seleciona migrações, remove exclusivamente oficial obsoleto e preserva desconhecido, hook, extensão e temporário autorizado — inclusive localização legada ainda não migrada — até classificar sua propriedade.
+
+A invocação voluntária autoriza substituir/remover, sem confirmação adicional, modificação local inclusive não commitada em `/AGENTS.md` e associados gerenciados; divergência é preservada no backup normatizado antes da convergência. A autorização NÃO alcança `.gitignore`, `package.json`, extensões, hooks ou compartilhado análogo. Antes de mutar, o atualizador registra árvore e índice, classifica oficial imutável, compartilhado e local, e preserva alteração do desenvolvedor. Compartilhado recebe merge cirúrgico sem apagar, regredir ou reformatar; path legado é migrado antes de ser classificado como inválido.
+
+O update DEVE criar um único commit contendo, tanto quanto isolável, apenas núcleo recebido, remoções/limpezas e ajustes correlatos. Compartilhado com delta preexistente inseparável permanece intocado e fora do commit; omissão e ajuste pendente são diagnosticados sem impedir os demais artefatos. Alteração preexistente em oficial gerenciado é substituída e incluída; alteração do desenvolvedor em qualquer outro arquivo NÃO DEVE ser incorporada, perdida, revertida ou confundida. Checkpoints autenticados tornam a operação idempotente, transacional e retomável; lock novo é gravado por último; interrupção retoma ou reverte sem efeito duplicado.
+
+Teste do atualizador DEVE cobrir instalações, saltos, cópia manual, coexistência, Git limpo/sujo, edição indevida oficial, alteração compartilhada, falha primária/fallback, permissões, EOL/encoding/caixa/path, interrupção, parcial, marcador desconhecido/inconsistente, repetição, backup/restauração e preservação de extensões. Critério de aceite exige conclusão pelas rotas seguras ou falha conclusiva íntegra e retomável.
+
+### 14.3 Workflows distribuíveis
+
+CONTRADIÇÃO DETECTADA: origem solicita `.ia.rule` vs raiz exclusiva vigente `.ia.rules` — Aplicando `.ia.rules`, sem alias ou árvore concorrente, e preservando integralmente a intenção de distribuir workflows.
+
+Release DEVE incluir sob `.ia.rules/` todos os workflows GitHub Actions destinados a consumidores, separados dos workflows internos do construtor. Índice canônico humano/máquina declara ID, finalidade, escopo, dependências, permissões, instalação, destino, gatilho, hook/script de acionamento, versão e hash; permite localizar, selecionar, copiar, instalar, atualizar, validar disponibilidade, integridade e atualidade. Workflow DEVERIA ser acionável por hook; quando execução direta for inadequada, adaptador oficial PODE executá-lo sem reduzir obrigatoriedade nem duplicar lógica.
+
+Instalação DEVE ser determinística, reproduzível, idempotente, transacional e compatível com estrutura verificada, preservando customização legítima e impedindo sobrescrita silenciosa, divergência não detectada ou parcial. Workflow e auxiliar aplicam as mesmas regras de compulsoriedade, escopo, exceção, portabilidade, diagnóstico e mecanismo oficial dos scripts. Validação do release comprova presença, índice coerente, distinção interno/distribuível, permissões mínimas, instalação/atualização, acionamento e integridade.
+
+## 15. Engenharia de código, documentação e rastreabilidade material
+
+### 15.1 Intervenção mínima e intenção
+
+Código funcional — função, método, procedure, classe, componente, módulo, fluxo, comando, contrato, estilo, evento, vínculo, dado, retorno e comportamento — NÃO DEVE ser alterado sem necessidade material diretamente relacionada. A implementação adota o menor ajuste cirúrgico suficiente, minimiza superfície, dependências, acoplamento, validação e regressão. Alteração funcional/estrutural exige necessidade técnica concreta, rastreável e proporcional; estética, conveniência, confiança da IA, aparente simplicidade, oportunidade incidental ou desejo genérico de melhoria NÃO bastam.
+
+Intervenção mínima NÃO impede melhoria segura no trecho necessariamente afetado: microfunção, duplicação local, nome, comentário, documentação, validação, erro, desempenho ou organização, desde que local, proporcional, verificável e sem escopo ampliado. Otimização de estrutura, desempenho, leveza, clareza, legibilidade, testabilidade, reutilização, robustez e manutenção é obrigatória quando houver ganho líquido, mas NÃO autoriza reescrita ampla. Refatoração explicitamente solicitada PODE ampliar a intervenção, sem suspender contratos, dados, compatibilidade, integrações ou partes independentes; diante de risco substancial, DEVE evoluir incrementalmente em múltiplos commits/etapas reversíveis.
+
+Mensagem nova durante execução DEVE ser classificada como retoque de rumo, complemento, correção de interpretação/implementação ou revisão ampla amadurecida. Tom, urgência, emoção, concisão, erro gramatical ou momento são contexto, não requisito. Na dúvida, aplicar menor impacto compatível e inspecionar estado real. Pressa, informalidade, comentário incidental ou formulação incompleta NÃO autorizam ampliar escopo, remover comportamento, trocar tecnologia ou inferir preferência material.
+
+Escopos permanecem estritos: visual NÃO autoriza funcional; funcional NÃO autoriza redesign; estrutural NÃO autoriza comportamento; correção local NÃO autoriza revisão global; otimização interna NÃO autoriza contrato externo. Mover/substituir elemento visual NÃO DEVE perder estilo, cor, dimensão, evento, vínculo, acessibilidade, retorno ou comportamento. Acoplamento só é alterado quando indispensável ou quando impedir solução correta.
+
+### 15.2 Microunidades e defesa
+
+Desenvolvimento, correção, evolução e otimização DEVEM favorecer unidades adequadas ao paradigma — microfunções, micrométodos, microprocedures, micro-objetos, microcomponentes, microsserviços ou equivalentes — com responsabilidade delimitada, coesão alta, acoplamento baixo, interface estável, comportamento previsível e autonomia/reutilização suficientes. A granularidade NÃO DEVE criar fragmentação artificial, indireção excessiva, perda de legibilidade ou overhead; DEVE reduzir propagação, duplicação e acoplamento sem prejudicar compreensão, desempenho ou coerência.
+
+Interfaces, parâmetros, retornos, eventos e estruturas DEVEM permitir evolução aditiva compatível quando tecnicamente possível; consumidor alheio ao novo campo/capacidade NÃO DEVE ser alterado, salvo incompatibilidade inerente demonstrada. Antes de codificar, inspecionar dependências, contratos, consumidores, efeitos transitivos, limites e riscos; hipótese não é fato. Durante a codificação, tratar entrada inválida, fluxo incorreto, falha parcial, estado intermediário, concorrência, interrupção, indisponibilidade e dependência ausente com validação, isolamento, idempotência, atomicidade, reversibilidade e diagnóstico proporcionais. Antes da entrega, revisar integralmente o modificado, remover resíduos/duplicações/inconsistências introduzidos e verificar segurança, desempenho, legibilidade, erros e contratos.
+
+Validação é proporcional ao risco e alcança comportamento solicitado e contratos adjacentes. Elemento visual interativo verifica posição, dimensão, estilo, cor, estado, evento, acessibilidade e função; unidade funcional, entradas, saídas, efeitos, exceções e consumidores; refatoração, equivalência, compatibilidade, desempenho e não regressão. Rapidez, tokens ou confiança NÃO reduzem rigor, minúcia, escopo, rastreabilidade ou zelo. Essas regras aplicam-se uniformemente ao construtor e aos consumidores e NÃO PODEM ser diluídas por futura condensação/modularização.
+
+### 15.3 Documentação nativa de unidades
+
+Toda classe, função, procedure, type, interface ou unidade equivalente DEVE conter, quando técnica e linguisticamente aplicável, cabeçalho de documentação nativo/convencional da linguagem, como JSDoc, ShellDoc ou equivalente. O cabeçalho reside somente na fonte, preferencialmente sob `src/` e `scripts/`, e NÃO integra artefato compilado, empacotado, otimizado ou minificado, salvo impossibilidade técnica/formato. Exceção: banner global de autoria, licença e origem continua no produto final comentável conforme §3.11.
+
+O cabeçalho usa sintaxe da linguagem e mínimo de tokens/bytes que preserve precisão: responsabilidade, comportamento, momento/contexto de execução, justificativa técnica, restrições relevantes e reutilização. Informação óbvia, repetição do identificador ou comentário que derive do código sem acrescentar contrato NÃO DEVE ser introduzido.
+
+### 15.4 Rastreabilidade RCF ↔ commit material
+
+Cada parágrafo, item ou sentença de RCF que defina funcionalidade, microfuncionalidade, conceito ou unidade minimamente implementável/segmentável DEVE terminar na mesma linha com `[xxxxxxx]`, os sete caracteres do commit que implementou ou modificou materialmente o código correspondente. Associação é causal e verificável, nunca commit arbitrário ou posterior. Enquanto a implementação ainda não existir, a sentença DEVE usar marcador explícito de pendência normatizado pelo gerador, sem inventar hash; a fase de código substitui-o pelo hash material.
+
+A sincronização DEVE ser determinística, hookable e preferencialmente baseada em diff, histórico e mapa sentença↔artefato. Como o hash não integra o próprio commit material sem ciclo, o fluxo é: (1) commit material; (2) hook/script/workflow atualiza apenas RCFs afetados; (3) commit exclusivo de sincronização; (4) validação/pull seguro antes de prosseguir. Prevenção de recursão distingue commit material de sincronização, rejeita novo ciclo automático e trata concorrência/revisão obsoleta sem sobrescrever trabalho recente.
+
+Automação DEVE detectar ausência, formato inválido, hash inexistente, referência obsoleta, norma sem sincronização e divergência RCF-implementação; associação ambígua falha explicitamente. Edição puramente editorial/normativa NÃO substitui hash material anterior, exceto quando o produto implementado é o próprio normativo, como neste construtor, caso em que o commit material da fonte normativa é causal. Processo, comandos, hooks, workflows, concorrência e limitações DEVEM constar da Norma Operacional. Critério de aceite inclui round trip entre sentença, commit e artefato; ausência de autorreferência; e preservação do hash anterior quando código não mudou.
+
+## 16. Arquitetura contextual da Norma Operacional
+
+### 16.1 Núcleo, papéis, cenários e recursos
+
+O núcleo raiz DEVE conter somente autoridade, precedência, domínios, invariantes, contratos transversais, roteamento e referências indispensáveis. Conteúdo coeso, semanticamente autônomo e condicionalmente aplicável DEVE ser segregado quando sua dispensa reduzir custo efetivo; conteúdo global/frequente ou cuja separação aumente navegação, releitura, dependência ou ambiguidade permanece no núcleo. Divisão apenas para reduzir tamanho físico, sem ganho líquido de rota, é proibida.
+
+Domínios contextuais são:
+
+1. núcleo operacional comum;
+2. papel de Repositório Final, inclusive imutabilidade do produto;
+3. papel de Repositório Construtor, geração/manutenção/distribuição;
+4. cenário de produto, relativo ao target/arquitetura do consumidor;
+5. cenário técnico, relativo a situação operacional especializada;
+6. contrato de recurso, relativo a script, comando, hook, callback, fallback, extensão ou automação.
+
+Papéis acumulam-se conforme operação. Este repositório carrega construtor ao atuar em `src/`/build/release e Final ao reger sua própria execução; não usa construtor para afastar regra comum nem Final para editar produto fora do processo. Cenário técnico possui finalidade, gatilho, papéis, pré-condições, dependências, fluxo, proibições, resultados e conclusão, sem se confundir com cenário de produto. Criação de issue no construtor DEVE ser cenário técnico próprio cobrindo autorização/proibição, validação atual, generalização, falha oficial versus particularidade local, evidência, risco, reprodução, proposta, código sanitizado, FT/exceção provisória e proibição de tratar a issue após registrá-la.
+
+Regra exclusiva de geração, compilação, validação, empacotamento, versão, release, atualização, distribuição e estrutura-fonte permanece no módulo Construtor. Autoridade, imutabilidade e proibição de edição direta permanecem comuns/Final. Cada recurso oficial possui módulo próprio ou compartilhado apenas sob contrato realmente comum, contendo finalidade, gatilho, precedência, limites, parâmetros, entradas/saídas, estados, efeitos, extensões, hooks, fallbacks, validação e uso correto. Nomes, localização, configuração, retorno, códigos, logs, segurança e extensibilidade comuns ficam centralizados; especialização referencia, não redefine.
+
+### 16.2 Índice e descoberta compulsória
+
+Índice/manifesto global ultrassucinto e estruturado DEVE declarar papéis cumulativos, cenários de produto/técnicos, recursos oficiais, ID, finalidade, gatilhos, obrigatoriedade, path canônico, dependências mínimas, precedência, artefatos e condição de leitura. Formato é escolhido por compreensão, validação e Custo Líquido, mantendo `AGENTS.md` como entrada Markdown. Antes de criar solução, a IA consulta o índice; correspondência de finalidade torna obrigatória a leitura integral dos módulos aplicáveis. Módulo não carregado continua obrigatório quando o gatilho ocorrer; economia resulta da exclusão segura do inaplicável, nunca de opacidade.
+
+Cada módulo declara quando ler/não ler, papel/cenário/recurso, problema, artefatos, contratos comuns, dependências, modalidade e composição simultânea. Roteamento carrega somente núcleo, índice, papéis ativos, cenários/recursos aplicáveis e dependências expressas. Ciclo, órfão, profundidade excessiva, sobreposição ambígua, responsabilidade incerta, duplicação semântica ou carregamento transitivo desnecessário DEVEM ser rejeitados.
+
+Reestruturação/renomeação exige ganho líquido comprovado, migração, referências atualizadas e não regressão; mera redistribuição NÃO muda conceito, intenção, alcance ou autoridade. Medição compara antes/depois: bytes/tokens totais, duplicação, módulos carregados, tokens efetivamente lidos, profundidade, navegação, tempo, precisão, cobertura e interpretação. Testes incluem solicitação global, local, multidomínio e ambígua; Final comum; Construtor apenas produto; Construtor como Final; ambos; cenário de produto; cenário técnico de issue; e uso/extensão/lacuna aparente de recurso. O resultado DEVE selecionar todos e somente os módulos necessários e equivaler à leitura integral.
+
+## 17. Arquitetura multilíngue e distribuição dual de scripts
+
+### 17.1 Fontes, artefatos e runtimes
+
+Todo script executado em Node.js DEVE ter TypeScript como fonte canônica; fonte `.js` manual é proibida. Legado Node.js em JavaScript DEVE ser inventariado e convertido preservando comportamento, contratos, entrada/saída, compatibilidade, efeitos, diagnósticos e integração. A fonte TypeScript DEVE transpilar para JavaScript compatível com Node.js `24+`, com alvo ECMAScript `ESNext` estabilizado aproximadamente um ano antes da versão corrente; baseline, toolchain e matriz DEVEM ser revistos periodicamente e só elevados por necessidade/benefício demonstrável, sem ruptura evitável.
+
+JavaScript em `dist` DEVE ser transpilado, validado, otimizado e minificado sem alterar comportamento, interoperabilidade ou diagnóstico indispensável. Cada release distribui simultaneamente TypeScript e JavaScript correspondentes, com identidade, versão, finalidade e caminho lógico inequívocos; artefato divergente, desatualizado ou sem origem rastreável bloqueia publicação. O consumidor PODE usar fonte, pronto ou ambos conforme ambiente/política.
+
+Release declara, globalmente e por recurso quando diferirem, versões mínima, recomendada, máxima/faixa suportada de Node.js, linguagem, runtime, compilador, transpilador, gerenciador e ferramenta; dependências, alvo, formato de módulo, plataformas testadas e limites; fonte→build; versões de toolchain; SO, shells, frameworks e ambientes validados. O build DEVE ser reproduzível sem obrigar o consumidor a reconstruir artefato pronto.
+
+TypeScript obrigatório limita-se a Node.js. Python, Ruby e outras linguagens DEVEM ser admitidas quando o ecossistema, Jekyll, SO, framework ou ferramenta as exigir; cada recurso declara versões e dependências com igual rigor. Linguagem é escolhida pelo contexto real; conversão artificial para TypeScript que reduza compatibilidade, integração, simplicidade ou confiabilidade NÃO DEVE ocorrer.
+
+### 17.2 Estrutura e reutilização
+
+Estrutura estável DEVE separar fontes, transpilados, módulos comuns, scripts de cenário, linguagens, metadados, matrizes e suporte sob paths canônicos equivalentes entre fonte/build/distribuição. Recurso específico permanece próximo ao cenário/contexto; centralização global exige reutilização real ou ganho verificável. Tipos, funções, microfunções, classes, validadores e adaptadores reutilizáveis DEVEM formar módulos coesos compartilhados; abstração NÃO DEVE fundir responsabilidades, impor dependência ou elevar particularidade a contrato global. Especialização compõe unidade comum sem corromper autonomia.
+
+Todo script, qualquer linguagem, aplica §§14–15: responsabilidade delimitada, validação, erro explícito, diagnóstico, determinismo, idempotência, proteção parcial e resiliência a SO, permissão, rede, filesystem, concorrência, encoding, shell, runtime, dependência, ferramenta e versão. Recuperação progressiva usa estratégias finitas; falha conclusiva preserva consistência e informa tentativas. Hooks de descoberta, instalação, acionamento, validação e atualização DEVEM ser normatizados sempre que viáveis; adaptador indireto propaga argumento/código/diagnóstico e NÃO duplica lógica.
+
+### 17.3 Atualização seletiva e release
+
+Antes de instalar/atualizar, detectar runtimes/versões, plataforma, arquitetura, ferramentas, estrutura, customizações e artefatos. Metadados determinam, por recurso, alternativa compatível mais estável e menos invasiva. Elevação de Node/Python/Ruby NÃO atualiza recurso independente ainda válido. Gerenciado intacto, customização legítima, divergência acidental e obsoleto DEVEM ser distinguidos; somente customização permitida recebe merge/preservação, enquanto path gerenciado converge conforme §14.2.
+
+Incompatibilidade isolada DEVE usar artefato alternativo, orientar/efetuar atualização autorizada, manter versão funcional, desabilitar apenas o recurso ou falhar localmente com diagnóstico. Atualizador NÃO DEVE instalar runtime global, trocar versão/gerenciador, alterar `PATH`, remover dependência ou reconfigurar sistema sem norma, necessidade e autorização. Aplicação usa temporário, backup proporcional, validação pré/pós e rollback, impedindo mistura e parcial.
+
+Release transpila, otimiza, minifica, valida e empacota Node.js; prepara/valida outras linguagens; gera metadados/matriz; verifica equivalência/atualidade e bloqueia publicação parcial. Testes abrangem TypeScript, transpilado, linguagens adicionais, módulos, versões mínima/recomendada, formatos, hooks, update seletivo, customização, retry/fallback/rollback, SO e integridade. Aceite exige conversão integral do legado, dualidade, baseline Node `24+`, alvo conservador, runtimes por recurso, estrutura, reutilização adequada, atualização não destrutiva, falha segura e build reproduzível.
+
+## 18. Recuperação normativa, grafo e custo contextual
+
+### 18.1 Decisão sobre técnicas de RAG
+
+RAG é conjunto candidato de princípios editoriais/arquiteturais para aperfeiçoar escrita, recuperação, roteamento, leitura e interpretação da Norma Operacional; NÃO é dependência ou autoridade. Avaliação DEVE comparar segmentação semântica, granularidade/overlap de chunks, metadados, índices lexicais/semânticos, busca híbrida, expansão/sinônimos, reranking, filtros de escopo/precedência, referências, resumos hierárquicos, cache, deduplicação, compressão e recuperação orientada à tarefa.
+
+Cada técnica é aprovada, rejeitada ou adiada por métricas de aplicabilidade, compatibilidade, implementação/manutenção, artefato, precisão, cobertura, latência, tokens, interpretação, rastreabilidade, fragmentação, recuperação incompleta e regressão. Tendência, analogia ou benefício presumido NÃO autorizam adoção. Ausência de ganho líquido implica rejeição, sem afastar índice/grafo determinísticos obrigatórios. Embeddings, banco vetorial, reranking por modelo, armazenamento ou serviço externo só PODEM entrar se superarem índice local, grafo, busca textual e metadados; devem ser opcionais, substituíveis e justificadamente open source/gratuitos/offline ou, se cloud, com manutenção, privacidade e custo resumidamente explicados ao desenvolvedor antes da decisão.
+
+Baseline mede tempo de recuperação, tokens carregados, precisão, cobertura, taxa de regras relevantes, irrelevância, falha de precedência, retrabalho, latência, indexação e recursos em tarefas simples, extensas, transversais, conflitantes e com especialização local. Técnica só se torna normativa por benefício recorrente superior a custo/risco, sem perda de precisão, completude, legibilidade, rastreabilidade, determinismo ou autoridade. Adoção é incremental, compatível, reversível e reavaliável.
+
+### 18.2 Preservação e suficiência
+
+Fonte canônica continua `AGENTS.md`/associados; índice, mapa, resumo, grafo, chunk e cache são derivados, apontam à origem e NÃO a substituem. Geração, condensação, roteamento e atualização NÃO DEVEM diluir força, alcance, exceção ou precedência; validação detecta desaparecimento, redução modal, quebra de referência e omissão. Unidade recuperável conserva sujeito, modalidade, escopo, restrição, exceção, precedência, dependência e aplicação; microconceito centralizado usa ID estável sem exigir buscas frágeis.
+
+Roteamento seleciona por contexto, escopo, papel, cenário, fase, linguagem, componente, artefato e operação, mas carrega globais, precedências, dependências, exceções e decisões anteriores suficientes. Visão geral compacta preserva objetivo e impactos transversais. Antes de agir com contexto parcial, verificar completude; baixa confiança, conflito, rota ausente ou fragmentação aciona expansão ou leitura integral. Norma não recuperada NÃO é norma inexistente. Metadado compacto PODE declarar escopo, prioridade, dependência, artefato, linguagem, fase, tarefa e sinônimo quando ganho demonstrado, sem duplicar a norma. Match exato, ID, escopo e precedência prevalecem sobre similaridade.
+
+Sobreengenharia é proibida: formato artificial, fragmentação excessiva, ilegibilidade, dependência de ferramenta e navegação maior que o ganho bloqueiam adoção. `AGENTS.md` permanece Markdown de entrada; formatos associados alternativos só PODEM ser mais adequados à lógica normativa, leves e legíveis nos consumidores. Texto discursivo/justificativo permanece natural quando condensação prejudicar entendimento.
+
+### 18.3 Indexador e grafo global
+
+Arquivo estruturado canônico em localização estável DEVE representar, sem copiar conteúdo, todos os nós normativos, paths, relações, tipos, custos e metadados mínimos. Cada nó tem ID estável, path com caixa exata, papel, entradas/saídas e é exclusivamente: **folha** (terminal sem derivação), **derivação** (encaminha e não é terminal) ou **híbrido** (conteúdo terminal e deriva).
+
+Cada aresta é **imediata** — leitura do nó cessa no link e conteúdo posterior é excluído do caminho — ou **passiva** — deriva após leitura integral. Posição/tipo seguem dependência semântica; imediata só é válida quando nada posterior for necessário. Automação rejeita nó inexistente, ID duplicado, link quebrado, papel incompatível, aresta sem tipo, ciclo não autorizado, rota inalcançável, folha com saída, derivação terminal e ambiguidade. Custo/badge NÃO DEVE poluir fonte sob `src/`.
+
+### 18.4 Tokenização e custos
+
+Script canônico DEVE inspecionar fontes, validar/simular grafo, calcular caminhos, atualizar índice, gerar mapa visual e métricas README. DEVERIA atuar como conector de biblioteca open source mantida/confiável em vez de reimplementar tokenizer, salvo impossibilidade comprovada. Para cada alvo, usa tokenizer oficial ou equivalente bit a bit e registra modelo, tokenizer, versão, encoding e serialização. Múltiplos alvos têm resultados separados; estimativa NÃO é exata. Mudança de modelo/vocabulário/encoding/biblioteca invalida contagens.
+
+Contagem reproduz somente conteúdo efetivamente transmitido. Em aresta imediata, custo inclui início até link inclusive mais predecessores; em passiva, nó integral mais predecessores; folha/híbrido terminal inclui seu conteúdo integral; mesmo nó por rota/condição distinta mantém custos distintos. Caminhos acumulam raiz→derivação→terminal, respeitando ordem, compartilhamento e não duplicação contextual.
+
+Execução exibe progresso ultrassucinto com etapa, estado, arquivo/nó e falha. Resumo final apresenta, separadamente para folha e híbrido terminal, mínimo, média e máximo de caminhos válidos; inclusão, rotas múltiplas e ponderação são determinísticas/documentadas. README contém região preexistente inequivocamente demarcada e exclusivamente gerenciada com métricas, tokenizer, versão, data/commit e link ao mapa; conteúdo adjacente NÃO é reformatado/movido. Mapa `.md` sob documentação gerada centralizada mostra nós, papéis, arestas, caminhos e custos e explica custo até derivação, imediato, passivo, híbrido, folha e variação por rota. Índice, mapa, tabela e cache possuem origem, versão, geração determinística e validação de obsolescência.
+
+### 18.5 Workflow e segurança
+
+Push que altere `src/**/AGENTS.md`, normativo/roteador `.md` em qualquer profundidade ou script, tokenizer, configuração, índice/gerador capaz de mudar resultados DEVE acionar workflow específico. Ele valida grafo, recalcula, atualiza índice/mapa/README e registra alterações. Filtro evita arquivo alheio; commit automático tem marcador anti-recursão sem dispensar mudança material posterior. Concorrência, branch, push obsoleto e divergência DEVEM impedir sobrescrita, parcial ou artefato de revisão antiga.
+
+Grafo inválido, tokenizer indisponível, divergência, derivado obsoleto ou fonte alterada sem regeneração é falha bloqueante. O mesmo script roda localmente com resultado equivalente e integra hooks oficiais. Alteração de AGENTS, RCF ou fonte que afete roteamento invalida/regenera derivados; obsoleto NÃO orienta execução.
+
+Operação é local, reproduzível, cross-platform e independente de serviço pago/remoto. Conteúdo privado, código, documento ou metadado do consumidor NÃO DEVE sair para serviço externo sem norma e configuração explícitas. Indexação respeita escopo, exclusão, segredo e inelegível. Economia de tokens NÃO DEVE impor custo financeiro, computacional ou operacional global superior.
+
+Decisão normativa desta revisão: adotar parcialmente princípios determinísticos de RAG — unidades recuperáveis, IDs, metadados mínimos, busca lexical/por ID, filtros de precedência, roteamento, grafo, cache validado e fallback integral — porque são compatíveis com a arquitetura vigente e verificáveis. Embeddings, banco vetorial, similaridade semântica, expansão automática e reranking por modelo NÃO são adotados; permanecem candidatos condicionados a baseline e ganho líquido futuro, sem impedir o índice/grafo obrigatório.
+
+## 19. Sintaxe lógica normativa condicionada
+
+### 19.1 Decisão e gate
+
+Nenhum token lógico novo é aprovado nesta revisão: não existe corpus medido suficiente para demonstrar ganho líquido recorrente superior ao aprendizado, parsing, manutenção, ambiguidade e migração. Linguagem natural com modalidade RFC 2119 e referências `MN-*` permanece canônica. FT-051 DEVE comparar o padrão vigente com candidatos; somente resultado mensurável PODE aprovar subconjunto mínimo, por nova decisão normativa rastreável antes de qualquer parser/migração. Preferência estética, analogia com programação ou economia presumida NÃO autorizam adoção.
+
+A avaliação mede bytes, tokens, tempo de leitura, precisão, ambiguidades, erro de aplicação, legibilidade humana, facilidade de edição, validação e manutenção em corpus com condição simples/encadeada, exceção, `AND|OR|XOR|NOT`, precedência, loop finito, desvio, aninhamento, conflito documental e caso em que linguagem natural é superior. Para cada trecho candidato, forma compacta DEVE conservar sujeito, modalidade, escopo, condição, exceção, precedência e resultado. Ausência de ganho ou aumento de risco rejeita o token.
+
+### 19.2 Contrato de eventual subconjunto aprovado
+
+Podem ser avaliados `IF`, `ELSEIF`, `ELSE`, `ENDIF`, `WHILE`, `ENDWHILE`, `FOR`, `ENDFOR`, `GOTO`, `AND`, `OR`, `XOR`, `NOT` e somente equivalentes estritamente necessários. Sinônimo, alias, forma redundante ou operador sem uso comprovado NÃO integra o padrão. Token aprovado deve ter identidade visual distinta de linguagem natural, exemplo, código e ID; definição central única; gramática, aridade, escopo, precedência, associatividade, agrupamento, delimitadores, fechamento, composição, aninhamento, erro e expansão natural inequívocos.
+
+Construção válida admite uma interpretação e NÃO depende de entonação, implícito, whitespace informal ou inferência. `IF/ELSEIF/ELSE` exige condição verificável, alternativas compreensíveis e bloco explícito. `OR` é inclusivo, `XOR` exclusivo; expressão cuja precedência possa variar usa agrupamento obrigatório. `WHILE/FOR` só representa repetição finita, controlada e verificável com limite/término/interrupção; laço indefinido é proibido. `GOTO` só roteia para ID/path estável e validável e NÃO cria fluxo opaco, ciclo, salto sem contexto ou espaguete. Cada bloco define início/fim, sentenças controladas e normas externas ainda aplicáveis.
+
+Aninhamento tem limite proporcional à legibilidade; quando piorar compreensão/custo, segrega-se em microconceito. Token organiza fluxo, mas NÃO substitui sujeito, obrigação, condição material, exceção, justificativa ou validação. Representação DEVE ser humana e parseável sem treinamento externo, compatível com Markdown, links, listas, tabelas, blocos, linters e ferramentas, distinguível de código executável e usar o menor custo sintático compatível com segurança. Texto discursivo, contexto histórico, exemplo explicativo ou conceito prejudicado por condensação permanece natural.
+
+Toda construção aprovada DEVE expandir deterministicamente para linguagem natural equivalente. Migração é incremental, revisável, reversível e individualmente validada, começando em alta repetição/baixo risco; conversão global automática é proibida. Legado e novo coexistem sem conflito; ausência da sintaxe nova não reduz validade. Se ultrapassar convenção editorial, parser detecta token desconhecido, bloco aberto, operador/destino inválido, aninhamento, ciclo e ambiguidade; formatter proporcional preserva conteúdo e aplica whitespace/indentação canônicos. Validação futura detecta perda de cláusula, exceção, operador ou fechamento.
+
+A aprovação futura DEVE atualizar este RCF com decisão, gramática, tabela, semântica, precedência, exemplos válidos/inválidos, estilo, migração, compatibilidade, validação e inaplicabilidade antes de FT de código. Até isso ocorrer, FT-052 NÃO DEVE implementar parser ou formatter.
+
+## 20. Matriz de reconstrução e gates de conclusão
+
+### 20.1 Origem → contrato permanente
+
+| Origem material | Contrato canônico |
+|---|---|
+| `github:jcempro/agents.md#9` | §§13.1–13.5, 14.1, 16, 18 e proteção inicial |
+| atualização resiliente | §§0.0.2, 14.1–14.2 |
+| scripts resilientes/padronizados | §§4.0, 13.5, 14.1 |
+| solicitações faseadas e segmentação | §§0.0.1, 13.4 |
+| intervenção mínima e codificação | §§15.1–15.2 |
+| modularização e roteamento | §§16, 18.2–18.3 |
+| papéis, cenários técnicos e recursos | §§0.0.3–0.0.4, 16 |
+| documentação nativa | §15.3 |
+| hash material por sentença RCF | §15.4 |
+| workflows distribuíveis | §14.3 |
+| arquitetura multilíngue | §17 |
+| RAG, grafo, tokenização e mapa | §18 |
+| sintaxe lógica | §19 |
+| reavaliação de `github:jcempro/agents.md#2` | §20.3 |
+
+Esta matriz é bidirecional: toda implementação posterior DEVE apontar à seção; toda seção com implementação DEVE apontar ao artefato/teste e, após §15.4 materializado, ao commit causal. O relatório de FT registra arquivos, conceitos centralizados, duplicações removidas, referências, contratos preservados, lacunas, testes, limites, não regressão e métricas de bytes/tokens/rotas.
+
+### 20.2 Aceite das fases
+
+FT normativa só conclui quando requisito, detalhe, exceção, motivação, relação e critério das origens estiverem no RCF sem duplicação desnecessária e as FTs posteriores estiverem coerentes. Registro temporário e contextos são removidos somente depois da auditoria bidirecional. FT de `src/` comprova equivalência RCF→Norma Operacional, autoridade, descoberta, rotas e métricas, sem implementar código. FT de código comprova contratos comuns, atualizador, TypeScript/distribuição dual, runtimes, workflows, grafo/tokenização/mapa, rastreabilidade, corpus, cross-platform, reprodutibilidade, privacidade, segurança e ausência de fluxo paralelo.
+
+Validação automática DEVE detectar nomes oficiais alterados, script/comando/workflow duplicado, fluxo paralelo, gatilho substituído, publicação local proibida, hook contornado, extensão fora do ponto, norma adaptada ao código, Princípio Estruturante degradado, ciclo/órfão/profundidade, duplicação semântica, temporário retido/removido indevidamente, compactação com perda, diagnóstico suprimido, processo desacoplado opaco, promoção incompatível, exceção sem vínculo/reversibilidade/remoção, runtime/artefato divergente, hash material inválido e derivado obsoleto. Quando automação integral for impossível, verificação determinística documentada é obrigatória.
+
+### 20.3 Gate terminal da issue #2
+
+`github:jcempro/agents.md#2` somente DEVE ser reavaliada após todas as demais unidades de §§13–19 estarem implementadas, validadas e refletidas no estado real. A avaliação compara issue, código, normas, releases e correções posteriores; determina com fundamentos verificáveis se a proposta permanece aplicável, pertinente e necessária. Independentemente do resultado, DEVE publicar comentário técnico conciso, inequívoco e incisivo na issue; nota `0–10` PODE destacar relevância, impacto, validade ou prioridade sem prolixidade. Esse gate NÃO autoriza reavaliação, comentário ou mutação remota durante a fase RCF.
