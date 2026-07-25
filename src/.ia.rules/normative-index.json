@@ -130,10 +130,20 @@
       "id": "scenario.request-lifecycle",
       "path": ".ia.rules/scenarios/governance/request-lifecycle.md",
       "class": "scenario",
-      "type": "leaf",
+      "type": "hybrid",
       "roles": ["final", "constructor"],
       "triggers": ["prompt", "issue", "TODO", "request", "scope-change", "resume"],
       "inputs": ["request-source"],
+      "outputs": []
+    },
+    {
+      "id": "scenario.refused-decisions",
+      "path": ".ia.rules/scenarios/governance/refused-decisions.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["final", "constructor"],
+      "triggers": ["every-new-request", "semantic-repeat", "express-refusal", "reanalysis"],
+      "inputs": ["request-source", "repository-local-refusal-index"],
       "outputs": []
     },
     {
@@ -365,6 +375,7 @@
     { "from": "core.agents", "to": "role.final", "mode": "passive", "condition": "always in a consuming repository", "order": 5 },
     { "from": "core.agents", "to": "role.constructor", "mode": "passive", "condition": "constructor operation", "order": 6 },
     { "from": "core.agents", "to": "scenario.request-lifecycle", "mode": "passive", "condition": "request intake or resume", "order": 7 },
+    { "from": "scenario.request-lifecycle", "to": "scenario.refused-decisions", "mode": "passive", "condition": "every new request after source capture and before substantive analysis", "order": 1 },
     { "from": "core.agents", "to": "scenario.official-gap", "mode": "passive", "condition": "apparent official gap", "order": 8 },
     { "from": "core.agents", "to": "scenario.upstream-sharing", "mode": "passive", "condition": "upstream proposal or inbox", "order": 9 },
     { "from": "scenario.upstream-sharing", "to": "scenario.issue-lifecycle", "mode": "passive", "condition": "constructor receives human-approved issue", "order": 1 },

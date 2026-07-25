@@ -1,6 +1,6 @@
 # Ciclo de solicitação e implementação faseada
 
-Identidade normativa: `scenario.governance.request-lifecycle`; cenário técnico; tipo: folha. Ler diante de prompt, issue, TODO, demanda, alteração de escopo ou retomada. Não dispensar por tamanho da solicitação. Depende de `../../core/authority.md`, `./refused-decisions.md`, `../../roles/final.md`, `../../roles/constructor.md` quando ativo e `MN-STATE`.
+Identidade normativa: `scenario.governance.request-lifecycle`; cenário técnico; tipo: híbrido. Ler diante de prompt, issue, TODO, demanda, alteração de escopo ou retomada. Não dispensar por tamanho da solicitação. Deriva passivamente para `./refused-decisions.md` em toda nova solicitação. Depende de `../../core/authority.md`, `../../roles/final.md`, `../../roles/constructor.md` quando ativo e `MN-STATE`.
 
 ## 1. Fonte e captura
 
