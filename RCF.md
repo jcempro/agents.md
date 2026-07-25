@@ -152,12 +152,12 @@ A auditoria inicial vinculada à FT-056 fixa o tratamento mínimo dos achados re
 
 | Fonte atual | Classificação e destino normativo |
 |---|---|
-| `src/.ia.rules/core/evaluations/logical-syntax.md` | avaliação histórica `builder-internal`; mover para `constructor/evaluations/logical-syntax.md`; manter referências decisórias locais e excluir de índice/payload consumidor |
-| `src/.ia.rules/core/rcf-projection.md` | mapa de conformidade exclusivo deste construtor; mover para `constructor/docs/rcf-projection.md`; não integrar grafo consumidor |
+| `constructor/evaluations/logical-syntax.md` | avaliação histórica `builder-internal` já segregada; manter referências decisórias locais e excluir de índice/payload consumidor |
+| `constructor/docs/rcf-projection.md` | mapa de conformidade exclusivo deste construtor já segregado; não integrar grafo consumidor |
 | `src/.ia.rules/roles/constructor.md` | contrato reutilizável do papel Construtor; manter em `src`/release como `consumer-scenario`, com carregamento condicional e sem retirar sua normatização de `AGENTS.md` |
 | `src/.ia.rules/scenarios/governance/issue-lifecycle.md` | cenário técnico reutilizável do papel Construtor; manter em `src`/release, descoberto somente por gatilho aplicável |
 | `src/.ia.rules/core/runtime/scripts/issue-inbox.js` e `issue-lifecycle.js` | mecanismos oficiais do cenário técnico Construtor; manter como runtime condicional se a FT-058 comprovar correspondência integral ao contrato; separar somente implementação exclusiva deste repositório que não seja reutilizável |
-| `src/.ia.rules/config/repository.json` | configuração física e metadados deste construtor, já pertencentes a `./config/`; retirar de `src`; build gera somente configuração/proveniência mínima segura para consumidor quando necessária |
+| `config/repository.json` | configuração física e metadados deste construtor; duplicata removida de `src`; build gera somente configuração/proveniência mínima segura para consumidor quando necessária |
 | `src/AGENTS.md`, `src/.ia.rules/normative-index.json`, `src/.ia.rules/meta/index.json` e `src/.ia.rules/core/runtime/scripts/repo-tools.js` | preservar normas, rotas, nós e comandos reutilizáveis de Final e Construtor; separar somente configuração, validação ou implementação exclusiva deste repositório canônico, mantendo descoberta condicional por cenário técnico |
 
 Estado auditado em 2026-07-25: `src/` possui 70 arquivos em 26 subdiretórios; o `dist/` rastreado possui 61 arquivos e antecede as fontes normativas mais recentes, portanto sua ausência atual não comprova exclusão. `buildIndex()` enumera recursivamente todo `.md`, `.json` e `.js` de `src`, e `buildDistributionFiles()` transforma cada entrada em cópia de release; inexiste perfil de consumidor. Essa seleção por extensão é a causa-raiz e DEVE ser substituída pela seleção positiva da FT-058. Acrescentar apenas denylist para `core/evaluations` seria correção incompleta e deixaria novos internos vulneráveis ao mesmo vazamento.

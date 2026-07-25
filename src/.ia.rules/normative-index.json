@@ -57,16 +57,6 @@
       "outputs": []
     },
     {
-      "id": "core.rcf-projection",
-      "path": ".ia.rules/core/rcf-projection.md",
-      "class": "core",
-      "type": "leaf",
-      "roles": ["constructor"],
-      "triggers": ["RCF-13-20", "normative-architecture", "phase-acceptance"],
-      "inputs": ["RCF", "normative-source", "FT-state"],
-      "outputs": []
-    },
-    {
       "id": "core.update",
       "path": ".ia.rules/core/update/scenario.md",
       "class": "scenario",
@@ -357,16 +347,6 @@
       "outputs": []
     },
     {
-      "id": "evaluation.logical-syntax",
-      "path": ".ia.rules/core/evaluations/logical-syntax.md",
-      "class": "evaluation",
-      "type": "leaf",
-      "roles": ["constructor"],
-      "triggers": ["logical-syntax", "parser", "formatter", "normative-compression"],
-      "inputs": ["syntax-candidate", "corpus"],
-      "outputs": []
-    },
-    {
       "id": "bootstrap.init-repo",
       "path": "INIT-REPO.md",
       "class": "bootstrap",
@@ -411,9 +391,7 @@
     { "from": "core.agents", "to": "meta.update", "mode": "passive", "condition": "update:agents execution", "order": 23 },
     { "from": "core.agents", "to": "meta.upstream", "mode": "passive", "condition": "upstream operation", "order": 24 },
     { "from": "core.agents", "to": "meta.validation", "mode": "passive", "condition": "validation", "order": 25 },
-    { "from": "core.agents", "to": "evaluation.logical-syntax", "mode": "passive", "condition": "logical syntax evaluation or implementation", "order": 26 },
-    { "from": "core.agents", "to": "bootstrap.init-repo", "mode": "passive", "condition": "repository normative bootstrap", "order": 27 },
-    { "from": "core.agents", "to": "core.rcf-projection", "mode": "passive", "condition": "RCF 13-20, normative architecture or phase acceptance", "order": 28 }
+    { "from": "core.agents", "to": "bootstrap.init-repo", "mode": "passive", "condition": "repository normative bootstrap", "order": 26 }
   ],
   "fallback": {
     "on": ["missing-route", "conflict", "low-confidence", "fragmentation", "invalid-cache", "ambiguous-scope"],

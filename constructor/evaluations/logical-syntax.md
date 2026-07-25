@@ -1,4 +1,4 @@
-# Avaliação normativa de sintaxe lógica
+# Avaliação interna de sintaxe lógica
 
 Identidade: `evaluation.logical-syntax/v1`; data: `2026-07-25`; fase: FT-051; decisão: **rejeitada nesta revisão**. Este relatório é evidência normativa, não gramática nem autorização de parser.
 

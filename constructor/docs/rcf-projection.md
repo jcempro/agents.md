@@ -1,6 +1,6 @@
-# Projeção RCF para a Norma Operacional
+# Projeção interna do RCF para a Norma Operacional
 
-Identidade normativa: `core.rcf-projection`; núcleo de auditoria; tipo: folha. Ler ao alterar RCF §§13–20, arquitetura da Norma, índice ou aceite de fase. Este arquivo mapeia autoridades sem repetir integralmente suas regras.
+Documento interno do Construtor; não integra o índice normativo nem o produto distribuído. Ler ao alterar RCF §§13–20, arquitetura da Norma, índice ou aceite de fase. Este arquivo mapeia autoridades sem repetir integralmente suas regras.
 
 ## 1. Matriz bidirecional
 
@@ -20,7 +20,7 @@ Identidade normativa: `core.rcf-projection`; núcleo de auditoria; tipo: folha. 
 | §16 | `core/authority.md`; `roles/*`; `scenarios/*`; `resources/*`; `normative-index.json` | núcleo, papéis, cenário técnico/produto, recurso, descoberta e eixo papel≠distribuição |
 | §17 | `resources/scripts.md` §§4–5; `roles/constructor.md` §3 | TypeScript fonte, JavaScript derivado, multilíngue, matriz e update seletivo |
 | §18 | `core/routing.md`; `normative-index.json`; schema do índice | RAG determinístico, grafo, fallback, tokenização planejada e segurança |
-| §19 | `core/evaluations/logical-syntax.md`; `core/routing.md` §6 | comparação, rejeição atual e gate anterior a parser/formatter |
+| §19 | `constructor/evaluations/logical-syntax.md`; `src/.ia.rules/core/routing.md` §7; decisão local `DEC-20260725-001` | comparação interna, rejeição atual e gate anterior a parser/formatter |
 | §20 | este mapa; índice; `scenarios/governance/constructor-operation.md`; validações e estado das FTs | cobertura, gates, segregação FT-052/FT-058 e planejamento dos movimentos internos |
 
 Toda alteração posterior em uma coluna DEVE revisar a outra. Norma com implementação futura aponta à FT-052 ou à FT-058 conforme a conciliação registrada; nenhum contrato desta projeção autoriza código.
@@ -31,9 +31,9 @@ Sem executar movimento nesta fase, a classificação autoritativa determina:
 
 | Origem atual | Classe | Destino planejado | Efeito |
 |---|---|---|---|
-| `src/.ia.rules/core/evaluations/logical-syntax.md` | `builder-internal` | `constructor/evaluations/logical-syntax.md` | retirar estudo do corpus, índice e payload; preservar decisão e evidência |
-| `src/.ia.rules/core/rcf-projection.md` | `builder-internal` | `constructor/docs/rcf-projection.md` | manter auditoria interna fora da fonte consumidora |
-| `src/.ia.rules/config/repository.json` | `builder-internal` | configuração física canônica já existente em `config/repository.json` | retirar duplicata distribuível; gerar somente projeção mínima se necessária |
+| `constructor/evaluations/logical-syntax.md` | `builder-internal` | destino interno concluído | estudo fora do corpus, índice e payload; decisão e evidência preservadas |
+| `constructor/docs/rcf-projection.md` | `builder-internal` | destino interno concluído | auditoria interna fora da fonte consumidora |
+| `config/repository.json` | `builder-internal` | configuração física canônica | duplicata removida de `src`; projeção mínima somente quando necessária |
 | `src/.ia.rules/roles/constructor.md` e `scenarios/governance/constructor-operation.md` | `consumer-scenario` | mesmos destinos relativos | preservar normatização reutilizável do papel Construtor |
 | `scenarios/governance/issue-lifecycle.md` e runtimes de inbox/ciclo | `consumer-scenario`/`consumer-runtime` | mesmos destinos relativos | preservar integração condicional reutilizável |
 

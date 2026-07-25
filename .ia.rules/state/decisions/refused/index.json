@@ -16,7 +16,7 @@
       "summaryReason": "Cinco de oito casos perderam semântica e não há tokenizer oficial, baseline de interpretação ou ganho líquido comprovado.",
       "record": "records/DEC-20260725-001.md",
       "relatedArtifacts": [
-        "src/.ia.rules/core/evaluations/logical-syntax.md",
+        "constructor/evaluations/logical-syntax.md",
         "src/.ia.rules/core/routing.md",
         "RCF.md#19",
         ".ia.rules/continue.ia#FT-051",

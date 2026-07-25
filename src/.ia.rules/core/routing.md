@@ -44,8 +44,8 @@ Operação é local, reproduzível, cross-platform e independente de serviço pa
 
 Roteamento possui eixos independentes: `roles` controla carga normativa; perfil de distribuição controla presença no produto. O papel Construtor deriva obrigatoriamente para `../scenarios/governance/constructor-operation.md` nas operações de fonte, classificação, build, dist, package, archive, update, release ou publish. Um nó `constructor` PODE integrar o produto como `consumer-scenario`; somente finalidade exclusiva deste construtor, sem efeito reutilizável, permite `builder-internal`.
 
-Índice normativo contém apenas módulos distribuíveis. Estudo, avaliação, projeção de auditoria ou documento interno realocado para `./constructor/` não é nó, aresta nem fallback do consumidor; referência histórica externa não o reintroduz na rota.
+Índice normativo contém apenas módulos distribuíveis. Estudo, avaliação, projeção de auditoria ou documento interno do Construtor não é nó, aresta nem fallback do consumidor; referência histórica externa não o reintroduz na rota.
 
 ## 7. Sintaxe
 
-Linguagem natural com modalidade RFC 2119 e referências `MN-*` permanece canônica. Nenhum token lógico novo está aprovado. A avaliação vigente está em `./evaluations/logical-syntax.md`; ausência de tokenizer oficial e perdas semânticas impedem comprovar ganho líquido. Parser, formatter ou migração são proibidos até nova decisão no RCF anterior à implementação.
+Linguagem natural com modalidade RFC 2119 e referências `MN-*` permanece canônica. Nenhum token lógico novo está aprovado. A decisão vigente está no RCF e no registro local de recusa; ausência de tokenizer oficial e perdas semânticas documentadas impedem comprovar ganho líquido. Parser, formatter ou migração são proibidos até nova decisão no RCF anterior à implementação.

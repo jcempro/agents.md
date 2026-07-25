@@ -150,41 +150,41 @@ Objetivo: Inventariar e reorganizar fisicamente conteúdos internos fora de `src
 <tr>
 <td rowspan="3">Inventário executável e plano de movimentos</td>
 <td>Classificar cada arquivo de `src/` por consumidor, efeito, perfil e destino</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Realocar `logical-syntax.md`/projeção RCF e preservar papel/cenário/mecanismos reutilizáveis do Construtor</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Mapear todas as referências e definir movimentos atômicos/reversíveis</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Reorganização</td>
 <td>Realocar conteúdo interno para namespaces arquiteturalmente adequados fora de `src/`</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Remover da fonte distribuível conteúdo sem utilidade ao Repositório Final</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Atualizar referências, documentação, índices e histórico aplicáveis</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Pipeline mínimo</td>
 <td>Implementar seleção positiva por perfil/manifesto, sem cópia implícita de `src/`</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Adaptar release, publish, package, mapas e validações de exclusão</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Preservar contratos, scripts, workflows e compatibilidade fora do delta de exclusão</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
 </tr>
 <tr>
 <td rowspan="3">Testes técnicos</td>
