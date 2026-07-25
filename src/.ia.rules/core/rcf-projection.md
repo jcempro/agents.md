@@ -6,7 +6,7 @@ Identidade normativa: `core.rcf-projection`; núcleo de auditoria; tipo: folha. 
 
 | RCF | Projeção canônica em `src/` | Cobertura |
 |---|---|---|
-| §13.1 | `AGENTS.md` §§0–1; `core/authority.md`; `roles/final.md`; `roles/constructor.md` | vocabulário, autoridades, princípios e papéis cumulativos |
+| §§0.0.14 e 13.1 | `AGENTS.md` §§0–1; `core/authority.md`; `roles/final.md`; `roles/constructor.md`; `scenarios/governance/constructor-operation.md` | vocabulário, autoridades, papéis cumulativos, fonte distribuível e segregação interna |
 | §13.2 | `core/authority.md` §3; `roles/final.md` §2; `core/contracts.md` | compulsoriedade, extensão e proibição de fluxo paralelo |
 | §13.3 | `scenarios/governance/official-gap.md`; `scenarios/governance/upstream-sharing/scenario.md` | validação atual, issue-proposta, suspensão e exceção extrema |
 | §13.4 | `scenarios/governance/request-lifecycle.md`; `AGENTS.md` §§4–8; `roles/constructor.md` §2 | captura, decomposição, contextos, FTs, fases, handoffs e integração |
@@ -14,16 +14,28 @@ Identidade normativa: `core.rcf-projection`; núcleo de auditoria; tipo: folha. 
 | §13.6 | `AGENTS.md` §§0.14, 3 e 7; `scenarios/governance/request-lifecycle.md`; `scenarios/governance/refused-decisions.md`; estado local fora de `src/` | triagem prioritária, recusa expressa ainda ausente, não inundação, reavaliação e exclusão de release |
 | §14.1 | `core/contracts.md` CT-5–CT-8; `resources/scripts.md` | assinatura, hook, callback, fallback, estado, log, segurança e failsafe |
 | §14.2 | `core/update/scenario.md`; `AGENTS.md` §0.12; `roles/final.md` §1 | atualização convergente, backup, classificação, transação e commit |
-| §14.3 | `resources/workflows.md`; `roles/constructor.md` §3 | manifesto, distribuição, instalação, gatilho, permissão e integridade |
+| §14.3 | `resources/workflows.md`; `roles/constructor.md` §3; `scenarios/governance/constructor-operation.md` §§3–5; `core/contracts.md` CT-9 | manifesto positivo, perfis, distribuição, instalação, gatilho, permissão e integridade |
 | §§15.1–15.2 | `AGENTS.md` §§10–13; `resources/scripts.md` §§1–3 | intervenção mínima, microunidades, proteção e validação proporcional |
 | §§15.3–15.4 | `resources/traceability.md`; `AGENTS.md` §12 | documentação nativa e assinatura causal RCF↔commit sem recursão |
-| §16 | `core/authority.md`; `roles/*`; `scenarios/*`; `resources/*`; `normative-index.json` | núcleo, papéis, cenário técnico/produto, recurso e descoberta |
+| §16 | `core/authority.md`; `roles/*`; `scenarios/*`; `resources/*`; `normative-index.json` | núcleo, papéis, cenário técnico/produto, recurso, descoberta e eixo papel≠distribuição |
 | §17 | `resources/scripts.md` §§4–5; `roles/constructor.md` §3 | TypeScript fonte, JavaScript derivado, multilíngue, matriz e update seletivo |
 | §18 | `core/routing.md`; `normative-index.json`; schema do índice | RAG determinístico, grafo, fallback, tokenização planejada e segurança |
 | §19 | `core/evaluations/logical-syntax.md`; `core/routing.md` §6 | comparação, rejeição atual e gate anterior a parser/formatter |
-| §20 | este mapa; índice; validações e estado da FT | cobertura, gates e separação da FT-052 |
+| §20 | este mapa; índice; `scenarios/governance/constructor-operation.md`; validações e estado das FTs | cobertura, gates, segregação FT-052/FT-058 e planejamento dos movimentos internos |
 
-Toda alteração posterior em uma coluna DEVE revisar a outra. Norma com implementação futura aponta à FT-052; nenhum contrato desta projeção autoriza código.
+Toda alteração posterior em uma coluna DEVE revisar a outra. Norma com implementação futura aponta à FT-052 ou à FT-058 conforme a conciliação registrada; nenhum contrato desta projeção autoriza código.
+
+## 1.1 Plano físico da segregação
+
+Sem executar movimento nesta fase, a classificação autoritativa determina:
+
+| Origem atual | Classe | Destino planejado | Efeito |
+|---|---|---|---|
+| `src/.ia.rules/core/evaluations/logical-syntax.md` | `builder-internal` | `constructor/evaluations/logical-syntax.md` | retirar estudo do corpus, índice e payload; preservar decisão e evidência |
+| `src/.ia.rules/core/rcf-projection.md` | `builder-internal` | `constructor/docs/rcf-projection.md` | manter auditoria interna fora da fonte consumidora |
+| `src/.ia.rules/config/repository.json` | `builder-internal` | configuração física canônica já existente em `config/repository.json` | retirar duplicata distribuível; gerar somente projeção mínima se necessária |
+| `src/.ia.rules/roles/constructor.md` e `scenarios/governance/constructor-operation.md` | `consumer-scenario` | mesmos destinos relativos | preservar normatização reutilizável do papel Construtor |
+| `scenarios/governance/issue-lifecycle.md` e runtimes de inbox/ciclo | `consumer-scenario`/`consumer-runtime` | mesmos destinos relativos | preservar integração condicional reutilizável |
 
 ## 2. Métricas da reconstrução
 

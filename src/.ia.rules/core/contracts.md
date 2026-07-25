@@ -39,3 +39,9 @@ Manifesto normativo manual usa `generated=false`, não inventa hash de artefato 
 ## CT-8 — Resiliência e conclusão
 
 Failsafe significa concluir a finalidade por rotas seguras. Falha previsível DEVE declarar detecção, causa e alternativas finitas ordenadas: retry limitado, backoff, equivalente oficial, execução em etapas, revalidação/reconstrução, temporário, checkpoint ou fallback compatível. Após esgotamento, recurso restaura ou preserva estado íntegro e informa causa, tentativas, incompatibilidades e ação necessária. Laço infinito, retry cego, sucesso inferido, diagnóstico suprimido ou parcial silencioso são proibidos.
+
+## CT-9 — Elegibilidade e perfil de distribuição
+
+Fonte distribuível DEVE constar de manifesto positivo manual com `path`, `profile`, `destination`, `purpose`, `roles`, `condition`, `ownership` e `validation`; perfis permitidos são `consumer-core`, `consumer-runtime`, `consumer-scenario`, `consumer-bootstrap` e `generated-release`. O manifesto é exaustivo para `src/`: entrada física não declarada, destino duplicado, perfil desconhecido ou classificação negativa bloqueia o build.
+
+`builder-internal` é classificação de não distribuição e NÃO DEVE ocorrer em `src/`, manifesto positivo, dist, pacote, ZIP, release, publish ou update. Aplicabilidade exclusiva ao papel Construtor não basta para essa classificação: norma, cenário, capacidade, workflow ou runtime reutilizável por outro Construtor permanece `consumer-scenario`. Toda projeção derivada DEVE preservar identidade, perfil, destino e integridade da entrada manual.

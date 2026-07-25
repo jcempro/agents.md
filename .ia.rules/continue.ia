@@ -1304,26 +1304,29 @@ resultado=RCF §§0, 9–12, 16–17 e 20 normatizam elegibilidade cumulativa, p
 pendencias=FT-057 aguarda nova autorização humana explícita; FT-058 e FT-059 permanecem bloqueadas pelas fases anteriores. FT-052/FT-055 continuam pendentes em seus escopos.
 proximo_ponto=Interromper após commit/push. Não iniciar FT-057 nesta atuação.
 
-FT-057|nome=Norma Operacional da segregação construtor-consumidor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T19:58:14-03:00
+FT-057|nome=Norma Operacional da segregação construtor-consumidor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-25T19:58:14-03:00|inicio=2026-07-25T20:20:00-03:00|atualizacao=2026-07-25T20:29:24-03:00|conclusao=2026-07-25T20:29:24-03:00
 objetivo=Projetar o RCF concluído em `AGENTS.md`, associados e fonte normativa, preservando a mesma Norma para Final e Construtor, com o papel Construtor segregado por cenário técnico condicional e conteúdo interno deste repositório fora da fonte, sem código ou adaptação executável.
 origens=.ia.rules/state/requests/FT-056/request.md; complemento humano de 2026-07-25 que proíbe retirar a normatização do Construtor de AGENTS.md; RCF produzido pela FT-056.
 dependencias=FT-056 concluída, validada, commitada e enviada; nova autorização humana explícita.
 nao_escopo=Não mover arquivos, alterar scripts, manifests, workflows, build, dist, release ou testes executáveis.
-1/3 Norma ativa e fonte [pendente]
-  1/3 Evoluir `AGENTS.md` raiz mediante a autorização específica já registrada [pendente]
-  2/3 Projetar em `src/AGENTS.md` os contratos reutilizáveis de Final e Construtor [pendente]
-  3/3 Segregar o Construtor em papel/cenário técnico e atualizar descoberta condicional [pendente]
-2/3 Classificação normativa [pendente]
-  1/3 Declarar perfis consumidores comuns, runtime, cenários técnicos e bootstrap, além das exclusões internas [pendente]
-  2/3 Planejar destino de avaliações, estudos, histórico e documentação interna [pendente]
-  3/3 Atualizar matriz RCF→Norma e referências sem movimentação física [pendente]
-3/3 Validação e entrega [pendente]
-  1/3 Comprovar equivalência RCF→Norma e ausência de código [pendente]
-  2/3 Atualizar memória/handoff e commitar fase normativa [pendente]
-  3/3 Enviar `dev` e interromper antes da FT-058 [pendente]
+1/3 Norma ativa e fonte [concluido]
+  1/3 Evoluir `AGENTS.md` raiz mediante a autorização específica já registrada [concluido]
+  2/3 Projetar em `src/AGENTS.md` os contratos reutilizáveis de Final e Construtor [concluido]
+  3/3 Segregar o Construtor em papel/cenário técnico e atualizar descoberta condicional [concluido]
+2/3 Classificação normativa [concluido]
+  1/3 Declarar perfis consumidores comuns, runtime, cenários técnicos e bootstrap, além das exclusões internas [concluido]
+  2/3 Planejar destino de avaliações, estudos, histórico e documentação interna [concluido]
+  3/3 Atualizar matriz RCF→Norma e referências sem movimentação física [concluido]
+3/3 Validação e entrega [concluido]
+  1/3 Comprovar equivalência RCF→Norma e ausência de código [concluido]
+  2/3 Atualizar memória/handoff e commitar fase normativa [concluido]
+  3/3 Enviar `dev` e interromper antes da FT-058 [concluido]
 aceite=RCF e AGENTS estabelecem inequivocamente a segregação; AGENTS continua funcionando para Final e Construtor, com o segundo carregado como cenário técnico condicional; somente material interno deste repositório fica fora da fonte; nenhuma implementação executável ou reorganização física iniciada.
-pendencias=Aguardar FT-056 e nova autorização humana.
-proximo_ponto=Não iniciar nesta atuação.
+decisoes=AGENTS preserva invariantes comuns dos papéis Final e Construtor; `role.constructor` deriva para o novo `scenario.constructor-operation`, que separa aplicabilidade de elegibilidade. CT-9 fecha os perfis positivos e proíbe `builder-internal` em `src`/payload. A matriz RCF→Norma planeja, sem executar, os três movimentos da FT-058 e mantém papel, ciclo de issue e runtimes reutilizáveis no produto.
+verificacoes=RCF_OK bytes=179559; índice JSON parseável; grafo normativo válido com 37 nós/36 arestas, IDs e paths resolvidos, leaf/derivation coerentes; agent:status OK; git diff --check sem erro; codeguard sem alteração em runtime, scripts, workflows, package, config, test ou dist.
+resultado=Norma ativa e fonte passaram a exigir `src` exclusivamente distribuível, seleção positiva comum a build/release/update, cenário técnico condicional do Construtor e reavaliação física de todo interno. Nenhuma implementação executável ou movimentação foi iniciada.
+pendencias=FT-058, FT-055 e FT-052 estão autorizadas pela solicitação humana posterior e permanecem pendentes; FT-059 continua fora desta autorização salvo validação mínima pertencente às FTs de código.
+proximo_ponto=Commitar/enviar esta fase e iniciar imediatamente FT-058 conforme autorização já registrada.
 
 FT-058|nome=Reorganização física e pipeline de distribuição mínima|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T19:58:15-03:00
 objetivo=Inventariar e reorganizar fisicamente conteúdos internos fora de `src/`, atualizar referências e adaptar build, manifests, índices, release e publish para distribuir somente artefatos úteis aos Repositórios Finais.

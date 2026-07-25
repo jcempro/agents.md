@@ -40,6 +40,12 @@ Alteração de fonte normativa, roteador, índice, gerador, tokenizer ou configu
 
 Operação é local, reproduzível, cross-platform e independente de serviço pago/remoto. Código, conteúdo privado, documento ou metadado do consumidor não saem para serviço externo sem RCF e configuração explícitos. A implementação executável deste contrato exige FT e autorização próprias.
 
-## 6. Sintaxe
+## 6. Papel e distribuição
+
+Roteamento possui eixos independentes: `roles` controla carga normativa; perfil de distribuição controla presença no produto. O papel Construtor deriva obrigatoriamente para `../scenarios/governance/constructor-operation.md` nas operações de fonte, classificação, build, dist, package, archive, update, release ou publish. Um nó `constructor` PODE integrar o produto como `consumer-scenario`; somente finalidade exclusiva deste construtor, sem efeito reutilizável, permite `builder-internal`.
+
+Índice normativo contém apenas módulos distribuíveis. Estudo, avaliação, projeção de auditoria ou documento interno realocado para `./constructor/` não é nó, aresta nem fallback do consumidor; referência histórica externa não o reintroduz na rota.
+
+## 7. Sintaxe
 
 Linguagem natural com modalidade RFC 2119 e referências `MN-*` permanece canônica. Nenhum token lógico novo está aprovado. A avaliação vigente está em `./evaluations/logical-syntax.md`; ausência de tokenizer oficial e perdas semânticas impedem comprovar ganho líquido. Parser, formatter ou migração são proibidos até nova decisão no RCF anterior à implementação.

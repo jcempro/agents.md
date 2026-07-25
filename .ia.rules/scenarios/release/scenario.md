@@ -12,7 +12,7 @@ Versão explícita DEVE ser validada e usada sem inferência. Ausente, a inferê
 
 Build DEVE ser determinístico, validar antes/depois, gerar manifestos e notas locais em PT-BR sem dependência externa obrigatória e produzir asset versionado. Manifesto DEVE vincular versão, tag, commit, release anterior, arquivos, hash de notas e asset. Mesmo input e commit DEVEM gerar conteúdo lógico idêntico; relógio, ordem não estável, estado residual e rede NÃO DEVEM alterar o artefato.
 
-O release DEVE materializar em `./.ia.rules/` versão atual explícita, manifesto completo de arquivos e hashes e projeção rastreável do `package.json`. O pacote consumidor DEVE excluir automação interna, experimental ou de desenvolvimento e conservar somente metadados, dependências e scripts públicos normatizados necessários ao consumo. Validação compara pacote, manifesto e estado real e rejeita arquivo gerenciado ausente, excedente ou divergente.
+O release DEVE materializar em `./.ia.rules/` versão atual explícita, manifesto completo de arquivos e hashes e projeção rastreável do `package.json`. Sua seleção nasce do manifesto positivo `CT-9` e mantém os perfis e destinos do cenário `scenario.constructor-operation`; path sob `src/`, extensão ou denylist não autorizam publicação. O pacote consumidor DEVE excluir automação interna, experimental ou de desenvolvimento e conservar somente metadados, dependências e scripts públicos normatizados necessários ao consumo. `builder-internal`, entrada não declarada e gerado sem autoridade são proibidos. Validação compara pacote, manifesto, dist, ZIP, update e estado real e rejeita arquivo gerenciado ausente, excedente ou divergente.
 
 ## 3. Fluxo, rastreabilidade e hooks
 

@@ -90,10 +90,20 @@
       "id": "role.constructor",
       "path": ".ia.rules/roles/constructor.md",
       "class": "role",
-      "type": "leaf",
+      "type": "derivation",
       "roles": ["constructor"],
       "triggers": ["src", "build", "verify", "package", "update", "distribution", "release"],
       "inputs": ["product-source", "RCF"],
+      "outputs": ["constructor-operation-route"]
+    },
+    {
+      "id": "scenario.constructor-operation",
+      "path": ".ia.rules/scenarios/governance/constructor-operation.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": ["constructor"],
+      "triggers": ["source-classification", "build", "dist", "package", "archive", "update", "distribution", "release", "publish"],
+      "inputs": ["constructor-operation-route", "RCF", "source-manifest"],
       "outputs": []
     },
     {
@@ -374,6 +384,7 @@
     { "from": "core.agents", "to": "core.contracts", "mode": "passive", "condition": "scenario, resource, hook, integration or manifest", "order": 4 },
     { "from": "core.agents", "to": "role.final", "mode": "passive", "condition": "always in a consuming repository", "order": 5 },
     { "from": "core.agents", "to": "role.constructor", "mode": "passive", "condition": "constructor operation", "order": 6 },
+    { "from": "role.constructor", "to": "scenario.constructor-operation", "mode": "passive", "condition": "source, classification, build, dist, package, archive, update, distribution, release or publish", "order": 1 },
     { "from": "core.agents", "to": "scenario.request-lifecycle", "mode": "passive", "condition": "request intake or resume", "order": 7 },
     { "from": "scenario.request-lifecycle", "to": "scenario.refused-decisions", "mode": "passive", "condition": "every new request after source capture and before substantive analysis", "order": 1 },
     { "from": "core.agents", "to": "scenario.official-gap", "mode": "passive", "condition": "apparent official gap", "order": 8 },

@@ -140,55 +140,6 @@ Objetivo: Integrar ao mecanismo oficial validação proporcional e determinísti
 </tbody>
 </table>
 
-## FT-057 - Norma Operacional da segregação construtor-consumidor
-
-Objetivo: Projetar o RCF concluído em `AGENTS.md`, associados e fonte normativa, preservando a mesma Norma para Final e Construtor, com o papel Construtor segregado por cenário técnico condicional e conteúdo interno deste repositório fora da fonte, sem código ou adaptação executável.
-
-<table>
-<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
-<tbody>
-<tr>
-<td rowspan="3">Norma ativa e fonte</td>
-<td>Evoluir `AGENTS.md` raiz mediante a autorização específica já registrada</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Projetar em `src/AGENTS.md` os contratos reutilizáveis de Final e Construtor</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Segregar o Construtor em papel/cenário técnico e atualizar descoberta condicional</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Classificação normativa</td>
-<td>Declarar perfis consumidores comuns, runtime, cenários técnicos e bootstrap, além das exclusões internas</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Planejar destino de avaliações, estudos, histórico e documentação interna</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Atualizar matriz RCF→Norma e referências sem movimentação física</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Validação e entrega</td>
-<td>Comprovar equivalência RCF→Norma e ausência de código</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Atualizar memória/handoff e commitar fase normativa</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Enviar `dev` e interromper antes da FT-058</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-</tbody>
-</table>
-
 ## FT-058 - Reorganização física e pipeline de distribuição mínima
 
 Objetivo: Inventariar e reorganizar fisicamente conteúdos internos fora de `src/`, atualizar referências e adaptar build, manifests, índices, release e publish para distribuir somente artefatos úteis aos Repositórios Finais.
