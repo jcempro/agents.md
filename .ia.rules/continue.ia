@@ -1275,49 +1275,53 @@ aceite=Validação oficial detecta todas as inconsistências requeridas, não in
 pendencias=FT-053 e FT-054 concluídas; aguardar nova autorização humana explícita.
 proximo_ponto=Não iniciar nesta atuação.
 
-FT-056|nome=Arquitetura RCF de fontes distribuíveis e internos do construtor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T19:58:13-03:00
+FT-056|nome=Arquitetura RCF de fontes distribuíveis e internos do construtor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-25T19:58:13-03:00|inicio=2026-07-25T19:59:00-03:00|atualizacao=2026-07-25T20:14:00-03:00|conclusao=2026-07-25T20:14:00-03:00
 objetivo=Normatizar no RCF que `src/` contém exclusivamente fontes necessárias ao produto distribuído e que todo conteúdo interno do construtor reside fora dele, com release mínimo, raiz interna permitida, transição e validação verificáveis.
 origens=.ia.rules/state/requests/FT-056/request.md; prompt direto de 2026-07-25.
 dependencias=Leitura integral de AGENTS.md e RCF.md; inspeção real de src, dist, pipeline, índices e referências; triagem do Registro Decisório sem candidato equivalente.
 nao_escopo=Não alterar AGENTS.md, src, código, script, workflow, package, manifest, índice gerado, dist ou localização física nesta fase.
-1/4 Captura e conciliação [pendente]
-  1/3 Preservar solicitação e contextos com hash e vínculos [pendente]
-  2/3 Conciliar FT-052 e impedir implementação duplicada [pendente]
-  3/3 Commitar exclusivamente criação/conciliação das FTs [pendente]
-2/4 Auditoria arquitetural [pendente]
-  1/3 Inventariar integralmente `src/`, `dist/` e superfícies de release/publish [pendente]
-  2/3 Classificar conteúdo distribuível, interno, gerado, temporário e obsoleto [pendente]
-  3/3 Identificar referências, contratos, riscos e transição sem inferência por nome [pendente]
-3/4 Normatização RCF [pendente]
-  1/3 Definir finalidade exclusiva de `src/` e elegibilidade cumulativa de distribuição [pendente]
-  2/3 Definir topologia interna, uso permitido da raiz, proteção e reavaliação física [pendente]
-  3/3 Definir release mínimo, compatibilidade, migração e critérios de aceite por fase [pendente]
-4/4 Validação e entrega [pendente]
-  1/3 Auditar cobertura bidirecional da solicitação e remover temporários incorporados [pendente]
-  2/3 Validar somente documentação/estado, gerar handoff e revisar diff [pendente]
-  3/3 Commitar, enviar `dev` e interromper antes da FT-057 [pendente]
+1/4 Captura e conciliação [concluido]
+  1/3 Preservar solicitação e contextos com hash e vínculos [concluido]
+  2/3 Conciliar FT-052 e impedir implementação duplicada [concluido]
+  3/3 Commitar exclusivamente criação/conciliação das FTs [concluido]
+2/4 Auditoria arquitetural [concluido]
+  1/3 Inventariar integralmente `src/`, `dist/` e superfícies de release/publish [concluido]
+  2/3 Classificar conteúdo distribuível, interno, gerado, temporário e obsoleto [concluido]
+  3/3 Identificar referências, contratos, riscos e transição sem inferência por nome [concluido]
+3/4 Normatização RCF [concluido]
+  1/3 Definir finalidade exclusiva de `src/` e elegibilidade cumulativa de distribuição [concluido]
+  2/3 Definir topologia interna, uso permitido da raiz, proteção e reavaliação física [concluido]
+  3/3 Definir release mínimo, compatibilidade, migração e critérios de aceite por fase [concluido]
+4/4 Validação e entrega [concluido]
+  1/3 Auditar cobertura bidirecional da solicitação e remover temporários incorporados [concluido]
+  2/3 Validar somente documentação/estado, gerar handoff e revisar diff [concluido]
+  3/3 Commitar, enviar `dev` e interromper antes da FT-057 [concluido]
 aceite=RCF suficiente para reconstruir a segregação completa; todos os requisitos e exemplos cobertos; FTs posteriores coerentes; nenhum artefato técnico ou fonte distribuível alterado.
-pendencias=Executar somente após o commit exclusivo de criação/conciliação.
-proximo_ponto=Commitar FTs e iniciar a auditoria da fase RCF.
+registro_temporario=.ia.rules/state/requests/FT-056/request.md e contextos removidos após auditoria bidirecional; conteúdo preservado no commit bd0ff19.
+decisoes=`src/` é exclusivamente fonte distribuível, porém AGENTS continua abrangendo Final e Construtor; o papel Construtor permanece no produto por cenário técnico condicional. `builder-internal` significa somente material exclusivo deste repositório canônico sem valor reutilizável. Seleção por extensão é causa-raiz e será substituída por perfis positivos. `logical-syntax.md` e `rcf-projection.md` são internos; papel/ciclo/runtime reutilizáveis do Construtor não são excluídos por aplicabilidade.
+verificacoes=Leitura integral de AGENTS/RCF e inspeção real; Registro Decisório sem candidato equivalente; inventário de 70 arquivos/26 subdiretórios em src e 61 arquivos em dist; buildIndex/buildDistributionFiles confirmados como cópia por extensão; agent:rcf RCF_OK bytes=179559; agent:status OK; agent:handoff OK; git diff --check sem erro; zero diff em AGENTS.md, src, código, scripts, workflows, package, config, test, dist ou index.json.
+resultado=RCF §§0, 9–12, 16–17 e 20 normatizam elegibilidade cumulativa, perfis, raiz interna permitida, proteção, reavaliação física, seleção positiva, compatibilidade, migração e validação. Correção humana posterior preserva a normatização do Construtor em AGENTS como cenário técnico.
+pendencias=FT-057 aguarda nova autorização humana explícita; FT-058 e FT-059 permanecem bloqueadas pelas fases anteriores. FT-052/FT-055 continuam pendentes em seus escopos.
+proximo_ponto=Interromper após commit/push. Não iniciar FT-057 nesta atuação.
 
 FT-057|nome=Norma Operacional da segregação construtor-consumidor|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T19:58:14-03:00
-objetivo=Projetar o RCF concluído em `AGENTS.md`, associados e fonte normativa, distinguindo permanentemente governança ativa, fonte distribuível e conteúdo interno, sem código ou adaptação executável.
-origens=.ia.rules/state/requests/FT-056/request.md; RCF produzido pela FT-056.
+objetivo=Projetar o RCF concluído em `AGENTS.md`, associados e fonte normativa, preservando a mesma Norma para Final e Construtor, com o papel Construtor segregado por cenário técnico condicional e conteúdo interno deste repositório fora da fonte, sem código ou adaptação executável.
+origens=.ia.rules/state/requests/FT-056/request.md; complemento humano de 2026-07-25 que proíbe retirar a normatização do Construtor de AGENTS.md; RCF produzido pela FT-056.
 dependencias=FT-056 concluída, validada, commitada e enviada; nova autorização humana explícita.
 nao_escopo=Não mover arquivos, alterar scripts, manifests, workflows, build, dist, release ou testes executáveis.
 1/3 Norma ativa e fonte [pendente]
   1/3 Evoluir `AGENTS.md` raiz mediante a autorização específica já registrada [pendente]
-  2/3 Projetar em `src/AGENTS.md` somente obrigações úteis aos Repositórios Finais [pendente]
-  3/3 Atualizar associados, roteamento e contratos normativos aplicáveis [pendente]
+  2/3 Projetar em `src/AGENTS.md` os contratos reutilizáveis de Final e Construtor [pendente]
+  3/3 Segregar o Construtor em papel/cenário técnico e atualizar descoberta condicional [pendente]
 2/3 Classificação normativa [pendente]
-  1/3 Declarar perfis `consumer-runtime`, `consumer-contract`, `consumer-bootstrap` e exclusões internas [pendente]
+  1/3 Declarar perfis consumidores comuns, runtime, cenários técnicos e bootstrap, além das exclusões internas [pendente]
   2/3 Planejar destino de avaliações, estudos, histórico e documentação interna [pendente]
   3/3 Atualizar matriz RCF→Norma e referências sem movimentação física [pendente]
 3/3 Validação e entrega [pendente]
   1/3 Comprovar equivalência RCF→Norma e ausência de código [pendente]
   2/3 Atualizar memória/handoff e commitar fase normativa [pendente]
   3/3 Enviar `dev` e interromper antes da FT-058 [pendente]
-aceite=RCF e AGENTS estabelecem inequivocamente a segregação; fonte normativa não carrega instrução exclusiva do construtor; nenhuma implementação executável ou reorganização física iniciada.
+aceite=RCF e AGENTS estabelecem inequivocamente a segregação; AGENTS continua funcionando para Final e Construtor, com o segundo carregado como cenário técnico condicional; somente material interno deste repositório fica fora da fonte; nenhuma implementação executável ou reorganização física iniciada.
 pendencias=Aguardar FT-056 e nova autorização humana.
 proximo_ponto=Não iniciar nesta atuação.
 
@@ -1328,7 +1332,7 @@ dependencias=FT-056 e FT-057 concluídas, validadas, commitadas e enviadas; nova
 nao_escopo=Não reimplementar contratos amplos da FT-052 nem alterar comportamento público além da retirada de conteúdo indevido.
 1/4 Inventário executável e plano de movimentos [pendente]
   1/3 Classificar cada arquivo de `src/` por consumidor, efeito, perfil e destino [pendente]
-  2/3 Resolver `logical-syntax.md`, projeção RCF, papel construtor e demais candidatos [pendente]
+  2/3 Realocar `logical-syntax.md`/projeção RCF e preservar papel/cenário/mecanismos reutilizáveis do Construtor [pendente]
   3/3 Mapear todas as referências e definir movimentos atômicos/reversíveis [pendente]
 2/4 Reorganização [pendente]
   1/3 Realocar conteúdo interno para namespaces arquiteturalmente adequados fora de `src/` [pendente]
@@ -1342,7 +1346,7 @@ nao_escopo=Não reimplementar contratos amplos da FT-052 nem alterar comportamen
   1/3 Cobrir conteúdo interno em `src/`, entrada não declarada e referência quebrada [pendente]
   2/3 Cobrir geração, pacote, ZIP, update e ausência de vazamento interno [pendente]
   3/3 Commitar incrementalmente e entregar estado pronto para integração [pendente]
-aceite=`src/` contém somente fontes distribuíveis; conteúdo interno está bem localizado; pipeline seleciona allowlist positiva e rejeita internos; comportamento público permanece equivalente exceto pela remoção autorizada.
+aceite=`src/` contém somente fontes distribuíveis para a Norma reutilizável nos papéis Final e Construtor; conteúdo interno deste repositório está bem localizado; pipeline seleciona allowlist positiva e rejeita internos; comportamento público permanece equivalente exceto pela remoção autorizada.
 conciliacao=Esta FT especializa FT-052 nos pontos de estrutura, allowlist, manifests e distribuição; seu resultado é entrada da FT-052, não implementação concorrente.
 pendencias=Aguardar FT-057 e nova autorização humana.
 proximo_ponto=Não iniciar nesta atuação.

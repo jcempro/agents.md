@@ -139,3 +139,163 @@ Objetivo: Integrar ao mecanismo oficial validação proporcional e determinísti
 </tr>
 </tbody>
 </table>
+
+## FT-057 - Norma Operacional da segregação construtor-consumidor
+
+Objetivo: Projetar o RCF concluído em `AGENTS.md`, associados e fonte normativa, preservando a mesma Norma para Final e Construtor, com o papel Construtor segregado por cenário técnico condicional e conteúdo interno deste repositório fora da fonte, sem código ou adaptação executável.
+
+<table>
+<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
+<tbody>
+<tr>
+<td rowspan="3">Norma ativa e fonte</td>
+<td>Evoluir `AGENTS.md` raiz mediante a autorização específica já registrada</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Projetar em `src/AGENTS.md` os contratos reutilizáveis de Final e Construtor</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Segregar o Construtor em papel/cenário técnico e atualizar descoberta condicional</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Classificação normativa</td>
+<td>Declarar perfis consumidores comuns, runtime, cenários técnicos e bootstrap, além das exclusões internas</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Planejar destino de avaliações, estudos, histórico e documentação interna</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Atualizar matriz RCF→Norma e referências sem movimentação física</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Validação e entrega</td>
+<td>Comprovar equivalência RCF→Norma e ausência de código</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Atualizar memória/handoff e commitar fase normativa</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Enviar `dev` e interromper antes da FT-058</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+</tbody>
+</table>
+
+## FT-058 - Reorganização física e pipeline de distribuição mínima
+
+Objetivo: Inventariar e reorganizar fisicamente conteúdos internos fora de `src/`, atualizar referências e adaptar build, manifests, índices, release e publish para distribuir somente artefatos úteis aos Repositórios Finais.
+
+<table>
+<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
+<tbody>
+<tr>
+<td rowspan="3">Inventário executável e plano de movimentos</td>
+<td>Classificar cada arquivo de `src/` por consumidor, efeito, perfil e destino</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Realocar `logical-syntax.md`/projeção RCF e preservar papel/cenário/mecanismos reutilizáveis do Construtor</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Mapear todas as referências e definir movimentos atômicos/reversíveis</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Reorganização</td>
+<td>Realocar conteúdo interno para namespaces arquiteturalmente adequados fora de `src/`</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Remover da fonte distribuível conteúdo sem utilidade ao Repositório Final</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Atualizar referências, documentação, índices e histórico aplicáveis</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Pipeline mínimo</td>
+<td>Implementar seleção positiva por perfil/manifesto, sem cópia implícita de `src/`</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Adaptar release, publish, package, mapas e validações de exclusão</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Preservar contratos, scripts, workflows e compatibilidade fora do delta de exclusão</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Testes técnicos</td>
+<td>Cobrir conteúdo interno em `src/`, entrada não declarada e referência quebrada</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Cobrir geração, pacote, ZIP, update e ausência de vazamento interno</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Commitar incrementalmente e entregar estado pronto para integração</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+</tbody>
+</table>
+
+## FT-059 - Integração e auditoria do release mínimo
+
+Objetivo: Validar integralmente a reorganização e comprovar que release/publish contêm somente artefatos úteis aos Repositórios Finais, com referências, scripts, workflows, documentação e índices íntegros.
+
+<table>
+<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
+<tbody>
+<tr>
+<td rowspan="3">Auditoria estrutural</td>
+<td>Reclassificar todo `src/` contra o contrato final</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Validar destinos internos, referências, documentação e índices</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Comprovar ausência de morto, protótipo, estudo, avaliação ou histórico no payload</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Validação de pipeline</td>
+<td>Gerar dist/release/package/ZIP de forma reproduzível</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Inspecionar manifests, mapas, workflows, scripts e atualização</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Comparar conteúdo público antes/depois e limitar delta às exclusões autorizadas</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td rowspan="3">Fechamento</td>
+<td>Executar suíte global e registrar limitações/falhas proprietárias</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Atualizar RCF, AGENTS, memória, handoff e derivados finais aplicáveis</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+<tr>
+<td>Commitar, enviar, publicar somente se autorizado e convergir branches com gates verdes</td>
+<td><span style="color:#64748b">&#9679;</span> pendente</td>
+</tr>
+</tbody>
+</table>
