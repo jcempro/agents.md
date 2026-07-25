@@ -1328,7 +1328,7 @@ resultado=Norma ativa e fonte passaram a exigir `src` exclusivamente distribuív
 pendencias=FT-058, FT-055 e FT-052 estão autorizadas pela solicitação humana posterior e permanecem pendentes; FT-059 continua fora desta autorização salvo validação mínima pertencente às FTs de código.
 proximo_ponto=Commitar/enviar esta fase e iniciar imediatamente FT-058 conforme autorização já registrada.
 
-FT-058|nome=Reorganização física e pipeline de distribuição mínima|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-25T19:58:15-03:00|inicio=2026-07-25T20:30:00-03:00|atualizacao=2026-07-25T20:41:50-03:00
+FT-058|nome=Reorganização física e pipeline de distribuição mínima|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-25T19:58:15-03:00|inicio=2026-07-25T20:30:00-03:00|atualizacao=2026-07-25T20:43:46-03:00|conclusao=2026-07-25T20:43:46-03:00
 objetivo=Inventariar e reorganizar fisicamente conteúdos internos fora de `src/`, atualizar referências e adaptar build, manifests, índices, release e publish para distribuir somente artefatos úteis aos Repositórios Finais.
 origens=.ia.rules/state/requests/FT-056/request.md; RCF da FT-056; Norma da FT-057.
 dependencias=FT-056 e FT-057 concluídas, validadas, commitadas e enviadas; nova autorização humana explícita.
@@ -1341,20 +1341,21 @@ nao_escopo=Não reimplementar contratos amplos da FT-052 nem alterar comportamen
   1/3 Realocar conteúdo interno para namespaces arquiteturalmente adequados fora de `src/` [concluido]
   2/3 Remover da fonte distribuível conteúdo sem utilidade ao Repositório Final [concluido]
   3/3 Atualizar referências, documentação, índices e histórico aplicáveis [concluido]
-3/4 Pipeline mínimo [em_andamento]
+3/4 Pipeline mínimo [concluido]
   1/3 Implementar seleção positiva por perfil/manifesto, sem cópia implícita de `src/` [concluido]
   2/3 Adaptar release, publish, package, mapas e validações de exclusão [concluido]
-  3/3 Preservar contratos, scripts, workflows e compatibilidade fora do delta de exclusão [em_andamento]
-4/4 Testes técnicos [pendente]
-  1/3 Cobrir conteúdo interno em `src/`, entrada não declarada e referência quebrada [pendente]
-  2/3 Cobrir geração, pacote, ZIP, update e ausência de vazamento interno [pendente]
-  3/3 Commitar incrementalmente e entregar estado pronto para integração [pendente]
+  3/3 Preservar contratos, scripts, workflows e compatibilidade fora do delta de exclusão [concluido]
+4/4 Testes técnicos [concluido]
+  1/3 Cobrir conteúdo interno em `src/`, entrada não declarada e referência quebrada [concluido]
+  2/3 Cobrir geração, pacote, ZIP, update e ausência de vazamento interno [concluido]
+  3/3 Commitar incrementalmente e entregar estado pronto para integração [concluido]
 aceite=`src/` contém somente fontes distribuíveis para a Norma reutilizável nos papéis Final e Construtor; conteúdo interno deste repositório está bem localizado; pipeline seleciona allowlist positiva e rejeita internos; comportamento público permanece equivalente exceto pela remoção autorizada.
 conciliacao=Esta FT especializa FT-052 nos pontos de estrutura, allowlist, manifests e distribuição; seu resultado é entrada da FT-052, não implementação concorrente.
-decisoes_parciais=Inventário positivo possui 70 fontes consumidoras. Avaliação lógica e projeção RCF foram movidas para `constructor/`; configuração física duplicada foi retirada de `src`; papel e cenário Construtor permanecem `consumer-scenario`. Índice normativo perdeu somente os dois nós internos. O manifesto manual é exaustivo e o mesmo conjunto alimenta index, dist, release, mapa, update, package e ZIP.
-verificacoes_parciais=agent:index OK 70; agent:dist e agent:package OK 74 entradas de release; teste source-distribution OK, incluindo fonte sem perfil, destino duplicado, perfil interno, path inseguro, payload e ZIP. npm pack --dry-run falhou apenas por cache global sem permissão e será repetido com cache local.
-pendencias=Concluir compatibilidade, testes técnicos, pack com cache local, estado e commits da FT.
-proximo_ponto=Commit incremental da reorganização física; depois concluir pipeline e suíte sem sair da FT-058.
+decisoes=Inventário positivo possui 70 fontes consumidoras. Avaliação lógica e projeção RCF foram movidas para `constructor/`; configuração física duplicada foi retirada de `src`; papel e cenário Construtor permanecem `consumer-scenario`. Índice normativo perdeu somente os dois nós internos. O manifesto manual é exaustivo e o mesmo conjunto alimenta index, dist, release, mapa, update, package e ZIP; mapa e manifestos derivados preservam perfil.
+verificacoes=agent:index OK 70; agent:dist e agent:package OK 74 entradas de release; grafo normativo 35 nós/34 arestas; distribution-map.test e source-distribution.test OK; cobertura negativa de fonte sem perfil, destino duplicado, `builder-internal` e path inseguro; payload e ZIP sem internos; cenário/papel Construtor presentes; npm pack --dry-run OK com cache local, 73 entradas/137106 bytes. agent:verify validou sintaxe, índice, referências e build, mas parou na divergência byte/EOL preexistente de archive.js, correção explicitamente pertencente à FT-052.
+resultado=`src/` contém somente as 70 fontes positivamente classificadas; conteúdo interno ocupa `constructor/`/`config/`; dist, package, ZIP, release, mapa e update derivam da mesma seleção. Nenhum registro decisório local, avaliação, projeção interna ou configuração física do construtor é publicado.
+pendencias=FT-052 deve corrigir a comparação EOL e absorver o manifesto ao converter fontes Node/gerados; FT-055 deve integrar a validação do acervo decisório. FT-059 permanece pendente para integração terminal posterior.
+proximo_ponto=Commitar/enviar pipeline da FT-058 e iniciar FT-055, já autorizada.
 
 FT-059|nome=Integração e auditoria do release mínimo|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T19:58:16-03:00
 objetivo=Validar integralmente a reorganização e comprovar que release/publish contêm somente artefatos úteis aos Repositórios Finais, com referências, scripts, workflows, documentação e índices íntegros.

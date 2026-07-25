@@ -33,6 +33,15 @@ const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 const DISTRIBUTION_PACKAGE_PATH = path.join(DIST_DIR, "package.json");
 const UPDATE_FORMAT_PATH = path.join(RUNTIME_RULES_DIR, "core", "update", "formats", "governance-manifest.v2.json");
+const SOURCE_DISTRIBUTION_MANIFEST_PATH = path.join(SOURCE_RULES_DIR, "distribution", "source-manifest.json");
+const SOURCE_DISTRIBUTION_FORMAT = "agents-source-distribution/v1";
+const SOURCE_DISTRIBUTION_PROFILES = new Set([
+  "consumer-core",
+  "consumer-runtime",
+  "consumer-scenario",
+  "consumer-bootstrap",
+  "generated-release",
+]);
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
   ".ia.rules/core/runtime/scripts/archive.js",
@@ -402,28 +411,100 @@ function main(argv = process.argv.slice(2)) {
 function buildIndex() {
   assertBuildConfiguration();
   assertDirectory(SRC_DIR, "src ausente.");
-  const files = listFiles(SRC_DIR)
-    .filter((filePath) => [".md", ".json", ".js"].includes(path.extname(filePath).toLocaleLowerCase("en-US")))
-    .map((filePath) => ({
-      name: path.basename(filePath),
-      path: toPosix(path.relative(ROOT_DIR, filePath)),
-    }))
-    .sort((a, b) => a.path.localeCompare(b.path, "en"));
+  const sourceManifest = readSourceDistributionManifest();
+  const files = sourceManifest.entries.map((entry) => ({
+    condition: entry.condition,
+    destination: entry.destination,
+    name: path.posix.basename(entry.destination),
+    path: toPosix(path.join("src", entry.path)),
+    profile: entry.profile,
+  })).sort((a, b) => a.destination.localeCompare(b.destination, "en"));
 
   const index = {
     files,
     root: "src",
     schema: 1,
+    sourceManifest: {
+      id: sourceManifest.id,
+      path: toPosix(path.relative(ROOT_DIR, SOURCE_DISTRIBUTION_MANIFEST_PATH)),
+      version: sourceManifest.version,
+    },
   };
   index.update = createGovernanceManifest(buildDistributionFiles(index), (entry) => fs.readFileSync(path.join(ROOT_DIR, entry.sourcePath)));
   index.update.files.push({
     kind: "package",
     path: "package.json",
+    profile: "generated-release",
     sha256: hashTextFile(PACKAGE_PATH),
     source: "package.json",
   });
   index.handoff = createUpdateHandoffDescriptor(index.update);
   return index;
+}
+
+function readSourceDistributionManifest() {
+  assertFile(SOURCE_DISTRIBUTION_MANIFEST_PATH, "MANIFESTO_FONTE_AUSENTE");
+  let manifest;
+  try {
+    manifest = JSON.parse(fs.readFileSync(SOURCE_DISTRIBUTION_MANIFEST_PATH, "utf8"));
+  } catch (error) {
+    throw new Error(`MANIFESTO_FONTE_JSON_INVALIDO:${error.message}`);
+  }
+  return validateSourceDistributionManifest(manifest, SRC_DIR);
+}
+
+function validateSourceDistributionManifest(manifest, sourceRoot) {
+  if (!manifest || manifest.schema !== SOURCE_DISTRIBUTION_FORMAT || manifest.id !== "agents.source-distribution" ||
+    manifest.version !== 1 || manifest.generated !== false || manifest.scope !== "src" ||
+    !Array.isArray(manifest.entries) || manifest.entries.length === 0) {
+    throw new Error("MANIFESTO_FONTE_INVALIDO");
+  }
+
+  const sources = new Map();
+  const destinations = new Map();
+  for (const entry of manifest.entries) {
+    if (!entry || !SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "generated-release" ||
+      !entry.purpose || !entry.condition || entry.ownership !== "managed" ||
+      !Array.isArray(entry.roles) || entry.roles.length === 0 ||
+      !Array.isArray(entry.validation) || entry.validation.length === 0) {
+      throw new Error(`MANIFESTO_FONTE_ENTRADA_INVALIDA:${JSON.stringify(entry)}`);
+    }
+    entry.path = normalizeSourceDistributionPath(entry.path, "origem");
+    entry.destination = normalizeSourceDistributionPath(entry.destination, "destino");
+    const sourceKey = entry.path.toLocaleLowerCase("en-US");
+    const destinationKey = entry.destination.toLocaleLowerCase("en-US");
+    if (sources.has(sourceKey)) throw new Error(`MANIFESTO_FONTE_ORIGEM_DUPLICADA:${entry.path}`);
+    if (destinations.has(destinationKey)) throw new Error(`MANIFESTO_FONTE_DESTINO_DUPLICADO:${entry.destination}`);
+    sources.set(sourceKey, entry.path);
+    destinations.set(destinationKey, entry.destination);
+    const absolute = path.join(sourceRoot, entry.path);
+    if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile() || !hasExactPathCase(sourceRoot, entry.path.split("/").join(path.sep))) {
+      throw new Error(`MANIFESTO_FONTE_ARQUIVO_AUSENTE:${entry.path}`);
+    }
+  }
+
+  const physical = listFiles(sourceRoot)
+    .map((filePath) => toPosix(path.relative(sourceRoot, filePath)))
+    .sort((left, right) => left.localeCompare(right, "en"));
+  for (const relativePath of physical) {
+    if (!sources.has(relativePath.toLocaleLowerCase("en-US"))) {
+      throw new Error(`FONTE_SEM_PERFIL:${relativePath}`);
+    }
+  }
+  if (physical.length !== sources.size) {
+    throw new Error(`MANIFESTO_FONTE_NAO_EXAUSTIVO:physical=${physical.length}:declared=${sources.size}`);
+  }
+  return manifest;
+}
+
+function normalizeSourceDistributionPath(value, kind) {
+  const normalized = String(value || "").trim().replace(/\\/gu, "/").replace(/^\.\//u, "");
+  if (!normalized || path.posix.isAbsolute(normalized) || /^[A-Za-z]:\//u.test(normalized) ||
+    normalized === "." || normalized === ".." || normalized.startsWith("../") ||
+    normalized.includes("/../") || normalized.includes("//") || normalized.endsWith("/")) {
+    throw new Error(`MANIFESTO_FONTE_PATH_INSEGURO:${kind}:${value}`);
+  }
+  return normalized;
 }
 
 function buildDist(options = {}) {
@@ -447,15 +528,24 @@ function buildDist(options = {}) {
   const distributionMapPath = distributionMapRelativePath(effectiveVersion);
 
   const releaseIndex = {
-    files: [...files.map(({ name, path: releasePath }) => ({ name, path: releasePath })), {
+    files: [...files.map(({ condition, name, path: releasePath, profile, sourcePath }) => ({
+      condition,
+      name,
+      path: releasePath,
+      profile,
+      source: sourcePath,
+    })), {
       name: "package.json",
       path: "package.json",
+      profile: "generated-release",
     }, {
       name: "release.json",
       path: "release.json",
+      profile: "generated-release",
     }, {
       name: distributionMapFileName(effectiveVersion),
       path: distributionMapPath,
+      profile: "generated-release",
     }],
     distributionMap: {
       format: "agents-distribution-map/v1",
@@ -470,6 +560,7 @@ function buildDist(options = {}) {
     releaseIndex.files.push({
       name: "release-note.txt",
       path: "release-note.txt",
+      profile: "generated-release",
     });
   }
   if (preservedRelease) {
@@ -493,8 +584,10 @@ function buildDist(options = {}) {
   writeJsonMinified(RELEASE_PATH, releaseIndex);
   const distributionMap = buildDistributionMap({
     files: releaseIndex.files.map((entry) => ({
+      condition: entry.condition || "",
       path: entry.path,
-      source: entry.path,
+      profile: entry.profile || "generated-release",
+      source: entry.source || entry.path,
       status: entry.path === "release.json" || entry.path === distributionMapPath ? "generated" : "required",
     })),
     rootDir: DIST_DIR,
@@ -520,8 +613,10 @@ function buildDist(options = {}) {
 
 function buildDistributionFiles(index) {
   return index.files.map((file) => ({
-    name: file.name.toLocaleLowerCase("en-US") === "agents.md" ? "AGENTS.md" : file.name,
-    path: releaseRelativePath(file.path),
+    condition: file.condition,
+    name: file.name,
+    path: file.destination,
+    profile: file.profile,
     sourcePath: file.path,
   })).sort((a, b) => a.path.localeCompare(b.path, "en"));
 }
@@ -575,7 +670,8 @@ function createGovernanceManifest(entries, contentForEntry) {
     files: entries.map((entry) => ({
       ...(entry.kind ? { kind: entry.kind } : {}),
       path: entry.path,
-      ...(entry.sourcePath ? { source: entry.sourcePath } : {}),
+      ...(entry.profile ? { profile: entry.profile } : {}),
+      ...(entry.sourcePath || entry.source ? { source: entry.sourcePath || entry.source } : {}),
       sha256: hashTextBuffer(contentForEntry(entry)),
     })),
   };
@@ -705,17 +801,25 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "package-registry.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "todo-and-gate.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "template-merge.test.js")]);
-  return ok("TEST_OK", { suites: 10 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "source-distribution.test.js")]);
+  return ok("TEST_OK", { suites: 11 });
 }
 
 function validateIndex(index) {
-  if (!index || index.schema !== 1 || index.root !== "src" || !Array.isArray(index.files)) {
+  if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest ||
+    index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {
     throw new Error("index.json invalido.");
   }
+  const destinations = new Set();
   for (const file of index.files) {
-    if (!file.name || !file.path || !file.path.startsWith("src/") || !fs.existsSync(path.join(ROOT_DIR, file.path))) {
+    if (!file.name || !file.path || !file.path.startsWith("src/") || !file.destination ||
+      !SOURCE_DISTRIBUTION_PROFILES.has(file.profile) || file.profile === "generated-release" ||
+      !fs.existsSync(path.join(ROOT_DIR, file.path))) {
       throw new Error(`Entrada invalida no indexador: ${JSON.stringify(file)}`);
     }
+    const destinationKey = file.destination.toLocaleLowerCase("en-US");
+    if (destinations.has(destinationKey)) throw new Error(`Destino duplicado no indexador: ${file.destination}`);
+    destinations.add(destinationKey);
   }
   validateGovernanceManifest(index.update, "index.json");
   validateUpdateHandoffDescriptor(index.handoff, "index.json");
@@ -795,6 +899,7 @@ function validateDist() {
   const distributionMap = JSON.parse(fs.readFileSync(distributionMapPath, "utf8"));
   validateDistributionMap(distributionMap, { rootDir: DIST_DIR });
   validateDistributionMapCompleteness(distributionMap);
+  validateDistributionProfiles(release, distributionMap);
   if (!release.files.some((file) => file.path === "package.json")) {
     throw new Error("dist/release.json nao indexa package.json.");
   }
@@ -816,6 +921,24 @@ function validateDist() {
     !distributionPackage.scripts.release || !distributionPackage.scripts.publish ||
     !policy.managedScriptPrefixes.includes("shared:")) {
     throw new Error("dist/package.json nao contem contrato executavel de governanca.");
+  }
+}
+
+function validateDistributionProfiles(release, distributionMap) {
+  const mapEntries = new Map(distributionMap.entries.map((entry) => [entry.path, entry]));
+  for (const entry of release.files) {
+    if (!SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "builder-internal") {
+      throw new Error(`RELEASE_PERFIL_INVALIDO:${entry.path}`);
+    }
+    const mapped = mapEntries.get(entry.path);
+    if (!mapped || mapped.profile !== entry.profile) {
+      throw new Error(`RELEASE_MAPA_PERFIL_DIVERGENTE:${entry.path}`);
+    }
+  }
+  for (const entry of release.update.files) {
+    if (!SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "builder-internal") {
+      throw new Error(`UPDATE_PERFIL_INVALIDO:${entry.path}`);
+    }
   }
 }
 
@@ -1408,7 +1531,7 @@ function assertPublishedNorms(index) {
   // FIX-BUG: valida produto fonte/publicado sem contaminar a governanca ativa.
   for (const file of index.files) {
     const sourcePath = path.join(ROOT_DIR, file.path);
-    const publishedPath = path.join(DIST_DIR, releaseRelativePath(file.path));
+    const publishedPath = path.join(DIST_DIR, file.destination);
     assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(file.path)}.`);
     assertFile(publishedPath, `Norma publicada ausente: ${toPosix(path.relative(ROOT_DIR, publishedPath))}.`);
     if (!fs.readFileSync(sourcePath).equals(fs.readFileSync(publishedPath))) {
@@ -1482,6 +1605,7 @@ module.exports = {
   main,
   resolveExistingReleaseTrigger,
   resolveRelease,
+  validateSourceDistributionManifest,
   validateDist,
   verify,
 };

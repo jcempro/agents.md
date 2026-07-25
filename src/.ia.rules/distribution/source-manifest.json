@@ -1,0 +1,1210 @@
+{
+  "schema": "agents-source-distribution/v1",
+  "id": "agents.source-distribution",
+  "version": 1,
+  "generated": false,
+  "authority": "AGENTS.md#0.14",
+  "scope": "src",
+  "profiles": [
+    "consumer-core",
+    "consumer-runtime",
+    "consumer-scenario",
+    "consumer-bootstrap",
+    "generated-release"
+  ],
+  "entries": [
+    {
+      "path": ".ia.rules/config/core.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/config/core.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/config/schema.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/config/schema.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/authority.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/authority.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/concepts/microconceitos.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/concepts/microconceitos.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/contracts.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/contracts.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/formats/normative-index.v1.schema.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/formats/normative-index.v1.schema.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/formats/source-distribution-manifest.v1.schema.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/formats/source-distribution-manifest.v1.schema.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/routing.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/routing.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/archive.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/archive.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/autoupdate.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/autoupdate.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/configuration.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/configuration.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/distribution-map.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/distribution-map.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/extension-contract.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/extension-contract.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/generate-agents-status.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/generate-agents-status.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/issue-inbox.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/issue-inbox.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/issue-lifecycle.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/issue-lifecycle.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/package.json",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/package.json",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/public-client.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/public-client.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/repo-tools.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/repo-tools.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/request-code-gate.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/request-code-gate.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/shared-lifecycle.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/shared-lifecycle.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/template-merge.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/template-merge.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/to-ia.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/to-ia.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/todo-intake.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/todo-intake.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/update-agents.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/update-agents.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/upstream-share.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/upstream-share.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/update/formats/governance-manifest.v2.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/update/formats/governance-manifest.v2.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/update/migrations/v1-to-v2.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/update/migrations/v1-to-v2.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/update/scenario.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/update/scenario.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/update/upstream.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/update/upstream.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/distribution/source-manifest.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/distribution/source-manifest.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/build.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/meta/build.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/cli.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/cli.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/ia.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/ia.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/index.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/index.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/maintenance.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/maintenance.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/publish.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/publish.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/release.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/release.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/update.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/update.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/upstream.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/upstream.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/meta/validation.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/meta/validation.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/normative-index.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/normative-index.json",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/resources/scripts.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/scripts.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/resources/traceability.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/traceability.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/resources/workflows.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/workflows.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/roles/constructor.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/roles/constructor.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/roles/final.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/roles/final.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/application-update/scenario.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/application-update/scenario.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/application-update/scripts/application-update.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/application-update/scripts/application-update.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/content-publication/scenario.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/content-publication/scenario.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/constructor-operation.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/constructor-operation.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/issue-lifecycle.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/issue-lifecycle.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/official-gap.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/official-gap.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/refused-decisions.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/refused-decisions.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/request-lifecycle.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/request-lifecycle.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/upstream-sharing/scenario.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/upstream-sharing/scenario.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/capabilities/package-registry.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/release/capabilities/package-registry.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/scenario.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/release/scenario.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/scripts/package-registry.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/release/scripts/package-registry.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/scripts/release-hooks.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/release/scripts/release-hooks.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/scripts/release-publish-resume.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/release/scripts/release-publish-resume.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/scripts/release-publish.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/release/scripts/release-publish.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/release/scripts/release-workflow.js",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/release/scripts/release-workflow.js",
+      "purpose": "runtime reutilizavel no destino",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/web/page-like/capabilities/browser.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/web/page-like/capabilities/browser.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/web/page-like/capabilities/editorial.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/web/page-like/capabilities/editorial.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/web/page-like/capabilities/static-hosting.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/web/page-like/capabilities/static-hosting.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/web/page-like/scenario.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/web/page-like/scenario.md",
+      "purpose": "papel, recurso ou cenario condicional reutilizavel",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "AGENTS.md",
+      "profile": "consumer-core",
+      "destination": "AGENTS.md",
+      "purpose": "norma, contrato ou manifesto comum",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "INIT-REPO.md",
+      "profile": "consumer-bootstrap",
+      "destination": "INIT-REPO.md",
+      "purpose": "bootstrap normativo autorizado",
+      "roles": [
+        "final"
+      ],
+      "condition": "repository-initialization",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "timing": "build"
+  }
+}

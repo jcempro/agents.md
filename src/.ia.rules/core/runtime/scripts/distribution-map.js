@@ -44,6 +44,7 @@ function buildDistributionMap(options = {}) {
       condition: file.condition || "",
       destination: relativePath,
       path: relativePath,
+      profile: file.profile || "",
       property: file.property || "managed",
       removalPolicy: file.removalPolicy || "remove-when-obsolete-managed",
       required: file.required !== false,
@@ -62,6 +63,7 @@ function buildDistributionMap(options = {}) {
       condition: file.condition || "",
       destination: relativePath,
       path: relativePath,
+      profile: file.profile || "",
       property: file.property || "local",
       removalPolicy: file.removalPolicy || "preserve",
       required: false,
@@ -102,6 +104,7 @@ function compactEntry(entry) {
     required: Boolean(entry.required),
   };
   if (entry.condition) result.condition = String(entry.condition);
+  if (entry.profile) result.profile = String(entry.profile);
   if (entry.sha256) result.sha256 = String(entry.sha256).toLocaleLowerCase("en-US");
   if (Number.isFinite(entry.size) && entry.size > 0) result.size = entry.size;
   if (entry.userModifiable) result.userModifiable = true;
@@ -134,6 +137,9 @@ function validateDistributionMap(map, options = {}) {
     normalizeMapPath(entry.destination || relativePath);
     if (!["file", "directory"].includes(entry.type)) throw new Error(`MAPA_DISTRIBUICAO_TIPO_INVALIDO:${relativePath}`);
     if (!["required", "optional", "conditional", "generated", "obsolete"].includes(entry.status)) throw new Error(`MAPA_DISTRIBUICAO_STATUS_INVALIDO:${relativePath}`);
+    if (entry.profile && !["consumer-core", "consumer-runtime", "consumer-scenario", "consumer-bootstrap", "generated-release"].includes(entry.profile)) {
+      throw new Error(`MAPA_DISTRIBUICAO_PERFIL_INVALIDO:${relativePath}`);
+    }
     if (entry.sha256 && !/^[a-f0-9]{64}$/u.test(entry.sha256)) throw new Error(`MAPA_DISTRIBUICAO_HASH_INVALIDO:${relativePath}`);
     if (options.requireFiles && rootDir && entry.required && entry.type === "file" && entry.status !== "obsolete" && relativePath !== map.self) {
       const absolute = path.join(rootDir, relativePath);

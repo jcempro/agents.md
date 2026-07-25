@@ -140,68 +140,6 @@ Objetivo: Integrar ao mecanismo oficial validação proporcional e determinísti
 </tbody>
 </table>
 
-## FT-058 - Reorganização física e pipeline de distribuição mínima
-
-Objetivo: Inventariar e reorganizar fisicamente conteúdos internos fora de `src/`, atualizar referências e adaptar build, manifests, índices, release e publish para distribuir somente artefatos úteis aos Repositórios Finais.
-
-<table>
-<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
-<tbody>
-<tr>
-<td rowspan="3">Inventário executável e plano de movimentos</td>
-<td>Classificar cada arquivo de `src/` por consumidor, efeito, perfil e destino</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Realocar `logical-syntax.md`/projeção RCF e preservar papel/cenário/mecanismos reutilizáveis do Construtor</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Mapear todas as referências e definir movimentos atômicos/reversíveis</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td rowspan="3">Reorganização</td>
-<td>Realocar conteúdo interno para namespaces arquiteturalmente adequados fora de `src/`</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Remover da fonte distribuível conteúdo sem utilidade ao Repositório Final</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Atualizar referências, documentação, índices e histórico aplicáveis</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td rowspan="3">Pipeline mínimo</td>
-<td>Implementar seleção positiva por perfil/manifesto, sem cópia implícita de `src/`</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Adaptar release, publish, package, mapas e validações de exclusão</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Preservar contratos, scripts, workflows e compatibilidade fora do delta de exclusão</td>
-<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
-</tr>
-<tr>
-<td rowspan="3">Testes técnicos</td>
-<td>Cobrir conteúdo interno em `src/`, entrada não declarada e referência quebrada</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Cobrir geração, pacote, ZIP, update e ausência de vazamento interno</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Commitar incrementalmente e entregar estado pronto para integração</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-</tbody>
-</table>
-
 ## FT-059 - Integração e auditoria do release mínimo
 
 Objetivo: Validar integralmente a reorganização e comprovar que release/publish contêm somente artefatos úteis aos Repositórios Finais, com referências, scripts, workflows, documentação e índices íntegros.
