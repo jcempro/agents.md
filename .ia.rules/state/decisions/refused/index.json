@@ -1,0 +1,58 @@
+{
+  "schema": "agents-refused-decisions-index/v1",
+  "version": 1,
+  "generated": false,
+  "ownership": "repository-local",
+  "entries": [
+    {
+      "id": "DEC-20260725-001",
+      "semanticKey": "normative-logical-syntax-parser-formatter",
+      "title": "Sintaxe lógica normativa e parser/formatter",
+      "status": "RECUSADO_PARA_RECONSIDERACAO",
+      "scope": "norma-operacional:sintaxe-logica",
+      "decidedAt": "2026-07-25",
+      "decision": "Não adotar tokens lógicos nem implementar parser, formatter ou migração sintática nesta revisão.",
+      "refusalDegree": "TOTAL",
+      "summaryReason": "Cinco de oito casos perderam semântica e não há tokenizer oficial, baseline de interpretação ou ganho líquido comprovado.",
+      "record": "records/DEC-20260725-001.md",
+      "relatedArtifacts": [
+        "src/.ia.rules/core/evaluations/logical-syntax.md",
+        "src/.ia.rules/core/routing.md",
+        "RCF.md#19",
+        ".ia.rules/continue.ia#FT-051",
+        ".ia.rules/continue.ia#FT-052",
+        "git:eba4dcc"
+      ],
+      "reconsiderationCondition": "Tokenizer oficial/versionado, corpus ampliado, avaliação cega e métricas de precisão, ambiguidade, tempo e manutenção com candidatos semanticamente integrais.",
+      "lastReviewedAt": "2026-07-25",
+      "currentSituation": "A matéria permanece ausente; linguagem natural RFC 2119 continua canônica e a tarefa condicional de parser/formatter da FT-052 não está autorizada por esta decisão.",
+      "absenceConfirmed": true,
+      "ownership": "repository-local"
+    },
+    {
+      "id": "DEC-20260725-002",
+      "semanticKey": "advanced-rag-vector-semantic-retrieval",
+      "title": "Técnicas avançadas de RAG e recuperação semântica",
+      "status": "PARCIALMENTE_RECUSADO",
+      "scope": "norma-operacional:recuperacao-contextual",
+      "decidedAt": "2026-07-25",
+      "decision": "Adotar somente mecanismos determinísticos locais e não adotar embeddings, banco vetorial, similaridade semântica, expansão automática ou reranking por modelo.",
+      "refusalDegree": "PARCIAL",
+      "summaryReason": "Índice, grafo, busca lexical e filtros atendem ao contrato com maior determinismo; técnicas avançadas não demonstraram benefício recorrente superior a custo, privacidade e risco.",
+      "record": "records/DEC-20260725-002.md",
+      "relatedArtifacts": [
+        "src/.ia.rules/core/routing.md",
+        "RCF.md#18",
+        ".ia.rules/continue.ia#FT-050",
+        ".ia.rules/continue.ia#FT-051",
+        ".ia.rules/continue.ia#FT-052",
+        "git:eba4dcc"
+      ],
+      "reconsiderationCondition": "Baseline reproduzível deve demonstrar ganho líquido recorrente sobre índice local, grafo, busca lexical e metadados, preservando privacidade, reversibilidade, autoridade e operação offline preferencial.",
+      "lastReviewedAt": "2026-07-25",
+      "currentSituation": "A parcela recusada permanece ausente; somente unidades recuperáveis, IDs, busca lexical, filtros, grafo, cache validado e fallback integral foram normatizados.",
+      "absenceConfirmed": true,
+      "ownership": "repository-local"
+    }
+  ]
+}

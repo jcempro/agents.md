@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agents-refused-decisions-index/v1",
+  "title": "Índice local de recusas ainda não implementadas",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "version", "generated", "ownership", "entries"],
+  "properties": {
+    "schema": { "const": "agents-refused-decisions-index/v1" },
+    "version": { "type": "integer", "const": 1 },
+    "generated": { "const": false },
+    "ownership": { "const": "repository-local" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "semanticKey",
+          "title",
+          "status",
+          "scope",
+          "decidedAt",
+          "decision",
+          "refusalDegree",
+          "summaryReason",
+          "record",
+          "relatedArtifacts",
+          "reconsiderationCondition",
+          "lastReviewedAt",
+          "currentSituation",
+          "absenceConfirmed",
+          "ownership"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^DEC-[0-9]{8}-[0-9]{3}$" },
+          "semanticKey": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "title": { "type": "string", "minLength": 1 },
+          "status": {
+            "enum": [
+              "RECUSADO",
+              "PARCIALMENTE_RECUSADO",
+              "RECUSADO_PARA_RECONSIDERACAO",
+              "EM_ANDAMENTO_COM_RESTRICOES",
+              "REABERTO",
+              "SUPERADO",
+              "SUBSTITUIDO",
+              "ACEITO_APOS_REAVALIACAO"
+            ]
+          },
+          "scope": { "type": "string", "minLength": 1 },
+          "decidedAt": { "type": "string", "format": "date" },
+          "decision": { "type": "string", "minLength": 1 },
+          "refusalDegree": { "enum": ["TOTAL", "PARCIAL", "CONDICIONAL", "NAO_APLICAVEL"] },
+          "summaryReason": { "type": "string", "minLength": 1 },
+          "record": { "type": "string", "pattern": "^records/DEC-[0-9]{8}-[0-9]{3}\\.md$" },
+          "relatedArtifacts": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "reconsiderationCondition": { "type": "string", "minLength": 1 },
+          "lastReviewedAt": { "type": "string", "format": "date" },
+          "currentSituation": { "type": "string", "minLength": 1 },
+          "absenceConfirmed": { "const": true },
+          "ownership": { "const": "repository-local" }
+        }
+      }
+    }
+  }
+}
