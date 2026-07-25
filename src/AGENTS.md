@@ -108,6 +108,8 @@ Todo código-fonte e código final entregável cujo formato aceite comentário D
 
 Build DEVE injetar/validar o cabeçalho a partir da configuração central em cada saída comentável, inclusive minificada/compilada. README DEVE encerrar com Autoria, Repositório e Licença equivalentes, sem fonte paralela de metadados.
 
+Unidade técnica aplica documentação nativa e rastreabilidade material de `./.ia.rules/resources/traceability.md`. Sentença RCF implementável termina com hash causal de sete caracteres ou marcador de pendência; sincronização ocorre somente após commit material, em commit exclusivo, sem autorreferência ou recursão.
+
 ## 13. Validação
 
 Aplicar `MN-VAL`. Validação DEVE comprovar ausência de regressão, autonomia, segregação runtime/build, preservação pós-build, independência de bundle, pipeline/publicação, reprodutibilidade, redução possível e critérios específicos do RCF.
@@ -147,6 +149,8 @@ Aplicar `MN-SCEN`, `MN-REF` e `./.ia.rules/core/contracts.md`. Regra específica
 Aplicar `MN-API`, `MN-DEF`, `MN-OUT` e `MN-CMD`. `agent:filter`/`to-ia` DEVE existir antes dos demais; toda saída para IA DEVE atravessá-lo. Entrada exclusiva/predominante de IA DEVE residir em `./.ia.rules/core/runtime/scripts/`; script especializado DEVE residir com seu cenário. Sequência repetida 2 vezes, com 3+ comandos, saída provável acima do orçamento ou filtragem repetida DEVE virar comando composto.
 
 Script reutilizável DEVE aplicar `MN-CLI`, `MN-META` e `MN-EXT`; carrega apenas `./.ia.rules/meta/cli.md` e contextos mapeados aplicáveis.
+
+Todo recurso oficial aplica a assinatura `CT-5`, hooks `CT-6`, manifestos `CT-7` e resiliência `CT-8` de `./.ia.rules/core/contracts.md`. Scripts e runtimes aplicam `./.ia.rules/resources/scripts.md`; workflows distribuíveis aplicam `./.ia.rules/resources/workflows.md`. Contrato especializado NÃO DEVE redefinir o comum.
 
 NPM DEVE expor `release`, `publish` e `update:agents` como orquestradores universais all-in-one; comandos parciais usam namespace hierárquico por `:`. Implementação compartilhável reside em `shared:*`; `agent:*`/`agents:*` ficam reservados à operação da IA e DEVEM somente delegar ao comando global/compartilhado com saída filtrada, sem duplicar lógica. Core NÃO DEVE inferir raiz-fonte, saída ou ativo da aplicação: recebe paths/configuração e propaga hooks `pre`/`post` tipados. Fluxo all-in-one valida branch/tree, limpa somente saída declarada, executa hooks/build/validação, commita, publica, acompanha pipeline e solicita decisão humana apenas diante de divergência crítica não resolvível.
 
