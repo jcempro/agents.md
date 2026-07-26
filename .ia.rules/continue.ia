@@ -1423,7 +1423,7 @@ verificacoes=Issue confrontada bidirecionalmente com RCF; cinco unidades materia
 pendencias=FT-062 está liberada e será executada após a conclusão normativa da FT-061.
 proximo_ponto=Concluir FT-061; depois executar FT-062 e FT-063.
 
-FT-061|nome=Normatização do ponto de entrada AGENTS e carregamento sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-26T01:24:52Z|inicio=20260726.012452|atualizacao=2026-07-25T23:05:00-03:00
+FT-061|nome=Normatização do ponto de entrada AGENTS e carregamento sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-26T01:24:52Z|inicio=20260726.012452|atualizacao=2026-07-25T23:15:00-03:00|conclusao=2026-07-25T23:15:00-03:00
 objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#10, reduzindo AGENTS.md a ponto de entrada de até 500 tokens e preservando sem perda a Norma auxiliar e o roteamento sob demanda.
 issue_id=github:jcempro/agents.md#10
 issue_repo=jcempro/agents.md
@@ -1431,7 +1431,7 @@ issue_number=10
 issue_url=https://github.com/jcempro/agents.md/issues/10
 issue_state=em_desenvolvimento
 release=pendente
-origem=.ia.rules/state/requests/FT-061/request.md
+origem_preservada_no_commit=1a48022
 origem_sha256=34B41556B3A702755784277042167DA3CFA443D52C50B6DA842C09CCD238C6C4
 complementar=FT-063
 1/4 Captura e conciliação [concluido]
@@ -1442,16 +1442,18 @@ complementar=FT-063
   1/3 Fixar limite permanente de 500 tokens e responsabilidade do entrypoint [concluido]
   2/3 Definir preservação integral, autoridade auxiliar e condições de leitura [concluido]
   3/3 Definir modularização, compatibilidade, migração e critérios [concluido]
-3/4 Norma Operacional [pendente]
-  1/3 Migrar integralmente o corpo sem redução para auxiliar canônico [pendente]
-  2/3 Criar entrypoint mínimo e atualizar roteamento/índice [pendente]
-  3/3 Sincronizar AGENTS ativo por autorização humana explícita [pendente]
-4/4 Validação normativa [pendente]
-  1/2 Provar limite, preservação e equivalência [pendente]
-  2/2 Concluir FT normativa e liberar FT-063 [pendente]
+3/4 Norma Operacional [concluido]
+  1/3 Migrar integralmente o corpo sem redução para auxiliar canônico [concluido]
+  2/3 Criar entrypoint mínimo e atualizar roteamento/índice [concluido]
+  3/3 Sincronizar AGENTS ativo por autorização humana explícita [concluido]
+4/4 Validação normativa [concluido]
+  1/2 Provar limite, preservação e equivalência [concluido]
+  2/2 Concluir FT normativa e liberar FT-063 [concluido]
 aceite=AGENTS.md com no máximo 500 tokens, Norma anterior integralmente preservada e autoridade/precedência/roteamento equivalentes; nenhum código técnico antecipado.
-pendencias=Migrar a Norma integral, criar o entrypoint mínimo, atualizar a descoberta normativa e provar equivalência; FT-063 permanece bloqueada até essa conclusão.
-proximo_ponto=Executar a etapa Norma Operacional da FT-061.
+resultado=AGENTS ativo e fonte tornaram-se entrypoints idênticos de 325 tokens; o corpo anterior foi movido integralmente para agents.inc.md ativo e fonte, com autoridade conjunta, leitura condicional e papel Construtor preservado. Roteamento e índice declaram a folha de fallback sem torná-la leitura global.
+verificacoes=tiktoken 0.13.0/o200k_base mediu 325 tokens; SHA-256 LF do auxiliar ativo é 4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024, idêntico ao corpo anterior; entrypoints ativo/fonte e auxiliares ativo/fonte possuem conteúdo normalizado equivalente; índice JSON parseável e aresta condicional resolvível.
+pendencias=FT-063 está liberada para manifestar, gerar métricas/derivados e executar guardas técnicas.
+proximo_ponto=Executar FT-062 e FT-063; depois FT-059.
 
 FT-062|nome=Implementação dos metadados distribuídos e autorização upstream|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T22:45:44-03:00
 objetivo=Implementar e validar a configuração repository.json distribuída/autenticada, instalação limpa, cabeçalhos gerenciados e autorização upstream exigidos por github:jcempro/agents.md#2.

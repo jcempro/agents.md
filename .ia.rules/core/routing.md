@@ -4,11 +4,11 @@ Identidade normativa: `core.routing`; núcleo; tipo: folha. Ler antes de usar co
 
 ## 1. Autoridade e índice
 
-`AGENTS.md` e associados permanecem fontes canônicas. Índice, grafo, mapa, resumo, chunk, custo e cache são derivados ou manifestos de descoberta, apontam à origem e NÃO a substituem. `../normative-index.json` é o manifesto estruturado canônico; seu schema é `./formats/normative-index.v1.schema.json`.
+`AGENTS.md` é o entrypoint canônico mínimo e `../agents.inc.md` preserva seu corpo operacional integral como auxiliar de fallback; ambos conservam autoridade conjunta, sem tornar o auxiliar leitura inicial. Índice, grafo, mapa, resumo, chunk, custo e cache são derivados ou manifestos de descoberta, apontam à origem e NÃO a substituem. `../normative-index.json` é o manifesto estruturado canônico; seu schema é `./formats/normative-index.v1.schema.json`.
 
 Antes de criar solução, consultar o índice por correspondência exata de ID, finalidade, gatilho, papel, cenário, fase, linguagem, componente, artefato e operação. Em nova solicitação, após capturar a fonte, consultar também o índice local de recusas por chave semântica/finalidade/efeito antes de análise substantiva; esse índice aponta somente recusa expressa ainda não implementada e não possui autoridade normativa. Match exato, ID, escopo e precedência prevalecem sobre sinônimo. Correspondência torna leitura integral do módulo e dependências obrigatória. Módulo não carregado continua obrigatório quando seu gatilho ocorrer.
 
-Rota mínima carrega: núcleo global; índice; papéis cumulativos ativos; cenários e recursos disparados; dependências expressas; precedências, exceções e decisões anteriores necessárias. Particularidade local é adicionada após o núcleo e antes da ação. Rota ausente, conflito, baixa confiança, fragmentação, cache inválido ou escopo ambíguo aciona expansão determinística e, persistindo, leitura integral.
+Rota mínima carrega: entrypoint; núcleo global; índice; papéis cumulativos ativos; cenários e recursos disparados; dependências expressas; precedências, exceções e decisões anteriores necessárias. Particularidade local é adicionada após o núcleo e antes da ação. Mudança de rota, perda de contexto, conflito, regra não localizada, baixa confiança, fragmentação, índice/cache inválido, escopo ambíguo ou auditoria de preservação acionam `../agents.inc.md` integral; fora desses gatilhos, o auxiliar NÃO DEVE ser relido.
 
 ## 2. Grafo
 

@@ -36,6 +36,38 @@
       }
     },
     {
+      "id": "core.agents-full",
+      "path": ".ia.rules/agents.inc.md",
+      "class": "core",
+      "type": "leaf",
+      "roles": [
+        "common"
+      ],
+      "triggers": [
+        "route-change",
+        "context-loss",
+        "normative-conflict",
+        "rule-not-found",
+        "index-cache-invalid",
+        "preservation-audit",
+        "low-confidence"
+      ],
+      "inputs": [
+        "route",
+        "context"
+      ],
+      "outputs": [],
+      "bytes": 33286,
+      "sha256": "4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024",
+      "tokens": 7364,
+      "guard": {
+        "exceptions": 7,
+        "modalities": 135,
+        "prohibitions": 25,
+        "references": 267
+      }
+    },
+    {
       "id": "core.authority",
       "path": ".ia.rules/core/authority.md",
       "class": "core",
@@ -1259,6 +1291,13 @@
       "mode": "passive",
       "condition": "repository normative bootstrap",
       "order": 26
+    },
+    {
+      "from": "core.agents",
+      "to": "core.agents-full",
+      "mode": "passive",
+      "condition": "route change, context loss, normative conflict, rule not found, invalid index/cache, preservation audit or low confidence",
+      "order": 27
     }
   ],
   "fallback": {
