@@ -3,7 +3,7 @@
 [![Builder - rastreabilidade RCF](https://github.com/jcempro/agents.md/actions/workflows/rcf-trace.yml/badge.svg?branch=dev)](https://github.com/jcempro/agents.md/actions/workflows/rcf-trace.yml?query=branch%3Adev)
 [![Release](https://github.com/jcempro/agents.md/actions/workflows/release.yml/badge.svg?branch=dev)](https://github.com/jcempro/agents.md/actions/workflows/release.yml?query=branch%3Adev)
 [![Inbox de issues](https://github.com/jcempro/agents.md/actions/workflows/issues-inbox.yml/badge.svg)](https://github.com/jcempro/agents.md/actions/workflows/issues-inbox.yml)
-[![Issues aprovadas](https://github.com/jcempro/agents.md/actions/workflows/approved-issues.yml/badge.svg)](https://github.com/jcempro/agents.md/actions/workflows/approved-issues.yml)
+[![Issues aprovadas — agenda](https://github.com/jcempro/agents.md/actions/workflows/approved-issues.yml/badge.svg?event=schedule)](https://github.com/jcempro/agents.md/actions/workflows/approved-issues.yml?query=event%3Aschedule)
 [![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![OS: Ubuntu, macOS e Windows](https://img.shields.io/badge/OS-Ubuntu%20%7C%20macOS%20%7C%20Windows-4c566a)](#plataformas-runtimes-e-hooks)
 [![Hooks: core, release, publish e dev-live](https://img.shields.io/badge/Hooks-core%20%7C%20release%20%7C%20publish%20%7C%20dev--live-6f42c1)](#plataformas-runtimes-e-hooks)
@@ -18,15 +18,15 @@ Governança operacional portátil para agentes de IA, distribuída como contrato
 
 | Superfície             | Situação vigente                                                                                                    |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Desenvolvimento        | alterações em `dev`; uma FT concluída deve convergir para `main` antes do encerramento                              |
-| Fonte distribuível     | `src/` contém exclusivamente fontes com efeito direto e manifestado no produto                                      |
-| Infraestrutura interna | `constructor/`, `config/`, `test/` e workflows internos permanecem fora do payload                                  |
-| Produto publicado      | `dist/` e o ZIP versionado contêm somente a allowlist raiz e a árvore `.ia.rules/` manifestada                      |
-| Entrada normativa      | `AGENTS.md` é o entrypoint curto; `.ia.rules/agents.inc.md` preserva o corpo integral sob carregamento condicionado |
-| Configuração           | `.ia.rules/config/` rege o consumidor; `config/` é exclusiva do Construtor                                          |
-| Estado operacional     | `.ia.rules/continue.ia`; [handoff.md](handoff.md) é sua projeção gerada                                             |
+| Desenvolvimento        | alterações em `dev`; uma FT concluída deve convergir para `main` antes do encerramento                                                                        |
+| Fonte distribuível     | [`src/`](src/) contém exclusivamente fontes com efeito direto e manifestado no produto                                                                         |
+| Infraestrutura interna | [`constructor/`](constructor/), [`config/`](config/) e [`test/`](test/) permanecem fora do payload, assim como os [workflows internos](.github/workflows/)       |
+| Produto publicado      | [`dist/`](dist/) e o ZIP versionado contêm somente a allowlist raiz e a árvore [`.ia.rules/`](dist/.ia.rules/) manifestada                                      |
+| Entrada normativa      | [`AGENTS.md`](AGENTS.md) é o entrypoint curto; [`.ia.rules/agents.inc.md`](.ia.rules/agents.inc.md) preserva o corpo integral sob carregamento condicionado     |
+| Configuração           | [`.ia.rules/config/`](.ia.rules/config/) rege o consumidor; [`config/`](config/) é exclusiva do Construtor                                                     |
+| Estado operacional     | [`.ia.rules/continue.ia`](.ia.rules/continue.ia); [handoff.md](handoff.md) é sua projeção gerada                                                                |
 
-`src/` não é a raiz da aplicação nem um depósito de material interno. Estudos, avaliações, relatórios e experimentos do próprio Construtor ficam fora dela e nunca integram `dist/`, pacote ou release. A seleção do conteúdo publicado é positiva, perfilada e validada por manifesto, mapa de distribuição e hashes.
+[`src/`](src/) não é a raiz da aplicação nem um depósito de material interno. Estudos, avaliações, relatórios e experimentos do próprio Construtor ficam fora dela e nunca integram [`dist/`](dist/), pacote ou release. A seleção do conteúdo publicado é positiva, perfilada e validada pelo [manifesto](index.json), pelo [mapa de distribuição](dist/.ia.rules/distribution/) e por hashes.
 
 <!-- agents:normative-metrics:start -->
 ### Métricas do grafo normativo
@@ -43,22 +43,22 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 
 ## Contratos de scripts
 
-O contrato tipado reutilizável fica em `.ia.rules/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.ia.rules/meta/`. O índice `.ia.rules/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.ia.rules/local/` ou `.ia.rules/hooks/` e não são sobrescritas por `agents:update`.
+O contrato tipado reutilizável fica em [`.ia.rules/core/contracts.md`](.ia.rules/core/contracts.md); os metaarquivos de CLI e contexto ficam em [`.ia.rules/meta/`](.ia.rules/meta/). O [índice de metadados](.ia.rules/meta/index.json) relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem aos pontos oficiais documentados no [contrato de extensões locais](.ia.rules/core/contracts.md) e não são sobrescritas por `update:agents`.
 
-No produto e no release, configuração central reside exclusivamente em `.ia.rules/config/`: `core.json` contém defaults portáteis e `schema.json` versiona o formato. A configuração exclusiva do construtor permanece infraestrutura raiz e não integra o payload. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Hooks de `publish` e `dev-live` usam `.ia.rules/hooks/<operacao>[.pre|.post].js`.
+No produto e no release, a configuração central reside exclusivamente em [`.ia.rules/config/`](.ia.rules/config/): [`core.json`](.ia.rules/config/core.json) contém defaults portáteis, [`repository.json`](.ia.rules/config/repository.json) especializa este repositório e [`schema.json`](.ia.rules/config/schema.json) versiona o formato. A configuração exclusiva do Construtor permanece em [`config/`](config/) e não integra o payload. Precedência: CLI → ambiente/`AGENTS_CONFIG_JSON` → configuração local → repositório → core. Os hooks de `publish` e `dev-live` seguem o [contrato de publicação de conteúdo](.ia.rules/scenarios/content-publication/scenario.md) e a raiz configurada em [`core.json`](.ia.rules/config/core.json).
 
 ## Plataformas, runtimes e hooks
 
-- A matriz do Construtor executa `npm test` em `ubuntu-latest`, `macos-latest` e `windows-latest`, com Node.js 24 e Python 3.14.
+- A [matriz do Construtor](.github/workflows/runtime-matrix.yml) executa `npm test` em `ubuntu-latest`, `macos-latest` e `windows-latest`, com Node.js 24 e Python 3.14.
 - Todo workflow distribuível que invoque Node.js, npm, npx, JavaScript ou TypeScript deve materializar Node.js 24 ou superior antes da primeira invocação. Workflow sem execução Node não instala runtime desnecessário.
-- O release usa hooks opcionais em `.ia.rules/hooks/core.js` e `.ia.rules/hooks/release.js`, com os eventos `prepare`, `verify` e `published`.
-- `publish` e `dev-live` usam cadeias independentes `pre` → `main` → `post`: `.ia.rules/hooks/<operacao>.pre.js`, `.ia.rules/hooks/<operacao>.js` e `.ia.rules/hooks/<operacao>.post.js`.
+- O release usa os hooks opcionais definidos no [contrato de release](.ia.rules/scenarios/release/scenario.md), com os eventos `prepare`, `verify` e `published`.
+- `publish` e `dev-live` usam cadeias independentes `pre` → `main` → `post`, documentadas no [contrato de hooks](.ia.rules/core/contracts.md#ct-6--contexto-e-resultado-de-hook).
 - Hook ausente não cria comportamento implícito. Sem hook principal, `publish` retorna `PUBLISH_NAO_APLICAVEL` e `dev-live` retorna `DEV_LIVE_NAO_APLICAVEL`.
 - Hooks de `publish`/`dev-live` recebem `operation`, `args`, `configuration` e `rootDir`; hooks de release recebem o evento e o payload validado com `version`/`asset`. Falha interrompe as fases seguintes e preserva o código de erro.
 
 ## Uso rápido
 
-- `npm run clean`: remove `dist/`, `index.json` e `handoff.md` gerados.
+- `npm run clean`: remove [`dist/`](dist/), [`index.json`](index.json) e [handoff.md](handoff.md) gerados.
 - `npm run check`: executa a verificação local completa.
 - `npm run release -- <versao>`: executa o ciclo completo all-in-one e acompanha a comprovação remota.
 - `npm run publish -- [args]`: executa o fluxo hookable de publicação de conteúdo; neste construtor retorna `PUBLISH_NAO_APLICAVEL` sem hook local.
@@ -68,8 +68,8 @@ No produto e no release, configuração central reside exclusivamente em `.ia.ru
 - `npm run release:publish -- <versao>`: executa o ciclo completo de release e aguarda a comprovação remota.
 - `npm run agent:status`: resume capacidades canônicas.
 - `npm run agent:filter -- --run <comando> [args]`: entrega a saída do comando em JSONL compacto e ordenado para IA.
-- `npm run agent:index`: gera `index.json` minificado a partir de `src/`.
-- `npm run agent:dist`: gera `dist/`, `dist/package.json`, `dist/release.json` e pacote `agents-v<versao>.zip`.
+- `npm run agent:index`: gera [`index.json`](index.json) minificado a partir de [`src/`](src/).
+- `npm run agent:dist`: gera [`dist/`](dist/), [`dist/package.json`](dist/package.json), [`dist/release.json`](dist/release.json) e o pacote versionado.
 - `npm run agent:verify`: valida scripts, indexador e dist.
 - `npm run agent:autoupdate`: alias transitório de `update:agents`; `agents:autoupdate`, `agent:agents` e `agents:update` permanecem equivalentes durante a migração.
 
@@ -80,12 +80,12 @@ No produto e no release, configuração central reside exclusivamente em `.ia.ru
 | Comando                             | Finalidade                                                      | Efeito externo normal                                                                                   | Modo seguro                                                   |
 | ----------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `npm run release -- <versão>`       | construir, validar, versionar, publicar e comprovar uma release | commits, pushes, tag, GitHub Release, asset, fechamento de issues vinculadas e convergência de branches | `--dry-run`                                                   |
-| `npm run publish -- [args]`         | publicar conteúdo de Negócio pelo hook oficial do repositório   | definido exclusivamente pelo hook `publish.js` aplicável                                                | ausência do hook principal resulta em `PUBLISH_NAO_APLICAVEL` |
+| `npm run publish -- [args]`         | publicar conteúdo de Negócio pelo hook oficial do repositório   | definido exclusivamente pelo hook [`publish.js`](.ia.rules/scenarios/content-publication/scenario.md) aplicável                               | ausência do hook principal resulta em `PUBLISH_NAO_APLICAVEL` |
 | `npm run update:agents -- [opções]` | convergir a governança gerenciada para a release autenticada    | backup de divergências, atualização, commit e push da branch atual                                      | `--check` ou `--dry-run`                                      |
 
 ### `release`: release técnico completo
 
-Pré-condições: branch `dev` por padrão, worktree limpo, versão semântica explícita e ainda não publicada, workflow `.github/workflows/release.yml`, remoto configurado e permissão de push. GitHub CLI autenticado é necessário para acompanhar e comprovar o resultado; sem `gh`, o gatilho é enviado e a observação remota fica pendente.
+Pré-condições: branch `dev` por padrão, worktree limpo, versão semântica explícita e ainda não publicada, [workflow de release](.github/workflows/release.yml), remoto configurado e permissão de push. GitHub CLI autenticado é necessário para acompanhar e comprovar o resultado; sem `gh`, o gatilho é enviado e a observação remota fica pendente.
 
 ```powershell
 # Apenas inspeciona branch, árvore, tag, workflow e configuração.
@@ -104,13 +104,13 @@ npm run release -- 0.0.24 --branch dev --primary main --remote origin --workflow
 npm run release -- --help
 ```
 
-O fluxo cria commits separados para versão e artefato, gera e valida `dist/`, envia o arquivo-gatilho `release`, publica tag/asset/GitHub Release, executa hooks, conclui issues vinculadas à versão e confirma a convergência `dev`/`main`. Uma execução interrompida depois do commit de preparação é retomada pelo mesmo comando e versão, sem repetir a etapa já comprovada.
+O fluxo cria commits separados para versão e artefato, gera e valida [`dist/`](dist/), envia o [arquivo-gatilho `release`](release), publica tag/asset/GitHub Release, executa hooks, conclui issues vinculadas à versão e confirma a convergência `dev`/`main`. Uma execução interrompida depois do commit de preparação é retomada pelo mesmo comando e versão, sem repetir a etapa já comprovada.
 
 Falhas comuns são conclusivas: `BRANCH_RELEASE_INVALIDA`, `WORKTREE_NAO_LIMPO`, `VERSAO_JA_PUBLICADA`, `WORKFLOW_RELEASE_AUSENTE` e `CONVERGENCIA_REMOTA_PENDENTE`. Não use `--force`, rebase destrutivo ou descarte de estado para contorná-las.
 
 ### `publish`: publicação de conteúdo por hooks
 
-`publish` não significa release. O cenário somente se aplica quando o RCF do repositório declarar conteúdo de Negócio publicável e existir o hook principal `.ia.rules/hooks/publish.js`. Argumentos posteriores a `--` são entregues ao hook sem interpretação material pelo núcleo.
+`publish` não significa release. O cenário somente se aplica quando o [RCF do repositório](RCF.md) declarar conteúdo de Negócio publicável e existir o hook principal previsto no [cenário de Publicação de Conteúdo](.ia.rules/scenarios/content-publication/scenario.md). Argumentos posteriores a `--` são entregues ao hook sem interpretação material pelo núcleo.
 
 ```powershell
 # Neste Construtor, sem hook principal, retorna PUBLISH_NAO_APLICAVEL.
@@ -120,10 +120,10 @@ npm run publish
 npm run publish -- --channel web --locale pt-BR
 ```
 
-Exemplo mínimo de hook local:
+Exemplo mínimo do hook local [`publish.js`](.ia.rules/scenarios/content-publication/scenario.md):
 
 ```js
-// .ia.rules/hooks/publish.js
+// hook principal de publicação
 module.exports = async function publish(context) {
   return {
     published: true,
@@ -133,7 +133,7 @@ module.exports = async function publish(context) {
 };
 ```
 
-Hooks `publish.pre.js` e `publish.post.js` podem preparar e verificar o processo, mas não substituem o hook principal nem devem duplicar build, hospedagem ou validação já oficiais.
+Os hooks opcionais [`publish.pre.js`](.ia.rules/core/contracts.md#ct-3--eventos-e-hooks) e [`publish.post.js`](.ia.rules/core/contracts.md#ct-3--eventos-e-hooks) podem preparar e verificar o processo, mas não substituem o hook principal nem devem duplicar build, hospedagem ou validação já oficiais.
 
 ### `update:agents`: convergência segura da governança
 
@@ -156,11 +156,11 @@ npm run update:agents -- --force
 npm run update:agents -- --help
 ```
 
-Falha de download, integridade, handoff ou validação encerra sem fallback para o runtime antigo. Quando houver backup, o caminho `agents-governance-backups/YYYY-MM-DD/` é informado para inspeção e exclusão humana posterior.
+Falha de download, integridade, handoff ou validação encerra sem fallback para o runtime antigo. Quando houver backup, a localização prevista no [cenário de atualização](.ia.rules/core/update/scenario.md) é informada para inspeção e exclusão humana posterior.
 
 ### Evolução upstream de AGENTS.md
 
-`./AGENTS.md` na raiz rege este repositório construtor; `./src/AGENTS.md` é a aplicação-fonte distribuível e não a sincroniza automaticamente. Em um consumidor, `npm run agent:upstream:check -- --offline` identifica o estado sem rede. A configuração local opcional `.ia.rules/upstream.json` ou `package.json.ia.rulesUpstream` declara `role` (`consumer`, `constructor` ou `dual`), `upstreamRepository`, candidato, limites e cache; candidato não é destino autoritativo.
+[`AGENTS.md`](AGENTS.md) na raiz rege este repositório construtor; [`src/AGENTS.md`](src/AGENTS.md) é a aplicação-fonte distribuível e não a sincroniza automaticamente. Em um consumidor, `npm run agent:upstream:check -- --offline` identifica o estado sem rede. A configuração local opcional descrita no [contrato upstream](.ia.rules/core/update/upstream.json), ou o campo `package.json.ia.rulesUpstream` do [`package.json`](package.json), declara `role` (`consumer`, `constructor` ou `dual`), `upstreamRepository`, candidato, limites e cache; candidato não é destino autoritativo.
 
 - `agent:upstream:prepare -- <evidence.json>` sanitiza e grava proposta revisável em extensão local.
 - `agent:upstream:publish -- <proposal.json> --authorize` verifica destino, duplicação e token externo antes de criar issue; sem `--authorize`, nenhuma ação externa ocorre.
@@ -169,7 +169,7 @@ Falha de download, integridade, handoff ou validação encerra sem fallback para
 
 ### Inbox construtora de issues
 
-`.github/workflows/issues-inbox.yml` recebe somente eventos `issues` de abertura, edição, reabertura ou rotulagem. O payload é sanitizado antes de criar `.ia.rules/local/upstream/inbox/`; o workflow publica essa inbox como artefato por 30 dias e não inclui credenciais ou cabeçalhos.
+O [workflow de inbox](.github/workflows/issues-inbox.yml) recebe somente eventos `issues` de abertura, edição, reabertura ou rotulagem. O payload é sanitizado antes de criar a inbox local prevista no [cenário de compartilhamento upstream](.ia.rules/scenarios/governance/upstream-sharing/scenario.md); o workflow publica essa inbox como artefato por 30 dias e não inclui credenciais ou cabeçalhos.
 
 - `agent:inbox:event -- <evento.json>` valida, sanitiza e indexa um evento localmente.
 - `agent:inbox:evaluate -- <registro.json>` produz `rejected`, `not_recommended`, `recommended` ou `highly_recommended`, sem efeito externo.
@@ -181,29 +181,29 @@ Falha de download, integridade, handoff ou validação encerra sem fallback para
 - `agent:inbox:start -- --role constructor --authorize` deve ser executado após o push da correlação; `agents:in-development` indica ciclo da issue ativo, não início de código. O comentário futuro deve listar ambas as FTs e seus estados.
 - `agent:inbox:bind-release -- <versao> --role constructor` vincula à versão FTs correlacionadas concluídas. `agent:inbox:complete-release -- <versao> --role constructor --authorize` comenta, marca `agents:fixed` e fecha somente quando todas as FTs necessárias ao escopo da issue estiverem concluídas; a adequação do runtime permanece nas FTs de código abertas.
 
-O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horária ou despacho manual. O workflow `release.yml` vincula as FTs antes do artefato e só finaliza o release após atualizar todas as issues corrigidas pela versão.
+O [workflow de issues aprovadas](.github/workflows/approved-issues.yml) executa o mesmo ciclo por label, agenda horária ou despacho manual. O [workflow de release](.github/workflows/release.yml) vincula as FTs antes do artefato e só finaliza o release após atualizar todas as issues corrigidas pela versão.
 
 - `agent:test:inbox` testa sanitização, classificação e índice idempotente sem rede.
 
 ### Atualização segura da governança
 
-`update:agents` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. Antes de commitar, o atualizador também prepara `.gitignore`, `package.json` e arquivos análogos necessários para permitir o versionamento do núcleo gerenciado; no caso de `.gitignore`, usa bloco delimitado e preserva regras locais. Após download e extração únicos, o bootstrap valida o runtime manifestado e passa bastão ao `update-agents.js` da própria release por estado HMAC; esse processo carrega dependências da release, trata o repositório somente como target e retoma sem repetir rede ou fase. Falha de integridade encerra sem fallback ao runtime antigo. O estado local anterior é consultado apenas para converter formatos, gerar backup compactado de divergência e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. `agents.local.md`, `.ia.rules/local/`, `.ia.rules/hooks/` e adaptadores declarados nunca entram no lock, no plano de limpeza ou na sobrescrita.
+`update:agents` usa o manifesto versionado recebido no ZIP do release ou na branch primária como definição completa do núcleo gerenciado. Antes de commitar, o atualizador também prepara [`.gitignore`](.gitignore), [`package.json`](package.json) e arquivos análogos necessários para permitir o versionamento do núcleo gerenciado; no caso de [`.gitignore`](.gitignore), usa bloco delimitado e preserva regras locais. Após download e extração únicos, o bootstrap valida o runtime manifestado e passa bastão ao [`update-agents.js`](.ia.rules/core/runtime/scripts/update-agents.js) da própria release por estado HMAC; esse processo carrega dependências da release, trata o repositório somente como target e retoma sem repetir rede ou fase. Falha de integridade encerra sem fallback ao runtime antigo. O estado local anterior é consultado apenas para converter formatos, gerar backup compactado de divergência e remover caminhos antes gerenciados; ele não conserva arquivo que a origem deixou de declarar. Os namespaces locais definidos no [cenário de atualização](.ia.rules/core/update/scenario.md) nunca entram no lock, no plano de limpeza ou na sobrescrita.
 
-A release inclui `release.json` apontando para `./.ia.rules/distribution/distribution-map-<versao>.json`. Esse mapa audita o payload completo, separa arquivos gerenciados, locais, opcionais, gerados e obsoletos e torna a atualização fail-safe: mapa inválido na release bloqueia antes de escrita; mapa local antigo ausente ou quebrado vira diagnóstico e não impede convergência para uma release válida.
+A release inclui [`release.json`](dist/release.json) apontando para o [mapa de distribuição versionado](dist/.ia.rules/distribution/). Esse mapa audita o payload completo, separa arquivos gerenciados, locais, opcionais, gerados e obsoletos e torna a atualização fail-safe: mapa inválido na release bloqueia antes de escrita; mapa local antigo ausente ou quebrado vira diagnóstico e não impede convergência para uma release válida.
 
-Migração de upstream usa `.ia.rules/core/update/upstream.json`. O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `update:agents` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
-Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez `node .ia.rules/core/runtime/scripts/autoupdate.js`; o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os aliases e publica a branch atual. Depois disso, `npm run update:agents` é a entrada canônica.
+Migração de upstream usa [`.ia.rules/core/update/upstream.json`](.ia.rules/core/update/upstream.json). O predecessor publica uma release-ponte com a mesma versão e os mesmos assets do sucessor; depois da instalação, `update:agents` consulta o sucessor sem gravar configuração durante `--check` ou `--dry-run`.
+Consumidor cujo adaptador legado preserve os scripts antigos executa uma única vez o [`autoupdate.js`](.ia.rules/core/runtime/scripts/autoupdate.js); o wrapper atualiza o núcleo, cria um segundo commit exclusivo para os aliases e publica a branch atual. Depois disso, `npm run update:agents` é a entrada canônica.
 
 Cada alteração estrutural do formato traz um descritor de linguagem, marcador de variação e conversor histórico. Configurações equivalentes devem preferir o mesmo parser e descritor para manter transições verificáveis.
 
-- `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de `.ia.rules/continue.ia`.
+- `npm run agent:handoff`: gera [handoff.md](handoff.md) a partir de [`.ia.rules/continue.ia`](.ia.rules/continue.ia).
 
 ## Release
 
-- `.github/workflows/release.yml`: executa release manual ou por commit contendo apenas `release` no root.
-- Somente o arquivo `release` no root funciona como gatilho transitório; o workflow remove o arquivo e cria commit `release:`. `publish` fica reservado à Publicação de Conteúdo e este repositório não a aplica.
-- `dist/release-note.txt` e o pacote versionado sao gerados localmente por `agent:release` antes da publicacao do GitHub Release marcado como latest.
-- O ZIP contém somente arquivos raiz allowlisted e a árvore estrutural `.ia.rules/`; qualquer outro diretório ou path da árvore predecessora bloqueia `agent:verify`.
+- O [workflow de release](.github/workflows/release.yml) executa release manual ou por commit contendo apenas o [gatilho `release`](release) na raiz.
+- Somente o [arquivo `release`](release) na raiz funciona como gatilho transitório; o workflow remove o arquivo e cria commit `release:`. `publish` fica reservado à Publicação de Conteúdo e este repositório não a aplica.
+- [`dist/release-note.txt`](dist/release-note.txt) e o pacote versionado são gerados localmente por `agent:release` antes da publicação do GitHub Release marcado como latest.
+- O ZIP contém somente arquivos raiz allowlisted e a árvore estrutural [`.ia.rules/`](dist/.ia.rules/); qualquer outro diretório ou path da árvore predecessora bloqueia `agent:verify`.
 - Release publicado em `dev` converge a branch primária (`main`, senão `master`); conflito de merge interrompe o workflow.
 
 ### Convergência manual de `dev` para `main`
@@ -249,4 +249,4 @@ O último comando deve retornar sucesso: `main` está no mesmo commit de `dev` o
 
 Mozilla Public License 2.0 [MPL-2.0](https://choosealicense.com/pt/licenses/mpl-2.0/)
 
-Este código-fonte está sujeito aos termos da Mozilla Public License, v. 2.0. Se uma cópia da MPL não foi distribuída com este arquivo, você pode obter uma em https://choosealicense.com/pt/licenses/mpl-2.0/.
+Este código-fonte está sujeito aos termos da Mozilla Public License, v. 2.0. Se uma cópia da MPL não foi distribuída com este arquivo, você pode obtê-la na página da [MPL-2.0](https://choosealicense.com/pt/licenses/mpl-2.0/).
