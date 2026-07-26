@@ -1395,7 +1395,7 @@ aceite=Todos os critérios do prompt comprovados por inventário e artefato real
 pendencias=Aguardar FT-058; publicação remota exige autorização/condições próprias.
 proximo_ponto=Não iniciar nesta atuação.
 
-FT-060|nome=Normatização dos metadados distribuídos e autorização upstream|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-26T01:20:27Z|inicio=20260726.012027|atualizacao=2026-07-25T22:45:43-03:00
+FT-060|nome=Normatização dos metadados distribuídos e autorização upstream|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-26T01:20:27Z|inicio=20260726.012027|atualizacao=2026-07-25T23:05:00-03:00|conclusao=2026-07-25T23:05:00-03:00
 objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#2 antes da implementação técnica, cobrindo configuração distribuída autenticada, instalação limpa, validação de cabeçalhos e autorização upstream.
 issue_id=github:jcempro/agents.md#2
 issue_repo=jcempro/agents.md
@@ -1403,25 +1403,27 @@ issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
 issue_state=em_desenvolvimento
 release=pendente
-origem=.ia.rules/state/requests/FT-060/request.md
+origem_preservada_no_commit=1a48022
 origem_sha256=068B655D63C0C33ADA8C78FF96DACA816C9AE6ECCF6010ACB64F10D38E7F1F15
 complementar=FT-062
-1/3 Captura e conciliação [em andamento]
+1/3 Captura e conciliação [concluido]
   1/3 Preservar issue integral, hash, contexto e vínculos [concluido]
   2/3 Reclassificar FT legada e criar complementar técnica [concluido]
-  3/3 Commitar exclusivamente criação e conciliação [em andamento]
-2/3 RCF [pendente]
-  1/3 Definir autoridade e schema dos metadados distribuídos [pendente]
-  2/3 Definir instalação limpa, integridade, edição local e cabeçalhos [pendente]
-  3/3 Definir autorização upstream e critérios verificáveis [pendente]
-3/3 Validação normativa [pendente]
-  1/2 Auditar issue → RCF e ausência de código antecipado [pendente]
-  2/2 Concluir FT normativa e liberar FT-062 [pendente]
+  3/3 Commitar exclusivamente criação e conciliação [concluido]
+2/3 RCF [concluido]
+  1/3 Definir autoridade e schema dos metadados distribuídos [concluido]
+  2/3 Definir instalação limpa, integridade, edição local e cabeçalhos [concluido]
+  3/3 Definir autorização upstream e critérios verificáveis [concluido]
+3/3 Validação normativa [concluido]
+  1/2 Auditar issue → RCF e ausência de código antecipado [concluido]
+  2/2 Concluir FT normativa e liberar FT-062 [concluido]
 aceite=RCF suficiente e rastreável para reconstruir a configuração distribuída e a autorização upstream sem inferência; nenhuma implementação técnica antecipada.
-pendencias=Concluir commit de conciliação e implementar o RCF; FT-062 permanece bloqueada.
-proximo_ponto=Executar FT-060; depois FT-062.
+resultado=RCF §§0.0.5, 0.0.7 e 20 fixa repository.json como fonte distribuída autenticada, instalação limpa e convergência transacional, além de gate local único e anterior à rede para toda mutação upstream. A issue integral e o contexto permanecem recuperáveis no commit de conciliação.
+verificacoes=Issue confrontada bidirecionalmente com RCF; cinco unidades materiais preparadas no mapa causal para as FTs técnicas/integrada; agent:rcf e rcf-trace validate aprovados; nenhum src, runtime, manifesto, teste ou workflow alterado nesta FT.
+pendencias=FT-062 está liberada e será executada após a conclusão normativa da FT-061.
+proximo_ponto=Concluir FT-061; depois executar FT-062 e FT-063.
 
-FT-061|nome=Normatização do ponto de entrada AGENTS e carregamento sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-26T01:24:52Z|inicio=20260726.012452|atualizacao=2026-07-25T22:45:43-03:00
+FT-061|nome=Normatização do ponto de entrada AGENTS e carregamento sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-26T01:24:52Z|inicio=20260726.012452|atualizacao=2026-07-25T23:05:00-03:00
 objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#10, reduzindo AGENTS.md a ponto de entrada de até 500 tokens e preservando sem perda a Norma auxiliar e o roteamento sob demanda.
 issue_id=github:jcempro/agents.md#10
 issue_repo=jcempro/agents.md
@@ -1432,14 +1434,14 @@ release=pendente
 origem=.ia.rules/state/requests/FT-061/request.md
 origem_sha256=34B41556B3A702755784277042167DA3CFA443D52C50B6DA842C09CCD238C6C4
 complementar=FT-063
-1/4 Captura e conciliação [em andamento]
+1/4 Captura e conciliação [concluido]
   1/3 Preservar issue integral, hash, contexto e vínculos [concluido]
   2/3 Reclassificar FT legada e criar complementar técnica [concluido]
-  3/3 Commitar exclusivamente criação e conciliação [em andamento]
-2/4 Arquitetura RCF [pendente]
-  1/3 Fixar limite permanente de 500 tokens e responsabilidade do entrypoint [pendente]
-  2/3 Definir preservação integral, autoridade auxiliar e condições de leitura [pendente]
-  3/3 Definir modularização, compatibilidade, migração e critérios [pendente]
+  3/3 Commitar exclusivamente criação e conciliação [concluido]
+2/4 Arquitetura RCF [concluido]
+  1/3 Fixar limite permanente de 500 tokens e responsabilidade do entrypoint [concluido]
+  2/3 Definir preservação integral, autoridade auxiliar e condições de leitura [concluido]
+  3/3 Definir modularização, compatibilidade, migração e critérios [concluido]
 3/4 Norma Operacional [pendente]
   1/3 Migrar integralmente o corpo sem redução para auxiliar canônico [pendente]
   2/3 Criar entrypoint mínimo e atualizar roteamento/índice [pendente]
@@ -1448,8 +1450,8 @@ complementar=FT-063
   1/2 Provar limite, preservação e equivalência [pendente]
   2/2 Concluir FT normativa e liberar FT-063 [pendente]
 aceite=AGENTS.md com no máximo 500 tokens, Norma anterior integralmente preservada e autoridade/precedência/roteamento equivalentes; nenhum código técnico antecipado.
-pendencias=Concluir commit de conciliação e executar RCF/Norma; FT-063 permanece bloqueada.
-proximo_ponto=Executar FT-061 após o RCF da FT-060; depois FT-063.
+pendencias=Migrar a Norma integral, criar o entrypoint mínimo, atualizar a descoberta normativa e provar equivalência; FT-063 permanece bloqueada até essa conclusão.
+proximo_ponto=Executar a etapa Norma Operacional da FT-061.
 
 FT-062|nome=Implementação dos metadados distribuídos e autorização upstream|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T22:45:44-03:00
 objetivo=Implementar e validar a configuração repository.json distribuída/autenticada, instalação limpa, cabeçalhos gerenciados e autorização upstream exigidos por github:jcempro/agents.md#2.
