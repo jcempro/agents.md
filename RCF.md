@@ -1147,7 +1147,7 @@ O fluxo deve ser resiliente, prevendo falhas, inconsistências, indisponibilidad
 
 O workflow deve permitir execução manual e automática. [c57042e]
 
-Além da execução manual, deve detectar push contendo um commit cujo único arquivo criado ou modificado seja o gatilho; modificação somente é válida quando a versão anterior registrada já possui tag publicada, preservando unicidade, idempotência e bloqueio de divergência não publicada. [PENDENTE-CODIGO]
+Além da execução manual, deve detectar push contendo um commit cujo único arquivo criado ou modificado seja o gatilho; modificação somente é válida quando a versão anterior registrada já possui tag publicada, preservando unicidade, idempotência e bloqueio de divergência não publicada. [5ce7edc]
 
 `release`
 

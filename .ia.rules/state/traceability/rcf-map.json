@@ -2000,13 +2000,13 @@
         "src/.ia.rules/scenarios/release/scripts/release-workflow.ts",
         "test/release-trigger.test.js"
       ],
-      "commit": "",
+      "commit": "746e0f548d57276152e1afa3121c7af625ce7edc",
       "ft": "FT-059",
       "id": "051c8281d113da4c8c61f90c",
       "line": 1150,
       "rcf": "RCF.md",
       "sentenceSha256": "4b36fcf02524492d299e38039b6cd4089cfa53ccd493c12907126395714846e6",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
