@@ -3167,13 +3167,13 @@
         ".github/workflows/issues-inbox.yml",
         ".github/workflows/release.yml"
       ],
-      "commit": "",
+      "commit": "f43f571fa97ba0f5a55fbc9dc3836798853d4714",
       "ft": "FT-052",
       "id": "aef8db6bb6ee2a8b53f093db",
       "line": 1498,
       "rcf": "RCF.md",
       "sentenceSha256": "36c1668536c77091828cbe0f913f089412791211eb1f67bfbc656f2fb0a47aa0",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
