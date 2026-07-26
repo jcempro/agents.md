@@ -1104,7 +1104,7 @@ origens=github:jcempro/agents.md#9; TODO.ia.md itens de topo posteriores a [1A];
 registro_temporario=.ia.rules/state/requests/FT-050/issue-9.md
 contexto_mestre=.ia.rules/state/contexts/FT-050/master.md
 dependencias=nenhuma; FT-051 e FT-052 dependem desta FT concluída, validada e commitada.
-release=pendente
+release=0.0.22
 1/5 Preservação e decomposição das origens [concluido]
   1/4 Preservar integralmente issue #9, comentários materiais, metadados e integridade [concluido]
   2/4 Ler todos os itens e subitens de TODO.ia.md [concluido]
