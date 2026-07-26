@@ -255,13 +255,13 @@
         "src/.ia.rules/distribution/source-manifest.json",
         "test/clean-consumer.test.js"
       ],
-      "commit": "",
+      "commit": "c884d8c9450936171481c33a896965923447bef3",
       "ft": "FT-062",
       "id": "7f69634a24f1b34c08719c85",
       "line": 69,
       "rcf": "RCF.md",
       "sentenceSha256": "d28622dbb0907263b01372ea25f989ae0889b2fd182ef6f0d13d0b201956712e",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -334,13 +334,13 @@
         "src/.ia.rules/core/runtime/scripts/upstream-share.ts",
         "test/upstream-share.test.js"
       ],
-      "commit": "",
+      "commit": "c884d8c9450936171481c33a896965923447bef3",
       "ft": "FT-062",
       "id": "715e80d19d372064e4f6bf8e",
       "line": 87,
       "rcf": "RCF.md",
       "sentenceSha256": "29f29f6c960806ef1e2c818a74cf879ae5795ccdfeb2889d300b88869afde286",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2898,13 +2898,13 @@
         "src/AGENTS.md",
         "test/agents-entrypoint.test.js"
       ],
-      "commit": "",
+      "commit": "c884d8c9450936171481c33a896965923447bef3",
       "ft": "FT-063",
       "id": "1b2c0b0b3266a4a63055af1f",
       "line": 1387,
       "rcf": "RCF.md",
       "sentenceSha256": "71ce7ace981a84f8eaf74df7b8feea289e60c527b400d8d2935e9d9e2ec52bb3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2926,13 +2926,13 @@
         "src/AGENTS.md",
         "test/agents-entrypoint.test.js"
       ],
-      "commit": "",
+      "commit": "c884d8c9450936171481c33a896965923447bef3",
       "ft": "FT-063",
       "id": "ea5c415976e12deaecbcf58f",
       "line": 1389,
       "rcf": "RCF.md",
       "sentenceSha256": "10ecbdb9f84b41dcc52bc940b408327d8134057c65de2a3638251fb6039d9fc7",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2941,13 +2941,13 @@
         "src/.ia.rules/normative-index.json",
         "test/agents-entrypoint.test.js"
       ],
-      "commit": "",
+      "commit": "c884d8c9450936171481c33a896965923447bef3",
       "ft": "FT-063",
       "id": "dfe058a9ab2ffbf46f7e5c22",
       "line": 1391,
       "rcf": "RCF.md",
       "sentenceSha256": "6635eb978a46c371e2ce173657917ac8fa802a4b5baa66a0f5caa749493176f1",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
