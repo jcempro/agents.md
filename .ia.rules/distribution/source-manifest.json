@@ -31,6 +31,23 @@
       ]
     },
     {
+      "path": ".ia.rules/config/repository.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/config/repository.json",
+      "purpose": "metadados autenticados de repositório, autoria, licença e caminhos",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
       "path": ".ia.rules/config/schema.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/config/schema.json",
@@ -1565,6 +1582,23 @@
         "constructor"
       ],
       "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/agents.inc.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/agents.inc.md",
+      "purpose": "Norma operacional integral carregada somente pelos gatilhos de fallback",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "normative-fallback",
       "ownership": "managed",
       "validation": [
         "source-exists",

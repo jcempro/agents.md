@@ -964,9 +964,11 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "refused-decisions.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "workflow-manager.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "normative-graph.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "agents-entrypoint.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "runtime-resilience.test.js")]);
-  return ok("TEST_OK", { suites: 16 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "clean-consumer.test.js")]);
+  return ok("TEST_OK", { suites: 18 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
