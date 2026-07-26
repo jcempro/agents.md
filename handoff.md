@@ -65,15 +65,15 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 <tr>
 <td rowspan="3">Auditoria integral</td>
 <td>Inventariar e adequar todos os scripts distribuídos</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Executar corpus cross-platform, shells, runtimes, permissões, falhas e retomadas</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Comprovar reprodutibilidade, equivalência, privacidade, segurança e custo líquido</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Fechamento</td>
@@ -82,7 +82,7 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 </tr>
 <tr>
 <td>Produzir relatório rastreável e incluir a issue #9 no ciclo de release</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Publicar, convergir branches e encerrar issues conforme contrato</td>
