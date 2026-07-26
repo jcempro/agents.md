@@ -19,7 +19,6 @@ permissions:
 
 jobs:
   detect-release:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     outputs:
       file: ${{ steps.detect.outputs.file }}
@@ -27,14 +26,17 @@ jobs:
       version: ${{ steps.detect.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name == 'push'
         with:
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
+        if: github.event_name == 'push'
         with:
           node-version: '24'
 
       - id: detect
+        if: github.event_name == 'push'
         shell: bash
         run: |
           result="$(node .ia.rules/scenarios/release/scripts/release-workflow.js detect '${{ github.event.before }}' '${{ github.sha }}')"

@@ -52,6 +52,9 @@ function main() {
     const workflow = fs.readFileSync(workflowPath, "utf8");
     assert.doesNotMatch(workflow, /\bnode\s+src\/\.ia\.rules\/[^\s'"]+\.js\b/u, `Workflow aponta a JavaScript removido: ${workflowPath}`);
   }
+  const releaseWorkflow = fs.readFileSync(path.join(root, ".github", "workflows", "release.yml"), "utf8");
+  assert.doesNotMatch(releaseWorkflow, /detect-release:\r?\n\s+if:/u);
+  assert.match(releaseWorkflow, /if:\s+github\.event_name == 'workflow_dispatch' \|\| needs\.detect-release\.outputs\.triggered == 'true'/u);
 
   for (const scriptPath of listFiles(path.join(distRoot, ".ia.rules")).filter((filePath) => filePath.endsWith(".js"))) {
     const checked = childProcess.spawnSync(process.execPath, ["--check", scriptPath], {
