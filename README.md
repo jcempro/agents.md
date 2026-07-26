@@ -1,7 +1,3 @@
-# agents-governance
-
-Governança operacional portátil para agentes de IA, distribuída como contratos, cenários, configuração e runtime reutilizáveis. Este repositório exerce simultaneamente os papéis de Repositório Final, para a própria operação, e de Construtor, ao gerar e publicar a Norma.
-
 [![Builder - matriz de runtimes](https://github.com/jcempro/agents.md/actions/workflows/runtime-matrix.yml/badge.svg?branch=dev)](https://github.com/jcempro/agents.md/actions/workflows/runtime-matrix.yml?query=branch%3Adev)
 [![Builder - mapa normativo](https://github.com/jcempro/agents.md/actions/workflows/normative-graph.yml/badge.svg?branch=dev)](https://github.com/jcempro/agents.md/actions/workflows/normative-graph.yml?query=branch%3Adev)
 [![Builder - rastreabilidade RCF](https://github.com/jcempro/agents.md/actions/workflows/rcf-trace.yml/badge.svg?branch=dev)](https://github.com/jcempro/agents.md/actions/workflows/rcf-trace.yml?query=branch%3Adev)
@@ -14,34 +10,38 @@ Governança operacional portátil para agentes de IA, distribuída como contrato
 [![GitHub Release](https://img.shields.io/github/v/release/jcempro/agents.md?display_name=tag&sort=semver)](https://github.com/jcempro/agents.md/releases/latest)
 [![Licença MPL-2.0](https://img.shields.io/github/license/jcempro/agents.md)](LICENSE)
 
-Os badges de workflow são indicadores dinâmicos do GitHub: verde representa `passing`, vermelho representa `failing` e cinza/indisponível indica execução ausente, ignorada ou ainda sem resultado para o filtro apresentado. O clique abre o histórico correspondente; o badge não substitui a inspeção do job e de seus logs.
+# agents-governance
+
+Governança operacional portátil para agentes de IA, distribuída como contratos, cenários, configuração e runtime reutilizáveis. Este repositório exerce simultaneamente os papéis de Repositório Final, para a própria operação, e de Construtor, ao gerar e publicar a Norma.
 
 ## Estado atual e arquitetura
 
-| Superfície | Situação vigente |
-| --- | --- |
-| Versão publicada | `0.0.23`; a release mais recente é resolvida pelo badge e pelo link acima |
-| Desenvolvimento | alterações em `dev`; uma FT concluída deve convergir para `main` antes do encerramento |
-| Fonte distribuível | `src/` contém exclusivamente fontes com efeito direto e manifestado no produto |
-| Infraestrutura interna | `constructor/`, `config/`, `test/` e workflows internos permanecem fora do payload |
-| Produto publicado | `dist/` e o ZIP versionado contêm somente a allowlist raiz e a árvore `.ia.rules/` manifestada |
-| Entrada normativa | `AGENTS.md` é o entrypoint curto; `.ia.rules/agents.inc.md` preserva o corpo integral sob carregamento condicionado |
-| Configuração | `.ia.rules/config/` rege o consumidor; `config/` é exclusiva do Construtor |
-| Estado operacional | `.ia.rules/continue.ia`; [handoff.md](handoff.md) é sua projeção gerada |
+| Superfície             | Situação vigente                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Versão publicada       | `0.0.23`; a release mais recente é resolvida pelo badge e pelo link acima                                           |
+| Desenvolvimento        | alterações em `dev`; uma FT concluída deve convergir para `main` antes do encerramento                              |
+| Fonte distribuível     | `src/` contém exclusivamente fontes com efeito direto e manifestado no produto                                      |
+| Infraestrutura interna | `constructor/`, `config/`, `test/` e workflows internos permanecem fora do payload                                  |
+| Produto publicado      | `dist/` e o ZIP versionado contêm somente a allowlist raiz e a árvore `.ia.rules/` manifestada                      |
+| Entrada normativa      | `AGENTS.md` é o entrypoint curto; `.ia.rules/agents.inc.md` preserva o corpo integral sob carregamento condicionado |
+| Configuração           | `.ia.rules/config/` rege o consumidor; `config/` é exclusiva do Construtor                                          |
+| Estado operacional     | `.ia.rules/continue.ia`; [handoff.md](handoff.md) é sua projeção gerada                                             |
 
 `src/` não é a raiz da aplicação nem um depósito de material interno. Estudos, avaliações, relatórios e experimentos do próprio Construtor ficam fora dela e nunca integram `dist/`, pacote ou release. A seleção do conteúdo publicado é positiva, perfilada e validada por manifesto, mapa de distribuição e hashes.
 
 <!-- agents:normative-metrics:start -->
+
 ### Métricas do grafo normativo
 
 Tokenizer exato: `tiktoken 0.13.0` (`o200k_base`, alvo `gpt-4o`); revisão `a9bdfdf`; fonte `76fc322168a7`. [Mapa completo](src/.ia.rules/generated/normative-map.md).
 
 O desvio padrão é populacional e considera uma observação por rota válida.
 
-| Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
-|---|---:|---:|---:|---:|---:|---:|
-| Folha | 29 | 437 | 1588.79 | 1211 | 1430.75 | 7702 |
-| Híbrido | 6 | 338 | 1174.83 | 1381.0 | 485.84 | 1617 |
+| Terminal | Rotas | Mínimo |   Média | Mediana | Desvio padrão | Máximo |
+| -------- | ----: | -----: | ------: | ------: | ------------: | -----: |
+| Folha    |    29 |    437 | 1588.79 |    1211 |       1430.75 |   7702 |
+| Híbrido  |     6 |    338 | 1174.83 |  1381.0 |        485.84 |   1617 |
+
 <!-- agents:normative-metrics:end -->
 
 ## Contratos de scripts
@@ -80,11 +80,11 @@ No produto e no release, configuração central reside exclusivamente em `.ia.ru
 
 `release`, `publish` e `update:agents` são as três entradas universais. Os comandos `agent:*` e `shared:*` são implementação operacional, diagnóstico ou compatibilidade; integrações devem chamar a entrada universal correspondente para não duplicar o fluxo.
 
-| Comando | Finalidade | Efeito externo normal | Modo seguro |
-| --- | --- | --- | --- |
-| `npm run release -- <versão>` | construir, validar, versionar, publicar e comprovar uma release | commits, pushes, tag, GitHub Release, asset, fechamento de issues vinculadas e convergência de branches | `--dry-run` |
-| `npm run publish -- [args]` | publicar conteúdo de Negócio pelo hook oficial do repositório | definido exclusivamente pelo hook `publish.js` aplicável | ausência do hook principal resulta em `PUBLISH_NAO_APLICAVEL` |
-| `npm run update:agents -- [opções]` | convergir a governança gerenciada para a release autenticada | backup de divergências, atualização, commit e push da branch atual | `--check` ou `--dry-run` |
+| Comando                             | Finalidade                                                      | Efeito externo normal                                                                                   | Modo seguro                                                   |
+| ----------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `npm run release -- <versão>`       | construir, validar, versionar, publicar e comprovar uma release | commits, pushes, tag, GitHub Release, asset, fechamento de issues vinculadas e convergência de branches | `--dry-run`                                                   |
+| `npm run publish -- [args]`         | publicar conteúdo de Negócio pelo hook oficial do repositório   | definido exclusivamente pelo hook `publish.js` aplicável                                                | ausência do hook principal resulta em `PUBLISH_NAO_APLICAVEL` |
+| `npm run update:agents -- [opções]` | convergir a governança gerenciada para a release autenticada    | backup de divergências, atualização, commit e push da branch atual                                      | `--check` ou `--dry-run`                                      |
 
 ### `release`: release técnico completo
 
@@ -185,6 +185,7 @@ Falha de download, integridade, handoff ou validação encerra sem fallback para
 - `agent:inbox:bind-release -- <versao> --role constructor` vincula à versão FTs correlacionadas concluídas. `agent:inbox:complete-release -- <versao> --role constructor --authorize` comenta, marca `agents:fixed` e fecha somente quando todas as FTs necessárias ao escopo da issue estiverem concluídas; a adequação do runtime permanece nas FTs de código abertas.
 
 O workflow `approved-issues.yml` executa o mesmo ciclo por label, agenda horária ou despacho manual. O workflow `release.yml` vincula as FTs antes do artefato e só finaliza o release após atualizar todas as issues corrigidas pela versão.
+
 - `agent:test:inbox` testa sanitização, classificação e índice idempotente sem rede.
 
 ### Atualização segura da governança
@@ -225,23 +226,6 @@ git merge-base --is-ancestor main dev
 ```
 
 O último comando deve retornar sucesso: `main` está no mesmo commit de `dev` ou é ancestral dele. Se o fast-forward falhar, interrompa a publicação, revise a divergência, realize merge normal somente quando ela for compatível, resolva conflito explicitamente, execute novamente `npm run agent:verify` e só então envie `main`.
-
-### Publicação assistida
-
-`release:publish` exige versão explícita, branch `dev`, worktree limpo e workflow presente. O comando atualiza `package.json`, valida o artefato, cria commits separados de preparação e artefato e envia o commit exclusivo `release`; o GitHub Actions cria tag, asset e GitHub Release. Com GitHub CLI autenticado, o comando também acompanha o workflow e confirma a convergência `dev`/primária; sem ele, retorna após enviar o gatilho remoto.
-
-```powershell
-# Confere o plano sem alterar arquivos, Git ou GitHub.
-npm run release:publish -- 0.0.2 --dry-run
-
-# Publica e acompanha o workflow até a confirmação remota.
-npm run release:publish -- 0.0.2
-
-# Envia o gatilho, mas deixa a observação remota para outro operador.
-npm run release:publish -- 0.0.2 --no-watch
-```
-
-O comando interrompe antes de escrever quando houver alteração local, tag existente, branch incorreta ou dependência remota ausente. Um release já preparado manualmente deve ser concluído ou removido antes de usar o ciclo all-in-one.
 
 ## Normas
 
