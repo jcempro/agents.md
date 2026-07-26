@@ -1478,12 +1478,12 @@ dependencias=FT-060 concluída e autorização humana explícita desta solicita�
   3/3 Regenerar TypeScript/JavaScript e derivados [concluido]
 3/3 Entrega [concluido]
   1/2 Validar integralmente e concluir FT [concluido]
-  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [pendente]
+  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [concluido]
 aceite=Todos os critérios da issue #2 comprovados em artefato e instalação limpa, sem enfraquecer cabeçalhos, autorização ou transação.
 resultado_parcial=repository.json integra fonte, manifesto, dist, mapa, ZIP e update com hash; schema exige metadados/caminhos completos; consumidor limpo carrega configuração e valida todos os cabeçalhos. requireAuthorization é único, aceita somente booleano verdadeiro e bloqueia publish/apply-assessment antes de segredo ou rede.
 verificacoes=agent:typecheck TYPECHECK_OK sources=28; agent:verify VERIFY_OK indexedFiles=111; agent:test TEST_OK suites=18; testes cobrem falta de repository.json, hashes do manifesto de atualização, cabeçalhos, gate falso/ausente/verdadeiro e backup transacional genérico aplicável a todo arquivo gerenciado.
-pendencias=Finalizar rastreabilidade causal, vincular release e encerrar issue após FT-060/FT-062 concluídas.
-proximo_ponto=Commit material, sincronização RCF e release pela FT-059.
+pendencias=Nenhuma nesta FT.
+proximo_ponto=Encerramento idempotente da issue pelo ciclo terminal da FT-059.
 
 FT-063|nome=Implementação técnica do entrypoint AGENTS sob demanda|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T22:45:45-03:00|inicio=2026-07-25T23:16:01-03:00|atualizacao=2026-07-25T23:42:00-03:00|conclusao=2026-07-25T23:42:00-03:00
 objetivo=Materializar, distribuir e validar a arquitetura normatizada por FT-061 para AGENTS.md de até 500 tokens com conteúdo auxiliar integral, índice, grafo, atualização e compatibilidade.
@@ -1505,9 +1505,9 @@ dependencias=FT-061 concluída e autorização humana explícita desta solicita�
   3/3 Provar build, release, clientes e comportamento do construtor [concluido]
 3/3 Entrega [concluido]
   1/2 Validar integralmente e concluir FT [concluido]
-  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [pendente]
+  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [concluido]
 aceite=Critérios da issue #10 comprovados por tokenização oficial, equivalência normativa, rotas, artefato e atualização, sem perda ou regressão.
 resultado_parcial=Manifesto positivo distribui entrypoint e auxiliar; grafo possui 36 nós/35 rotas e aresta passiva condicional; tiktoken oficial mede 338 tokens no entrypoint e 7.364 no auxiliar integral; update autentica ambos por SHA-256.
 verificacoes=Hash LF do auxiliar 4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024; NORMATIVE_GRAPH_OK paths=35; teste dedicado comprova limite, equivalência ativo/fonte, hash, aresta, referências e preservação do papel Construtor; build/verify/test globais aprovados.
-pendencias=Finalizar rastreabilidade causal, vincular release e encerrar issue após FT-061/FT-063 concluídas.
-proximo_ponto=Commit material, sincronização RCF e release pela FT-059.
+pendencias=Nenhuma nesta FT.
+proximo_ponto=Encerramento idempotente da issue pelo ciclo terminal da FT-059.
