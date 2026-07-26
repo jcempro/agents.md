@@ -5,12 +5,12 @@ Governanca operacional portavel para agentes IA. `./` organiza o repositorio e a
 <!-- agents:normative-metrics:start -->
 ### Métricas do grafo normativo
 
-Tokenizer exato: `tiktoken 0.13.0` (`o200k_base`, alvo `gpt-4o`); revisão `9fbc225`; fonte `2bf9d823d3cb`. [Mapa completo](src/.ia.rules/generated/normative-map.md).
+Tokenizer exato: `tiktoken 0.13.0` (`o200k_base`, alvo `gpt-4o`); revisão `7943694`; fonte `fde83373a0ea`. [Mapa completo](src/.ia.rules/generated/normative-map.md).
 
 | Terminal | Rotas | Mínimo | Média | Máximo |
 |---|---:|---:|---:|---:|
-| Folha | 28 | 7463 | 8385.5 | 10384 |
-| Híbrido | 6 | 7364 | 8200.83 | 8643 |
+| Folha | 29 | 437 | 1580.28 | 7702 |
+| Híbrido | 6 | 338 | 1174.83 | 1617 |
 <!-- agents:normative-metrics:end -->
 
 ## Contratos de Scripts

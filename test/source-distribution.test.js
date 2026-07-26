@@ -15,7 +15,8 @@ const clone = (value) => JSON.parse(JSON.stringify(value));
 assert.equal(validateSourceDistributionManifest(clone(manifest), sourceDir).entries.length, manifest.entries.length);
 assert.ok(manifest.entries.every((entry) => entry.profile.startsWith("consumer-")));
 assert.ok(!manifest.entries.some((entry) => entry.path.includes("evaluations/") || entry.path.includes("rcf-projection")));
-assert.ok(!manifest.entries.some((entry) => entry.path === ".ia.rules/config/repository.json"));
+assert.ok(manifest.entries.some((entry) => entry.path === ".ia.rules/config/repository.json" && entry.profile === "consumer-core"));
+assert.ok(manifest.entries.some((entry) => entry.path === ".ia.rules/agents.inc.md" && entry.profile === "consumer-core"));
 
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "agents-source-manifest-"));
 try {
@@ -69,6 +70,8 @@ const publishedPaths = release.files.map((entry) => entry.path);
 assert.ok(release.files.every((entry) => entry.profile && entry.profile !== "builder-internal"));
 assert.ok(distributionMap.entries.filter((entry) => entry.type === "file" && entry.required).every((entry) => entry.profile));
 assert.ok(!publishedPaths.some((entryPath) => /(?:^|\/)constructor(?:\/|$)|evaluations\/|rcf-projection|state\/decisions\/refused/u.test(entryPath)));
+assert.ok(publishedPaths.includes(".ia.rules/config/repository.json"));
+assert.ok(publishedPaths.includes(".ia.rules/agents.inc.md"));
 
 const archivePath = fs.readdirSync(path.join(rootDir, "dist")).find((name) => /^agents-v.+\.zip$/u.test(name));
 assert.ok(archivePath, "ZIP de release ausente.");
@@ -83,6 +86,8 @@ try {
   ];
   assert.ok(forbidden.every((target) => !fs.existsSync(target)));
   assert.ok(fs.existsSync(path.join(extracted, ".ia.rules", "scenarios", "governance", "constructor-operation.md")));
+  assert.ok(fs.existsSync(path.join(extracted, ".ia.rules", "config", "repository.json")));
+  assert.ok(fs.existsSync(path.join(extracted, ".ia.rules", "agents.inc.md")));
 } finally {
   fs.rmSync(extracted, { force: true, recursive: true });
 }

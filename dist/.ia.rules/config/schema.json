@@ -1,5 +1,7 @@
 {
   "id": "agents-config/v1",
   "version": 1,
-  "required": ["schema", "devLive", "distribution", "lifecycle", "output", "publicClient", "publicServices"]
+  "required": ["schema", "devLive", "distribution", "lifecycle", "metadata", "output", "paths", "publicClient", "publicServices"],
+  "requiredMetadata": ["author", "contact", "repository", "license", "licenseId", "licenseUrl", "licenseNotice", "disclaimer"],
+  "requiredPaths": ["source", "artifact", "index", "package"]
 }

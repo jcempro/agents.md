@@ -7,5 +7,256 @@
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
 // Gerado de: src/.ia.rules/core/runtime/scripts/refused-decisions.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-const p=require("child_process"),a=require("fs"),n=require("path"),_="agents-refused-decisions-index/v1",w=n.join(".ia.rules","state","decisions","refused"),N=["absenceConfirmed","currentSituation","decidedAt","decision","id","lastReviewedAt","ownership","reconsiderationCondition","record","refusalDegree","relatedArtifacts","scope","semanticKey","status","summaryReason","title"].sort(),C=new Set(["RECUSADO","PARCIALMENTE_RECUSADO","RECUSADO_PARA_RECONSIDERACAO","EM_ANDAMENTO_COM_RESTRICOES","REABERTO","SUPERADO","SUBSTITUIDO","ACEITO_APOS_REAVALIACAO"]),I=new Set(["TOTAL","PARCIAL","CONDICIONAL","NAO_APLICAVEL"]),L=new Set(["REABERTO","SUPERADO","SUBSTITUIDO","ACEITO_APOS_REAVALIACAO"]);function g(e,r={}){const t=n.resolve(e||".");M(t);const o=n.join(t,w);if(!a.existsSync(o))return{entries:0,present:!1,records:0};l(n.join(o,"index.schema.json"),"RECUSAS_SCHEMA_AUSENTE"),l(n.join(o,"index.json"),"RECUSAS_INDICE_AUSENTE"),l(n.join(o,"record.template.md"),"RECUSAS_TEMPLATE_AUSENTE");const i=f(n.join(o,"index.schema.json"),"RECUSAS_SCHEMA_JSON_INVALIDO");if(i.$id!==_||!i.properties||!i.properties.entries)throw new Error("RECUSAS_SCHEMA_INVALIDO");const c=f(n.join(o,"index.json"),"RECUSAS_INDICE_JSON_INVALIDO");V(c);const s=new Set,E=new Set,d=new Set;for(const A of c.entries){v(A,{ids:s,semanticKeys:E,records:d});const D=n.join(o,...A.record.split("/"));O(o,A.record,`RECUSAS_REGISTRO_AUSENTE:${A.record}`);const $=a.readFileSync(D,"utf8").replace(/\r\n/gu,`
-`);j(A,$),r.verifyArtifacts!==!1&&x(t,A)}const T=n.join(o,"records"),S=U(T).filter(A=>n.extname(A).toLocaleLowerCase("en-US")===".md").map(A=>`records/${n.basename(A)}`).sort();for(const A of S)if(!d.has(A.toLocaleLowerCase("en-US")))throw new Error(`RECUSAS_REGISTRO_ORFAO:${A}`);if(S.length!==d.size)throw new Error(`RECUSAS_INDICE_NAO_EXAUSTIVO:records=${S.length}:indexed=${d.size}`);return{entries:c.entries.length,present:!0,records:S.length}}function V(e){const r=["entries","generated","ownership","schema","version"].sort();if(!e||m(e).join("|")!==r.join("|")||e.schema!==_||e.version!==1||e.generated!==!1||e.ownership!=="repository-local"||!Array.isArray(e.entries))throw new Error("RECUSAS_INDICE_INVALIDO")}function v(e,r){if(!e||m(e).join("|")!==N.join("|"))throw new Error(`RECUSAS_ENTRADA_CAMPOS_INVALIDOS:${e&&e.id||"sem-id"}`);if(!/^DEC-[0-9]{8}-[0-9]{3}$/u.test(e.id))throw new Error(`RECUSAS_ID_INVALIDO:${e.id}`);if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(e.semanticKey))throw new Error(`RECUSAS_CHAVE_INVALIDA:${e.id}`);if(!C.has(e.status)||e.status==="ADIADO")throw new Error(`RECUSAS_ESTADO_INVALIDO:${e.id}:${e.status}`);if(!I.has(e.refusalDegree))throw new Error(`RECUSAS_GRAU_INVALIDO:${e.id}:${e.refusalDegree}`);if(!u(e.decidedAt)||!u(e.lastReviewedAt)||e.lastReviewedAt<e.decidedAt)throw new Error(`RECUSAS_DATA_INVALIDA:${e.id}`);if(e.id.slice(4,12)!==e.decidedAt.replace(/-/gu,""))throw new Error(`RECUSAS_ID_DATA_DIVERGENTE:${e.id}`);for(const c of["title","scope","decision","summaryReason","reconsiderationCondition","currentSituation"])if(!String(e[c]||"").trim())throw new Error(`RECUSAS_CAMPO_VAZIO:${e.id}:${c}`);if(e.absenceConfirmed!==!0||e.ownership!=="repository-local")throw new Error(`RECUSAS_AUSENCIA_OU_PROPRIEDADE_INVALIDA:${e.id}`);if(!Array.isArray(e.relatedArtifacts)||e.relatedArtifacts.length===0||new Set(e.relatedArtifacts).size!==e.relatedArtifacts.length)throw new Error(`RECUSAS_REFERENCIAS_INVALIDAS:${e.id}`);if(e.record!==`records/${e.id}.md`)throw new Error(`RECUSAS_REGISTRO_DIVERGENTE:${e.id}`);const t=e.id.toLocaleLowerCase("en-US"),o=e.semanticKey.toLocaleLowerCase("en-US"),i=e.record.toLocaleLowerCase("en-US");if(r.ids.has(t))throw new Error(`RECUSAS_ID_DUPLICADO:${e.id}`);if(r.semanticKeys.has(o))throw new Error(`RECUSAS_CHAVE_DUPLICADA:${e.semanticKey}`);if(r.records.has(i))throw new Error(`RECUSAS_REGISTRO_DUPLICADO:${e.record}`);r.ids.add(t),r.semanticKeys.add(o),r.records.add(i)}function j(e,r){const t=r.match(/^# (DEC-[0-9]{8}-[0-9]{3}) — (.+)$/mu);if(!t||t[1]!==e.id||t[2].trim()!==e.title)throw new Error(`RECUSAS_TITULO_REGISTRO_DIVERGENTE:${e.id}`);const o=new Map;for(const s of r.matchAll(/^- ([^:\r\n]+):\s*(.+)$/gmu))o.set(s[1].trim(),P(s[2].trim()));const i={chave_semantica:e.semanticKey,estado:e.status,grau_recusa:e.refusalDegree,escopo:e.scope,decidido_em:e.decidedAt,ultima_revisao:e.lastReviewedAt,ausencia_confirmada:"true",propriedade:"repository-local"};for(const[s,E]of Object.entries(i))if(o.get(s)!==E)throw new Error(`RECUSAS_METADATA_DIVERGENTE:${e.id}:${s}`);if(!o.get("condição_reavaliação")||!o.get("situação_atual"))throw new Error(`RECUSAS_METADATA_INCOMPLETA:${e.id}`);let c=-1;for(let s=1;s<=11;s+=1){const E=[...r.matchAll(new RegExp(`^## ${s}\\. .+$`,"gmu"))];if(E.length!==1||E[0].index<=c)throw new Error(`RECUSAS_SECAO_INVALIDA:${e.id}:${s}`);c=E[0].index}if(e.lastReviewedAt>e.decidedAt&&!R(r,10).includes(e.lastReviewedAt))throw new Error(`RECUSAS_REVISAO_SEM_EVOLUCAO:${e.id}:${e.lastReviewedAt}`);if(L.has(e.status)){const s=R(r,10),E=e.status.toLocaleLowerCase("pt-BR").replaceAll("_"," ");if(!s.toLocaleLowerCase("pt-BR").includes(E))throw new Error(`RECUSAS_TRANSICAO_SEM_EVOLUCAO:${e.id}:${e.status}`);if(e.status==="REABERTO"&&!/(fato novo|mudan[cç]a material|evid[eê]ncia nova|justific)/iu.test(s))throw new Error(`RECUSAS_REABERTURA_SEM_JUSTIFICATIVA:${e.id}`)}}function x(e,r){for(const t of r.relatedArtifacts){if(t.startsWith("git:")){const s=t.slice(4);if(!/^[a-f0-9]{7,40}$/iu.test(s))throw new Error(`RECUSAS_COMMIT_INVALIDO:${r.id}:${t}`);if(p.spawnSync("git",["cat-file","-e",`${s}^{commit}`],{cwd:e,encoding:"utf8",windowsHide:!0}).status!==0)throw new Error(`RECUSAS_COMMIT_AUSENTE:${r.id}:${t}`);continue}const[o,i=""]=t.split("#",2),c=h(o);if(O(e,c,`RECUSAS_REFERENCIA_AUSENTE:${r.id}:${t}`),i){const s=a.readFileSync(n.join(e,...c.split("/")),"utf8");if(!(/^FT-[0-9]+$/u.test(i)?s.includes(i):new RegExp(`^#{1,6}\\s+${F(i)}(?:\\D|$)`,"mu").test(s)))throw new Error(`RECUSAS_ANCORA_AUSENTE:${r.id}:${t}`)}}}function M(e){for(const r of["src","dist"]){const t=n.join(e,r,w);if(a.existsSync(t))throw new Error(`RECUSAS_ACERVO_PUBLICADO:${G(n.relative(e,t))}`)}}function h(e){const r=String(e||"").trim().replace(/\\/gu,"/").replace(/^\.\//u,"");if(!r||n.posix.isAbsolute(r)||/^[A-Za-z]:\//u.test(r)||r==="."||r===".."||r.startsWith("../")||r.includes("/../")||r.includes("//")||r.endsWith("/"))throw new Error(`RECUSAS_PATH_INSEGURO:${e}`);return r}function O(e,r,t){const o=h(r);let i=e;for(const c of o.split("/")){if(!a.existsSync(i)||!a.statSync(i).isDirectory()||!a.readdirSync(i).includes(c))throw new Error(t);i=n.join(i,c)}if(!a.existsSync(i)||!a.statSync(i).isFile())throw new Error(t)}function l(e,r){if(!a.existsSync(e)||!a.statSync(e).isFile())throw new Error(r)}function f(e,r){try{return JSON.parse(a.readFileSync(e,"utf8"))}catch(t){throw new Error(`${r}:${t.message}`)}}function U(e){if(!a.existsSync(e))return[];const r=[];for(const t of a.readdirSync(e,{withFileTypes:!0}).sort((o,i)=>o.name.localeCompare(i.name,"en"))){const o=n.join(e,t.name);t.isDirectory()?r.push(...U(o)):t.isFile()&&r.push(o)}return r}function R(e,r){const t=e.search(new RegExp(`^## ${r}\\. `,"mu"));if(t<0)return"";const o=e.slice(t),i=o.slice(1).search(/^## [0-9]+\. /mu);return i<0?o:o.slice(0,i+1)}function m(e){return Object.keys(e||{}).sort()}function P(e){return e.replace(/^`|`$/gu,"")}function u(e){if(!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/u.test(String(e||"")))return!1;const r=new Date(`${e}T00:00:00Z`);return!Number.isNaN(r.getTime())&&r.toISOString().slice(0,10)===e}function F(e){return String(e).replace(/[.*+?^${}()|[\]\\]/gu,"\\$&")}function G(e){return String(e||"").replace(/\\/gu,"/")}module.exports={DEGREES:I,STATUSES:C,validateRefusedDecisions:g};
+const childProcess = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const INDEX_FORMAT = "agents-refused-decisions-index/v1";
+const LOCAL_ROOT = path.join(".ia.rules", "state", "decisions", "refused");
+const ENTRY_FIELDS = [
+  "absenceConfirmed",
+  "currentSituation",
+  "decidedAt",
+  "decision",
+  "id",
+  "lastReviewedAt",
+  "ownership",
+  "reconsiderationCondition",
+  "record",
+  "refusalDegree",
+  "relatedArtifacts",
+  "scope",
+  "semanticKey",
+  "status",
+  "summaryReason",
+  "title"
+].sort();
+const STATUSES = /* @__PURE__ */ new Set([
+  "RECUSADO",
+  "PARCIALMENTE_RECUSADO",
+  "RECUSADO_PARA_RECONSIDERACAO",
+  "EM_ANDAMENTO_COM_RESTRICOES",
+  "REABERTO",
+  "SUPERADO",
+  "SUBSTITUIDO",
+  "ACEITO_APOS_REAVALIACAO"
+]);
+const DEGREES = /* @__PURE__ */ new Set(["TOTAL", "PARCIAL", "CONDICIONAL", "NAO_APLICAVEL"]);
+const TRANSITION_STATUSES = /* @__PURE__ */ new Set(["REABERTO", "SUPERADO", "SUBSTITUIDO", "ACEITO_APOS_REAVALIACAO"]);
+function validateRefusedDecisions(rootDir, options = {}) {
+  const repositoryRoot = path.resolve(rootDir || ".");
+  assertNotPublished(repositoryRoot);
+  const localRoot = path.join(repositoryRoot, LOCAL_ROOT);
+  if (!fs.existsSync(localRoot)) {
+    return { entries: 0, present: false, records: 0 };
+  }
+  assertFile(path.join(localRoot, "index.schema.json"), "RECUSAS_SCHEMA_AUSENTE");
+  assertFile(path.join(localRoot, "index.json"), "RECUSAS_INDICE_AUSENTE");
+  assertFile(path.join(localRoot, "record.template.md"), "RECUSAS_TEMPLATE_AUSENTE");
+  const schema = readJson(path.join(localRoot, "index.schema.json"), "RECUSAS_SCHEMA_JSON_INVALIDO");
+  if (schema.$id !== INDEX_FORMAT || !schema.properties || !schema.properties.entries) {
+    throw new Error("RECUSAS_SCHEMA_INVALIDO");
+  }
+  const index = readJson(path.join(localRoot, "index.json"), "RECUSAS_INDICE_JSON_INVALIDO");
+  validateIndexHeader(index);
+  const ids = /* @__PURE__ */ new Set();
+  const semanticKeys = /* @__PURE__ */ new Set();
+  const records = /* @__PURE__ */ new Set();
+  for (const entry of index.entries) {
+    validateEntry(entry, { ids, semanticKeys, records });
+    const recordPath = path.join(localRoot, ...entry.record.split("/"));
+    assertExactFile(localRoot, entry.record, `RECUSAS_REGISTRO_AUSENTE:${entry.record}`);
+    const content = fs.readFileSync(recordPath, "utf8").replace(/\r\n/gu, "\n");
+    validateRecord(entry, content);
+    if (options.verifyArtifacts !== false) validateRelatedArtifacts(repositoryRoot, entry);
+  }
+  const recordsRoot = path.join(localRoot, "records");
+  const physicalRecords = listFiles(recordsRoot).filter((filePath) => path.extname(filePath).toLocaleLowerCase("en-US") === ".md").map((filePath) => `records/${path.basename(filePath)}`).sort();
+  for (const record of physicalRecords) {
+    if (!records.has(record.toLocaleLowerCase("en-US"))) {
+      throw new Error(`RECUSAS_REGISTRO_ORFAO:${record}`);
+    }
+  }
+  if (physicalRecords.length !== records.size) {
+    throw new Error(`RECUSAS_INDICE_NAO_EXAUSTIVO:records=${physicalRecords.length}:indexed=${records.size}`);
+  }
+  return { entries: index.entries.length, present: true, records: physicalRecords.length };
+}
+function validateIndexHeader(index) {
+  const expected = ["entries", "generated", "ownership", "schema", "version"].sort();
+  if (!index || sortedKeys(index).join("|") !== expected.join("|") || index.schema !== INDEX_FORMAT || index.version !== 1 || index.generated !== false || index.ownership !== "repository-local" || !Array.isArray(index.entries)) {
+    throw new Error("RECUSAS_INDICE_INVALIDO");
+  }
+}
+function validateEntry(entry, state) {
+  if (!entry || sortedKeys(entry).join("|") !== ENTRY_FIELDS.join("|")) {
+    throw new Error(`RECUSAS_ENTRADA_CAMPOS_INVALIDOS:${entry && entry.id || "sem-id"}`);
+  }
+  if (!/^DEC-[0-9]{8}-[0-9]{3}$/u.test(entry.id)) throw new Error(`RECUSAS_ID_INVALIDO:${entry.id}`);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(entry.semanticKey)) throw new Error(`RECUSAS_CHAVE_INVALIDA:${entry.id}`);
+  if (!STATUSES.has(entry.status) || entry.status === "ADIADO") throw new Error(`RECUSAS_ESTADO_INVALIDO:${entry.id}:${entry.status}`);
+  if (!DEGREES.has(entry.refusalDegree)) throw new Error(`RECUSAS_GRAU_INVALIDO:${entry.id}:${entry.refusalDegree}`);
+  if (!isDate(entry.decidedAt) || !isDate(entry.lastReviewedAt) || entry.lastReviewedAt < entry.decidedAt) {
+    throw new Error(`RECUSAS_DATA_INVALIDA:${entry.id}`);
+  }
+  if (entry.id.slice(4, 12) !== entry.decidedAt.replace(/-/gu, "")) throw new Error(`RECUSAS_ID_DATA_DIVERGENTE:${entry.id}`);
+  for (const field of ["title", "scope", "decision", "summaryReason", "reconsiderationCondition", "currentSituation"]) {
+    if (!String(entry[field] || "").trim()) throw new Error(`RECUSAS_CAMPO_VAZIO:${entry.id}:${field}`);
+  }
+  if (entry.absenceConfirmed !== true || entry.ownership !== "repository-local") {
+    throw new Error(`RECUSAS_AUSENCIA_OU_PROPRIEDADE_INVALIDA:${entry.id}`);
+  }
+  if (!Array.isArray(entry.relatedArtifacts) || entry.relatedArtifacts.length === 0 || new Set(entry.relatedArtifacts).size !== entry.relatedArtifacts.length) {
+    throw new Error(`RECUSAS_REFERENCIAS_INVALIDAS:${entry.id}`);
+  }
+  if (entry.record !== `records/${entry.id}.md`) throw new Error(`RECUSAS_REGISTRO_DIVERGENTE:${entry.id}`);
+  const idKey = entry.id.toLocaleLowerCase("en-US");
+  const semanticKey = entry.semanticKey.toLocaleLowerCase("en-US");
+  const recordKey = entry.record.toLocaleLowerCase("en-US");
+  if (state.ids.has(idKey)) throw new Error(`RECUSAS_ID_DUPLICADO:${entry.id}`);
+  if (state.semanticKeys.has(semanticKey)) throw new Error(`RECUSAS_CHAVE_DUPLICADA:${entry.semanticKey}`);
+  if (state.records.has(recordKey)) throw new Error(`RECUSAS_REGISTRO_DUPLICADO:${entry.record}`);
+  state.ids.add(idKey);
+  state.semanticKeys.add(semanticKey);
+  state.records.add(recordKey);
+}
+function validateRecord(entry, content) {
+  const title = content.match(/^# (DEC-[0-9]{8}-[0-9]{3}) — (.+)$/mu);
+  if (!title || title[1] !== entry.id || title[2].trim() !== entry.title) {
+    throw new Error(`RECUSAS_TITULO_REGISTRO_DIVERGENTE:${entry.id}`);
+  }
+  const metadata = /* @__PURE__ */ new Map();
+  for (const match of content.matchAll(/^- ([^:\r\n]+):\s*(.+)$/gmu)) {
+    metadata.set(match[1].trim(), stripTicks(match[2].trim()));
+  }
+  const expectedMetadata = {
+    chave_semantica: entry.semanticKey,
+    estado: entry.status,
+    grau_recusa: entry.refusalDegree,
+    escopo: entry.scope,
+    decidido_em: entry.decidedAt,
+    ultima_revisao: entry.lastReviewedAt,
+    ausencia_confirmada: "true",
+    propriedade: "repository-local"
+  };
+  for (const [key, value] of Object.entries(expectedMetadata)) {
+    if (metadata.get(key) !== value) throw new Error(`RECUSAS_METADATA_DIVERGENTE:${entry.id}:${key}`);
+  }
+  if (!metadata.get("condição_reavaliação") || !metadata.get("situação_atual")) {
+    throw new Error(`RECUSAS_METADATA_INCOMPLETA:${entry.id}`);
+  }
+  let previous = -1;
+  for (let section = 1; section <= 11; section += 1) {
+    const matches = [...content.matchAll(new RegExp(`^## ${section}\\. .+$`, "gmu"))];
+    if (matches.length !== 1 || matches[0].index <= previous) throw new Error(`RECUSAS_SECAO_INVALIDA:${entry.id}:${section}`);
+    previous = matches[0].index;
+  }
+  if (entry.lastReviewedAt > entry.decidedAt && !sectionContent(content, 10).includes(entry.lastReviewedAt)) {
+    throw new Error(`RECUSAS_REVISAO_SEM_EVOLUCAO:${entry.id}:${entry.lastReviewedAt}`);
+  }
+  if (TRANSITION_STATUSES.has(entry.status)) {
+    const evolution = sectionContent(content, 10);
+    const marker = entry.status.toLocaleLowerCase("pt-BR").replaceAll("_", " ");
+    if (!evolution.toLocaleLowerCase("pt-BR").includes(marker)) {
+      throw new Error(`RECUSAS_TRANSICAO_SEM_EVOLUCAO:${entry.id}:${entry.status}`);
+    }
+    if (entry.status === "REABERTO" && !/(fato novo|mudan[cç]a material|evid[eê]ncia nova|justific)/iu.test(evolution)) {
+      throw new Error(`RECUSAS_REABERTURA_SEM_JUSTIFICATIVA:${entry.id}`);
+    }
+  }
+}
+function validateRelatedArtifacts(rootDir, entry) {
+  for (const reference of entry.relatedArtifacts) {
+    if (reference.startsWith("git:")) {
+      const commit = reference.slice(4);
+      if (!/^[a-f0-9]{7,40}$/iu.test(commit)) throw new Error(`RECUSAS_COMMIT_INVALIDO:${entry.id}:${reference}`);
+      const result = childProcess.spawnSync("git", ["cat-file", "-e", `${commit}^{commit}`], {
+        cwd: rootDir,
+        encoding: "utf8",
+        windowsHide: true
+      });
+      if (result.status !== 0) throw new Error(`RECUSAS_COMMIT_AUSENTE:${entry.id}:${reference}`);
+      continue;
+    }
+    const [relativePath, anchor = ""] = reference.split("#", 2);
+    const normalized = normalizeLocalPath(relativePath);
+    assertExactFile(rootDir, normalized, `RECUSAS_REFERENCIA_AUSENTE:${entry.id}:${reference}`);
+    if (anchor) {
+      const target = fs.readFileSync(path.join(rootDir, ...normalized.split("/")), "utf8");
+      const found = /^FT-[0-9]+$/u.test(anchor) ? target.includes(anchor) : new RegExp(`^#{1,6}\\s+${escapeRegex(anchor)}(?:\\D|$)`, "mu").test(target);
+      if (!found) throw new Error(`RECUSAS_ANCORA_AUSENTE:${entry.id}:${reference}`);
+    }
+  }
+}
+function assertNotPublished(rootDir) {
+  for (const prefix of ["src", "dist"]) {
+    const leaked = path.join(rootDir, prefix, LOCAL_ROOT);
+    if (fs.existsSync(leaked)) throw new Error(`RECUSAS_ACERVO_PUBLICADO:${toPosix(path.relative(rootDir, leaked))}`);
+  }
+}
+function normalizeLocalPath(value) {
+  const normalized = String(value || "").trim().replace(/\\/gu, "/").replace(/^\.\//u, "");
+  if (!normalized || path.posix.isAbsolute(normalized) || /^[A-Za-z]:\//u.test(normalized) || normalized === "." || normalized === ".." || normalized.startsWith("../") || normalized.includes("/../") || normalized.includes("//") || normalized.endsWith("/")) {
+    throw new Error(`RECUSAS_PATH_INSEGURO:${value}`);
+  }
+  return normalized;
+}
+function assertExactFile(rootDir, relativePath, errorCode) {
+  const normalized = normalizeLocalPath(relativePath);
+  let current = rootDir;
+  for (const segment of normalized.split("/")) {
+    if (!fs.existsSync(current) || !fs.statSync(current).isDirectory() || !fs.readdirSync(current).includes(segment)) {
+      throw new Error(errorCode);
+    }
+    current = path.join(current, segment);
+  }
+  if (!fs.existsSync(current) || !fs.statSync(current).isFile()) throw new Error(errorCode);
+}
+function assertFile(filePath, errorCode) {
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) throw new Error(errorCode);
+}
+function readJson(filePath, errorCode) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    throw new Error(`${errorCode}:${error.message}`);
+  }
+}
+function listFiles(dirPath) {
+  if (!fs.existsSync(dirPath)) return [];
+  const files = [];
+  for (const entry of fs.readdirSync(dirPath, { withFileTypes: true }).sort((left, right) => left.name.localeCompare(right.name, "en"))) {
+    const entryPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) files.push(...listFiles(entryPath));
+    else if (entry.isFile()) files.push(entryPath);
+  }
+  return files;
+}
+function sectionContent(content, section) {
+  const start = content.search(new RegExp(`^## ${section}\\. `, "mu"));
+  if (start < 0) return "";
+  const tail = content.slice(start);
+  const next = tail.slice(1).search(/^## [0-9]+\. /mu);
+  return next < 0 ? tail : tail.slice(0, next + 1);
+}
+function sortedKeys(value) {
+  return Object.keys(value || {}).sort();
+}
+function stripTicks(value) {
+  return value.replace(/^`|`$/gu, "");
+}
+function isDate(value) {
+  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/u.test(String(value || ""))) return false;
+  const date = /* @__PURE__ */ new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+}
+function toPosix(value) {
+  return String(value || "").replace(/\\/gu, "/");
+}
+module.exports = {
+  DEGREES,
+  STATUSES,
+  validateRefusedDecisions
+};

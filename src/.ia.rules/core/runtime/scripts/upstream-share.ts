@@ -144,6 +144,16 @@ async function applyAssessment(options) {
   return print({ code: "UPSTREAM_ASSESSMENT_PUBLISHED", issue, label, notified: Boolean(mentions) });
 }
 
+/** Bloqueia toda mutação upstream sem o aceite booleano produzido pelo parâmetro oficial. */
+function requireAuthorization(options) {
+  // PROTECAO: credenciais, papel e contexto nunca substituem autorização humana explícita.
+  if (!options || options.authorize !== true) {
+    const error = new Error("AUTORIZACAO_EXPLICITA_EXIGIDA");
+    error.exitCode = 2;
+    throw error;
+  }
+}
+
 /** Executa collaboratorMentions no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 async function collaboratorMentions(config, repository, token) {
   const result = await github(config, `/repos/${repository}/collaborators?per_page=100`, "GET", { token });
@@ -297,4 +307,4 @@ class UsageError extends Error { constructor(message) { super(message); this.exi
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 
-module.exports = { assessmentMessage, issueBody, main, sanitizeProposal, validateProposal };
+module.exports = { assessmentMessage, issueBody, main, requireAuthorization, sanitizeProposal, validateProposal };

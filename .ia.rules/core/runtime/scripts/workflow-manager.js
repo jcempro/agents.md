@@ -7,9 +7,155 @@
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
 // Gerado de: src/.ia.rules/core/runtime/scripts/workflow-manager.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-const _=require("crypto"),a=require("fs"),l=require("path");function W(t=__dirname){let e=l.resolve(t);for(;l.dirname(e)!==e;){if(a.existsSync(l.join(e,"AGENTS.md")))return e;e=l.dirname(e)}throw new Error("RAIZ_REPOSITORIO_NAO_ENCONTRADA")}function w(t){const e=(Buffer.isBuffer(t)?t.toString("utf8"):String(t)).replace(/\r\n/gu,`
-`).replace(/\r/gu,`
-`);return _.createHash("sha256").update(e,"utf8").digest("hex")}function A(t,e){try{return JSON.parse(a.readFileSync(t,"utf8"))}catch(o){throw new Error(`${e}:${o.message}`)}}function S(t){const e=String(t||"").replace(/\\/gu,"/").replace(/^\.\//u,"");if(!e||e==="."||e===".."||e.startsWith("../")||e.includes("/../")||e.includes("//")||l.posix.isAbsolute(e)||/^[A-Za-z]:\//u.test(e))throw new Error(`WORKFLOW_PATH_INSEGURO:${t}`);return e}function y(t){const e=a.existsSync(l.join(t,".ia.rules","workflows","index.json"))?t:l.join(t,"src"),o=l.join(e,".ia.rules","workflows","index.json"),i=A(o,"WORKFLOW_INDICE_INVALIDO");if(!i||i.schema!=="agents-workflows/v1"||i.version!==1||!Array.isArray(i.workflows)||i.workflows.length===0)throw new Error("WORKFLOW_INDICE_INVALIDO");const d=new Set,c=new Set;for(const n of i.workflows){if(n.id=String(n.id||"").trim(),n.source=S(n.source),n.destination=S(n.destination),!n.id||d.has(n.id)||c.has(n.destination.toLocaleLowerCase("en-US"))||!n.purpose||!n.scope||!n.trigger||!Array.isArray(n.dependencies)||!Array.isArray(n.permissions)||!n.sha256||n.install!=="managed-copy")throw new Error(`WORKFLOW_ENTRADA_INVALIDA:${n.id||"sem-id"}`);const u=l.join(e,n.source);if(!a.existsSync(u)||w(a.readFileSync(u))!==n.sha256)throw new Error(`WORKFLOW_ORIGEM_DIVERGENTE:${n.id}`);d.add(n.id),c.add(n.destination.toLocaleLowerCase("en-US"))}return Object.defineProperty(i,"sourceRoot",{enumerable:!1,value:e}),i}function I(t){const e=l.join(t,".ia.rules","workflows","installed.json");if(!a.existsSync(e))return{schema:"agents-workflows-installed/v1",workflows:[]};const o=A(e,"WORKFLOW_ESTADO_INVALIDO");if(!o||o.schema!=="agents-workflows-installed/v1"||!Array.isArray(o.workflows))throw new Error("WORKFLOW_ESTADO_INVALIDO");return o}function m(t,e){a.mkdirSync(l.dirname(t),{recursive:!0});const o=`${t}.agents-${process.pid}.tmp`;try{a.writeFileSync(o,e),a.renameSync(o,t)}finally{a.existsSync(o)&&a.rmSync(o,{force:!0})}}function E(t,e=[],o={}){const i=y(t),d=e.length?i.workflows.filter(r=>e.includes(r.id)):i.workflows;if(e.some(r=>!d.some(f=>f.id===r)))throw new Error(`WORKFLOW_DESCONHECIDO:${e.join(",")}`);const c=I(t),n=new Map(c.workflows.map(r=>[r.id,r])),u=[];for(const r of d){const f=l.join(i.sourceRoot,r.source),s=l.join(t,r.destination),O=a.readFileSync(f),p=a.existsSync(s)?w(a.readFileSync(s)):"",g=n.get(r.id);if(p&&p!==r.sha256&&(!g||p!==g.sha256))throw new Error(`WORKFLOW_CUSTOMIZACAO_CONFLITANTE:${r.id}:${r.destination}`);u.push({destinationPath:s,item:r,sourceContent:O})}if(o.dryRun)return{changed:u.filter(r=>w(r.sourceContent)!==(a.existsSync(r.destinationPath)?w(a.readFileSync(r.destinationPath)):"")).map(r=>r.item.id),dryRun:!0};const h=[];try{for(const s of u)h.push({content:a.existsSync(s.destinationPath)?a.readFileSync(s.destinationPath):null,path:s.destinationPath}),m(s.destinationPath,s.sourceContent);const r=new Map(c.workflows.map(s=>[s.id,s]));for(const s of u)r.set(s.item.id,{destination:s.item.destination,id:s.item.id,sha256:s.item.sha256,source:s.item.source,version:i.version});const f={schema:"agents-workflows-installed/v1",workflows:[...r.values()].sort((s,O)=>s.id.localeCompare(O.id,"en"))};return m(l.join(t,".ia.rules","workflows","installed.json"),`${JSON.stringify(f,null,2)}
-`),{changed:u.map(s=>s.item.id),dryRun:!1}}catch(r){for(const f of h.reverse())f.content===null?a.rmSync(f.path,{force:!0}):m(f.path,f.content);throw r}}function R(t){const e=y(t),o=I(t),i=new Map(e.workflows.map(d=>[d.id,d]));for(const d of o.workflows){const c=i.get(d.id),n=c&&l.join(t,c.destination);if(!c||d.sha256!==c.sha256||!a.existsSync(n)||w(a.readFileSync(n))!==c.sha256)throw new Error(`WORKFLOW_INSTALADO_DIVERGENTE:${d.id}`)}return{available:e.workflows.length,installed:o.workflows.length}}function k(t=process.argv.slice(2),e={}){const o=e.rootDir||W(),i=t[0]||"list",d=t.slice(1).filter(c=>!c.startsWith("--"));if(i==="list")return{workflows:y(o).workflows.map(({id:c,purpose:n,scope:u,destination:h})=>({destination:h,id:c,purpose:n,scope:u}))};if(i==="verify")return R(o);if(i==="install"||i==="update")return E(o,d,{dryRun:t.includes("--dry-run")});throw new Error(`WORKFLOW_COMANDO_INVALIDO:${i}`)}if(require.main===module)try{process.stdout.write(`${JSON.stringify(k())}
-`)}catch(t){process.stderr.write(`${t.message}
-`),process.exitCode=1}module.exports={installWorkflows:E,loadCatalog:y,main:k,safeRelative:S,sha256:w,verifyInstalled:R};
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
+function resolveRoot(start = __dirname) {
+  let current = path.resolve(start);
+  while (path.dirname(current) !== current) {
+    if (fs.existsSync(path.join(current, "AGENTS.md"))) return current;
+    current = path.dirname(current);
+  }
+  throw new Error("RAIZ_REPOSITORIO_NAO_ENCONTRADA");
+}
+function sha256(content) {
+  const normalized = (Buffer.isBuffer(content) ? content.toString("utf8") : String(content)).replace(/\r\n/gu, "\n").replace(/\r/gu, "\n");
+  return crypto.createHash("sha256").update(normalized, "utf8").digest("hex");
+}
+function readJson(filePath, code) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    throw new Error(`${code}:${error.message}`);
+  }
+}
+function safeRelative(value) {
+  const normalized = String(value || "").replace(/\\/gu, "/").replace(/^\.\//u, "");
+  if (!normalized || normalized === "." || normalized === ".." || normalized.startsWith("../") || normalized.includes("/../") || normalized.includes("//") || path.posix.isAbsolute(normalized) || /^[A-Za-z]:\//u.test(normalized)) throw new Error(`WORKFLOW_PATH_INSEGURO:${value}`);
+  return normalized;
+}
+function loadCatalog(rootDir) {
+  const sourceRoot = fs.existsSync(path.join(rootDir, ".ia.rules", "workflows", "index.json")) ? rootDir : path.join(rootDir, "src");
+  const catalogPath = path.join(sourceRoot, ".ia.rules", "workflows", "index.json");
+  const catalog = readJson(catalogPath, "WORKFLOW_INDICE_INVALIDO");
+  if (!catalog || catalog.schema !== "agents-workflows/v1" || catalog.version !== 1 || !Array.isArray(catalog.workflows) || catalog.workflows.length === 0) throw new Error("WORKFLOW_INDICE_INVALIDO");
+  const ids = /* @__PURE__ */ new Set();
+  const destinations = /* @__PURE__ */ new Set();
+  for (const item of catalog.workflows) {
+    item.id = String(item.id || "").trim();
+    item.source = safeRelative(item.source);
+    item.destination = safeRelative(item.destination);
+    if (!item.id || ids.has(item.id) || destinations.has(item.destination.toLocaleLowerCase("en-US")) || !item.purpose || !item.scope || !item.trigger || !Array.isArray(item.dependencies) || !Array.isArray(item.permissions) || !item.sha256 || item.install !== "managed-copy") {
+      throw new Error(`WORKFLOW_ENTRADA_INVALIDA:${item.id || "sem-id"}`);
+    }
+    const sourcePath = path.join(sourceRoot, item.source);
+    if (!fs.existsSync(sourcePath) || sha256(fs.readFileSync(sourcePath)) !== item.sha256) {
+      throw new Error(`WORKFLOW_ORIGEM_DIVERGENTE:${item.id}`);
+    }
+    ids.add(item.id);
+    destinations.add(item.destination.toLocaleLowerCase("en-US"));
+  }
+  Object.defineProperty(catalog, "sourceRoot", { enumerable: false, value: sourceRoot });
+  return catalog;
+}
+function readInstalledState(rootDir) {
+  const statePath = path.join(rootDir, ".ia.rules", "workflows", "installed.json");
+  if (!fs.existsSync(statePath)) return { schema: "agents-workflows-installed/v1", workflows: [] };
+  const state = readJson(statePath, "WORKFLOW_ESTADO_INVALIDO");
+  if (!state || state.schema !== "agents-workflows-installed/v1" || !Array.isArray(state.workflows)) {
+    throw new Error("WORKFLOW_ESTADO_INVALIDO");
+  }
+  return state;
+}
+function writeAtomic(filePath, content) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  const tempPath = `${filePath}.agents-${process.pid}.tmp`;
+  try {
+    fs.writeFileSync(tempPath, content);
+    fs.renameSync(tempPath, filePath);
+  } finally {
+    if (fs.existsSync(tempPath)) fs.rmSync(tempPath, { force: true });
+  }
+}
+function installWorkflows(rootDir, ids = [], options = {}) {
+  const catalog = loadCatalog(rootDir);
+  const selected = ids.length ? catalog.workflows.filter((item) => ids.includes(item.id)) : catalog.workflows;
+  if (ids.some((id) => !selected.some((item) => item.id === id))) throw new Error(`WORKFLOW_DESCONHECIDO:${ids.join(",")}`);
+  const previous = readInstalledState(rootDir);
+  const previousById = new Map(previous.workflows.map((item) => [item.id, item]));
+  const plan = [];
+  for (const item of selected) {
+    const sourcePath = path.join(catalog.sourceRoot, item.source);
+    const destinationPath = path.join(rootDir, item.destination);
+    const sourceContent = fs.readFileSync(sourcePath);
+    const currentHash = fs.existsSync(destinationPath) ? sha256(fs.readFileSync(destinationPath)) : "";
+    const prior = previousById.get(item.id);
+    if (currentHash && currentHash !== item.sha256 && (!prior || currentHash !== prior.sha256)) {
+      throw new Error(`WORKFLOW_CUSTOMIZACAO_CONFLITANTE:${item.id}:${item.destination}`);
+    }
+    plan.push({ destinationPath, item, sourceContent });
+  }
+  if (options.dryRun) return { changed: plan.filter((entry) => sha256(entry.sourceContent) !== (fs.existsSync(entry.destinationPath) ? sha256(fs.readFileSync(entry.destinationPath)) : "")).map((entry) => entry.item.id), dryRun: true };
+  const backups = [];
+  try {
+    for (const entry of plan) {
+      backups.push({
+        content: fs.existsSync(entry.destinationPath) ? fs.readFileSync(entry.destinationPath) : null,
+        path: entry.destinationPath
+      });
+      writeAtomic(entry.destinationPath, entry.sourceContent);
+    }
+    const merged = new Map(previous.workflows.map((item) => [item.id, item]));
+    for (const entry of plan) merged.set(entry.item.id, {
+      destination: entry.item.destination,
+      id: entry.item.id,
+      sha256: entry.item.sha256,
+      source: entry.item.source,
+      version: catalog.version
+    });
+    const state = {
+      schema: "agents-workflows-installed/v1",
+      workflows: [...merged.values()].sort((a, b) => a.id.localeCompare(b.id, "en"))
+    };
+    writeAtomic(path.join(rootDir, ".ia.rules", "workflows", "installed.json"), `${JSON.stringify(state, null, 2)}
+`);
+    return { changed: plan.map((entry) => entry.item.id), dryRun: false };
+  } catch (error) {
+    for (const backup of backups.reverse()) {
+      if (backup.content === null) fs.rmSync(backup.path, { force: true });
+      else writeAtomic(backup.path, backup.content);
+    }
+    throw error;
+  }
+}
+function verifyInstalled(rootDir) {
+  const catalog = loadCatalog(rootDir);
+  const installed = readInstalledState(rootDir);
+  const catalogById = new Map(catalog.workflows.map((item) => [item.id, item]));
+  for (const record of installed.workflows) {
+    const item = catalogById.get(record.id);
+    const destinationPath = item && path.join(rootDir, item.destination);
+    if (!item || record.sha256 !== item.sha256 || !fs.existsSync(destinationPath) || sha256(fs.readFileSync(destinationPath)) !== item.sha256) throw new Error(`WORKFLOW_INSTALADO_DIVERGENTE:${record.id}`);
+  }
+  return { available: catalog.workflows.length, installed: installed.workflows.length };
+}
+function main(argv = process.argv.slice(2), options = {}) {
+  const rootDir = options.rootDir || resolveRoot();
+  const command = argv[0] || "list";
+  const ids = argv.slice(1).filter((arg) => !arg.startsWith("--"));
+  if (command === "list") return { workflows: loadCatalog(rootDir).workflows.map(({ id, purpose, scope, destination }) => ({ destination, id, purpose, scope })) };
+  if (command === "verify") return verifyInstalled(rootDir);
+  if (command === "install" || command === "update") return installWorkflows(rootDir, ids, { dryRun: argv.includes("--dry-run") });
+  throw new Error(`WORKFLOW_COMANDO_INVALIDO:${command}`);
+}
+if (require.main === module) {
+  try {
+    process.stdout.write(`${JSON.stringify(main())}
+`);
+  } catch (error) {
+    process.stderr.write(`${error.message}
+`);
+    process.exitCode = 1;
+  }
+}
+module.exports = { installWorkflows, loadCatalog, main, safeRelative, sha256, verifyInstalled };

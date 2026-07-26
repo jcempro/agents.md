@@ -3,7 +3,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { requestJson, sanitizeText } = require("../.ia.rules/core/runtime/scripts/public-client");
-const { assessmentMessage, issueBody, sanitizeProposal } = require("../.ia.rules/core/runtime/scripts/upstream-share");
+const { assessmentMessage, issueBody, requireAuthorization, sanitizeProposal } = require("../.ia.rules/core/runtime/scripts/upstream-share");
 const { resolveRemoteSource } = require("../.ia.rules/core/runtime/scripts/update-agents");
 
 async function main() {
@@ -32,6 +32,9 @@ async function main() {
   assert.match(sanitizeText("Bearer secret-token"), /REDACTED/u);
   assert.match(issueBody({ acceptance: "a", context: "c", gap: "g", proposal: "p", reuse: "r" }), /## Aceite/u);
   assert.match(assessmentMessage("recommended", "pt-BR"), /Recomendação/u);
+  assert.throws(() => requireAuthorization({}), /AUTORIZACAO_EXPLICITA_EXIGIDA/u);
+  assert.throws(() => requireAuthorization({ authorize: false }), /AUTORIZACAO_EXPLICITA_EXIGIDA/u);
+  assert.doesNotThrow(() => requireAuthorization({ authorize: true }));
 
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-upstream-test-"));
   try {

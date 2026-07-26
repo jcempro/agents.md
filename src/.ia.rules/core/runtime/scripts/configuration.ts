@@ -16,13 +16,26 @@ function loadConfiguration(rootDir) {
   const configRoot = fs.existsSync(packagedConfigRoot) ? packagedConfigRoot : path.join(rootDir, "config");
   const descriptor = readConfig(path.join(configRoot, "schema.json"), true);
   const core = readConfig(path.join(configRoot, "core.json"), true);
-  const repository = readConfig(path.join(configRoot, "repository.json"), false);
+  // FIX-BUG: metadados usados por cabeçalhos são parte obrigatória do produto distribuído.
+  const repository = readConfig(path.join(configRoot, "repository.json"), true);
   const local = readConfig(path.join(configRoot, "agents.local.json"), false);
   const environment = process.env.AGENTS_CONFIG_JSON ? parseConfig(process.env.AGENTS_CONFIG_JSON, "AGENTS_CONFIG_JSON") : {};
   const merged = deepMerge(deepMerge(deepMerge(core, repository), local), environment);
   if (descriptor.id !== "agents-config/v1" || descriptor.version !== 1 || merged.schema !== descriptor.version) throw new Error("CONFIG_SCHEMA_NAO_SUPORTADO");
   for (const key of descriptor.required || []) if (!(key in merged)) throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:${key}`);
+  validateRequiredObject(merged.metadata, descriptor.requiredMetadata, "metadata");
+  validateRequiredObject(merged.paths, descriptor.requiredPaths, "paths");
   return deepFreeze(merged);
+}
+
+/** Valida campos obrigatórios de um objeto de configuração sem inferir metadados ausentes. */
+function validateRequiredObject(value, requiredKeys, namespace) {
+  if (!value || Array.isArray(value) || typeof value !== "object") throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:${namespace}`);
+  for (const key of requiredKeys || []) {
+    if (!(key in value) || (typeof value[key] === "string" && !value[key].trim())) {
+      throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:${namespace}.${key}`);
+    }
+  }
 }
 
 /** Executa readConfig no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -62,4 +75,4 @@ function deepFreeze(value) {
   return Object.freeze(value);
 }
 
-module.exports = { deepMerge, loadConfiguration, parseConfig };
+module.exports = { deepMerge, loadConfiguration, parseConfig, validateRequiredObject };

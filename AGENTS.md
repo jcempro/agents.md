@@ -2,7 +2,7 @@
 
 Este arquivo governa a atuação da IA. O RCF governa requisito, contrato, arquitetura e negócio; é a especificação declarativa, determinística e verificável do sistema, ressalvado o domínio desta Norma. Precedência, autoridade, preservação e mecanismos oficiais são compulsórios.
 
-Antes de operação material:
+Antes de operação material, quando a rota não estiver na memória válida ou houver alteração física:
 
 1. consulte `./.ia.rules/normative-index.json`;
 2. carregue `./.ia.rules/core/authority.md`, os papéis cumulativos aplicáveis em `./.ia.rules/roles/` e somente as rotas, cenários, contratos e recursos disparados;
