@@ -18,7 +18,6 @@ Governança operacional portátil para agentes de IA, distribuída como contrato
 
 | Superfície             | Situação vigente                                                                                                    |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Versão publicada       | `0.0.23`; a release mais recente é resolvida pelo badge e pelo link acima                                           |
 | Desenvolvimento        | alterações em `dev`; uma FT concluída deve convergir para `main` antes do encerramento                              |
 | Fonte distribuível     | `src/` contém exclusivamente fontes com efeito direto e manifestado no produto                                      |
 | Infraestrutura interna | `constructor/`, `config/`, `test/` e workflows internos permanecem fora do payload                                  |
