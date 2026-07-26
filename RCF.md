@@ -1116,7 +1116,7 @@ O processo deve ser resiliente, prevendo falhas de ambiente, inconsistências, e
 
 Deve existir um comando NPM ou equivalente e um workflow de GitHub Actions capaz de gerar, versionar, compactar e publicar releases automaticamente. [c57042e]
 
-Antes de invocar build, auditoria ou empacotamento, o workflow DEVE materializar deterministicamente, a partir dos locks e requisitos versionados, todas as toolchains declaradas que o fluxo utiliza; checkout limpo sem dependência instalada é o ambiente de referência, e ausência de compilador, runtime auxiliar ou biblioteca obrigatória DEVE bloquear antes de tag ou publicação. [PENDENTE-CODIGO]
+Antes de invocar build, auditoria ou empacotamento, o workflow DEVE materializar deterministicamente, a partir dos locks e requisitos versionados, todas as toolchains declaradas que o fluxo utiliza; checkout limpo sem dependência instalada é o ambiente de referência, e ausência de compilador, runtime auxiliar ou biblioteca obrigatória DEVE bloquear antes de tag ou publicação. [3744bab]
 
 Limpeza de artefato gerado DEVE tolerar bloqueio transitório do sistema de arquivos com retentativa limitada e determinística. Após falha, o processo DEVE reconstruir integralmente o artefato ou interromper com causa identificável; não PODE publicar árvore parcialmente limpa, ignorar arquivo bloqueado ou usar remoção forçada sem escopo. [8af4584]
 
