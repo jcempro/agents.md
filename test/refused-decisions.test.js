@@ -3,7 +3,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const { validateRefusedDecisions } = require("../src/.ia.rules/core/runtime/scripts/refused-decisions");
+const { validateRefusedDecisions } = require("../.ia.rules/core/runtime/scripts/refused-decisions");
 
 const repositoryRoot = path.resolve(__dirname, "..");
 const canonicalRoot = path.join(repositoryRoot, ".ia.rules", "state", "decisions", "refused");

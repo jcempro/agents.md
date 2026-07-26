@@ -5,51 +5,6 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/request-code-gate.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-function evaluateCodeAuthorization(memory, ftId, options = {}) {
-  const fronts = splitFronts(memory);
-  const target = fronts.find((front) => front.ft === normalizeFt(ftId));
-  if (!target) return blocked("FT_CODIGO_AUSENTE");
-  if (target.type !== "implementacao_codigo") return blocked("FT_NAO_E_CODIGO");
-  const dependencies = parseDependencies(target.block);
-  const normative = dependencies.map((id) => fronts.find((front) => front.ft === id)).filter(Boolean);
-  if (!normative.length) return blocked("FT_NORMATIVA_AUSENTE");
-  const openNormative = normative.filter((front) => front.type === "implementacao_normativa" && front.status !== "concluido");
-  if (openNormative.length) return blocked("FT_NORMATIVA_PENDENTE", { fronts: openNormative.map((front) => front.ft) });
-  if (options.authorized !== true && !hasExplicitAuthorization(target.block)) return blocked("AUTORIZACAO_HUMANA_AUSENTE");
-  return { code: "CODIGO_AUTORIZADO", ft: target.ft, normative: normative.map((front) => front.ft), status: "authorized" };
-}
-
-function splitFronts(memory) {
-  return String(memory || "").split(/(?=^FT-\d+\|)/mu)
-    .filter((block) => /^FT-\d+\|/u.test(block))
-    .map((block) => ({
-      block,
-      ft: (block.match(/^(FT-\d+)\|/mu) || [])[1] || "",
-      status: (block.match(/^FT-\d+\|.*\|status=([^|\r\n]+)/mu) || [])[1] || "",
-      type: (block.match(/^FT-\d+\|.*\|tipo=([^|\r\n]+)/mu) || [])[1] || "",
-    }));
-}
-
-function parseDependencies(block) {
-  const dependencies = [];
-  for (const match of String(block).matchAll(/\bFT-\d{3,}\b/gu)) dependencies.push(match[0]);
-  const self = (String(block).match(/^(FT-\d+)\|/mu) || [])[1] || "";
-  return [...new Set(dependencies.filter((id) => id !== self))];
-}
-
-function hasExplicitAuthorization(block) {
-  return /^autorizacao_codigo=humana(?:\||$)/mu.test(String(block)) || /^autorizacao_humana=sim(?:\||$)/mu.test(String(block));
-}
-
-function blocked(reason, details = {}) {
-  return { code: reason, status: "blocked", ...details };
-}
-
-function normalizeFt(value) {
-  const ft = String(value || "").toUpperCase();
-  if (!/^FT-\d{3,}$/u.test(ft)) throw new Error("PARAMETRO_INVALIDO:ft");
-  return ft;
-}
-
-module.exports = { evaluateCodeAuthorization, hasExplicitAuthorization, parseDependencies, splitFronts };
+function p(e,t,a={}){const r=c(e),i=r.find(n=>n.ft===A(t));if(!i)return o("FT_CODIGO_AUSENTE");if(i.type!=="implementacao_codigo")return o("FT_NAO_E_CODIGO");const u=f(i.block).map(n=>r.find(d=>d.ft===n)).filter(Boolean);if(!u.length)return o("FT_NORMATIVA_AUSENTE");const s=u.filter(n=>n.type==="implementacao_normativa"&&n.status!=="concluido");return s.length?o("FT_NORMATIVA_PENDENTE",{fronts:s.map(n=>n.ft)}):a.authorized!==!0&&!m(i.block)?o("AUTORIZACAO_HUMANA_AUSENTE"):{code:"CODIGO_AUTORIZADO",ft:i.ft,normative:u.map(n=>n.ft),status:"authorized"}}function c(e){return String(e||"").split(/(?=^FT-\d+\|)/mu).filter(t=>/^FT-\d+\|/u.test(t)).map(t=>({block:t,ft:(t.match(/^(FT-\d+)\|/mu)||[])[1]||"",status:(t.match(/^FT-\d+\|.*\|status=([^|\r\n]+)/mu)||[])[1]||"",type:(t.match(/^FT-\d+\|.*\|tipo=([^|\r\n]+)/mu)||[])[1]||""}))}function f(e){const t=[];for(const r of String(e).matchAll(/\bFT-\d{3,}\b/gu))t.push(r[0]);const a=(String(e).match(/^(FT-\d+)\|/mu)||[])[1]||"";return[...new Set(t.filter(r=>r!==a))]}function m(e){return/^autorizacao_codigo=humana(?:\||$)/mu.test(String(e))||/^autorizacao_humana=sim(?:\||$)/mu.test(String(e))}function o(e,t={}){return{code:e,status:"blocked",...t}}function A(e){const t=String(e||"").toUpperCase();if(!/^FT-\d{3,}$/u.test(t))throw new Error("PARAMETRO_INVALIDO:ft");return t}module.exports={evaluateCodeAuthorization:p,hasExplicitAuthorization:m,parseDependencies:f,splitFronts:c};

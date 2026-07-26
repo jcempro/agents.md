@@ -4,14 +4,14 @@ const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../src/.ia.rules/core/runtime/scripts/update-agents");
-const { extractZip } = require("../src/.ia.rules/core/runtime/scripts/archive");
-const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../src/.ia.rules/core/runtime/scripts/autoupdate");
-const { isManagedDistributionFile, isManagedScriptPath } = require("../src/.ia.rules/core/runtime/scripts/repo-tools");
+const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.ia.rules/core/runtime/scripts/update-agents");
+const { extractZip } = require("../.ia.rules/core/runtime/scripts/archive");
+const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.ia.rules/core/runtime/scripts/autoupdate");
+const { isManagedDistributionFile, isManagedScriptPath } = require("../.ia.rules/core/runtime/scripts/repo-tools");
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
-  const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.ia.rules/repo-tools.js agent:agents", publish: "ruby publish.rb" } }));
+  const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.ia.rules/repo-tools.ts agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
     scripts: {
       "agent:autoupdate": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
@@ -28,13 +28,13 @@ async function main() {
   assert.equal(merged.scripts["agents:autoupdate"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:update"], merged.scripts["agent:autoupdate"]);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "repo-tools.js")), true);
-  assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "update", "migrations", "v1-to-v2.js")), true);
-  assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "scenarios", "release", "scripts", "release-hooks.js")), true);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "update", "migrations", "v1-to-v2.ts")), true);
+  assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "scenarios", "release", "scripts", "release-hooks.ts")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "cache", "legacy-consumer", ".ia.rules", "core", "runtime", "scripts", "to-ia.js")), false);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "local", "custom.js")), false);
   assert.equal(isManagedDistributionFile(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json")), true);
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
-  assert.match(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "update-agents.js"), "utf8"), /"add", "-f", "--"/u);
+  assert.match(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "update-agents.ts"), "utf8"), /"add", "-f", "--"/u);
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {
     fs.writeFileSync(path.join(root, ".gitignore"), ".ia.rules\nnode_modules/\n", "utf8");

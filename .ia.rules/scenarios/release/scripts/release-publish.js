@@ -5,19 +5,18 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/scenarios/release/scripts/release-publish.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const { loadConfiguration } = require("../../../core/runtime/scripts/configuration");
 const { normalizeReleaseVersion } = require("./release-workflow");
-
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
-
-class UsageError extends Error {}
-
+class UsageError extends Error {
+}
 function main(argv = process.argv.slice(2)) {
   const options = parseArgs(argv);
   if (options.help) {
@@ -26,29 +25,25 @@ function main(argv = process.argv.slice(2)) {
   }
   const version = normalizeReleaseVersion(options.version);
   const preflight = inspectPreflight(version, options);
-
   if (options.dryRun) {
     printJson({ code: "RELEASE_PUBLISH_DRY_RUN", ...preflight, configuration: publicOptions(options), version, watch: !options.noWatch });
     return 0;
   }
-
   assertPreflight(preflight);
   prepareVersionCommit(version, options);
   prepareArtifactCommit(version, options);
   const trigger = createAndPushTrigger(version, options);
   const remote = options.noWatch || !preflight.gh ? null : waitForRemoteRelease(version, trigger.commit, options);
-
   printJson({
     code: remote ? "RELEASE_PUBLISH_OK" : "RELEASE_TRIGGER_ENVIADO",
     configuration: publicOptions(options),
     githubCli: preflight.gh,
     triggerCommit: trigger.commit,
     version,
-    ...(remote ? remote : {}),
+    ...remote ? remote : {}
   });
   return 0;
 }
-
 function parseArgs(argv) {
   const options = {
     branch: process.env.AGENTS_RELEASE_BRANCH || CONFIGURATION.lifecycle.developmentBranch,
@@ -58,7 +53,7 @@ function parseArgs(argv) {
     primary: process.env.AGENTS_RELEASE_PRIMARY || "",
     remote: process.env.AGENTS_RELEASE_REMOTE || CONFIGURATION.lifecycle.remote,
     version: "",
-    workflow: process.env.AGENTS_RELEASE_WORKFLOW || CONFIGURATION.lifecycle.workflow,
+    workflow: process.env.AGENTS_RELEASE_WORKFLOW || CONFIGURATION.lifecycle.workflow
   };
   for (let index = 0; index < argv.length; index += 1) {
     const value = argv[index];
@@ -89,15 +84,12 @@ function parseArgs(argv) {
   if (!/^[A-Za-z0-9._-]+\.ya?ml$/u.test(options.workflow)) throw new UsageError("PARAMETRO_INVALIDO:workflow");
   return options;
 }
-
 function help() {
   return "Uso: release:publish <versao> [--dry-run] [--no-watch] [--branch <nome>] [--primary <nome>] [--remote <nome>] [--workflow <arquivo.yml>]\n";
 }
-
 function publicOptions(options) {
   return { branch: options.branch, primary: options.primary, remote: options.remote, workflow: options.workflow };
 }
-
 function inspectPreflight(version, options = { branch: "dev", workflow: "release.yml" }) {
   const branch = run("git", ["branch", "--show-current"]).stdout.trim();
   const dirty = run("git", ["status", "--porcelain"], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean);
@@ -107,7 +99,6 @@ function inspectPreflight(version, options = { branch: "dev", workflow: "release
   const gh = run("gh", ["--version"], { optional: true }).status === 0;
   return { branch, dirty, expectedBranch: options.branch, gh, localTag, tag, workflow: fs.existsSync(workflow) };
 }
-
 function assertPreflight(preflight) {
   if (preflight.branch !== preflight.expectedBranch) {
     throw new Error(`BRANCH_RELEASE_INVALIDA:${preflight.branch || "(vazia)"}`);
@@ -122,86 +113,81 @@ function assertPreflight(preflight) {
     throw new Error("WORKFLOW_RELEASE_AUSENTE:.github/workflows/release.yml");
   }
 }
-
 function prepareVersionCommit(version, options) {
   const pkg = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
   pkg.version = version;
-  fs.writeFileSync(PACKAGE_PATH, `${JSON.stringify(pkg, null, 2)}\n`, "utf8");
+  fs.writeFileSync(PACKAGE_PATH, `${JSON.stringify(pkg, null, 2)}
+`, "utf8");
   run("git", ["add", "--", "package.json"]);
   assertStagedPaths(["package.json"]);
   run("git", ["commit", "-m", `chore: prepara release v${version}`]);
-  run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+  run("git", ["push", options.remote, options.branch], { timeout: 12e4 });
 }
-
 function prepareArtifactCommit(version, options) {
-  run(process.execPath, [path.join(ROOT_DIR, ".ia.rules", "core", "runtime", "scripts", "repo-tools.js"), "agent:release", version], { timeout: 900000 });
-  run(process.execPath, [path.join(ROOT_DIR, ".ia.rules", "core", "runtime", "scripts", "repo-tools.js"), "agent:verify"], { timeout: 900000 });
+  run(process.execPath, [path.join(ROOT_DIR, ".ia.rules", "core", "runtime", "scripts", "repo-tools.js"), "agent:release", version], { timeout: 9e5 });
+  run(process.execPath, [path.join(ROOT_DIR, ".ia.rules", "core", "runtime", "scripts", "repo-tools.js"), "agent:verify"], { timeout: 9e5 });
   run("git", ["add", "--", "dist", "index.json"]);
   const stagedArtifact = run("git", ["diff", "--cached", "--name-status", "--", "dist", "index.json"]).stdout.trim();
   if (!stagedArtifact) {
     const commit = run("git", ["log", "-1", "--format=%H", "--", "dist", "index.json"]).stdout.trim();
     if (!commit) throw new Error(`COMMIT_ARTEFATO_RELEASE_AUSENTE:v${version}`);
-    run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+    run("git", ["push", options.remote, options.branch], { timeout: 12e4 });
     return;
   }
   assertStagedPaths(["dist/", "index.json"], { prefixes: true });
   run("git", ["commit", "-m", `chore: gera artefato v${version}`]);
-  run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+  run("git", ["push", options.remote, options.branch], { timeout: 12e4 });
 }
-
 function createAndPushTrigger(version, options) {
   runReleaseTrigger(version);
   run("git", ["add", "--", "release"]);
   const stagedRelease = run("git", ["diff", "--cached", "--name-status", "--", "release"]).stdout.trim();
   if (!stagedRelease) {
-    const commit = run("git", ["log", "-1", "--format=%H", "--", "release"]).stdout.trim();
-    if (!commit) throw new Error(`COMMIT_GATILHO_RELEASE_AUSENTE:v${version}`);
-    run("git", ["push", options.remote, options.branch], { timeout: 120000 });
-    return { commit, reused: true };
+    const commit2 = run("git", ["log", "-1", "--format=%H", "--", "release"]).stdout.trim();
+    if (!commit2) throw new Error(`COMMIT_GATILHO_RELEASE_AUSENTE:v${version}`);
+    run("git", ["push", options.remote, options.branch], { timeout: 12e4 });
+    return { commit: commit2, reused: true };
   }
   assertStagedPaths(["release"], { statuses: ["A", "M"] });
   run("git", ["commit", "-m", `chore: aciona release v${version}`]);
   const commit = run("git", ["rev-parse", "HEAD"]).stdout.trim();
-  run("git", ["push", options.remote, options.branch], { timeout: 120000 });
+  run("git", ["push", options.remote, options.branch], { timeout: 12e4 });
   return { commit };
 }
-
 function runReleaseTrigger(version) {
   const result = run(process.execPath, [path.join(ROOT_DIR, ".ia.rules", "core", "runtime", "scripts", "repo-tools.js"), "agent:release:trigger", version], { optional: true });
   if (!result.error && result.status === 0) return result;
   if (isExistingTriggerResult(result)) return result;
   throw new Error(`${process.execPath} .ia.rules/core/runtime/scripts/repo-tools.js agent:release:trigger ${version} falhou: ${result.error ? result.error.message : result.stderr || result.stdout}`);
 }
-
 function isExistingTriggerResult(result) {
-  const output = `${result.stdout || ""}\n${result.stderr || ""}`;
+  const output = `${result.stdout || ""}
+${result.stderr || ""}`;
   return /\b(?:RELEASE_TRIGGER_EXISTENTE|GATILHO_RELEASE_EXISTENTE)\b/u.test(output);
 }
-
 function waitForRemoteRelease(version, triggerCommit, options) {
   const runId = findWorkflowRun(triggerCommit, options);
-  run("gh", ["run", "watch", runId, "--exit-status"], { timeout: 900000 });
+  run("gh", ["run", "watch", runId, "--exit-status"], { timeout: 9e5 });
   const primary = resolvePrimaryBranch(options);
-  run("git", ["fetch", options.remote, options.branch, primary], { timeout: 120000 });
-  run("git", ["pull", "--ff-only", options.remote, options.branch], { timeout: 120000 });
+  run("git", ["fetch", options.remote, options.branch, primary], { timeout: 12e4 });
+  run("git", ["pull", "--ff-only", options.remote, options.branch], { timeout: 12e4 });
   const dev = run("git", ["rev-parse", `${options.remote}/${options.branch}`]).stdout.trim();
   const primaryCommit = run("git", ["rev-parse", `${options.remote}/${primary}`]).stdout.trim();
   if (dev !== primaryCommit) {
     throw new Error(`CONVERGENCIA_REMOTA_PENDENTE:dev=${dev};${primary}=${primaryCommit}`);
   }
-  const release = JSON.parse(run("gh", ["release", "view", `v${version}`, "--json", "url,tagName,isDraft,isPrerelease"], { timeout: 120000 }).stdout);
+  const release = JSON.parse(run("gh", ["release", "view", `v${version}`, "--json", "url,tagName,isDraft,isPrerelease"], { timeout: 12e4 }).stdout);
   if (release.tagName !== `v${version}` || release.isDraft || release.isPrerelease) {
     throw new Error(`RELEASE_REMOTO_INVALIDO:v${version}`);
   }
   return { primary, releaseUrl: release.url, workflowRun: Number(runId) };
 }
-
 function findWorkflowRun(triggerCommit, options) {
-  for (const delay of [0, 1000, 3000]) {
+  for (const delay of [0, 1e3, 3e3]) {
     if (delay) {
       sleep(delay);
     }
-    const result = run("gh", ["run", "list", "--workflow", options.workflow, "--branch", options.branch, "--event", "push", "--limit", "20", "--json", "databaseId,headSha"], { optional: true, timeout: 120000 });
+    const result = run("gh", ["run", "list", "--workflow", options.workflow, "--branch", options.branch, "--event", "push", "--limit", "20", "--json", "databaseId,headSha"], { optional: true, timeout: 12e4 });
     if (result.status !== 0) {
       continue;
     }
@@ -212,23 +198,20 @@ function findWorkflowRun(triggerCommit, options) {
   }
   throw new Error(`WORKFLOW_RELEASE_NAO_ENCONTRADO:${triggerCommit}`);
 }
-
 function resolvePrimaryBranch(options) {
   const candidates = options.primary ? [options.primary] : ["main", "master"];
   for (const branch of candidates) {
-    if (run("git", ["ls-remote", "--exit-code", "--heads", options.remote, branch], { optional: true, timeout: 120000 }).status === 0) {
+    if (run("git", ["ls-remote", "--exit-code", "--heads", options.remote, branch], { optional: true, timeout: 12e4 }).status === 0) {
       return branch;
     }
   }
   throw new Error("BRANCH_PRIMARIA_AUSENTE");
 }
-
 function assertStagedPaths(allowed, options = {}) {
-  const entries = run("git", ["diff", "--cached", "--name-status"]).stdout.trim().split(/\r?\n/u).filter(Boolean)
-    .map((line) => {
-      const [status, filePath] = line.split(/\t/u);
-      return { filePath, status };
-    });
+  const entries = run("git", ["diff", "--cached", "--name-status"]).stdout.trim().split(/\r?\n/u).filter(Boolean).map((line) => {
+    const [status, filePath] = line.split(/\t/u);
+    return { filePath, status };
+  });
   if (!entries.length || entries.some((entry) => {
     const pathAllowed = options.prefixes ? allowed.some((prefix) => entry.filePath === prefix || entry.filePath.startsWith(prefix)) : allowed.includes(entry.filePath);
     const statusAllowed = !options.statuses || options.statuses.includes(entry.status);
@@ -237,35 +220,32 @@ function assertStagedPaths(allowed, options = {}) {
     throw new Error(`STAGING_RELEASE_INVALIDO:${entries.map((entry) => `${entry.status}:${entry.filePath}`).join(",")}`);
   }
 }
-
 function run(command, args, options = {}) {
   const result = childProcess.spawnSync(command, args, {
     cwd: ROOT_DIR,
     encoding: "utf8",
     shell: false,
-    timeout: options.timeout || 30000,
+    timeout: options.timeout || 3e4
   });
   if (!options.optional && (result.error || result.status !== 0)) {
     throw new Error(`${command} ${args.join(" ")} falhou: ${result.error ? result.error.message : result.stderr || result.stdout}`);
   }
   return result;
 }
-
 function sleep(milliseconds) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
 }
-
 function printJson(value) {
-  process.stdout.write(`${JSON.stringify(value)}\n`);
+  process.stdout.write(`${JSON.stringify(value)}
+`);
 }
-
 if (require.main === module) {
   try {
     process.exitCode = main();
   } catch (error) {
-    process.stderr.write(`${error.message}\n`);
+    process.stderr.write(`${error.message}
+`);
     process.exitCode = error instanceof UsageError ? 2 : 1;
   }
 }
-
 module.exports = { help, inspectPreflight, isExistingTriggerResult, main, parseArgs, runReleaseTrigger };

@@ -1,7 +1,7 @@
 const assert = require("assert");
-const { parseTodoItems } = require("../src/.ia.rules/core/runtime/scripts/todo-intake");
-const { evaluateCodeAuthorization } = require("../src/.ia.rules/core/runtime/scripts/request-code-gate");
-const { releaseCompletionTargets } = require("../src/.ia.rules/core/runtime/scripts/issue-lifecycle");
+const { parseTodoItems } = require("../.ia.rules/core/runtime/scripts/todo-intake");
+const { evaluateCodeAuthorization } = require("../.ia.rules/core/runtime/scripts/request-code-gate");
+const { releaseCompletionTargets } = require("../.ia.rules/core/runtime/scripts/issue-lifecycle");
 
 function main() {
   assert.deepEqual(parseTodoItems("- [ ] Fazer\n- [x] Feito\ntexto solto").map((item) => item.status), ["pendente", "concluido"]);

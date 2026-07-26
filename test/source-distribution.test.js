@@ -3,8 +3,8 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const { extractZip } = require("../src/.ia.rules/core/runtime/scripts/archive");
-const { validateSourceDistributionManifest } = require("../src/.ia.rules/core/runtime/scripts/repo-tools");
+const { extractZip } = require("../.ia.rules/core/runtime/scripts/archive");
+const { validateSourceDistributionManifest } = require("../.ia.rules/core/runtime/scripts/repo-tools");
 
 const rootDir = path.resolve(__dirname, "..");
 const sourceDir = path.join(rootDir, "src");

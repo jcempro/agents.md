@@ -13,15 +13,15 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 <tr>
 <td rowspan="3">Base transversal</td>
 <td>Implementar contratos comuns, configuração central, logs, estados, hooks e fallbacks</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Migrar fontes Node.js para TypeScript e instituir build/distribuição dual</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Implementar metadados por recurso e matriz multilíngue de runtime/compatibilidade</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Atualização e distribuição</td>

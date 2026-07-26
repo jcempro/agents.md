@@ -5,18 +5,17 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/scenarios/release/scripts/release-hooks.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const fs = require("fs");
 const path = require("path");
 const { runHookChain } = require("../../../core/runtime/scripts/extension-contract");
-
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const HOOK_PATH = path.join(ROOT_DIR, ".ia.rules", "hooks", "release.js");
 const CORE_HOOK_PATH = path.join(ROOT_DIR, ".ia.rules", "hooks", "core.js");
-const EVENTS = new Set(["prepare", "verify", "published"]);
-
-class UsageError extends Error {}
-
+const EVENTS = /* @__PURE__ */ new Set(["prepare", "verify", "published"]);
+class UsageError extends Error {
+}
 function runReleaseHook(event, payload = {}) {
   if (!EVENTS.has(event)) {
     throw new UsageError(`EVENTO_HOOK_INVALIDO:${event || "(vazio)"}`);
@@ -26,14 +25,12 @@ function runReleaseHook(event, payload = {}) {
   const result = runHookChain(event, payload, layers);
   return { event, executed: true, result: result.observations };
 }
-
 function optionalHook(id, hookPath, event) {
   if (!fs.existsSync(hookPath)) return null;
   const hook = require(hookPath);
   const handler = typeof hook === "function" ? hook : hook && hook[event];
   return typeof handler === "function" ? { id, handler } : null;
 }
-
 if (require.main === module) {
   const [event, version = "", asset = ""] = process.argv.slice(2);
   try {
@@ -42,11 +39,12 @@ if (require.main === module) {
       return;
     }
     const result = runReleaseHook(event, { asset, version });
-    process.stdout.write(`${JSON.stringify(result)}\n`);
+    process.stdout.write(`${JSON.stringify(result)}
+`);
   } catch (error) {
-    process.stderr.write(`${error.message}\n`);
+    process.stderr.write(`${error.message}
+`);
     process.exitCode = error instanceof UsageError ? 2 : 1;
   }
 }
-
 module.exports = { CORE_HOOK_PATH, EVENTS, HOOK_PATH, runReleaseHook };

@@ -5,65 +5,6 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/scenarios/release/scripts/package-registry.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-const PHASES = ["prepare-package", "verify-package", "publish-package", "confirm-package"];
-
-function runPackageRegistryLifecycle(event, payload = {}, options = {}) {
-  const config = resolvePackageRegistryConfig(payload, options);
-  if (!config.enabled) return { code: "PACKAGE_REGISTRY_SKIPPED", enabled: false, reason: config.reason || "capacidade_nao_declarada" };
-  const phases = event === "release" ? PHASES : [normalizePhase(event)];
-  const effects = [];
-  for (const phase of phases) {
-    effects.push(runPackageRegistryPhase(phase, config, payload, options));
-  }
-  return { code: options.dryRun ? "PACKAGE_REGISTRY_DRY_RUN" : "PACKAGE_REGISTRY_OK", enabled: true, effects };
-}
-
-function runPackageRegistryPhase(phase, config, payload = {}, options = {}) {
-  const normalized = normalizePhase(phase);
-  if (options.dryRun) return { phase: normalized, status: "planned" };
-  const adapter = resolveAdapter(config, options);
-  const method = phaseMethod(normalized);
-  if (typeof adapter[method] !== "function") throw new Error(`PACKAGE_REGISTRY_ADAPTER_METHOD_REQUIRED:${method}`);
-  const result = adapter[method]({ config, payload });
-  if (result && typeof result.then === "function") throw new Error(`PACKAGE_REGISTRY_ASYNC_ADAPTER_UNSUPPORTED:${method}`);
-  if (result && result.ok === false) throw new Error(`PACKAGE_REGISTRY_PHASE_FAILED:${normalized}`);
-  return { phase: normalized, status: "done", result: sanitizeResult(result) };
-}
-
-function resolvePackageRegistryConfig(payload = {}, options = {}) {
-  const declared = options.config || payload.packageRegistry || {};
-  if (!declared || declared.enabled !== true) return { enabled: false, reason: "opt_in_ausente" };
-  const registry = String(declared.registry || "").trim();
-  const packageName = String(declared.packageName || declared.name || "").trim();
-  if (!registry || !packageName) throw new Error("PACKAGE_REGISTRY_CONFIG_INVALID");
-  return { ...declared, packageName, registry };
-}
-
-function resolveAdapter(config, options = {}) {
-  if (options.adapter) return options.adapter;
-  if (options.adapters && options.adapters[config.registry]) return options.adapters[config.registry];
-  throw new Error(`PACKAGE_REGISTRY_ADAPTER_REQUIRED:${config.registry}`);
-}
-
-function normalizePhase(value) {
-  const phase = String(value || "").trim();
-  if (!PHASES.includes(phase)) throw new Error(`PACKAGE_REGISTRY_PHASE_INVALID:${phase || "(vazio)"}`);
-  return phase;
-}
-
-function phaseMethod(phase) {
-  return {
-    "confirm-package": "confirmPackage",
-    "prepare-package": "preparePackage",
-    "publish-package": "publishPackage",
-    "verify-package": "verifyPackage",
-  }[phase];
-}
-
-function sanitizeResult(value) {
-  if (!value || typeof value !== "object") return {};
-  return Object.fromEntries(Object.entries(value).filter(([key]) => !/token|secret|password|authorization/iu.test(key)));
-}
-
-module.exports = { PHASES, resolvePackageRegistryConfig, runPackageRegistryLifecycle, runPackageRegistryPhase };
+const o=["prepare-package","verify-package","publish-package","confirm-package"];function R(r,e={},a={}){const t=E(e,a);if(!t.enabled)return{code:"PACKAGE_REGISTRY_SKIPPED",enabled:!1,reason:t.reason||"capacidade_nao_declarada"};const n=r==="release"?o:[u(r)],c=[];for(const s of n)c.push(f(s,t,e,a));return{code:a.dryRun?"PACKAGE_REGISTRY_DRY_RUN":"PACKAGE_REGISTRY_OK",enabled:!0,effects:c}}function f(r,e,a={},t={}){const n=u(r);if(t.dryRun)return{phase:n,status:"planned"};const c=p(e,t),s=A(n);if(typeof c[s]!="function")throw new Error(`PACKAGE_REGISTRY_ADAPTER_METHOD_REQUIRED:${s}`);const i=c[s]({config:e,payload:a});if(i&&typeof i.then=="function")throw new Error(`PACKAGE_REGISTRY_ASYNC_ADAPTER_UNSUPPORTED:${s}`);if(i&&i.ok===!1)throw new Error(`PACKAGE_REGISTRY_PHASE_FAILED:${n}`);return{phase:n,status:"done",result:_(i)}}function E(r={},e={}){const a=e.config||r.packageRegistry||{};if(!a||a.enabled!==!0)return{enabled:!1,reason:"opt_in_ausente"};const t=String(a.registry||"").trim(),n=String(a.packageName||a.name||"").trim();if(!t||!n)throw new Error("PACKAGE_REGISTRY_CONFIG_INVALID");return{...a,packageName:n,registry:t}}function p(r,e={}){if(e.adapter)return e.adapter;if(e.adapters&&e.adapters[r.registry])return e.adapters[r.registry];throw new Error(`PACKAGE_REGISTRY_ADAPTER_REQUIRED:${r.registry}`)}function u(r){const e=String(r||"").trim();if(!o.includes(e))throw new Error(`PACKAGE_REGISTRY_PHASE_INVALID:${e||"(vazio)"}`);return e}function A(r){return{"confirm-package":"confirmPackage","prepare-package":"preparePackage","publish-package":"publishPackage","verify-package":"verifyPackage"}[r]}function _(r){return!r||typeof r!="object"?{}:Object.fromEntries(Object.entries(r).filter(([e])=>!/token|secret|password|authorization/iu.test(e)))}module.exports={PHASES:o,resolvePackageRegistryConfig:E,runPackageRegistryLifecycle:R,runPackageRegistryPhase:f};

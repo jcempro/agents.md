@@ -150,9 +150,9 @@
       ]
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/archive.js",
+      "path": ".ia.rules/core/runtime/scripts/archive.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/archive.js",
+      "destination": ".ia.rules/core/runtime/scripts/archive.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -164,12 +164,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/archive.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/autoupdate.js",
+      "path": ".ia.rules/core/runtime/scripts/autoupdate.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/autoupdate.js",
+      "destination": ".ia.rules/core/runtime/scripts/autoupdate.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -181,12 +188,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/autoupdate.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/configuration.js",
+      "path": ".ia.rules/core/runtime/scripts/configuration.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/configuration.js",
+      "destination": ".ia.rules/core/runtime/scripts/configuration.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -198,12 +212,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/configuration.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/distribution-map.js",
+      "path": ".ia.rules/core/runtime/scripts/distribution-map.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/distribution-map.js",
+      "destination": ".ia.rules/core/runtime/scripts/distribution-map.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -215,12 +236,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/distribution-map.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/extension-contract.js",
+      "path": ".ia.rules/core/runtime/scripts/extension-contract.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/extension-contract.js",
+      "destination": ".ia.rules/core/runtime/scripts/extension-contract.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -232,12 +260,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/extension-contract.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/generate-agents-status.js",
+      "path": ".ia.rules/core/runtime/scripts/generate-agents-status.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/generate-agents-status.js",
+      "destination": ".ia.rules/core/runtime/scripts/generate-agents-status.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -249,12 +284,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/generate-agents-status.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/issue-inbox.js",
+      "path": ".ia.rules/core/runtime/scripts/issue-inbox.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/issue-inbox.js",
+      "destination": ".ia.rules/core/runtime/scripts/issue-inbox.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -266,12 +308,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/issue-inbox.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/issue-lifecycle.js",
+      "path": ".ia.rules/core/runtime/scripts/issue-lifecycle.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/issue-lifecycle.js",
+      "destination": ".ia.rules/core/runtime/scripts/issue-lifecycle.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -283,7 +332,14 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/issue-lifecycle.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
       "path": ".ia.rules/core/runtime/scripts/package.json",
@@ -303,9 +359,9 @@
       ]
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/public-client.js",
+      "path": ".ia.rules/core/runtime/scripts/public-client.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/public-client.js",
+      "destination": ".ia.rules/core/runtime/scripts/public-client.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -317,12 +373,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/public-client.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/refused-decisions.js",
+      "path": ".ia.rules/core/runtime/scripts/refused-decisions.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/refused-decisions.js",
+      "destination": ".ia.rules/core/runtime/scripts/refused-decisions.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -334,12 +397,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/refused-decisions.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
+      "path": ".ia.rules/core/runtime/scripts/release-trigger-policy.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
+      "destination": ".ia.rules/core/runtime/scripts/release-trigger-policy.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -351,12 +421,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/repo-tools.js",
+      "path": ".ia.rules/core/runtime/scripts/repo-tools.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/repo-tools.js",
+      "destination": ".ia.rules/core/runtime/scripts/repo-tools.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -368,12 +445,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/repo-tools.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/request-code-gate.js",
+      "path": ".ia.rules/core/runtime/scripts/request-code-gate.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/request-code-gate.js",
+      "destination": ".ia.rules/core/runtime/scripts/request-code-gate.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -385,12 +469,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/request-code-gate.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/shared-lifecycle.js",
+      "path": ".ia.rules/core/runtime/scripts/shared-lifecycle.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/shared-lifecycle.js",
+      "destination": ".ia.rules/core/runtime/scripts/shared-lifecycle.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -402,12 +493,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/shared-lifecycle.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/template-merge.js",
+      "path": ".ia.rules/core/runtime/scripts/template-merge.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/template-merge.js",
+      "destination": ".ia.rules/core/runtime/scripts/template-merge.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -419,12 +517,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/template-merge.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/to-ia.js",
+      "path": ".ia.rules/core/runtime/scripts/to-ia.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/to-ia.js",
+      "destination": ".ia.rules/core/runtime/scripts/to-ia.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -436,12 +541,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/to-ia.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/todo-intake.js",
+      "path": ".ia.rules/core/runtime/scripts/todo-intake.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/todo-intake.js",
+      "destination": ".ia.rules/core/runtime/scripts/todo-intake.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -453,12 +565,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/todo-intake.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/update-agents.js",
+      "path": ".ia.rules/core/runtime/scripts/update-agents.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/update-agents.js",
+      "destination": ".ia.rules/core/runtime/scripts/update-agents.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -470,12 +589,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/update-agents.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/core/runtime/scripts/upstream-share.js",
+      "path": ".ia.rules/core/runtime/scripts/upstream-share.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/runtime/scripts/upstream-share.js",
+      "destination": ".ia.rules/core/runtime/scripts/upstream-share.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -487,7 +613,14 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/upstream-share.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
       "path": ".ia.rules/core/update/formats/governance-manifest.v2.json",
@@ -507,9 +640,9 @@
       ]
     },
     {
-      "path": ".ia.rules/core/update/migrations/v1-to-v2.js",
+      "path": ".ia.rules/core/update/migrations/v1-to-v2.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/core/update/migrations/v1-to-v2.js",
+      "destination": ".ia.rules/core/update/migrations/v1-to-v2.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -521,7 +654,14 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/update/migrations/v1-to-v2.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
       "path": ".ia.rules/core/update/scenario.md",
@@ -847,6 +987,24 @@
       ]
     },
     {
+      "path": ".ia.rules/runtime/runtime-matrix.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/runtime/runtime-matrix.json",
+      "purpose": "matriz estruturada de runtimes e toolchain por recurso",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "runtime-compatible"
+      ]
+    },
+    {
       "path": ".ia.rules/scenarios/application-update/scenario.md",
       "profile": "consumer-scenario",
       "destination": ".ia.rules/scenarios/application-update/scenario.md",
@@ -864,9 +1022,9 @@
       ]
     },
     {
-      "path": ".ia.rules/scenarios/application-update/scripts/application-update.js",
+      "path": ".ia.rules/scenarios/application-update/scripts/application-update.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/scenarios/application-update/scripts/application-update.js",
+      "destination": ".ia.rules/scenarios/application-update/scripts/application-update.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -878,7 +1036,14 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/scenarios/application-update/scripts/application-update.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
       "path": ".ia.rules/scenarios/content-publication/scenario.md",
@@ -1034,9 +1199,9 @@
       ]
     },
     {
-      "path": ".ia.rules/scenarios/release/scripts/package-registry.js",
+      "path": ".ia.rules/scenarios/release/scripts/package-registry.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/scenarios/release/scripts/package-registry.js",
+      "destination": ".ia.rules/scenarios/release/scripts/package-registry.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -1048,12 +1213,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/scenarios/release/scripts/package-registry.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/scenarios/release/scripts/release-hooks.js",
+      "path": ".ia.rules/scenarios/release/scripts/release-hooks.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/scenarios/release/scripts/release-hooks.js",
+      "destination": ".ia.rules/scenarios/release/scripts/release-hooks.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -1065,12 +1237,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/scenarios/release/scripts/release-hooks.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/scenarios/release/scripts/release-publish-resume.js",
+      "path": ".ia.rules/scenarios/release/scripts/release-publish-resume.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/scenarios/release/scripts/release-publish-resume.js",
+      "destination": ".ia.rules/scenarios/release/scripts/release-publish-resume.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -1082,12 +1261,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/scenarios/release/scripts/release-publish-resume.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/scenarios/release/scripts/release-publish.js",
+      "path": ".ia.rules/scenarios/release/scripts/release-publish.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/scenarios/release/scripts/release-publish.js",
+      "destination": ".ia.rules/scenarios/release/scripts/release-publish.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -1099,12 +1285,19 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/scenarios/release/scripts/release-publish.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
-      "path": ".ia.rules/scenarios/release/scripts/release-workflow.js",
+      "path": ".ia.rules/scenarios/release/scripts/release-workflow.ts",
       "profile": "consumer-runtime",
-      "destination": ".ia.rules/scenarios/release/scripts/release-workflow.js",
+      "destination": ".ia.rules/scenarios/release/scripts/release-workflow.ts",
       "purpose": "runtime reutilizavel no destino",
       "roles": [
         "final",
@@ -1116,7 +1309,14 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
-      ]
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/scenarios/release/scripts/release-workflow.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
     },
     {
       "path": ".ia.rules/scenarios/web/page-like/capabilities/browser.md",

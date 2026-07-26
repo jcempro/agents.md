@@ -5,12 +5,12 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/repo-tools.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const childProcess = require("child_process");
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
-
 const { createZipFromDirectory } = require("./archive");
 const { loadConfiguration } = require("./configuration");
 const { buildDistributionMap, distributionMapFileName, distributionMapRelativePath, validateDistributionMap } = require("./distribution-map");
@@ -19,56 +19,55 @@ const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
-
 const RUNTIME_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
-// FIX-BUG: o mesmo runtime executa na fonte src/.ia.rules e no pacote .ia.rules.
 const ROOT_DIR = fs.existsSync(path.join(RUNTIME_ROOT, "package.json")) ? RUNTIME_ROOT : path.resolve(RUNTIME_ROOT, "..");
 const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const SRC_DIR = resolveConfiguredRoot("paths.source");
 const DIST_DIR = resolveConfiguredRoot("paths.artifact");
 const SOURCE_RULES_DIR = path.join(SRC_DIR, ".ia.rules");
 const RUNTIME_RULES_DIR = fs.existsSync(path.join(ROOT_DIR, ".ia.rules")) ? path.join(ROOT_DIR, ".ia.rules") : SOURCE_RULES_DIR;
-const INDEX_PATH = path.join(ROOT_DIR, (CONFIGURATION.paths && CONFIGURATION.paths.index) || "index.json");
+const INDEX_PATH = path.join(ROOT_DIR, CONFIGURATION.paths && CONFIGURATION.paths.index || "index.json");
 const RELEASE_PATH = path.join(DIST_DIR, "release.json");
 const RELEASE_NOTE_PATH = path.join(DIST_DIR, "release-note.txt");
 const PACKAGE_PATH = path.join(ROOT_DIR, "package.json");
 const DISTRIBUTION_PACKAGE_PATH = path.join(DIST_DIR, "package.json");
 const UPDATE_FORMAT_PATH = path.join(RUNTIME_RULES_DIR, "core", "update", "formats", "governance-manifest.v2.json");
 const SOURCE_DISTRIBUTION_MANIFEST_PATH = path.join(SOURCE_RULES_DIR, "distribution", "source-manifest.json");
+const RUNTIME_MATRIX_PATH = path.join(SOURCE_RULES_DIR, "runtime", "runtime-matrix.json");
+const TSCONFIG_PATH = path.join(ROOT_DIR, "config", "tsconfig.json");
 const SOURCE_DISTRIBUTION_FORMAT = "agents-source-distribution/v1";
-const SOURCE_DISTRIBUTION_PROFILES = new Set([
+const SOURCE_DISTRIBUTION_PROFILES = /* @__PURE__ */ new Set([
   "consumer-core",
   "consumer-runtime",
   "consumer-scenario",
   "consumer-bootstrap",
-  "generated-release",
+  "generated-release"
 ]);
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
   ".ia.rules/core/runtime/scripts/archive.js",
   ".ia.rules/core/runtime/scripts/distribution-map.js",
-  ".ia.rules/core/update/migrations/v1-to-v2.js",
+  ".ia.rules/core/update/migrations/v1-to-v2.js"
 ];
 const LEGACY_RULES_ROOT = [".", "agents"].join("");
 const ALIEN_SCRIPT_TERMS = [
-  "What" + "Send",
-  "what" + "sender",
-  "w" + "web",
-  "clientes" + ".csv",
-  "texto" + ".md",
-  "src" + "/browser",
-  "src" + "\\browser",
-  "src" + "/config",
-  "src" + "\\config",
-  "main" + ".js",
-  "JeanCarloEM/" + "What" + "Send",
+  "WhatSend",
+  "whatsender",
+  "wweb",
+  "clientes.csv",
+  "texto.md",
+  "src/browser",
+  "src\\browser",
+  "src/config",
+  "src\\config",
+  "main.js",
+  "JeanCarloEM/WhatSend"
 ];
-
 const COMMANDS = {
   "agent:filter": {
     description: "filtra saida textual pela interface to-ia",
     run: () => 0,
-    status: "available",
+    status: "available"
   },
   "agent:index": {
     description: "gera index.json normativo a partir de src/",
@@ -77,7 +76,7 @@ const COMMANDS = {
       writeJsonMinified(INDEX_PATH, index);
       return ok("INDEX_OK", { files: index.files.length, path: "index.json" });
     },
-    status: "available",
+    status: "available"
   },
   "agent:dist": {
     description: "gera dist/ otimizado com release.json",
@@ -85,284 +84,304 @@ const COMMANDS = {
       const result = buildDist();
       return ok("DIST_OK", result);
     },
-    status: "available",
+    status: "available"
   },
   "agent:verify": {
     description: "valida scripts, indexador e dist",
     run: verify,
-    status: "available",
+    status: "available"
   },
   "agent:clean": {
     description: "remove artefatos gerados locais com escopo controlado",
     run: cleanGeneratedArtifacts,
-    status: "available",
+    status: "available"
   },
   "agent:repair": {
     description: "reconstroi artefatos gerados e memoria visual derivada",
     run: repairGeneratedArtifacts,
-    status: "available",
+    status: "available"
   },
   "agent:build": {
     description: "alias de agent:dist",
     run: () => COMMANDS["agent:dist"].run(),
-    status: "available",
+    status: "available"
   },
   "agent:status": {
     description: "resume workspace e capacidades agent:*",
     run: printStatus,
-    status: "available",
+    status: "available"
   },
   "agent:handoff": {
     description: "gera handoff.md de .ia.rules/continue.ia",
     run: () => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "generate-agents-status.js")),
-    status: "available",
+    status: "available"
   },
   "agent:compress": {
     description: "gera projecao operacional compacta sem descartar memoria canonica",
     run: compactOperationalContext,
-    status: "available",
+    status: "available"
   },
   "agent:autoupdate": {
     description: "atualiza automaticamente a governanca operacional gerenciada",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "autoupdate.js"), _args),
-    status: "available",
+    status: "available"
   },
   "agent:agents": {
     description: "alias transitorio de agent:autoupdate",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "autoupdate.js"), _args),
-    status: "available",
+    status: "available"
   },
   "agent:upstream:check": {
     description: "resolve e consulta o upstream de AGENTS.md com seguranca",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["check", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:upstream:prepare": {
     description: "sanitiza e prepara proposta upstream revisavel",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["prepare", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:upstream:publish": {
     description: "publica proposta upstream somente com autorizacao explicita",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["publish", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:upstream:assess": {
     description: "classifica proposta para decisao manual do mantenedor",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["assess", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:upstream:apply-assessment": {
     description: "aplica rotulo e comentario de avaliacao somente com autorizacao",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["apply-assessment", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:test:upstream": {
     description: "executa verificacao local do pipeline upstream",
     run: () => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["self-test"]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:event": {
     description: "sanitiza e indexa evento de issue no construtor",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["event", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:fetch": {
     description: "busca e indexa issue para avaliacao construtora",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["fetch", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:evaluate": {
     description: "avalia item sanitizado da inbox sem efeito remoto",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["evaluate", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:process": {
     description: "processa evento da inbox e exige autorizacao para efeito remoto",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["process", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:apply": {
     description: "aplica efeito da avaliacao construtora somente com autorizacao",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["apply", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:approve": {
     description: "registra aprovacao humana de issue vinculada a FT",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["approve", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:sync-approved": {
     description: "baixa issues aprovadas e cria FTs correlacionadas",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-lifecycle.js"), ["sync-approved", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:start": {
     description: "marca issues importadas como em desenvolvimento apos push",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-lifecycle.js"), ["start", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:bind-release": {
     description: "vincula FTs concluidas e suas issues a uma versao",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-lifecycle.js"), ["bind-release", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:inbox:complete-release": {
     description: "comenta e fecha todas as issues corrigidas pelo release",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-lifecycle.js"), ["complete-release", ..._args]),
-    status: "available",
+    status: "available"
   },
   "agent:test:inbox": {
     description: "executa verificacao local da inbox construtora",
     run: () => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "issue-inbox.js"), ["self-test"]),
-    status: "available",
-  },
+    status: "available"
+  }
 };
-
 Object.assign(COMMANDS, {
   "agent:setup": {
     description: "valida prerequisitos locais sem instalar dependencias",
     run: setup,
-    status: "available",
+    status: "available"
   },
   "agent:doctor": {
     description: "diagnostica arquivos, comandos e estado local",
     run: doctor,
-    status: "available",
+    status: "available"
   },
   "agent:context": {
     description: "gera contexto executivo compacto",
     run: context,
-    status: "available",
+    status: "available"
   },
   "agent:workspace": {
     description: "gera snapshot compacto do workspace",
     run: workspace,
-    status: "available",
+    status: "available"
   },
   "agent:map": {
     description: "gera mapa normativo via indexador",
     run: () => COMMANDS["agent:index"].run(),
-    status: "available",
+    status: "available"
   },
   "agent:docs": {
     description: "lista documentacao normativa disponivel",
     run: docs,
-    status: "available",
+    status: "available"
   },
   "agent:rcf": {
     description: "valida presenca e referencia do RCF",
     run: rcf,
-    status: "available",
+    status: "available"
   },
   "agent:package": {
     description: "alias seguro de agent:dist",
     run: () => COMMANDS["agent:dist"].run(),
-    status: "available",
+    status: "available"
   },
   "agent:release": {
     description: "gera release local rastreavel com release-note.txt e pacote versionado",
     run: releaseLocal,
-    status: "available",
+    status: "available"
   },
   "agent:release:trigger": {
     description: "cria gatilho local release para o workflow tecnico",
     run: releaseTrigger,
-    status: "available",
+    status: "available"
   },
   "agent:test": {
     description: "executa verificacao e testes locais da governanca",
     run: testAll,
-    status: "available",
+    status: "available"
   },
   "agent:lint": {
     description: "checagem estatica local dos scripts",
     run: lint,
-    status: "available",
+    status: "available"
   },
   "agent:typecheck": {
-    description: "checagem sintatica JavaScript local",
-    run: lint,
-    status: "available",
+    description: "valida as fontes TypeScript canonicas sem emitir artefato",
+    run: typecheck,
+    status: "available"
   },
   "agent:security": {
     description: "audita referencias sensiveis conhecidas",
     run: security,
-    status: "available",
+    status: "available"
   },
   "agent:analyze": {
     description: "executa verificacao local completa",
     run: () => COMMANDS["agent:verify"].run(),
-    status: "available",
+    status: "available"
   },
   "agent:deps": {
     description: "resume dependencias declaradas",
     run: deps,
-    status: "available",
+    status: "available"
   },
   "agent:licenses": {
     description: "resume licenca declarada",
     run: licenses,
-    status: "available",
+    status: "available"
   },
   "agent:git-branch": {
     description: "lista branches locais",
     run: () => runGitReadOnly(["branch", "--list"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-status": {
     description: "exibe status local compacto",
     run: () => runGitReadOnly(["status", "--short"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-tag": {
     description: "lista tags locais",
     run: () => runGitReadOnly(["tag", "--list"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-log": {
     description: "exibe log local compacto",
     run: () => runGitReadOnly(["log", "--oneline", "-20"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-show": {
     description: "exibe commit local filtrado",
     run: (args) => runGitReadOnly(["show", "--stat", "--oneline", args[0] || "HEAD"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-history": {
     description: "exibe historico local compacto",
     run: () => runGitReadOnly(["log", "--oneline", "-50"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-diff": {
     description: "exibe diff local resumido",
-    run: (args) => runGitReadOnly(["diff", "--stat", ...(args || [])]),
-    status: "available",
+    run: (args) => runGitReadOnly(["diff", "--stat", ...args || []]),
+    status: "available"
   },
   "agent:git-blame": {
     description: "exibe autoria local filtrada de arquivo",
     run: (args) => runGitReadOnly(["blame", "--", args[0] || "README.md"]),
-    status: "available",
+    status: "available"
   },
   "agent:git-last-release": {
     description: "localiza ultimo commit release local",
     run: gitLastRelease,
-    status: "available",
+    status: "available"
   },
   "agent:git-release-notes": {
     description: "gera notas locais desde ultimo release",
     run: gitReleaseNotes,
-    status: "available",
+    status: "available"
   },
   "agent:git-changelog": {
     description: "gera changelog local compacto",
     run: () => runGitReadOnly(["log", "--oneline", "-100"]),
-    status: "available",
-  },
+    status: "available"
+  }
 });
-
-const DEGRADED_COMMANDS = new Set([
+const DEGRADED_COMMANDS = /* @__PURE__ */ new Set([
+  "agent:pwd",
+  "agent:ls",
+  "agent:tree",
+  "agent:find",
+  "agent:search",
+  "agent:grep",
+  "agent:head",
+  "agent:tail",
+  "agent:view",
+  "agent:stat",
+  "agent:size",
+  "agent:hash"
+]);
+const CANONICAL_COMMANDS = [
+  "agent:filter",
+  "agent:setup",
+  "agent:doctor",
+  "agent:repair",
+  "agent:clean",
+  "agent:status",
+  "agent:context",
+  "agent:workspace",
   "agent:pwd",
   "agent:ls",
   "agent:tree",
@@ -375,74 +394,149 @@ const DEGRADED_COMMANDS = new Set([
   "agent:stat",
   "agent:size",
   "agent:hash",
-]);
-
-const CANONICAL_COMMANDS = [
-  "agent:filter",
-  "agent:setup", "agent:doctor", "agent:repair", "agent:clean", "agent:status", "agent:context", "agent:workspace",
-  "agent:pwd", "agent:ls", "agent:tree", "agent:find", "agent:search", "agent:grep", "agent:head", "agent:tail", "agent:view", "agent:stat", "agent:size", "agent:hash", "agent:diff-file", "agent:logs", "agent:process", "agent:kill", "agent:ports", "agent:compress", "agent:extract",
-  "agent:git-status", "agent:git-fetch", "agent:git-pull", "agent:git-push", "agent:git-sync", "agent:git-add", "agent:git-commit", "agent:git-branch", "agent:git-switch", "agent:git-tag", "agent:git-log", "agent:git-show", "agent:git-history", "agent:git-diff", "agent:git-blame", "agent:git-reset", "agent:git-restore", "agent:git-clean", "agent:git-stash", "agent:git-prune", "agent:git-gc", "agent:git-last-release", "agent:git-release-notes", "agent:git-changelog",
-  "agent:build", "agent:verify", "agent:dist", "agent:package", "agent:release", "agent:release:trigger", "agent:rollback",
-  "agent:test", "agent:lint", "agent:format", "agent:typecheck", "agent:benchmark", "agent:security", "agent:analyze",
-  "agent:deps", "agent:update-deps", "agent:licenses",
-  "agent:index", "agent:map", "agent:handoff", "agent:docs", "agent:rcf", "agent:agents",
-  "agent:upstream:check", "agent:upstream:prepare", "agent:upstream:publish", "agent:upstream:assess", "agent:upstream:apply-assessment", "agent:test:upstream", "agent:inbox:event", "agent:inbox:fetch", "agent:inbox:evaluate", "agent:inbox:process", "agent:inbox:apply", "agent:test:inbox",
-  "agent:parse-data", "agent:summarize", "agent:convert", "agent:validate-data", "agent:index-data", "agent:query-data",
+  "agent:diff-file",
+  "agent:logs",
+  "agent:process",
+  "agent:kill",
+  "agent:ports",
+  "agent:compress",
+  "agent:extract",
+  "agent:git-status",
+  "agent:git-fetch",
+  "agent:git-pull",
+  "agent:git-push",
+  "agent:git-sync",
+  "agent:git-add",
+  "agent:git-commit",
+  "agent:git-branch",
+  "agent:git-switch",
+  "agent:git-tag",
+  "agent:git-log",
+  "agent:git-show",
+  "agent:git-history",
+  "agent:git-diff",
+  "agent:git-blame",
+  "agent:git-reset",
+  "agent:git-restore",
+  "agent:git-clean",
+  "agent:git-stash",
+  "agent:git-prune",
+  "agent:git-gc",
+  "agent:git-last-release",
+  "agent:git-release-notes",
+  "agent:git-changelog",
+  "agent:build",
+  "agent:verify",
+  "agent:dist",
+  "agent:package",
+  "agent:release",
+  "agent:release:trigger",
+  "agent:rollback",
+  "agent:test",
+  "agent:lint",
+  "agent:format",
+  "agent:typecheck",
+  "agent:benchmark",
+  "agent:security",
+  "agent:analyze",
+  "agent:deps",
+  "agent:update-deps",
+  "agent:licenses",
+  "agent:index",
+  "agent:map",
+  "agent:handoff",
+  "agent:docs",
+  "agent:rcf",
+  "agent:agents",
+  "agent:upstream:check",
+  "agent:upstream:prepare",
+  "agent:upstream:publish",
+  "agent:upstream:assess",
+  "agent:upstream:apply-assessment",
+  "agent:test:upstream",
+  "agent:inbox:event",
+  "agent:inbox:fetch",
+  "agent:inbox:evaluate",
+  "agent:inbox:process",
+  "agent:inbox:apply",
+  "agent:test:inbox",
+  "agent:parse-data",
+  "agent:summarize",
+  "agent:convert",
+  "agent:validate-data",
+  "agent:index-data",
+  "agent:query-data"
 ];
-
 function main(argv = process.argv.slice(2)) {
   const [command, ...args] = argv;
-
   if (!command) {
     return printStatus();
   }
-
   if (COMMANDS[command]) {
     return COMMANDS[command].run(args);
   }
-
   if (CANONICAL_COMMANDS.includes(command)) {
     return runDegraded(command, args);
   }
-
   console.error(`Comando desconhecido: ${command}`);
   return 2;
 }
-
 function buildIndex() {
   assertBuildConfiguration();
   assertDirectory(SRC_DIR, "src ausente.");
   const sourceManifest = readSourceDistributionManifest();
-  const files = sourceManifest.entries.map((entry) => ({
-    condition: entry.condition,
-    destination: entry.destination,
-    name: path.posix.basename(entry.destination),
-    path: toPosix(path.join("src", entry.path)),
-    profile: entry.profile,
-  })).sort((a, b) => a.destination.localeCompare(b.destination, "en"));
-
+  const runtimeMatrix = validateRuntimeMatrix();
+  const files = sourceManifest.entries.flatMap((entry) => {
+    const source = {
+      condition: entry.condition,
+      destination: entry.destination,
+      name: path.posix.basename(entry.destination),
+      path: toPosix(path.join("src", entry.path)),
+      profile: entry.profile,
+      ...entry.language ? { language: entry.language } : {}
+    };
+    if (!entry.artifact) return [source];
+    return [source, {
+      artifact: true,
+      condition: entry.condition,
+      destination: entry.artifact.destination,
+      generatedFrom: source.path,
+      language: "javascript",
+      name: path.posix.basename(entry.artifact.destination),
+      path: source.path,
+      profile: entry.profile,
+      runtime: {
+        builder: entry.artifact.builder,
+        format: entry.artifact.format,
+        target: entry.artifact.target
+      }
+    }];
+  }).sort((a, b) => a.destination.localeCompare(b.destination, "en"));
   const index = {
     files,
     root: "src",
     schema: 1,
+    runtime: {
+      matrix: toPosix(path.relative(ROOT_DIR, RUNTIME_MATRIX_PATH)),
+      schema: runtimeMatrix.schema
+    },
     sourceManifest: {
       id: sourceManifest.id,
       path: toPosix(path.relative(ROOT_DIR, SOURCE_DISTRIBUTION_MANIFEST_PATH)),
-      version: sourceManifest.version,
-    },
+      version: sourceManifest.version
+    }
   };
-  index.update = createGovernanceManifest(buildDistributionFiles(index), (entry) => fs.readFileSync(path.join(ROOT_DIR, entry.sourcePath)));
+  index.update = createGovernanceManifest(buildDistributionFiles(index), distributionContent);
   index.update.files.push({
     kind: "package",
     path: "package.json",
     profile: "generated-release",
     sha256: hashTextFile(PACKAGE_PATH),
-    source: "package.json",
+    source: "package.json"
   });
   index.handoff = createUpdateHandoffDescriptor(index.update);
   return index;
 }
-
 function readSourceDistributionManifest() {
   assertFile(SOURCE_DISTRIBUTION_MANIFEST_PATH, "MANIFESTO_FONTE_AUSENTE");
   let manifest;
@@ -453,21 +547,15 @@ function readSourceDistributionManifest() {
   }
   return validateSourceDistributionManifest(manifest, SRC_DIR);
 }
-
 function validateSourceDistributionManifest(manifest, sourceRoot) {
-  if (!manifest || manifest.schema !== SOURCE_DISTRIBUTION_FORMAT || manifest.id !== "agents.source-distribution" ||
-    manifest.version !== 1 || manifest.generated !== false || manifest.scope !== "src" ||
-    !Array.isArray(manifest.entries) || manifest.entries.length === 0) {
+  if (!manifest || manifest.schema !== SOURCE_DISTRIBUTION_FORMAT || manifest.id !== "agents.source-distribution" || manifest.version !== 1 || manifest.generated !== false || manifest.scope !== "src" || !Array.isArray(manifest.entries) || manifest.entries.length === 0) {
     throw new Error("MANIFESTO_FONTE_INVALIDO");
   }
-
-  const sources = new Map();
-  const destinations = new Map();
+  const sources = /* @__PURE__ */ new Map();
+  const destinations = /* @__PURE__ */ new Map();
+  const artifacts = /* @__PURE__ */ new Map();
   for (const entry of manifest.entries) {
-    if (!entry || !SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "generated-release" ||
-      !entry.purpose || !entry.condition || entry.ownership !== "managed" ||
-      !Array.isArray(entry.roles) || entry.roles.length === 0 ||
-      !Array.isArray(entry.validation) || entry.validation.length === 0) {
+    if (!entry || !SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "generated-release" || !entry.purpose || !entry.condition || entry.ownership !== "managed" || !Array.isArray(entry.roles) || entry.roles.length === 0 || !Array.isArray(entry.validation) || entry.validation.length === 0) {
       throw new Error(`MANIFESTO_FONTE_ENTRADA_INVALIDA:${JSON.stringify(entry)}`);
     }
     entry.path = normalizeSourceDistributionPath(entry.path, "origem");
@@ -478,15 +566,27 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
     if (destinations.has(destinationKey)) throw new Error(`MANIFESTO_FONTE_DESTINO_DUPLICADO:${entry.destination}`);
     sources.set(sourceKey, entry.path);
     destinations.set(destinationKey, entry.destination);
+    if (entry.artifact) {
+      if (entry.language !== "typescript" || path.posix.extname(entry.path) !== ".ts" || path.posix.extname(entry.destination) !== ".ts" || entry.profile !== "consumer-runtime" || entry.artifact.format !== "commonjs" || entry.artifact.target !== "node24" || !entry.artifact.builder || !entry.artifact.destination) {
+        throw new Error(`MANIFESTO_FONTE_ARTEFATO_INVALIDO:${entry.path}`);
+      }
+      entry.artifact.destination = normalizeSourceDistributionPath(entry.artifact.destination, "artefato");
+      const artifactKey = entry.artifact.destination.toLocaleLowerCase("en-US");
+      if (destinations.has(artifactKey) || artifacts.has(artifactKey)) {
+        throw new Error(`MANIFESTO_FONTE_DESTINO_DUPLICADO:${entry.artifact.destination}`);
+      }
+      artifacts.set(artifactKey, entry.artifact.destination);
+    } else if (path.posix.extname(entry.path) === ".ts") {
+      throw new Error(`MANIFESTO_FONTE_TYPESCRIPT_SEM_ARTEFATO:${entry.path}`);
+    } else if (path.posix.extname(entry.path) === ".js") {
+      throw new Error(`MANIFESTO_FONTE_JAVASCRIPT_MANUAL_PROIBIDO:${entry.path}`);
+    }
     const absolute = path.join(sourceRoot, entry.path);
     if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile() || !hasExactPathCase(sourceRoot, entry.path.split("/").join(path.sep))) {
       throw new Error(`MANIFESTO_FONTE_ARQUIVO_AUSENTE:${entry.path}`);
     }
   }
-
-  const physical = listFiles(sourceRoot)
-    .map((filePath) => toPosix(path.relative(sourceRoot, filePath)))
-    .sort((left, right) => left.localeCompare(right, "en"));
+  const physical = listFiles(sourceRoot).map((filePath) => toPosix(path.relative(sourceRoot, filePath))).sort((left, right) => left.localeCompare(right, "en"));
   for (const relativePath of physical) {
     if (!sources.has(relativePath.toLocaleLowerCase("en-US"))) {
       throw new Error(`FONTE_SEM_PERFIL:${relativePath}`);
@@ -497,71 +597,67 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
   }
   return manifest;
 }
-
 function normalizeSourceDistributionPath(value, kind) {
   const normalized = String(value || "").trim().replace(/\\/gu, "/").replace(/^\.\//u, "");
-  if (!normalized || path.posix.isAbsolute(normalized) || /^[A-Za-z]:\//u.test(normalized) ||
-    normalized === "." || normalized === ".." || normalized.startsWith("../") ||
-    normalized.includes("/../") || normalized.includes("//") || normalized.endsWith("/")) {
+  if (!normalized || path.posix.isAbsolute(normalized) || /^[A-Za-z]:\//u.test(normalized) || normalized === "." || normalized === ".." || normalized.startsWith("../") || normalized.includes("/../") || normalized.includes("//") || normalized.endsWith("/")) {
     throw new Error(`MANIFESTO_FONTE_PATH_INSEGURO:${kind}:${value}`);
   }
   return normalized;
 }
-
 function buildDist(options = {}) {
   assertBuildConfiguration();
+  syncActiveRuntime();
   const preservedRelease = options.releaseMetadata || readExistingReleaseMetadata();
-  const releaseVersion = normalizeReleaseVersion(options.version || (preservedRelease && preservedRelease.version) || "");
+  const releaseVersion = normalizeReleaseVersion(options.version || preservedRelease && preservedRelease.version || "");
   const releaseNotes = typeof options.releaseNotes === "string" ? options.releaseNotes.trim() : readExistingReleaseNotes();
   const index = buildIndex();
   const archiveName = resolveArchiveName(releaseVersion);
   const files = buildDistributionFiles(index);
   cleanDirectory(DIST_DIR);
   fs.mkdirSync(DIST_DIR, { recursive: true });
-
   for (const file of files) {
     const targetPath = path.join(DIST_DIR, file.path);
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
-    copyDistributionFile(path.join(ROOT_DIR, file.sourcePath), targetPath);
+    copyDistributionFile(file, targetPath);
   }
   writeJsonMinified(DISTRIBUTION_PACKAGE_PATH, buildDistributionPackage());
   const effectiveVersion = releaseVersion || readPackageVersion();
   const distributionMapPath = distributionMapRelativePath(effectiveVersion);
-
   const releaseIndex = {
     files: [...files.map(({ condition, name, path: releasePath, profile, sourcePath }) => ({
       condition,
       name,
       path: releasePath,
       profile,
-      source: sourcePath,
+      source: sourcePath
     })), {
       name: "package.json",
       path: "package.json",
-      profile: "generated-release",
+      profile: "generated-release"
     }, {
       name: "release.json",
       path: "release.json",
-      profile: "generated-release",
+      profile: "generated-release"
     }, {
       name: distributionMapFileName(effectiveVersion),
       path: distributionMapPath,
-      profile: "generated-release",
+      profile: "generated-release"
     }],
     distributionMap: {
       format: "agents-distribution-map/v1",
       path: distributionMapPath,
-      version: effectiveVersion,
+      version: effectiveVersion
     },
     root: ".",
-    schema: 1,
+    schema: 1
   };
   if (releaseNotes) {
-    fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}\n`, "utf8");
+    fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}
+`, "utf8");
     releaseIndex.files.push({
       name: "release-note.txt",
       path: "release-note.txt",
-      profile: "generated-release",
+      profile: "generated-release"
     });
   }
   if (preservedRelease) {
@@ -574,12 +670,13 @@ function buildDist(options = {}) {
       previousRelease: preservedRelease.previousRelease || preservedRelease.baseTag || "",
       issues: releaseIssueLinks(releaseVersion),
       tag: `v${releaseVersion}`,
-      version: releaseVersion,
+      version: releaseVersion
     };
   }
   releaseIndex.update = createGovernanceManifest(
     releaseIndex.files.filter((entry) => !["release.json", "release-note.txt", distributionMapPath].includes(entry.path)),
     (entry) => fs.readFileSync(path.join(DIST_DIR, entry.path)),
+    { installedSource: true }
   );
   releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.update);
   writeJsonMinified(RELEASE_PATH, releaseIndex);
@@ -589,51 +686,97 @@ function buildDist(options = {}) {
       path: entry.path,
       profile: entry.profile || "generated-release",
       source: entry.source || entry.path,
-      status: entry.path === "release.json" || entry.path === distributionMapPath ? "generated" : "required",
+      status: entry.path === "release.json" || entry.path === distributionMapPath ? "generated" : "required"
     })),
     rootDir: DIST_DIR,
     selfPath: distributionMapPath,
-    version: effectiveVersion,
+    version: effectiveVersion
   });
   fs.mkdirSync(path.dirname(path.join(DIST_DIR, distributionMapPath)), { recursive: true });
   writeJsonMinified(path.join(DIST_DIR, distributionMapPath), distributionMap);
-
   const archivePath = path.join(DIST_DIR, archiveName);
   createZipFromDirectory(DIST_DIR, archivePath, {
-    exclude: [/^agents-v.+\.zip$/u],
+    exclude: [/^agents-v.+\.zip$/u]
   });
-
   validateDist();
   return {
     archive: toPosix(path.relative(ROOT_DIR, archivePath)),
     files: releaseIndex.files.length,
     releaseNote: releaseNotes ? toPosix(path.relative(ROOT_DIR, RELEASE_NOTE_PATH)) : "",
-    version: effectiveVersion,
+    version: effectiveVersion
   };
 }
-
 function buildDistributionFiles(index) {
   return index.files.map((file) => ({
+    artifact: Boolean(file.artifact),
     condition: file.condition,
+    generatedFrom: file.generatedFrom || "",
     name: file.name,
     path: file.destination,
     profile: file.profile,
-    sourcePath: file.path,
+    runtime: file.runtime || null,
+    sourcePath: file.path
   })).sort((a, b) => a.path.localeCompare(b.path, "en"));
 }
-
-function copyDistributionFile(sourcePath, targetPath) {
-  const content = fs.readFileSync(sourcePath);
-  if (path.extname(sourcePath).toLocaleLowerCase("en-US") !== ".js") {
-    fs.writeFileSync(targetPath, content);
-    return;
-  }
-  const banner = distributionBanner();
-  const text = content.toString("utf8");
-  const withoutExisting = text.replace(/^(?:\/\/[^\r\n]*\r?\n)+\r?\n/u, "");
-  fs.writeFileSync(targetPath, `${banner}\n\n${withoutExisting}`, "utf8");
+function copyDistributionFile(entry, targetPath) {
+  fs.writeFileSync(targetPath, distributionContent(entry));
 }
+function distributionContent(entry) {
+  const sourcePath = path.join(ROOT_DIR, entry.sourcePath);
+  if (!entry.artifact) return fs.readFileSync(sourcePath);
+  return Buffer.from(transpileTypeScript(sourcePath, {
+    minify: true,
+    sourceLabel: entry.generatedFrom || entry.sourcePath
+  }), "utf8");
+}
+function transpileTypeScript(sourcePath, options = {}) {
+  let esbuild;
+  try {
+    esbuild = require("esbuild");
+  } catch (error) {
+    throw new Error(`TOOLCHAIN_TYPESCRIPT_INDISPONIVEL:${error.message}`);
+  }
+  const source = fs.readFileSync(sourcePath, "utf8");
+  const result = esbuild.transformSync(source, {
+    charset: "utf8",
+    format: "cjs",
+    legalComments: "none",
+    loader: "ts",
+    minify: Boolean(options.minify),
+    platform: "node",
+    sourcemap: false,
+    target: "node24",
+    treeShaking: true
+  });
+  return `${distributionBanner()}
+// Gerado de: ${toPosix(options.sourceLabel || path.relative(ROOT_DIR, sourcePath))}; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
+${result.code.trim()}
+`;
+}
+function syncActiveRuntime() {
+  const manifest = readSourceDistributionManifest();
+  let generated = 0;
+  for (const entry of manifest.entries.filter((item) => item.artifact)) {
+    const sourcePath = path.join(SRC_DIR, entry.path);
+    const targetPath = path.join(ROOT_DIR, entry.artifact.destination);
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+    fs.writeFileSync(targetPath, transpileTypeScript(sourcePath, {
+      minify: false,
+      sourceLabel: toPosix(path.join("src", entry.path))
+    }), "utf8");
+    generated += 1;
+  }
+  return generated;
+}
+function validateRuntimeMatrix() {
+  assertFile(RUNTIME_MATRIX_PATH, "MATRIZ_RUNTIME_AUSENTE");
+  const matrix = JSON.parse(fs.readFileSync(RUNTIME_MATRIX_PATH, "utf8"));
+  if (!matrix || matrix.schema !== "agents-runtime-matrix/v1" || matrix.version !== 1 || matrix.generated !== false || !matrix.node || matrix.node.minimum !== "24.0.0" || matrix.node.target !== "ES2024" || matrix.node.moduleFormat !== "commonjs" || !matrix.node.toolchain || matrix.node.toolchain.typescript !== "7.0.2" || matrix.node.toolchain.esbuild !== "0.28.1" || !Array.isArray(matrix.node.platforms) || !matrix.python || !Array.isArray(matrix.python.resources)) {
+    throw new Error("MATRIZ_RUNTIME_INVALIDA");
+  }
+  return matrix;
+}
 function distributionBanner() {
   const metadata = CONFIGURATION.metadata || {};
   const required = ["author", "contact", "repository", "license", "licenseUrl", "licenseNotice", "disclaimer"];
@@ -646,38 +789,34 @@ function distributionBanner() {
     `// Licenca: ${metadata.license}`,
     `// Site da Licenca: ${metadata.licenseUrl}`,
     `// Resumo da Licenca: ${metadata.licenseNotice}`,
-    `// Disclaimer: ${metadata.disclaimer}`,
+    `// Disclaimer: ${metadata.disclaimer}`
   ].join("\n");
 }
-
 function resolveConfiguredRoot(key) {
   const [group, name] = key.split(".");
   const value = CONFIGURATION[group] && CONFIGURATION[group][name];
   return value ? path.resolve(ROOT_DIR, value) : path.join(ROOT_DIR, ".ia.rules", "cache", "unconfigured", name);
 }
-
 function assertBuildConfiguration() {
   for (const key of ["source", "artifact"]) {
     if (!CONFIGURATION.paths || !CONFIGURATION.paths[key]) throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:paths.${key}`);
   }
 }
-
-function createGovernanceManifest(entries, contentForEntry) {
+function createGovernanceManifest(entries, contentForEntry, options = {}) {
   const format = JSON.parse(fs.readFileSync(UPDATE_FORMAT_PATH, "utf8"));
   return {
     format: format.format,
     marker: format.marker,
     schema: format.version,
     files: entries.map((entry) => ({
-      ...(entry.kind ? { kind: entry.kind } : {}),
+      ...entry.kind ? { kind: entry.kind } : {},
       path: entry.path,
-      ...(entry.profile ? { profile: entry.profile } : {}),
-      ...(entry.sourcePath || entry.source ? { source: entry.sourcePath || entry.source } : {}),
-      sha256: hashTextBuffer(contentForEntry(entry)),
-    })),
+      ...entry.profile ? { profile: entry.profile } : {},
+      ...options.installedSource ? { source: entry.path } : entry.sourcePath || entry.source ? { source: entry.sourcePath || entry.source } : {},
+      sha256: hashTextBuffer(contentForEntry(entry))
+    }))
   };
 }
-
 function createUpdateHandoffDescriptor(manifest) {
   const indexed = new Map(manifest.files.map((entry) => [entry.path, entry]));
   for (const relativePath of UPDATE_HANDOFF_RUNTIME) {
@@ -687,31 +826,22 @@ function createUpdateHandoffDescriptor(manifest) {
     entry: UPDATE_HANDOFF_RUNTIME[0],
     files: [...UPDATE_HANDOFF_RUNTIME],
     format: "agents-update-runtime/v1",
-    schema: 1,
+    schema: 1
   };
 }
-
 function validateUpdateHandoffDescriptor(descriptor, label) {
-  if (!descriptor || descriptor.format !== "agents-update-runtime/v1" || descriptor.schema !== 1 ||
-    descriptor.entry !== UPDATE_HANDOFF_RUNTIME[0] || !Array.isArray(descriptor.files) ||
-    UPDATE_HANDOFF_RUNTIME.some((relativePath) => !descriptor.files.includes(relativePath))) {
+  if (!descriptor || descriptor.format !== "agents-update-runtime/v1" || descriptor.schema !== 1 || descriptor.entry !== UPDATE_HANDOFF_RUNTIME[0] || !Array.isArray(descriptor.files) || UPDATE_HANDOFF_RUNTIME.some((relativePath) => !descriptor.files.includes(relativePath))) {
     throw new Error(`${label} sem runtime de handoff valido.`);
   }
 }
-
 function buildDistributionPackage() {
   const source = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
   const sourceScripts = source.scripts || {};
-  const aliases = new Set(["build", "check", "clean", "dev-live", "lint", "prepare", "publish", "release", "release:publish", "release:trigger", "test", "update:agents"]);
-  const scripts = Object.fromEntries(Object.entries(sourceScripts)
-    .filter(([name]) => name === "agents:update" || name === "agents:autoupdate" || name.startsWith("agent:") || name.startsWith("shared:") || aliases.has(name))
-    .map(([name, command]) => [name, String(command)
-      .split(LEGACY_RULES_ROOT + "/").join(".ia.rules/")
-      .split(LEGACY_RULES_ROOT + "\\").join(".ia.rules\\")]));
+  const aliases = /* @__PURE__ */ new Set(["build", "check", "clean", "dev-live", "lint", "prepare", "publish", "release", "release:publish", "release:trigger", "test", "update:agents"]);
+  const scripts = Object.fromEntries(Object.entries(sourceScripts).filter(([name]) => name === "agents:update" || name === "agents:autoupdate" || name.startsWith("agent:") || name.startsWith("shared:") || aliases.has(name)).map(([name, command]) => [name, String(command).split(LEGACY_RULES_ROOT + "/").join(".ia.rules/").split(LEGACY_RULES_ROOT + "\\").join(".ia.rules\\")]));
   const dependencies = source.dependencies || {};
   const optionalDependencies = source.optionalDependencies || {};
   const governance = source["agentsGovernance"] || {};
-
   return {
     name: source.name || "agents-governance",
     version: readPackageVersion(),
@@ -720,33 +850,29 @@ function buildDistributionPackage() {
     license: source.license || "MPL-2.0",
     description: source.description || "Governanca operacional portavel para agentes IA.",
     main: source.main || "AGENTS.md",
-    ...(source["agentsUpstream"] ? { agentsUpstream: source["agentsUpstream"] } : {}),
+    ...source["agentsUpstream"] ? { agentsUpstream: source["agentsUpstream"] } : {},
     scripts,
-    ...(Object.keys(dependencies).length ? { dependencies } : {}),
-    ...(Object.keys(optionalDependencies).length ? { optionalDependencies } : {}),
+    ...Object.keys(dependencies).length ? { dependencies } : {},
+    ...Object.keys(optionalDependencies).length ? { optionalDependencies } : {},
     agentsGovernance: {
       schema: 1,
       managedScriptPrefixes: governance.managedScriptPrefixes || ["agent:", "shared:"],
       managedScripts: governance.managedScripts || ["agents:autoupdate", "agents:update", "update:agents"],
       dependencies: Object.keys(dependencies).sort((a, b) => a.localeCompare(b, "en")),
-      optionalDependencies: Object.keys(optionalDependencies).sort((a, b) => a.localeCompare(b, "en")),
-    },
+      optionalDependencies: Object.keys(optionalDependencies).sort((a, b) => a.localeCompare(b, "en"))
+    }
   };
 }
-
 function readExistingReleaseNotes() {
   if (!fs.existsSync(RELEASE_NOTE_PATH)) {
     return "";
   }
-
   return fs.readFileSync(RELEASE_NOTE_PATH, "utf8").trim();
 }
-
 function readExistingReleaseMetadata() {
   if (!fs.existsSync(RELEASE_PATH)) {
     return null;
   }
-
   const release = JSON.parse(fs.readFileSync(RELEASE_PATH, "utf8")).release;
   if (!release) {
     return null;
@@ -756,19 +882,22 @@ function readExistingReleaseMetadata() {
   }
   return release;
 }
-
 function verify() {
   const checks = [];
-  for (const script of listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".js" && isManagedScriptPath(filePath))) {
+  const manualJavaScript = listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".js" && isManagedScriptPath(filePath));
+  if (manualJavaScript.length) {
+    throw new Error(`FONTE_JAVASCRIPT_MANUAL_PROIBIDA:${manualJavaScript.map((file) => toPosix(path.relative(ROOT_DIR, file))).join(",")}`);
+  }
+  typecheck();
+  for (const script of listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".ts" && isManagedScriptPath(filePath))) {
     const content = fs.readFileSync(script, "utf8");
     assertCodeBanner(content, toPosix(path.relative(ROOT_DIR, script)));
+    assertNativeDocumentation(content, toPosix(path.relative(ROOT_DIR, script)));
     if (ALIEN_SCRIPT_TERMS.some((term) => content.toLocaleLowerCase("en-US").includes(term.toLocaleLowerCase("en-US")))) {
       throw new Error(`Referencia alienigena detectada em ${toPosix(path.relative(ROOT_DIR, script))}.`);
     }
-    runProcess(process.execPath, ["--check", script]);
     checks.push(toPosix(path.relative(ROOT_DIR, script)));
   }
-
   const index = buildIndex();
   writeJsonMinified(INDEX_PATH, index);
   validateIndex(index);
@@ -779,10 +908,8 @@ function verify() {
     assertCodeBanner(fs.readFileSync(script, "utf8"), toPosix(path.relative(ROOT_DIR, script)));
   }
   assertPublishedNorms(index);
-
   return ok("VERIFY_OK", { scripts: checks.length, indexedFiles: index.files.length, refusedDecisions });
 }
-
 function assertCodeBanner(content, label) {
   const header = String(content).split(/\r?\n/u).slice(0, 10).join("\n");
   const metadata = CONFIGURATION.metadata || {};
@@ -790,7 +917,6 @@ function assertCodeBanner(content, label) {
     if (!value || !header.includes(value)) throw new Error(`CABECALHO_CODIGO_INVALIDO:${label}`);
   }
 }
-
 function testAll() {
   verify();
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "distribution-map.test.js")]);
@@ -807,17 +933,13 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "refused-decisions.test.js")]);
   return ok("TEST_OK", { suites: 12 });
 }
-
 function validateIndex(index) {
-  if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest ||
-    index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {
+  if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest || index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {
     throw new Error("index.json invalido.");
   }
-  const destinations = new Set();
+  const destinations = /* @__PURE__ */ new Set();
   for (const file of index.files) {
-    if (!file.name || !file.path || !file.path.startsWith("src/") || !file.destination ||
-      !SOURCE_DISTRIBUTION_PROFILES.has(file.profile) || file.profile === "generated-release" ||
-      !fs.existsSync(path.join(ROOT_DIR, file.path))) {
+    if (!file.name || !file.path || !file.path.startsWith("src/") || !file.destination || !SOURCE_DISTRIBUTION_PROFILES.has(file.profile) || file.profile === "generated-release" || !fs.existsSync(path.join(ROOT_DIR, file.path))) {
       throw new Error(`Entrada invalida no indexador: ${JSON.stringify(file)}`);
     }
     const destinationKey = file.destination.toLocaleLowerCase("en-US");
@@ -827,18 +949,16 @@ function validateIndex(index) {
   validateGovernanceManifest(index.update, "index.json");
   validateUpdateHandoffDescriptor(index.handoff, "index.json");
 }
-
 function validateNormativeReferences(index) {
   const conceptPath = path.join(SRC_DIR, ".ia.rules", "core", "concepts", "microconceitos.md");
   const conceptText = fs.readFileSync(conceptPath, "utf8");
-  const definitions = new Set();
+  const definitions = /* @__PURE__ */ new Set();
   for (const match of conceptText.matchAll(/^## (MN-[A-Z0-9-]+|W-MTX-42)\b/gmu)) {
     if (definitions.has(match[1])) {
       throw new Error(`Microconceito duplicado: ${match[1]}.`);
     }
     definitions.add(match[1]);
   }
-
   for (const entry of index.files.filter((file) => path.extname(file.path) === ".md")) {
     const filePath = path.join(ROOT_DIR, entry.path);
     const content = fs.readFileSync(filePath, "utf8");
@@ -861,7 +981,6 @@ function validateNormativeReferences(index) {
     }
   }
 }
-
 function hasExactPathCase(root, relativePath) {
   let current = root;
   for (const segment of relativePath.split(path.sep)) {
@@ -872,7 +991,6 @@ function hasExactPathCase(root, relativePath) {
   }
   return true;
 }
-
 function validateDist() {
   assertFile(path.join(DIST_DIR, "AGENTS.md"), "dist/AGENTS.md ausente.");
   assertFile(path.join(DIST_DIR, ".ia.rules", "core", "contracts.md"), "dist/.ia.rules/core/contracts.md ausente.");
@@ -915,18 +1033,22 @@ function validateDist() {
     throw new Error("dist/package.json.files fora da allowlist de release.");
   }
   const policy = distributionPackage["agentsGovernance"];
-  if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) ||
-    !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) ||
-    !Array.isArray(policy.optionalDependencies) || !distributionPackage.scripts ||
-    !distributionPackage.scripts["agent:autoupdate"] || !distributionPackage.scripts["agents:autoupdate"] ||
-    !distributionPackage.scripts["agent:agents"] || !distributionPackage.scripts["agents:update"] ||
-    !distributionPackage.scripts["update:agents"] || !distributionPackage.scripts["shared:update:agents"] ||
-    !distributionPackage.scripts.release || !distributionPackage.scripts.publish ||
-    !policy.managedScriptPrefixes.includes("shared:")) {
+  if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) || !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) || !Array.isArray(policy.optionalDependencies) || !distributionPackage.scripts || !distributionPackage.scripts["agent:autoupdate"] || !distributionPackage.scripts["agents:autoupdate"] || !distributionPackage.scripts["agent:agents"] || !distributionPackage.scripts["agents:update"] || !distributionPackage.scripts["update:agents"] || !distributionPackage.scripts["shared:update:agents"] || !distributionPackage.scripts.release || !distributionPackage.scripts.publish || !policy.managedScriptPrefixes.includes("shared:")) {
     throw new Error("dist/package.json nao contem contrato executavel de governanca.");
   }
 }
-
+function assertNativeDocumentation(content, label) {
+  const declarations = [
+    /(^|\n)([ \t]*)(?:async[ \t]+)?function[ \t]+\*?[ \t]*([A-Za-z_$][\w$]*)[ \t]*\(/gu,
+    /(^|\n)([ \t]*)class[ \t]+([A-Za-z_$][\w$]*)\b/gu
+  ];
+  for (const declaration of declarations) for (const match of content.matchAll(declaration)) {
+    const before = content.slice(0, match.index + match[1].length).trimEnd();
+    if (!/\/\*\*[^]*?\*\/$/u.test(before)) {
+      throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${match[3]}`);
+    }
+  }
+}
 function validateDistributionProfiles(release, distributionMap) {
   const mapEntries = new Map(distributionMap.entries.map((entry) => [entry.path, entry]));
   for (const entry of release.files) {
@@ -944,7 +1066,6 @@ function validateDistributionProfiles(release, distributionMap) {
     }
   }
 }
-
 function validateDistributionMapCompleteness(distributionMap) {
   const declared = new Set(distributionMap.entries.map((entry) => entry.path));
   for (const filePath of listFiles(DIST_DIR)) {
@@ -955,9 +1076,8 @@ function validateDistributionMapCompleteness(distributionMap) {
     }
   }
 }
-
 function validateReleasePayloadTopology(release) {
-  const directories = new Set();
+  const directories = /* @__PURE__ */ new Set();
   for (const filePath of listFiles(DIST_DIR)) {
     const relativePath = toPosix(path.relative(DIST_DIR, filePath));
     if (relativePath.includes(LEGACY_RULES_ROOT)) throw new Error(`PAYLOAD_LEGADO_PROIBIDO:${relativePath}`);
@@ -973,14 +1093,12 @@ function validateReleasePayloadTopology(release) {
     if (segments.length > 1 && segments[0] !== ".ia.rules") throw new Error(`MANIFESTO_FORA_ALLOWLIST:${entry.path}`);
   }
 }
-
 function validateGovernanceManifest(manifest, label) {
   const format = JSON.parse(fs.readFileSync(UPDATE_FORMAT_PATH, "utf8"));
-  if (!manifest || manifest.format !== format.format || manifest.schema !== format.version ||
-    manifest.marker !== format.marker || !Array.isArray(manifest.files) || manifest.files.length === 0) {
+  if (!manifest || manifest.format !== format.format || manifest.schema !== format.version || manifest.marker !== format.marker || !Array.isArray(manifest.files) || manifest.files.length === 0) {
     throw new Error(`${label} sem manifesto de atualizacao valido.`);
   }
-  const paths = new Set();
+  const paths = /* @__PURE__ */ new Set();
   for (const entry of manifest.files) {
     if (!entry || !entry.path || !entry.sha256 || paths.has(entry.path)) {
       throw new Error(`${label} possui entrada de atualizacao invalida.`);
@@ -988,7 +1106,6 @@ function validateGovernanceManifest(manifest, label) {
     paths.add(entry.path);
   }
 }
-
 function cleanGeneratedArtifacts() {
   const removed = [];
   for (const relativePath of ["dist", "index.json", "handoff.md"]) {
@@ -1005,7 +1122,6 @@ function cleanGeneratedArtifacts() {
   }
   return ok("CLEAN_OK", { removed });
 }
-
 function repairGeneratedArtifacts() {
   const index = buildIndex();
   writeJsonMinified(INDEX_PATH, index);
@@ -1014,67 +1130,56 @@ function repairGeneratedArtifacts() {
   return ok("REPAIR_OK", {
     archive: dist.archive,
     files: index.files.length,
-    handoff: "handoff.md",
+    handoff: "handoff.md"
   });
 }
-
 function setup() {
   const published = fs.existsSync(path.join(ROOT_DIR, ".ia.rules"));
-  const required = published
-    ? ["package.json", "AGENTS.md", path.join(".ia.rules", "core", "contracts.md")]
-    : ["package.json", "README.md", "RCF.md", "AGENTS.md", path.join(".ia.rules", "continue.ia")];
+  const required = published ? ["package.json", "AGENTS.md", path.join(".ia.rules", "core", "contracts.md")] : ["package.json", "README.md", "RCF.md", "AGENTS.md", path.join(".ia.rules", "continue.ia")];
   const missing = required.filter((entry) => !fs.existsSync(path.join(ROOT_DIR, entry)));
   return ok(missing.length ? "SETUP_DEGRADED" : "SETUP_OK", { missing });
 }
-
 function doctor() {
   const scripts = readPackageScripts();
   const commandSummary = summarizeCommands(scripts);
   const published = fs.existsSync(path.join(ROOT_DIR, ".ia.rules"));
-  const requiredFiles = published
-    ? ["AGENTS.md", "package.json", path.join(".ia.rules", "core", "contracts.md")]
-    : ["README.md", "RCF.md", "AGENTS.md", "package.json", "index.json", path.join(".ia.rules", "continue.ia")];
+  const requiredFiles = published ? ["AGENTS.md", "package.json", path.join(".ia.rules", "core", "contracts.md")] : ["README.md", "RCF.md", "AGENTS.md", "package.json", "index.json", path.join(".ia.rules", "continue.ia")];
   const missing = requiredFiles.filter((entry) => !fs.existsSync(path.join(ROOT_DIR, entry)));
   const git = runProcess("git", ["status", "--short"], { optional: true });
   return ok(missing.length ? "DOCTOR_DEGRADED" : "DOCTOR_OK", {
     commands: commandSummary,
     dirty: Boolean((git.stdout || "").trim()),
-    missing,
+    missing
   });
 }
-
 function context() {
   const index = buildIndex();
   const log = runProcess("git", ["log", "--oneline", "-5"], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean);
   return ok("CONTEXT_OK", {
     branch: runProcess("git", ["branch", "--show-current"], { optional: true }).stdout.trim(),
     latestCommits: log,
-    normativeFiles: index.files,
+    normativeFiles: index.files
   });
 }
-
 function workspace() {
   return ok("WORKSPACE_OK", {
     files: runProcess("git", ["ls-files"], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean).slice(0, 200),
-    status: runProcess("git", ["status", "--short"], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean),
+    status: runProcess("git", ["status", "--short"], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean)
   });
 }
-
 function docs() {
   const docsFiles = ["README.md", "RCF.md", "AGENTS.md", "handoff.md"].filter((entry) => fs.existsSync(path.join(ROOT_DIR, entry)));
   return ok("DOCS_OK", { files: docsFiles });
 }
-
 function rcf() {
   const rcfPath = path.join(ROOT_DIR, "RCF.md");
   assertFile(rcfPath, "RCF.md ausente.");
   const content = fs.readFileSync(rcfPath, "utf8");
   return ok(content.includes("## 9. Indexador") && content.includes("## 10. Dist") ? "RCF_OK" : "RCF_DEGRADED", {
     path: "RCF.md",
-    bytes: Buffer.byteLength(content),
+    bytes: Buffer.byteLength(content)
   });
 }
-
 function lint() {
   const scripts = listFiles(path.join(ROOT_DIR, "scripts")).filter((filePath) => path.extname(filePath) === ".js");
   for (const script of scripts) {
@@ -1082,7 +1187,13 @@ function lint() {
   }
   return ok("LINT_OK", { scripts: scripts.length });
 }
-
+function typecheck() {
+  assertFile(TSCONFIG_PATH, "TSCONFIG_AUSENTE");
+  const compiler = path.join(ROOT_DIR, "node_modules", "typescript", "bin", "tsc");
+  assertFile(compiler, "TOOLCHAIN_TYPESCRIPT_INDISPONIVEL");
+  runProcess(process.execPath, [compiler, "--project", TSCONFIG_PATH, "--pretty", "false"]);
+  return ok("TYPECHECK_OK", { config: toPosix(path.relative(ROOT_DIR, TSCONFIG_PATH)), sources: listFiles(SOURCE_RULES_DIR).filter((file) => path.extname(file) === ".ts").length });
+}
 function security() {
   const findings = [];
   for (const filePath of listFiles(ROOT_DIR).filter((entry) => !toPosix(path.relative(ROOT_DIR, entry)).startsWith(".git/"))) {
@@ -1097,67 +1208,58 @@ function security() {
   }
   return ok(findings.length ? "SECURITY_DEGRADED" : "SECURITY_OK", { findings });
 }
-
 function deps() {
   const pkg = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
   return ok("DEPS_OK", {
     dependencies: Object.keys(pkg.dependencies || {}).length,
     devDependencies: Object.keys(pkg.devDependencies || {}).length,
-    optionalDependencies: Object.keys(pkg.optionalDependencies || {}).length,
+    optionalDependencies: Object.keys(pkg.optionalDependencies || {}).length
   });
 }
-
 function licenses() {
   const pkg = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
   return ok("LICENSES_OK", { license: pkg.license || "" });
 }
-
 function gitLastRelease() {
   const result = runProcess("git", ["log", "--grep=^release:", "--format=%H %s", "-1"], { optional: true });
   return ok(result.stdout.trim() ? "GIT_LAST_RELEASE_OK" : "GIT_LAST_RELEASE_EMPTY", {
-    commit: result.stdout.trim(),
+    commit: result.stdout.trim()
   });
 }
-
 function gitReleaseNotes() {
   const last = runProcess("git", ["log", "--grep=^release:", "--format=%H", "-1"], { optional: true }).stdout.trim();
   const range = last ? `${last}..HEAD` : "HEAD";
   const log = runProcess("git", ["log", "--oneline", range], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean);
   return ok("GIT_RELEASE_NOTES_OK", { commits: log });
 }
-
 function releaseLocal(args = []) {
   const release = resolveRelease(args[0] || "");
   const prepare = runReleaseHook("prepare", release);
   const notes = buildReleaseNotes(release.version);
   const result = buildDist({ releaseMetadata: release, releaseNotes: notes, version: release.version });
   const packageRegistry = runPackageRegistryLifecycle("release", { ...release, ...result, packageRegistry: CONFIGURATION.packageRegistry || {} }, { rootDir: ROOT_DIR });
-  const verify = runReleaseHook("verify", { ...release, ...result });
-  return ok("RELEASE_OK", { ...result, inference: release.inference, packageRegistry, prepare, verify });
+  const verify2 = runReleaseHook("verify", { ...release, ...result });
+  return ok("RELEASE_OK", { ...result, inference: release.inference, packageRegistry, prepare, verify: verify2 });
 }
-
 function releaseTrigger(args = []) {
   const requestedVersion = String(args[0] || "").trim();
   if (!requestedVersion) {
     console.error("PARAMETRO_NORMATIVO_AUSENTE:version");
     return 4;
   }
-
   const release = resolveRelease(requestedVersion);
   const targetPath = path.join(ROOT_DIR, "release");
   let replacedPublishedTrigger = false;
   if (fs.existsSync(targetPath)) {
     const existingVersion = normalizeReleaseVersion(fs.readFileSync(targetPath, "utf8"));
-    const published = existingVersion
-      ? runProcess("git", ["rev-parse", "--verify", `refs/tags/v${existingVersion}`], { optional: true }).status === 0
-      : false;
+    const published = existingVersion ? runProcess("git", ["rev-parse", "--verify", `refs/tags/v${existingVersion}`], { optional: true }).status === 0 : false;
     const decision = resolveExistingReleaseTrigger(existingVersion, release.version, published);
     if (decision === "preserve") {
       return ok("RELEASE_TRIGGER_EXISTENTE", {
         file: "release",
         inference: release.inference,
         reused: true,
-        version: release.version,
+        version: release.version
       });
     }
     if (decision === "conflict") {
@@ -1165,15 +1267,15 @@ function releaseTrigger(args = []) {
     }
     replacedPublishedTrigger = true;
   }
-  fs.writeFileSync(targetPath, `${release.version}\n`, "utf8");
+  fs.writeFileSync(targetPath, `${release.version}
+`, "utf8");
   return ok("RELEASE_TRIGGER_OK", {
     file: "release",
     inference: release.inference,
     replacedPublishedTrigger,
-    version: release.version,
+    version: release.version
   });
 }
-
 function runGitReadOnly(args) {
   const result = runProcess("git", args, { optional: true });
   process.stdout.write(limitOutput(result.stdout || ""));
@@ -1182,25 +1284,23 @@ function runGitReadOnly(args) {
   }
   return result.status || 0;
 }
-
 function printStatus() {
   const scripts = readPackageScripts();
   const commands = CANONICAL_COMMANDS.map((command) => ({
     command,
     invocation: scripts[command] ? `npm run ${command}` : "",
     reason: commandReason(command, scripts),
-    status: commandStatus(command, scripts),
+    status: commandStatus(command, scripts)
   }));
   const summary = {
     branch: runProcess("git", ["branch", "--show-current"], { optional: true }).stdout.trim(),
     commands,
     commit: runProcess("git", ["rev-parse", "--short", "HEAD"], { optional: true }).stdout.trim(),
-    schema: 1,
+    schema: 1
   };
   console.log(JSON.stringify(summary));
   return 0;
 }
-
 function summarizeCommands(scripts) {
   return CANONICAL_COMMANDS.reduce((acc, command) => {
     const status = commandStatus(command, scripts);
@@ -1208,7 +1308,6 @@ function summarizeCommands(scripts) {
     return acc;
   }, {});
 }
-
 function commandStatus(command, scripts) {
   if (COMMANDS[command] && scripts[command]) {
     return "available";
@@ -1218,7 +1317,6 @@ function commandStatus(command, scripts) {
   }
   return "n/a";
 }
-
 function commandReason(command, scripts) {
   if (!scripts[command]) {
     return "script npm canonico ausente";
@@ -1234,15 +1332,14 @@ function commandReason(command, scripts) {
   }
   return "sem implementacao segura definida pelo RCF atual";
 }
-
 function runDegraded(command, args) {
   const map = {
     "agent:pwd": ["pwd", []],
     "agent:ls": ["git", ["ls-files"]],
     "agent:tree": ["git", ["ls-files"]],
-    "agent:find": ["git", ["ls-files", ...(args || [])]],
-    "agent:search": ["rg", ["-n", ...(args || [])]],
-    "agent:grep": ["rg", ["-n", ...(args || [])]],
+    "agent:find": ["git", ["ls-files", ...args || []]],
+    "agent:search": ["rg", ["-n", ...args || []]],
+    "agent:grep": ["rg", ["-n", ...args || []]],
     "agent:head": ["node", ["-e", "const fs=require('fs');const p=process.argv[1];console.log(fs.readFileSync(p,'utf8').split(/\\r?\\n/).slice(0,50).join('\\n'))", args[0] || "README.md"]],
     "agent:tail": ["node", ["-e", "const fs=require('fs');const p=process.argv[1];const a=fs.readFileSync(p,'utf8').split(/\\r?\\n/);console.log(a.slice(-50).join('\\n'))", args[0] || "README.md"]],
     "agent:view": ["node", ["-e", "const fs=require('fs');const p=process.argv[1];console.log(fs.readFileSync(p,'utf8').split(/\\r?\\n/).slice(0,50).join('\\n'))", args[0] || "README.md"]],
@@ -1251,18 +1348,17 @@ function runDegraded(command, args) {
     "agent:hash": ["node", ["-e", "const fs=require('fs'),c=require('crypto');const p=process.argv[1];console.log(c.createHash('sha256').update(fs.readFileSync(p)).digest('hex'))", args[0] || "README.md"]],
     "agent:git-status": ["git", ["status", "--short"]],
     "agent:git-log": ["git", ["log", "--oneline", "-20"]],
-    "agent:git-diff": ["git", ["diff", "--stat", ...(args || [])]],
+    "agent:git-diff": ["git", ["diff", "--stat", ...args || []]]
   };
   if (!map[command]) {
     console.log(JSON.stringify({
       code: "COMMAND_DEGRADED",
       command,
       reason: "Comando canonico reconhecido; implementacao completa pendente. Nenhuma acao destrutiva, rede ou mutacao foi executada.",
-      status: "degraded",
+      status: "degraded"
     }));
     return 0;
   }
-
   const [cmd, cmdArgs] = map[command];
   const result = runProcess(cmd, cmdArgs, { optional: true });
   process.stdout.write(limitOutput(result.stdout || ""));
@@ -1271,40 +1367,34 @@ function runDegraded(command, args) {
   }
   return result.status || 0;
 }
-
 function runNodeScript(relativePath, args = []) {
   const result = runProcess(process.execPath, [path.join(ROOT_DIR, relativePath), ...args]);
   process.stdout.write(result.stdout);
   process.stderr.write(result.stderr);
   return result.status;
 }
-
 function runProcess(command, args, options = {}) {
   const result = childProcess.spawnSync(command, args, {
     cwd: ROOT_DIR,
     encoding: "utf8",
-    shell: false,
+    shell: false
   });
   if (!options.optional && result.status !== 0) {
     throw new Error(`${command} ${args.join(" ")} falhou: ${result.stderr || result.stdout}`);
   }
   return result;
 }
-
 function releaseRelativePath(sourcePath) {
   const relative = toPosix(sourcePath).replace(/^src\//u, "");
   return relative.toLocaleLowerCase("en-US") === "agents.md" ? "AGENTS.md" : relative;
 }
-
 function resolveArchiveName(versionOverride = "") {
   return `agents-v${normalizeReleaseVersion(versionOverride || readPackageVersion())}.zip`;
 }
-
 function readPackageVersion() {
   const pkg = fs.existsSync(PACKAGE_PATH) ? JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8")) : {};
   return normalizeReleaseVersion(pkg.version || "0.0.0-beta");
 }
-
 function resolveRelease(value) {
   const raw = String(value || "").trim();
   const commit = runProcess("git", ["rev-parse", "HEAD"]).stdout.trim();
@@ -1312,7 +1402,6 @@ function resolveRelease(value) {
   const explicit = Boolean(raw);
   let version;
   let inference;
-
   if (explicit) {
     version = normalizeReleaseVersion(raw);
     inference = "explicit";
@@ -1327,19 +1416,13 @@ function resolveRelease(value) {
     version = readPackageVersion();
     inference = "manifesto-inicial";
   }
-
   assertReleaseTagAvailable(version);
   return { baseTag, commit, explicit, inference, version };
 }
-
 function findLatestReleaseTag() {
-  const tags = runProcess("git", ["tag", "--merged", "HEAD", "--sort=-version:refname"], { optional: true }).stdout
-    .trim()
-    .split(/\r?\n/u)
-    .filter(Boolean);
+  const tags = runProcess("git", ["tag", "--merged", "HEAD", "--sort=-version:refname"], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean);
   return tags.find((tag) => /^v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/u.test(tag)) || "";
 }
-
 function assertReleaseTagAvailable(version) {
   const tag = `v${version}`;
   const exists = runProcess("git", ["rev-parse", "--verify", `refs/tags/${tag}`], { optional: true });
@@ -1347,23 +1430,18 @@ function assertReleaseTagAvailable(version) {
     throw new Error(`VERSAO_JA_PUBLICADA:${tag}`);
   }
 }
-
 function inferVersionFromCommits(baseTag) {
   const base = normalizeReleaseVersion(baseTag.replace(/^v/u, ""));
   if (base.includes("-")) {
     throw new Error("VERSAO_NAO_INFERIVEL: tag base de pre-release exige versao explicita.");
   }
-  const records = runProcess("git", ["log", "--format=%s%x1f%b%x1e", `${baseTag}..HEAD`]).stdout
-    .split("\x1e")
-    .map((record) => record.trim())
-    .filter(Boolean);
+  const records = runProcess("git", ["log", "--format=%s%x1f%b%x1e", `${baseTag}..HEAD`]).stdout.split("").map((record) => record.trim()).filter(Boolean);
   if (records.length === 0) {
     throw new Error("VERSAO_NAO_INFERIVEL: sem commits apos a ultima tag.");
   }
-
   let level = "";
   for (const record of records) {
-    const [subject, body = ""] = record.split("\x1f");
+    const [subject, body = ""] = record.split("");
     const match = subject.match(/^(feat|fix|perf)(?:\([^)]*\))?(!)?:\s/u);
     if (!match) {
       throw new Error(`VERSAO_NAO_INFERIVEL: commit sem convencao semantica: ${subject}`);
@@ -1378,7 +1456,6 @@ function inferVersionFromCommits(baseTag) {
   }
   return incrementReleaseVersion(base, level);
 }
-
 function incrementReleaseVersion(version, level) {
   const [major, minor, patch] = normalizeReleaseVersion(version).split("-")[0].split(".").map(Number);
   if (level === "major") return `${major + 1}.0.0`;
@@ -1386,40 +1463,29 @@ function incrementReleaseVersion(version, level) {
   if (level === "patch") return `${major}.${minor}.${patch + 1}`;
   throw new Error("VERSAO_NAO_INFERIVEL: nivel semantico ausente.");
 }
-
 function normalizeReleaseVersion(value) {
   const raw = String(value || "").trim();
-
   if (!raw) {
     return "";
   }
-
   const match = raw.match(/^(\d+)\.(\d+)(?:\.(\d+))?(?:-([0-9A-Za-z.-]+))?$/u);
-
   if (!match) {
     throw new Error(`Versao de release invalida: ${value}`);
   }
-
   const major = match[1];
   const minor = match[2];
   const patch = match[3] || "0";
   const suffix = match[4] ? `-${match[4]}` : "";
   return `${major}.${minor}.${patch}${suffix}`;
 }
-
 function buildReleaseNotes(version) {
   const last = runProcess("git", ["log", "--grep=^release:", "--format=%H", "-1"], { optional: true }).stdout.trim();
   const range = last ? `${last}..HEAD` : "HEAD";
-  const commits = runProcess("git", ["log", "--format=%h %s", range], { optional: true }).stdout
-    .trim()
-    .split(/\r?\n/u)
-    .filter(Boolean);
-
+  const commits = runProcess("git", ["log", "--format=%h %s", range], { optional: true }).stdout.trim().split(/\r?\n/u).filter(Boolean);
   const lines = [
     `Release v${version}`,
-    "",
+    ""
   ];
-
   if (commits.length === 0) {
     lines.push("- Sem alteracoes registradas desde o ultimo marcador release.");
   } else {
@@ -1427,16 +1493,13 @@ function buildReleaseNotes(version) {
       lines.push(`- ${commit}`);
     }
   }
-
   const issues = releaseIssueLinks(version);
   if (issues.length) {
     lines.push("", "Issues corrigidas:");
     for (const issue of issues) lines.push(`- ${issue.ft}: ${issue.id}`);
   }
-
   return lines.join("\n");
 }
-
 function releaseIssueLinks(version) {
   const memoryPath = path.join(ROOT_DIR, ".ia.rules", "continue.ia");
   if (!fs.existsSync(memoryPath) || !version) return [];
@@ -1447,24 +1510,20 @@ function releaseIssueLinks(version) {
     return ft && id && bound === version ? { ft, id } : null;
   }).filter(Boolean).sort((left, right) => left.id.localeCompare(right.id));
 }
-
 function readPackageScripts() {
   if (!fs.existsSync(PACKAGE_PATH)) {
     return {};
   }
   return JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8")).scripts || {};
 }
-
 function cleanDirectory(dirPath) {
   if (fs.existsSync(dirPath)) {
     try {
       fs.rmSync(dirPath, { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
     } catch (error) {
-      if (!new Set(["ENOTEMPTY", "EPERM", "EBUSY"]).has(error.code) || !fs.existsSync(dirPath)) {
+      if (!(/* @__PURE__ */ new Set(["ENOTEMPTY", "EPERM", "EBUSY"])).has(error.code) || !fs.existsSync(dirPath)) {
         throw error;
       }
-
-      // FIX-BUG: Windows pode manter o ZIP ou o diretorio transitoriamente bloqueado apos a geracao.
       for (const entry of fs.readdirSync(dirPath)) {
         fs.rmSync(path.join(dirPath, entry), { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
       }
@@ -1472,7 +1531,6 @@ function cleanDirectory(dirPath) {
     }
   }
 }
-
 function listFiles(dirPath) {
   if (!fs.existsSync(dirPath)) {
     return [];
@@ -1488,32 +1546,26 @@ function listFiles(dirPath) {
   }
   return files;
 }
-
 function writeJsonMinified(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, JSON.stringify(value), "utf8");
 }
-
 function hashTextFile(filePath) {
   return hashTextBuffer(fs.readFileSync(filePath));
 }
-
 function hashTextBuffer(buffer) {
   return crypto.createHash("sha256").update(Buffer.from(buffer.toString("utf8").replace(/\r\n/gu, "\n"), "utf8")).digest("hex");
 }
-
 function assertDirectory(dirPath, message) {
   if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory()) {
     throw new Error(message);
   }
 }
-
 function assertFile(filePath, message) {
   if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     throw new Error(message);
   }
 }
-
 function compactOperationalContext() {
   const memoryPath = path.join(ROOT_DIR, ".ia.rules", "continue.ia");
   const handoffPath = path.join(ROOT_DIR, "handoff.md");
@@ -1523,74 +1575,65 @@ function compactOperationalContext() {
     throw new Error("Falha ao gerar projecao compacta do estado operacional.");
   }
   assertFile(handoffPath, "handoff.md ausente apos compactacao operacional.");
-  const activeFronts = fs.readFileSync(memoryPath, "utf8")
-    .split(/\r?\n/u)
-    .filter((line) => /^FT-\d+\|.*\|status=em_andamento\b/u.test(line))
-    .map((line) => line.split("|")[0]);
+  const activeFronts = fs.readFileSync(memoryPath, "utf8").split(/\r?\n/u).filter((line) => /^FT-\d+\|.*\|status=em_andamento\b/u.test(line)).map((line) => line.split("|")[0]);
   return ok("COMPACT_OK", { activeFronts, canonical: ".ia.rules/continue.ia", projection: "handoff.md" });
 }
-
 function assertPublishedNorms(index) {
-  // FIX-BUG: valida produto fonte/publicado sem contaminar a governanca ativa.
   for (const file of index.files) {
     const sourcePath = path.join(ROOT_DIR, file.path);
     const publishedPath = path.join(DIST_DIR, file.destination);
     assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(file.path)}.`);
     assertFile(publishedPath, `Norma publicada ausente: ${toPosix(path.relative(ROOT_DIR, publishedPath))}.`);
-    if (!fs.readFileSync(sourcePath).equals(fs.readFileSync(publishedPath))) {
+    const expected = file.artifact ? distributionContent({ artifact: true, generatedFrom: file.generatedFrom, sourcePath: file.path }) : fs.readFileSync(sourcePath);
+    if (hashTextBuffer(expected) !== hashTextFile(publishedPath)) {
       throw new Error(`Paridade fonte/publicado divergente: ${toPosix(file.path)}.`);
     }
   }
 }
-
 function assertPublishedMain(distributionPackage) {
   if (distributionPackage.main !== "AGENTS.md") {
     throw new Error("dist/package.json.main deve apontar para AGENTS.md na raiz publicada.");
   }
   assertFile(path.join(DIST_DIR, distributionPackage.main), "Entrada principal publicada ausente em dist/AGENTS.md.");
 }
-
 function ok(code, data) {
   console.log(JSON.stringify({ code, ...data }));
   return 0;
 }
-
 function limitOutput(value) {
   const lines = String(value || "").replace(/\x1b\[[0-9;]*m/gu, "").split(/\r?\n/u).slice(0, 50);
   const text = lines.join("\n");
   return text.length > 8192 ? text.slice(0, 8192) : text;
 }
-
 function toPosix(value) {
   return String(value || "").split(path.sep).join("/");
 }
-
 function isManagedScriptPath(filePath) {
   const relativePath = releaseRelativePath(toPosix(path.relative(ROOT_DIR, filePath)));
-  return relativePath.startsWith(".ia.rules/core/runtime/scripts/")
-    || relativePath.startsWith(".ia.rules/core/update/migrations/")
-    || /^\.ia.rules\/scenarios\/[^/]+\/scripts\//u.test(relativePath);
+  return relativePath.startsWith(".ia.rules/core/runtime/scripts/") || relativePath.startsWith(".ia.rules/core/update/migrations/") || /^\.ia.rules\/scenarios\/[^/]+\/scripts\//u.test(relativePath);
 }
-
 function isManagedDistributionFile(filePath) {
   const relativePath = releaseRelativePath(toPosix(path.relative(ROOT_DIR, filePath)));
-  return (path.extname(filePath).toLocaleLowerCase("en-US") === ".js" && isManagedScriptPath(filePath))
-    || relativePath === ".ia.rules/package.json"
-    || relativePath === ".ia.rules/core/runtime/scripts/package.json";
+  return (/* @__PURE__ */ new Set([".js", ".ts"])).has(path.extname(filePath).toLocaleLowerCase("en-US")) && isManagedScriptPath(filePath) || relativePath === ".ia.rules/package.json" || relativePath === ".ia.rules/core/runtime/scripts/package.json";
 }
-
 if (require.main === module) {
   const stdout = process.stdout.write.bind(process.stdout);
   const stderr = process.stderr.write.bind(process.stderr);
   const out = [];
   const err = [];
-  process.stdout.write = (chunk) => { out.push(String(chunk)); return true; };
-  process.stderr.write = (chunk) => { err.push(String(chunk)); return true; };
+  process.stdout.write = (chunk) => {
+    out.push(String(chunk));
+    return true;
+  };
+  process.stderr.write = (chunk) => {
+    err.push(String(chunk));
+    return true;
+  };
   let code = 0;
   try {
     code = main();
-  } catch (err) {
-    console.error(err.message);
+  } catch (err2) {
+    console.error(err2.message);
     code = 1;
   }
   process.stdout.write = stdout;
@@ -1598,7 +1641,6 @@ if (require.main === module) {
   stdout(filterOutput({ command: process.argv[2] || "agent:status", exit: Number.isInteger(code) ? code : 1, stderr: err.join(""), stdout: out.join("") }));
   process.exitCode = Number.isInteger(code) ? code : 1;
 }
-
 module.exports = {
   buildDist,
   buildDistributionPackage,
@@ -1610,5 +1652,5 @@ module.exports = {
   resolveRelease,
   validateSourceDistributionManifest,
   validateDist,
-  verify,
+  verify
 };

@@ -5,9 +5,9 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/scenarios/release/scripts/package-registry.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const PHASES = ["prepare-package", "verify-package", "publish-package", "confirm-package"];
-
 function runPackageRegistryLifecycle(event, payload = {}, options = {}) {
   const config = resolvePackageRegistryConfig(payload, options);
   if (!config.enabled) return { code: "PACKAGE_REGISTRY_SKIPPED", enabled: false, reason: config.reason || "capacidade_nao_declarada" };
@@ -18,7 +18,6 @@ function runPackageRegistryLifecycle(event, payload = {}, options = {}) {
   }
   return { code: options.dryRun ? "PACKAGE_REGISTRY_DRY_RUN" : "PACKAGE_REGISTRY_OK", enabled: true, effects };
 }
-
 function runPackageRegistryPhase(phase, config, payload = {}, options = {}) {
   const normalized = normalizePhase(phase);
   if (options.dryRun) return { phase: normalized, status: "planned" };
@@ -30,7 +29,6 @@ function runPackageRegistryPhase(phase, config, payload = {}, options = {}) {
   if (result && result.ok === false) throw new Error(`PACKAGE_REGISTRY_PHASE_FAILED:${normalized}`);
   return { phase: normalized, status: "done", result: sanitizeResult(result) };
 }
-
 function resolvePackageRegistryConfig(payload = {}, options = {}) {
   const declared = options.config || payload.packageRegistry || {};
   if (!declared || declared.enabled !== true) return { enabled: false, reason: "opt_in_ausente" };
@@ -39,31 +37,26 @@ function resolvePackageRegistryConfig(payload = {}, options = {}) {
   if (!registry || !packageName) throw new Error("PACKAGE_REGISTRY_CONFIG_INVALID");
   return { ...declared, packageName, registry };
 }
-
 function resolveAdapter(config, options = {}) {
   if (options.adapter) return options.adapter;
   if (options.adapters && options.adapters[config.registry]) return options.adapters[config.registry];
   throw new Error(`PACKAGE_REGISTRY_ADAPTER_REQUIRED:${config.registry}`);
 }
-
 function normalizePhase(value) {
   const phase = String(value || "").trim();
   if (!PHASES.includes(phase)) throw new Error(`PACKAGE_REGISTRY_PHASE_INVALID:${phase || "(vazio)"}`);
   return phase;
 }
-
 function phaseMethod(phase) {
   return {
     "confirm-package": "confirmPackage",
     "prepare-package": "preparePackage",
     "publish-package": "publishPackage",
-    "verify-package": "verifyPackage",
+    "verify-package": "verifyPackage"
   }[phase];
 }
-
 function sanitizeResult(value) {
   if (!value || typeof value !== "object") return {};
   return Object.fromEntries(Object.entries(value).filter(([key]) => !/token|secret|password|authorization/iu.test(key)));
 }
-
 module.exports = { PHASES, resolvePackageRegistryConfig, runPackageRegistryLifecycle, runPackageRegistryPhase };

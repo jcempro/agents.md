@@ -5,16 +5,15 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/distribution-map.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
-
 const DISTRIBUTION_MAP_FORMAT = "agents-distribution-map/v1";
 const DISTRIBUTION_MAP_SCHEMA = 1;
 const ACTIVE_MAP_PATH = ".ia.rules/distribution/active-map.json";
 const DEFAULT_MIN_PROCESSOR_VERSION = "1.0.0";
-
 function distributionMapFileName(version) {
   const normalized = String(version || "").trim();
   if (!/^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]+)?$/u.test(normalized)) {
@@ -22,11 +21,9 @@ function distributionMapFileName(version) {
   }
   return `distribution-map-${normalized}.json`;
 }
-
 function distributionMapRelativePath(version) {
   return `.ia.rules/distribution/${distributionMapFileName(version)}`;
 }
-
 function buildDistributionMap(options = {}) {
   const version = String(options.version || "").trim();
   const rootDir = path.resolve(String(options.rootDir || "."));
@@ -34,7 +31,6 @@ function buildDistributionMap(options = {}) {
   const potential = Array.isArray(options.potentialFiles) ? options.potentialFiles : defaultPotentialEntries();
   const selfPath = options.selfPath ? normalizeMapPath(options.selfPath) : distributionMapRelativePath(version);
   const entries = [];
-
   for (const file of effective) {
     const relativePath = normalizeMapPath(file.path || file.relativePath);
     const absolute = path.join(rootDir, relativePath);
@@ -53,10 +49,9 @@ function buildDistributionMap(options = {}) {
       source: normalizeMapPath(file.source || file.sourcePath || relativePath),
       status: file.status || (file.generated ? "generated" : "required"),
       type: file.type || "file",
-      updatePolicy: file.updatePolicy || "replace-if-managed",
+      updatePolicy: file.updatePolicy || "replace-if-managed"
     }));
   }
-
   for (const file of potential) {
     const relativePath = normalizeMapPath(file.path || file.relativePath);
     entries.push(compactEntry({
@@ -73,23 +68,21 @@ function buildDistributionMap(options = {}) {
       status: file.status || "optional",
       type: file.type || "directory",
       updatePolicy: file.updatePolicy || "preserve-local",
-      userModifiable: file.userModifiable !== false,
+      userModifiable: file.userModifiable !== false
     }));
   }
-
   const map = {
     format: DISTRIBUTION_MAP_FORMAT,
-    generatedAt: new Date(0).toISOString(),
+    generatedAt: (/* @__PURE__ */ new Date(0)).toISOString(),
     minProcessorVersion: DEFAULT_MIN_PROCESSOR_VERSION,
     schema: DISTRIBUTION_MAP_SCHEMA,
     self: selfPath,
     version,
-    entries: entries.sort((a, b) => a.path.localeCompare(b.path, "en")),
+    entries: entries.sort((a, b) => a.path.localeCompare(b.path, "en"))
   };
   validateDistributionMap(map, { rootDir, requireFiles: options.requireFiles !== false });
   return map;
 }
-
 function compactEntry(entry) {
   const result = {
     path: normalizeMapPath(entry.path),
@@ -101,7 +94,7 @@ function compactEntry(entry) {
     source: normalizeMapPath(entry.source || entry.path),
     destination: normalizeMapPath(entry.destination || entry.path),
     minProcessorVersion: entry.minProcessorVersion || DEFAULT_MIN_PROCESSOR_VERSION,
-    required: Boolean(entry.required),
+    required: Boolean(entry.required)
   };
   if (entry.condition) result.condition = String(entry.condition);
   if (entry.profile) result.profile = String(entry.profile);
@@ -110,24 +103,20 @@ function compactEntry(entry) {
   if (entry.userModifiable) result.userModifiable = true;
   return result;
 }
-
 function defaultPotentialEntries() {
   return [
     { path: "agents.local.md", status: "optional", type: "file", property: "local", updatePolicy: "preserve-local", removalPolicy: "preserve", userModifiable: true },
     { path: ".ia.rules/local/", status: "optional", type: "directory", property: "local", updatePolicy: "preserve-local", removalPolicy: "preserve", userModifiable: true },
     { path: ".ia.rules/hooks/", status: "optional", type: "directory", property: "extension", updatePolicy: "preserve-local", removalPolicy: "preserve", userModifiable: true },
-    { path: ".ia.rules/cache/", status: "generated", type: "directory", property: "generated", updatePolicy: "ignore", removalPolicy: "remove-generated", userModifiable: true },
+    { path: ".ia.rules/cache/", status: "generated", type: "directory", property: "generated", updatePolicy: "ignore", removalPolicy: "remove-generated", userModifiable: true }
   ];
 }
-
 function validateDistributionMap(map, options = {}) {
-  if (!map || map.format !== DISTRIBUTION_MAP_FORMAT || map.schema !== DISTRIBUTION_MAP_SCHEMA ||
-    !map.version || !Array.isArray(map.entries) || map.entries.length === 0) {
+  if (!map || map.format !== DISTRIBUTION_MAP_FORMAT || map.schema !== DISTRIBUTION_MAP_SCHEMA || !map.version || !Array.isArray(map.entries) || map.entries.length === 0) {
     throw new Error("MAPA_DISTRIBUICAO_INVALIDO");
   }
-
   const rootDir = options.rootDir ? path.resolve(options.rootDir) : "";
-  const seen = new Map();
+  const seen = /* @__PURE__ */ new Map();
   for (const entry of map.entries) {
     const relativePath = normalizeMapPath(entry && entry.path);
     const key = relativePath.toLocaleLowerCase("en-US");
@@ -150,7 +139,6 @@ function validateDistributionMap(map, options = {}) {
   normalizeMapPath(map.self || distributionMapRelativePath(map.version));
   return map;
 }
-
 function readDistributionMap(filePath) {
   if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     throw new Error(`MAPA_DISTRIBUICAO_AUSENTE:${toPosixPath(filePath)}`);
@@ -167,7 +155,6 @@ function readDistributionMap(filePath) {
     throw new Error(`MAPA_DISTRIBUICAO_SEMANTICA_INVALIDA:${toPosixPath(filePath)}:${error.message}`);
   }
 }
-
 function findInstalledDistributionMap(rootDir) {
   const releasePath = path.join(rootDir, "release.json");
   if (fs.existsSync(releasePath)) {
@@ -191,12 +178,10 @@ function findInstalledDistributionMap(rootDir) {
   }
   return null;
 }
-
 function compareDistributionMaps(previousMap, currentMap, rootDir = "") {
   const previous = indexEntries(previousMap);
   const current = indexEntries(currentMap);
   const result = { added: [], conflicts: [], kept: [], moved: [], preserved: [], removed: [], updated: [] };
-
   for (const [entryPath, currentEntry] of current) {
     const prior = previous.get(entryPath);
     if (!prior) {
@@ -208,7 +193,6 @@ function compareDistributionMaps(previousMap, currentMap, rootDir = "") {
     if (prior.sha256 && currentEntry.sha256 && prior.sha256 !== currentEntry.sha256) result.updated.push(currentEntry.path);
     else result.kept.push(currentEntry.path);
   }
-
   for (const [entryPath, prior] of previous) {
     if (current.has(entryPath)) continue;
     if (prior.removalPolicy === "preserve" || prior.userModifiable || prior.property === "local" || prior.property === "extension") {
@@ -224,17 +208,14 @@ function compareDistributionMaps(previousMap, currentMap, rootDir = "") {
     }
     result.removed.push(prior.path);
   }
-
   return result;
 }
-
 function indexEntries(map) {
-  const result = new Map();
+  const result = /* @__PURE__ */ new Map();
   if (!map || !Array.isArray(map.entries)) return result;
   for (const entry of map.entries) result.set(normalizeMapPath(entry.path), entry);
   return result;
 }
-
 function normalizeMapPath(value) {
   const raw = String(value || "").trim().replace(/\\/gu, "/").replace(/^\.\//u, "");
   if (!raw || /^[A-Za-z]:\//u.test(raw) || path.posix.isAbsolute(raw) || raw === "." || raw === ".." || raw.startsWith("../") || raw.includes("/../") || raw.includes("//")) {
@@ -242,11 +223,9 @@ function normalizeMapPath(value) {
   }
   return raw.endsWith("/") ? raw : raw;
 }
-
 function hashFile(filePath) {
   return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
 }
-
 function findMapRoot(filePath) {
   const normalized = toPosixPath(path.resolve(filePath));
   const marker = "/.ia.rules/distribution/";
@@ -254,11 +233,9 @@ function findMapRoot(filePath) {
   if (index === -1) return path.dirname(path.dirname(path.dirname(filePath)));
   return path.resolve(normalized.slice(0, index));
 }
-
 function toPosixPath(value) {
   return String(value || "").replace(/\\/gu, "/");
 }
-
 module.exports = {
   ACTIVE_MAP_PATH,
   DISTRIBUTION_MAP_FORMAT,
@@ -270,5 +247,5 @@ module.exports = {
   findInstalledDistributionMap,
   normalizeMapPath,
   readDistributionMap,
-  validateDistributionMap,
+  validateDistributionMap
 };

@@ -166,5 +166,10 @@
     "agent:validate-data": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:validate-data",
     "agent:index-data": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:index-data",
     "agent:query-data": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:query-data"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "esbuild": "0.28.1",
+    "typescript": "7.0.2"
   }
 }

@@ -9,8 +9,8 @@ const {
   distributionMapRelativePath,
   normalizeMapPath,
   validateDistributionMap,
-} = require("../src/.ia.rules/core/runtime/scripts/distribution-map");
-const { planDistributionTransition } = require("../src/.ia.rules/core/runtime/scripts/update-agents");
+} = require("../.ia.rules/core/runtime/scripts/distribution-map");
+const { planDistributionTransition } = require("../.ia.rules/core/runtime/scripts/update-agents");
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-distribution-map-test-"));
 try {

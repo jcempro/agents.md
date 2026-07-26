@@ -1,0 +1,40 @@
+{
+  "schema": "agents-runtime-matrix/v1",
+  "version": 1,
+  "generated": false,
+  "node": {
+    "minimum": "24.0.0",
+    "recommended": "24.x",
+    "maximum": null,
+    "moduleFormat": "commonjs",
+    "language": "typescript",
+    "target": "ES2024",
+    "toolchain": {
+      "typescript": "7.0.2",
+      "esbuild": "0.28.1"
+    },
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ]
+  },
+  "python": {
+    "minimum": "3.9",
+    "recommended": "3.14",
+    "maximum": null,
+    "resources": [
+      {
+        "id": "normative-graph",
+        "dependency": "tiktoken==0.13.0",
+        "encoding": "o200k_base",
+        "execution": "local-offline-after-install"
+      }
+    ]
+  },
+  "resolution": {
+    "resources": "source-distribution-manifest",
+    "javascriptOrigin": "artifact.generatedFrom",
+    "compatibility": "per-entry"
+  }
+}

@@ -5,20 +5,19 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/shared-lifecycle.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const fs = require("fs");
 const path = require("path");
 const { loadConfiguration } = require("./configuration");
-
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
-
 async function main(argv = process.argv.slice(2)) {
   const [operation, ...args] = argv;
   if (!operation || operation === "--help") {
     process.stdout.write("Uso: shared-lifecycle <publish|dev-live> [-- argumentos do hook]\n");
     return 0;
   }
-  if (!new Set(["publish", "dev-live"]).has(operation)) throw new Error(`OPERACAO_INVALIDA:${operation}`);
+  if (!(/* @__PURE__ */ new Set(["publish", "dev-live"])).has(operation)) throw new Error(`OPERACAO_INVALIDA:${operation}`);
   const configuration = loadConfiguration(ROOT_DIR);
   const hooksRoot = path.resolve(ROOT_DIR, configuration.lifecycle.hooksRoot);
   const context = Object.freeze({ args: Object.freeze([...args]), configuration, operation, rootDir: ROOT_DIR });
@@ -33,13 +32,16 @@ async function main(argv = process.argv.slice(2)) {
     results.push({ phase, result: await execute(context) });
   }
   if (!results.some((item) => item.phase === "main")) {
-    console.log(JSON.stringify({ code: `${operation.toUpperCase().replace("-", "_")}_NAO_APLICAVEL`, configuration: operation === "dev-live" ? configuration.devLive : undefined }));
+    console.log(JSON.stringify({ code: `${operation.toUpperCase().replace("-", "_")}_NAO_APLICAVEL`, configuration: operation === "dev-live" ? configuration.devLive : void 0 }));
     return 0;
   }
   console.log(JSON.stringify({ code: `${operation.toUpperCase().replace("-", "_")}_OK`, hooks: results.map((item) => item.phase) }));
   return 0;
 }
-
-if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = 1; });
-
+if (require.main === module) main().then((code) => {
+  process.exitCode = code;
+}).catch((error) => {
+  console.error(error.message);
+  process.exitCode = 1;
+});
 module.exports = { main };

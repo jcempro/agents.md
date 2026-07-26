@@ -5,29 +5,22 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
-
-// Interface deterministica de preparo de saida para IA.
+// Gerado de: src/.ia.rules/core/runtime/scripts/to-ia.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const crypto = require("crypto");
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const { loadConfiguration } = require("./configuration");
-
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const CONFIGURATION = loadConfiguration(ROOT_DIR);
 const OUTPUT_DIR = path.join(ROOT_DIR, ".ia.rules", "cache", "outputs");
 const MAX_BYTES = CONFIGURATION.output.maxBytes;
 const MAX_LINES = CONFIGURATION.output.maxLines;
 const LEVEL_ORDER = ["fatal", "error", "warning", "change", "result", "metric", "info", "debug"];
-
 function normalize(value) {
-  return String(value || "")
-    .replace(/\r\n?/gu, "\n")
-    .replace(/\x1B\[[0-?]*[ -/]*[@-~]/gu, "")
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, "");
+  return String(value || "").replace(/\r\n?/gu, "\n").replace(/\x1B\[[0-?]*[ -/]*[@-~]/gu, "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, "");
 }
-
 function levelOf(line) {
   if (/\b(fatal|panic)\b/iu.test(line)) return "fatal";
   if (/\b(error|erro|exception|falhou|failure)\b/iu.test(line)) return "error";
@@ -38,18 +31,12 @@ function levelOf(line) {
   if (/\b(debug|trace|verbose)\b/iu.test(line)) return "debug";
   return "info";
 }
-
 function codeOf(level) {
   return `TO_IA_${level.toUpperCase()}`;
 }
-
 function orderRecords(records) {
-  return records
-    .map((record, index) => ({ ...record, index }))
-    .sort((left, right) => LEVEL_ORDER.indexOf(left.level) - LEVEL_ORDER.indexOf(right.level) || left.index - right.index)
-    .map(({ index, ...record }) => record);
+  return records.map((record, index) => ({ ...record, index })).sort((left, right) => LEVEL_ORDER.indexOf(left.level) - LEVEL_ORDER.indexOf(right.level) || left.index - right.index).map(({ index, ...record }) => record);
 }
-
 function deduplicate(lines) {
   const result = [];
   let previous = null;
@@ -67,10 +54,9 @@ function deduplicate(lines) {
   if (duplicates > 0) result.push(`[to-ia: linha anterior repetida ${duplicates} vez(es)]`);
   return result;
 }
-
 function persist(command, content) {
   const sha256 = crypto.createHash("sha256").update(content, "utf8").digest("hex");
-  const stamp = new Date().toISOString().replace(/[-:TZ.]/gu, "").slice(0, 14).replace(/^(\d{8})(\d{6})$/u, "$1.$2");
+  const stamp = (/* @__PURE__ */ new Date()).toISOString().replace(/[-:TZ.]/gu, "").slice(0, 14).replace(/^(\d{8})(\d{6})$/u, "$1.$2");
   const safeCommand = String(command || "command").replace(/[^A-Za-z0-9._-]/gu, "-");
   const relative = path.posix.join(".ia.rules", "cache", "outputs", `${stamp}-${safeCommand}-${sha256.slice(0, 12)}.log`);
   const target = path.join(ROOT_DIR, relative);
@@ -78,11 +64,11 @@ function persist(command, content) {
   fs.writeFileSync(target, content, "utf8");
   return { path: relative, sha256 };
 }
-
 function limit(records, envelope) {
   const shown = [];
   let shortened = false;
-  let bytes = Buffer.byteLength(`${JSON.stringify(envelope)}\n`, "utf8");
+  let bytes = Buffer.byteLength(`${JSON.stringify(envelope)}
+`, "utf8");
   for (const record of records) {
     if (shown.length >= MAX_LINES - 1) break;
     const encoded = JSON.stringify(record);
@@ -97,18 +83,20 @@ function limit(records, envelope) {
       if (!message) break;
       const shortRecord = { ...record, code: "TO_IA_TRUNCATED", message: `${message}${suffix}` };
       shown.push(shortRecord);
-      bytes += Buffer.byteLength(`${JSON.stringify(shortRecord)}\n`, "utf8");
+      bytes += Buffer.byteLength(`${JSON.stringify(shortRecord)}
+`, "utf8");
       shortened = true;
       break;
     }
     shown.push(record);
-    bytes += Buffer.byteLength(`${encoded}\n`, "utf8");
+    bytes += Buffer.byteLength(`${encoded}
+`, "utf8");
   }
   return { shown, shortened };
 }
-
 function filterOutput({ command = "agent:filter", exit = 0, stderr = "", stdout = "" } = {}) {
-  const normalized = normalize(`${stdout}${stderr ? `\n${stderr}` : ""}`);
+  const normalized = normalize(`${stdout}${stderr ? `
+${stderr}` : ""}`);
   const allLines = deduplicate(normalized.split("\n").filter(Boolean));
   const records = orderRecords(allLines.map((message) => ({ code: codeOf(levelOf(message)), level: levelOf(message), message })));
   const visible = records.filter((record) => record.level !== "debug");
@@ -122,7 +110,7 @@ function filterOutput({ command = "agent:filter", exit = 0, stderr = "", stdout 
     shown: 0,
     truncated: false,
     artifact: "",
-    sha256: crypto.createHash("sha256").update(normalized, "utf8").digest("hex"),
+    sha256: crypto.createHash("sha256").update(normalized, "utf8").digest("hex")
   };
   const initial = limit(visible, provisional);
   const truncated = initial.shown.length !== visible.length || records.length !== visible.length || initial.shortened;
@@ -132,7 +120,7 @@ function filterOutput({ command = "agent:filter", exit = 0, stderr = "", stdout 
     shown: initial.shown.length,
     truncated,
     artifact: retained ? retained.path : "",
-    sha256: retained ? retained.sha256 : provisional.sha256,
+    sha256: retained ? retained.sha256 : provisional.sha256
   };
   const final = limit(visible, envelope);
   envelope.shown = final.shown.length;
@@ -142,9 +130,9 @@ function filterOutput({ command = "agent:filter", exit = 0, stderr = "", stdout 
     envelope.artifact = artifact.path;
     envelope.sha256 = artifact.sha256;
   }
-  return `${[envelope, ...final.shown].map((record) => JSON.stringify(record)).join("\n")}\n`;
+  return `${[envelope, ...final.shown].map((record) => JSON.stringify(record)).join("\n")}
+`;
 }
-
 function parseArgs(argv) {
   const args = { command: "agent:filter", exit: 0 };
   for (let index = 0; index < argv.length; index += 1) {
@@ -166,11 +154,9 @@ function parseArgs(argv) {
   }
   return args;
 }
-
 function help() {
   return "Uso: node to-ia.js [--command <nome>] [--exit <codigo>] [--run <comando> [args...]]\n";
 }
-
 if (require.main === module) {
   let args;
   try {
@@ -194,8 +180,9 @@ if (require.main === module) {
       process.stdout.write(filterOutput({
         command: args.command === "agent:filter" ? `to-ia:${command}` : args.command,
         exit: Number.isInteger(result.status) ? result.status : 1,
-        stderr: `${result.stderr || ""}${result.error ? `\n${result.error.message}` : ""}`,
-        stdout: result.stdout || "",
+        stderr: `${result.stderr || ""}${result.error ? `
+${result.error.message}` : ""}`,
+        stdout: result.stdout || ""
       }));
       process.exitCode = Number.isInteger(result.status) ? result.status : 1;
     }
@@ -203,8 +190,11 @@ if (require.main === module) {
   }
   let input = "";
   process.stdin.setEncoding("utf8");
-  process.stdin.on("data", (chunk) => { input += chunk; });
-  process.stdin.on("end", () => { process.stdout.write(filterOutput({ ...args, stdout: input })); });
+  process.stdin.on("data", (chunk) => {
+    input += chunk;
+  });
+  process.stdin.on("end", () => {
+    process.stdout.write(filterOutput({ ...args, stdout: input }));
+  });
 }
-
 module.exports = { filterOutput, help, normalize, parseArgs };

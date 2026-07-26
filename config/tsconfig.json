@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "allowJs": false,
+    "checkJs": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "CommonJS",
+    "moduleDetection": "force",
+    "noCheck": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "target": "ES2024",
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "../src/.ia.rules/**/*.ts"
+  ]
+}

@@ -5,11 +5,11 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/extension-contract.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const REQUIRED_CAPABILITY_FIELDS = ["id", "kind", "version", "requires", "provides", "events", "validate", "execute"];
-
-class ContractError extends Error {}
-
+class ContractError extends Error {
+}
 function validateCapability(capability) {
   if (!capability || typeof capability !== "object") throw new ContractError("CAPACIDADE_INVALIDA");
   for (const field of REQUIRED_CAPABILITY_FIELDS) {
@@ -29,12 +29,10 @@ function validateCapability(capability) {
   if ("dispose" in capability && typeof capability.dispose !== "function") throw new ContractError("METODO_CONTRATO_INVALIDO:dispose");
   return freezeClone(capability);
 }
-
 function createHookContext(event, payload = {}) {
   if (typeof event !== "string" || !event) throw new ContractError("EVENTO_CONTRATO_INVALIDO");
   return freezeClone({ event, payload });
 }
-
 function runHookChain(event, payload, layers) {
   const context = createHookContext(event, payload);
   const observations = [];
@@ -58,12 +56,10 @@ function runHookChain(event, payload, layers) {
   }
   return freezeClone({ context, observations });
 }
-
 function freezeClone(value) {
   const clone = JSON.parse(JSON.stringify(value));
   return deepFreeze(clone);
 }
-
 function deepFreeze(value) {
   if (value && typeof value === "object" && !Object.isFrozen(value)) {
     Object.freeze(value);
@@ -71,5 +67,4 @@ function deepFreeze(value) {
   }
   return value;
 }
-
 module.exports = { ContractError, createHookContext, runHookChain, validateCapability };

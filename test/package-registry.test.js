@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { runPackageRegistryLifecycle } = require("../src/.ia.rules/scenarios/release/scripts/package-registry");
+const { runPackageRegistryLifecycle } = require("../.ia.rules/scenarios/release/scripts/package-registry");
 
 function main() {
   assert.equal(runPackageRegistryLifecycle("release").code, "PACKAGE_REGISTRY_SKIPPED");

@@ -5,56 +5,6 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/configuration.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-const fs = require("fs");
-const path = require("path");
-
-function loadConfiguration(rootDir) {
-  // FIX-BUG: o pacote publicado concentra toda configuração estrutural em .ia.rules.
-  const packagedConfigRoot = path.join(rootDir, ".ia.rules", "config");
-  const configRoot = fs.existsSync(packagedConfigRoot) ? packagedConfigRoot : path.join(rootDir, "config");
-  const descriptor = readConfig(path.join(configRoot, "schema.json"), true);
-  const core = readConfig(path.join(configRoot, "core.json"), true);
-  const repository = readConfig(path.join(configRoot, "repository.json"), false);
-  const local = readConfig(path.join(configRoot, "agents.local.json"), false);
-  const environment = process.env.AGENTS_CONFIG_JSON ? parseConfig(process.env.AGENTS_CONFIG_JSON, "AGENTS_CONFIG_JSON") : {};
-  const merged = deepMerge(deepMerge(deepMerge(core, repository), local), environment);
-  if (descriptor.id !== "agents-config/v1" || descriptor.version !== 1 || merged.schema !== descriptor.version) throw new Error("CONFIG_SCHEMA_NAO_SUPORTADO");
-  for (const key of descriptor.required || []) if (!(key in merged)) throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:${key}`);
-  return deepFreeze(merged);
-}
-
-function readConfig(filePath, required) {
-  if (!fs.existsSync(filePath)) {
-    if (required) throw new Error(`CONFIGURACAO_AUSENTE:${path.basename(filePath)}`);
-    return {};
-  }
-  return parseConfig(fs.readFileSync(filePath, "utf8"), filePath);
-}
-
-function parseConfig(raw, label) {
-  try {
-    const value = JSON.parse(raw);
-    if (!value || Array.isArray(value) || typeof value !== "object") throw new Error("objeto esperado");
-    return value;
-  } catch (error) {
-    throw new Error(`CONFIGURACAO_INVALIDA:${label}:${error.message}`);
-  }
-}
-
-function deepMerge(base, override) {
-  const result = { ...base };
-  for (const [key, value] of Object.entries(override || {})) {
-    result[key] = value && typeof value === "object" && !Array.isArray(value)
-      ? deepMerge(base && typeof base[key] === "object" ? base[key] : {}, value)
-      : value;
-  }
-  return result;
-}
-
-function deepFreeze(value) {
-  for (const item of Object.values(value)) if (item && typeof item === "object" && !Object.isFrozen(item)) deepFreeze(item);
-  return Object.freeze(value);
-}
-
-module.exports = { deepMerge, loadConfiguration, parseConfig };
+const a=require("fs"),s=require("path");function y(o){const r=s.join(o,".ia.rules","config"),e=a.existsSync(r)?r:s.join(o,"config"),n=i(s.join(e,"schema.json"),!0),t=i(s.join(e,"core.json"),!0),j=i(s.join(e,"repository.json"),!1),N=i(s.join(e,"agents.local.json"),!1),p=process.env.AGENTS_CONFIG_JSON?u(process.env.AGENTS_CONFIG_JSON,"AGENTS_CONFIG_JSON"):{},f=c(c(c(t,j),N),p);if(n.id!=="agents-config/v1"||n.version!==1||f.schema!==n.version)throw new Error("CONFIG_SCHEMA_NAO_SUPORTADO");for(const O of n.required||[])if(!(O in f))throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:${O}`);return A(f)}function i(o,r){if(!a.existsSync(o)){if(r)throw new Error(`CONFIGURACAO_AUSENTE:${s.basename(o)}`);return{}}return u(a.readFileSync(o,"utf8"),o)}function u(o,r){try{const e=JSON.parse(o);if(!e||Array.isArray(e)||typeof e!="object")throw new Error("objeto esperado");return e}catch(e){throw new Error(`CONFIGURACAO_INVALIDA:${r}:${e.message}`)}}function c(o,r){const e={...o};for(const[n,t]of Object.entries(r||{}))e[n]=t&&typeof t=="object"&&!Array.isArray(t)?c(o&&typeof o[n]=="object"?o[n]:{},t):t;return e}function A(o){for(const r of Object.values(o))r&&typeof r=="object"&&!Object.isFrozen(r)&&A(r);return Object.freeze(o)}module.exports={deepMerge:c,loadConfiguration:y,parseConfig:u};

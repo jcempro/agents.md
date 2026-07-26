@@ -5,6 +5,7 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/update-agents.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const childProcess = require("child_process");
 const crypto = require("crypto");
@@ -12,12 +13,10 @@ const fs = require("fs");
 const https = require("https");
 const os = require("os");
 const path = require("path");
-
 const { createZipFromDirectory, extractZip } = require("./archive");
 const { compareDistributionMaps, findInstalledDistributionMap, readDistributionMap } = require("./distribution-map");
 const { applyTemplate } = require("./template-merge");
 const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require("../../update/migrations/v1-to-v2");
-
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const LOCK_FILE = path.join(".ia.rules", "agents-update.lock.json");
 const GITIGNORE_RELATIVE_PATH = ".gitignore";
@@ -26,27 +25,26 @@ const HANDOFF_PHASE = "release-runtime-ready";
 const HANDOFF_RUNTIME_FORMAT = "agents-update-runtime/v1";
 const HANDOFF_STATE_ENV = "AGENTS_UPDATE_HANDOFF_STATE";
 const HANDOFF_KEY_ENV = "AGENTS_UPDATE_HANDOFF_KEY";
-const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md"]);
+const MANAGED_EXTENSIONS = /* @__PURE__ */ new Set([".js", ".json", ".md", ".ts"]);
 const PACKAGE_RELATIVE_PATH = "package.json";
-const BOOTSTRAP_MANAGED = new Set([
+const BOOTSTRAP_MANAGED = /* @__PURE__ */ new Set([
   "AGENTS.md",
   ".ia.rules/core/contracts.md",
   ".ia.rules/core/concepts/microconceitos.md",
   ".ia.rules/core/update/scenario.md",
-  ".ia.rules/scenarios/web/page-like/scenario.md",
+  ".ia.rules/scenarios/web/page-like/scenario.md"
 ]);
-const LEGACY_MANAGED_FILES = new Set([
+const LEGACY_MANAGED_FILES = /* @__PURE__ */ new Set([
   "scripts/.ia.rules/generate-agents-status.js",
   "scripts/.ia.rules/release-hooks.js",
   "scripts/.ia.rules/release-workflow.js",
   "scripts/.ia.rules/repo-tools.js",
   "scripts/.ia.rules/to-ia.js",
   "scripts/.ia.rules/update-agents.js",
-  "scripts/lib/archive.js",
+  "scripts/lib/archive.js"
 ]);
-
-class UsageError extends Error {}
-
+class UsageError extends Error {
+}
 async function main(argv = process.argv.slice(2), options = {}) {
   const handoffStatePath = options.handoffStatePath || process.env[HANDOFF_STATE_ENV];
   if (handoffStatePath) {
@@ -65,14 +63,11 @@ async function main(argv = process.argv.slice(2), options = {}) {
   }
   return handoffToReleaseRuntime(argv, rootDir, httpClient, options);
 }
-
 function executeUpdatePlan(parsed, rootDir, plan) {
-
   if (parsed.dryRun) {
     printPlan(plan, "dry-run");
     return plan;
   }
-
   if (parsed.check) {
     printPlan(plan, plan.changed ? "desatualizado" : "atualizado");
     if (plan.changed) {
@@ -80,12 +75,10 @@ function executeUpdatePlan(parsed, rootDir, plan) {
     }
     return plan;
   }
-
   if (!plan.changed) {
     console.log("Governanca operacional ja esta atualizada.");
     return plan;
   }
-
   const backupPath = backupDivergentManagedFiles(rootDir, plan);
   if (backupPath) {
     console.log(`Backup de divergencias locais: ${backupPath}`);
@@ -95,7 +88,6 @@ function executeUpdatePlan(parsed, rootDir, plan) {
   console.log(`Governanca operacional atualizada de ${plan.source.label}.`);
   return plan;
 }
-
 function parseArgs(argv = []) {
   const parsed = { check: false, dryRun: false, force: false, help: false };
   for (const value of argv) {
@@ -107,11 +99,9 @@ function parseArgs(argv = []) {
   }
   return parsed;
 }
-
 function help() {
   return "Uso: agent:autoupdate [--check|--dry-run] [--force] [--help]";
 }
-
 async function handoffToReleaseRuntime(argv, targetRoot, httpClient, options = {}) {
   const prepared = await prepareReleaseHandoff(targetRoot, httpClient, { ...options, argv });
   try {
@@ -123,7 +113,7 @@ async function handoffToReleaseRuntime(argv, targetRoot, httpClient, options = {
       env,
       encoding: "utf8",
       stdio: options.captureRuntime ? "pipe" : "inherit",
-      windowsHide: true,
+      windowsHide: true
     });
     if (result.error) throw new Error(`Falha ao iniciar runtime da release: ${result.error.message}`);
     if (result.status !== 0) {
@@ -135,7 +125,6 @@ async function handoffToReleaseRuntime(argv, targetRoot, httpClient, options = {
     fs.rmSync(prepared.handoffRoot, { force: true, recursive: true });
   }
 }
-
 async function prepareReleaseHandoff(targetRoot, httpClient = defaultHttpClient, options = {}) {
   const canonicalTarget = realDirectory(targetRoot, "targetRoot");
   const source = await resolveRemoteSource(httpClient, canonicalTarget);
@@ -160,22 +149,21 @@ async function prepareReleaseHandoff(targetRoot, httpClient = defaultHttpClient,
       runtimeHashes: runtime.runtimeHashes,
       schema: 1,
       source,
-      targetRoot: canonicalTarget,
+      targetRoot: canonicalTarget
     };
     const state = signHandoffPayload(payload, key);
-    fs.writeFileSync(statePath, `${JSON.stringify(state)}\n`, { encoding: "utf8", mode: 0o600 });
+    fs.writeFileSync(statePath, `${JSON.stringify(state)}
+`, { encoding: "utf8", mode: 384 });
     return { entryPath: runtime.entryPath, handoffRoot, key, payload, statePath };
   } catch (error) {
     fs.rmSync(handoffRoot, { force: true, recursive: true });
     throw error;
   }
 }
-
 function resolveReleaseRuntime(remoteRoot, releaseRoot = remoteRoot) {
   const source = discoverGovernanceManifest(remoteRoot);
   const descriptor = source.raw && source.raw.handoff;
-  if (!descriptor || descriptor.format !== HANDOFF_RUNTIME_FORMAT || descriptor.schema !== 1 ||
-    !Array.isArray(descriptor.files) || descriptor.files.length === 0 || !descriptor.files.includes(descriptor.entry)) {
+  if (!descriptor || descriptor.format !== HANDOFF_RUNTIME_FORMAT || descriptor.schema !== 1 || !Array.isArray(descriptor.files) || descriptor.files.length === 0 || !descriptor.files.includes(descriptor.entry)) {
     throw new Error("Release sem descritor de runtime de handoff valido.");
   }
   const declared = new Map(source.manifest.files.map((entry) => [toPosixPath(safeRelativePath(entry.path)), entry]));
@@ -197,7 +185,6 @@ function resolveReleaseRuntime(remoteRoot, releaseRoot = remoteRoot) {
   if (!entryPath) throw new Error("Entrypoint de handoff ausente.");
   return { entryPath, runtimeHashes };
 }
-
 function resumeFromHandoff(statePath, options = {}) {
   const key = options.handoffKey || process.env[HANDOFF_KEY_ENV];
   const payload = verifyHandoffState(statePath, key, options.currentScript || __filename);
@@ -216,11 +203,10 @@ function resumeFromHandoff(statePath, options = {}) {
     distributionTransition,
     remoteRoot: payload.releaseRoot,
     source: payload.source,
-    lock,
+    lock
   };
   return executeUpdatePlan(parsed, payload.targetRoot, plan);
 }
-
 function verifyHandoffState(statePath, key, currentScript = __filename) {
   if (!key || !/^[a-f0-9]{64}$/iu.test(String(key))) throw new Error("Chave efemera de handoff ausente ou invalida.");
   const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
@@ -248,39 +234,32 @@ function verifyHandoffState(statePath, key, currentScript = __filename) {
   }
   return { ...payload, entryPath, governanceRoot, releaseRoot, targetRoot };
 }
-
 function signHandoffPayload(payload, key) {
   return { mac: handoffMac(payload, key), payload };
 }
-
 function handoffMac(payload, key) {
   return crypto.createHmac("sha256", Buffer.from(String(key), "hex")).update(JSON.stringify(payload), "utf8").digest("hex");
 }
-
 function assertArchiveResponse(response, source) {
   if (!response || response.statusCode < 200 || response.statusCode >= 300 || !Buffer.isBuffer(response.body) || response.body.length === 0) {
     throw new Error(`Download normativo invalido: HTTP ${response && response.statusCode ? response.statusCode : 0}.`);
   }
   if (source.archiveSha256 && hashBuffer(response.body) !== source.archiveSha256) throw new Error("SHA-256 do arquivo de release divergente.");
 }
-
 function realDirectory(value, label) {
   const absolute = path.resolve(String(value || ""));
   if (!fs.existsSync(absolute) || !fs.statSync(absolute).isDirectory()) throw new Error(`${label} ausente ou invalido.`);
   return fs.realpathSync(absolute);
 }
-
 function isPathInside(root, candidate) {
   const relative = path.relative(root, candidate);
-  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+  return relative === "" || !relative.startsWith("..") && !path.isAbsolute(relative);
 }
-
 async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
   const source = await resolveRemoteSource(httpClient, rootDir);
   const archive = await httpClient(source.archiveUrl, { binary: true });
   assertArchiveResponse(archive, source);
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-"));
-
   try {
     extractZip(archive.body, tempRoot);
     const remoteRoot = discoverRemoteRoot(tempRoot);
@@ -290,25 +269,22 @@ async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
     const distributionTransition = planDistributionTransition(rootDir, remoteRoot);
     const lock = createUpdateLock(source, remoteFiles, changes);
     if (distributionTransition) lock.distributionMap = distributionTransition;
-
     return {
       changed: changes.some((change) => change.action !== "unchanged"),
       changes,
       distributionTransition,
       remoteRoot,
       source,
-      lock,
+      lock
     };
   } finally {
     fs.rmSync(tempRoot, { force: true, recursive: true });
   }
 }
-
 async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROOT_DIR) {
   const source = resolveConfiguredUpstream(rootDir);
   const sourceApi = `https://api.github.com/repos/${source.repository}`;
   const latest = await requestJsonAllow404(httpClient, `${sourceApi}/releases/latest`);
-
   if (latest && latest.statusCode !== 404) {
     const asset = selectReleaseZipAsset(latest.json);
     return {
@@ -317,34 +293,28 @@ async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROO
       label: `release:${latest.json.tag_name || "latest"}`,
       repository: source.repository,
       ref: latest.json.tag_name || "latest",
-      type: "release",
+      type: "release"
     };
   }
-
   for (const branch of ["main", "master"]) {
     const response = await requestJsonAllow404(httpClient, `${sourceApi}/branches/${branch}`);
-
     if (response && response.statusCode !== 404) {
       const sha = response.json && response.json.commit && response.json.commit.sha;
-
       if (!sha) {
         throw new Error(`Branch ${branch} sem commit SHA.`);
       }
-
       return {
         archiveUrl: `${sourceApi}/zipball/${sha}`,
         archiveSha256: "",
         label: `branch:${branch}:${sha}`,
         repository: source.repository,
         ref: sha,
-        type: "branch",
+        type: "branch"
       };
     }
   }
-
   throw new Error(`Nenhuma release latest ou branch main/master encontrada para AGENTS em ${source.repository}.`);
 }
-
 function resolveConfiguredUpstream(rootDir) {
   const packagePath = path.join(rootDir, "package.json");
   const localPath = path.join(rootDir, ".ia.rules", "upstream.json");
@@ -357,97 +327,74 @@ function resolveConfiguredUpstream(rootDir) {
   }
   return { repository, source: localConfig.upstreamRepository ? "local" : "package" };
 }
-
 async function requestJsonAllow404(httpClient, url) {
   let response = await httpClient(url);
-
-  // PROTECAO: limita o fallback autenticado a consultas JSON da API GitHub.
   if (response.statusCode === 403) {
     const authenticated = githubCliJsonResponse(url);
     if (authenticated) {
       response = authenticated;
     }
   }
-
   if (response.statusCode === 404) {
     return response;
   }
-
   if (response.statusCode < 200 || response.statusCode >= 300) {
     throw new Error(`Falha ao consultar ${url}: HTTP ${response.statusCode}.`);
   }
-
   return {
     ...response,
-    json: JSON.parse(response.body.toString("utf8")),
+    json: JSON.parse(response.body.toString("utf8"))
   };
 }
-
 function githubCliJsonResponse(url) {
   const target = new URL(url);
-
   if (target.protocol !== "https:" || target.hostname !== "api.github.com") {
     return null;
   }
-
   const result = childProcess.spawnSync("gh", [
     "api",
     `${target.pathname}${target.search}`,
     "-H",
-    "Accept: application/vnd.github+json",
+    "Accept: application/vnd.github+json"
   ], {
     encoding: "utf8",
-    windowsHide: true,
+    windowsHide: true
   });
-
   if (result.error || result.status !== 0 || !result.stdout.trim()) {
     return null;
   }
-
   return {
     body: Buffer.from(result.stdout, "utf8"),
     headers: {},
-    statusCode: 200,
+    statusCode: 200
   };
 }
-
 function selectReleaseZipAsset(release) {
   const assets = Array.isArray(release && release.assets) ? release.assets : [];
   const candidates = assets.filter((asset) => {
     const name = String(asset.name || "").toLocaleLowerCase("en-US");
     return name.endsWith(".zip") && asset.browser_download_url;
   });
-
   if (candidates.length > 1) {
     throw new Error("Release latest possui múltiplos ZIPs normativos possíveis.");
   }
-
   return candidates[0] || null;
 }
-
 function discoverRemoteRoot(tempRoot) {
-  const agentsFiles = listFiles(tempRoot)
-    .filter((filePath) => path.basename(filePath).toLocaleLowerCase("en-US") === "agents.md")
-    .filter((filePath) => fs.readFileSync(filePath, "utf8").includes("AGENTS.md"));
-
+  const agentsFiles = listFiles(tempRoot).filter((filePath) => path.basename(filePath).toLocaleLowerCase("en-US") === "agents.md").filter((filePath) => fs.readFileSync(filePath, "utf8").includes("AGENTS.md"));
   if (agentsFiles.length === 0) {
     throw new Error("AGENTS.md remoto não encontrado no pacote normativo.");
   }
-
   agentsFiles.sort((a, b) => scoreAgentsPath(a).localeCompare(scoreAgentsPath(b)));
   return path.dirname(agentsFiles[0]);
 }
-
 function scoreAgentsPath(filePath) {
   const rel = toPosixPath(filePath).toLocaleLowerCase("en-US");
-
   if (rel.toLocaleLowerCase("en-US").endsWith("/src/agents.md")) {
     return "0";
   }
-
   return `${String(rel.split("/").length).padStart(4, "0")}:${rel}`;
 }
-
 function planDistributionTransition(targetRoot, remoteRoot) {
   const currentMap = findRemoteDistributionMap(remoteRoot);
   if (!currentMap) throw new Error("MAPA_DISTRIBUICAO_RELEASE_AUSENTE");
@@ -456,7 +403,6 @@ function planDistributionTransition(targetRoot, remoteRoot) {
   try {
     previousMap = findInstalledDistributionMap(targetRoot);
   } catch (error) {
-    // PROTECAO: mapa local anterior corrompido nao bloqueia convergencia para release valida.
     diagnostics.push({ code: "MAPA_DISTRIBUICAO_LOCAL_IGNORADO", message: error.message });
   }
   return {
@@ -465,10 +411,9 @@ function planDistributionTransition(targetRoot, remoteRoot) {
     format: currentMap.format,
     path: currentMap.self,
     plan: compareDistributionMaps(previousMap, currentMap, targetRoot),
-    version: currentMap.version,
+    version: currentMap.version
   };
 }
-
 function findRemoteDistributionMap(remoteRoot) {
   const releasePath = path.join(remoteRoot, "release.json");
   if (fs.existsSync(releasePath)) {
@@ -481,15 +426,12 @@ function findRemoteDistributionMap(remoteRoot) {
   }
   const distributionRoot = path.join(remoteRoot, ".ia.rules", "distribution");
   if (!fs.existsSync(distributionRoot)) return null;
-  const candidates = fs.readdirSync(distributionRoot)
-    .filter((name) => /^distribution-map-.+\.json$/u.test(name))
-    .sort((a, b) => b.localeCompare(a, "en"));
+  const candidates = fs.readdirSync(distributionRoot).filter((name) => /^distribution-map-.+\.json$/u.test(name)).sort((a, b) => b.localeCompare(a, "en"));
   return candidates.length ? readDistributionMap(path.join(distributionRoot, candidates[0])) : null;
 }
-
 function collectRemoteGovernanceFiles(remoteRoot) {
   const source = discoverGovernanceManifest(remoteRoot);
-  const files = new Map();
+  const files = /* @__PURE__ */ new Map();
   for (const entry of source.manifest.files) {
     const target = safeRelativePath(entry.path);
     if (isLocalExtensionPath(target) || toPosixPath(target).toLocaleLowerCase("en-US") === "agents.local.md") {
@@ -501,11 +443,10 @@ function collectRemoteGovernanceFiles(remoteRoot) {
   assertRequiredManagedFiles(files);
   return [...files.values()];
 }
-
 function discoverGovernanceManifest(remoteRoot) {
   const candidates = [
     { baseRoot: remoteRoot, filePath: path.join(remoteRoot, "release.json"), label: "release.json" },
-    { baseRoot: path.dirname(remoteRoot), filePath: path.join(path.dirname(remoteRoot), "index.json"), label: "index.json" },
+    { baseRoot: path.dirname(remoteRoot), filePath: path.join(path.dirname(remoteRoot), "index.json"), label: "index.json" }
   ];
   for (const candidate of candidates) {
     if (!fs.existsSync(candidate.filePath)) continue;
@@ -514,7 +455,6 @@ function discoverGovernanceManifest(remoteRoot) {
   }
   throw new Error("Manifesto remoto de atualizacao ausente.");
 }
-
 function parseGovernanceManifest(raw, label) {
   const declared = raw && raw.update;
   if (declared && declared.format === FORMAT && declared.schema === VERSION && declared.marker === MARKER) {
@@ -525,17 +465,16 @@ function parseGovernanceManifest(raw, label) {
       format: FORMAT,
       marker: "governance-manifest/v1-transitional",
       schema: 1,
-      files: raw.files.map((entry) => ({ path: entry.path, source: entry.source || entry.path, kind: entry.path === PACKAGE_RELATIVE_PATH ? "package" : "file" })),
+      files: raw.files.map((entry) => ({ path: entry.path, source: entry.source || entry.path, kind: entry.path === PACKAGE_RELATIVE_PATH ? "package" : "file" }))
     }, label, true);
   }
   throw new Error(`${label} sem manifesto de atualizacao reconhecido.`);
 }
-
 function validateGovernanceManifest(manifest, label, legacy = false) {
-  if (!manifest || !Array.isArray(manifest.files) || manifest.files.length === 0 || (!legacy && manifest.marker !== MARKER)) {
+  if (!manifest || !Array.isArray(manifest.files) || manifest.files.length === 0 || !legacy && manifest.marker !== MARKER) {
     throw new Error(`${label} contem manifesto invalido.`);
   }
-  const paths = new Set();
+  const paths = /* @__PURE__ */ new Set();
   for (const entry of manifest.files) {
     const target = toPosixPath(safeRelativePath(entry && entry.path));
     if (paths.has(target)) throw new Error(`${label} possui destino duplicado: ${target}`);
@@ -545,47 +484,27 @@ function validateGovernanceManifest(manifest, label, legacy = false) {
   }
   return manifest;
 }
-
 function assertRequiredManagedFiles(files) {
   for (const required of BOOTSTRAP_MANAGED) {
     if (!files.has(required)) throw new Error(`Manifesto remoto incompleto: ${required}`);
   }
 }
-
-function discoverReferencedMarkdown(content) {
-  const result = [];
-  const pattern = /\]\((\.\/[^)#]+\.md)(?:#[^)]+)?\)/giu;
-  let match;
-
-  while ((match = pattern.exec(content)) !== null) {
-    result.push(match[1]);
-  }
-
-  return result;
-}
-
 function normalizeGovernanceRelativePath(value) {
   const normalized = toPosixPath(value).replace(/^\.\//u, "");
-
   if (normalized.startsWith("agents/")) {
     return `.ia.rules/${normalized.slice("agents/".length)}`;
   }
-
   return normalized;
 }
-
 function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = relativePath, kind = "file", expectedHash = "", descriptor = {}) {
   const safeRel = safeRelativePath(relativePath);
   const sourcePath = path.join(remoteRoot, safeRel);
-
   if (!fs.existsSync(sourcePath) || !fs.statSync(sourcePath).isFile()) {
     throw new Error(`Arquivo normativo remoto ausente: ${toPosixPath(safeRel)}`);
   }
-
   if (!MANAGED_EXTENSIONS.has(path.extname(sourcePath).toLocaleLowerCase("en-US"))) {
     throw new Error(`Tipo normativo não permitido: ${toPosixPath(safeRel)}`);
   }
-
   const content = fs.readFileSync(sourcePath);
   if (expectedHash && hashTextContent(content) !== expectedHash.toLocaleLowerCase("en-US")) {
     throw new Error(`Hash remoto divergente: ${toPosixPath(safeRel)}`);
@@ -594,14 +513,12 @@ function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = rel
     content,
     descriptor,
     kind,
-    relativePath: safeRelativePath(targetRelativePath),
+    relativePath: safeRelativePath(targetRelativePath)
   });
 }
-
 function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
   const changes = [];
   const remotePaths = new Set(remoteFiles.map((entry) => toPosixPath(entry.relativePath)));
-
   for (const entry of remoteFiles) {
     const localPath = path.join(rootDir, entry.relativePath);
     const localContent = fs.existsSync(localPath) ? fs.readFileSync(localPath) : null;
@@ -613,23 +530,19 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
       content,
       kind: entry.kind,
       relativePath: entry.relativePath,
-      rollback: applied.rollback,
+      rollback: applied.rollback
     });
   }
-
   for (const localRel of listManagedCleanupPaths(previousLock)) {
-    if (toPosixPath(localRel) !== toPosixPath(LOCK_FILE) && toPosixPath(localRel) !== PACKAGE_RELATIVE_PATH &&
-      !remotePaths.has(toPosixPath(localRel)) && fs.existsSync(path.join(rootDir, localRel))) {
+    if (toPosixPath(localRel) !== toPosixPath(LOCK_FILE) && toPosixPath(localRel) !== PACKAGE_RELATIVE_PATH && !remotePaths.has(toPosixPath(localRel)) && fs.existsSync(path.join(rootDir, localRel))) {
       changes.push({
         action: "remove",
-        relativePath: localRel,
+        relativePath: localRel
       });
     }
   }
-
   return changes.sort((a, b) => toPosixPath(a.relativePath).localeCompare(toPosixPath(b.relativePath), "en"));
 }
-
 function resolveManagedContent(entry, localContent) {
   if (entry.kind === "package" && localContent) return { content: mergePackageManifest(localContent, entry.content) };
   if (entry.kind === "template") {
@@ -639,29 +552,25 @@ function resolveManagedContent(entry, localContent) {
       path: entry.relativePath,
       target: entry.relativePath,
       type: descriptor.templateType,
-      version: descriptor.templateVersion,
+      version: descriptor.templateVersion
     });
     return { content: result.content, rollback: result.rollback };
   }
   return { content: entry.content };
 }
-
 function listPreviouslyManagedFiles(lock) {
   if (!lock || !Array.isArray(lock.managedFiles)) {
     return [];
   }
-
   return lock.managedFiles.map((entry) => safeRelativePath(entry.path || entry.relativePath || entry));
 }
-
 function listManagedCleanupPaths(lock) {
-  return [...new Set([
+  return [.../* @__PURE__ */ new Set([
     ...BOOTSTRAP_MANAGED,
     ...LEGACY_MANAGED_FILES,
-    ...listPreviouslyManagedFiles(lock),
+    ...listPreviouslyManagedFiles(lock)
   ])].filter((relativePath) => !isLocalExtensionPath(relativePath) && toPosixPath(relativePath).toLocaleLowerCase("en-US") !== "agents.local.md");
 }
-
 function backupDivergentManagedFiles(rootDir, plan, options = {}) {
   const previousLock = readUpdateLock(rootDir);
   const divergences = plan.changes.filter((change) => {
@@ -671,15 +580,11 @@ function backupDivergentManagedFiles(rootDir, plan, options = {}) {
     const relativePath = toPosixPath(change.relativePath);
     const expectedHash = previousLock && previousLock.files ? previousLock.files[relativePath] : "";
     const content = fs.readFileSync(target);
-    const currentHash = MANAGED_EXTENSIONS.has(path.extname(relativePath).toLocaleLowerCase("en-US"))
-      ? hashTextContent(content)
-      : hashBuffer(content);
+    const currentHash = MANAGED_EXTENSIONS.has(path.extname(relativePath).toLocaleLowerCase("en-US")) ? hashTextContent(content) : hashBuffer(content);
     return !expectedHash || currentHash !== expectedHash;
   });
-
   if (divergences.length === 0) return "";
-
-  const now = options.now instanceof Date ? options.now : new Date();
+  const now = options.now instanceof Date ? options.now : /* @__PURE__ */ new Date();
   const day = now.toISOString().slice(0, 10);
   const instant = now.toISOString().replace(/[-:]/gu, "").replace(/\.\d{3}Z$/u, "Z");
   const repository = sanitizeBackupName(path.basename(rootDir)) || "repository";
@@ -688,16 +593,15 @@ function backupDivergentManagedFiles(rootDir, plan, options = {}) {
   const dayRoot = path.join(backupRoot, day);
   const stagingRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-governance-backup-stage-"));
   const targetZip = path.join(dayRoot, `agents-update-${repository}-${version}-${instant}.zip`);
-
   try {
     const manifest = {
       createdAt: now.toISOString(),
       files: divergences.map((change) => ({
         path: toPosixPath(change.relativePath),
-        sha256: hashBuffer(fs.readFileSync(path.join(rootDir, change.relativePath))),
+        sha256: hashBuffer(fs.readFileSync(path.join(rootDir, change.relativePath)))
       })),
       repositoryRoot: path.resolve(rootDir),
-      source: plan.source,
+      source: plan.source
     };
     for (const change of divergences) {
       const source = path.join(rootDir, change.relativePath);
@@ -705,18 +609,17 @@ function backupDivergentManagedFiles(rootDir, plan, options = {}) {
       fs.mkdirSync(path.dirname(destination), { recursive: true });
       fs.copyFileSync(source, destination);
     }
-    fs.writeFileSync(path.join(stagingRoot, "backup-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    fs.writeFileSync(path.join(stagingRoot, "backup-manifest.json"), `${JSON.stringify(manifest, null, 2)}
+`, "utf8");
     createZipFromDirectory(stagingRoot, targetZip);
     return targetZip;
   } finally {
     fs.rmSync(stagingRoot, { force: true, recursive: true });
   }
 }
-
 function sanitizeBackupName(value) {
   return String(value || "").replace(/[^A-Za-z0-9._-]+/gu, "-").replace(/^-+|-+$/gu, "").slice(0, 80);
 }
-
 function mergePackageManifest(localContent, remoteContent) {
   const localPackage = parsePackageManifest(localContent, "local");
   const remotePackage = parsePackageManifest(remoteContent, "distribuido");
@@ -724,20 +627,18 @@ function mergePackageManifest(localContent, remoteContent) {
   const merged = { ...localPackage };
   const localScripts = localPackage.scripts && typeof localPackage.scripts === "object" ? localPackage.scripts : {};
   const remoteScripts = remotePackage.scripts && typeof remotePackage.scripts === "object" ? remotePackage.scripts : {};
-
   merged.scripts = { ...localScripts };
   for (const [name, command] of Object.entries(remoteScripts)) {
     if (isManagedScriptName(name, policy)) {
       merged.scripts[name] = command;
     }
   }
-
   mergeManagedDependencies(merged, localPackage, remotePackage, "dependencies", policy.dependencies);
   mergeManagedDependencies(merged, localPackage, remotePackage, "optionalDependencies", policy.optionalDependencies);
   merged["agentsGovernance"] = policy;
-  return Buffer.from(`${JSON.stringify(merged, null, 2)}\n`, "utf8");
+  return Buffer.from(`${JSON.stringify(merged, null, 2)}
+`, "utf8");
 }
-
 function parsePackageManifest(content, label) {
   let manifest;
   try {
@@ -750,12 +651,9 @@ function parsePackageManifest(content, label) {
   }
   return manifest;
 }
-
 function readGovernancePolicy(remotePackage) {
   const policy = remotePackage["agentsGovernance"];
-  if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) ||
-    !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) ||
-    !Array.isArray(policy.optionalDependencies)) {
+  if (!policy || policy.schema !== 1 || !Array.isArray(policy.managedScriptPrefixes) || !Array.isArray(policy.managedScripts) || !Array.isArray(policy.dependencies) || !Array.isArray(policy.optionalDependencies)) {
     throw new Error("package.json distribuido sem agentsGovernance valido.");
   }
   return {
@@ -763,14 +661,12 @@ function readGovernancePolicy(remotePackage) {
     managedScriptPrefixes: policy.managedScriptPrefixes.map(String),
     managedScripts: policy.managedScripts.map(String),
     dependencies: policy.dependencies.map(String),
-    optionalDependencies: policy.optionalDependencies.map(String),
+    optionalDependencies: policy.optionalDependencies.map(String)
   };
 }
-
 function isManagedScriptName(name, policy) {
   return policy.managedScripts.includes(name) || policy.managedScriptPrefixes.some((prefix) => name.startsWith(prefix));
 }
-
 function mergeManagedDependencies(merged, localPackage, remotePackage, group, names) {
   if (!names.length) {
     return;
@@ -778,7 +674,6 @@ function mergeManagedDependencies(merged, localPackage, remotePackage, group, na
   const localDependencies = localPackage[group] && typeof localPackage[group] === "object" ? localPackage[group] : {};
   const remoteDependencies = remotePackage[group] && typeof remotePackage[group] === "object" ? remotePackage[group] : {};
   merged[group] = { ...localDependencies };
-
   for (const name of names) {
     if (typeof remoteDependencies[name] !== "string") {
       throw new Error(`Dependencia gerenciada ausente no pacote distribuido: ${group}.${name}.`);
@@ -786,11 +681,9 @@ function mergeManagedDependencies(merged, localPackage, remotePackage, group, na
     merged[group][name] = remoteDependencies[name];
   }
 }
-
 function isRecognizedLegacyGovernanceFile(relativePath) {
   return LEGACY_MANAGED_FILES.has(toPosixPath(relativePath));
 }
-
 function applyPlan(rootDir, plan) {
   const backupRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-backup-"));
   const touched = [];
@@ -802,8 +695,9 @@ function applyPlan(rootDir, plan) {
     }
     applyTransactionalChange(rootDir, backupRoot, {
       action: "update",
-      content: Buffer.from(`${JSON.stringify(plan.lock)}\n`, "utf8"),
-      relativePath: LOCK_FILE,
+      content: Buffer.from(`${JSON.stringify(plan.lock)}
+`, "utf8"),
+      relativePath: LOCK_FILE
     }, touched);
   } catch (error) {
     restoreTransactionalChanges(rootDir, backupRoot, touched);
@@ -811,12 +705,10 @@ function applyPlan(rootDir, plan) {
   } finally {
     fs.rmSync(backupRoot, { force: true, recursive: true });
   }
-
   if (!fs.existsSync(lockTarget)) {
     throw new Error("Lock de atualizacao ausente apos transacao.");
   }
 }
-
 function applyTransactionalChange(rootDir, backupRoot, change, touched) {
   const target = path.join(rootDir, change.relativePath);
   const backup = path.join(backupRoot, change.relativePath);
@@ -833,7 +725,6 @@ function applyTransactionalChange(rootDir, backupRoot, change, touched) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, change.content);
 }
-
 function restoreTransactionalChanges(rootDir, backupRoot, touched) {
   for (const entry of [...touched].reverse()) {
     const target = path.join(rootDir, entry.relativePath);
@@ -845,54 +736,38 @@ function restoreTransactionalChanges(rootDir, backupRoot, touched) {
     }
   }
 }
-
 function commitAndPushNormativeUpdate(rootDir, plan) {
   const paths = [...new Set([...prepareUpdateAnalogFiles(rootDir, plan), ...listChangedNormativePaths(plan)].map(toPosixPath))];
-
   if (paths.length === 0) {
     return;
   }
-
   const upstream = resolveUpstream(rootDir);
   assertNoPendingLocalCommits(rootDir, upstream);
-  // FIX-BUG: consumidor pode ignorar .ia.rules; paths gerenciados validados pelo manifesto devem ser staged mesmo assim.
   runGit(rootDir, ["add", "-f", "--", ...paths]);
-
-  const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout
-    .trim()
-    .split(/\r?\n/u)
-    .filter(Boolean)
-    .map(toPosixPath);
+  const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout.trim().split(/\r?\n/u).filter(Boolean).map(toPosixPath);
   const allowed = new Set(paths.map(toPosixPath));
   const invalid = staged.filter((entry) => !allowed.has(entry));
-
   if (invalid.length > 0) {
     throw new Error(`Staging normativo contem path proibido: ${invalid.join(", ")}`);
   }
-
   if (staged.length === 0) {
     return;
   }
-
   runGit(rootDir, ["commit", "-m", `ajuste: sincroniza governanca ${plan.source.ref}`]);
-
   if (upstream) {
     runGit(rootDir, ["push"]);
   } else {
     runGit(rootDir, ["push", "-u", "origin", currentBranchName(rootDir)]);
   }
 }
-
 function prepareUpdateAnalogFiles(rootDir, plan) {
   const changed = listChangedNormativePaths(plan);
   const analogs = [];
-  if (changed.some((relativePath) => toPosixPath(relativePath).startsWith(".ia.rules/")) &&
-    ensureGitignoreAllowsManagedRules(rootDir)) {
+  if (changed.some((relativePath) => toPosixPath(relativePath).startsWith(".ia.rules/")) && ensureGitignoreAllowsManagedRules(rootDir)) {
     analogs.push(GITIGNORE_RELATIVE_PATH);
   }
   return analogs;
 }
-
 function ensureGitignoreAllowsManagedRules(rootDir) {
   const gitignorePath = path.join(rootDir, GITIGNORE_RELATIVE_PATH);
   const eol = fs.existsSync(gitignorePath) && fs.readFileSync(gitignorePath, "utf8").includes("\r\n") ? "\r\n" : "\n";
@@ -905,23 +780,17 @@ function ensureGitignoreAllowsManagedRules(rootDir) {
     "/.ia.rules/cache/",
     "/.ia.rules/local/",
     "/.ia.rules/agents-update.lock.json",
-    "# END agents-governance managed",
+    "# END agents-governance managed"
   ].join(eol);
   const pattern = /(?:^|\r?\n)# BEGIN agents-governance managed\r?\n[\s\S]*?# END agents-governance managed(?:\r?\n|$)/u;
-  const next = pattern.test(current)
-    ? current.replace(pattern, `${current.startsWith("# BEGIN agents-governance managed") ? "" : eol}${block}${eol}`)
-    : `${current.trimEnd()}${current.trimEnd() ? eol + eol : ""}${block}${eol}`;
+  const next = pattern.test(current) ? current.replace(pattern, `${current.startsWith("# BEGIN agents-governance managed") ? "" : eol}${block}${eol}`) : `${current.trimEnd()}${current.trimEnd() ? eol + eol : ""}${block}${eol}`;
   if (normalizeText(current) === normalizeText(next)) return false;
   fs.writeFileSync(gitignorePath, next, "utf8");
   return true;
 }
-
 function listChangedNormativePaths(plan) {
-  return plan.changes
-    .filter((change) => change.action !== "unchanged")
-    .map((change) => toPosixPath(change.relativePath));
+  return plan.changes.filter((change) => change.action !== "unchanged").map((change) => toPosixPath(change.relativePath));
 }
-
 function resolveUpstream(rootDir) {
   const upstream = childProcess.spawnSync("git", [
     "-C",
@@ -929,100 +798,79 @@ function resolveUpstream(rootDir) {
     "rev-parse",
     "--abbrev-ref",
     "--symbolic-full-name",
-    "@{u}",
+    "@{u}"
   ], {
-    encoding: "utf8",
+    encoding: "utf8"
   });
-
   if (upstream.status !== 0) {
     return "";
   }
-
   return upstream.stdout.trim();
 }
-
 function assertNoPendingLocalCommits(rootDir, upstream) {
   if (!upstream) {
     return;
   }
-
   const count = runGit(rootDir, ["rev-list", "--count", `${upstream}..HEAD`]).stdout.trim();
-
   if (Number(count) > 0) {
     throw new Error("Ha commits locais pendentes; push normativo exclusivo bloqueado.");
   }
 }
-
 function currentBranchName(rootDir) {
   return runGit(rootDir, ["branch", "--show-current"]).stdout.trim();
 }
-
 function runGit(rootDir, args) {
   const result = childProcess.spawnSync("git", ["-C", rootDir, ...args], {
-    encoding: "utf8",
+    encoding: "utf8"
   });
-
   if (result.status !== 0) {
     throw new Error(`git ${args.join(" ")} falhou: ${result.stderr || result.stdout}`);
   }
-
   return result;
 }
-
 function printPlan(plan, mode) {
   console.log(`agent:autoupdate ${mode}: ${plan.source.label}`);
-
   for (const change of plan.changes) {
     if (change.action !== "unchanged") {
       console.log(`${change.action}: ${toPosixPath(change.relativePath)}`);
     }
   }
-
   if (!plan.changed) {
     console.log("sem alteracoes normativas");
   } else if (mode === "dry-run") {
     console.log(`commit/push normativo previsto para: ${listChangedNormativePaths(plan).join(", ")}`);
   }
 }
-
 function safeRelativePath(value) {
   const normalized = path.normalize(String(value || ""));
-
   if (!normalized || path.isAbsolute(normalized) || normalized.startsWith("..") || normalized.includes(`..${path.sep}`)) {
     throw new Error(`Path normativo inseguro: ${value}`);
   }
-
   return normalized;
 }
-
 function resolveCaseInsensitiveFile(dirPath, name) {
   const expected = String(name || "").toLocaleLowerCase("en-US");
-  const entry = fs.readdirSync(dirPath, { withFileTypes: true })
-    .find((candidate) => candidate.isFile() && candidate.name.toLocaleLowerCase("en-US") === expected);
+  const entry = fs.readdirSync(dirPath, { withFileTypes: true }).find((candidate) => candidate.isFile() && candidate.name.toLocaleLowerCase("en-US") === expected);
   if (!entry) {
     throw new Error(`Arquivo normativo remoto ausente: ${name}`);
   }
   return path.join(dirPath, entry.name);
 }
-
 function readUpdateLock(rootDir) {
   const lockPath = path.join(rootDir, LOCK_FILE);
-
   if (!fs.existsSync(lockPath)) {
     return null;
   }
-
   const raw = JSON.parse(fs.readFileSync(lockPath, "utf8"));
   return isCurrentLock(raw) ? raw : convertLegacyLock(raw);
 }
-
 function createUpdateLock(source, remoteFiles, changes = []) {
   const finalContent = new Map(changes.filter((change) => change.action !== "remove").map((change) => [toPosixPath(change.relativePath), change.content]));
   return {
     format: FORMAT,
     files: Object.fromEntries(remoteFiles.map((entry) => [
       toPosixPath(entry.relativePath),
-      hashBuffer(finalContent.get(toPosixPath(entry.relativePath)) || entry.content),
+      hashBuffer(finalContent.get(toPosixPath(entry.relativePath)) || entry.content)
     ])),
     managedFiles: remoteFiles.map((entry) => ({ path: toPosixPath(entry.relativePath) })),
     marker: MARKER,
@@ -1031,95 +879,80 @@ function createUpdateLock(source, remoteFiles, changes = []) {
       label: source.label,
       ref: source.ref,
       type: source.type,
-      url: source.repository || `${SOURCE_OWNER}/${SOURCE_REPO}`,
+      url: source.repository || `${SOURCE_OWNER}/${SOURCE_REPO}`
     },
-    updatedAt: new Date().toISOString(),
+    updatedAt: (/* @__PURE__ */ new Date()).toISOString()
   };
 }
-
 function listFiles(dirPath) {
   if (!fs.existsSync(dirPath)) {
     return [];
   }
   const result = [];
-
   for (const entry of fs.readdirSync(dirPath, { withFileTypes: true })) {
     const entryPath = path.join(dirPath, entry.name);
-
     if (entry.isDirectory()) {
       result.push(...listFiles(entryPath));
     } else if (entry.isFile()) {
       result.push(entryPath);
     }
   }
-
   return result;
 }
-
 function defaultHttpClient(url, options = {}, redirectCount = 0) {
   if (redirectCount > 5) {
     return Promise.reject(new Error(`Redirecionamentos demais: ${url}`));
   }
-
   return new Promise((resolve, reject) => {
     const req = https.request(url, {
       headers: {
         Accept: options.binary ? "*/*" : "application/vnd.github+json",
-        "User-Agent": "agents-update",
+        "User-Agent": "agents-update"
       },
-      timeout: 30000,
+      timeout: 3e4
     }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         res.resume();
         resolve(defaultHttpClient(new URL(res.headers.location, url).toString(), options, redirectCount + 1));
         return;
       }
-
       const chunks = [];
       res.on("data", (chunk) => chunks.push(chunk));
       res.on("end", () => {
         resolve({
           body: Buffer.concat(chunks),
           headers: res.headers,
-          statusCode: res.statusCode || 0,
+          statusCode: res.statusCode || 0
         });
       });
     });
-
     req.on("error", reject);
     req.on("timeout", () => req.destroy(new Error(`Tempo esgotado: ${url}`)));
     req.end();
   });
 }
-
 function hashBuffer(buffer) {
   return crypto.createHash("sha256").update(buffer).digest("hex");
 }
-
 function hashTextContent(buffer) {
   return hashBuffer(Buffer.from(buffer.toString("utf8").replace(/\r\n/gu, "\n"), "utf8"));
 }
-
 function normalizeText(value) {
   return String(value || "").replace(/\r\n/gu, "\n").trimEnd();
 }
-
 function toPosixPath(value) {
   return String(value || "").split(path.sep).join("/");
 }
-
 if (require.main === module) {
   main().catch((err) => {
     console.error(`Falha ao atualizar governanca operacional: ${err.message}`);
     process.exitCode = err instanceof UsageError ? 2 : 1;
   });
 }
-
 function isLocalExtensionPath(value) {
   const relative = toPosixPath(value).replace(/^\.\//u, "");
   return relative.startsWith(".ia.rules/hooks/") || relative.startsWith(".ia.rules/local/");
 }
-
 module.exports = {
   applyPlan,
   backupDivergentManagedFiles,
@@ -1147,5 +980,5 @@ module.exports = {
   planDistributionTransition,
   resumeFromHandoff,
   signHandoffPayload,
-  verifyHandoffState,
+  verifyHandoffState
 };

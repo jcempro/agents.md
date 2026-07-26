@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { applyTextTemplate, mergeJsonTemplate } = require("../src/.ia.rules/core/runtime/scripts/template-merge");
+const { applyTextTemplate, mergeJsonTemplate } = require("../.ia.rules/core/runtime/scripts/template-merge");
 
 function main() {
   const first = applyTextTemplate("local\n", "managed", { id: "bloco", version: 1 });

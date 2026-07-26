@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { checkApplicationUpdate, compareVersions, parseVersionPayload } = require("../src/.ia.rules/scenarios/application-update/scripts/application-update");
+const { checkApplicationUpdate, compareVersions, parseVersionPayload } = require("../.ia.rules/scenarios/application-update/scripts/application-update");
 
 async function main() {
   assert.equal(compareVersions("1.2.3", "1.2.4"), -1);

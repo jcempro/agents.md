@@ -5,15 +5,14 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/public-client.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const { loadConfiguration } = require("./configuration");
-
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const DEFAULTS = loadConfiguration(ROOT_DIR).publicClient;
-
 async function requestJson(options = {}) {
   const method = String(options.method || "GET").toUpperCase();
   const url = assertPublicHttpsUrl(options.url);
@@ -22,13 +21,13 @@ async function requestJson(options = {}) {
   const retries = method === "GET" || method === "HEAD" ? boundedInt(options.retries, DEFAULTS.retries, 0, 2) : 0;
   const cachePath = options.cachePath ? safeCachePath(options.cachePath) : "";
   const cacheTtlMs = positiveInt(options.cacheTtlMs, DEFAULTS.cacheTtlMs);
-  const cacheKey = hash(`${method}\n${url}\n${options.body || ""}`);
-
+  const cacheKey = hash(`${method}
+${url}
+${options.body || ""}`);
   if (cachePath && method === "GET") {
     const cached = readCache(cachePath, cacheKey, cacheTtlMs);
     if (cached) return { ...cached, cached: true };
   }
-
   let lastFailure;
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
@@ -38,23 +37,22 @@ async function requestJson(options = {}) {
     } catch (error) {
       lastFailure = normalizeFailure(error);
       if (attempt === retries || !lastFailure.transient) return { ...lastFailure, attempt, cached: false, ok: false };
-      await delay(attempt === 0 ? 1000 : 3000);
+      await delay(attempt === 0 ? 1e3 : 3e3);
     }
   }
   return { ...lastFailure, cached: false, ok: false, attempt: retries };
 }
-
 async function fetchOnce(options) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), options.timeoutMs);
   try {
-    const headers = { Accept: "application/json", ...(options.headers || {}) };
+    const headers = { Accept: "application/json", ...options.headers || {} };
     const response = await fetch(options.url, {
-      body: options.body || undefined,
+      body: options.body || void 0,
       headers,
       method: options.method,
       redirect: "follow",
-      signal: controller.signal,
+      signal: controller.signal
     });
     const contentLength = Number(response.headers.get("content-length") || "0");
     if (contentLength && contentLength > options.maxBytes) {
@@ -75,7 +73,6 @@ async function fetchOnce(options) {
     clearTimeout(timer);
   }
 }
-
 async function readLimited(response, maxBytes) {
   if (!response.body) return "";
   const reader = response.body.getReader();
@@ -95,11 +92,9 @@ async function readLimited(response, maxBytes) {
   }
   return Buffer.concat(chunks.map((chunk) => Buffer.from(chunk))).toString("utf8");
 }
-
 function failure(code, status = 0, transient = false, detail = "") {
   return { code, detail: sanitizeText(detail).slice(0, 240), ok: false, status, transient };
 }
-
 function normalizeFailure(error) {
   if (error && error.code === "RESPONSE_TOO_LARGE") return failure("RESPONSE_TOO_LARGE");
   if (error && error.name === "AbortError") return failure("NETWORK_TIMEOUT", 0, true);
@@ -107,7 +102,6 @@ function normalizeFailure(error) {
   if (/fetch failed|ENOTFOUND|ECONNRESET|ECONNREFUSED|EAI_AGAIN/iu.test(message)) return failure("NETWORK_UNAVAILABLE", 0, true);
   return failure("NETWORK_FAILURE", 0, false, message);
 }
-
 function httpCode(status) {
   if (status === 401 || status === 403) return "HTTP_AUTHORIZATION_REQUIRED";
   if (status === 404) return "HTTP_NOT_FOUND";
@@ -115,7 +109,6 @@ function httpCode(status) {
   if (status >= 500) return "HTTP_SERVER_FAILURE";
   return `HTTP_${status}`;
 }
-
 function assertPublicHttpsUrl(value) {
   let parsed;
   try {
@@ -128,13 +121,11 @@ function assertPublicHttpsUrl(value) {
   }
   return parsed.toString();
 }
-
 function safeCachePath(value) {
   const normalized = path.resolve(String(value));
   if (!normalized.endsWith(".json")) throw new Error("CACHE_PATH_INVALID");
   return normalized;
 }
-
 function readCache(cachePath, key, ttl) {
   if (!fs.existsSync(cachePath)) return null;
   try {
@@ -145,35 +136,25 @@ function readCache(cachePath, key, ttl) {
     return null;
   }
 }
-
 function writeCache(cachePath, key, result) {
   fs.mkdirSync(path.dirname(cachePath), { recursive: true });
   fs.writeFileSync(cachePath, JSON.stringify({ createdAt: Date.now(), key, result }), "utf8");
 }
-
 function sanitizeText(value) {
-  return String(value || "")
-    .replace(/(?:ghp|github_pat|sk|api)[A-Za-z0-9_\-]{12,}/gu, "[REDACTED]")
-    .replace(/Bearer\s+[^\s]+/giu, "Bearer [REDACTED]")
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, "");
+  return String(value || "").replace(/(?:ghp|github_pat|sk|api)[A-Za-z0-9_\-]{12,}/gu, "[REDACTED]").replace(/Bearer\s+[^\s]+/giu, "Bearer [REDACTED]").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, "");
 }
-
 function hash(value) {
   return crypto.createHash("sha256").update(String(value), "utf8").digest("hex");
 }
-
 function positiveInt(value, fallback) {
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }
-
 function boundedInt(value, fallback, min, max) {
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed >= min && parsed <= max ? parsed : fallback;
 }
-
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
 module.exports = { DEFAULTS, requestJson, sanitizeText };

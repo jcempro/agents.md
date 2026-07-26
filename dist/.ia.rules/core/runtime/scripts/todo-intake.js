@@ -5,57 +5,7 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/todo-intake.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-const crypto = require("crypto");
-const fs = require("fs");
-const path = require("path");
-
-const CANONICAL_TODO = path.join(".ia.rules", "state", "TODO.ia.md");
-
-function inspectTodoIa(rootDir, options = {}) {
-  const files = locateTodoFiles(rootDir, options);
-  const records = files.map((relativePath) => {
-    const absolute = path.join(rootDir, relativePath);
-    const content = fs.readFileSync(absolute, "utf8");
-    return { hash: sha256(content), items: parseTodoItems(content), path: toPosix(relativePath) };
-  });
-  return {
-    code: records.length ? "TODO_IA_FOUND" : "TODO_IA_EMPTY",
-    records,
-    status: records.some((record) => record.path !== toPosix(CANONICAL_TODO)) ? "triagem_requerida" : "ok",
-  };
-}
-
-function assertTodoIaTriaged(rootDir, options = {}) {
-  const result = inspectTodoIa(rootDir, options);
-  const pending = result.records.filter((record) => record.path !== toPosix(CANONICAL_TODO) || record.items.some((item) => item.status === "pendente"));
-  if (pending.length) throw new Error(`TODO_IA_TRIAGEM_PENDENTE:${pending.map((record) => record.path).join(",")}`);
-  return result;
-}
-
-function locateTodoFiles(rootDir, options = {}) {
-  const candidates = [options.path || CANONICAL_TODO, "TODO.ia.md"].map((value) => path.normalize(String(value)));
-  return [...new Set(candidates)]
-    .filter((relativePath) => !path.isAbsolute(relativePath) && fs.existsSync(path.join(rootDir, relativePath)))
-    .sort((a, b) => toPosix(a).localeCompare(toPosix(b), "en"));
-}
-
-function parseTodoItems(content) {
-  return String(content).split(/\r?\n/u).map((line, index) => ({ line, number: index + 1 }))
-    .filter((entry) => /^\s*[-*]\s+(?:\[[ xX-]\]\s+)?\S/u.test(entry.line))
-    .map((entry) => ({
-      line: entry.number,
-      status: /\[[xX]\]/u.test(entry.line) ? "concluido" : "pendente",
-      text: entry.line.replace(/^\s*[-*]\s+(?:\[[ xX-]\]\s+)?/u, "").trim(),
-    }));
-}
-
-function sha256(content) {
-  return crypto.createHash("sha256").update(String(content).replace(/\r\n/gu, "\n"), "utf8").digest("hex");
-}
-
-function toPosix(value) {
-  return String(value).replace(/\\/gu, "/");
-}
-
-module.exports = { CANONICAL_TODO, assertTodoIaTriaged, inspectTodoIa, locateTodoFiles, parseTodoItems };
+const f=require("crypto"),l=require("fs"),o=require("path"),a=o.join(".ia.rules","state","TODO.ia.md");function p(n,e={}){const t=d(n,e).map(s=>{const u=o.join(n,s),c=l.readFileSync(u,"utf8");return{hash:T(c),items:m(c),path:i(s)}});return{code:t.length?"TODO_IA_FOUND":"TODO_IA_EMPTY",records:t,status:t.some(s=>s.path!==i(a))?"triagem_requerida":"ok"}}function O(n,e={}){const r=p(n,e),t=r.records.filter(s=>s.path!==i(a)||s.items.some(u=>u.status==="pendente"));if(t.length)throw new Error(`TODO_IA_TRIAGEM_PENDENTE:${t.map(s=>s.path).join(",")}`);return r}function d(n,e={}){const r=[e.path||a,"TODO.ia.md"].map(t=>o.normalize(String(t)));return[...new Set(r)].filter(t=>!o.isAbsolute(t)&&l.existsSync(o.join(n,t))).sort((t,s)=>i(t).localeCompare(i(s),"en"))}function m(n){return String(n).split(/\r?\n/u).map((e,r)=>({line:e,number:r+1})).filter(e=>/^\s*[-*]\s+(?:\[[ xX-]\]\s+)?\S/u.test(e.line)).map(e=>({line:e.number,status:/\[[xX]\]/u.test(e.line)?"concluido":"pendente",text:e.line.replace(/^\s*[-*]\s+(?:\[[ xX-]\]\s+)?/u,"").trim()}))}function T(n){return f.createHash("sha256").update(String(n).replace(/\r\n/gu,`
+`),"utf8").digest("hex")}function i(n){return String(n).replace(/\\/gu,"/")}module.exports={CANONICAL_TODO:a,assertTodoIaTriaged:O,inspectTodoIa:p,locateTodoFiles:d,parseTodoItems:m};

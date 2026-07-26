@@ -5,12 +5,11 @@
 // Site da Licenca: https://www.mozilla.org/MPL/2.0/
 // Resumo da Licenca: uso, copia, modificacao e distribuicao permitidos conforme os termos da MPL-2.0.
 // Disclaimer: fornecido AS IS, sem garantias de qualquer tipo.
+// Gerado de: src/.ia.rules/core/runtime/scripts/configuration.ts; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
 const fs = require("fs");
 const path = require("path");
-
 function loadConfiguration(rootDir) {
-  // FIX-BUG: o pacote publicado concentra toda configuração estrutural em .ia.rules.
   const packagedConfigRoot = path.join(rootDir, ".ia.rules", "config");
   const configRoot = fs.existsSync(packagedConfigRoot) ? packagedConfigRoot : path.join(rootDir, "config");
   const descriptor = readConfig(path.join(configRoot, "schema.json"), true);
@@ -23,7 +22,6 @@ function loadConfiguration(rootDir) {
   for (const key of descriptor.required || []) if (!(key in merged)) throw new Error(`PARAMETRO_NORMATIVO_AUSENTE:${key}`);
   return deepFreeze(merged);
 }
-
 function readConfig(filePath, required) {
   if (!fs.existsSync(filePath)) {
     if (required) throw new Error(`CONFIGURACAO_AUSENTE:${path.basename(filePath)}`);
@@ -31,7 +29,6 @@ function readConfig(filePath, required) {
   }
   return parseConfig(fs.readFileSync(filePath, "utf8"), filePath);
 }
-
 function parseConfig(raw, label) {
   try {
     const value = JSON.parse(raw);
@@ -41,20 +38,15 @@ function parseConfig(raw, label) {
     throw new Error(`CONFIGURACAO_INVALIDA:${label}:${error.message}`);
   }
 }
-
 function deepMerge(base, override) {
   const result = { ...base };
   for (const [key, value] of Object.entries(override || {})) {
-    result[key] = value && typeof value === "object" && !Array.isArray(value)
-      ? deepMerge(base && typeof base[key] === "object" ? base[key] : {}, value)
-      : value;
+    result[key] = value && typeof value === "object" && !Array.isArray(value) ? deepMerge(base && typeof base[key] === "object" ? base[key] : {}, value) : value;
   }
   return result;
 }
-
 function deepFreeze(value) {
   for (const item of Object.values(value)) if (item && typeof item === "object" && !Object.isFrozen(item)) deepFreeze(item);
   return Object.freeze(value);
 }
-
 module.exports = { deepMerge, loadConfiguration, parseConfig };
