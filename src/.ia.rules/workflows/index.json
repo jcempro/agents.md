@@ -36,7 +36,7 @@
         "contents:write"
       ],
       "install": "managed-copy",
-      "sha256": "6659c73e0250c4abcd900984f058df090f3e412978442233c2c6c1a0fc9c9a67"
+      "sha256": "f43a9e5afb00775bf9b0723b3be2a2986d5990194dff5fca9ee15a5599aaa18f"
     }
   ]
 }

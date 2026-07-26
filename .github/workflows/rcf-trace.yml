@@ -1,19 +1,18 @@
-name: Agents - rastreabilidade RCF
+name: Builder - rastreabilidade RCF
 on:
   workflow_dispatch:
     inputs:
       material_commit:
-        description: Commit material a associar
+        description: Commit material causal
         required: true
         type: string
 permissions:
   contents: write
 concurrency:
-  group: agents-rcf-trace-${{ github.ref }}
+  group: builder-rcf-trace-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   synchronize:
-    if: ${{ !contains(github.event.head_commit.message || '', '[skip rcf-trace]') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,15 +23,15 @@ jobs:
           node-version: '24'
       - run: node .ia.rules/core/runtime/scripts/rcf-trace.js finalize --commit "${{ inputs.material_commit }}"
       - run: node .ia.rules/core/runtime/scripts/rcf-trace.js validate
-      - name: Confirmar revisão e registrar rastreabilidade
+      - name: Confirmar revisão e registrar assinatura
         shell: bash
         run: |
           git fetch origin "${GITHUB_REF_NAME}"
           test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/${GITHUB_REF_NAME}")"
-          if ! git diff --quiet -- RCF.md .ia.rules/state/traceability/rcf-map.json; then
-            git config user.name agents-governance
-            git config user.email actions@users.noreply.github.com
-            git add -- RCF.md .ia.rules/state/traceability/rcf-map.json
+          git config user.name agents-governance
+          git config user.email actions@users.noreply.github.com
+          git add -- RCF.md .ia.rules/state/traceability/rcf-map.json
+          if ! git diff --cached --quiet; then
             git commit -m "Sincroniza rastreabilidade RCF [skip rcf-trace]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi

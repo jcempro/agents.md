@@ -116,6 +116,23 @@
       ]
     },
     {
+      "path": ".ia.rules/core/formats/rcf-trace-map.v1.schema.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/formats/rcf-trace-map.v1.schema.json",
+      "purpose": "schema público do mapa sentença e commit",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
       "path": ".ia.rules/core/formats/source-distribution-manifest.v1.schema.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/core/formats/source-distribution-manifest.v1.schema.json",
@@ -377,6 +394,30 @@
       "language": "typescript",
       "artifact": {
         "destination": ".ia.rules/core/runtime/scripts/public-client.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/rcf-trace.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/rcf-trace.ts",
+      "purpose": "rastreabilidade causal RCF e commit material",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "rcf-trace-applicable",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/rcf-trace.js",
         "format": "commonjs",
         "target": "node24",
         "builder": "typescript@7.0.2+esbuild@0.28.1"

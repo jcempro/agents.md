@@ -19,6 +19,7 @@ import statistics
 import subprocess
 import sys
 from typing import Any
+import re
 
 import tiktoken
 
@@ -166,12 +167,37 @@ def tokenize_nodes(nodes: dict[str, Any], source_root: Path) -> tuple[Any, dict[
         text = file_path.read_text(encoding="utf-8").replace("\r\n", "\n")
         tokenized[node_id] = {
             "bytes": len(text.encode("utf-8")),
+            "guard": normative_signature(text),
             "sha256": sha256(text.encode("utf-8")),
             "text": text,
             "tokens": len(encoding.encode(text)),
         }
     print(f"[tokens] {len(tokenized)} nós; último={sorted(tokenized)[-1]}", file=sys.stderr)
     return encoding, tokenized
+
+
+def normative_signature(text: str) -> dict[str, int]:
+    """Conta elementos de força cuja redução exige aceite explícito antes da regeneração."""
+    return {
+        "exceptions": len(re.findall(r"\b(?:exceto|exceção|salvo|ressalvad[oa])\b", text, flags=re.IGNORECASE)),
+        "modalities": len(re.findall(r"\b(?:DEVE|DEVEM|PODE|PODEM)\b", text, flags=re.IGNORECASE)),
+        "prohibitions": len(re.findall(r"\b(?:NÃO\s+DEVE|NÃO\s+DEVEM|PROIBID[OA]S?)\b", text, flags=re.IGNORECASE)),
+        "references": len(re.findall(r"(?:`[^`]+`|\[[^\]]+\]\([^)]+\)|\bMN-[A-Z0-9-]+\b)", text)),
+    }
+
+
+def validate_degradation(data: dict[str, Any], tokenized: dict[str, dict[str, Any]], accepted: bool) -> None:
+    """Bloqueia redução silenciosa de modalidade, proibição, exceção ou referência."""
+    if accepted:
+        return
+    for node in data["nodes"]:
+        previous = node.get("guard")
+        if not previous:
+            continue
+        current = tokenized[node["id"]]["guard"]
+        reduced = [key for key in current if int(current[key]) < int(previous.get(key, 0))]
+        if reduced:
+            raise RuntimeError(f"GRAFO_DEGRADACAO_NORMATIVA:{node['id']}:{','.join(reduced)}")
 
 
 def edge_cost(edge: dict[str, Any], source: dict[str, Any], encoding: Any) -> int:
@@ -251,7 +277,7 @@ def source_digest(data: dict[str, Any], tokenized: dict[str, dict[str, Any]], sc
     """Combina topologia e hashes das fontes para invalidar todo derivado obsoleto."""
     topology = {
         "edges": data["edges"],
-        "nodes": [{key: value for key, value in node.items() if key not in {"bytes", "sha256", "tokens"}} for node in data["nodes"]],
+        "nodes": [{key: value for key, value in node.items() if key not in {"bytes", "guard", "sha256", "tokens"}} for node in data["nodes"]],
         "root": data["root"],
     }
     material = json.dumps(topology, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
@@ -320,7 +346,7 @@ def replace_region(text: str, replacement: str) -> str:
     return f"{text[:start]}{replacement}{text[end:]}"
 
 
-def materialize(root: Path, write: bool, check: bool) -> dict[str, Any]:
+def materialize(root: Path, write: bool, check: bool, accept_normative_change: bool = False) -> dict[str, Any]:
     """Calcula derivados, grava atomicamente quando autorizado e detecta obsolescência."""
     rules = governance_root(root)
     source_root = rules.parent
@@ -328,6 +354,7 @@ def materialize(root: Path, write: bool, check: bool) -> dict[str, Any]:
     data = load_index(index_path)
     nodes, outgoing = validate_graph(data, source_root)
     encoding, tokenized = tokenize_nodes(nodes, source_root)
+    validate_degradation(data, tokenized, accept_normative_change)
     paths = calculate_paths(data, nodes, outgoing, tokenized, encoding)
     summary = summarize(paths)
     digest = source_digest(data, tokenized, Path(__file__).resolve())
@@ -347,6 +374,7 @@ def materialize(root: Path, write: bool, check: bool) -> dict[str, Any]:
     for node in data["nodes"]:
         node.update({
             "bytes": tokenized[node["id"]]["bytes"],
+            "guard": tokenized[node["id"]]["guard"],
             "sha256": tokenized[node["id"]]["sha256"],
             "tokens": tokenized[node["id"]]["tokens"],
         })
@@ -382,9 +410,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--accept-normative-change", action="store_true")
     args = parser.parse_args(argv)
     root = repository_root(Path(__file__).resolve())
-    result = materialize(root, args.write, args.check)
+    result = materialize(root, args.write, args.check, args.accept_normative_change)
     print("| tipo | mínimo | média | máximo |")
     print("|---|---:|---:|---:|")
     for kind in ("leaf", "hybrid"):

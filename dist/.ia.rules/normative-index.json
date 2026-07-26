@@ -27,7 +27,13 @@
       ],
       "bytes": 33286,
       "sha256": "4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024",
-      "tokens": 7364
+      "tokens": 7364,
+      "guard": {
+        "exceptions": 7,
+        "modalities": 135,
+        "prohibitions": 25,
+        "references": 267
+      }
     },
     {
       "id": "core.authority",
@@ -46,7 +52,13 @@
       "outputs": [],
       "bytes": 3930,
       "sha256": "13f77eeee35ed38660935a14b154a5c64aafdbe7b6447927b189ab1f4022635a",
-      "tokens": 880
+      "tokens": 880,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 9,
+        "prohibitions": 3,
+        "references": 10
+      }
     },
     {
       "id": "core.microconcepts",
@@ -66,7 +78,13 @@
       "outputs": [],
       "bytes": 12692,
       "sha256": "db749e1a59315ada723ee7bbbaa23b055405579cc8b5a07a4b88a32422544456",
-      "tokens": 3020
+      "tokens": 3020,
+      "guard": {
+        "exceptions": 6,
+        "modalities": 44,
+        "prohibitions": 8,
+        "references": 70
+      }
     },
     {
       "id": "core.contracts",
@@ -89,7 +107,13 @@
       "outputs": [],
       "bytes": 6639,
       "sha256": "2f7d2cf1f64f6fa96d72977c4a619769b7303cd57d8af54aab3f6888fbed7467",
-      "tokens": 1500
+      "tokens": 1500,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 24,
+        "prohibitions": 7,
+        "references": 103
+      }
     },
     {
       "id": "core.routing",
@@ -114,7 +138,13 @@
       "outputs": [],
       "bytes": 6143,
       "sha256": "f76ab94b89a47848b6ff9ade2b5621d623705e570c87e277ce7169b08f0d0bcc",
-      "tokens": 1320
+      "tokens": 1320,
+      "guard": {
+        "exceptions": 1,
+        "modalities": 3,
+        "prohibitions": 2,
+        "references": 20
+      }
     },
     {
       "id": "core.update",
@@ -138,7 +168,13 @@
       "outputs": [],
       "bytes": 9425,
       "sha256": "3b0f93e936e64b31b1e4bb337449fb15f74fa4cca71bd5d1559490ab2f1f4f82",
-      "tokens": 2172
+      "tokens": 2172,
+      "guard": {
+        "exceptions": 3,
+        "modalities": 48,
+        "prohibitions": 6,
+        "references": 66
+      }
     },
     {
       "id": "role.final",
@@ -157,7 +193,13 @@
       "outputs": [],
       "bytes": 2321,
       "sha256": "b04c7ad791fe244c2058f0cd616fdd6b8ed39e1692d3b8bc57932c8bf8560978",
-      "tokens": 512
+      "tokens": 512,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 3,
+        "prohibitions": 2,
+        "references": 10
+      }
     },
     {
       "id": "role.constructor",
@@ -185,7 +227,13 @@
       ],
       "bytes": 3238,
       "sha256": "ff3b9577c3b5f084cc3b4d494e82e849223e1b0e909760b089163f4bf8dae9eb",
-      "tokens": 702
+      "tokens": 702,
+      "guard": {
+        "exceptions": 2,
+        "modalities": 2,
+        "prohibitions": 1,
+        "references": 14
+      }
     },
     {
       "id": "scenario.constructor-operation",
@@ -214,7 +262,13 @@
       "outputs": [],
       "bytes": 4419,
       "sha256": "21c026cc3a46241dd933e9d6be5ffb59cadc3a3b833ac8a4380ebc90d0c01b58",
-      "tokens": 902
+      "tokens": 902,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 8,
+        "prohibitions": 2,
+        "references": 26
+      }
     },
     {
       "id": "resource.scripts",
@@ -240,7 +294,13 @@
       "outputs": [],
       "bytes": 5672,
       "sha256": "819167566c0e384e68fbd3dd472575c93bd037de89d95934449cd67c32ec0bea",
-      "tokens": 1279
+      "tokens": 1279,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 2,
+        "prohibitions": 1,
+        "references": 29
+      }
     },
     {
       "id": "resource.workflows",
@@ -263,7 +323,13 @@
       "outputs": [],
       "bytes": 3365,
       "sha256": "7e2509ad4626f227177fd1f6824a782a145101c6c7421fbca409090f5cc770bd",
-      "tokens": 748
+      "tokens": 748,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 1,
+        "prohibitions": 1,
+        "references": 36
+      }
     },
     {
       "id": "resource.traceability",
@@ -288,7 +354,13 @@
       "outputs": [],
       "bytes": 2490,
       "sha256": "2cb8ac6a68c1541c3fb68960a2775ca691de9cbb406a21481669085406c5e2c0",
-      "tokens": 540
+      "tokens": 540,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 0,
+        "prohibitions": 1,
+        "references": 6
+      }
     },
     {
       "id": "scenario.request-lifecycle",
@@ -313,7 +385,13 @@
       "outputs": [],
       "bytes": 4006,
       "sha256": "5d54eb70d82167ee26d08ac9fd7965b5d7ccbdead40225beff65f68c045ebc11",
-      "tokens": 888
+      "tokens": 888,
+      "guard": {
+        "exceptions": 2,
+        "modalities": 2,
+        "prohibitions": 0,
+        "references": 11
+      }
     },
     {
       "id": "scenario.refused-decisions",
@@ -337,7 +415,13 @@
       "outputs": [],
       "bytes": 5115,
       "sha256": "af6497c9a014e6eed6979b90aaf234f9d1bed46bdc79ff43b42a59006a4c37c6",
-      "tokens": 1201
+      "tokens": 1201,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 1,
+        "prohibitions": 1,
+        "references": 50
+      }
     },
     {
       "id": "scenario.official-gap",
@@ -360,7 +444,13 @@
       "outputs": [],
       "bytes": 2644,
       "sha256": "36ad687269216409b27433f65e96de030b6024b54296a724237dfb4fa7087e13",
-      "tokens": 555
+      "tokens": 555,
+      "guard": {
+        "exceptions": 4,
+        "modalities": 4,
+        "prohibitions": 0,
+        "references": 5
+      }
     },
     {
       "id": "scenario.upstream-sharing",
@@ -386,7 +476,13 @@
       ],
       "bytes": 5398,
       "sha256": "3b864be69682d2266ba723f20a540cdb583722e9f3cafbb2d1e024d5d6f381ec",
-      "tokens": 1198
+      "tokens": 1198,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 5,
+        "prohibitions": 2,
+        "references": 25
+      }
     },
     {
       "id": "scenario.issue-lifecycle",
@@ -408,7 +504,13 @@
       "outputs": [],
       "bytes": 2029,
       "sha256": "09f85f690e60f936bb4c8c561e4af782211f8c877cd3451955c4f4fbfd97113d",
-      "tokens": 441
+      "tokens": 441,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 1,
+        "prohibitions": 0,
+        "references": 5
+      }
     },
     {
       "id": "scenario.release",
@@ -434,7 +536,13 @@
       ],
       "bytes": 5536,
       "sha256": "5a3a70329bf0e257142f767cedbc46f8b56de49435faca7033acb63ffbc4ad7d",
-      "tokens": 1268
+      "tokens": 1268,
+      "guard": {
+        "exceptions": 1,
+        "modalities": 34,
+        "prohibitions": 6,
+        "references": 42
+      }
     },
     {
       "id": "capability.package-registry",
@@ -456,7 +564,13 @@
       "outputs": [],
       "bytes": 2090,
       "sha256": "cc7020b77199c492258124d0a501cf570692f49c655cf571e31e047fe75d9563",
-      "tokens": 457
+      "tokens": 457,
+      "guard": {
+        "exceptions": 1,
+        "modalities": 2,
+        "prohibitions": 0,
+        "references": 19
+      }
     },
     {
       "id": "scenario.application-update",
@@ -479,7 +593,13 @@
       "outputs": [],
       "bytes": 1851,
       "sha256": "762ca6ac1fefae81dfb34d8da6552d110e86c36343c0bffd25662c98674a94e5",
-      "tokens": 398
+      "tokens": 398,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 1,
+        "prohibitions": 0,
+        "references": 17
+      }
     },
     {
       "id": "scenario.content-publication",
@@ -501,7 +621,13 @@
       "outputs": [],
       "bytes": 1800,
       "sha256": "0eea80e30a9917ce32eb2517ac1f83465e6a0a3452dba01aae9c1efc14e9be97",
-      "tokens": 422
+      "tokens": 422,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 10,
+        "prohibitions": 4,
+        "references": 16
+      }
     },
     {
       "id": "scenario.web-page-like",
@@ -525,7 +651,13 @@
       ],
       "bytes": 1559,
       "sha256": "7730caa74caa671aa9823425d70f1454bfbe967a4789635452b4539b17447113",
-      "tokens": 388
+      "tokens": 388,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 2,
+        "prohibitions": 0,
+        "references": 16
+      }
     },
     {
       "id": "capability.web-browser",
@@ -547,7 +679,13 @@
       "outputs": [],
       "bytes": 5980,
       "sha256": "972c496beb3fb21f241a1f7bb3eaea403a098585d2dff1e46f36b16d9ddb9f66",
-      "tokens": 1401
+      "tokens": 1401,
+      "guard": {
+        "exceptions": 2,
+        "modalities": 30,
+        "prohibitions": 8,
+        "references": 35
+      }
     },
     {
       "id": "capability.web-static",
@@ -569,7 +707,13 @@
       "outputs": [],
       "bytes": 1273,
       "sha256": "a5865cebac9c341485a3778e61729bfd6a0d6230c8a831a79480c49631879526",
-      "tokens": 282
+      "tokens": 282,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 7,
+        "prohibitions": 0,
+        "references": 3
+      }
     },
     {
       "id": "capability.web-editorial",
@@ -594,7 +738,13 @@
       "outputs": [],
       "bytes": 4828,
       "sha256": "1098ae965511cb35deb61d7e37e48151423c908a3702d82b8d93ab2a016d513d",
-      "tokens": 1067
+      "tokens": 1067,
+      "guard": {
+        "exceptions": 1,
+        "modalities": 21,
+        "prohibitions": 7,
+        "references": 7
+      }
     },
     {
       "id": "meta.cli",
@@ -616,7 +766,13 @@
       "outputs": [],
       "bytes": 535,
       "sha256": "5d20bb860c3f9fd58e4d087f2c05747963eaba21b5291c521d8722e742a78a2a",
-      "tokens": 139
+      "tokens": 139,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 0,
+        "prohibitions": 0,
+        "references": 12
+      }
     },
     {
       "id": "meta.build",
@@ -638,7 +794,13 @@
       "outputs": [],
       "bytes": 1058,
       "sha256": "6c694c1b5a97065f00414e6038dfe3972d2d36692226991a585c5049d7f797d6",
-      "tokens": 237
+      "tokens": 237,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 3,
+        "prohibitions": 0,
+        "references": 6
+      }
     },
     {
       "id": "meta.ia",
@@ -659,7 +821,13 @@
       "outputs": [],
       "bytes": 416,
       "sha256": "bb9f35c232c94d3c0fd7909ef5a8e5a0b679cbe5915cc1f3bea23db919959c5d",
-      "tokens": 107
+      "tokens": 107,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 3,
+        "prohibitions": 0,
+        "references": 5
+      }
     },
     {
       "id": "meta.maintenance",
@@ -682,7 +850,13 @@
       "outputs": [],
       "bytes": 438,
       "sha256": "6b9c4dd4b092605d24ee12fd015ce475b43415ecaf2a9e6ea8fdc570ac0c7e36",
-      "tokens": 100
+      "tokens": 100,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 2,
+        "prohibitions": 0,
+        "references": 3
+      }
     },
     {
       "id": "meta.publish",
@@ -703,7 +877,13 @@
       "outputs": [],
       "bytes": 548,
       "sha256": "a03ddd0e288115ce3789b5e68de795e95ce803b05bfbe00543587ce7dd8cb607",
-      "tokens": 135
+      "tokens": 135,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 0,
+        "prohibitions": 0,
+        "references": 10
+      }
     },
     {
       "id": "meta.release",
@@ -724,7 +904,13 @@
       "outputs": [],
       "bytes": 640,
       "sha256": "1423fe4bf363d654de155fea5114a4e1710aa15d789cae1be349cc9641a0c85a",
-      "tokens": 161
+      "tokens": 161,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 1,
+        "prohibitions": 0,
+        "references": 9
+      }
     },
     {
       "id": "meta.update",
@@ -744,7 +930,13 @@
       "outputs": [],
       "bytes": 873,
       "sha256": "65ea50a016e5d8e060603c73db6939e0720335734da6dede056c9347470922cd",
-      "tokens": 201
+      "tokens": 201,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 0,
+        "prohibitions": 0,
+        "references": 9
+      }
     },
     {
       "id": "meta.upstream",
@@ -765,7 +957,13 @@
       "outputs": [],
       "bytes": 523,
       "sha256": "5d6f73d6fa84d5ddc9b8d120605a7d1275ab69c59b078517603353f5742fae54",
-      "tokens": 129
+      "tokens": 129,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 0,
+        "prohibitions": 0,
+        "references": 7
+      }
     },
     {
       "id": "meta.validation",
@@ -788,7 +986,13 @@
       "outputs": [],
       "bytes": 411,
       "sha256": "c900f2003cd7291ec6254dceadc173bf6aa8a0eec1f4779f6babcbebb238b802",
-      "tokens": 99
+      "tokens": 99,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 3,
+        "prohibitions": 0,
+        "references": 2
+      }
     },
     {
       "id": "bootstrap.init-repo",
@@ -808,7 +1012,13 @@
       "outputs": [],
       "bytes": 12906,
       "sha256": "117c06a61f0e438e8a29351e4e9984c48a325b9ef6e80aec76c33df8b491d961",
-      "tokens": 2977
+      "tokens": 2977,
+      "guard": {
+        "exceptions": 2,
+        "modalities": 69,
+        "prohibitions": 12,
+        "references": 25
+      }
     }
   ],
   "edges": [
@@ -1063,13 +1273,13 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "89d34f4",
-    "commitDate": "2026-07-25T21:15:26-03:00",
+    "commit": "bdce10e",
+    "commitDate": "2026-07-25T21:26:14-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "fe7613214aae2812ad5b708d0d2cc8293d97de8a5f470d2601748f45de4de4cc",
+    "sourceDigest": "153ac264fd2aac42068c8139acadebea1185ab9e7c49742ee17955be63142adc",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },

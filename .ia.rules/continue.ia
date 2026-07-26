@@ -1165,7 +1165,7 @@ resultado=Norma Operacional de src cobre autoridade, Mecanismo Oficial, papéis 
 pendencias=FT-052 permanece pendente e exige nova autorização humana explícita; inclui código/scripts, TypeScript, geradores, workflows, package/allowlist, derivados, tokenizer, hashes, testes e correção EOL. Issue #2 permanece bloqueada pelo gate terminal.
 proximo_ponto=Interromper. Não iniciar FT-052 nesta atuação.
 
-FT-052|nome=Implementação integrada dos códigos, scripts e automações|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-25T18:27:45-03:00|inicio=2026-07-25T20:52:00-03:00|atualizacao=2026-07-25T21:25:17-03:00
+FT-052|nome=Implementação integrada dos códigos, scripts e automações|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-25T18:27:45-03:00|inicio=2026-07-25T20:52:00-03:00|atualizacao=2026-07-25T21:39:33-03:00
 objetivo=Implementar, adaptar e validar todos os códigos, scripts, hooks, workflows, geradores, validadores, atualizador e artefatos derivados exigidos pela FT-050 e materializados normativamente pela FT-051.
 origens=github:jcempro/agents.md#9; fontes materiais enumeradas em FT-050; RCF.md e src produzidos por FT-050/FT-051; github:jcempro/agents.md#2 como tarefa terminal condicionada.
 dependencias=FT-050 e FT-051 concluídas, validadas e commitadas; nova autorização humana explícita; reavaliação da issue #2 somente após conclusão de todas as demais tarefas.
@@ -1173,18 +1173,18 @@ dependencias=FT-050 e FT-051 concluídas, validadas e commitadas; nova autoriza�
   1/3 Implementar contratos comuns, configuração central, logs, estados, hooks e fallbacks [concluido]
   2/3 Migrar fontes Node.js para TypeScript e instituir build/distribuição dual [concluido]
   3/3 Implementar metadados por recurso e matriz multilíngue de runtime/compatibilidade [concluido]
-2/6 Atualização e distribuição [em_andamento]
+2/6 Atualização e distribuição [concluido]
   1/3 Blindar atualizador, migrações, marcadores, checkpoints, backups e commit isolado [concluido]
-  2/3 Distribuir e instalar workflows oficiais de forma indexada e determinística [em_andamento]
+  2/3 Distribuir e instalar workflows oficiais de forma indexada e determinística [concluido]
   3/3 Validar instalações limpas, saltos, cópias manuais, coexistência e árvores sujas [concluido]
 3/6 Roteamento e recuperação [concluido]
   1/3 Implementar índice/grafo global e validações estruturais [concluido]
   2/3 Implementar tokenização exata, custos por caminho, métricas e mapa visual [concluido]
   3/3 Implementar workflow idempotente, concorrente e equivalente à execução local [concluido]
-4/6 Rastreabilidade e linguagem [pendente]
-  1/3 Implementar associação sentença RCF ↔ commit material em duas fases sem recursão [pendente]
-  2/3 Implementar parser/formatter de sintaxe lógica somente se aprovado pela FT-050/FT-051 [pendente]
-  3/3 Implementar validações contra degradação, fluxo paralelo e artefato obsoleto [pendente]
+4/6 Rastreabilidade e linguagem [concluido]
+  1/3 Implementar associação sentença RCF ↔ commit material em duas fases sem recursão [concluido]
+  2/3 Implementar parser/formatter de sintaxe lógica somente se aprovado pela FT-050/FT-051 [concluido]
+  3/3 Implementar validações contra degradação, fluxo paralelo e artefato obsoleto [concluido]
 5/6 Auditoria integral [pendente]
   1/3 Inventariar e adequar todos os scripts distribuídos [pendente]
   2/3 Executar corpus cross-platform, shells, runtimes, permissões, falhas e retomadas [pendente]
@@ -1199,9 +1199,11 @@ proximo_ponto=Rastreabilidade RCF em duas fases e validações de degradação.
 conciliacao=FT-058 especializa a segregação física de fonte distribuível, internos, allowlist, manifests e pipeline solicitada posteriormente. Nos pontos sobrepostos, FT-058 prevalece por especificidade e `criado_em`; FT-052 reutiliza seu resultado e NÃO DEVE refazer, reverter ou manter classificação incompatível. A correção transversal de EOL, TypeScript e demais contratos amplos permanece na FT-052.
 resultado_etapa_1=26 fontes Node convertidas para TypeScript canônico; 26 artefatos CommonJS Node 24+ derivados por TypeScript 7.0.2/esbuild 0.28.1; release dual com matriz por runtime; TypeScript e JavaScript manualmente concorrente bloqueados; 448 funções e 8 classes receberam documentação nativa; EOL comparado por hash textual normalizado.
 verificacoes_etapa_1=agent:typecheck TYPECHECK_OK sources=26; agent:verify VERIFY_OK scripts=26 indexedFiles=98; agent:test TEST_OK suites=12; dist contém pares .ts/.js, JavaScript minificado e origem rastreável.
-resultado_etapa_2=Atualizador ampliado para fontes TypeScript, Python, texto e YAML manifestadas; handoff HMAC, marcador versionado, backup ZIP, transação e rollback preservados; catálogo de 2 workflows, instalador atômico, dry-run, estado de integridade e proteção contra customização divergente implementados. O workflow de rastreabilidade aguarda o runtime da etapa 4 para fechamento do item 2/3.
+resultado_etapa_2=Atualizador ampliado para fontes TypeScript, Python, texto e YAML manifestadas; handoff HMAC, marcador versionado, backup ZIP, transação e rollback preservados; catálogo de 2 workflows, instalador atômico, dry-run, estado de integridade, proteção contra customização divergente e runtimes executáveis implementados.
 resultado_etapa_3=Grafo global validado com 35 nós e 34 arestas; 34 rotas terminais; tiktoken 0.13.0/o200k_base exato; corpus integral 35.190 tokens e rota média 8.352,91, redução contextual média 76,26%; mapa Mermaid, região README, hashes, digest de obsolescência, execução local e workflow concorrente/anti-recursão implementados.
 verificacoes_etapa_3=agent:map NORMATIVE_GRAPH_OK paths=34; agent:verify VERIFY_OK indexedFiles=106; agent:test TEST_OK suites=14; teste comprova idempotência e ausência de alteração em --check.
+resultado_etapa_4=Runtime rcf-trace TypeScript implementa migração por blame causal no Construtor, preparo explícito, marcador PENDENTE-CODIGO, finalização por commit material, últimos 7 caracteres no RCF, hash integral/mapa local, validação round trip, workflow em segunda fase e anti-recursão. RCF.md possui 245 unidades materiais assinadas. Parser/formatter lógico foi encerrado como não aplicável por DEC-20260725-001 e RCF §19; nenhum código proibido foi criado. Guardas do grafo bloqueiam redução silenciosa de modalidade, proibição, exceção ou referência; JavaScript manual, workflow conflitante e derivado obsoleto também bloqueiam.
+verificacoes_etapa_4=agent:rcf:trace validate entries=245 material=245; rcf-trace.test comprova migração, últimos sete caracteres, preparo/finalização causal e detecção de sentença órfã; agent:test TEST_OK suites=15.
 
 FT-053|nome=Normatização RCF do registro de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T19:21:55-03:00|inicio=2026-07-25T19:22:00-03:00|atualizacao=2026-07-25T19:37:09-03:00|conclusao=2026-07-25T19:37:09-03:00|conclusao_anterior=2026-07-25T19:25:58-03:00
 objetivo=Incorporar ao RCF o registro local, canônico, indexado e não cumulativo de recusas expressas cuja matéria permaneça não implementada, incluindo recusa total, parcial, reconsiderável e restrição em trabalho ativo, sem alterar src ou implementar automação.

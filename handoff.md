@@ -30,7 +30,7 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 </tr>
 <tr>
 <td>Distribuir e instalar workflows oficiais de forma indexada e determinística</td>
-<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Validar instalações limpas, saltos, cópias manuais, coexistência e árvores sujas</td>
@@ -52,15 +52,15 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 <tr>
 <td rowspan="3">Rastreabilidade e linguagem</td>
 <td>Implementar associação sentença RCF ↔ commit material em duas fases sem recursão</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Implementar parser/formatter de sintaxe lógica somente se aprovado pela FT-050/FT-051</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Implementar validações contra degradação, fluxo paralelo e artefato obsoleto</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Auditoria integral</td>

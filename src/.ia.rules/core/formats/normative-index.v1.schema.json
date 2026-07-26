@@ -30,6 +30,7 @@
           "outputs": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
           ,
           "bytes": { "type": "integer", "minimum": 0 },
+          "guard": { "type": "object" },
           "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
           "tokens": { "type": "integer", "minimum": 0 }
         }

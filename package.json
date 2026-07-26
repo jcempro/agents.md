@@ -161,6 +161,7 @@
     "agent:map": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:map",
     "agent:docs": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:docs",
     "agent:rcf": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:rcf",
+    "agent:rcf:trace": "node .ia.rules/core/runtime/scripts/rcf-trace.js",
     "agent:parse-data": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:parse-data",
     "agent:summarize": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:summarize",
     "agent:convert": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:convert",

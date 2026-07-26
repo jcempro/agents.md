@@ -247,7 +247,7 @@ Object.assign(COMMANDS, {
   },
   "agent:map": {
     description: "valida e regenera índice, custos e mapa normativo com tokenizer exato",
-    run: () => runNormativeGraph(["--write", "--check"]),
+    run: (_args) => runNormativeGraph(["--write", "--check", ..._args]),
     status: "available"
   },
   "agent:docs": {
@@ -258,6 +258,11 @@ Object.assign(COMMANDS, {
   "agent:rcf": {
     description: "valida presenca e referencia do RCF",
     run: rcf,
+    status: "available"
+  },
+  "agent:rcf:trace": {
+    description: "prepara, finaliza e valida rastreabilidade causal de RCF",
+    run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "rcf-trace.js"), _args),
     status: "available"
   },
   "agent:package": {
@@ -910,6 +915,7 @@ function verify() {
   validateIndex(index);
   validateNormativeReferences(index);
   runNormativeGraph(["--check"]);
+  validateRcfTraceIfPresent();
   const refusedDecisions = validateRefusedDecisions(ROOT_DIR);
   buildDist();
   for (const script of listFiles(DIST_DIR).filter((filePath) => path.extname(filePath) === ".js")) {
@@ -941,7 +947,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "refused-decisions.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "workflow-manager.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "normative-graph.test.js")]);
-  return ok("TEST_OK", { suites: 14 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
+  return ok("TEST_OK", { suites: 15 });
 }
 function validateIndex(index) {
   if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest || index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {
@@ -1185,10 +1192,21 @@ function rcf() {
   const rcfPath = path.join(ROOT_DIR, "RCF.md");
   assertFile(rcfPath, "RCF.md ausente.");
   const content = fs.readFileSync(rcfPath, "utf8");
-  return ok(content.includes("## 9. Indexador") && content.includes("## 10. Dist") ? "RCF_OK" : "RCF_DEGRADED", {
+  const trace = validateRcfTraceIfPresent();
+  return ok(content.includes("## 13.") && content.includes("## 20.") ? "RCF_OK" : "RCF_DEGRADED", {
     path: "RCF.md",
-    bytes: Buffer.byteLength(content)
+    bytes: Buffer.byteLength(content),
+    trace
   });
+}
+function validateRcfTraceIfPresent() {
+  const mapPath = path.join(ROOT_DIR, ".ia.rules", "state", "traceability", "rcf-map.json");
+  if (!fs.existsSync(mapPath)) return { adopted: false };
+  const result = runProcess(process.execPath, [
+    path.join(ROOT_DIR, ".ia.rules", "core", "runtime", "scripts", "rcf-trace.js"),
+    "validate"
+  ]);
+  return { adopted: true, result: JSON.parse(result.stdout) };
 }
 function lint() {
   const scripts = listFiles(path.join(ROOT_DIR, "scripts")).filter((filePath) => path.extname(filePath) === ".js");
