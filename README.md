@@ -14,6 +14,18 @@
 
 Governança operacional portátil para agentes de IA, distribuída como contratos, cenários, configuração e runtime reutilizáveis. Este repositório exerce simultaneamente os papéis de Repositório Final, para a própria operação, e de Construtor, ao gerar e publicar a Norma.
 
+## Recursos
+
+- Governança de IA reutilizável entre repositórios.
+- Contexto seletivo reduz tokens e ruído.
+- Rastreabilidade preserva decisões entre agentes.
+- Orquestração all-in-one reduz trabalho manual.
+- Validação determinística bloqueia releases inconsistentes.
+- Atualizações transacionais preservam customizações locais.
+- Hooks integram projetos sem alterar o núcleo.
+- Operação uniforme em Linux, macOS e Windows.
+- Issues aprovadas viram trabalho e releases rastreáveis.
+
 ## Estado atual e arquitetura
 
 | Superfície             | Situação vigente                                                                                                    |
