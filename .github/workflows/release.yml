@@ -59,6 +59,15 @@ jobs:
         with:
           node-version: '24'
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Materializar toolchains declaradas
+        run: |
+          npm ci
+          python -m pip install --disable-pip-version-check -r src/.ia.rules/scenarios/governance/scripts/requirements-normative-graph.txt
+
       - name: Configurar Git
         run: |
           git config user.name "github-actions[bot]"
@@ -76,7 +85,7 @@ jobs:
             version="$INPUT_VERSION"
             release_file=''
             if [ -z "$version" ]; then
-                version="$(node -e "const {resolveRelease}=require('./src/.ia.rules/core/runtime/scripts/repo-tools');process.stdout.write(resolveRelease('').version)")"
+                version="$(node -e "const {resolveRelease}=require('./.ia.rules/core/runtime/scripts/repo-tools');process.stdout.write(resolveRelease('').version)")"
             fi
           else
             version="$DETECT_VERSION"

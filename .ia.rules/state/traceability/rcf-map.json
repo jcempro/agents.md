@@ -1902,6 +1902,20 @@
     },
     {
       "artifacts": [
+        ".github/workflows/release.yml",
+        "test/runtime-resilience.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-052",
+      "id": "c229c96e78d4ad3bc83ab337",
+      "line": 1119,
+      "rcf": "RCF.md",
+      "sentenceSha256": "f86d7be62e40a4c117c748e3eaa63ff9a17372c910d5fab05bd561fb211f5280",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "8237b6c2e6785ca8901357d724c0c86fbc57042e",

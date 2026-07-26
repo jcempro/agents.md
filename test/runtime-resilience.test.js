@@ -55,6 +55,9 @@ function main() {
   const releaseWorkflow = fs.readFileSync(path.join(root, ".github", "workflows", "release.yml"), "utf8");
   assert.doesNotMatch(releaseWorkflow, /detect-release:\r?\n\s+if:/u);
   assert.match(releaseWorkflow, /if:\s+github\.event_name == 'workflow_dispatch' \|\| needs\.detect-release\.outputs\.triggered == 'true'/u);
+  assert.match(releaseWorkflow, /npm ci/u);
+  assert.match(releaseWorkflow, /requirements-normative-graph\.txt/u);
+  assert.doesNotMatch(releaseWorkflow, /require\(['"]\.\/src\/\.ia\.rules\/core\/runtime\/scripts\/repo-tools/u);
 
   for (const scriptPath of listFiles(path.join(distRoot, ".ia.rules")).filter((filePath) => filePath.endsWith(".js"))) {
     const checked = childProcess.spawnSync(process.execPath, ["--check", scriptPath], {
