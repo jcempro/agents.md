@@ -36,6 +36,7 @@
 
 - Release `v0.0.23` publicada pelo run `30184824519`: asset `agents-v0.0.23.zip`, SHA-256 `1a2f3f175d2377df5a0cf46f118d4932a494e5d485921b50897be067a37e86e4`, 309.566 bytes.
 - O push automático revelou que o marcador preexistente era alteração `M`, não criação `A`; detector, teste e RCF passaram a aceitar `A|M` somente sob a política versionada já publicada.
-- O workflow convergiu `dev`/`main` em `8f9ccc7`; a correção posterior das tarefas terminais avançou `dev` para `29538ac`, exigindo reconvergência após o fechamento das issues.
+- O workflow convergiu `dev`/`main` em `8f9ccc7`; a correção posterior das tarefas terminais avançou `dev`, com reconvergência terminal executada após o fechamento das issues.
 - O dry-run terminal seleciona exatamente FT-060/FT-062 para a issue #2 e FT-061/FT-063 para a issue #10.
-- A chamada mutável final foi recusada pelo aprovador de segurança por limite de uso. As issues permanecem abertas e a FT-059 permanece interrompida, sem contorno, até autorização externa disponível.
+- A primeira chamada mutável final foi recusada pelo aprovador de segurança por limite de uso, sem contorno. Na retomada autorizada, `agent:inbox:complete-release 0.0.23 --role constructor --authorize` concluiu o lote.
+- As issues [#2](https://github.com/jcempro/agents.md/issues/2) e [#10](https://github.com/jcempro/agents.md/issues/10) estão `CLOSED`/`COMPLETED`, rotuladas `agents:fixed` e possuem comentário terminal idempotente para cada FT correlacionada.

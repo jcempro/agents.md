@@ -1374,7 +1374,7 @@ resultado=`src/` contém somente as 70 fontes positivamente classificadas; conte
 pendencias=FT-052 deve corrigir a comparação EOL e absorver o manifesto ao converter fontes Node/gerados; FT-055 deve integrar a validação do acervo decisório. FT-059 permanece pendente para integração terminal posterior.
 proximo_ponto=Commitar/enviar pipeline da FT-058 e iniciar FT-055, já autorizada.
 
-FT-059|nome=Integração e auditoria do release mínimo|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-25T19:58:16-03:00|inicio=2026-07-25T23:31:00-03:00|atualizacao=2026-07-25T23:50:00-03:00|flag=[INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS]
+FT-059|nome=Integração e auditoria do release mínimo|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-25T19:58:16-03:00|inicio=2026-07-25T23:31:00-03:00|atualizacao=2026-07-25T23:47:49-03:00|conclusao=2026-07-25T23:47:49-03:00
 objetivo=Validar integralmente a reorganização e comprovar que release/publish contêm somente artefatos úteis aos Repositórios Finais, com referências, scripts, workflows, documentação e índices íntegros.
 origens=.ia.rules/state/requests/FT-056/request.md; entregas FT-056, FT-057 e FT-058.
 dependencias=FT-056, FT-057 e FT-058 concluídas; sistema global funcional; autorização humana explícita quando houver efeito remoto/publicação.
@@ -1387,16 +1387,17 @@ nao_escopo=Não corrigir incidentalmente falha não relacionada; achado material
   1/3 Gerar dist/release/package/ZIP de forma reproduzível [concluido]
   2/3 Inspecionar manifests, mapas, workflows, scripts e atualização [concluido]
   3/3 Comparar conteúdo público antes/depois e limitar delta às exclusões autorizadas [concluido]
-3/3 Fechamento [em andamento]
+3/3 Fechamento [concluido]
   1/3 Executar suíte global e registrar limitações/falhas proprietárias [concluido]
   2/3 Atualizar RCF, AGENTS, memória, handoff e derivados finais aplicáveis [concluido]
-  3/3 Commitar, enviar, publicar somente se autorizado e convergir branches com gates verdes [pendente]
+  3/3 Commitar, enviar, publicar somente se autorizado e convergir branches com gates verdes [concluido]
 aceite=Todos os critérios do prompt comprovados por inventário e artefato real; nenhum conteúdo exclusivamente interno distribuído; nenhuma referência ou contrato público regressado.
 resultado_parcial=Inventário fechou 83 fontes físicas/83 declaradas, sem falta ou entrada fantasma; release possui 115 arquivos e zero interno proibido. Duas gerações produziram ZIP idêntico SHA-256 96123B0A2CF410C2893F7E6A6B4733AF90C981B66FD688678E802EAE25251ADC/311461 bytes. Delta desde v0.0.22 contém somente agents.inc.md e repository.json, ambos autorizados e úteis. Release v0.0.23 foi publicado pelo run 30184824519 com asset SHA-256 1a2f3f175d2377df5a0cf46f118d4932a494e5d485921b50897be067a37e86e4/309566 bytes.
 verificacoes=agent:verify VERIFY_OK indexedFiles=111; agent:test TEST_OK suites=18; npm pack dry-run 101 entradas/209845 bytes/860128 unpacked; NORMATIVE_GRAPH_OK 36 nós/35 rotas; relatório constructor/reports/FT-059-phase4.md.
-falhas=agent:release sem versão explícita recusou corretamente o commit não semântico com VERSAO_NAO_INFERIVEL; nenhuma repetição idêntica foi feita. npm pack no sandbox falhou por EPERM do cache externo e foi aprovado fora do sandbox sem regressão. O push automático revelou marcador versionado como M e foi corrigido/assinado; dispatch publicou. O primeiro complete-release não selecionou issues porque as tarefas terminais das FTs técnicas ainda estavam pendentes; após correção, dry-run seleciona exatamente quatro FTs. A mutação final foi recusada pelo aprovador por limite de uso, sem tentativa de contorno.
-pendencias=Executar `agent:inbox:complete-release 0.0.23 --role constructor --authorize` com autorização externa disponível; comprovar #2/#10 fechadas e agents:fixed; atualizar issue_state para corrigida, concluir FT-059, remover flag, commitar/enviar e reconvergir dev/main.
-proximo_ponto=Retomar exclusivamente do complete-release já validado por dry-run; não refazer build, release ou auditoria.
+falhas=agent:release sem versão explícita recusou corretamente o commit não semântico com VERSAO_NAO_INFERIVEL; nenhuma repetição idêntica foi feita. npm pack no sandbox falhou por EPERM do cache externo e foi aprovado fora do sandbox sem regressão. O push automático revelou marcador versionado como M e foi corrigido/assinado; dispatch publicou. O primeiro complete-release não selecionou issues porque as tarefas terminais das FTs técnicas ainda estavam pendentes; após correção, dry-run selecionou exatamente quatro FTs. A primeira mutação final foi recusada pelo aprovador por limite de uso; a retomada autorizada concluiu sem contorno.
+resultado=Release v0.0.23 publicado e auditado; `agent:inbox:complete-release` concluiu FT-060/FT-062 na issue #2 e FT-061/FT-063 na issue #10. Ambas as issues estão CLOSED/COMPLETED, possuem `agents:fixed` e comentários idempotentes por FT; o estado local foi sincronizado para `corrigida`.
+pendencias=Nenhuma nesta FT.
+proximo_ponto=Registrar a nova solicitação sobre Node 24+, métricas estatísticas e diagnóstico do workflow em FTs segregadas.
 
 FT-060|nome=Normatização dos metadados distribuídos e autorização upstream|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-26T01:20:27Z|inicio=20260726.012027|atualizacao=2026-07-25T23:05:00-03:00|conclusao=2026-07-25T23:05:00-03:00
 objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#2 antes da implementação técnica, cobrindo configuração distribuída autenticada, instalação limpa, validação de cabeçalhos e autorização upstream.
@@ -1404,7 +1405,7 @@ issue_id=github:jcempro/agents.md#2
 issue_repo=jcempro/agents.md
 issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
-issue_state=em_desenvolvimento
+issue_state=corrigida
 release=0.0.23
 origem_preservada_no_commit=1a48022
 origem_sha256=068B655D63C0C33ADA8C78FF96DACA816C9AE6ECCF6010ACB64F10D38E7F1F15
@@ -1432,7 +1433,7 @@ issue_id=github:jcempro/agents.md#10
 issue_repo=jcempro/agents.md
 issue_number=10
 issue_url=https://github.com/jcempro/agents.md/issues/10
-issue_state=em_desenvolvimento
+issue_state=corrigida
 release=0.0.23
 origem_preservada_no_commit=1a48022
 origem_sha256=34B41556B3A702755784277042167DA3CFA443D52C50B6DA842C09CCD238C6C4
@@ -1464,7 +1465,7 @@ issue_id=github:jcempro/agents.md#2
 issue_repo=jcempro/agents.md
 issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
-issue_state=em_desenvolvimento
+issue_state=corrigida
 release=0.0.23
 origem=.ia.rules/state/requests/FT-060/request.md
 dependencias=FT-060 concluída e autorização humana explícita desta solicitação.
@@ -1491,7 +1492,7 @@ issue_id=github:jcempro/agents.md#10
 issue_repo=jcempro/agents.md
 issue_number=10
 issue_url=https://github.com/jcempro/agents.md/issues/10
-issue_state=em_desenvolvimento
+issue_state=corrigida
 release=0.0.23
 origem=.ia.rules/state/requests/FT-061/request.md
 dependencias=FT-061 concluída e autorização humana explícita desta solicitação.
