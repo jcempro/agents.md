@@ -68,6 +68,7 @@
     "agents:update": "npm run update:agents --",
     "agent:autoupdate": "npm run update:agents --",
     "agent:agents": "npm run update:agents --",
+    "agent:workflows": "node .ia.rules/core/runtime/scripts/workflow-manager.js",
     "agent:upstream:check": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:upstream:check",
     "agent:upstream:prepare": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:upstream:prepare",
     "agent:upstream:publish": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:upstream:publish",

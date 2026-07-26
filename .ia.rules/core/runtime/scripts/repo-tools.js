@@ -131,6 +131,11 @@ const COMMANDS = {
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "autoupdate.js"), _args),
     status: "available"
   },
+  "agent:workflows": {
+    description: "lista, instala, atualiza e valida workflows oficiais distribuídos",
+    run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "workflow-manager.js"), _args),
+    status: "available"
+  },
   "agent:upstream:check": {
     description: "resolve e consulta o upstream de AGENTS.md com seguranca",
     run: (_args) => runNodeScript(path.join(".ia.rules", "core", "runtime", "scripts", "upstream-share.js"), ["check", ..._args]),
@@ -931,7 +936,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "template-merge.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "source-distribution.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "refused-decisions.test.js")]);
-  return ok("TEST_OK", { suites: 12 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "workflow-manager.test.js")]);
+  return ok("TEST_OK", { suites: 13 });
 }
 function validateIndex(index) {
   if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest || index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {

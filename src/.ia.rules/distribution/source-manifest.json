@@ -623,6 +623,30 @@
       }
     },
     {
+      "path": ".ia.rules/core/runtime/scripts/workflow-manager.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/workflow-manager.ts",
+      "purpose": "instalador transacional de workflows oficiais",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/workflow-manager.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
+    },
+    {
       "path": ".ia.rules/core/update/formats/governance-manifest.v2.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/core/update/formats/governance-manifest.v2.json",
@@ -1379,6 +1403,57 @@
         "constructor"
       ],
       "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/workflows/github/normative-graph.yml",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/workflows/github/normative-graph.yml",
+      "purpose": "workflow distribuível de mapa normativo",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "normative-graph-applicable",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/workflows/github/rcf-trace.yml",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/workflows/github/rcf-trace.yml",
+      "purpose": "workflow distribuível de rastreabilidade RCF",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "rcf-trace-applicable",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/workflows/index.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/workflows/index.json",
+      "purpose": "índice canônico de workflows distribuíveis",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
       "ownership": "managed",
       "validation": [
         "source-exists",
