@@ -1395,40 +1395,108 @@ aceite=Todos os critérios do prompt comprovados por inventário e artefato real
 pendencias=Aguardar FT-058; publicação remota exige autorização/condições próprias.
 proximo_ponto=Não iniciar nesta atuação.
 
-FT-060|nome=[AGENTS] Distribuir os metadados exigidos pela validação de cabeçalhos|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260726.012027|atualizacao=20260726.012027
-objetivo=Implementar a issue aprovada github:jcempro/agents.md#2 com rastreabilidade ate o release.
+FT-060|nome=Normatização dos metadados distribuídos e autorização upstream|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-26T01:20:27Z|inicio=20260726.012027|atualizacao=2026-07-25T22:45:43-03:00
+objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#2 antes da implementação técnica, cobrindo configuração distribuída autenticada, instalação limpa, validação de cabeçalhos e autorização upstream.
 issue_id=github:jcempro/agents.md#2
 issue_repo=jcempro/agents.md
 issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
 issue_state=em_desenvolvimento
 release=pendente
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
-3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+origem=.ia.rules/state/requests/FT-060/request.md
+origem_sha256=068B655D63C0C33ADA8C78FF96DACA816C9AE6ECCF6010ACB64F10D38E7F1F15
+complementar=FT-062
+1/3 Captura e conciliação [em andamento]
+  1/3 Preservar issue integral, hash, contexto e vínculos [concluido]
+  2/3 Reclassificar FT legada e criar complementar técnica [concluido]
+  3/3 Commitar exclusivamente criação e conciliação [em andamento]
+2/3 RCF [pendente]
+  1/3 Definir autoridade e schema dos metadados distribuídos [pendente]
+  2/3 Definir instalação limpa, integridade, edição local e cabeçalhos [pendente]
+  3/3 Definir autorização upstream e critérios verificáveis [pendente]
+3/3 Validação normativa [pendente]
+  1/2 Auditar issue → RCF e ausência de código antecipado [pendente]
+  2/2 Concluir FT normativa e liberar FT-062 [pendente]
+aceite=RCF suficiente e rastreável para reconstruir a configuração distribuída e a autorização upstream sem inferência; nenhuma implementação técnica antecipada.
+pendencias=Concluir commit de conciliação e implementar o RCF; FT-062 permanece bloqueada.
+proximo_ponto=Executar FT-060; depois FT-062.
 
-FT-061|nome=Redução estrutural de `AGENTS.md` e carregamento sob demanda do contexto normativo|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260726.012452|atualizacao=20260726.012452
-objetivo=Implementar a issue aprovada github:jcempro/agents.md#10 com rastreabilidade ate o release.
+FT-061|nome=Normatização do ponto de entrada AGENTS e carregamento sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-26T01:24:52Z|inicio=20260726.012452|atualizacao=2026-07-25T22:45:43-03:00
+objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#10, reduzindo AGENTS.md a ponto de entrada de até 500 tokens e preservando sem perda a Norma auxiliar e o roteamento sob demanda.
 issue_id=github:jcempro/agents.md#10
 issue_repo=jcempro/agents.md
 issue_number=10
 issue_url=https://github.com/jcempro/agents.md/issues/10
 issue_state=em_desenvolvimento
 release=pendente
-1/3 Analise e plano [pendente]
-  1/2 Validar escopo e criterios de aceite da issue [pendente]
-  2/2 Atualizar plano e contratos aplicaveis [pendente]
-2/3 Implementacao e validacao [pendente]
-  1/2 Implementar sem regressao [pendente]
-  2/2 Executar validacoes proporcionais [pendente]
+origem=.ia.rules/state/requests/FT-061/request.md
+origem_sha256=34B41556B3A702755784277042167DA3CFA443D52C50B6DA842C09CCD238C6C4
+complementar=FT-063
+1/4 Captura e conciliação [em andamento]
+  1/3 Preservar issue integral, hash, contexto e vínculos [concluido]
+  2/3 Reclassificar FT legada e criar complementar técnica [concluido]
+  3/3 Commitar exclusivamente criação e conciliação [em andamento]
+2/4 Arquitetura RCF [pendente]
+  1/3 Fixar limite permanente de 500 tokens e responsabilidade do entrypoint [pendente]
+  2/3 Definir preservação integral, autoridade auxiliar e condições de leitura [pendente]
+  3/3 Definir modularização, compatibilidade, migração e critérios [pendente]
+3/4 Norma Operacional [pendente]
+  1/3 Migrar integralmente o corpo sem redução para auxiliar canônico [pendente]
+  2/3 Criar entrypoint mínimo e atualizar roteamento/índice [pendente]
+  3/3 Sincronizar AGENTS ativo por autorização humana explícita [pendente]
+4/4 Validação normativa [pendente]
+  1/2 Provar limite, preservação e equivalência [pendente]
+  2/2 Concluir FT normativa e liberar FT-063 [pendente]
+aceite=AGENTS.md com no máximo 500 tokens, Norma anterior integralmente preservada e autoridade/precedência/roteamento equivalentes; nenhum código técnico antecipado.
+pendencias=Concluir commit de conciliação e executar RCF/Norma; FT-063 permanece bloqueada.
+proximo_ponto=Executar FT-061 após o RCF da FT-060; depois FT-063.
+
+FT-062|nome=Implementação dos metadados distribuídos e autorização upstream|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T22:45:44-03:00
+objetivo=Implementar e validar a configuração repository.json distribuída/autenticada, instalação limpa, cabeçalhos gerenciados e autorização upstream exigidos por github:jcempro/agents.md#2.
+issue_id=github:jcempro/agents.md#2
+issue_repo=jcempro/agents.md
+issue_number=2
+issue_url=https://github.com/jcempro/agents.md/issues/2
+issue_state=em_desenvolvimento
+release=pendente
+origem=.ia.rules/state/requests/FT-060/request.md
+dependencias=FT-060 concluída e autorização humana explícita desta solicitação.
+1/3 Configuração e distribuição [pendente]
+  1/3 Adicionar repository.json à fonte positiva e schema [pendente]
+  2/3 Propagar por build, mapa, manifesto, ZIP e update [pendente]
+  3/3 Preservar detecção transacional de edição local [pendente]
+2/3 Runtime e testes [pendente]
+  1/3 Restaurar autorização upstream comum e determinística [pendente]
+  2/3 Testar consumidor limpo, cabeçalhos e publicação/duplicata [pendente]
+  3/3 Regenerar TypeScript/JavaScript e derivados [pendente]
 3/3 Entrega [pendente]
-  1/2 Commitar e publicar desenvolvimento [pendente]
-  2/2 Incluir em release e encerrar issue [pendente]
-pendencias=Iniciar desenvolvimento e executar o plano da issue.
+  1/2 Validar integralmente e concluir FT [pendente]
+  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [pendente]
+aceite=Todos os critérios da issue #2 comprovados em artefato e instalação limpa, sem enfraquecer cabeçalhos, autorização ou transação.
+pendencias=Aguardar FT-060.
+proximo_ponto=Não iniciar antes da conclusão normativa.
+
+FT-063|nome=Implementação técnica do entrypoint AGENTS sob demanda|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T22:45:45-03:00
+objetivo=Materializar, distribuir e validar a arquitetura normatizada por FT-061 para AGENTS.md de até 500 tokens com conteúdo auxiliar integral, índice, grafo, atualização e compatibilidade.
+issue_id=github:jcempro/agents.md#10
+issue_repo=jcempro/agents.md
+issue_number=10
+issue_url=https://github.com/jcempro/agents.md/issues/10
+issue_state=em_desenvolvimento
+release=pendente
+origem=.ia.rules/state/requests/FT-061/request.md
+dependencias=FT-061 concluída e autorização humana explícita desta solicitação.
+1/3 Pipeline e roteamento [pendente]
+  1/3 Manifestar e distribuir entrypoint e auxiliar canônico [pendente]
+  2/3 Atualizar índice/grafo, custos e invalidação [pendente]
+  3/3 Atualizar referências, update e compatibilidade [pendente]
+2/3 Guardas e testes [pendente]
+  1/3 Medir tokenização oficial e bloquear limite acima de 500 [pendente]
+  2/3 Provar preservação integral e carregamento seletivo [pendente]
+  3/3 Provar build, release, clientes e comportamento do construtor [pendente]
+3/3 Entrega [pendente]
+  1/2 Validar integralmente e concluir FT [pendente]
+  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [pendente]
+aceite=Critérios da issue #10 comprovados por tokenização oficial, equivalência normativa, rotas, artefato e atualização, sem perda ou regressão.
+pendencias=Aguardar FT-061.
+proximo_ponto=Não iniciar antes da conclusão normativa.
