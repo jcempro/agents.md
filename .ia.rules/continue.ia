@@ -1531,11 +1531,11 @@ dependencias=FT-059 concluída; RCF §§14.3 e 18.4; contrato `resource.workflow
   1/3 Projetar o piso de runtime em `resource.workflows` [concluido]
   2/3 Auditar RCF → Norma sem código ou derivado antecipado [concluido]
   3/3 Validar, concluir e interromper antes da FT-065 [concluido]
-aceite=RCF e Norma distribuível definem de forma reconstruível o runtime mínimo e todas as estatísticas, com semântica, precisão, exceções e validações; nenhum script, teste, workflow, README ou derivado é alterado nesta FT.
+aceite=RCF e Norma distribuível definem de forma reconstruível o runtime mínimo e todas as estatísticas, com semântica, precisão, exceções e validações; nenhum script, teste ou workflow é alterado, e derivado eventualmente regenerado limita-se ao efeito mecânico do workflow preexistente.
 diagnostico_ci=Run 30184182023 falhou em 0.0.22 por FONTE_SEM_PERFIL:.ia.rules/agents.inc.md; run 30184818261 passou em macOS, Windows e Ubuntu após manifestação positiva, incluindo npm test e gate de diff.
 resultado_rcf=RCF §14.3 fixa Node.js 24+ antes da primeira invocação Node em workflow de Repositório Final e exclui workflow sem Node/action de terceiro do piso materializado. RCF §18.4 fixa série por rota, mediana, desvio padrão populacional, precisão, vazio/unitário e equivalência entre índice, mapa, README e CLI.
 resultado_norma=O contrato distribuível `resource.workflows` exige Node.js 24+ quando houver execução Node e rejeita runtime inútil; `core.routing` projeta as seis métricas e sua semântica uniforme. Script, README, teste, workflow e derivados permanecem intocados e pertencem à FT-065.
-verificacoes=Solicitação integral preservada em 99cc82f e auditada bidirecionalmente; agent:rcf RCF_OK; rcf-trace mantém o piso Node sincronizado ao commit material d29417a e a estatística PENDENTE-CODIGO exclusivamente para FT-065; nenhum script, teste, workflow, README ou derivado foi alterado.
+verificacoes=Solicitação integral preservada em 99cc82f e auditada bidirecionalmente; agent:rcf RCF_OK; rcf-trace mantém o piso Node sincronizado ao commit material d29417a e a estatística PENDENTE-CODIGO exclusivamente para FT-065. Workflow normativo 30185765771 regenerou mecanicamente índice/mapa/valores README em a321f3f; matriz 30185816202 passou em macOS, Windows e Ubuntu com Node.js 24, npm test e gate de diff.
 pendencias=FT-065 permanece pendente e exige nova autorização humana explícita.
 proximo_ponto=Interromper antes do código; após autorização, implementar FT-065 sem reabrir a falha histórica já resolvida.
 
@@ -1558,6 +1558,6 @@ dependencias=FT-064 concluída; autorização humana explícita posterior à fas
   2/3 Executar testes, verify e validação de obsolescência [pendente]
   3/3 Registrar resultado, commit material e rastreabilidade causal [pendente]
 aceite=README, índice, mapa e CLI exibem métricas idênticas e reproduzíveis; testes comprovam semântica estatística; workflows gerenciados aplicáveis usam Node.js 24+; nenhuma correção é aplicada a falha histórica já resolvida.
-diagnostico_preliminar=A falha fornecida não persiste: run 30184818261 concluiu com sucesso nas três plataformas após a entrada de `agents.inc.md` receber perfil `consumer-core`; o escopo técnico não inclui nova correção dessa causa sem evidência contrária.
+diagnostico_preliminar=A falha fornecida não persiste: run 30184818261 concluiu com sucesso nas três plataformas após a entrada de `agents.inc.md` receber perfil `consumer-core`. O run 30185765786 detectou corretamente derivados obsoletos no commit normativo anterior ao commit automático a321f3f; a reexecução terminal 30185816202 sobre a321f3f passou nas três plataformas. Não há causa corrente a corrigir.
 pendencias=Aguardar conclusão e commit da FT-064, seguidos de nova autorização humana explícita.
 proximo_ponto=Não iniciar código, testes, README, workflow ou gerador antes do gate.
