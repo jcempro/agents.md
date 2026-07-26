@@ -1405,7 +1405,7 @@ issue_repo=jcempro/agents.md
 issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
 issue_state=em_desenvolvimento
-release=pendente
+release=0.0.23
 origem_preservada_no_commit=1a48022
 origem_sha256=068B655D63C0C33ADA8C78FF96DACA816C9AE6ECCF6010ACB64F10D38E7F1F15
 complementar=FT-062
@@ -1433,7 +1433,7 @@ issue_repo=jcempro/agents.md
 issue_number=10
 issue_url=https://github.com/jcempro/agents.md/issues/10
 issue_state=em_desenvolvimento
-release=pendente
+release=0.0.23
 origem_preservada_no_commit=1a48022
 origem_sha256=34B41556B3A702755784277042167DA3CFA443D52C50B6DA842C09CCD238C6C4
 complementar=FT-063
@@ -1458,14 +1458,14 @@ verificacoes=tiktoken 0.13.0/o200k_base mediu 338 tokens; SHA-256 LF do auxiliar
 pendencias=FT-063 está liberada para manifestar, gerar métricas/derivados e executar guardas técnicas.
 proximo_ponto=Executar FT-062 e FT-063; depois FT-059.
 
-FT-062|nome=Implementação dos metadados distribuídos e autorização upstream|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T22:45:44-03:00|inicio=2026-07-25T23:16:00-03:00|atualizacao=2026-07-25T23:30:00-03:00
+FT-062|nome=Implementação dos metadados distribuídos e autorização upstream|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T22:45:44-03:00|inicio=2026-07-25T23:16:00-03:00|atualizacao=2026-07-25T23:42:00-03:00|conclusao=2026-07-25T23:42:00-03:00
 objetivo=Implementar e validar a configuração repository.json distribuída/autenticada, instalação limpa, cabeçalhos gerenciados e autorização upstream exigidos por github:jcempro/agents.md#2.
 issue_id=github:jcempro/agents.md#2
 issue_repo=jcempro/agents.md
 issue_number=2
 issue_url=https://github.com/jcempro/agents.md/issues/2
 issue_state=em_desenvolvimento
-release=pendente
+release=0.0.23
 origem=.ia.rules/state/requests/FT-060/request.md
 dependencias=FT-060 concluída e autorização humana explícita desta solicitação.
 1/3 Configuração e distribuição [concluido]
@@ -1476,7 +1476,7 @@ dependencias=FT-060 concluída e autorização humana explícita desta solicita�
   1/3 Restaurar autorização upstream comum e determinística [concluido]
   2/3 Testar consumidor limpo, cabeçalhos e publicação/duplicata [concluido]
   3/3 Regenerar TypeScript/JavaScript e derivados [concluido]
-3/3 Entrega [em andamento]
+3/3 Entrega [concluido]
   1/2 Validar integralmente e concluir FT [concluido]
   2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [pendente]
 aceite=Todos os critérios da issue #2 comprovados em artefato e instalação limpa, sem enfraquecer cabeçalhos, autorização ou transação.
@@ -1485,14 +1485,14 @@ verificacoes=agent:typecheck TYPECHECK_OK sources=28; agent:verify VERIFY_OK ind
 pendencias=Finalizar rastreabilidade causal, vincular release e encerrar issue após FT-060/FT-062 concluídas.
 proximo_ponto=Commit material, sincronização RCF e release pela FT-059.
 
-FT-063|nome=Implementação técnica do entrypoint AGENTS sob demanda|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T22:45:45-03:00|inicio=2026-07-25T23:16:01-03:00|atualizacao=2026-07-25T23:30:00-03:00
+FT-063|nome=Implementação técnica do entrypoint AGENTS sob demanda|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T22:45:45-03:00|inicio=2026-07-25T23:16:01-03:00|atualizacao=2026-07-25T23:42:00-03:00|conclusao=2026-07-25T23:42:00-03:00
 objetivo=Materializar, distribuir e validar a arquitetura normatizada por FT-061 para AGENTS.md de até 500 tokens com conteúdo auxiliar integral, índice, grafo, atualização e compatibilidade.
 issue_id=github:jcempro/agents.md#10
 issue_repo=jcempro/agents.md
 issue_number=10
 issue_url=https://github.com/jcempro/agents.md/issues/10
 issue_state=em_desenvolvimento
-release=pendente
+release=0.0.23
 origem=.ia.rules/state/requests/FT-061/request.md
 dependencias=FT-061 concluída e autorização humana explícita desta solicitação.
 1/3 Pipeline e roteamento [concluido]
@@ -1503,7 +1503,7 @@ dependencias=FT-061 concluída e autorização humana explícita desta solicita�
   1/3 Medir tokenização oficial e bloquear limite acima de 500 [concluido]
   2/3 Provar preservação integral e carregamento seletivo [concluido]
   3/3 Provar build, release, clientes e comportamento do construtor [concluido]
-3/3 Entrega [em andamento]
+3/3 Entrega [concluido]
   1/2 Validar integralmente e concluir FT [concluido]
   2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [pendente]
 aceite=Critérios da issue #10 comprovados por tokenização oficial, equivalência normativa, rotas, artefato e atualização, sem perda ou regressão.
