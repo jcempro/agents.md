@@ -2663,13 +2663,13 @@
       "artifacts": [
         "src/.ia.rules/resources/workflows.md"
       ],
-      "commit": "",
+      "commit": "d29417a8fb5f9ab15bff9123230ca93688931b4f",
       "ft": "FT-064",
       "id": "2e3712984343ff67fdb46d75",
       "line": 1322,
       "rcf": "RCF.md",
       "sentenceSha256": "6fe43b53ae896cc1213da7c98aa76b52be2c61eb069c9e6418ece7573b4fc90c",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
