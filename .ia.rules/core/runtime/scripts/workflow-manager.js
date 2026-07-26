@@ -19,7 +19,8 @@ function resolveRoot(start = __dirname) {
   throw new Error("RAIZ_REPOSITORIO_NAO_ENCONTRADA");
 }
 function sha256(content) {
-  return crypto.createHash("sha256").update(content).digest("hex");
+  const normalized = (Buffer.isBuffer(content) ? content.toString("utf8") : String(content)).replace(/\r\n/gu, "\n").replace(/\r/gu, "\n");
+  return crypto.createHash("sha256").update(normalized, "utf8").digest("hex");
 }
 function readJson(filePath, code) {
   try {
