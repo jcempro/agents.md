@@ -1374,26 +1374,29 @@ resultado=`src/` contém somente as 70 fontes positivamente classificadas; conte
 pendencias=FT-052 deve corrigir a comparação EOL e absorver o manifesto ao converter fontes Node/gerados; FT-055 deve integrar a validação do acervo decisório. FT-059 permanece pendente para integração terminal posterior.
 proximo_ponto=Commitar/enviar pipeline da FT-058 e iniciar FT-055, já autorizada.
 
-FT-059|nome=Integração e auditoria do release mínimo|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-07-25T19:58:16-03:00
+FT-059|nome=Integração e auditoria do release mínimo|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-07-25T19:58:16-03:00|inicio=2026-07-25T23:31:00-03:00|atualizacao=2026-07-25T23:38:00-03:00
 objetivo=Validar integralmente a reorganização e comprovar que release/publish contêm somente artefatos úteis aos Repositórios Finais, com referências, scripts, workflows, documentação e índices íntegros.
 origens=.ia.rules/state/requests/FT-056/request.md; entregas FT-056, FT-057 e FT-058.
 dependencias=FT-056, FT-057 e FT-058 concluídas; sistema global funcional; autorização humana explícita quando houver efeito remoto/publicação.
 nao_escopo=Não corrigir incidentalmente falha não relacionada; achado material retorna à FT proprietária.
-1/3 Auditoria estrutural [pendente]
-  1/3 Reclassificar todo `src/` contra o contrato final [pendente]
-  2/3 Validar destinos internos, referências, documentação e índices [pendente]
-  3/3 Comprovar ausência de morto, protótipo, estudo, avaliação ou histórico no payload [pendente]
-2/3 Validação de pipeline [pendente]
-  1/3 Gerar dist/release/package/ZIP de forma reproduzível [pendente]
-  2/3 Inspecionar manifests, mapas, workflows, scripts e atualização [pendente]
-  3/3 Comparar conteúdo público antes/depois e limitar delta às exclusões autorizadas [pendente]
-3/3 Fechamento [pendente]
-  1/3 Executar suíte global e registrar limitações/falhas proprietárias [pendente]
+1/3 Auditoria estrutural [concluido]
+  1/3 Reclassificar todo `src/` contra o contrato final [concluido]
+  2/3 Validar destinos internos, referências, documentação e índices [concluido]
+  3/3 Comprovar ausência de morto, protótipo, estudo, avaliação ou histórico no payload [concluido]
+2/3 Validação de pipeline [concluido]
+  1/3 Gerar dist/release/package/ZIP de forma reproduzível [concluido]
+  2/3 Inspecionar manifests, mapas, workflows, scripts e atualização [concluido]
+  3/3 Comparar conteúdo público antes/depois e limitar delta às exclusões autorizadas [concluido]
+3/3 Fechamento [em andamento]
+  1/3 Executar suíte global e registrar limitações/falhas proprietárias [concluido]
   2/3 Atualizar RCF, AGENTS, memória, handoff e derivados finais aplicáveis [pendente]
   3/3 Commitar, enviar, publicar somente se autorizado e convergir branches com gates verdes [pendente]
 aceite=Todos os critérios do prompt comprovados por inventário e artefato real; nenhum conteúdo exclusivamente interno distribuído; nenhuma referência ou contrato público regressado.
-pendencias=Aguardar FT-058; publicação remota exige autorização/condições próprias.
-proximo_ponto=Não iniciar nesta atuação.
+resultado_parcial=Inventário fechou 83 fontes físicas/83 declaradas, sem falta ou entrada fantasma; release possui 115 arquivos e zero interno proibido. Duas gerações produziram ZIP idêntico SHA-256 96123B0A2CF410C2893F7E6A6B4733AF90C981B66FD688678E802EAE25251ADC/311461 bytes. Delta desde v0.0.22 contém somente agents.inc.md e repository.json, ambos autorizados e úteis.
+verificacoes=agent:verify VERIFY_OK indexedFiles=111; agent:test TEST_OK suites=18; npm pack dry-run 101 entradas/209845 bytes/860128 unpacked; NORMATIVE_GRAPH_OK 36 nós/35 rotas; relatório constructor/reports/FT-059-phase4.md.
+falhas=agent:release sem versão explícita recusou corretamente o commit não semântico com VERSAO_NAO_INFERIVEL; nenhuma repetição idêntica foi feita. npm pack no sandbox falhou por EPERM do cache externo e foi aprovado fora do sandbox sem regressão.
+pendencias=Sincronizar assinaturas RCF, atualizar derivados finais, preparar/publicar release explícita, vincular FTs/issues e convergir branches.
+proximo_ponto=Finalizar rastreabilidade causal e executar fechamento remoto da FT-059.
 
 FT-060|nome=Normatização dos metadados distribuídos e autorização upstream|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-26T01:20:27Z|inicio=20260726.012027|atualizacao=2026-07-25T23:05:00-03:00|conclusao=2026-07-25T23:05:00-03:00
 objetivo=Normatizar integralmente a issue aprovada github:jcempro/agents.md#2 antes da implementação técnica, cobrindo configuração distribuída autenticada, instalação limpa, validação de cabeçalhos e autorização upstream.

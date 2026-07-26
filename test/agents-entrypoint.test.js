@@ -11,12 +11,16 @@ const activeEntrypoint = readLf(path.join(root, "AGENTS.md"));
 const sourceEntrypoint = readLf(path.join(root, "src", "AGENTS.md"));
 const activeAuxiliary = readLf(path.join(root, ".ia.rules", "agents.inc.md"));
 const sourceAuxiliary = readLf(path.join(root, "src", ".ia.rules", "agents.inc.md"));
+const distributedEntrypoint = readLf(path.join(root, "dist", "AGENTS.md"));
+const distributedAuxiliary = readLf(path.join(root, "dist", ".ia.rules", "agents.inc.md"));
 const index = JSON.parse(fs.readFileSync(path.join(root, "src", ".ia.rules", "normative-index.json"), "utf8"));
 const entrypointNode = index.nodes.find((node) => node.id === "core.agents");
 const auxiliaryNode = index.nodes.find((node) => node.id === "core.agents-full");
 
 assert.equal(activeEntrypoint, sourceEntrypoint);
 assert.equal(activeAuxiliary, sourceAuxiliary);
+assert.equal(distributedEntrypoint, sourceEntrypoint);
+assert.equal(distributedAuxiliary, sourceAuxiliary);
 assert.equal(hash(activeAuxiliary), "4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024");
 assert.ok(entrypointNode && entrypointNode.tokens <= 500);
 assert.ok(auxiliaryNode && auxiliaryNode.tokens === 7364);

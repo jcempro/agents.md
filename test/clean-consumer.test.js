@@ -29,6 +29,8 @@ try {
 
   const release = JSON.parse(fs.readFileSync(path.join(temporary, "release.json"), "utf8"));
   for (const requiredPath of [".ia.rules/config/repository.json", ".ia.rules/agents.inc.md"]) {
+    const published = release.files.find((entry) => entry.path === requiredPath);
+    assert.equal(published.profile, "consumer-core");
     const managed = release.update.files.find((entry) => entry.path === requiredPath);
     assert.ok(managed && /^[a-f0-9]{64}$/u.test(managed.sha256), `Entrada gerenciada ausente: ${requiredPath}`);
   }
