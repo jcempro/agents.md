@@ -3163,15 +3163,16 @@
     },
     {
       "artifacts": [
-        ".github/workflows/runtime-matrix.yml"
+        ".github/workflows/runtime-matrix.yml",
+        "src/.ia.rules/scenarios/governance/scripts/normative-graph.py"
       ],
-      "commit": "7c6c0949bf3723f7714d03033b9429741aec4542",
+      "commit": "",
       "ft": "FT-052",
       "id": "aef8db6bb6ee2a8b53f093db",
       "line": 1498,
       "rcf": "RCF.md",
       "sentenceSha256": "36c1668536c77091828cbe0f913f089412791211eb1f67bfbc656f2fb0a47aa0",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {

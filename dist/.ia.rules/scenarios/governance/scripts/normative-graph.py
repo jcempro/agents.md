@@ -282,7 +282,8 @@ def source_digest(data: dict[str, Any], tokenized: dict[str, dict[str, Any]], sc
     }
     material = json.dumps(topology, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     material += json.dumps({node_id: value["sha256"] for node_id, value in sorted(tokenized.items())}, sort_keys=True)
-    material += sha256(script_path.read_bytes()) + TOKENIZER_VERSION + ENCODING + MODEL
+    script_text = script_path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    material += sha256(script_text.encode("utf-8")) + TOKENIZER_VERSION + ENCODING + MODEL
     return sha256(material.encode("utf-8"))
 
 
