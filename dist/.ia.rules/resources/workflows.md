@@ -32,4 +32,6 @@ Atualização compara manifesto recebido/local, origem instalada, versão e hash
 
 Workflow usa ações fixadas por versão/commit conforme política, permissões mínimas, entradas limitadas, saída sanitizada, segredo mascarado, artifact elegível e rede somente necessária. Conteúdo privado não sai do repositório sem RCF/configuração explícitos.
 
-Validação comprova manifesto, distinção interno/distribuível, YAML válido, dependências, permissões, gatilho, filtro, concorrência, instalação, atualização, acionamento, equivalência local/CI, rollback, integridade e ausência de fluxo concorrente.
+Workflow criado, gerado, instalado, atualizado ou mantido em Repositório Final que execute Node.js, npm, npx, JavaScript ou TypeScript DEVE declarar e materializar Node.js 24 ou superior antes da primeira invocação. Manifesto, índice e matriz aplicáveis registram o piso; versão ausente, dinâmica abaixo de 24 ou regressão falham. Workflow sem execução Node NÃO DEVE instalar runtime inútil; runtime interno de action de terceiro, regido pela referência fixada, não satisfaz nem viola por si só o piso.
+
+Validação comprova manifesto, distinção interno/distribuível, YAML válido, dependências, permissões, gatilho, filtro, concorrência, instalação, atualização, acionamento, equivalência local/CI, Node.js 24+ quando aplicável, rollback, integridade e ausência de fluxo concorrente.

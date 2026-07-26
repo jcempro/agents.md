@@ -1539,25 +1539,28 @@ verificacoes=Solicitação integral preservada em 99cc82f e auditada bidireciona
 pendencias=FT-065 permanece pendente e exige nova autorização humana explícita.
 proximo_ponto=Interromper antes do código; após autorização, implementar FT-065 sem reabrir a falha histórica já resolvida.
 
-FT-065|nome=Implementação das métricas estatísticas e verificação da matriz|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T23:53:08-03:00
+FT-065|nome=Implementação das métricas estatísticas e verificação da matriz|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T23:53:08-03:00|inicio=2026-07-26T00:15:41-03:00|atualizacao=2026-07-26T00:36:40-03:00
 objetivo=Implementar mediana e desvio padrão populacional no gerador, índice, mapa, README e saída CLI; validar resultados e somente corrigir a matriz de runtime se a falha comprovadamente persistir.
 origem_preservada_no_commit=99cc82f
 origem_sha256=CE36C64B3CAD46FD5C8F0CDC6A4D53AA4BF4D629D6583636CFF0E44D991F7E03
 normativa=FT-064
 dependencias=FT-064 concluída; autorização humana explícita posterior à fase normativa; RCF e Norma Operacional validados.
-1/3 Implementação estatística [pendente]
-  1/3 Calcular mediana e desvio padrão populacional por tipo terminal [pendente]
-  2/3 Atualizar índice, mapa, região README e saída CLI deterministicamente [pendente]
-  3/3 Cobrir valores pares/ímpares, conjunto unitário, vazio e arredondamento [pendente]
-2/3 Validação de workflows [pendente]
-  1/3 Comprovar o piso Node.js 24+ nos workflows distribuíveis aplicáveis [pendente]
-  2/3 Revalidar localmente e no histórico remoto a falha FONTE_SEM_PERFIL [pendente]
-  3/3 Corrigir somente se a falha persistir no estado corrente [pendente]
-3/3 Integração [pendente]
-  1/3 Regenerar derivados e sincronizar hashes/manifests aplicáveis [pendente]
-  2/3 Executar testes, verify e validação de obsolescência [pendente]
+autorizacao_codigo=Prompt humano `continue índice, mapa e CLI`, recebido em 2026-07-26T00:15:41-03:00; interpretado cumulativamente com o aceite já registrado, incluindo README gerenciado e testes obrigatórios.
+1/3 Implementação estatística [concluido]
+  1/3 Calcular mediana e desvio padrão populacional por tipo terminal [concluido]
+  2/3 Atualizar índice, mapa, região README e saída CLI deterministicamente [concluido]
+  3/3 Cobrir valores pares/ímpares, conjunto unitário, vazio e arredondamento [concluido]
+2/3 Validação de workflows [concluido]
+  1/3 Comprovar o piso Node.js 24+ nos workflows distribuíveis aplicáveis [concluido]
+  2/3 Revalidar localmente e no histórico remoto a falha FONTE_SEM_PERFIL [concluido]
+  3/3 Corrigir somente se a falha persistir no estado corrente [concluido]
+3/3 Integração [em andamento]
+  1/3 Regenerar derivados e sincronizar hashes/manifests aplicáveis [concluido]
+  2/3 Executar testes, verify e validação de obsolescência [concluido]
   3/3 Registrar resultado, commit material e rastreabilidade causal [pendente]
 aceite=README, índice, mapa e CLI exibem métricas idênticas e reproduzíveis; testes comprovam semântica estatística; workflows gerenciados aplicáveis usam Node.js 24+; nenhuma correção é aplicada a falha histórica já resolvida.
 diagnostico_preliminar=A falha fornecida não persiste: run 30184818261 concluiu com sucesso nas três plataformas após a entrada de `agents.inc.md` receber perfil `consumer-core`. O run 30185765786 detectou corretamente derivados obsoletos no commit normativo anterior ao commit automático a321f3f; a reexecução terminal 30185816202 sobre a321f3f passou nas três plataformas. Não há causa corrente a corrigir.
-pendencias=Aguardar conclusão e commit da FT-064, seguidos de nova autorização humana explícita.
-proximo_ponto=Não iniciar código, testes, README, workflow ou gerador antes do gate.
+resultado_parcial=Gerador calcula `statistics.median` e `statistics.pstdev` por classe terminal sobre uma observação inteira por rota; índice usa os campos `median` e `populationStandardDeviation`; mapa, README e CLI exibem as mesmas seis métricas e declaram a natureza populacional do desvio.
+verificacoes_parciais=Teste dedicado cobre série par, ímpar, unitária e vazia, preserva zero e valida arredondamento a duas casas; `agent:build` produziu 115 arquivos; `agent:verify` aprovou 28 scripts e 111 entradas; `npm test` aprovou 18 suítes. Workflows que executam Node declaram versão 24; o workflow do grafo usa somente Python. A falha `FONTE_SEM_PERFIL` continua ausente no estado corrente e não recebeu correção redundante.
+pendencias=Registrar commit material, finalizar o hash causal do RCF, concluir FT, regenerar handoff e validar CI remota.
+proximo_ponto=Commit material da implementação e derivados; em seguida, `rcf-trace finalize` com o commit integral e commit exclusivo de sincronização.

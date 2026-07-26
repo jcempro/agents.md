@@ -1,6 +1,6 @@
 # Mapa normativo gerado
 
-Origem: `fde83373a0ea48ffbf69e995a1a4ef0a6a43ba4827c3d0339b2ec4faa2223df4`; revisão: `7943694`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516`; revisão: `a9bdfdf`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 
@@ -11,13 +11,13 @@ flowchart TD
   core_authority["core.authority\nleaf\n880 tokens"]
   core_microconcepts["core.microconcepts\nleaf\n3020 tokens"]
   core_contracts["core.contracts\nleaf\n1500 tokens"]
-  core_routing["core.routing\nleaf\n1380 tokens"]
+  core_routing["core.routing\nleaf\n1502 tokens"]
   core_update["core.update\nleaf\n2172 tokens"]
   role_final["role.final\nleaf\n512 tokens"]
   role_constructor["role.constructor\nderivation\n702 tokens"]
   scenario_constructor_operation["scenario.constructor-operation\nleaf\n902 tokens"]
   resource_scripts["resource.scripts\nhybrid\n1279 tokens"]
-  resource_workflows["resource.workflows\nleaf\n748 tokens"]
+  resource_workflows["resource.workflows\nleaf\n873 tokens"]
   resource_traceability["resource.traceability\nleaf\n540 tokens"]
   scenario_request_lifecycle["scenario.request-lifecycle\nhybrid\n888 tokens"]
   scenario_refused_decisions["scenario.refused-decisions\nleaf\n1201 tokens"]
@@ -81,10 +81,12 @@ flowchart TD
 
 ## Resumo
 
-| Terminal | Rotas | Mínimo | Média | Máximo |
-|---|---:|---:|---:|---:|
-| Folha | 29 | 437 | 1580.28 | 7702 |
-| Híbrido | 6 | 338 | 1174.83 | 1617 |
+O desvio padrão é populacional e considera uma observação por rota válida.
+
+| Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
+|---|---:|---:|---:|---:|---:|---:|
+| Folha | 29 | 437 | 1588.79 | 1211 | 1430.75 | 7702 |
+| Híbrido | 6 | 338 | 1174.83 | 1381.0 | 485.84 | 1617 |
 
 ## Caminhos
 
@@ -92,7 +94,7 @@ flowchart TD
 |---|---|---|---:|
 | path-001 | core.agents | hybrid | 338 |
 | path-002 | core.agents → core.authority | leaf | 1218 |
-| path-003 | core.agents → core.routing | leaf | 1718 |
+| path-003 | core.agents → core.routing | leaf | 1840 |
 | path-004 | core.agents → core.microconcepts | leaf | 3358 |
 | path-005 | core.agents → core.contracts | leaf | 1838 |
 | path-006 | core.agents → role.final | leaf | 850 |
@@ -105,7 +107,7 @@ flowchart TD
 | path-013 | core.agents → core.update | leaf | 2510 |
 | path-014 | core.agents → resource.scripts | hybrid | 1617 |
 | path-015 | core.agents → resource.scripts → meta.cli | leaf | 1756 |
-| path-016 | core.agents → resource.workflows | leaf | 1086 |
+| path-016 | core.agents → resource.workflows | leaf | 1211 |
 | path-017 | core.agents → resource.traceability | leaf | 878 |
 | path-018 | core.agents → scenario.release | hybrid | 1606 |
 | path-019 | core.agents → scenario.release → capability.package-registry | leaf | 2063 |

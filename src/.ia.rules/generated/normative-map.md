@@ -1,6 +1,6 @@
 # Mapa normativo gerado
 
-Origem: `e857bde8828e77c12e99134fa7568d1d05dc512785d43f95db81e7a69d949513`; revisão: `c6d8233`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516`; revisão: `a9bdfdf`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 
@@ -81,10 +81,12 @@ flowchart TD
 
 ## Resumo
 
-| Terminal | Rotas | Mínimo | Média | Máximo |
-|---|---:|---:|---:|---:|
-| Folha | 29 | 437 | 1588.79 | 7702 |
-| Híbrido | 6 | 338 | 1174.83 | 1617 |
+O desvio padrão é populacional e considera uma observação por rota válida.
+
+| Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
+|---|---:|---:|---:|---:|---:|---:|
+| Folha | 29 | 437 | 1588.79 | 1211 | 1430.75 | 7702 |
+| Híbrido | 6 | 338 | 1174.83 | 1381.0 | 485.84 | 1617 |
 
 ## Caminhos
 

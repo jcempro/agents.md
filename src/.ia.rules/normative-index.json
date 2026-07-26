@@ -1312,13 +1312,13 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "c6d8233",
-    "commitDate": "2026-07-26T00:08:43-03:00",
+    "commit": "a9bdfdf",
+    "commitDate": "2026-07-26T00:12:36-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "e857bde8828e77c12e99134fa7568d1d05dc512785d43f95db81e7a69d949513",
+    "sourceDigest": "76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
@@ -1327,12 +1327,16 @@
       "count": 29,
       "min": 437,
       "average": 1588.79,
+      "median": 1211,
+      "populationStandardDeviation": 1430.75,
       "max": 7702
     },
     "hybrid": {
       "count": 6,
       "min": 338,
       "average": 1174.83,
+      "median": 1381.0,
+      "populationStandardDeviation": 485.84,
       "max": 1617
     }
   },
