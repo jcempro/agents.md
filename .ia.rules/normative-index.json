@@ -168,14 +168,14 @@
         "active-roles"
       ],
       "outputs": [],
-      "bytes": 6417,
-      "sha256": "6876e0d3bd2205d0b864de8d2c2b36aa27f0946a201b9384d9de0166304d65cf",
-      "tokens": 1380,
+      "bytes": 6907,
+      "sha256": "8649f808a21626e0738ec6df116b361ef7d069f9613e08a039b33a11f7fa049f",
+      "tokens": 1502,
       "guard": {
         "exceptions": 1,
         "modalities": 4,
         "prohibitions": 3,
-        "references": 22
+        "references": 24
       }
     },
     {
@@ -353,13 +353,13 @@
         "workflow-manifest"
       ],
       "outputs": [],
-      "bytes": 3365,
-      "sha256": "7e2509ad4626f227177fd1f6824a782a145101c6c7421fbca409090f5cc770bd",
-      "tokens": 748,
+      "bytes": 3915,
+      "sha256": "d6ec3ff72b2782eb3ee52657e9498c4c0b2d60651a87776f063ea1396f98cbdd",
+      "tokens": 873,
       "guard": {
         "exceptions": 0,
-        "modalities": 1,
-        "prohibitions": 1,
+        "modalities": 3,
+        "prohibitions": 2,
         "references": 36
       }
     },
@@ -1312,13 +1312,13 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "7943694",
-    "commitDate": "2026-07-25T23:03:13-03:00",
+    "commit": "a9bdfdf",
+    "commitDate": "2026-07-26T00:12:36-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "fde83373a0ea48ffbf69e995a1a4ef0a6a43ba4827c3d0339b2ec4faa2223df4",
+    "sourceDigest": "76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
@@ -1326,13 +1326,17 @@
     "leaf": {
       "count": 29,
       "min": 437,
-      "average": 1580.28,
+      "average": 1588.79,
+      "median": 1211,
+      "populationStandardDeviation": 1430.75,
       "max": 7702
     },
     "hybrid": {
       "count": 6,
       "min": 338,
       "average": 1174.83,
+      "median": 1381.0,
+      "populationStandardDeviation": 485.84,
       "max": 1617
     }
   },
@@ -1394,12 +1398,12 @@
         {
           "id": "core.routing",
           "mode": "terminal",
-          "tokens": 1380
+          "tokens": 1502
         }
       ],
       "terminal": "core.routing",
       "terminalType": "leaf",
-      "tokens": 1718
+      "tokens": 1840
     },
     {
       "id": "path-004",
@@ -1738,12 +1742,12 @@
         {
           "id": "resource.workflows",
           "mode": "terminal",
-          "tokens": 748
+          "tokens": 873
         }
       ],
       "terminal": "resource.workflows",
       "terminalType": "leaf",
-      "tokens": 1086
+      "tokens": 1211
     },
     {
       "id": "path-017",

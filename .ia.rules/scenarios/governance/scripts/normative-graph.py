@@ -260,7 +260,7 @@ def calculate_paths(
 
 
 def summarize(paths: list[dict[str, Any]]) -> dict[str, dict[str, int | float | None]]:
-    """Resume mínimo, média e máximo por classe terminal com uma observação por rota."""
+    """Resume seis métricas por classe terminal sobre o conjunto completo de rotas."""
     summary: dict[str, dict[str, int | float | None]] = {}
     for kind in ("leaf", "hybrid"):
         values = [int(item["tokens"]) for item in paths if item["terminalType"] == kind]
@@ -268,9 +268,16 @@ def summarize(paths: list[dict[str, Any]]) -> dict[str, dict[str, int | float | 
             "count": len(values),
             "min": min(values) if values else None,
             "average": round(statistics.fmean(values), 2) if values else None,
+            "median": round(statistics.median(values), 2) if values else None,
+            "populationStandardDeviation": round(statistics.pstdev(values), 2) if values else None,
             "max": max(values) if values else None,
         }
     return summary
+
+
+def display_metric(value: int | float | None) -> str:
+    """Preserva zero como métrica válida e usa n/a somente para série vazia."""
+    return "n/a" if value is None else str(value)
 
 
 def source_digest(data: dict[str, Any], tokenized: dict[str, dict[str, Any]], script_path: Path) -> str:
@@ -309,10 +316,23 @@ def render_map(data: dict[str, Any], paths: list[dict[str, Any]], summary: dict[
         source = edge["from"].replace(".", "_").replace("-", "_")
         target = edge["to"].replace(".", "_").replace("-", "_")
         lines.append(f'  {source} -->|"{edge["mode"]}: {edge["condition"]}"| {target}')
-    lines.extend(["```", "", "## Resumo", "", "| Terminal | Rotas | Mínimo | Média | Máximo |", "|---|---:|---:|---:|---:|"])
+    lines.extend([
+        "```",
+        "",
+        "## Resumo",
+        "",
+        "O desvio padrão é populacional e considera uma observação por rota válida.",
+        "",
+        "| Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+    ])
     for kind, label in (("leaf", "Folha"), ("hybrid", "Híbrido")):
         row = summary[kind]
-        lines.append(f"| {label} | {row['count']} | {row['min'] or 'n/a'} | {row['average'] or 'n/a'} | {row['max'] or 'n/a'} |")
+        lines.append(
+            f"| {label} | {row['count']} | {display_metric(row['min'])} | "
+            f"{display_metric(row['average'])} | {display_metric(row['median'])} | "
+            f"{display_metric(row['populationStandardDeviation'])} | {display_metric(row['max'])} |"
+        )
     lines.extend(["", "## Caminhos", "", "| ID | Rota | Terminal | Tokens |", "|---|---|---|---:|"])
     for item in paths:
         lines.append(f"| {item['id']} | {' → '.join(item['nodes'])} | {item['terminalType']} | {item['tokens']} |")
@@ -330,10 +350,16 @@ def render_readme_region(summary: dict[str, Any], generation: dict[str, Any], ma
         f"revisão `{generation['commit']}`; fonte `{generation['sourceDigest'][:12]}`. "
         f"[Mapa completo]({map_link}).",
         "",
-        "| Terminal | Rotas | Mínimo | Média | Máximo |",
-        "|---|---:|---:|---:|---:|",
-        f"| Folha | {leaf['count']} | {leaf['min'] or 'n/a'} | {leaf['average'] or 'n/a'} | {leaf['max'] or 'n/a'} |",
-        f"| Híbrido | {hybrid['count']} | {hybrid['min'] or 'n/a'} | {hybrid['average'] or 'n/a'} | {hybrid['max'] or 'n/a'} |",
+        "O desvio padrão é populacional e considera uma observação por rota válida.",
+        "",
+        "| Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+        f"| Folha | {leaf['count']} | {display_metric(leaf['min'])} | "
+        f"{display_metric(leaf['average'])} | {display_metric(leaf['median'])} | "
+        f"{display_metric(leaf['populationStandardDeviation'])} | {display_metric(leaf['max'])} |",
+        f"| Híbrido | {hybrid['count']} | {display_metric(hybrid['min'])} | "
+        f"{display_metric(hybrid['average'])} | {display_metric(hybrid['median'])} | "
+        f"{display_metric(hybrid['populationStandardDeviation'])} | {display_metric(hybrid['max'])} |",
         README_END,
     ])
 
@@ -415,11 +441,15 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     root = repository_root(Path(__file__).resolve())
     result = materialize(root, args.write, args.check, args.accept_normative_change)
-    print("| tipo | mínimo | média | máximo |")
-    print("|---|---:|---:|---:|")
+    print("| tipo | mínimo | média | mediana | desvio padrão | máximo |")
+    print("|---|---:|---:|---:|---:|---:|")
     for kind in ("leaf", "hybrid"):
         row = result["metrics"][kind]
-        print(f"| {kind} | {row['min'] or 'n/a'} | {row['average'] or 'n/a'} | {row['max'] or 'n/a'} |")
+        print(
+            f"| {kind} | {display_metric(row['min'])} | {display_metric(row['average'])} | "
+            f"{display_metric(row['median'])} | {display_metric(row['populationStandardDeviation'])} | "
+            f"{display_metric(row['max'])} |"
+        )
     print(json.dumps({"code": "NORMATIVE_GRAPH_OK", "paths": result["paths"], "sourceDigest": result["sourceDigest"]}))
     return 0
 

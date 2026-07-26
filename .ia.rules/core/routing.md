@@ -32,7 +32,9 @@ Unidade recuperável conserva sujeito, modalidade, escopo, restrição, exceçã
 
 Indexador futuro é conector de tokenizer oficial ou equivalente bit a bit, não implementação improvisada. Métrica registra modelo, tokenizer, versão, encoding e serialização; cada alvo tem resultado próprio. Mudança desses elementos invalida cache.
 
-Custo reproduz conteúdo transmitido: aresta immediate inclui predecessores e nó até o link; passive inclui predecessores e nó integral; leaf/hybrid terminal inclui conteúdo integral. Rotas distintas permanecem separadas. Resumo apresenta mínimo, média e máximo para folhas e híbridos terminais, com regra de inclusão determinística. Mapa e região gerenciada do README declaram origem, versão, commit e obsolescência.
+Custo reproduz conteúdo transmitido: aresta immediate inclui predecessores e nó até o link; passive inclui predecessores e nó integral; leaf/hybrid terminal inclui conteúdo integral. Rotas distintas permanecem separadas.
+
+Para folhas e híbridos terminais separadamente, índice, mapa, região gerenciada do README e saída CLI usam a mesma série, com um custo inteiro por rota válida, e apresentam contagem, mínimo, média aritmética, mediana, desvio padrão populacional e máximo. Mediana é o centro ordenado ou a média dos dois centros; desvio é a raiz da média dos desvios quadráticos, vale `0` para série unitária e `n/a` para série vazia. Média, mediana e desvio arredondam somente a exibição a duas casas; mínimo/máximo permanecem inteiros. Inclusão e rotas múltiplas são determinísticas. Mapa e região README declaram origem, versão, commit, semântica estatística e obsolescência.
 
 ## 5. Workflow e segurança planejados
 
