@@ -1392,3 +1392,22 @@ nao_escopo=Não corrigir incidentalmente falha não relacionada; achado material
 aceite=Todos os critérios do prompt comprovados por inventário e artefato real; nenhum conteúdo exclusivamente interno distribuído; nenhuma referência ou contrato público regressado.
 pendencias=Aguardar FT-058; publicação remota exige autorização/condições próprias.
 proximo_ponto=Não iniciar nesta atuação.
+
+FT-060|nome=[AGENTS] Distribuir os metadados exigidos pela validação de cabeçalhos|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260726.012027|atualizacao=20260726.012027
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#2 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#2
+issue_repo=jcempro/agents.md
+issue_number=2
+issue_url=https://github.com/jcempro/agents.md/issues/2
+issue_state=em_desenvolvimento
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
