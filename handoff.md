@@ -26,15 +26,15 @@ Objetivo: Normatizar o piso Node.js 24+ para workflows destinados a Repositório
 <tr>
 <td rowspan="3">RCF</td>
 <td>Definir aplicabilidade e piso Node.js 24+ sem instalar runtime inútil</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Definir mediana, desvio padrão populacional, precisão e conjuntos vazios</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Vincular validação, README, índice, mapa, CLI e diagnóstico de CI</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Norma Operacional</td>

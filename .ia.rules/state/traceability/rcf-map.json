@@ -2661,6 +2661,19 @@
     },
     {
       "artifacts": [
+        "src/.ia.rules/resources/workflows.md"
+      ],
+      "commit": "",
+      "ft": "FT-064",
+      "id": "2e3712984343ff67fdb46d75",
+      "line": 1322,
+      "rcf": "RCF.md",
+      "sentenceSha256": "6fe43b53ae896cc1213da7c98aa76b52be2c61eb069c9e6418ece7573b4fc90c",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
@@ -3170,6 +3183,19 @@
       "rcf": "RCF.md",
       "sentenceSha256": "ea78bec21925f8469d3ed4c72bdf3b4f0dd4ffa09579d8963641d627f818dcb2",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/scenarios/governance/scripts/normative-graph.py"
+      ],
+      "commit": "",
+      "ft": "FT-065",
+      "id": "5e44116c8553def143c8b0d6",
+      "line": 1451,
+      "rcf": "RCF.md",
+      "sentenceSha256": "ad5b89cbd9dbbdff04a4aebcb5b6d352213c54d20cdabc462747157c98f1a018",
+      "state": "pending",
       "syncCommit": ""
     },
     {

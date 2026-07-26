@@ -1513,7 +1513,7 @@ verificacoes=Hash LF do auxiliar 4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f1343
 pendencias=Nenhuma nesta FT.
 proximo_ponto=Encerramento idempotente da issue pelo ciclo terminal da FT-059.
 
-FT-064|nome=Normatização do runtime de workflows e das métricas do grafo|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T23:53:07-03:00|inicio=2026-07-25T23:53:07-03:00|atualizacao=2026-07-25T23:53:07-03:00
+FT-064|nome=Normatização do runtime de workflows e das métricas do grafo|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-07-25T23:53:07-03:00|inicio=2026-07-25T23:53:07-03:00|atualizacao=2026-07-26T00:00:50-03:00
 objetivo=Normatizar o piso Node.js 24+ para workflows destinados a Repositórios Finais e ampliar o resumo estatístico do grafo com mediana e desvio padrão populacional, sem antecipar código.
 origem=.ia.rules/state/requests/FT-064/request.md
 origem_sha256=CE36C64B3CAD46FD5C8F0CDC6A4D53AA4BF4D629D6583636CFF0E44D991F7E03
@@ -1523,18 +1523,19 @@ dependencias=FT-059 concluída; RCF §§14.3 e 18.4; contrato `resource.workflow
   1/3 Preservar solicitação integral, origem, hash e evidências da CI [concluido]
   2/3 Segregar FT normativa e FT técnica com dependência e aceite próprios [concluido]
   3/3 Commitar exclusivamente criação e conciliação [concluido]
-2/3 RCF [pendente]
-  1/3 Definir aplicabilidade e piso Node.js 24+ sem instalar runtime inútil [pendente]
-  2/3 Definir mediana, desvio padrão populacional, precisão e conjuntos vazios [pendente]
-  3/3 Vincular validação, README, índice, mapa, CLI e diagnóstico de CI [pendente]
-3/3 Norma Operacional [pendente]
+2/3 RCF [concluido]
+  1/3 Definir aplicabilidade e piso Node.js 24+ sem instalar runtime inútil [concluido]
+  2/3 Definir mediana, desvio padrão populacional, precisão e conjuntos vazios [concluido]
+  3/3 Vincular validação, README, índice, mapa, CLI e diagnóstico de CI [concluido]
+3/3 Norma Operacional [em andamento]
   1/3 Projetar o piso de runtime em `resource.workflows` [pendente]
   2/3 Auditar RCF → Norma sem código ou derivado antecipado [pendente]
   3/3 Validar, concluir e interromper antes da FT-065 [pendente]
 aceite=RCF e Norma distribuível definem de forma reconstruível o runtime mínimo e todas as estatísticas, com semântica, precisão, exceções e validações; nenhum script, teste, workflow, README ou derivado é alterado nesta FT.
 diagnostico_ci=Run 30184182023 falhou em 0.0.22 por FONTE_SEM_PERFIL:.ia.rules/agents.inc.md; run 30184818261 passou em macOS, Windows e Ubuntu após manifestação positiva, incluindo npm test e gate de diff.
-pendencias=RCF e Norma Operacional da FT-064; FT-065 permanece bloqueada.
-proximo_ponto=Após o commit inicial, implementar somente a fase normativa.
+resultado_rcf=RCF §14.3 fixa Node.js 24+ antes da primeira invocação Node em workflow de Repositório Final e exclui workflow sem Node/action de terceiro do piso materializado. RCF §18.4 fixa série por rota, mediana, desvio padrão populacional, precisão, vazio/unitário e equivalência entre índice, mapa, README e CLI.
+pendencias=Norma Operacional da FT-064; a métrica executável permanece PENDENTE-CODIGO para FT-065.
+proximo_ponto=Commitar RCF e projetar somente o contrato de workflow em `src/.ia.rules/resources/workflows.md`.
 
 FT-065|nome=Implementação das métricas estatísticas e verificação da matriz|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-07-25T23:53:08-03:00
 objetivo=Implementar mediana e desvio padrão populacional no gerador, índice, mapa, README e saída CLI; validar resultados e somente corrigir a matriz de runtime se a falha comprovadamente persistir.
