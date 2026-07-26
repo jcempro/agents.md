@@ -39,11 +39,11 @@ Objetivo: Normatizar o piso Node.js 24+ para workflows destinados a Repositório
 <tr>
 <td rowspan="3">Norma Operacional</td>
 <td>Projetar o piso de runtime em `resource.workflows`</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Auditar RCF → Norma sem código ou derivado antecipado</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Validar, concluir e interromper antes da FT-065</td>
