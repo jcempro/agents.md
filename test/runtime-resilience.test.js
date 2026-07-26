@@ -48,6 +48,10 @@ function main() {
   const forbiddenPrefixes = ["constructor/", "test/", ".github/", ".ia.rules/state/decisions/"];
   const distributed = listFiles(distRoot).map((filePath) => posix(path.relative(distRoot, filePath)));
   assert.equal(distributed.some((relativePath) => forbiddenPrefixes.some((prefix) => relativePath.startsWith(prefix))), false);
+  for (const workflowPath of listFiles(path.join(root, ".github", "workflows"))) {
+    const workflow = fs.readFileSync(workflowPath, "utf8");
+    assert.doesNotMatch(workflow, /\bnode\s+src\/\.ia\.rules\/[^\s'"]+\.js\b/u, `Workflow aponta a JavaScript removido: ${workflowPath}`);
+  }
 
   for (const scriptPath of listFiles(path.join(distRoot, ".ia.rules")).filter((filePath) => filePath.endsWith(".js"))) {
     const checked = childProcess.spawnSync(process.execPath, ["--check", scriptPath], {

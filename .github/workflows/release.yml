@@ -119,7 +119,7 @@ jobs:
             git add .ia.rules/continue.ia
             git commit -m "chore: vincula issues ao release v$env:RELEASE_VERSION"
           }
-          node src/.ia.rules/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
+          node .ia.rules/core/runtime/scripts/repo-tools.js agent:release "$env:RELEASE_VERSION"
         shell: pwsh
 
       - name: Publicar release e finalizar marcador
