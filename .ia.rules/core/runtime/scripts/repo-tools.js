@@ -65,6 +65,16 @@ const ALIEN_SCRIPT_TERMS = [
   "main.js",
   "JeanCarloEM/WhatSend"
 ];
+const SECURITY_SCAN_EXCLUDED_PREFIXES = [
+  ".git/",
+  ".ia.rules/cache/",
+  "dist/",
+  "node_modules/"
+];
+const SECURITY_SCAN_DEFINITION_FILES = /* @__PURE__ */ new Set([
+  ".ia.rules/core/runtime/scripts/repo-tools.js",
+  "src/.ia.rules/core/runtime/scripts/repo-tools.ts"
+]);
 const COMMANDS = {
   "agent:filter": {
     description: "filtra saida textual pela interface to-ia",
@@ -948,7 +958,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "workflow-manager.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "normative-graph.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
-  return ok("TEST_OK", { suites: 15 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "runtime-resilience.test.js")]);
+  return ok("TEST_OK", { suites: 16 });
 }
 function validateIndex(index) {
   if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest || index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {
@@ -1252,11 +1263,14 @@ function runNormativeGraph(args = ["--check"]) {
 }
 function security() {
   const findings = [];
-  for (const filePath of listFiles(ROOT_DIR).filter((entry) => !toPosix(path.relative(ROOT_DIR, entry)).startsWith(".git/"))) {
+  for (const filePath of listFiles(ROOT_DIR)) {
+    const relative = toPosix(path.relative(ROOT_DIR, filePath));
+    if (SECURITY_SCAN_EXCLUDED_PREFIXES.some((prefix) => relative.startsWith(prefix)) || SECURITY_SCAN_DEFINITION_FILES.has(relative)) {
+      continue;
+    }
     if (![".js", ".json", ".md"].includes(path.extname(filePath).toLocaleLowerCase("en-US"))) {
       continue;
     }
-    const relative = toPosix(path.relative(ROOT_DIR, filePath));
     const content = fs.readFileSync(filePath, "utf8");
     if (ALIEN_SCRIPT_TERMS.some((term) => content.toLocaleLowerCase("en-US").includes(term.toLocaleLowerCase("en-US")))) {
       findings.push(relative);

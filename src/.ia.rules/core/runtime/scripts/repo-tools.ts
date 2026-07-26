@@ -67,6 +67,16 @@ const ALIEN_SCRIPT_TERMS = [
   "main" + ".js",
   "JeanCarloEM/" + "What" + "Send",
 ];
+const SECURITY_SCAN_EXCLUDED_PREFIXES = [
+  ".git/",
+  ".ia.rules/cache/",
+  "dist/",
+  "node_modules/",
+];
+const SECURITY_SCAN_DEFINITION_FILES = new Set([
+  ".ia.rules/core/runtime/scripts/repo-tools.js",
+  "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+]);
 
 const COMMANDS = {
   "agent:filter": {
@@ -955,7 +965,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "workflow-manager.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "normative-graph.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
-  return ok("TEST_OK", { suites: 15 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "runtime-resilience.test.js")]);
+  return ok("TEST_OK", { suites: 16 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1321,11 +1332,15 @@ function runNormativeGraph(args = ["--check"]) {
 /** Executa security no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function security() {
   const findings = [];
-  for (const filePath of listFiles(ROOT_DIR).filter((entry) => !toPosix(path.relative(ROOT_DIR, entry)).startsWith(".git/"))) {
+  for (const filePath of listFiles(ROOT_DIR)) {
+    const relative = toPosix(path.relative(ROOT_DIR, filePath));
+    if (SECURITY_SCAN_EXCLUDED_PREFIXES.some((prefix) => relative.startsWith(prefix)) ||
+      SECURITY_SCAN_DEFINITION_FILES.has(relative)) {
+      continue;
+    }
     if (![".js", ".json", ".md"].includes(path.extname(filePath).toLocaleLowerCase("en-US"))) {
       continue;
     }
-    const relative = toPosix(path.relative(ROOT_DIR, filePath));
     const content = fs.readFileSync(filePath, "utf8");
     if (ALIEN_SCRIPT_TERMS.some((term) => content.toLocaleLowerCase("en-US").includes(term.toLocaleLowerCase("en-US")))) {
       findings.push(relative);
