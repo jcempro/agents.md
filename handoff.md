@@ -78,7 +78,7 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 <tr>
 <td rowspan="3">Fechamento</td>
 <td>Reavaliar issue github:jcempro/agents.md#2 contra o estado final e comentar tecnicamente</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Produzir relatório rastreável e incluir a issue #9 no ciclo de release</td>

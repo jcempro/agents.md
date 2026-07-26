@@ -35,4 +35,4 @@ As decisões `DEC-20260725-001` e `DEC-20260725-002` foram respeitadas: não exi
 
 RCF, fontes, artefatos, testes e workflows foram vinculados por commits materiais em duas fases. O mapa local contém 245 unidades materiais e valida round trip, hash integral, últimos sete caracteres no texto humano e causalidade por artefato.
 
-O gate terminal da issue #2 permanece separado: sua reavaliação e o comentário remoto somente ocorrem depois da baixa de todos os demais controles do TODO. A issue #9 integra a FT-050 e será vinculada ao release da Fase 3 pelo ciclo oficial.
+O gate terminal da issue #2 foi executado somente depois da baixa dos 249 controles anteriores. A reavaliação confirmou que a proposta continua necessária, com validade 10/10, impacto 10/10 e prioridade 9/10; o comentário técnico foi publicado em `https://github.com/jcempro/agents.md/issues/2#issuecomment-5081355087`. A issue permanece aberta porque não possui aceite para implementação. A issue #9 integra a FT-050 e será vinculada ao release da Fase 3 pelo ciclo oficial.
