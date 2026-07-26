@@ -92,7 +92,7 @@ function inspectCommitForRelease(commit) {
     return null;
   }
   const entry = changed[0];
-  if (entry.status !== "A" || !isReleaseTriggerPath(entry.path)) {
+  if (!isReleaseTriggerChange(entry.status) || !isReleaseTriggerPath(entry.path)) {
     return null;
   }
   const version = normalizeReleaseVersion(runGit(["show", `${commit}:${entry.path}`]).stdout.trim());
@@ -101,6 +101,9 @@ function inspectCommitForRelease(commit) {
     file: entry.path,
     version
   };
+}
+function isReleaseTriggerChange(status) {
+  return status === "A" || status === "M";
 }
 function isReleaseTriggerPath(filePath) {
   return String(filePath || "").trim() === "release";
@@ -139,8 +142,8 @@ function printJson(value) {
 if (require.main === module) {
   try {
     process.exitCode = main();
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     process.exitCode = error instanceof UsageError ? 2 : 1;
   }
 }
@@ -148,6 +151,7 @@ module.exports = {
   detectReleaseTrigger,
   finalizeRelease,
   inspectCommitForRelease,
+  isReleaseTriggerChange,
   isReleaseTriggerPath,
   normalizeReleaseVersion
 };

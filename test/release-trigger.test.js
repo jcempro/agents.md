@@ -8,9 +8,13 @@
 
 const assert = require("assert");
 const { resolveExistingReleaseTrigger } = require("../.ia.rules/core/runtime/scripts/release-trigger-policy");
+const { isReleaseTriggerChange } = require("../.ia.rules/scenarios/release/scripts/release-workflow");
 
 assert.strictEqual(resolveExistingReleaseTrigger("0.0.19", "0.0.19", false), "preserve");
 assert.strictEqual(resolveExistingReleaseTrigger("0.0.18", "0.0.19", true), "replace");
 assert.strictEqual(resolveExistingReleaseTrigger("0.0.18", "0.0.19", false), "conflict");
+assert.strictEqual(isReleaseTriggerChange("A"), true);
+assert.strictEqual(isReleaseTriggerChange("M"), true);
+assert.strictEqual(isReleaseTriggerChange("D"), false);
 
 process.stdout.write("RELEASE_TRIGGER_POLICY_OK\n");

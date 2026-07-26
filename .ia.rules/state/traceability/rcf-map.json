@@ -1997,6 +1997,20 @@
     },
     {
       "artifacts": [
+        "src/.ia.rules/scenarios/release/scripts/release-workflow.ts",
+        "test/release-trigger.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-059",
+      "id": "051c8281d113da4c8c61f90c",
+      "line": 1150,
+      "rcf": "RCF.md",
+      "sentenceSha256": "4b36fcf02524492d299e38039b6cd4089cfa53ccd493c12907126395714846e6",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "8237b6c2e6785ca8901357d724c0c86fbc57042e",

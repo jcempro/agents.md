@@ -124,7 +124,7 @@ function inspectCommitForRelease(commit) {
 
   const entry = changed[0];
 
-  if (entry.status !== "A" || !isReleaseTriggerPath(entry.path)) {
+  if (!isReleaseTriggerChange(entry.status) || !isReleaseTriggerPath(entry.path)) {
     return null;
   }
 
@@ -134,6 +134,12 @@ function inspectCommitForRelease(commit) {
     file: entry.path,
     version,
   };
+}
+
+/** Aceita criação inicial ou substituição controlada do marcador já publicado. */
+function isReleaseTriggerChange(status) {
+  // FIX-BUG: atualização de marcador versionado é M quando uma release anterior foi sincronizada.
+  return status === "A" || status === "M";
 }
 
 /** Executa isReleaseTriggerPath no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -189,8 +195,8 @@ function printJson(value) {
 if (require.main === module) {
   try {
     process.exitCode = main();
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     process.exitCode = error instanceof UsageError ? 2 : 1;
   }
 }
@@ -199,6 +205,7 @@ module.exports = {
   detectReleaseTrigger,
   finalizeRelease,
   inspectCommitForRelease,
+  isReleaseTriggerChange,
   isReleaseTriggerPath,
   normalizeReleaseVersion,
 };
