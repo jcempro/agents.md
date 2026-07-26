@@ -25,7 +25,7 @@ const HANDOFF_PHASE = "release-runtime-ready";
 const HANDOFF_RUNTIME_FORMAT = "agents-update-runtime/v1";
 const HANDOFF_STATE_ENV = "AGENTS_UPDATE_HANDOFF_STATE";
 const HANDOFF_KEY_ENV = "AGENTS_UPDATE_HANDOFF_KEY";
-const MANAGED_EXTENSIONS = /* @__PURE__ */ new Set([".js", ".json", ".md", ".ts", ".yml", ".yaml"]);
+const MANAGED_EXTENSIONS = /* @__PURE__ */ new Set([".js", ".json", ".md", ".py", ".ts", ".txt", ".yml", ".yaml"]);
 const PACKAGE_RELATIVE_PATH = "package.json";
 const BOOTSTRAP_MANAGED = /* @__PURE__ */ new Set([
   "AGENTS.md",

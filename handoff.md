@@ -26,28 +26,28 @@ Objetivo: Implementar, adaptar e validar todos os códigos, scripts, hooks, work
 <tr>
 <td rowspan="3">Atualização e distribuição</td>
 <td>Blindar atualizador, migrações, marcadores, checkpoints, backups e commit isolado</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Distribuir e instalar workflows oficiais de forma indexada e determinística</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
 </tr>
 <tr>
 <td>Validar instalações limpas, saltos, cópias manuais, coexistência e árvores sujas</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Roteamento e recuperação</td>
 <td>Implementar índice/grafo global e validações estruturais</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Implementar tokenização exata, custos por caminho, métricas e mapa visual</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Implementar workflow idempotente, concorrente e equivalente à execução local</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Rastreabilidade e linguagem</td>

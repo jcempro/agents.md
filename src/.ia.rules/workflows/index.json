@@ -19,7 +19,7 @@
         "contents:write"
       ],
       "install": "managed-copy",
-      "sha256": "5a9da0a498a4df27b4c601b4bac9eb3868d0020e028df23201b7cf34a4ce4dfd"
+      "sha256": "1a4fdb346c6ee6dbb5700faec5e72e572d8fe0e963ab7986b8098fe3ff39534a"
     },
     {
       "id": "rcf-trace",

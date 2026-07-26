@@ -9,7 +9,7 @@
     "schema": { "const": "agents-normative-index/v1" },
     "id": { "type": "string", "minLength": 1 },
     "version": { "type": "integer", "minimum": 1 },
-    "generated": { "const": false },
+    "generated": { "type": "boolean" },
     "authority": { "type": "string", "minLength": 1 },
     "root": { "type": "string", "minLength": 1 },
     "nodes": {
@@ -28,6 +28,10 @@
           "triggers": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true },
           "inputs": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
           "outputs": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+          ,
+          "bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "tokens": { "type": "integer", "minimum": 0 }
         }
       }
     },
@@ -43,6 +47,8 @@
           "mode": { "enum": ["immediate", "passive"] },
           "condition": { "type": "string", "minLength": 1 },
           "order": { "type": "integer", "minimum": 1 }
+          ,
+          "at": { "type": "string", "minLength": 1 }
         }
       }
     },
@@ -54,6 +60,9 @@
         "on": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
         "action": { "const": "read-all-normative-nodes-by-precedence" }
       }
-    }
+    },
+    "generation": { "type": "object" },
+    "metrics": { "type": "object" },
+    "paths": { "type": "array" }
   }
 }

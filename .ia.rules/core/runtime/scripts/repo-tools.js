@@ -35,6 +35,8 @@ const UPDATE_FORMAT_PATH = path.join(RUNTIME_RULES_DIR, "core", "update", "forma
 const SOURCE_DISTRIBUTION_MANIFEST_PATH = path.join(SOURCE_RULES_DIR, "distribution", "source-manifest.json");
 const RUNTIME_MATRIX_PATH = path.join(SOURCE_RULES_DIR, "runtime", "runtime-matrix.json");
 const TSCONFIG_PATH = path.join(ROOT_DIR, "config", "tsconfig.json");
+const NORMATIVE_GRAPH_SOURCE_PATH = path.join(SOURCE_RULES_DIR, "scenarios", "governance", "scripts", "normative-graph.py");
+const NORMATIVE_GRAPH_RUNTIME_PATH = path.join(RUNTIME_RULES_DIR, "scenarios", "governance", "scripts", "normative-graph.py");
 const SOURCE_DISTRIBUTION_FORMAT = "agents-source-distribution/v1";
 const SOURCE_DISTRIBUTION_PROFILES = /* @__PURE__ */ new Set([
   "consumer-core",
@@ -244,8 +246,8 @@ Object.assign(COMMANDS, {
     status: "available"
   },
   "agent:map": {
-    description: "gera mapa normativo via indexador",
-    run: () => COMMANDS["agent:index"].run(),
+    description: "valida e regenera índice, custos e mapa normativo com tokenizer exato",
+    run: () => runNormativeGraph(["--write", "--check"]),
     status: "available"
   },
   "agent:docs": {
@@ -907,6 +909,7 @@ function verify() {
   writeJsonMinified(INDEX_PATH, index);
   validateIndex(index);
   validateNormativeReferences(index);
+  runNormativeGraph(["--check"]);
   const refusedDecisions = validateRefusedDecisions(ROOT_DIR);
   buildDist();
   for (const script of listFiles(DIST_DIR).filter((filePath) => path.extname(filePath) === ".js")) {
@@ -937,7 +940,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "source-distribution.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "refused-decisions.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "workflow-manager.test.js")]);
-  return ok("TEST_OK", { suites: 13 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "normative-graph.test.js")]);
+  return ok("TEST_OK", { suites: 14 });
 }
 function validateIndex(index) {
   if (!index || index.schema !== 1 || index.root !== "src" || !index.sourceManifest || index.sourceManifest.id !== "agents.source-distribution" || !Array.isArray(index.files)) {
@@ -1200,6 +1204,34 @@ function typecheck() {
   runProcess(process.execPath, [compiler, "--project", TSCONFIG_PATH, "--pretty", "false"]);
   return ok("TYPECHECK_OK", { config: toPosix(path.relative(ROOT_DIR, TSCONFIG_PATH)), sources: listFiles(SOURCE_RULES_DIR).filter((file) => path.extname(file) === ".ts").length });
 }
+function runNormativeGraph(args = ["--check"]) {
+  const scriptPath = fs.existsSync(NORMATIVE_GRAPH_SOURCE_PATH) ? NORMATIVE_GRAPH_SOURCE_PATH : NORMATIVE_GRAPH_RUNTIME_PATH;
+  assertFile(scriptPath, "INDEXADOR_NORMATIVO_AUSENTE");
+  const pythonPath = path.join(ROOT_DIR, ".ia.rules", "cache", "python");
+  const candidates = process.platform === "win32" ? [["python", []], ["py", ["-3"]]] : [["python3", []], ["python", []]];
+  let last = null;
+  for (const [command, prefix] of candidates) {
+    const result = runProcess(command, [...prefix, scriptPath, ...args], {
+      env: {
+        ...process.env,
+        PYTHONIOENCODING: "utf-8",
+        PYTHONUTF8: "1",
+        ...fs.existsSync(pythonPath) ? {
+          PYTHONPATH: [pythonPath, process.env.PYTHONPATH || ""].filter(Boolean).join(path.delimiter)
+        } : {}
+      },
+      optional: true
+    });
+    if (!result.error && result.status === 0) {
+      process.stdout.write(result.stdout);
+      process.stderr.write(result.stderr);
+      return 0;
+    }
+    last = result;
+    if (!result.error || result.error.code !== "ENOENT") break;
+  }
+  throw new Error(`INDEXADOR_NORMATIVO_FALHOU:${last && (last.stderr || last.stdout || last.error && last.error.message)}`);
+}
 function security() {
   const findings = [];
   for (const filePath of listFiles(ROOT_DIR).filter((entry) => !toPosix(path.relative(ROOT_DIR, entry)).startsWith(".git/"))) {
@@ -1383,6 +1415,7 @@ function runProcess(command, args, options = {}) {
   const result = childProcess.spawnSync(command, args, {
     cwd: ROOT_DIR,
     encoding: "utf8",
+    env: options.env || process.env,
     shell: false
   });
   if (!options.optional && result.status !== 0) {

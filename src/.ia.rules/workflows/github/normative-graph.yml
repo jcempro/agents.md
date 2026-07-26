@@ -3,10 +3,13 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - README.md
       - AGENTS.md
       - .ia.rules/**/*.md
       - .ia.rules/normative-index.json
+      - .ia.rules/core/formats/normative-index.v1.schema.json
       - .ia.rules/scenarios/governance/scripts/normative-graph.py
+      - .ia.rules/scenarios/governance/scripts/requirements-normative-graph.txt
       - .ia.rules/runtime/runtime-matrix.json
 permissions:
   contents: write
@@ -24,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-      - run: python -m pip install --disable-pip-version-check tiktoken==0.13.0
+      - run: python -m pip install --disable-pip-version-check -r .ia.rules/scenarios/governance/scripts/requirements-normative-graph.txt
       - run: python .ia.rules/scenarios/governance/scripts/normative-graph.py --write --check
       - name: Confirmar revisão e registrar derivados
         shell: bash

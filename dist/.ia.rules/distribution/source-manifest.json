@@ -739,6 +739,24 @@
       ]
     },
     {
+      "path": ".ia.rules/generated/normative-map.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/generated/normative-map.md",
+      "purpose": "mapa visual derivado do grafo normativo",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "always",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "derived-current"
+      ]
+    },
+    {
       "path": ".ia.rules/meta/build.md",
       "profile": "consumer-scenario",
       "destination": ".ia.rules/meta/build.md",
@@ -1164,6 +1182,41 @@
         "constructor"
       ],
       "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
+      "purpose": "indexador e tokenizador normativo exato",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "normative-routing-or-validation",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "exact-tokenizer"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/scripts/requirements-normative-graph.txt",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/scenarios/governance/scripts/requirements-normative-graph.txt",
+      "purpose": "dependência exata do indexador normativo",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "normative-routing-or-validation",
       "ownership": "managed",
       "validation": [
         "source-exists",

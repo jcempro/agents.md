@@ -2,6 +2,17 @@
 
 Governanca operacional portavel para agentes IA. `./` organiza o repositorio e a governanca ativa; `src/` contem a fonte interna distribuivel; `dist/` e a raiz do artefato publicado. `src/` nao e a raiz da aplicacao: em Web Page Like, a aplicacao coincide com `dist/` e com o `/` percebido pelo usuario.
 
+<!-- agents:normative-metrics:start -->
+### Métricas do grafo normativo
+
+Tokenizer exato: `tiktoken 0.13.0` (`o200k_base`, alvo `gpt-4o`); revisão `89d34f4`; fonte `fe7613214aae`. [Mapa completo](src/.ia.rules/generated/normative-map.md).
+
+| Terminal | Rotas | Mínimo | Média | Máximo |
+|---|---:|---:|---:|---:|
+| Folha | 28 | 7463 | 8385.5 | 10384 |
+| Híbrido | 6 | 7364 | 8200.83 | 8643 |
+<!-- agents:normative-metrics:end -->
+
 ## Contratos de Scripts
 
 O contrato tipado reutilizável fica em `.ia.rules/core/contracts.md`; os metaarquivos de CLI e contexto ficam em `.ia.rules/meta/`. O índice `.ia.rules/meta/index.json` relaciona scripts e contextos mínimos (`build`, `release`, `publish`, `maintenance`, `update`, `validation` ou `ia`). Especializações do consumidor pertencem a `agents.local.md`, `.ia.rules/local/` ou `.ia.rules/hooks/` e não são sobrescritas por `agents:update`.
