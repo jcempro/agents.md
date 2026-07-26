@@ -1,0 +1,42 @@
+{
+  "schema": "agents-workflows/v1",
+  "version": 1,
+  "generated": false,
+  "workflows": [
+    {
+      "id": "normative-graph",
+      "purpose": "validar e regenerar índice, custos e mapa normativo",
+      "scope": "repositório final ou construtor com fontes normativas",
+      "source": ".ia.rules/workflows/github/normative-graph.yml",
+      "destination": ".github/workflows/agents-normative-graph.yml",
+      "trigger": "push normativo ou workflow_dispatch",
+      "dependencies": [
+        "python>=3.9",
+        "tiktoken==0.13.0",
+        ".ia.rules/scenarios/governance/scripts/normative-graph.py"
+      ],
+      "permissions": [
+        "contents:write"
+      ],
+      "install": "managed-copy",
+      "sha256": "1a4fdb346c6ee6dbb5700faec5e72e572d8fe0e963ab7986b8098fe3ff39534a"
+    },
+    {
+      "id": "rcf-trace",
+      "purpose": "sincronizar sentença RCF com commit material em segunda fase",
+      "scope": "repositório com RCF e implementação material",
+      "source": ".ia.rules/workflows/github/rcf-trace.yml",
+      "destination": ".github/workflows/agents-rcf-trace.yml",
+      "trigger": "workflow_dispatch após commit material",
+      "dependencies": [
+        "node>=24",
+        ".ia.rules/core/runtime/scripts/rcf-trace.js"
+      ],
+      "permissions": [
+        "contents:write"
+      ],
+      "install": "managed-copy",
+      "sha256": "f43a9e5afb00775bf9b0723b3be2a2986d5990194dff5fca9ee15a5599aaa18f"
+    }
+  ]
+}

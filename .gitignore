@@ -16,3 +16,12 @@ dist/release-note.txt
 tmp/
 config/agents.local.json
 agents-governance-backups/
+
+# BEGIN agents-governance managed
+# Permite versionar o nucleo gerenciado atualizado por update:agents.
+!/.ia.rules/
+!/.ia.rules/**
+/.ia.rules/cache/
+/.ia.rules/local/
+/.ia.rules/agents-update.lock.json
+# END agents-governance managed
