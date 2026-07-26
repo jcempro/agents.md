@@ -33,6 +33,15 @@ As decisões `DEC-20260725-001` e `DEC-20260725-002` foram respeitadas: não exi
 
 ## Rastreabilidade
 
-RCF, fontes, artefatos, testes e workflows foram vinculados por commits materiais em duas fases. O mapa local contém 245 unidades materiais e valida round trip, hash integral, últimos sete caracteres no texto humano e causalidade por artefato.
+RCF, fontes, artefatos, testes e workflows foram vinculados por commits materiais em duas fases. O mapa local contém 246 unidades materiais e valida round trip, hash integral, últimos sete caracteres no texto humano e causalidade por artefato.
 
-O gate terminal da issue #2 foi executado somente depois da baixa dos 249 controles anteriores. A reavaliação confirmou que a proposta continua necessária, com validade 10/10, impacto 10/10 e prioridade 9/10; o comentário técnico foi publicado em `https://github.com/jcempro/agents.md/issues/2#issuecomment-5081355087`. A issue permanece aberta porque não possui aceite para implementação. A issue #9 integra a FT-050 e será vinculada ao release da Fase 3 pelo ciclo oficial.
+O gate terminal da issue #2 foi executado somente depois da baixa dos 249 controles anteriores. A reavaliação confirmou que a proposta continua necessária, com validade 10/10, impacto 10/10 e prioridade 9/10; o comentário técnico foi publicado em `https://github.com/jcempro/agents.md/issues/2#issuecomment-5081355087`. Naquele gate, a issue permaneceu aberta por não possuir aceite; sua aprovação e importação automática posteriores originaram a FT-060, ciclo independente e fora desta Fase 3.
+
+## Publicação e encerramento
+
+- Release estável: `v0.0.22`, publicado em `https://github.com/jcempro/agents.md/releases/tag/v0.0.22`.
+- GitHub Actions: run `30183009599`, com checkout limpo, Node.js 24, Python 3.14, `npm ci` e requisitos Python versionados antes de build, auditoria e empacotamento.
+- Asset publicado: `agents-v0.0.22.zip`, 308.006 bytes, SHA-256 `9ac55e51ff03cc5e51b41e7a5b0b2c08b383f8da1e5dfed778f347f5fa4c0380`.
+- Issue #9: marcada `agents:fixed`, comentada pelo mecanismo idempotente e encerrada em 2026-07-26T01:31:26Z.
+- Convergência do ciclo: `origin/dev` e `origin/main` em `069a6ab9a9e5190171d2e73507cf50616d6f34b6` antes do commit exclusivamente documental de conclusão.
+- A FT-059 é a Fase 4 e não foi iniciada. FT-060 e FT-061 foram importadas de issues aprovadas depois do gate e não integram o escopo desta Fase 3.
