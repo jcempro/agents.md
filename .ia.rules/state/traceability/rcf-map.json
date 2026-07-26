@@ -3189,13 +3189,13 @@
       "artifacts": [
         "src/.ia.rules/scenarios/governance/scripts/normative-graph.py"
       ],
-      "commit": "",
+      "commit": "650b3966d65325b7d614cf574ece5222395bf00f",
       "ft": "FT-065",
       "id": "5e44116c8553def143c8b0d6",
       "line": 1451,
       "rcf": "RCF.md",
       "sentenceSha256": "ad5b89cbd9dbbdff04a4aebcb5b6d352213c54d20cdabc462747157c98f1a018",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
