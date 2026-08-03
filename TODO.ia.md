@@ -389,4 +389,6 @@ Resultado consolidado: os controles determinísticos de recuperação foram adot
 
   * Ao modificar código preexistente em desconformidade, a IA DEVE corrigir progressivamente a documentação apenas nas declarações, blocos e trechos efetivamente tocados, sem promover refatoração generalizada alheia ao escopo (exceto se explicitamente solicitado). Essa correção local é obrigatória e NÃO autoriza preservar violações na área modificada (funções, classes, métodos, procedures, tipos customizados, interfaces...).
 
+  * A IA não é livre para decidir escolher ou não seguir tais diretrizes: este modus operand é compulsório.
+
   * Concluir somente quando o `AGENTS.md` eliminar as ambiguidades responsáveis pelo comportamento atual e estabelecer código-fonte documentado, rastreável e humanamente compreensível, sem poluição textual.
