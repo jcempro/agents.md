@@ -364,7 +364,7 @@ Resultado consolidado: os controles determinísticos de recuperação foram adot
   - Independentemente da conclusão, publicar na própria issue comentário técnico, conciso e ajustado à realidade encontrada, contendo fundamentos verificáveis e indicação explícita, inequívoca e incisiva sobre sua aplicabilidade, pertinência e necessidade e realidades atuais do código/respositório - dado a existência de multiplas correções, evoluções e releases posteriores.
   - Quando útil à clareza, atribuir nota de `0–10` aos aspectos avaliados para enfatizar relevância, impacto, validade ou prioridade, sem prolixidade.
 
-* [ ] Corrigir o `AGENTS.md` para tornar inequívoca e efetiva a política de comentários
+* [ ] Corrigir o `AGENTS.md` para tornar inequívoca e efetiva a política de comentários do modus operand da IA.
 
   * Revisar integralmente as normas sobre comentários, identificar ambiguidades ou conflitos e corrigir o modus operandi que tem levado à ausência indevida de documentação no código.
 
