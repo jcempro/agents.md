@@ -363,3 +363,28 @@ Resultado consolidado: os controles determinísticos de recuperação foram adot
 - [x] Somente após a conclusão de todos os demais itens de TODO, reavaliar integralmente a issue [`jcempro/agents.md#2`](https://github.com/jcempro/agents.md/issues/2) perante o estado real e atual do repositório, das normas vigentes e da implementação efetiva, determinando se o problema/sugestão permanece pertinente, válido e carente de implementação/correção.
   - Independentemente da conclusão, publicar na própria issue comentário técnico, conciso e ajustado à realidade encontrada, contendo fundamentos verificáveis e indicação explícita, inequívoca e incisiva sobre sua aplicabilidade, pertinência e necessidade e realidades atuais do código/respositório - dado a existência de multiplas correções, evoluções e releases posteriores.
   - Quando útil à clareza, atribuir nota de `0–10` aos aspectos avaliados para enfatizar relevância, impacto, validade ou prioridade, sem prolixidade.
+
+* [ ] Corrigir o `AGENTS.md` para tornar inequívoca e efetiva a política de comentários
+
+  * Revisar integralmente as normas sobre comentários, identificar ambiguidades ou conflitos e corrigir o modus operandi que tem levado à ausência indevida de documentação no código.
+
+  * Distinguir explicitamente três categorias independentes:
+
+    1. **Documentação de declarações — OBRIGATÓRIA:** classes, funções, métodos, procedures, interfaces, tipos personalizados e construções equivalentes DEVEM possuir comentário imediatamente associado à declaração/assinatura, no padrão nativo da linguagem (`JSDoc`, docstring Python, ShellDoc, RDoc etc.), descrevendo sucintamente finalidade, contrato, parâmetros, retorno, efeitos, exceções e restrições aplicáveis. A regra vale para todo fonte humano editável; ausência somente é admitida quando a construção for trivial e a norma declarar objetivamente a exceção.
+
+    2. **Comentários internos de lógica — SELETIVOS, MAS NÃO AUSENTES:** comentários `//`, `/* */`, `#` ou equivalentes DEVEM ser poucos, sucintos e funcionais, explicando principalmente lógica não óbvia, intenção, ordem necessária, proteção, prevenção de falha, decisão arquitetural ou razão de implementação. Blocos extensos, especialmente com cerca de `25+` linhas, DEVEM permanecer humanamente rastreáveis por comentários de orientação quando a lógica não for inequivocamente evidente. Evitar tanto prolixidade quanto ausência quase total. Marcadores como `FIX`, `BUG`, `PROTEÇÃO` ou equivalentes somente DEVEM ser usados quando semanticamente corretos; decisões preventivas DEVEM ser justificadas mesmo sem constituírem correção de bug.
+
+    3. **Cabeçalho de arquivo — OBRIGATÓRIO:** conter, conforme normatização vigente, licença, URL integral da licença, resumo da licença, autor e contato/site, repositório original e, quando aplicável, referência ao RCF do script.
+
+  * Diferenciar inequivocamente:
+
+    * **fontes editáveis** (`.ts`, `.js`, `.py`, `.c`, `.rb`, `.sh` etc.): DEVEM conservar cabeçalho, documentação das declarações e comentários lógicos necessários;
+    * **artefatos derivados de entrega**, minificados ou agressivamente otimizados: PODEM remover comentários funcionais e de documentação, preservando obrigatoriamente o cabeçalho mínimo de licença, autoria e origem exigido.
+
+  * Otimização, minificação, transpilaçõesm geração automática ou política contra comentários excessivos NÃO PODEM ser interpretadas como autorização para omitir documentação obrigatória dos fontes.
+
+  * A terminologia DEVE impedir que regras aplicáveis a comentários internos sejam confundidas com documentação de declarações ou cabeçalhos.
+
+  * Incluir verificação de conformidade proporcional, preferencialmente automatizada, para detectar fontes sem documentação obrigatória, sem penalizar artefatos derivados ou construções objetivamente excepcionadas.
+
+  * Concluir somente quando o `AGENTS.md` eliminar a ambiguidade atual e assegurar código fonte documentado, rastreável e compreensível sem poluição textual.
