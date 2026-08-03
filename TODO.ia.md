@@ -364,27 +364,29 @@ Resultado consolidado: os controles determinísticos de recuperação foram adot
   - Independentemente da conclusão, publicar na própria issue comentário técnico, conciso e ajustado à realidade encontrada, contendo fundamentos verificáveis e indicação explícita, inequívoca e incisiva sobre sua aplicabilidade, pertinência e necessidade e realidades atuais do código/respositório - dado a existência de multiplas correções, evoluções e releases posteriores.
   - Quando útil à clareza, atribuir nota de `0–10` aos aspectos avaliados para enfatizar relevância, impacto, validade ou prioridade, sem prolixidade.
 
-* [ ] Corrigir o `AGENTS.md` para tornar inequívoca e efetiva a política de comentários do modus operand da IA.
+* [ ] Corrigir o `AGENTS.md` para tornar inequívoca e efetiva a política de comentários no modus operandi da IA
 
-  * Revisar integralmente as normas sobre comentários, identificar ambiguidades ou conflitos e corrigir o modus operandi que tem levado à ausência indevida de documentação no código.
+  * Revisar integralmente as normas sobre comentários, eliminar ambiguidades, conflitos ou sobreposições e corrigir o comportamento que tem produzido documentação insuficiente no código.
 
-  * Distinguir explicitamente três categorias independentes:
+  * Distinguir expressamente três categorias independentes e cumulativas:
 
-    1. **Documentação de declarações — OBRIGATÓRIA:** classes, funções, métodos, procedures, interfaces, tipos personalizados e construções equivalentes DEVEM possuir comentário imediatamente associado à declaração/assinatura, no padrão nativo da linguagem (`JSDoc`, docstring Python, ShellDoc, RDoc etc.), descrevendo sucintamente finalidade, contrato, parâmetros, retorno, efeitos, exceções e restrições aplicáveis. A regra vale para todo fonte humano editável; ausência somente é admitida quando a construção for trivial e a norma declarar objetivamente a exceção.
+    1. **Documentação de declarações — OBRIGATÓRIA:** classes, funções, métodos, procedures, interfaces, tipos personalizados e construções equivalentes DEVEM possuir documentação imediatamente associada à declaração ou assinatura, no padrão nativo da linguagem (`JSDoc`, Rustdoc, docstring Python, GoDoc, PHPDoc, ShellDoc, RDoc ou equivalente mais adequado para o projeto/repositório final e cada  linguagem individual). Ela DEVE descrever, de forma sucinta e conforme aplicabilidade, finalidade, contrato, parâmetros, retorno, efeitos colaterais, exceções, restrições e condições relevantes. Aplica-se a todo código-fonte humano editável; exceções somente PODEM existir para construções inequivocamente triviais e quando objetivamente normatizadas.
 
-    2. **Comentários internos de lógica — SELETIVOS, MAS NÃO AUSENTES:** comentários `//`, `/* */`, `#` ou equivalentes DEVEM ser poucos, sucintos e funcionais, explicando principalmente lógica não óbvia, intenção, ordem necessária, proteção, prevenção de falha, decisão arquitetural ou razão de implementação. Blocos extensos, especialmente com cerca de `25+` linhas, DEVEM permanecer humanamente rastreáveis por comentários de orientação quando a lógica não for inequivocamente evidente. Evitar tanto prolixidade quanto ausência quase total. Marcadores como `FIX`, `BUG`, `PROTEÇÃO` ou equivalentes somente DEVEM ser usados quando semanticamente corretos; decisões preventivas DEVEM ser justificadas mesmo sem constituírem correção de bug.
+    2. **Comentários internos de lógica — SELETIVOS, MAS SUFICIENTES:** comentários `//`, `/* */`, `#` ou equivalentes DEVEM ser poucos, concisos e funcionais, explicando lógica não óbvia, intenção, ordem necessária, proteção, prevenção de falha, decisão arquitetural ou razão de implementação. Blocos extensos, especialmente com cerca de `25+` linhas, DEVEM permanecer humanamente compreensíveis e logicamente rastreáveis por comentários de orientação quando o fluxo não for inequivocamente evidente. Tanto a prolixidade quanto a ausência quase total são inadequadas. Marcadores como `FIX`, `BUG`, `PROTEÇÃO` ou equivalentes somente DEVEM ser usados quando semanticamente corretos; decisões preventivas relevantes DEVEM ser justificadas mesmo quando não corrigirem bug preexistente.
 
-    3. **Cabeçalho de arquivo — OBRIGATÓRIO:** conter, conforme normatização vigente, licença, URL integral da licença, resumo da licença, autor e contato/site, repositório original e, quando aplicável, referência ao RCF do script.
+    3. **Cabeçalho de arquivo — OBRIGATÓRIO:** DEVE conter, conforme a normatização vigente, licença, URL do texto integral, resumo da licença, autor e contato/site, repositório original e, quando aplicável, referência ao RCF do arquivo ou script.
 
   * Diferenciar inequivocamente:
 
-    * **fontes editáveis** (`.ts`, `.js`, `.py`, `.c`, `.rb`, `.sh` etc.): DEVEM conservar cabeçalho, documentação das declarações e comentários lógicos necessários;
-    * **artefatos derivados de entrega**, minificados ou agressivamente otimizados: PODEM remover comentários funcionais e de documentação, preservando obrigatoriamente o cabeçalho mínimo de licença, autoria e origem exigido.
+    * **fontes editáveis** (`.ts`, `.js`, `.py`, `.c`, `.rb`, `.sh` e equivalentes): DEVEM preservar cabeçalho, documentação das declarações (assinatura e manifesto) e comentários lógicos necessários;
+    * **artefatos derivados de entrega**, minificados ou agressivamente otimizados: PODEM remover documentação e comentários funcionais, mas DEVEM preservar o cabeçalho mínimo obrigatório de licença, autoria e origem.
 
-  * Otimização, minificação, transpilaçõesm geração automática ou política contra comentários excessivos NÃO PODEM ser interpretadas como autorização para omitir documentação obrigatória dos fontes.
+  * Otimização, minificação, transpilação, geração automática ou política contra comentários excessivos NÃO PODEM ser interpretadas como autorização para omitir documentação obrigatória dos arquivos-fonte.
 
-  * A terminologia DEVE impedir que regras aplicáveis a comentários internos sejam confundidas com documentação de declarações ou cabeçalhos.
+  * A terminologia normativa DEVE impedir qualquer confusão entre comentários internos, documentação de declarações e cabeçalhos, pois cada categoria possui finalidade, incidência e obrigatoriedade próprias.
 
-  * Incluir verificação de conformidade proporcional, preferencialmente automatizada, para detectar fontes sem documentação obrigatória, sem penalizar artefatos derivados ou construções objetivamente excepcionadas.
+  * Incluir verificação de conformidade proporcional, preferencialmente automatizada, para detectar fontes sem documentação obrigatória, sem penalizar artefatos derivados, código gerado ou exceções objetivamente normatizadas.
 
-  * Concluir somente quando o `AGENTS.md` eliminar a ambiguidade atual e assegurar código fonte documentado, rastreável e compreensível sem poluição textual.
+  * Ao modificar código preexistente em desconformidade, a IA DEVE corrigir progressivamente a documentação apenas nas declarações, blocos e trechos efetivamente tocados, sem promover refatoração generalizada alheia ao escopo (exceto se explicitamente solicitado). Essa correção local é obrigatória e NÃO autoriza preservar violações na área modificada (funções, classes, métodos, procedures, tipos customizados, interfaces...).
+
+  * Concluir somente quando o `AGENTS.md` eliminar as ambiguidades responsáveis pelo comportamento atual e estabelecer código-fonte documentado, rastreável e humanamente compreensível, sem poluição textual.
