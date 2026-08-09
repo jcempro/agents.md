@@ -10,4 +10,4 @@ Invariantes: autoridade AGENTS > RCF > TODO; nenhuma obrigação, proibição, e
 
 Aceite global: política inequívoca e cumulativa; documentação de declarações obrigatória salvo trivialidade objetivamente normatizada; comentários internos seletivos e suficientes; cabeçalho obrigatório; derivados preservam banner mínimo; conformidade automatizada proporcional; diff integral auditado; TODO reduzido ao equalizer intacto; gates verdes; `v0.1.1` latest; branches convergidas.
 
-Estado: FT-066 em andamento; FT-067 e FT-068 pendentes.
+Estado: FT-066 concluída e validada; FT-067 em andamento; FT-068 pendente.

@@ -6,4 +6,4 @@ Entradas: TODO integral; RCF §§15.1–15.4; Norma §12; `resource.traceability
 
 Entregável: categorias independentes/cumulativas; incidência em fontes/derivados; conteúdo mínimo; trivialidade objetiva; progressividade limitada ao tocado; validação proporcional e aceite. Fora de escopo: alterar `src`, scripts, testes ou TODO.
 
-Validação: auditoria TODO → RCF; `agent:rcf`; diff sem redução de cláusulas existentes. Estado: em andamento.
+Validação: auditoria TODO → RCF e `agent:rcf` aprovadas; seis sentenças materiais mapeadas para as fontes da FT-067; diff preserva e amplia as cláusulas existentes. Estado: concluído.

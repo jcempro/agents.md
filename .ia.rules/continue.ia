@@ -1566,26 +1566,28 @@ rastreabilidade=Commit material 650b3966d65325b7d614cf574ece5222395bf00f; RCF §
 pendencias=Nenhuma nesta FT.
 proximo_ponto=Validar o commit de sincronização em CI e convergir `dev` para a branch primária sem incorporar a solicitação de publicação exibida no contexto do IDE.
 
-FT-066|nome=Normatização RCF da política cumulativa de comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:28-03:00|inicio=2026-08-09T12:39:28-03:00|atualizacao=2026-08-09T12:39:28-03:00
+FT-066|nome=Normatização RCF da política cumulativa de comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-08-09T12:39:28-03:00|inicio=2026-08-09T12:39:28-03:00|atualizacao=2026-08-09T12:46:00-03:00|conclusao=2026-08-09T12:46:00-03:00
 objetivo=Eliminar a ambiguidade entre cabeçalho de arquivo, documentação nativa de declarações e comentários internos, preservando força normativa, legibilidade e intervenção mínima.
 origem=TODO.ia.md
 origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
 complementares=FT-067,FT-068
 dependencias=Estado canônico até FT-065 concluído; triagem de recusas sem candidato; autorização humana explícita para o ciclo integral e release 0.1.1.
-1/3 Equalização e contrato [em andamento]
-  1/3 Confrontar TODO integral, RCF, Norma ativa/fonte e mecanismos de validação [em andamento]
-  2/3 Fixar categorias cumulativas, incidência, exceções e progressividade [pendente]
-  3/3 Registrar rastreabilidade e critérios sem enfraquecer regras vigentes [pendente]
-2/3 RCF [pendente]
-  1/2 Atualizar RCF §15.3 com contrato reconstruível [pendente]
-  2/2 Validar RCF e concluir fase normativa [pendente]
-3/3 Fechamento [pendente]
-  1/2 Auditar origem → RCF e liberar FT-067 [pendente]
-  2/2 Commitar exclusivamente a normatização RCF [pendente]
+1/3 Equalização e contrato [concluido]
+  1/3 Confrontar TODO integral, RCF, Norma ativa/fonte e mecanismos de validação [concluido]
+  2/3 Fixar categorias cumulativas, incidência, exceções e progressividade [concluido]
+  3/3 Registrar rastreabilidade e critérios sem enfraquecer regras vigentes [concluido]
+2/3 RCF [concluido]
+  1/2 Atualizar RCF §15.3 com contrato reconstruível [concluido]
+  2/2 Validar RCF e concluir fase normativa [concluido]
+3/3 Fechamento [concluido]
+  1/2 Auditar origem → RCF e liberar FT-067 [concluido]
+  2/2 Commitar exclusivamente a normatização RCF [concluido]
 aceite=RCF distingue de forma independente e cumulativa cabeçalho, documentação de declaração e comentário lógico; define fonte versus derivado, exceções objetivas, progressividade local e validação proporcional sem reduzir contratos anteriores.
-pendencias=Concluir RCF; depois executar FT-067 e FT-068 conforme autorização integral registrada.
+resultado=RCF §15.3 distingue cumulativamente cabeçalho, documentação de declaração e comentário lógico; fixa incidência em fonte/derivado, trivialidade objetiva, progressividade local, semântica de marcadores e validação proporcional.
+verificacoes=Auditoria bidirecional TODO → RCF concluída; seis sentenças materiais preparadas para FT-067; agent:rcf RCF_OK com 260 entradas e 257 materiais.
+pendencias=Nenhuma na FT-066; FT-067 liberada pela autorização integral registrada.
 
-FT-067|nome=Norma Operacional da documentação e comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-09T12:39:29-03:00
+FT-067|nome=Norma Operacional da documentação e comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:29-03:00|inicio=2026-08-09T12:46:01-03:00|atualizacao=2026-08-09T12:46:01-03:00
 objetivo=Projetar no produto distribuível a política cumulativa de documentação, comentários lógicos e cabeçalhos definida pela FT-066.
 origem=TODO.ia.md
 origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
@@ -1603,7 +1605,7 @@ dependencias=FT-066 concluída; autorização humana explícita para completar i
   1/2 Validar e concluir a fase normativa operacional [pendente]
   2/2 Commitar a Norma antes do código de conformidade [pendente]
 aceite=Norma distribuível inequívoca, compacta e completa, sem conflito entre “somente cabeçalho” e documentação obrigatória, com preservação integral da autoridade e dos contratos preexistentes.
-pendencias=Aguardar FT-066; após conclusão, executar antes de FT-068.
+pendencias=Implementar a Norma em src e materializar derivados antes da FT-068.
 
 FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-09T12:39:30-03:00
 objetivo=Implementar validação proporcional da política documental, comprovar não regressão, manter somente o equalizer perene no TODO e publicar/convergir a release 0.1.1.
