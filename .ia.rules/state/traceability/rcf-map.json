@@ -2900,16 +2900,16 @@
     },
     {
       "artifacts": [
-        "src/.ia.rules/agents.inc.md",
-        "src/.ia.rules/resources/traceability.md"
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "test/documentation-policy.test.js"
       ],
-      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
-      "ft": "FT-066",
+      "commit": "",
+      "ft": "FT-068",
       "id": "a336deb3066675919f49e945",
       "line": 1358,
       "rcf": "RCF.md",
       "sentenceSha256": "edf80b51be06903479c37c9884b3508b79933aec7e4d3f38c3444fc16cf261a5",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {

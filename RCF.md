@@ -1355,7 +1355,7 @@ Comentário interno de lógica é seletivo, conciso e suficiente: explica lógic
 
 Fonte humana editável (`.ts`, `.js`, `.py`, `.c`, `.rb`, `.sh` e equivalente) acumula cabeçalho, documentação de declaração e comentários lógicos aplicáveis. Artefato derivado, gerado, compilado, empacotado, otimizado ou minificado PODE excluir documentação de declaração e comentários internos, mas DEVE preservar o cabeçalho mínimo obrigatório quando o formato aceitar comentário; derivado NÃO constitui evidência de conformidade da fonte. [7f31177]
 
-Ao tocar código preexistente desconforme, a IA DEVE corrigir progressivamente a documentação das declarações, blocos e trechos efetivamente alterados, sem refatoração documental global alheia ao escopo e sem conservar violação na região tocada. Validação proporcional DEVE detectar fonte humana elegível sem cabeçalho ou documentação obrigatória e avaliar comentários lógicos onde houver complexidade objetiva, sem penalizar derivado, gerado, linguagem/formato sem comentários ou exceção trivial formalmente declarada. [7f31177]
+Ao tocar código preexistente desconforme, a IA DEVE corrigir progressivamente a documentação das declarações, blocos e trechos efetivamente alterados, sem refatoração documental global alheia ao escopo e sem conservar violação na região tocada. Validação proporcional DEVE detectar fonte humana elegível sem cabeçalho ou documentação obrigatória e avaliar comentários lógicos onde houver complexidade objetiva, sem penalizar derivado, gerado, linguagem/formato sem comentários ou exceção trivial formalmente declarada. [PENDENTE-CODIGO]
 
 ### 15.4 Rastreabilidade RCF ↔ commit material
 
