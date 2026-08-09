@@ -2903,13 +2903,13 @@
         "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
         "test/documentation-policy.test.js"
       ],
-      "commit": "",
+      "commit": "8b2f2551494cf5b630b4a463384a9f96e2650445",
       "ft": "FT-068",
       "id": "a336deb3066675919f49e945",
       "line": 1358,
       "rcf": "RCF.md",
       "sentenceSha256": "edf80b51be06903479c37c9884b3508b79933aec7e4d3f38c3444fc16cf261a5",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
