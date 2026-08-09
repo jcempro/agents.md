@@ -255,7 +255,10 @@ function help() { return "Uso: issue-lifecycle <sync-approved|start [--ft FT-NNN
 /** Executa print no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function print(value) { console.log(JSON.stringify(value)); return 0; }
 /** Representa uso inválido do ciclo de issue e preserva o código de saída público. */
-class UsageError extends Error { constructor(message) { super(message); this.exitCode = 2; } }
+class UsageError extends Error {
+  /** Inicializa a falha de uso com o código público reservado a entrada inválida. */
+  constructor(message) { super(message); this.exitCode = 2; }
+}
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 

@@ -907,15 +907,16 @@ function readExistingReleaseMetadata() {
 /** Executa verify no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function verify() {
   const checks = [];
+  let documentationDeclarations = 0;
   const manualJavaScript = listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".js" && isManagedScriptPath(filePath));
   if (manualJavaScript.length) {
     throw new Error(`FONTE_JAVASCRIPT_MANUAL_PROIBIDA:${manualJavaScript.map((file) => toPosix(path.relative(ROOT_DIR, file))).join(",")}`);
   }
   typecheck();
-  for (const script of listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".ts" && isManagedScriptPath(filePath))) {
+  for (const script of listFiles(SOURCE_RULES_DIR).filter((filePath) => [".py", ".ts"].includes(path.extname(filePath)) && isManagedScriptPath(filePath))) {
     const content = fs.readFileSync(script, "utf8");
     assertCodeBanner(content, toPosix(path.relative(ROOT_DIR, script)));
-    assertNativeDocumentation(content, toPosix(path.relative(ROOT_DIR, script)));
+    documentationDeclarations += assertNativeDocumentation(content, toPosix(path.relative(ROOT_DIR, script)));
     if (ALIEN_SCRIPT_TERMS.some((term) => content.toLocaleLowerCase("en-US").includes(term.toLocaleLowerCase("en-US")))) {
       throw new Error(`Referencia alienigena detectada em ${toPosix(path.relative(ROOT_DIR, script))}.`);
     }
@@ -935,7 +936,7 @@ function verify() {
   }
   assertPublishedNorms(index);
 
-  return ok("VERIFY_OK", { scripts: checks.length, indexedFiles: index.files.length, refusedDecisions });
+  return ok("VERIFY_OK", { scripts: checks.length, documentationDeclarations, indexedFiles: index.files.length, refusedDecisions });
 }
 
 /** Executa assertCodeBanner no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -950,6 +951,7 @@ function assertCodeBanner(content, label) {
 /** Executa testAll no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function testAll() {
   verify();
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "documentation-policy.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "distribution-map.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "upstream-share.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-inbox.test.js")]);
@@ -968,7 +970,7 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "runtime-resilience.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "clean-consumer.test.js")]);
-  return ok("TEST_OK", { suites: 18 });
+  return ok("TEST_OK", { suites: 19 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1094,18 +1096,70 @@ function validateDist() {
   }
 }
 
-/** Executa assertNativeDocumentation no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
+/** Valida documentação nativa nas linguagens humanas atualmente distribuídas sem inspecionar derivados. */
 function assertNativeDocumentation(content, label) {
-  const declarations = [
-    /(^|\n)([ \t]*)(?:async[ \t]+)?function[ \t]+\*?[ \t]*([A-Za-z_$][\w$]*)[ \t]*\(/gu,
-    /(^|\n)([ \t]*)class[ \t]+([A-Za-z_$][\w$]*)\b/gu,
+  const extension = path.extname(String(label)).toLocaleLowerCase("en-US");
+  if (extension === ".py") return assertPythonDocumentation(content, label);
+  if (extension === ".ts" || extension === ".js") return assertTypeScriptDocumentation(content, label);
+  return 0;
+}
+
+/** Identifica declarações TypeScript/JavaScript por padrões conservadores e exige JSDoc imediatamente associado. */
+function assertTypeScriptDocumentation(content, label) {
+  const source = String(content).replace(/\r\n/gu, "\n");
+  const missing = [];
+  let declarations = 0;
+  const patterns = [
+    /(^|\n)[ \t]*(?:export[ \t]+(?:default[ \t]+)?)?(?:async[ \t]+)?function[ \t]+\*?[ \t]*([A-Za-z_$][\w$]*)[ \t]*\(/gu,
+    /(^|\n)[ \t]*(?:export[ \t]+(?:default[ \t]+)?)?(?:abstract[ \t]+)?class[ \t]+([A-Za-z_$][\w$]*)\b/gu,
+    /(^|\n)[ \t]*(?:export[ \t]+)?(?:interface|type|enum)[ \t]+([A-Za-z_$][\w$]*)\b/gu,
+    /(^|\n)[ \t]+(?:(?:public|private|protected|static|async|readonly|abstract|override|get|set)[ \t]+)*(constructor|[A-Za-z_$][\w$]*)[ \t]*\([^;\n]*\)[ \t]*(?::[^\n{]+)?[ \t]*\{/gu,
+    /(^|\n)[ \t]*(?:export[ \t]+)?(?:const|let)[ \t]+([A-Za-z_$][\w$]*)[ \t]*=[ \t]*(?:async[ \t]+)?(?:function\b|(?:\([^\n]*\)|[A-Za-z_$][\w$]*)[ \t]*=>)/gu,
   ];
-  for (const declaration of declarations) for (const match of content.matchAll(declaration)) {
-    const before = content.slice(0, match.index + match[1].length).trimEnd();
+  const ignoredMethods = new Set(["catch", "for", "if", "switch", "while"]);
+  for (const [patternIndex, pattern] of patterns.entries()) for (const match of source.matchAll(pattern)) {
+    const name = match[2];
+    if (ignoredMethods.has(name)) continue;
+    if (patternIndex === 3) {
+      const candidate = match[0].slice(match[0].indexOf(name) + name.length);
+      const openings = (candidate.match(/\(/gu) || []).length;
+      const closings = (candidate.match(/\)/gu) || []).length;
+      if (openings !== closings) continue;
+    }
+    declarations += 1;
+    const declarationStart = match.index + match[1].length;
+    const before = source.slice(0, declarationStart).trimEnd();
     if (!/\/\*\*[^]*?\*\/$/u.test(before)) {
-      throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${match[3]}`);
+      const line = source.slice(0, declarationStart).split("\n").length;
+      missing.push(`${name}@${line}`);
     }
   }
+  if (missing.length) throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${missing.join(",")}`);
+  return declarations;
+}
+
+/** Exige docstring imediatamente no corpo de cada função ou classe Python distribuída. */
+function assertPythonDocumentation(content, label) {
+  const lines = String(content).replace(/\r\n/gu, "\n").split("\n");
+  const missing = [];
+  let declarations = 0;
+  for (let index = 0; index < lines.length; index += 1) {
+    const match = /^(\s*)(?:async\s+def|def|class)\s+([A-Za-z_]\w*)\b/u.exec(lines[index]);
+    if (!match) continue;
+    declarations += 1;
+    const indentation = match[1].length;
+    let signatureEnd = index;
+    while (signatureEnd < lines.length && !/:\s*(?:#.*)?$/u.test(lines[signatureEnd])) signatureEnd += 1;
+    let body = signatureEnd + 1;
+    while (body < lines.length && !lines[body].trim()) body += 1;
+    const bodyIndentation = body < lines.length ? /^\s*/u.exec(lines[body])[0].length : 0;
+    if (body >= lines.length || bodyIndentation <= indentation || !/^(?:[rubf]{0,2})?(?:"""|''')/iu.test(lines[body].trim())) {
+      missing.push(`${match[2]}@${index + 1}`);
+    }
+    index = Math.max(index, signatureEnd);
+  }
+  if (missing.length) throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${missing.join(",")}`);
+  return declarations;
 }
 
 /** Executa validateDistributionProfiles no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1898,6 +1952,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  assertNativeDocumentation,
   buildDist,
   buildDistributionPackage,
   buildIndex,

@@ -328,7 +328,10 @@ function selfTest() {
 }
 
 /** Representa uso inválido da inbox e mantém código de saída contratual para automação. */
-class UsageError extends Error { constructor(message) { super(message); this.exitCode = 2; } }
+class UsageError extends Error {
+  /** Inicializa a falha de uso com o código público reservado a entrada inválida. */
+  constructor(message) { super(message); this.exitCode = 2; }
+}
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 

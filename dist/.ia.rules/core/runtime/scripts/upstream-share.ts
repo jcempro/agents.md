@@ -303,7 +303,10 @@ function print(value) { console.log(JSON.stringify(value)); return 0; }
 function help() { return "Uso: upstream-share <check|prepare <evidence.json>|publish <proposal.json> --authorize|assess <proposal.json>|apply-assessment <assessment.json> --issue <n> --authorize> [--offline|--notify-collaborators]\n"; }
 
 /** Representa uso inválido da integração upstream e mantém diagnóstico público determinístico. */
-class UsageError extends Error { constructor(message) { super(message); this.exitCode = 2; } }
+class UsageError extends Error {
+  /** Inicializa a falha de uso com o código público reservado a entrada inválida. */
+  constructor(message) { super(message); this.exitCode = 2; }
+}
 
 if (require.main === module) main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(error.message); process.exitCode = error.exitCode || 1; });
 
