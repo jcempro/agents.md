@@ -1565,3 +1565,67 @@ verificacoes=Teste dedicado cobre série par, ímpar, unitária e vazia, preserv
 rastreabilidade=Commit material 650b3966d65325b7d614cf574ece5222395bf00f; RCF §18.4 sincronizado como `[95bf00f]` pelo commit exclusivo 829b85aa807539bc27d366f0a46fd363fb9889c3; `agent:rcf` aprovou 254 entradas, 253 materiais.
 pendencias=Nenhuma nesta FT.
 proximo_ponto=Validar o commit de sincronização em CI e convergir `dev` para a branch primária sem incorporar a solicitação de publicação exibida no contexto do IDE.
+
+FT-066|nome=Normatização RCF da política cumulativa de comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:28-03:00|inicio=2026-08-09T12:39:28-03:00|atualizacao=2026-08-09T12:39:28-03:00
+objetivo=Eliminar a ambiguidade entre cabeçalho de arquivo, documentação nativa de declarações e comentários internos, preservando força normativa, legibilidade e intervenção mínima.
+origem=TODO.ia.md
+origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
+complementares=FT-067,FT-068
+dependencias=Estado canônico até FT-065 concluído; triagem de recusas sem candidato; autorização humana explícita para o ciclo integral e release 0.1.1.
+1/3 Equalização e contrato [em andamento]
+  1/3 Confrontar TODO integral, RCF, Norma ativa/fonte e mecanismos de validação [em andamento]
+  2/3 Fixar categorias cumulativas, incidência, exceções e progressividade [pendente]
+  3/3 Registrar rastreabilidade e critérios sem enfraquecer regras vigentes [pendente]
+2/3 RCF [pendente]
+  1/2 Atualizar RCF §15.3 com contrato reconstruível [pendente]
+  2/2 Validar RCF e concluir fase normativa [pendente]
+3/3 Fechamento [pendente]
+  1/2 Auditar origem → RCF e liberar FT-067 [pendente]
+  2/2 Commitar exclusivamente a normatização RCF [pendente]
+aceite=RCF distingue de forma independente e cumulativa cabeçalho, documentação de declaração e comentário lógico; define fonte versus derivado, exceções objetivas, progressividade local e validação proporcional sem reduzir contratos anteriores.
+pendencias=Concluir RCF; depois executar FT-067 e FT-068 conforme autorização integral registrada.
+
+FT-067|nome=Norma Operacional da documentação e comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-09T12:39:29-03:00
+objetivo=Projetar no produto distribuível a política cumulativa de documentação, comentários lógicos e cabeçalhos definida pela FT-066.
+origem=TODO.ia.md
+origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
+normativa=FT-066
+complementar=FT-068
+dependencias=FT-066 concluída; autorização humana explícita para completar integralmente o equalizer.
+1/3 Fonte normativa [pendente]
+  1/3 Corrigir a regra global de implementação em src [pendente]
+  2/3 Densificar o contrato especializado de rastreabilidade sem duplicação [pendente]
+  3/3 Preservar compatibilidade de cabeçalhos e artefatos derivados [pendente]
+2/3 Materialização [pendente]
+  1/2 Regenerar Norma ativa, índice, grafo e derivados [pendente]
+  2/2 Auditar equivalência fonte → ativo → release [pendente]
+3/3 Fechamento [pendente]
+  1/2 Validar e concluir a fase normativa operacional [pendente]
+  2/2 Commitar a Norma antes do código de conformidade [pendente]
+aceite=Norma distribuível inequívoca, compacta e completa, sem conflito entre “somente cabeçalho” e documentação obrigatória, com preservação integral da autoridade e dos contratos preexistentes.
+pendencias=Aguardar FT-066; após conclusão, executar antes de FT-068.
+
+FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-09T12:39:30-03:00
+objetivo=Implementar validação proporcional da política documental, comprovar não regressão, manter somente o equalizer perene no TODO e publicar/convergir a release 0.1.1.
+origem=TODO.ia.md
+origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
+normativas=FT-066,FT-067
+release=0.1.1
+dependencias=FT-066 e FT-067 concluídas; autorização humana explícita para código, push e release 0.1.1.
+1/4 Validador proporcional [pendente]
+  1/3 Definir escopo de fontes humanas, derivados, gerados e exceções objetivas [pendente]
+  2/3 Implementar detecção determinística e diagnóstico conciso [pendente]
+  3/3 Cobrir contratos com testes positivos e negativos [pendente]
+2/4 Auditoria e integração [pendente]
+  1/3 Revisar diff integral e cláusulas preexistentes contra enfraquecimento [pendente]
+  2/3 Executar build, lint, testes, verify, RCF e grafo [pendente]
+  3/3 Remover do TODO todos os itens concluídos, preservando literalmente o equalizer [pendente]
+3/4 Rastreabilidade [pendente]
+  1/2 Sincronizar hash causal no RCF em commit exclusivo [pendente]
+  2/2 Regenerar handoff e derivados finais [pendente]
+4/4 Publicação [pendente]
+  1/3 Preparar e enviar commits validados em dev [pendente]
+  2/3 Publicar e comprovar release 0.1.1 como latest [pendente]
+  3/3 Convergir dev, branch primária e remoto sem conflito [pendente]
+aceite=Política implementada e testada; nenhum princípio ou contrato anterior reduzido; TODO contém somente o equalizer intacto; release v0.1.1 publicada como latest com asset íntegro; branches convergidas.
+pendencias=Aguardar FT-066 e FT-067.
