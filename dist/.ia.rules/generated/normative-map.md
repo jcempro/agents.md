@@ -1,13 +1,13 @@
 # Mapa normativo gerado
 
-Origem: `76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516`; revisão: `a9bdfdf`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `927fcf68f99edd1f5bd992173c668c0af0a275daeea462462c27fad7126257e4`; revisão: `f3a75bd`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 
 ```mermaid
 flowchart TD
   core_agents["core.agents\nhybrid\n338 tokens"]
-  core_agents_full["core.agents-full\nleaf\n7364 tokens"]
+  core_agents_full["core.agents-full\nleaf\n7420 tokens"]
   core_authority["core.authority\nleaf\n880 tokens"]
   core_microconcepts["core.microconcepts\nleaf\n3020 tokens"]
   core_contracts["core.contracts\nleaf\n1500 tokens"]
@@ -18,7 +18,7 @@ flowchart TD
   scenario_constructor_operation["scenario.constructor-operation\nleaf\n902 tokens"]
   resource_scripts["resource.scripts\nhybrid\n1279 tokens"]
   resource_workflows["resource.workflows\nleaf\n873 tokens"]
-  resource_traceability["resource.traceability\nleaf\n540 tokens"]
+  resource_traceability["resource.traceability\nleaf\n965 tokens"]
   scenario_request_lifecycle["scenario.request-lifecycle\nhybrid\n888 tokens"]
   scenario_refused_decisions["scenario.refused-decisions\nleaf\n1201 tokens"]
   scenario_official_gap["scenario.official-gap\nleaf\n555 tokens"]
@@ -85,7 +85,7 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 
 | Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
 |---|---:|---:|---:|---:|---:|---:|
-| Folha | 29 | 437 | 1588.79 | 1211 | 1430.75 | 7702 |
+| Folha | 29 | 437 | 1605.38 | 1218 | 1433.83 | 7758 |
 | Híbrido | 6 | 338 | 1174.83 | 1381.0 | 485.84 | 1617 |
 
 ## Caminhos
@@ -108,7 +108,7 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 | path-014 | core.agents → resource.scripts | hybrid | 1617 |
 | path-015 | core.agents → resource.scripts → meta.cli | leaf | 1756 |
 | path-016 | core.agents → resource.workflows | leaf | 1211 |
-| path-017 | core.agents → resource.traceability | leaf | 878 |
+| path-017 | core.agents → resource.traceability | leaf | 1303 |
 | path-018 | core.agents → scenario.release | hybrid | 1606 |
 | path-019 | core.agents → scenario.release → capability.package-registry | leaf | 2063 |
 | path-020 | core.agents → scenario.application-update | leaf | 736 |
@@ -126,4 +126,4 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 | path-032 | core.agents → meta.upstream | leaf | 467 |
 | path-033 | core.agents → meta.validation | leaf | 437 |
 | path-034 | core.agents → bootstrap.init-repo | leaf | 3315 |
-| path-035 | core.agents → core.agents-full | leaf | 7702 |
+| path-035 | core.agents → core.agents-full | leaf | 7758 |

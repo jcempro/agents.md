@@ -8,4 +8,4 @@ Entregável: validação determinística com diagnósticos; testes positivos/neg
 
 Restrições: não exigir documentação impossível em derivados/gerados; não fazer varredura destrutiva; não editar equalizer; não publicar com gate degradado; não repetir release/tag existente sem inspeção idempotente.
 
-Validação: typecheck, lint, testes, build, verify, RCF, grafo, diff/semântica, release remota e convergência. Estado: pendente.
+Validação: typecheck, lint, testes, build, verify, RCF, grafo, diff/semântica, release remota e convergência. Estado: em andamento.

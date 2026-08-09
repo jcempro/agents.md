@@ -6,4 +6,4 @@ Entradas: contexto-mestre, handoff do RCF, `src/.ia.rules/agents.inc.md`, `src/.
 
 Entregável: regra global curta e contrato especializado completo; derivados atualizados; preservação de cabeçalhos e compatibilidade. Fora de escopo: validador e limpeza final do TODO.
 
-Validação: equivalência fonte/ativo, índice/grafo, build e auditoria modal. Estado: em andamento.
+Validação: fonte/dist equivalentes; índice, grafo, build e auditoria modal aprovados; Norma ativa permanecerá na versão instalada até a convergência oficial da release. Estado: concluído.

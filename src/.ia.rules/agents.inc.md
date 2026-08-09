@@ -104,13 +104,13 @@ Todo repositório DEVE declarar `dev-live` com host, porta, protocolo, proxy e r
 
 ## 12. Padrões de implementação
 
-Análise e saída técnica DEVEM usar PT-BR, validar impacto e NÃO DEVE apresentar hipótese como conclusão. Alteração DEVE ter diff mínimo, preservar fluxo, contrato e comentário correto; redundância suspeita DEVE receber `// PRESERVADO: potencial correção de bug não documentada`. Correção nova DEVE usar `// FIX-BUG:` ou `// PROTECAO:` conciso. Texto NÃO DEVE usar pronome interlocutório/autorreferencial, "talvez", "pode ser" ou "provavelmente". Ambiguidade aplica `MN-PRES`.
+Análise e saída técnica DEVEM usar PT-BR, validar impacto e NÃO DEVE apresentar hipótese como conclusão. Alteração DEVE ter diff mínimo e preservar fluxo, contrato e comentário conforme. Cabeçalho de arquivo, documentação de declaração e comentário interno de lógica são categorias independentes e cumulativas; concisão NÃO autoriza omitir categoria obrigatória. Texto NÃO DEVE usar pronome interlocutório/autorreferencial, "talvez", "pode ser" ou "provavelmente". Ambiguidade aplica `MN-PRES`.
 
-Todo código-fonte e código final entregável cujo formato aceite comentário DEVE manter ou inserir somente cabeçalho de autoria/licença e NUNCA removê-lo. O cabeçalho DEVE usar dados do repositório ao qual o código pertence: URL upstream/origem, autor primário e secundário se houver, respectivos site/e-mail se houver, nome/link da licença e seu texto canônico ultrassucinto; dado ausente NÃO DEVE ser inferido.
+Toda fonte humana editável cujo formato aceite comentário e todo produto final comentável DEVEM manter cabeçalho de autoria/licença/origem e NUNCA removê-lo. O cabeçalho DEVE usar dados do repositório ao qual o código pertence: URL upstream/origem, autor primário e secundário existentes, respectivos site/e-mail existentes, nome/link da licença, texto canônico ultrassucinto e RCF quando aplicável; dado ausente NÃO DEVE ser inferido.
 
 Build DEVE injetar/validar o cabeçalho a partir da configuração central em cada saída comentável, inclusive minificada/compilada. README DEVE encerrar com Autoria, Repositório e Licença equivalentes, sem fonte paralela de metadados.
 
-Unidade técnica aplica documentação nativa e rastreabilidade material de `./.ia.rules/resources/traceability.md`. Sentença RCF implementável termina com hash causal de sete caracteres ou marcador de pendência; sincronização ocorre somente após commit material, em commit exclusivo, sem autorreferência ou recursão.
+Unidade técnica DEVE aplicar compulsoriamente a documentação de declarações, os comentários lógicos suficientes, a progressividade local e a rastreabilidade material de `./.ia.rules/resources/traceability.md`. Redundância suspeita DEVE receber `// PRESERVADO: potencial correção de bug não documentada`; `FIX-BUG`, `PROTECAO` ou equivalente só PODE identificar semântica verdadeira. Sentença RCF implementável termina com hash causal de sete caracteres ou marcador de pendência; sincronização ocorre somente após commit material, em commit exclusivo, sem autorreferência ou recursão.
 
 ## 13. Validação
 

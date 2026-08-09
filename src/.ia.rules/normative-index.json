@@ -57,12 +57,12 @@
         "context"
       ],
       "outputs": [],
-      "bytes": 33286,
-      "sha256": "4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024",
-      "tokens": 7364,
+      "bytes": 33613,
+      "sha256": "cc13769817bbeecebcd043ad34317a98a685896e01bc5f63221477b264fb73c6",
+      "tokens": 7420,
       "guard": {
         "exceptions": 7,
-        "modalities": 135,
+        "modalities": 136,
         "prohibitions": 25,
         "references": 267
       }
@@ -384,14 +384,14 @@
         "artifact"
       ],
       "outputs": [],
-      "bytes": 2490,
-      "sha256": "2cb8ac6a68c1541c3fb68960a2775ca691de9cbb406a21481669085406c5e2c0",
-      "tokens": 540,
+      "bytes": 4601,
+      "sha256": "c05dd9158a75bd7e9d4471b2a402f6e3ba74bbf17b26f3980b9514356988e3a1",
+      "tokens": 965,
       "guard": {
-        "exceptions": 0,
-        "modalities": 0,
+        "exceptions": 3,
+        "modalities": 1,
         "prohibitions": 1,
-        "references": 6
+        "references": 9
       }
     },
     {
@@ -1312,13 +1312,13 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "a9bdfdf",
-    "commitDate": "2026-07-26T00:12:36-03:00",
+    "commit": "f3a75bd",
+    "commitDate": "2026-08-09T12:45:10-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516",
+    "sourceDigest": "927fcf68f99edd1f5bd992173c668c0af0a275daeea462462c27fad7126257e4",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
@@ -1326,10 +1326,10 @@
     "leaf": {
       "count": 29,
       "min": 437,
-      "average": 1588.79,
-      "median": 1211,
-      "populationStandardDeviation": 1430.75,
-      "max": 7702
+      "average": 1605.38,
+      "median": 1218,
+      "populationStandardDeviation": 1433.83,
+      "max": 7758
     },
     "hybrid": {
       "count": 6,
@@ -1766,12 +1766,12 @@
         {
           "id": "resource.traceability",
           "mode": "terminal",
-          "tokens": 540
+          "tokens": 965
         }
       ],
       "terminal": "resource.traceability",
       "terminalType": "leaf",
-      "tokens": 878
+      "tokens": 1303
     },
     {
       "id": "path-018",
@@ -2230,12 +2230,12 @@
         {
           "id": "core.agents-full",
           "mode": "terminal",
-          "tokens": 7364
+          "tokens": 7420
         }
       ],
       "terminal": "core.agents-full",
       "terminalType": "leaf",
-      "tokens": 7702
+      "tokens": 7758
     }
   ]
 }

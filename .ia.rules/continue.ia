@@ -1587,27 +1587,29 @@ resultado=RCF §15.3 distingue cumulativamente cabeçalho, documentação de dec
 verificacoes=Auditoria bidirecional TODO → RCF concluída; seis sentenças materiais preparadas para FT-067; agent:rcf RCF_OK com 260 entradas e 257 materiais.
 pendencias=Nenhuma na FT-066; FT-067 liberada pela autorização integral registrada.
 
-FT-067|nome=Norma Operacional da documentação e comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:29-03:00|inicio=2026-08-09T12:46:01-03:00|atualizacao=2026-08-09T12:46:01-03:00
+FT-067|nome=Norma Operacional da documentação e comentários|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-08-09T12:39:29-03:00|inicio=2026-08-09T12:46:01-03:00|atualizacao=2026-08-09T12:55:00-03:00|conclusao=2026-08-09T12:55:00-03:00
 objetivo=Projetar no produto distribuível a política cumulativa de documentação, comentários lógicos e cabeçalhos definida pela FT-066.
 origem=TODO.ia.md
 origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
 normativa=FT-066
 complementar=FT-068
 dependencias=FT-066 concluída; autorização humana explícita para completar integralmente o equalizer.
-1/3 Fonte normativa [pendente]
-  1/3 Corrigir a regra global de implementação em src [pendente]
-  2/3 Densificar o contrato especializado de rastreabilidade sem duplicação [pendente]
-  3/3 Preservar compatibilidade de cabeçalhos e artefatos derivados [pendente]
-2/3 Materialização [pendente]
-  1/2 Regenerar Norma ativa, índice, grafo e derivados [pendente]
-  2/2 Auditar equivalência fonte → ativo → release [pendente]
-3/3 Fechamento [pendente]
-  1/2 Validar e concluir a fase normativa operacional [pendente]
-  2/2 Commitar a Norma antes do código de conformidade [pendente]
+1/3 Fonte normativa [concluido]
+  1/3 Corrigir a regra global de implementação em src [concluido]
+  2/3 Densificar o contrato especializado de rastreabilidade sem duplicação [concluido]
+  3/3 Preservar compatibilidade de cabeçalhos e artefatos derivados [concluido]
+2/3 Materialização [concluido]
+  1/2 Regenerar Norma ativa, índice, grafo e derivados [concluido]
+  2/2 Auditar equivalência fonte → ativo → release [concluido]
+3/3 Fechamento [concluido]
+  1/2 Validar e concluir a fase normativa operacional [concluido]
+  2/2 Commitar a Norma antes do código de conformidade [concluido]
 aceite=Norma distribuível inequívoca, compacta e completa, sem conflito entre “somente cabeçalho” e documentação obrigatória, com preservação integral da autoridade e dos contratos preexistentes.
-pendencias=Implementar a Norma em src e materializar derivados antes da FT-068.
+resultado=Norma fonte distingue as três categorias no núcleo e concentra incidência, conteúdo, exceções, progressividade e validação em resource.traceability; dist, índice, mapa e métricas foram regenerados sem redução modal.
+verificacoes=Guardas do núcleo: modalidades 135→136, proibições 25→25; NORMATIVE_GRAPH_OK com 36 nós/35 rotas; agent:verify VERIFY_OK com 28 scripts e 111 entradas.
+pendencias=Nenhuma na FT-067; FT-068 liberada pela autorização integral registrada.
 
-FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-09T12:39:30-03:00
+FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:30-03:00|inicio=2026-08-09T12:55:01-03:00|atualizacao=2026-08-09T12:55:01-03:00
 objetivo=Implementar validação proporcional da política documental, comprovar não regressão, manter somente o equalizer perene no TODO e publicar/convergir a release 0.1.1.
 origem=TODO.ia.md
 origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
@@ -1630,4 +1632,4 @@ dependencias=FT-066 e FT-067 concluídas; autorização humana explícita para c
   2/3 Publicar e comprovar release 0.1.1 como latest [pendente]
   3/3 Convergir dev, branch primária e remoto sem conflito [pendente]
 aceite=Política implementada e testada; nenhum princípio ou contrato anterior reduzido; TODO contém somente o equalizer intacto; release v0.1.1 publicada como latest com asset íntegro; branches convergidas.
-pendencias=Aguardar FT-066 e FT-067.
+pendencias=Implementar o validador proporcional, integrar, limpar TODO, sincronizar RCF e publicar 0.1.1.
