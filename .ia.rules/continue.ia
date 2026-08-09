@@ -1609,27 +1609,28 @@ resultado=Norma fonte distingue as três categorias no núcleo e concentra incid
 verificacoes=Guardas do núcleo: modalidades 135→136, proibições 25→25; NORMATIVE_GRAPH_OK com 36 nós/35 rotas; agent:verify VERIFY_OK com 28 scripts e 111 entradas.
 pendencias=Nenhuma na FT-067; FT-068 liberada pela autorização integral registrada.
 
-FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:30-03:00|inicio=2026-08-09T12:55:01-03:00|atualizacao=2026-08-09T12:55:01-03:00
+FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:30-03:00|inicio=2026-08-09T12:55:01-03:00|atualizacao=2026-08-09T13:18:00-03:00
 objetivo=Implementar validação proporcional da política documental, comprovar não regressão, manter somente o equalizer perene no TODO e publicar/convergir a release 0.1.1.
 origem=TODO.ia.md
 origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
 normativas=FT-066,FT-067
 release=0.1.1
 dependencias=FT-066 e FT-067 concluídas; autorização humana explícita para código, push e release 0.1.1.
-1/4 Validador proporcional [pendente]
-  1/3 Definir escopo de fontes humanas, derivados, gerados e exceções objetivas [pendente]
-  2/3 Implementar detecção determinística e diagnóstico conciso [pendente]
-  3/3 Cobrir contratos com testes positivos e negativos [pendente]
-2/4 Auditoria e integração [pendente]
-  1/3 Revisar diff integral e cláusulas preexistentes contra enfraquecimento [pendente]
-  2/3 Executar build, lint, testes, verify, RCF e grafo [pendente]
-  3/3 Remover do TODO todos os itens concluídos, preservando literalmente o equalizer [pendente]
-3/4 Rastreabilidade [pendente]
-  1/2 Sincronizar hash causal no RCF em commit exclusivo [pendente]
-  2/2 Regenerar handoff e derivados finais [pendente]
+1/4 Validador proporcional [concluido]
+  1/3 Definir escopo de fontes humanas, derivados, gerados e exceções objetivas [concluido]
+  2/3 Implementar detecção determinística e diagnóstico conciso [concluido]
+  3/3 Cobrir contratos com testes positivos e negativos [concluido]
+2/4 Auditoria e integração [concluido]
+  1/3 Revisar diff integral e cláusulas preexistentes contra enfraquecimento [concluido]
+  2/3 Executar build, lint, testes, verify, RCF e grafo [concluido]
+  3/3 Remover do TODO todos os itens concluídos, preservando literalmente o equalizer [concluido]
+3/4 Rastreabilidade [concluido]
+  1/2 Sincronizar hash causal no RCF em commit exclusivo [concluido]
+  2/2 Regenerar handoff e derivados finais [concluido]
 4/4 Publicação [pendente]
   1/3 Preparar e enviar commits validados em dev [pendente]
   2/3 Publicar e comprovar release 0.1.1 como latest [pendente]
   3/3 Convergir dev, branch primária e remoto sem conflito [pendente]
 aceite=Política implementada e testada; nenhum princípio ou contrato anterior reduzido; TODO contém somente o equalizer intacto; release v0.1.1 publicada como latest com asset íntegro; branches convergidas.
-pendencias=Implementar o validador proporcional, integrar, limpar TODO, sincronizar RCF e publicar 0.1.1.
+resultado_parcial=Validador integrado ao verify para fontes TypeScript e Python, com diagnóstico por declaração e linha; 19 suítes aprovadas; RCF §15.3 sincronizado ao commit material 8b2f255; TODO reduzido ao equalizer literal de 28 linhas, hash normalizado 82BADEE64B3FCF1BD673DC612620D6E33DC39BEF8F1A6438A11053620B48D481. Auditoria integral aprovou build, typecheck, lint, test, verify, RCF e grafo; núcleo preservou proibições e ampliou modalidades de 133 para 134 no critério lexical aplicado.
+pendencias=Publicar e comprovar a release 0.1.1 e convergir dev, branch primária e remoto.
