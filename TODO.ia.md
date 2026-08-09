@@ -1,3 +1,32 @@
+- [ ] [equalizer] Equalizar e executar as TO-DOs como frentes convergentes de um único objetivo
+  - Este item rege todas as demais TO-DOs. Cada uma DEVE ser tratada como frente complementar de uma única execução, conciliada com as demais e convergente ao objetivo principal do projeto.
+
+  - Contradições aparentes DEVEM ser presumidas como imprecisão redacional e resolvidas por equalização, sem perda de intenção, requisito, restrição ou nuance. Havendo evidência de conflito material não solucionável pelas normas e pelo contexto, o desenvolvedor DEVE ser consultado.
+
+  - Considerações, comparações ou solicitações PODEM não ser plenamente aderentes ao projeto, especialmente quando previamente processadas por IA. Salvo dúvida material que exija confirmação, a IA DEVE interpretá-las conforme o contexto aplicável já normatizado no RCF e no `README.md`; persistindo ambiguidade ou incompatibilidade, DEVE consultar o desenvolvedor antes de prosseguir.
+
+  - O `AGENTS.md` prevalece absolutamente; o RCF vigente prevalece sobre as demais fontes subordinadas. Toda alteração DEVE aprimorar o projeto, ampliar capacidades e recursos, preservar compatibilidade e força normativa e NÃO PODE introduzir regressão.
+
+  - Antes de executar qualquer TO-DO:
+    1. ler integralmente todas as TO-DOs e normas aplicáveis;
+    2. equalizar objetivos, requisitos, dependências, precedências e terminologia;
+    3. resolver incompatibilidades, ambiguidades, sobreposições e lacunas;
+    4. adaptar, consolidar, desmembrar, reordenar ou eliminar itens somente quando isso aumentar coerência sem reduzir o objetivo material.
+
+  - Toda TO-DO DEVE ser separada em:
+    - **Normatização (RCF):** atualizar RCFs, contratos, precedências e documentação normativa necessária;
+    - **Implementação:** executar código, migrações, testes, validações e alterações funcionais.
+
+  - Após a equalização, a IA DEVE iniciar e concluir imediatamente a **Normatização RCF de todas as TO-DOs**, mantendo rastreabilidade entre cada regra e sua implementação futura.
+
+  - Concluída a normatização, a IA DEVE INTERROMPER antes de qualquer implementação e solicitar autorização expressa do desenvolvedor, informando sucintamente:
+    - implementações pendentes;
+    - dependências e ordem recomendada;
+    - impedimentos materiais identificados.
+
+  - Toda alteração que implique em alteração no modo de codificar markdown, deve ser devidamente documentada em modo de uso.
+  - Esta TO-DO é perene: NÃO PODE ser marcada como concluída nem removida e nem editada. Sua existência é perene; sua contabilização somente é necessária quando houver ao menos uma TO-DO por ela regida.
+
 - [x] **[1A] Orquestrar integralmente a issue [`jcempro/agents.md#9`](https://github.com/jcempro/agents.md/issues/9) e convergir as frentes de `TODO.ia.md`:** este item constitui o comando central das solicitações relacionadas: assim como múltiplos frontes integram uma única guerra, TODOs presentes neste aquivo, issues, requisitos, FTs, etapas e tarefas materialmente relacionados DEVEM ser lidos, analisados, correlacionados e planejados como partes de um único objetivo, ainda que permaneçam separados por rastreabilidade, escopo ou execução. Sua função é coordenar, consolidar e ordenar as frentes; NÃO executar indiscriminadamente todas elas nesta mesma atuação, integrando-as a fim de evitar retrabalho e reedicoes ou revisoes futuras por falta de planejamento adequado.
   - [x] **Preservar a fonte:** baixar integralmente o texto e os anexos aplicáveis da issue para registro temporário local, versionado, rastreável e devidamente aninhado; lê-los e analisá-los antes de qualquer implementação. O registro DEVE permanecer até a incorporação normativa integral e ser removido no marco definido neste item.
   - [x] **Analisar o conjunto:** ler os demais TODOs, issues, normas e trabalhos relacionados; identificar sobreposições, dependências, conflitos, precedências, lacunas e objetivos comuns; e consolidar sua interpretação como um todo coerente. A IA DEVE planejar considerando a “guerra”, não cada “frente” isoladamente.
@@ -365,30 +394,27 @@ Resultado consolidado: os controles determinísticos de recuperação foram adot
   - Quando útil à clareza, atribuir nota de `0–10` aos aspectos avaliados para enfatizar relevância, impacto, validade ou prioridade, sem prolixidade.
 
 * [ ] Corrigir o `AGENTS.md` para tornar inequívoca e efetiva a política de comentários no modus operandi da IA
+  - Revisar integralmente as normas sobre comentários, eliminar ambiguidades, conflitos ou sobreposições e corrigir o comportamento que tem produzido documentação insuficiente no código.
 
-  * Revisar integralmente as normas sobre comentários, eliminar ambiguidades, conflitos ou sobreposições e corrigir o comportamento que tem produzido documentação insuficiente no código.
-
-  * Distinguir expressamente três categorias independentes e cumulativas:
-
-    1. **Documentação de declarações — OBRIGATÓRIA:** classes, funções, métodos, procedures, interfaces, tipos personalizados e construções equivalentes DEVEM possuir documentação imediatamente associada à declaração ou assinatura, no padrão nativo da linguagem (`JSDoc`, Rustdoc, docstring Python, GoDoc, PHPDoc, ShellDoc, RDoc ou equivalente mais adequado para o projeto/repositório final e cada  linguagem individual). Ela DEVE descrever, de forma sucinta e conforme aplicabilidade, finalidade, contrato, parâmetros, retorno, efeitos colaterais, exceções, restrições e condições relevantes. Aplica-se a todo código-fonte humano editável; exceções somente PODEM existir para construções inequivocamente triviais e quando objetivamente normatizadas.
+  - Distinguir expressamente três categorias independentes e cumulativas:
+    1. **Documentação de declarações — OBRIGATÓRIA:** classes, funções, métodos, procedures, interfaces, tipos personalizados e construções equivalentes DEVEM possuir documentação imediatamente associada à declaração ou assinatura, no padrão nativo da linguagem (`JSDoc`, Rustdoc, docstring Python, GoDoc, PHPDoc, ShellDoc, RDoc ou equivalente mais adequado para o projeto/repositório final e cada linguagem individual). Ela DEVE descrever, de forma sucinta e conforme aplicabilidade, finalidade, contrato, parâmetros, retorno, efeitos colaterais, exceções, restrições e condições relevantes. Aplica-se a todo código-fonte humano editável; exceções somente PODEM existir para construções inequivocamente triviais e quando objetivamente normatizadas.
 
     2. **Comentários internos de lógica — SELETIVOS, MAS SUFICIENTES:** comentários `//`, `/* */`, `#` ou equivalentes DEVEM ser poucos, concisos e funcionais, explicando lógica não óbvia, intenção, ordem necessária, proteção, prevenção de falha, decisão arquitetural ou razão de implementação. Blocos extensos, especialmente com cerca de `25+` linhas, DEVEM permanecer humanamente compreensíveis e logicamente rastreáveis por comentários de orientação quando o fluxo não for inequivocamente evidente. Tanto a prolixidade quanto a ausência quase total são inadequadas. Marcadores como `FIX`, `BUG`, `PROTEÇÃO` ou equivalentes somente DEVEM ser usados quando semanticamente corretos; decisões preventivas relevantes DEVEM ser justificadas mesmo quando não corrigirem bug preexistente.
 
     3. **Cabeçalho de arquivo — OBRIGATÓRIO:** DEVE conter, conforme a normatização vigente, licença, URL do texto integral, resumo da licença, autor e contato/site, repositório original e, quando aplicável, referência ao RCF do arquivo ou script.
 
-  * Diferenciar inequivocamente:
+  - Diferenciar inequivocamente:
+    - **fontes editáveis** (`.ts`, `.js`, `.py`, `.c`, `.rb`, `.sh` e equivalentes): DEVEM preservar cabeçalho, documentação das declarações (assinatura e manifesto) e comentários lógicos necessários;
+    - **artefatos derivados de entrega**, minificados ou agressivamente otimizados: PODEM remover documentação e comentários funcionais, mas DEVEM preservar o cabeçalho mínimo obrigatório de licença, autoria e origem.
 
-    * **fontes editáveis** (`.ts`, `.js`, `.py`, `.c`, `.rb`, `.sh` e equivalentes): DEVEM preservar cabeçalho, documentação das declarações (assinatura e manifesto) e comentários lógicos necessários;
-    * **artefatos derivados de entrega**, minificados ou agressivamente otimizados: PODEM remover documentação e comentários funcionais, mas DEVEM preservar o cabeçalho mínimo obrigatório de licença, autoria e origem.
+  - Otimização, minificação, transpilação, geração automática ou política contra comentários excessivos NÃO PODEM ser interpretadas como autorização para omitir documentação obrigatória dos arquivos-fonte.
 
-  * Otimização, minificação, transpilação, geração automática ou política contra comentários excessivos NÃO PODEM ser interpretadas como autorização para omitir documentação obrigatória dos arquivos-fonte.
+  - A terminologia normativa DEVE impedir qualquer confusão entre comentários internos, documentação de declarações e cabeçalhos, pois cada categoria possui finalidade, incidência e obrigatoriedade próprias.
 
-  * A terminologia normativa DEVE impedir qualquer confusão entre comentários internos, documentação de declarações e cabeçalhos, pois cada categoria possui finalidade, incidência e obrigatoriedade próprias.
+  - Incluir verificação de conformidade proporcional, preferencialmente automatizada, para detectar fontes sem documentação obrigatória, sem penalizar artefatos derivados, código gerado ou exceções objetivamente normatizadas.
 
-  * Incluir verificação de conformidade proporcional, preferencialmente automatizada, para detectar fontes sem documentação obrigatória, sem penalizar artefatos derivados, código gerado ou exceções objetivamente normatizadas.
+  - Ao modificar código preexistente em desconformidade, a IA DEVE corrigir progressivamente a documentação apenas nas declarações, blocos e trechos efetivamente tocados, sem promover refatoração generalizada alheia ao escopo (exceto se explicitamente solicitado). Essa correção local é obrigatória e NÃO autoriza preservar violações na área modificada (funções, classes, métodos, procedures, tipos customizados, interfaces...).
 
-  * Ao modificar código preexistente em desconformidade, a IA DEVE corrigir progressivamente a documentação apenas nas declarações, blocos e trechos efetivamente tocados, sem promover refatoração generalizada alheia ao escopo (exceto se explicitamente solicitado). Essa correção local é obrigatória e NÃO autoriza preservar violações na área modificada (funções, classes, métodos, procedures, tipos customizados, interfaces...).
+  - A IA não é livre para decidir escolher ou não seguir tais diretrizes: este modus operand é compulsório.
 
-  * A IA não é livre para decidir escolher ou não seguir tais diretrizes: este modus operand é compulsório.
-
-  * Concluir somente quando o `AGENTS.md` eliminar as ambiguidades responsáveis pelo comportamento atual e estabelecer código-fonte documentado, rastreável e humanamente compreensível, sem poluição textual.
+  - Concluir somente quando o `AGENTS.md` eliminar as ambiguidades responsáveis pelo comportamento atual e estabelecer código-fonte documentado, rastreável e humanamente compreensível, sem poluição textual.
