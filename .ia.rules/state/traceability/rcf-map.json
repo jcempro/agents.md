@@ -2807,13 +2807,13 @@
         "src/.ia.rules/agents.inc.md",
         "src/.ia.rules/resources/traceability.md"
       ],
-      "commit": "",
+      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
       "ft": "FT-066",
       "id": "1f4262bbdc5f135cf9c41c54",
       "line": 1348,
       "rcf": "RCF.md",
       "sentenceSha256": "73c200e112f3fe46a75a0d846c011de6be1c1caadfbda9aff99193689c9f7643",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2834,13 +2834,13 @@
         "src/.ia.rules/agents.inc.md",
         "src/.ia.rules/resources/traceability.md"
       ],
-      "commit": "",
+      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
       "ft": "FT-066",
       "id": "88c48134171b36a09b0f7bb1",
       "line": 1350,
       "rcf": "RCF.md",
       "sentenceSha256": "a1b2489ed991348b704490599cf1badf8177d2a49b589bd587ddd9778c74faa5",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2848,13 +2848,13 @@
         "src/.ia.rules/agents.inc.md",
         "src/.ia.rules/resources/traceability.md"
       ],
-      "commit": "",
+      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
       "ft": "FT-066",
       "id": "031e1f6f96d68c12f07800e1",
       "line": 1352,
       "rcf": "RCF.md",
       "sentenceSha256": "ba3ff33f34dbbb9b7f8320249da1525e0caec0e0111393e92fff368e08675fe9",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2862,13 +2862,13 @@
         "src/.ia.rules/agents.inc.md",
         "src/.ia.rules/resources/traceability.md"
       ],
-      "commit": "",
+      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
       "ft": "FT-066",
       "id": "aacb59848e4c06396591a1aa",
       "line": 1354,
       "rcf": "RCF.md",
       "sentenceSha256": "ccbb2c662a3a69ba5ec63a82b7d4aa609e3c03c1225c76b89a8aaf1543549ee6",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2889,13 +2889,13 @@
         "src/.ia.rules/agents.inc.md",
         "src/.ia.rules/resources/traceability.md"
       ],
-      "commit": "",
+      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
       "ft": "FT-066",
       "id": "4ea0104726d3aff66b3ea02b",
       "line": 1356,
       "rcf": "RCF.md",
       "sentenceSha256": "7a662aab93f50a695475e5b440be71f18e890c87ec5d2a3eb5ea644efcc3b990",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2903,13 +2903,13 @@
         "src/.ia.rules/agents.inc.md",
         "src/.ia.rules/resources/traceability.md"
       ],
-      "commit": "",
+      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
       "ft": "FT-066",
       "id": "a336deb3066675919f49e945",
       "line": 1358,
       "rcf": "RCF.md",
       "sentenceSha256": "edf80b51be06903479c37c9884b3508b79933aec7e4d3f38c3444fc16cf261a5",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
