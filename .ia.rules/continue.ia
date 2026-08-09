@@ -1609,7 +1609,7 @@ resultado=Norma fonte distingue as três categorias no núcleo e concentra incid
 verificacoes=Guardas do núcleo: modalidades 135→136, proibições 25→25; NORMATIVE_GRAPH_OK com 36 nós/35 rotas; agent:verify VERIFY_OK com 28 scripts e 111 entradas.
 pendencias=Nenhuma na FT-067; FT-068 liberada pela autorização integral registrada.
 
-FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T12:39:30-03:00|inicio=2026-08-09T12:55:01-03:00|atualizacao=2026-08-09T13:18:00-03:00
+FT-068|nome=Conformidade documental, limpeza do TODO e release 0.1.1|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-08-09T12:39:30-03:00|inicio=2026-08-09T12:55:01-03:00|atualizacao=2026-08-09T13:21:44-03:00|conclusao=2026-08-09T13:21:44-03:00
 objetivo=Implementar validação proporcional da política documental, comprovar não regressão, manter somente o equalizer perene no TODO e publicar/convergir a release 0.1.1.
 origem=TODO.ia.md
 origem_sha256=3085EF3DCE6B543595C6ECDF17A19CCBB5E406C2627C39841ABB9FAE7C129B10
@@ -1627,10 +1627,11 @@ dependencias=FT-066 e FT-067 concluídas; autorização humana explícita para c
 3/4 Rastreabilidade [concluido]
   1/2 Sincronizar hash causal no RCF em commit exclusivo [concluido]
   2/2 Regenerar handoff e derivados finais [concluido]
-4/4 Publicação [pendente]
-  1/3 Preparar e enviar commits validados em dev [pendente]
-  2/3 Publicar e comprovar release 0.1.1 como latest [pendente]
-  3/3 Convergir dev, branch primária e remoto sem conflito [pendente]
+4/4 Publicação [concluido]
+  1/3 Preparar e enviar commits validados em dev [concluido]
+  2/3 Publicar e comprovar release 0.1.1 como latest [concluido]
+  3/3 Convergir dev, branch primária e remoto sem conflito [concluido]
 aceite=Política implementada e testada; nenhum princípio ou contrato anterior reduzido; TODO contém somente o equalizer intacto; release v0.1.1 publicada como latest com asset íntegro; branches convergidas.
-resultado_parcial=Validador integrado ao verify para fontes TypeScript e Python, com diagnóstico por declaração e linha; 19 suítes aprovadas; RCF §15.3 sincronizado ao commit material 8b2f255; TODO reduzido ao equalizer literal de 28 linhas, hash normalizado 82BADEE64B3FCF1BD673DC612620D6E33DC39BEF8F1A6438A11053620B48D481. Auditoria integral aprovou build, typecheck, lint, test, verify, RCF e grafo; núcleo preservou proibições e ampliou modalidades de 133 para 134 no critério lexical aplicado.
-pendencias=Publicar e comprovar a release 0.1.1 e convergir dev, branch primária e remoto.
+resultado=Validador integrado ao verify para fontes TypeScript e Python, com diagnóstico por declaração e linha; 19 suítes aprovadas; RCF §15.3 sincronizado ao commit material 8b2f255; TODO reduzido ao equalizer literal de 28 linhas, hash normalizado 82BADEE64B3FCF1BD673DC612620D6E33DC39BEF8F1A6438A11053620B48D481. Auditoria integral aprovou build, typecheck, lint, test, verify, RCF e grafo; núcleo preservou proibições e ampliou modalidades de 133 para 134 no critério lexical aplicado.
+publicacao=Workflow 31323435591 concluído com sucesso; release v0.1.1 publicada como latest, não draft e não prerelease; tag v0.1.1 em 69014fe; commit terminal 47cef6c convergiu origin/dev e origin/main; asset agents-v0.1.1.zip com 313028 bytes e SHA-256 cb90b7f71ecdf39d7ca70c28ab0ca45d871ec1bd752f15802b27bc3092aa4a7a.
+pendencias=Nenhuma.
