@@ -13,33 +13,33 @@ Objetivo: Corrigir a atualização a partir de consumidores legados ou parciais 
 <tr>
 <td rowspan="3">Reprodução e contrato</td>
 <td>Reproduzir instalação parcial que contém somente AGENTS.md</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Reproduzir propagação legada de force sem prefixo</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Fixar aceite de varredura profunda limitada ao manifesto autoritativo</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Implementação</td>
 <td>Corrigir bootstrap/adaptador legado na fonte TypeScript</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Tornar a conclusão dependente do conjunto gerenciado e da projeção package.json</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Regenerar JavaScript, dist, índices e manifests derivados</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Validação funcional</td>
 <td>Cobrir --force e consumidor parcial/legado em testes de regressão</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Executar build, typecheck, lint, testes, verify, RCF e grafo</td>

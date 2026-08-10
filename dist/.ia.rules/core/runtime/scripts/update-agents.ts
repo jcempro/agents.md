@@ -26,6 +26,7 @@ const HANDOFF_PHASE = "release-runtime-ready";
 const HANDOFF_RUNTIME_FORMAT = "agents-update-runtime/v1";
 const HANDOFF_STATE_ENV = "AGENTS_UPDATE_HANDOFF_STATE";
 const HANDOFF_KEY_ENV = "AGENTS_UPDATE_HANDOFF_KEY";
+const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
 const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md", ".py", ".ts", ".txt", ".yml", ".yaml"]);
 const PACKAGE_RELATIVE_PATH = "package.json";
 const BOOTSTRAP_MANAGED = new Set([
@@ -36,6 +37,14 @@ const BOOTSTRAP_MANAGED = new Set([
   ".ia.rules/scenarios/web/page-like/scenario.md",
 ]);
 const LEGACY_MANAGED_FILES = new Set([
+  ".agents/package.json",
+  ".agents/core/contracts.md",
+  ".agents/core/concepts/microconceitos.md",
+  ".agents/core/runtime/scripts/autoupdate.js",
+  ".agents/core/runtime/scripts/autoupdate.ts",
+  ".agents/core/update/scenario.md",
+  ".agents/scenarios/web/page-like/scenario.md",
+  "scripts/.agents/package.json",
   "scripts/.ia.rules/generate-agents-status.js",
   "scripts/.ia.rules/release-hooks.js",
   "scripts/.ia.rules/release-workflow.js",
@@ -102,7 +111,9 @@ function executeUpdatePlan(parsed, rootDir, plan) {
 /** Executa parseArgs no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function parseArgs(argv = []) {
   const parsed = { check: false, dryRun: false, force: false, help: false };
-  for (const value of argv) {
+  for (const original of argv) {
+    // Compatibilidade: wrappers npm antigos removiam o prefixo somente destes quatro modos conhecidos.
+    const value = ["check", "dry-run", "force", "help"].includes(original) ? `--${original}` : original;
     if (value === "--check") parsed.check = true;
     else if (value === "--dry-run") parsed.dryRun = true;
     else if (value === "--force") parsed.force = true;
@@ -114,7 +125,7 @@ function parseArgs(argv = []) {
 
 /** Executa help no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function help() {
-  return "Uso: agent:autoupdate [--check|--dry-run] [--force] [--help]";
+  return "Uso: update:agents [--check|--dry-run] [--force] [--help]";
 }
 
 /** Executa handoffToReleaseRuntime no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -517,6 +528,8 @@ function collectRemoteGovernanceFiles(remoteRoot) {
   const source = discoverGovernanceManifest(remoteRoot);
   const files = new Map();
   for (const entry of source.manifest.files) {
+    // O bridge existe no asset para coletores anteriores ao handoff, mas não integra o estado canônico final.
+    if (entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION) continue;
     const target = safeRelativePath(entry.path);
     if (isLocalExtensionPath(target) || toPosixPath(target).toLocaleLowerCase("en-US") === "agents.local.md") {
       throw new Error(`Manifesto remoto inclui extensao local: ${toPosixPath(target)}`);
@@ -875,10 +888,26 @@ function applyTransactionalChange(rootDir, backupRoot, change, touched) {
   touched.push({ backup, existed, relativePath: change.relativePath });
   if (change.action === "remove") {
     fs.rmSync(target, { force: true });
+    removeEmptyLegacyParents(rootDir, path.dirname(target));
     return;
   }
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, change.content);
+}
+
+/** Remove somente diretórios vazios dos dois namespaces legados oficialmente reconhecidos. */
+function removeEmptyLegacyParents(rootDir, startPath) {
+  const legacyRoots = [path.join(rootDir, ".agents"), path.join(rootDir, "scripts", ".agents")]
+    .map((entry) => path.resolve(entry));
+  let current = path.resolve(startPath);
+  const boundary = legacyRoots.find((entry) => current === entry || current.startsWith(`${entry}${path.sep}`));
+  if (!boundary) return;
+  while (current === boundary || current.startsWith(`${boundary}${path.sep}`)) {
+    if (!fs.existsSync(current) || fs.readdirSync(current).length > 0) return;
+    fs.rmdirSync(current);
+    if (current === boundary) return;
+    current = path.dirname(current);
+  }
 }
 
 /** Executa restoreTransactionalChanges no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */

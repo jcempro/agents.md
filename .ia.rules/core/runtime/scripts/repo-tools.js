@@ -45,6 +45,7 @@ const SOURCE_DISTRIBUTION_PROFILES = /* @__PURE__ */ new Set([
   "consumer-bootstrap",
   "generated-release"
 ]);
+const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
   ".ia.rules/core/runtime/scripts/archive.js",
@@ -529,6 +530,7 @@ function buildIndex() {
       profile: entry.profile,
       runtime: {
         builder: entry.artifact.builder,
+        bundle: Boolean(entry.artifact.bundle),
         format: entry.artifact.format,
         target: entry.artifact.target
       }
@@ -589,7 +591,7 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
     sources.set(sourceKey, entry.path);
     destinations.set(destinationKey, entry.destination);
     if (entry.artifact) {
-      if (entry.language !== "typescript" || path.posix.extname(entry.path) !== ".ts" || path.posix.extname(entry.destination) !== ".ts" || entry.profile !== "consumer-runtime" || entry.artifact.format !== "commonjs" || entry.artifact.target !== "node24" || !entry.artifact.builder || !entry.artifact.destination) {
+      if (entry.language !== "typescript" || path.posix.extname(entry.path) !== ".ts" || path.posix.extname(entry.destination) !== ".ts" || !["consumer-runtime", "consumer-bootstrap"].includes(entry.profile) || entry.artifact.format !== "commonjs" || entry.artifact.target !== "node24" || !entry.artifact.builder || !entry.artifact.destination) {
         throw new Error(`MANIFESTO_FONTE_ARTEFATO_INVALIDO:${entry.path}`);
       }
       entry.artifact.destination = normalizeSourceDistributionPath(entry.artifact.destination, "artefato");
@@ -747,6 +749,7 @@ function distributionContent(entry) {
   const sourcePath = path.join(ROOT_DIR, entry.sourcePath);
   if (!entry.artifact) return fs.readFileSync(sourcePath);
   return Buffer.from(transpileTypeScript(sourcePath, {
+    bundle: Boolean(entry.runtime && entry.runtime.bundle),
     minify: true,
     sourceLabel: entry.generatedFrom || entry.sourcePath
   }), "utf8");
@@ -759,27 +762,27 @@ function transpileTypeScript(sourcePath, options = {}) {
     throw new Error(`TOOLCHAIN_TYPESCRIPT_INDISPONIVEL:${error.message}`);
   }
   const source = fs.readFileSync(sourcePath, "utf8");
-  const result = esbuild.transformSync(source, {
+  const common = {
     charset: "utf8",
     format: "cjs",
     legalComments: "none",
-    loader: "ts",
     minify: Boolean(options.minify),
     platform: "node",
     sourcemap: false,
     target: "node24",
     treeShaking: true
-  });
+  };
+  const code = options.bundle ? esbuild.buildSync({ ...common, bundle: true, entryPoints: [sourcePath], write: false }).outputFiles[0].text : esbuild.transformSync(source, { ...common, loader: "ts" }).code;
   return `${distributionBanner()}
 // Gerado de: ${toPosix(options.sourceLabel || path.relative(ROOT_DIR, sourcePath))}; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.
 
-${result.code.trim()}
+${code.trim()}
 `;
 }
 function syncActiveRuntime() {
   const manifest = readSourceDistributionManifest();
   let generated = 0;
-  for (const entry of manifest.entries.filter((item) => item.artifact)) {
+  for (const entry of manifest.entries.filter((item) => item.artifact && item.condition !== LEGACY_UPDATE_BRIDGE_CONDITION)) {
     const sourcePath = path.join(SRC_DIR, entry.path);
     const targetPath = path.join(ROOT_DIR, entry.artifact.destination);
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
@@ -831,6 +834,7 @@ function createGovernanceManifest(entries, contentForEntry, options = {}) {
     marker: format.marker,
     schema: format.version,
     files: entries.map((entry) => ({
+      ...entry.condition ? { condition: entry.condition } : {},
       ...entry.kind ? { kind: entry.kind } : {},
       path: entry.path,
       ...entry.profile ? { profile: entry.profile } : {},
@@ -1158,19 +1162,24 @@ function validateDistributionMapCompleteness(distributionMap) {
 }
 function validateReleasePayloadTopology(release) {
   const directories = /* @__PURE__ */ new Set();
+  const bridgePaths = new Set(release.files.filter((entry) => entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION).map((entry) => entry.path));
   for (const filePath of listFiles(DIST_DIR)) {
     const relativePath = toPosix(path.relative(DIST_DIR, filePath));
-    if (relativePath.includes(LEGACY_RULES_ROOT)) throw new Error(`PAYLOAD_LEGADO_PROIBIDO:${relativePath}`);
+    if (relativePath.includes(LEGACY_RULES_ROOT) && !bridgePaths.has(relativePath)) {
+      throw new Error(`PAYLOAD_LEGADO_PROIBIDO:${relativePath}`);
+    }
     const segments = relativePath.split("/");
     if (segments.length > 1) directories.add(segments[0]);
   }
-  if ([...directories].some((directory) => directory !== ".ia.rules")) {
+  const permittedDirectories = /* @__PURE__ */ new Set([".ia.rules", ".agents", "scripts"]);
+  if ([...directories].some((directory) => !permittedDirectories.has(directory))) {
     throw new Error(`DIRETORIO_PAYLOAD_PROIBIDO:${[...directories].sort().join(",")}`);
   }
   for (const entry of [...release.files, ...release.update.files]) {
-    if (entry.path.includes(LEGACY_RULES_ROOT)) throw new Error(`MANIFESTO_LEGADO_PROIBIDO:${entry.path}`);
+    const bridge = entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION && bridgePaths.has(entry.path);
+    if (entry.path.includes(LEGACY_RULES_ROOT) && !bridge) throw new Error(`MANIFESTO_LEGADO_PROIBIDO:${entry.path}`);
     const segments = entry.path.split("/");
-    if (segments.length > 1 && segments[0] !== ".ia.rules") throw new Error(`MANIFESTO_FORA_ALLOWLIST:${entry.path}`);
+    if (segments.length > 1 && segments[0] !== ".ia.rules" && !bridge) throw new Error(`MANIFESTO_FORA_ALLOWLIST:${entry.path}`);
   }
 }
 function validateGovernanceManifest(manifest, label) {
@@ -1707,7 +1716,7 @@ function assertPublishedNorms(index) {
     const publishedPath = path.join(DIST_DIR, file.destination);
     assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(file.path)}.`);
     assertFile(publishedPath, `Norma publicada ausente: ${toPosix(path.relative(ROOT_DIR, publishedPath))}.`);
-    const expected = file.artifact ? distributionContent({ artifact: true, generatedFrom: file.generatedFrom, sourcePath: file.path }) : fs.readFileSync(sourcePath);
+    const expected = file.artifact ? distributionContent({ artifact: true, generatedFrom: file.generatedFrom, runtime: file.runtime, sourcePath: file.path }) : fs.readFileSync(sourcePath);
     if (hashTextBuffer(expected) !== hashTextFile(publishedPath)) {
       throw new Error(`Paridade fonte/publicado divergente: ${toPosix(file.path)}.`);
     }

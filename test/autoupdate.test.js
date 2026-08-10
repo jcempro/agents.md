@@ -4,13 +4,14 @@ const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, backupDivergentManagedFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.ia.rules/core/runtime/scripts/update-agents");
+const { applyPlan, backupDivergentManagedFiles, collectRemoteGovernanceFiles, compareRemoteFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.ia.rules/core/runtime/scripts/update-agents");
 const { extractZip } = require("../.ia.rules/core/runtime/scripts/archive");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.ia.rules/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../.ia.rules/core/runtime/scripts/repo-tools");
 
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
+  assert.deepEqual(parseArgs(["force", "check"]), { check: true, dryRun: false, force: true, help: false });
   const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.ia.rules/repo-tools.ts agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
     scripts: {
@@ -94,6 +95,55 @@ async function main() {
 
   const repositoryRoot = path.join(__dirname, "..");
   const distRoot = path.join(repositoryRoot, "dist");
+  const release = JSON.parse(fs.readFileSync(path.join(distRoot, "release.json"), "utf8"));
+  const legacyBridgeEntries = release.update.files.filter((entry) => entry.condition === "legacy-update-bridge");
+  assert.ok(legacyBridgeEntries.length >= 8);
+  assert.ok(legacyBridgeEntries.some((entry) => entry.path === ".agents/core/runtime/scripts/autoupdate.js"));
+  assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/package.json"));
+  const remoteFiles = collectRemoteGovernanceFiles(distRoot);
+  assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(".agents")), false);
+  assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(path.join("scripts", ".agents"))), false);
+  assert.equal(remoteFiles.length, release.update.files.length - legacyBridgeEntries.length);
+
+  const partialRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-partial-consumer-"));
+  try {
+    fs.writeFileSync(path.join(partialRoot, "AGENTS.md"), fs.readFileSync(path.join(distRoot, "AGENTS.md")));
+    fs.writeFileSync(path.join(partialRoot, "package.json"), `${JSON.stringify({ name: "partial", scripts: { "custom:publish": "ruby publish.rb" } }, null, 2)}\n`);
+    const legacyContract = path.join(partialRoot, ".agents", "core", "contracts.md");
+    const legacyScriptBoundary = path.join(partialRoot, "scripts", ".agents", "package.json");
+    fs.mkdirSync(path.dirname(legacyContract), { recursive: true });
+    fs.mkdirSync(path.dirname(legacyScriptBoundary), { recursive: true });
+    fs.writeFileSync(legacyContract, "bridge antigo\n");
+    fs.writeFileSync(legacyScriptBoundary, "{\"type\":\"commonjs\"}\n");
+    const changes = compareRemoteFiles(partialRoot, remoteFiles, null);
+    assert.ok(changes.some((entry) => entry.action === "add" && entry.relativePath === path.join(".ia.rules", "normative-index.json")));
+    assert.ok(changes.some((entry) => entry.action === "update" && entry.relativePath === "package.json"));
+    assert.ok(changes.some((entry) => entry.action === "remove" && entry.relativePath === ".agents/core/contracts.md"));
+    assert.ok(changes.some((entry) => entry.action === "remove" && entry.relativePath === "scripts/.agents/package.json"));
+    applyPlan(partialRoot, {
+      changes,
+      lock: {
+        files: Object.fromEntries(remoteFiles.map((entry) => [entry.relativePath.split(path.sep).join("/"), crypto.createHash("sha256").update(entry.content).digest("hex")])),
+        format: "agents-governance-manifest",
+        managedFiles: remoteFiles.map((entry) => ({ path: entry.relativePath.split(path.sep).join("/") })),
+        marker: "governance-manifest/v2",
+        schema: 2,
+      },
+      source: { label: "release:v-test", ref: "v-test", type: "release" },
+    });
+    assert.equal(fs.existsSync(path.join(partialRoot, ".ia.rules", "normative-index.json")), true);
+    assert.equal(fs.existsSync(path.join(partialRoot, ".agents")), false);
+    assert.equal(fs.existsSync(path.join(partialRoot, "scripts", ".agents")), false);
+    const migratedPackage = JSON.parse(fs.readFileSync(path.join(partialRoot, "package.json"), "utf8"));
+    assert.equal(migratedPackage.scripts["custom:publish"], "ruby publish.rb");
+    assert.ok(migratedPackage.scripts["update:agents"]);
+  } finally {
+    fs.rmSync(partialRoot, { force: true, recursive: true });
+  }
+
+  const bridgeHelp = childProcess.spawnSync(process.execPath, [path.join(distRoot, ".agents", "core", "runtime", "scripts", "autoupdate.js"), "force", "--help"], { encoding: "utf8", windowsHide: true });
+  assert.equal(bridgeHelp.status, 0, bridgeHelp.stderr || bridgeHelp.stdout);
+  assert.match(bridgeHelp.stdout, /Uso: update:agents/u);
   const runtime = resolveReleaseRuntime(distRoot);
   assert.equal(runtime.entryPath, fs.realpathSync(path.join(distRoot, ".ia.rules", "core", "runtime", "scripts", "update-agents.js")));
   assert.equal(Object.keys(runtime.runtimeHashes).length, 4);

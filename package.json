@@ -60,7 +60,7 @@
     "release:trigger": "npm run agent:release:trigger",
     "release:publish": "npm run agent:release:publish --",
     "test": "npm run agent:test",
-    "shared:update:agents": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
+    "shared:update:agents": "node -e \"const c=require('child_process'),f=require('fs'),p=require('path'),a=process.argv.slice(1).map(v=>['check','dry-run','force','help'].includes(v)?'--'+v:v),m='.ia.rules/core/runtime/scripts/repo-tools.js',l='.agents/core/runtime/scripts/autoupdate.js',s=f.existsSync(m)?[m,'agent:autoupdate',...a]:f.existsSync(l)?[l,...a]:null;if(!s)throw new Error('ATUALIZADOR_AGENTS_AUSENTE');const r=c.spawnSync(process.execPath,[p.resolve(s[0]),...s.slice(1)],{stdio:'inherit',windowsHide:true});if(r.error)throw r.error;process.exitCode=Number.isInteger(r.status)?r.status:1\" --",
     "shared:lifecycle:release": "node .ia.rules/core/runtime/scripts/to-ia.js --command release --run node .ia.rules/scenarios/release/scripts/release-publish-resume.js",
     "shared:lifecycle:publish": "node .ia.rules/core/runtime/scripts/to-ia.js --command publish --run node .ia.rules/core/runtime/scripts/shared-lifecycle.js publish",
     "shared:dev-live": "node .ia.rules/core/runtime/scripts/to-ia.js --command dev-live --run node .ia.rules/core/runtime/scripts/shared-lifecycle.js dev-live",

@@ -95,15 +95,20 @@
     },
     {
       "artifacts": [
-        "RCF.md"
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/legacy-update-bridge.ts",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "test/autoupdate.test.js"
       ],
-      "commit": "db4b229582b78344a7ba139d8164bf2c9dde3b97",
-      "ft": "FT-052",
+      "commit": "",
+      "ft": "FT-069",
       "id": "f74cebd1e6c7aceb0d6a6079",
       "line": 39,
       "rcf": "RCF.md",
       "sentenceSha256": "5192fdcf4bc9c45f5e4769b5be64898142cf6e8710dcd065d08397016c13af05",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {
@@ -1359,15 +1364,20 @@
     },
     {
       "artifacts": [
-        "RCF.md"
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/legacy-update-bridge.ts",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "test/autoupdate.test.js"
       ],
-      "commit": "80728f6e0d3f55e823c2cd23b0b3971b25982904",
-      "ft": "FT-052",
+      "commit": "",
+      "ft": "FT-069",
       "id": "6d85226f8a73d55c7415ef0d",
-      "line": 593,
+      "line": 597,
       "rcf": "RCF.md",
       "sentenceSha256": "f228831ee6bdd1c15ab7d0a906c8c30e735f7e7eae7ee5b168942026696a202b",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {
@@ -2587,24 +2597,29 @@
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
       "ft": "FT-052",
-      "id": "e5b7efc8eadb68656e792fe5",
-      "line": 1302,
-      "rcf": "RCF.md",
-      "sentenceSha256": "b9db2ca52fd3a44e3ca4c0cb2dd0b3cbda66ed99540c20d665691b038598c660",
-      "state": "synchronized",
-      "syncCommit": ""
-    },
-    {
-      "artifacts": [
-        "RCF.md"
-      ],
-      "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
-      "ft": "FT-052",
       "id": "aa21561b7de4c16ab9f44513",
       "line": 1306,
       "rcf": "RCF.md",
       "sentenceSha256": "5d0a4fe2d854dcde23f43d967cfdd19c7fe6f1f43d0dca47bb84ceaaaf6f0475",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/legacy-update-bridge.ts",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-069",
+      "id": "e5b7efc8eadb68656e792fe5",
+      "line": 1308,
+      "rcf": "RCF.md",
+      "sentenceSha256": "b9db2ca52fd3a44e3ca4c0cb2dd0b3cbda66ed99540c20d665691b038598c660",
+      "state": "pending",
       "syncCommit": ""
     },
     {

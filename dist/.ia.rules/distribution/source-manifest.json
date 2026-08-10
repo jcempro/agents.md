@@ -14,6 +14,127 @@
   ],
   "entries": [
     {
+      "path": ".ia.rules/core/runtime/scripts/legacy-update-bridge.ts",
+      "profile": "consumer-bootstrap",
+      "destination": ".agents/core/runtime/scripts/autoupdate.ts",
+      "purpose": "bridge transitório para atualizadores anteriores ao handoff",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "legacy-bootstrap-functional"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".agents/core/runtime/scripts/autoupdate.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1",
+        "bundle": true
+      }
+    },
+    {
+      "path": "legacy-update-bridge/.agents/package.json",
+      "profile": "consumer-bootstrap",
+      "destination": ".agents/package.json",
+      "purpose": "fronteira CommonJS do bridge legado",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/core/contracts.md",
+      "profile": "consumer-bootstrap",
+      "destination": ".agents/core/contracts.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/core/concepts/microconceitos.md",
+      "profile": "consumer-bootstrap",
+      "destination": ".agents/core/concepts/microconceitos.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/core/update/scenario.md",
+      "profile": "consumer-bootstrap",
+      "destination": ".agents/core/update/scenario.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/scenarios/web/page-like/scenario.md",
+      "profile": "consumer-bootstrap",
+      "destination": ".agents/scenarios/web/page-like/scenario.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/scripts/.agents/package.json",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/package.json",
+      "purpose": "sentinela para coletores físicos anteriores ao manifesto",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
       "path": ".ia.rules/config/core.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/config/core.json",
