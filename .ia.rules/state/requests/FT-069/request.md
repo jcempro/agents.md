@@ -19,3 +19,7 @@ sugiro que “sem alterações” não se baseie em apenas um arquivo, indice ou
 ## Autorização e release
 
 concluso, e funcional, lance o release 0.1.2
+
+## Decisão de recuperação da release
+
+Destrutivo: apagar release/tag v0.1.2 e republicar o mesmo número.
