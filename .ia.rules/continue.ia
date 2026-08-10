@@ -1636,7 +1636,7 @@ resultado=Validador integrado ao verify para fontes TypeScript e Python, com dia
 publicacao=Workflow 31323435591 concluído com sucesso; release v0.1.1 publicada como latest, não draft e não prerelease; tag v0.1.1 em 69014fe; commit terminal 47cef6c convergiu origin/dev e origin/main; asset agents-v0.1.1.zip com 313028 bytes e SHA-256 cb90b7f71ecdf39d7ca70c28ab0ca45d871ec1bd752f15802b27bc3092aa4a7a.
 pendencias=Nenhuma.
 
-FT-069|nome=Reparo convergente do atualizador legado e release 0.1.2|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T22:26:26-03:00|inicio=2026-08-09T22:26:26-03:00|atualizacao=2026-08-09T23:02:19-03:00
+FT-069|nome=Reparo convergente do atualizador legado e release 0.1.2|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-09T22:26:26-03:00|inicio=2026-08-09T22:26:26-03:00|atualizacao=2026-08-09T23:14:14-03:00
 objetivo=Corrigir a atualização a partir de consumidores legados ou parciais para que a release materialize integralmente AGENTS.md, a árvore gerenciada .ia.rules e a projeção canônica update:agents, sem concluir “sem alterações” por sentinela isolado, e publicar a release 0.1.2 funcional.
 origem=.ia.rules/state/requests/FT-069/request.md
 origem_sha256=CAC9A1D5628C99EFFFAE25F2242BB444FB1A7580C2642B783F99AF15EABC9431
@@ -1657,11 +1657,12 @@ decisao_normativa=RCF e Norma vigentes já exigem manifesto remoto exaustivo, ad
   2/3 Executar build, typecheck, lint, testes, verify, RCF e grafo [concluido]
   3/3 Ensaiar atualização real sem falso “sem alterações” e comprovar pós-condições [concluido]
 4/4 Publicação [pendente]
-  1/3 Sincronizar rastreabilidade causal e concluir a FT [pendente]
+  1/3 Sincronizar rastreabilidade causal e concluir a FT [em_andamento]
   2/3 Publicar e comprovar release 0.1.2 e assets [pendente]
-  3/3 Convergir dev, branch primária e remotos sem conflito [pendente]
+  3/3 Convergir dev, branch primária e remotos sem conflito [concluido]
 aceite=Consumidor somente com AGENTS.md recebe toda a árvore gerenciada e update:agents; alias legado aceita --force com semântica idêntica; “sem alterações” requer igualdade exaustiva de todos os destinos manifestados, remoções oficiais e projeção gerenciada de package.json; extensões e scripts locais não gerenciados permanecem; transação, backup, handoff e saída/código continuam íntegros; v0.1.2 é publicada e validada funcionalmente.
 diagnostico=O coletor físico da v0.0.1 seleciona AGENTS.md, .agents, scripts/.agents e package.json somente quando a raiz remota contém scripts; a v0.1.1 não distribuía os dois namespaces de bootstrap, portanto o coletor via apenas AGENTS.md. Wrappers npm históricos também entregam `force` sem prefixo ao parser estrito.
 resultado_parcial=Fonte carrega bridge TypeScript empacotado e marcadores consumer-bootstrap sob condição legacy-update-bridge. A projeção preserva explicitamente as rotas moderna e legada do dispatcher; o runtime atual exclui o bridge do estado final, compara todas as entradas canônicas, mescla package.json, remove legado e ignora lock/backups. Runtimes ativos passam a usar geração minificada determinística, eliminando sujeira de build que bloqueou a convergência do primeiro workflow.
 verificacoes_parciais=Prova candidata pelo comando `npm run update:agents -- force --help` e pelo bridge com ZIP local concluiu com código 0: .ia.rules materializada, .agents e scripts/.agents removidos, custom:publish preservado, backup e lock ignorados, commit/push efetuado e worktree limpa. npm test aprovou 19 suítes; verify aprovou 30 scripts, 119 entradas e 518 declarações; RCF e 260 entradas de trace aprovados. Asset público v0.1.2, SHA-256 36a2daeeda02e670f20533eab6b1b5ad9a06aa92892ffd62dd22d5891959e50b, permanece rejeitado funcionalmente por ter perdido o fallback legado na projeção anterior.
-pendencias=Commit e sincronização causal da correção; resolver de forma autorizada a release v0.1.2 já publicada e convergir branches.
+publicacao_parcial=Release v0.1.2 e tag foram publicadas pelo workflow 31348162891, que falhou apenas na convergência posterior; origin/dev e origin/main foram convergidas manualmente em 6fc3761. A release permanece não aceita porque o asset publicado contém a projeção defeituosa anterior.
+pendencias=Decisão humana obrigatória entre revogar/republicar destrutivamente v0.1.2 ou preservar o histórico e publicar a correção como v0.1.3; após a decisão, concluir publicação e FT.
