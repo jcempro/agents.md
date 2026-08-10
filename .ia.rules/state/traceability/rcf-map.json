@@ -99,7 +99,7 @@
         "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
         "src/.ia.rules/core/runtime/scripts/update-agents.ts"
       ],
-      "commit": "19261ea13c942f97123786fe676da40a602cd2d4",
+      "commit": "f27b816b2ba17a5dc31e126d6ec83dda5e82d216",
       "ft": "FT-069",
       "id": "f74cebd1e6c7aceb0d6a6079",
       "line": 39,
@@ -114,7 +114,7 @@
         "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
         "src/.ia.rules/core/runtime/scripts/update-agents.ts"
       ],
-      "commit": "19261ea13c942f97123786fe676da40a602cd2d4",
+      "commit": "f27b816b2ba17a5dc31e126d6ec83dda5e82d216",
       "ft": "FT-069",
       "id": "0a545a00c3c7ba46d8f82391",
       "line": 41,
@@ -1367,7 +1367,7 @@
         "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
         "src/.ia.rules/core/runtime/scripts/update-agents.ts"
       ],
-      "commit": "19261ea13c942f97123786fe676da40a602cd2d4",
+      "commit": "f27b816b2ba17a5dc31e126d6ec83dda5e82d216",
       "ft": "FT-069",
       "id": "6d85226f8a73d55c7415ef0d",
       "line": 597,
@@ -2606,7 +2606,7 @@
         "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
         "src/.ia.rules/core/runtime/scripts/update-agents.ts"
       ],
-      "commit": "19261ea13c942f97123786fe676da40a602cd2d4",
+      "commit": "f27b816b2ba17a5dc31e126d6ec83dda5e82d216",
       "ft": "FT-069",
       "id": "e5b7efc8eadb68656e792fe5",
       "line": 1308,
