@@ -52,7 +52,7 @@ Objetivo: Corrigir a atualização a partir de consumidores legados ou parciais 
 <tr>
 <td rowspan="3">Publicação</td>
 <td>Sincronizar rastreabilidade causal e concluir a FT</td>
-<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Publicar e comprovar release 0.1.2 e assets</td>
