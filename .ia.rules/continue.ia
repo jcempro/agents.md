@@ -1668,3 +1668,30 @@ verificacoes=Provas candidatas cobriram v0.0.1 e v0.0.13. A prova pública final
 publicacao=A release/tag inicial e três candidatas públicas rejeitadas foram removidas estritamente conforme autorização destrutiva, preservando commits e branches. A publicação final pelo workflow 31352272269 concluiu com sucesso; tag v0.1.2 em ffe68ef9f8d4e3cd405691ff15ed48c0f0b87c47; commit terminal e60022cbedd0522dd14d141330677df32412f2ad convergiu origin/dev e origin/main; asset agents-v0.1.2.zip com 335349 bytes e SHA-256 3f6d326b726a654cbb99af4b5fbdd2c420d721653c799b27195bf698dfe5fb46; manifesto público validado com 119 entradas canônicas, oito bootstrap e bridge físico presente.
 decisao_recuperacao=Prompt humano `Destrutivo: apagar release/tag v0.1.2 e republicar o mesmo número.`, recebido em 2026-08-09, autoriza excluir exclusivamente a release pública e a tag remota v0.1.2, preservar commits e branches e republicar o mesmo número pelo pipeline oficial.
 pendencias=Nenhuma.
+
+FT-070|nome=Correção do manifesto de handoff da release 0.1.2|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-10T12:00:00-03:00|inicio=2026-08-10T12:00:00-03:00|atualizacao=2026-08-10T12:00:00-03:00
+objetivo=Eliminar a falha pública em consumidor canônico já instalado, garantindo que o manifesto selecionado para o handoff declare e valide integralmente update-agents.js e suas dependências transitivas antes da atualização.
+origem=.ia.rules/state/requests/FT-070/request.md
+origem_sha256=B604EA5EF8083CA2F025A98E0693A019F4500209B0B7804083A872651EFB0C25
+contratos=RCF.md §0.0.2 e §4.0; core.update AU-1 a AU-4; resource.scripts; FT-069.
+triagem_recusas=DEC-20260725-001 e DEC-20260725-002 não são materialmente equivalentes; solicitação admitida.
+autorizacao=Continuação corretiva da exigência humana de release 0.1.2 conclusa e funcional, cumulada com a autorização expressa anterior para apagar e republicar exclusivamente release/tag v0.1.2.
+decisao_normativa=RCF e Norma vigentes já exigem runtime mínimo manifestado, íntegro e resolvido a partir da release; a falha é de implementação/artefato e não autoriza cláusula normativa redundante.
+1/4 Reprodução e causa [em_andamento]
+  1/3 Validar o ZIP público e o manifesto efetivamente selecionado [em_andamento]
+  2/3 Reproduzir a atualização a partir de consumidor canônico v0.1.2 [pendente]
+  3/3 Identificar a divergência fonte, build, manifesto ou descoberta [pendente]
+2/4 Implementação [pendente]
+  1/3 Corrigir a fonte TypeScript e o gerador aplicável [pendente]
+  2/3 Regenerar artefatos e manifestos sem redução do bootstrap legado [pendente]
+  3/3 Acrescentar regressão para manifesto selecionado no handoff [pendente]
+3/4 Validação funcional [pendente]
+  1/3 Executar build, typecheck, lint, testes, verify, RCF e grafo [pendente]
+  2/3 Ensaiar consumidor v0.0.13 e consumidor canônico v0.1.2 [pendente]
+  3/3 Comprovar atualização e checagem idempotente públicas [pendente]
+4/4 Republicação e integração [pendente]
+  1/3 Sincronizar rastreabilidade e concluir a FT [pendente]
+  2/3 Apagar/republicar exclusivamente release e tag v0.1.2 pelo pipeline oficial [pendente]
+  3/3 Convergir dev, primária e remotos e comprovar asset [pendente]
+aceite=O ZIP público contém um único contrato inequívoco para o handoff; todo manifesto que possa ser selecionado declara update-agents.js e dependências com hashes válidos; DSLens e fixtures legadas atualizam sem falha; checagem posterior só conclui sem alterações após todas as pós-condições; v0.1.2 republicada e comprovada.
+pendencias=Diagnóstico do asset público e implementação.
