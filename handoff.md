@@ -33,7 +33,7 @@ Objetivo: Corrigir a atualização a partir de consumidores legados ou parciais 
 <td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
-<td>Regenerar JavaScript, dist, índices e manifests derivados</td>
+<td>Corrigir projeção final do dispatcher e regenerar derivados</td>
 <td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
@@ -43,11 +43,11 @@ Objetivo: Corrigir a atualização a partir de consumidores legados ou parciais 
 </tr>
 <tr>
 <td>Executar build, typecheck, lint, testes, verify, RCF e grafo</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Ensaiar atualização real sem falso “sem alterações” e comprovar pós-condições</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Publicação</td>

@@ -985,6 +985,7 @@ function ensureGitignoreAllowsManagedRules(rootDir) {
     "/.ia.rules/cache/",
     "/.ia.rules/local/",
     "/.ia.rules/agents-update.lock.json",
+    "/agents-governance-backups/",
     "# END agents-governance managed",
   ].join(eol);
   const pattern = /(?:^|\r?\n)# BEGIN agents-governance managed\r?\n[\s\S]*?# END agents-governance managed(?:\r?\n|$)/u;

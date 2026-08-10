@@ -754,7 +754,7 @@ function syncActiveRuntime() {
     const targetPath = path.join(ROOT_DIR, entry.artifact.destination);
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.writeFileSync(targetPath, transpileTypeScript(sourcePath, {
-      minify: false,
+      minify: true,
       sourceLabel: toPosix(path.join("src", entry.path)),
     }), "utf8");
     generated += 1;
@@ -857,9 +857,12 @@ function buildDistributionPackage() {
   const aliases = new Set(["build", "check", "clean", "dev-live", "lint", "prepare", "publish", "release", "release:publish", "release:trigger", "test", "update:agents"]);
   const scripts = Object.fromEntries(Object.entries(sourceScripts)
     .filter(([name]) => name === "agents:update" || name === "agents:autoupdate" || name.startsWith("agent:") || name.startsWith("shared:") || aliases.has(name))
-    .map(([name, command]) => [name, String(command)
-      .split(LEGACY_RULES_ROOT + "/").join(".ia.rules/")
-      .split(LEGACY_RULES_ROOT + "\\").join(".ia.rules\\")]));
+    .map(([name, command]) => [name, name === "shared:update:agents"
+      // O dispatcher contém deliberadamente as rotas moderna e legada; reescrever a segunda elimina o bootstrap.
+      ? String(command)
+      : String(command)
+        .split(LEGACY_RULES_ROOT + "/").join(".ia.rules/")
+        .split(LEGACY_RULES_ROOT + "\\").join(".ia.rules\\")]));
   const dependencies = source.dependencies || {};
   const optionalDependencies = source.optionalDependencies || {};
   const governance = source["agentsGovernance"] || {};
@@ -1100,6 +1103,11 @@ function validateDist() {
     !distributionPackage.scripts.release || !distributionPackage.scripts.publish ||
     !policy.managedScriptPrefixes.includes("shared:")) {
     throw new Error("dist/package.json nao contem contrato executavel de governanca.");
+  }
+  const sharedUpdateCommand = String(distributionPackage.scripts["shared:update:agents"]);
+  if (!sharedUpdateCommand.includes(".ia.rules/core/runtime/scripts/repo-tools.js") ||
+    !sharedUpdateCommand.includes(".agents/core/runtime/scripts/autoupdate.js")) {
+    throw new Error("dist/package.json perdeu dispatcher dual moderno/legado de update:agents.");
   }
 }
 
