@@ -13,37 +13,37 @@ Objetivo: Eliminar a falha pública em consumidor canônico já instalado, garan
 <tr>
 <td rowspan="3">Reprodução e causa</td>
 <td>Validar o ZIP público e o manifesto efetivamente selecionado</td>
-<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Reproduzir a atualização a partir de consumidor canônico v0.1.2</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Identificar a divergência fonte, build, manifesto ou descoberta</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Implementação</td>
 <td>Corrigir a fonte TypeScript e o gerador aplicável</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Regenerar artefatos e manifestos sem redução do bootstrap legado</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Acrescentar regressão para manifesto selecionado no handoff</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Validação funcional</td>
 <td>Executar build, typecheck, lint, testes, verify, RCF e grafo</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Ensaiar consumidor v0.0.13 e consumidor canônico v0.1.2</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Comprovar atualização e checagem idempotente públicas</td>
