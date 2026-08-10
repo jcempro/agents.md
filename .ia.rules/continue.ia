@@ -1669,7 +1669,7 @@ publicacao=A release/tag inicial e três candidatas públicas rejeitadas foram r
 decisao_recuperacao=Prompt humano `Destrutivo: apagar release/tag v0.1.2 e republicar o mesmo número.`, recebido em 2026-08-09, autoriza excluir exclusivamente a release pública e a tag remota v0.1.2, preservar commits e branches e republicar o mesmo número pelo pipeline oficial.
 pendencias=Nenhuma.
 
-FT-070|nome=Correção do manifesto de handoff da release 0.1.2|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-10T12:00:00-03:00|inicio=2026-08-10T12:00:00-03:00|atualizacao=2026-08-10T13:10:00-03:00
+FT-070|nome=Correção do manifesto de handoff da release 0.1.2|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-08-10T00:32:00-03:00|inicio=2026-08-10T00:32:00-03:00|atualizacao=2026-08-10T01:00:00-03:00|conclusao=2026-08-10T01:00:00-03:00
 objetivo=Eliminar a falha pública em consumidor canônico já instalado, garantindo que o manifesto selecionado para o handoff declare e valide integralmente update-agents.js e suas dependências transitivas antes da atualização.
 origem=.ia.rules/state/requests/FT-070/request.md
 origem_sha256=B604EA5EF8083CA2F025A98E0693A019F4500209B0B7804083A872651EFB0C25
@@ -1685,16 +1685,20 @@ decisao_normativa=RCF e Norma vigentes já exigem runtime mínimo manifestado, �
   1/3 Corrigir a fonte TypeScript e o gerador aplicável [concluido]
   2/3 Regenerar artefatos e manifestos sem redução do bootstrap legado [concluido]
   3/3 Acrescentar regressão para manifesto selecionado no handoff [concluido]
-3/4 Validação funcional [em_andamento]
+3/4 Validação funcional [concluido]
   1/3 Executar build, typecheck, lint, testes, verify, RCF e grafo [concluido]
   2/3 Ensaiar consumidor v0.0.13 e consumidor canônico v0.1.2 [concluido]
-  3/3 Comprovar atualização e checagem idempotente públicas [pendente]
-4/4 Republicação e integração [pendente]
-  1/3 Sincronizar rastreabilidade e concluir a FT [pendente]
-  2/3 Apagar/republicar exclusivamente release e tag v0.1.2 pelo pipeline oficial [pendente]
-  3/3 Convergir dev, primária e remotos e comprovar asset [pendente]
+  3/3 Comprovar atualização e checagem idempotente públicas [concluido]
+4/4 Republicação e integração [concluido]
+  1/3 Sincronizar rastreabilidade e concluir a FT [concluido]
+  2/3 Apagar/republicar exclusivamente release e tag v0.1.2 pelo pipeline oficial [concluido]
+  3/3 Convergir dev, primária e remotos e comprovar asset [concluido]
 aceite=O ZIP público contém um único contrato inequívoco para o handoff; todo manifesto que possa ser selecionado declara update-agents.js e dependências com hashes válidos; DSLens e fixtures legadas atualizam sem falha; checagem posterior só conclui sem alterações após todas as pós-condições; v0.1.2 republicada e comprovada.
 diagnostico=O DSLens contém update-agents.js SHA-256 71F1BCF0A4E15C9827AABCD546DEC7372D4BB632B65E6E3F4C4F14EC43F04A91, proveniente de candidata anterior da mesma versão, cujo parser lê somente release.json:update. A release pública final separou canonicalUpdate completo e update bootstrap de oito entradas; seu handoff referenciava quatro arquivos ausentes do bootstrap, tornando impossível ao runtime já instalado alcançar o sucessor corrigido.
 resultado_parcial=O bootstrap agora inclui os cinco módulos transitivos do handoff: update-agents.js, archive.js, distribution-map.js, template-merge.js e v1-to-v2.js. Teste remove canonicalUpdate para simular exatamente o parser anterior; o runtime real do DSLens validou os cinco hashes contra o dist corrigido. O manifesto canônico permanece com 119 entradas, o bootstrap passa a 13 e conserva bridge/limites históricos.
 verificacoes_parciais=npm test aprovou 19 suítes; agent:verify aprovou 30 scripts, 118 entradas e 521 declarações; agent:rcf aprovou 260 entradas; grafo aprovou 36 nós e 35 rotas.
-pendencias=Republicar v0.1.2 e executar prova pública no DSLens/fixture isolada.
+resultado=O manifesto bootstrap contém 13 entradas e inclui integralmente os cinco arquivos declarados pelo descritor de handoff; canonicalUpdate conserva 119 entradas. A release pública permite que runtimes de candidatas anteriores, que leem somente update, validem o sucessor e entreguem o controle ao runtime canônico completo.
+prova_publica=Fixture isolada copiou o estado real do DSLens e seu update-agents.js SHA-256 71F1BCF0A4E15C9827AABCD546DEC7372D4BB632B65E6E3F4C4F14EC43F04A91. npm run agents:update concluiu release:v0.1.2; update:agents -- --check retornou atualizado e sem alterações normativas; .agents e scripts/.agents ficaram ausentes; update:agents permaneceu canônico; HEAD coincidiu com o upstream da fixture e a worktree terminou limpa. O repositório DSLens real permaneceu intocado.
+publicacao=Release/tag v0.1.2 anterior removida estritamente conforme autorização; workflow 31353945180 concluiu com sucesso. Nova tag v0.1.2 em 16e71815ab3c8b1435e67ddf086c5ba2f42cbe93; commit terminal 08e780a7a51fc9370ac65b24f1eb3781e9d79521; asset agents-v0.1.2.zip com 335355 bytes e SHA-256 b46fb1c04de655c0ed3f998ea15637aae8dea197d2093d7a6d56b63dff8316b0; release-note SHA-256 da67b0eda7ca71ecf02e7eeea3ad9beabc211b6bd12339d159a17936407c046e.
+origem_incorporada=Solicitação efêmera preservada integralmente no commit 53424f0 e incorporada nesta FT, na implementação, testes e provas públicas; fonte transitória removida no fechamento.
+pendencias=Nenhuma.
