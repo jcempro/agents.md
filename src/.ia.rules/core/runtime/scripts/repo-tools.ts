@@ -59,6 +59,7 @@ const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
   ".ia.rules/core/runtime/scripts/archive.js",
   ".ia.rules/core/runtime/scripts/distribution-map.js",
+  ".ia.rules/core/runtime/scripts/template-merge.js",
   ".ia.rules/core/update/migrations/v1-to-v2.js",
 ];
 const LEGACY_RULES_ROOT = [".", "agents"].join("");
@@ -842,6 +843,7 @@ function createGovernanceManifest(entries, contentForEntry, options = {}) {
 /** Limita o manifesto lido por runtimes históricos ao bootstrap que eles conseguem validar e versionar. */
 function isLegacyBootstrapUpdateEntry(entry) {
   if (entry.path === "AGENTS.md" || entry.path === "package.json") return true;
+  if (UPDATE_HANDOFF_RUNTIME.includes(entry.path)) return true;
   return entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION && LEGACY_UPDATE_EXTENSIONS.has(path.posix.extname(entry.path));
 }
 

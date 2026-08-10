@@ -107,7 +107,9 @@ async function main() {
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/package.json"));
   assert.ok(release.update.files.every((entry) => [".js", ".json", ".md"].includes(path.extname(entry.path))));
   assert.ok(release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
-  assert.equal(release.update.files.some((entry) => entry.path.startsWith(".ia.rules/")), false);
+  for (const handoffPath of release.handoff.files) {
+    assert.ok(release.update.files.some((entry) => entry.path === handoffPath), `bootstrap omite runtime de handoff: ${handoffPath}`);
+  }
   const remoteFiles = collectRemoteGovernanceFiles(distRoot);
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(".agents")), false);
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(path.join("scripts", ".agents"))), false);
@@ -162,7 +164,21 @@ async function main() {
   assert.match(bridgeHelp.stdout, /Uso: update:agents/u);
   const runtime = resolveReleaseRuntime(distRoot);
   assert.equal(runtime.entryPath, fs.realpathSync(path.join(distRoot, ".ia.rules", "core", "runtime", "scripts", "update-agents.js")));
-  assert.equal(Object.keys(runtime.runtimeHashes).length, 4);
+  assert.equal(Object.keys(runtime.runtimeHashes).length, 5);
+
+  const previousCandidateRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-previous-candidate-"));
+  try {
+    fs.cpSync(distRoot, previousCandidateRoot, { recursive: true });
+    const previousCandidateReleasePath = path.join(previousCandidateRoot, "release.json");
+    const previousCandidateRelease = JSON.parse(fs.readFileSync(previousCandidateReleasePath, "utf8"));
+    delete previousCandidateRelease.canonicalUpdate;
+    fs.writeFileSync(previousCandidateReleasePath, `${JSON.stringify(previousCandidateRelease)}\n`, "utf8");
+    const previousCandidateRuntime = resolveReleaseRuntime(previousCandidateRoot);
+    assert.equal(previousCandidateRuntime.entryPath, fs.realpathSync(path.join(previousCandidateRoot, ".ia.rules", "core", "runtime", "scripts", "update-agents.js")));
+    assert.equal(Object.keys(previousCandidateRuntime.runtimeHashes).length, 5);
+  } finally {
+    fs.rmSync(previousCandidateRoot, { force: true, recursive: true });
+  }
 
   const handoffRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-handoff-test-"));
   try {
