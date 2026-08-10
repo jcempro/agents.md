@@ -98,6 +98,9 @@ async function main() {
   const repositoryRoot = path.join(__dirname, "..");
   const distRoot = path.join(repositoryRoot, "dist");
   const release = JSON.parse(fs.readFileSync(path.join(distRoot, "release.json"), "utf8"));
+  const distributionPackage = JSON.parse(fs.readFileSync(path.join(distRoot, "package.json"), "utf8"));
+  const dispatcher = distributionPackage.scripts["shared:update:agents"];
+  assert.ok(dispatcher.indexOf("scripts/.agents/autoupdate.js") < dispatcher.indexOf(".agents/core/runtime/scripts/autoupdate.js"));
   const legacyBridgeEntries = release.canonicalUpdate.files.filter((entry) => entry.condition === "legacy-update-bridge");
   assert.ok(legacyBridgeEntries.length >= 7);
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
@@ -115,15 +118,23 @@ async function main() {
     fs.writeFileSync(path.join(partialRoot, "AGENTS.md"), fs.readFileSync(path.join(distRoot, "AGENTS.md")));
     fs.writeFileSync(path.join(partialRoot, "package.json"), `${JSON.stringify({ name: "partial", scripts: { "custom:publish": "ruby publish.rb" } }, null, 2)}\n`);
     const legacyContract = path.join(partialRoot, ".agents", "core", "contracts.md");
+    const legacyRuntime = path.join(partialRoot, ".agents", "core", "runtime", "scripts", "repo-tools.js");
+    const legacyScenario = path.join(partialRoot, ".agents", "scenarios", "release", "scenario.md");
     const legacyScriptBoundary = path.join(partialRoot, "scripts", ".agents", "package.json");
     fs.mkdirSync(path.dirname(legacyContract), { recursive: true });
+    fs.mkdirSync(path.dirname(legacyRuntime), { recursive: true });
+    fs.mkdirSync(path.dirname(legacyScenario), { recursive: true });
     fs.mkdirSync(path.dirname(legacyScriptBoundary), { recursive: true });
     fs.writeFileSync(legacyContract, "bridge antigo\n");
+    fs.writeFileSync(legacyRuntime, "runtime oficial antigo\n");
+    fs.writeFileSync(legacyScenario, "cenario oficial antigo\n");
     fs.writeFileSync(legacyScriptBoundary, "{\"type\":\"commonjs\"}\n");
     const changes = compareRemoteFiles(partialRoot, remoteFiles, null);
     assert.ok(changes.some((entry) => entry.action === "add" && entry.relativePath === path.join(".ia.rules", "normative-index.json")));
     assert.ok(changes.some((entry) => entry.action === "update" && entry.relativePath === "package.json"));
     assert.ok(changes.some((entry) => entry.action === "remove" && entry.relativePath === ".agents/core/contracts.md"));
+    assert.ok(changes.some((entry) => entry.action === "remove" && entry.relativePath === ".agents/core/runtime/scripts/repo-tools.js"));
+    assert.ok(changes.some((entry) => entry.action === "remove" && entry.relativePath === ".agents/scenarios/release/scenario.md"));
     assert.ok(changes.some((entry) => entry.action === "remove" && entry.relativePath === "scripts/.agents/package.json"));
     applyPlan(partialRoot, {
       changes,

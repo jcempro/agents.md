@@ -71,6 +71,15 @@ const LEGACY_MANAGED_FILES = new Set([
   "scripts/.ia.rules/update-agents.js",
   "scripts/lib/archive.js",
 ]);
+const LEGACY_MANAGED_ROOTS = [
+  ".agents/core",
+  ".agents/meta",
+  ".agents/resources",
+  ".agents/roles",
+  ".agents/runtime",
+  ".agents/scenarios",
+  ".agents/workflows",
+];
 
 /** Representa entrada inválida do atualizador sem executar alteração parcial no destino. */
 class UsageError extends Error {}
@@ -684,7 +693,7 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
     });
   }
 
-  for (const localRel of listManagedCleanupPaths(previousLock)) {
+  for (const localRel of listManagedCleanupPaths(rootDir, previousLock)) {
     if (toPosixPath(localRel) !== toPosixPath(LOCK_FILE) && toPosixPath(localRel) !== PACKAGE_RELATIVE_PATH &&
       !remotePaths.has(toPosixPath(localRel)) && fs.existsSync(path.join(rootDir, localRel))) {
       changes.push({
@@ -724,12 +733,35 @@ function listPreviouslyManagedFiles(lock) {
 }
 
 /** Executa listManagedCleanupPaths no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-function listManagedCleanupPaths(lock) {
+function listManagedCleanupPaths(rootDir, lock) {
   return [...new Set([
     ...BOOTSTRAP_MANAGED,
     ...LEGACY_MANAGED_FILES,
+    ...listLegacyManagedTreeFiles(rootDir),
     ...listPreviouslyManagedFiles(lock),
   ])].filter((relativePath) => !isLocalExtensionPath(relativePath) && toPosixPath(relativePath).toLocaleLowerCase("en-US") !== "agents.local.md");
+}
+
+/** Varre namespaces estruturais que eram integralmente gerenciados antes de .ia.rules. */
+function listLegacyManagedTreeFiles(rootDir) {
+  const result = [];
+  for (const relativeRoot of LEGACY_MANAGED_ROOTS) {
+    const absoluteRoot = path.join(rootDir, relativeRoot);
+    if (!fs.existsSync(absoluteRoot) || !fs.statSync(absoluteRoot).isDirectory()) continue;
+    const pending = [absoluteRoot];
+    while (pending.length > 0) {
+      const current = pending.pop();
+      for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+        const absolute = path.join(current, entry.name);
+        if (entry.isDirectory()) {
+          pending.push(absolute);
+        } else if (entry.isFile() && MANAGED_EXTENSIONS.has(path.extname(entry.name).toLocaleLowerCase("en-US"))) {
+          result.push(toPosixPath(path.relative(rootDir, absolute)));
+        }
+      }
+    }
+  }
+  return result.sort((a, b) => a.localeCompare(b, "en"));
 }
 
 /** Executa backupDivergentManagedFiles no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -870,7 +902,8 @@ function mergeManagedDependencies(merged, localPackage, remotePackage, group, na
 
 /** Executa isRecognizedLegacyGovernanceFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function isRecognizedLegacyGovernanceFile(relativePath) {
-  return LEGACY_MANAGED_FILES.has(toPosixPath(relativePath));
+  const normalized = toPosixPath(relativePath);
+  return LEGACY_MANAGED_FILES.has(normalized) || LEGACY_MANAGED_ROOTS.some((root) => normalized.startsWith(`${root}/`));
 }
 
 /** Executa applyPlan no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
