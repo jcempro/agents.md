@@ -38,13 +38,31 @@ const BOOTSTRAP_MANAGED = new Set([
 ]);
 const LEGACY_MANAGED_FILES = new Set([
   ".agents/package.json",
+  ".agents/.autoupdate.md",
+  ".agents/agents-update.lock.json",
   ".agents/core/contracts.md",
   ".agents/core/concepts/microconceitos.md",
   ".agents/core/runtime/scripts/autoupdate.js",
   ".agents/core/runtime/scripts/autoupdate.ts",
   ".agents/core/update/scenario.md",
   ".agents/scenarios/web/page-like/scenario.md",
+  ".agents/microconceitos.md",
+  ".agents/publish.md",
+  ".agents/release.md",
+  ".agents/webPageLike.md",
+  "scripts/.agents/autoupdate.js",
+  "scripts/.agents/autoupdate.ts",
+  "scripts/.agents/bootstrap/core/concepts/microconceitos.md",
+  "scripts/.agents/bootstrap/core/contracts.md",
+  "scripts/.agents/bootstrap/core/update/scenario.md",
+  "scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md",
+  "scripts/.agents/generate-agents-status.js",
   "scripts/.agents/package.json",
+  "scripts/.agents/release-hooks.js",
+  "scripts/.agents/release-workflow.js",
+  "scripts/.agents/repo-tools.js",
+  "scripts/.agents/to-ia.js",
+  "scripts/.agents/update-agents.js",
   "scripts/.ia.rules/generate-agents-status.js",
   "scripts/.ia.rules/release-hooks.js",
   "scripts/.ia.rules/release-workflow.js",
@@ -71,7 +89,7 @@ async function main(argv = process.argv.slice(2), options = {}) {
   const rootDir = options.rootDir || ROOT_DIR;
   const httpClient = options.httpClient || defaultHttpClient;
   if (options.disableHandoff) {
-    const plan = await buildUpdatePlan(rootDir, httpClient);
+    const plan = await buildUpdatePlan(rootDir, httpClient, options);
     return executeUpdatePlan(parsed, rootDir, plan);
   }
   return handoffToReleaseRuntime(argv, rootDir, httpClient, options);
@@ -156,7 +174,7 @@ async function handoffToReleaseRuntime(argv, targetRoot, httpClient, options = {
 /** Executa prepareReleaseHandoff no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 async function prepareReleaseHandoff(targetRoot, httpClient = defaultHttpClient, options = {}) {
   const canonicalTarget = realDirectory(targetRoot, "targetRoot");
-  const source = await resolveRemoteSource(httpClient, canonicalTarget);
+  const source = await resolveRemoteSource(httpClient, canonicalTarget, options);
   const archive = await httpClient(source.archiveUrl, { binary: true });
   assertArchiveResponse(archive, source);
   const handoffRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-handoff-"));
@@ -302,8 +320,8 @@ function isPathInside(root, candidate) {
 }
 
 /** Executa buildUpdatePlan no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
-  const source = await resolveRemoteSource(httpClient, rootDir);
+async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient, options = {}) {
+  const source = await resolveRemoteSource(httpClient, rootDir, options);
   const archive = await httpClient(source.archiveUrl, { binary: true });
   assertArchiveResponse(archive, source);
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-"));
@@ -332,8 +350,8 @@ async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient) {
 }
 
 /** Executa resolveRemoteSource no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROOT_DIR) {
-  const source = resolveConfiguredUpstream(rootDir);
+async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROOT_DIR, options = {}) {
+  const source = resolveConfiguredUpstream(rootDir, options.upstreamRepository || "");
   const sourceApi = `https://api.github.com/repos/${source.repository}`;
   const latest = await requestJsonAllow404(httpClient, `${sourceApi}/releases/latest`);
 
@@ -374,17 +392,19 @@ async function resolveRemoteSource(httpClient = defaultHttpClient, rootDir = ROO
 }
 
 /** Executa resolveConfiguredUpstream no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-function resolveConfiguredUpstream(rootDir) {
+function resolveConfiguredUpstream(rootDir, fallbackRepository = "") {
   const packagePath = path.join(rootDir, "package.json");
-  const localPath = path.join(rootDir, ".ia.rules", "upstream.json");
+  const localPath = path.join(rootDir, ".ia.rules", "core", "update", "upstream.json");
+  const legacyLocalPath = path.join(rootDir, ".ia.rules", "upstream.json");
   const packageConfig = fs.existsSync(packagePath) ? JSON.parse(fs.readFileSync(packagePath, "utf8"))["agentsUpstream"] || {} : {};
-  const localConfig = fs.existsSync(localPath) ? JSON.parse(fs.readFileSync(localPath, "utf8")) : {};
+  const localConfig = fs.existsSync(localPath) ? JSON.parse(fs.readFileSync(localPath, "utf8")) :
+    (fs.existsSync(legacyLocalPath) ? JSON.parse(fs.readFileSync(legacyLocalPath, "utf8")) : {});
   const config = { ...packageConfig, ...localConfig };
-  const repository = String(config.upstreamRepository || "").trim();
+  const repository = String(config.upstreamRepository || fallbackRepository || "").trim();
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository)) {
     throw new Error("UPSTREAM_AGENTS_NAO_RESOLVIDO: configure agentsUpstream.upstreamRepository.");
   }
-  return { repository, source: localConfig.upstreamRepository ? "local" : "package" };
+  return { repository, source: localConfig.upstreamRepository ? "local" : (packageConfig.upstreamRepository ? "package" : "bridge") };
 }
 
 /** Executa requestJsonAllow404 no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -557,7 +577,7 @@ function discoverGovernanceManifest(remoteRoot) {
 
 /** Executa parseGovernanceManifest no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function parseGovernanceManifest(raw, label) {
-  const declared = raw && raw.update;
+  const declared = raw && (raw.canonicalUpdate || raw.update);
   if (declared && declared.format === FORMAT && declared.schema === VERSION && declared.marker === MARKER) {
     return validateGovernanceManifest(declared, label);
   }
@@ -787,6 +807,10 @@ function mergePackageManifest(localContent, remoteContent) {
 
   mergeManagedDependencies(merged, localPackage, remotePackage, "dependencies", policy.dependencies);
   mergeManagedDependencies(merged, localPackage, remotePackage, "optionalDependencies", policy.optionalDependencies);
+  if (remotePackage["agentsUpstream"] && remotePackage["agentsUpstream"].schema === 1 &&
+    /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(String(remotePackage["agentsUpstream"].upstreamRepository || ""))) {
+    merged["agentsUpstream"] = remotePackage["agentsUpstream"];
+  }
   merged["agentsGovernance"] = policy;
   return Buffer.from(`${JSON.stringify(merged, null, 2)}\n`, "utf8");
 }
@@ -925,7 +949,10 @@ function restoreTransactionalChanges(rootDir, backupRoot, touched) {
 
 /** Executa commitAndPushNormativeUpdate no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function commitAndPushNormativeUpdate(rootDir, plan) {
-  const paths = [...new Set([...prepareUpdateAnalogFiles(rootDir, plan), ...listChangedNormativePaths(plan)].map(toPosixPath))];
+  const candidates = [...new Set([...prepareUpdateAnalogFiles(rootDir, plan), ...listChangedNormativePaths(plan)].map(toPosixPath))];
+  const tracked = new Set(runGit(rootDir, ["ls-files", "--", ...candidates]).stdout.trim().split(/\r?\n/u).filter(Boolean).map(toPosixPath));
+  // Remoção de lock legado ignorado não possui entrada no índice e não pode virar pathspec de git add.
+  const paths = candidates.filter((entry) => fs.existsSync(path.join(rootDir, entry)) || tracked.has(entry));
 
   if (paths.length === 0) {
     return;

@@ -48,6 +48,13 @@ const SOURCE_DISTRIBUTION_PROFILES = new Set([
   "generated-release",
 ]);
 const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
+const LEGACY_UPDATE_EXTENSIONS = new Set([".js", ".json", ".md"]);
+const LEGACY_UPDATE_TARGETS = new Map([
+  ["scripts/.agents/bootstrap/core/contracts.md", ".agents/core/contracts.md"],
+  ["scripts/.agents/bootstrap/core/concepts/microconceitos.md", ".agents/core/concepts/microconceitos.md"],
+  ["scripts/.agents/bootstrap/core/update/scenario.md", ".agents/core/update/scenario.md"],
+  ["scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md", ".agents/scenarios/web/page-like/scenario.md"],
+]);
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
   ".ia.rules/core/runtime/scripts/archive.js",
@@ -654,12 +661,17 @@ function buildDist(options = {}) {
       version: releaseVersion,
     };
   }
-  releaseIndex.update = createGovernanceManifest(
+  releaseIndex.canonicalUpdate = createGovernanceManifest(
     releaseIndex.files.filter((entry) => !["release.json", "release-note.txt", distributionMapPath].includes(entry.path)),
     (entry) => fs.readFileSync(path.join(DIST_DIR, entry.path)),
     { installedSource: true },
   );
-  releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.update);
+  releaseIndex.update = createGovernanceManifest(
+    buildLegacyBootstrapUpdateEntries(releaseIndex.files),
+    (entry) => fs.readFileSync(path.join(DIST_DIR, entry.installedSource || entry.path)),
+    { installedSource: true },
+  );
+  releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.canonicalUpdate);
   writeJsonMinified(RELEASE_PATH, releaseIndex);
   const distributionMap = buildDistributionMap({
     files: releaseIndex.files.map((entry) => ({
@@ -820,11 +832,26 @@ function createGovernanceManifest(entries, contentForEntry, options = {}) {
       ...(entry.kind ? { kind: entry.kind } : {}),
       path: entry.path,
       ...(entry.profile ? { profile: entry.profile } : {}),
-      ...(options.installedSource ? { source: entry.path } :
+      ...(options.installedSource ? { source: entry.installedSource || entry.path } :
         (entry.sourcePath || entry.source ? { source: entry.sourcePath || entry.source } : {})),
       sha256: hashTextBuffer(contentForEntry(entry)),
     })),
   };
+}
+
+/** Limita o manifesto lido por runtimes históricos ao bootstrap que eles conseguem validar e versionar. */
+function isLegacyBootstrapUpdateEntry(entry) {
+  if (entry.path === "AGENTS.md" || entry.path === "package.json") return true;
+  return entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION && LEGACY_UPDATE_EXTENSIONS.has(path.posix.extname(entry.path));
+}
+
+/** Projeta aliases exigidos por coletores com manifesto sem expor esses paths ao coletor físico v0.0.1. */
+function buildLegacyBootstrapUpdateEntries(entries) {
+  return entries.filter((entry) => isLegacyBootstrapUpdateEntry(entry)).map((entry) => ({
+    ...entry,
+    installedSource: entry.path,
+    path: LEGACY_UPDATE_TARGETS.get(entry.path) || entry.path,
+  }));
 }
 
 /** Executa createUpdateHandoffDescriptor no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1085,7 +1112,8 @@ function validateDist() {
   if (!release.files.some((file) => file.path === "package.json")) {
     throw new Error("dist/release.json nao indexa package.json.");
   }
-  validateGovernanceManifest(release.update, "dist/release.json");
+  validateGovernanceManifest(release.update, "dist/release.json:update");
+  validateGovernanceManifest(release.canonicalUpdate, "dist/release.json:canonicalUpdate");
   validateUpdateHandoffDescriptor(release.handoff, "dist/release.json");
   validateReleasePayloadTopology(release);
   const distributionPackage = JSON.parse(fs.readFileSync(DISTRIBUTION_PACKAGE_PATH, "utf8"));
@@ -1106,8 +1134,15 @@ function validateDist() {
   }
   const sharedUpdateCommand = String(distributionPackage.scripts["shared:update:agents"]);
   if (!sharedUpdateCommand.includes(".ia.rules/core/runtime/scripts/repo-tools.js") ||
-    !sharedUpdateCommand.includes(".agents/core/runtime/scripts/autoupdate.js")) {
-    throw new Error("dist/package.json perdeu dispatcher dual moderno/legado de update:agents.");
+    !sharedUpdateCommand.includes(".agents/core/runtime/scripts/autoupdate.js") ||
+    !sharedUpdateCommand.includes("scripts/.agents/autoupdate.js")) {
+    throw new Error("dist/package.json perdeu dispatcher moderno e fallbacks legados de update:agents.");
+  }
+  if (release.update.files.some((entry) => !LEGACY_UPDATE_EXTENSIONS.has(path.posix.extname(entry.path)))) {
+    throw new Error("dist/release.json:update excede extensoes aceitas pelo bootstrap historico.");
+  }
+  if (!release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js")) {
+    throw new Error("dist/release.json:update omite bridge versionavel pelo coletor fisico.");
   }
 }
 
@@ -1189,7 +1224,7 @@ function validateDistributionProfiles(release, distributionMap) {
       throw new Error(`RELEASE_MAPA_PERFIL_DIVERGENTE:${entry.path}`);
     }
   }
-  for (const entry of release.update.files) {
+  for (const entry of [...release.update.files, ...release.canonicalUpdate.files]) {
     if (!SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "builder-internal") {
       throw new Error(`UPDATE_PERFIL_INVALIDO:${entry.path}`);
     }
@@ -1226,8 +1261,8 @@ function validateReleasePayloadTopology(release) {
   if ([...directories].some((directory) => !permittedDirectories.has(directory))) {
     throw new Error(`DIRETORIO_PAYLOAD_PROIBIDO:${[...directories].sort().join(",")}`);
   }
-  for (const entry of [...release.files, ...release.update.files]) {
-    const bridge = entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION && bridgePaths.has(entry.path);
+  for (const entry of [...release.files, ...release.update.files, ...release.canonicalUpdate.files]) {
+    const bridge = entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION;
     if (entry.path.includes(LEGACY_RULES_ROOT) && !bridge) throw new Error(`MANIFESTO_LEGADO_PROIBIDO:${entry.path}`);
     const segments = entry.path.split("/");
     if (segments.length > 1 && segments[0] !== ".ia.rules" && !bridge) throw new Error(`MANIFESTO_FORA_ALLOWLIST:${entry.path}`);

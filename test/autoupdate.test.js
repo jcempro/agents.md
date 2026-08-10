@@ -14,6 +14,7 @@ async function main() {
   assert.deepEqual(parseArgs(["force", "check"]), { check: true, dryRun: false, force: true, help: false });
   const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.ia.rules/repo-tools.ts agent:agents", publish: "ruby publish.rb" } }));
   const remote = Buffer.from(JSON.stringify({
+    agentsUpstream: { schema: 1, upstreamRepository: "jcempro/agents.md", predecessorRepositories: ["JeanCarloEM/agents.md"] },
     scripts: {
       "agent:autoupdate": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
       "agents:autoupdate": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
@@ -28,6 +29,7 @@ async function main() {
   assert.equal(merged.scripts["agent:agents"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:autoupdate"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:update"], merged.scripts["agent:autoupdate"]);
+  assert.equal(merged.agentsUpstream.upstreamRepository, "jcempro/agents.md");
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "repo-tools.js")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "update", "migrations", "v1-to-v2.ts")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "scenarios", "release", "scripts", "release-hooks.ts")), true);
@@ -96,14 +98,17 @@ async function main() {
   const repositoryRoot = path.join(__dirname, "..");
   const distRoot = path.join(repositoryRoot, "dist");
   const release = JSON.parse(fs.readFileSync(path.join(distRoot, "release.json"), "utf8"));
-  const legacyBridgeEntries = release.update.files.filter((entry) => entry.condition === "legacy-update-bridge");
-  assert.ok(legacyBridgeEntries.length >= 8);
-  assert.ok(legacyBridgeEntries.some((entry) => entry.path === ".agents/core/runtime/scripts/autoupdate.js"));
+  const legacyBridgeEntries = release.canonicalUpdate.files.filter((entry) => entry.condition === "legacy-update-bridge");
+  assert.ok(legacyBridgeEntries.length >= 7);
+  assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/package.json"));
+  assert.ok(release.update.files.every((entry) => [".js", ".json", ".md"].includes(path.extname(entry.path))));
+  assert.ok(release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
+  assert.equal(release.update.files.some((entry) => entry.path.startsWith(".ia.rules/")), false);
   const remoteFiles = collectRemoteGovernanceFiles(distRoot);
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(".agents")), false);
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(path.join("scripts", ".agents"))), false);
-  assert.equal(remoteFiles.length, release.update.files.length - legacyBridgeEntries.length);
+  assert.equal(remoteFiles.length, release.canonicalUpdate.files.length - legacyBridgeEntries.length);
 
   const partialRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-partial-consumer-"));
   try {
@@ -141,7 +146,7 @@ async function main() {
     fs.rmSync(partialRoot, { force: true, recursive: true });
   }
 
-  const bridgeHelp = childProcess.spawnSync(process.execPath, [path.join(distRoot, ".agents", "core", "runtime", "scripts", "autoupdate.js"), "force", "--help"], { encoding: "utf8", windowsHide: true });
+  const bridgeHelp = childProcess.spawnSync(process.execPath, [path.join(distRoot, "scripts", ".agents", "autoupdate.js"), "force", "--help"], { encoding: "utf8", windowsHide: true });
   assert.equal(bridgeHelp.status, 0, bridgeHelp.stderr || bridgeHelp.stdout);
   assert.match(bridgeHelp.stdout, /Uso: update:agents/u);
   const runtime = resolveReleaseRuntime(distRoot);

@@ -27,7 +27,11 @@ function findTargetRoot(startPath = __dirname) {
 /** Entrega a operação ao runtime íntegro contido na release e preserva os argumentos recebidos. */
 async function main(argv = process.argv.slice(2), options = {}) {
   const rootDir = options.rootDir || findTargetRoot(options.startPath || __dirname);
-  return updateAgents.main(argv.map(String), { ...options, rootDir });
+  return updateAgents.main(argv.map(String), {
+    ...options,
+    rootDir,
+    upstreamRepository: options.upstreamRepository || "jcempro/agents.md",
+  });
 }
 
 if (require.main === module) {
