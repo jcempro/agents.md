@@ -19,6 +19,7 @@ const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
+const { assertRepositoryGit, assertRepositoryTarget, resolveRepositoryBoundary } = require("./repository-boundary");
 
 const RUNTIME_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
 // FIX-BUG: o mesmo runtime executa na fonte src/.ia.rules e no pacote .ia.rules.
@@ -55,8 +56,17 @@ const LEGACY_UPDATE_TARGETS = new Map([
   ["scripts/.agents/bootstrap/core/update/scenario.md", ".agents/core/update/scenario.md"],
   ["scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md", ".agents/scenarios/web/page-like/scenario.md"],
 ]);
+const READ_ONLY_COMMANDS = new Set([
+  "agent:analyze", "agent:benchmark", "agent:context", "agent:deps", "agent:diff-file", "agent:docs", "agent:doctor",
+  "agent:find", "agent:git-blame", "agent:git-changelog", "agent:git-diff", "agent:git-history", "agent:git-last-release",
+  "agent:git-log", "agent:git-release-notes", "agent:git-show", "agent:git-status", "agent:grep", "agent:hash", "agent:head",
+  "agent:licenses", "agent:logs", "agent:ls", "agent:ports", "agent:process", "agent:pwd", "agent:rcf", "agent:search",
+  "agent:security", "agent:size", "agent:stat", "agent:status", "agent:tail", "agent:tree", "agent:view", "agent:workspace",
+]);
+let REPOSITORY_BOUNDARY = null;
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
+  ".ia.rules/core/runtime/scripts/repository-boundary.js",
   ".ia.rules/core/runtime/scripts/archive.js",
   ".ia.rules/core/runtime/scripts/distribution-map.js",
   ".ia.rules/core/runtime/scripts/template-merge.js",
@@ -432,6 +442,7 @@ function main(argv = process.argv.slice(2)) {
   }
 
   if (COMMANDS[command]) {
+    if (!READ_ONLY_COMMANDS.has(command) || command.startsWith("agent:git-")) commandBoundary(command, args);
     return COMMANDS[command].run(args);
   }
 
@@ -601,6 +612,7 @@ function buildDist(options = {}) {
   const index = buildIndex();
   const archiveName = resolveArchiveName(releaseVersion);
   const files = buildDistributionFiles(index);
+  guardTarget(DIST_DIR, { allowHardlink: true });
   cleanDirectory(DIST_DIR);
   fs.mkdirSync(DIST_DIR, { recursive: true });
 
@@ -642,6 +654,7 @@ function buildDist(options = {}) {
     schema: 1,
   };
   if (releaseNotes) {
+    guardTarget(RELEASE_NOTE_PATH, { allowHardlink: true });
     fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}\n`, "utf8");
     releaseIndex.files.push({
       name: "release-note.txt",
@@ -719,6 +732,7 @@ function buildDistributionFiles(index) {
 
 /** Executa copyDistributionFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function copyDistributionFile(entry, targetPath) {
+  guardTarget(targetPath, { allowHardlink: true });
   fs.writeFileSync(targetPath, distributionContent(entry));
 }
 
@@ -765,6 +779,7 @@ function syncActiveRuntime() {
   for (const entry of manifest.entries.filter((item) => item.artifact && item.condition !== LEGACY_UPDATE_BRIDGE_CONDITION)) {
     const sourcePath = path.join(SRC_DIR, entry.path);
     const targetPath = path.join(ROOT_DIR, entry.artifact.destination);
+    guardTarget(targetPath, { allowHardlink: true });
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.writeFileSync(targetPath, transpileTypeScript(sourcePath, {
       minify: true,
@@ -840,6 +855,13 @@ function createGovernanceManifest(entries, contentForEntry, options = {}) {
   };
 }
 
+/** Valida a fronteira antes de qualquer comando potencialmente mutável ou operação Git. */
+function commandBoundary(command, args) {
+  if (!REPOSITORY_BOUNDARY) REPOSITORY_BOUNDARY = resolveRepositoryBoundary(ROOT_DIR);
+  if (command.startsWith("agent:git-")) assertRepositoryGit(REPOSITORY_BOUNDARY, args);
+  return REPOSITORY_BOUNDARY;
+}
+
 /** Limita o manifesto lido por runtimes históricos ao bootstrap que eles conseguem validar e versionar. */
 function isLegacyBootstrapUpdateEntry(entry) {
   if (entry.path === "AGENTS.md" || entry.path === "package.json") return true;
@@ -910,8 +932,10 @@ function buildDistributionPackage() {
     ...(Object.keys(optionalDependencies).length ? { optionalDependencies } : {}),
     agentsGovernance: {
       schema: 1,
-      managedScriptPrefixes: governance.managedScriptPrefixes || ["agent:", "shared:"],
-      managedScripts: governance.managedScripts || ["agents:autoupdate", "agents:update", "update:agents"],
+      repositoryProfile: "consumer",
+      managedScriptPrefixes: governance.managedScriptPrefixes || ["agent:", "agents:", "shared:"],
+      managedScripts: governance.managedScripts || ["update:agents"],
+      installableScripts: governance.installableScripts || ["build", "check", "clean", "dev-live", "lint", "prepare", "publish", "release", "release:publish", "release:trigger", "test"],
       dependencies: Object.keys(dependencies).sort((a, b) => a.localeCompare(b, "en")),
       optionalDependencies: Object.keys(optionalDependencies).sort((a, b) => a.localeCompare(b, "en")),
     },
@@ -945,6 +969,7 @@ function readExistingReleaseMetadata() {
 
 /** Executa verify no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function verify() {
+  if (repositoryProfile() !== "canonical-constructor") return verifyInstalledGovernance();
   const checks = [];
   let documentationDeclarations = 0;
   const manualJavaScript = listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".js" && isManagedScriptPath(filePath));
@@ -978,6 +1003,64 @@ function verify() {
   return ok("VERIFY_OK", { scripts: checks.length, documentationDeclarations, indexedFiles: index.files.length, refusedDecisions });
 }
 
+/** Resolve o perfil local sem inferir papel por nome de pacote, diretório src ou posição do runtime. */
+function repositoryProfile() {
+  const manifest = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
+  const governance = manifest.agentsGovernance && typeof manifest.agentsGovernance === "object" ? manifest.agentsGovernance : {};
+  return governance.repositoryProfile === "canonical-constructor" ? "canonical-constructor" : "consumer";
+}
+
+/** Valida a instalação gerenciada do consumidor sem executar o pipeline-fonte do construtor canônico. */
+function verifyInstalledGovernance() {
+  const required = [
+    "AGENTS.md",
+    ".ia.rules/agents.inc.md",
+    ".ia.rules/config/repository.json",
+    ".ia.rules/distribution/source-manifest.json",
+    ".ia.rules/normative-index.json",
+  ];
+  for (const relativePath of required) assertFile(path.join(ROOT_DIR, relativePath), `GOVERNANCA_INSTALADA_AUSENTE:${relativePath}`);
+
+  const sourceManifest = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, ".ia.rules", "distribution", "source-manifest.json"), "utf8"));
+  if (sourceManifest.schema !== SOURCE_DISTRIBUTION_FORMAT || !Array.isArray(sourceManifest.entries)) {
+    throw new Error("MANIFESTO_INSTALADO_INVALIDO");
+  }
+  const installed = new Set();
+  for (const entry of sourceManifest.entries) {
+    for (const destination of [entry.destination, entry.artifact && entry.artifact.destination].filter(Boolean)) {
+      const normalized = normalizeSourceDistributionPath(destination, "destination");
+      if (installed.has(normalized)) throw new Error(`MANIFESTO_INSTALADO_DESTINO_DUPLICADO:${normalized}`);
+      installed.add(normalized);
+      assertFile(path.join(ROOT_DIR, normalized), `GOVERNANCA_INSTALADA_INCOMPLETA:${normalized}`);
+    }
+  }
+
+  const normativeIndex = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, ".ia.rules", "normative-index.json"), "utf8"));
+  if (!normativeIndex || !Array.isArray(normativeIndex.nodes) || normativeIndex.nodes.length === 0) {
+    throw new Error("INDICE_NORMATIVO_INSTALADO_INVALIDO");
+  }
+  for (const node of normativeIndex.nodes) {
+    const normalized = normalizeSourceDistributionPath(node.path, "normative-index");
+    const target = path.join(ROOT_DIR, normalized);
+    assertFile(target, `NORMA_INSTALADA_AUSENTE:${normalized}`);
+    if (node.sha256 && hashTextFile(target) !== String(node.sha256).toLocaleLowerCase("en-US")) {
+      throw new Error(`NORMA_INSTALADA_DIVERGENTE:${normalized}`);
+    }
+  }
+
+  const manifest = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
+  const governance = manifest.agentsGovernance || {};
+  const productGate = typeof governance.productVerifyScript === "string" && governance.productVerifyScript.trim()
+    ? { script: governance.productVerifyScript.trim(), status: "declarado-nao-executado" }
+    : { status: "nao-declarado" };
+  return ok("VERIFY_CONSUMER_OK", {
+    installedFiles: installed.size,
+    normativeNodes: normativeIndex.nodes.length,
+    productGate,
+    repositoryProfile: "consumer",
+  });
+}
+
 /** Executa assertCodeBanner no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function assertCodeBanner(content, label) {
   const header = String(content).split(/\r?\n/u).slice(0, 10).join("\n");
@@ -1009,7 +1092,9 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "runtime-resilience.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "clean-consumer.test.js")]);
-  return ok("TEST_OK", { suites: 19 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "repository-boundary.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "consumer-verify.test.js")]);
+  return ok("TEST_OK", { suites: 21 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1298,6 +1383,7 @@ function cleanGeneratedArtifacts() {
     if (fs.statSync(target).isDirectory()) {
       cleanDirectory(target);
     } else {
+      guardTarget(target, { allowHardlink: true });
       fs.rmSync(target, { force: true });
     }
     removed.push(toPosix(relativePath));
@@ -1517,6 +1603,7 @@ function releaseTrigger(args = []) {
 
   const release = resolveRelease(requestedVersion);
   const targetPath = path.join(ROOT_DIR, "release");
+  guardTarget(targetPath, { allowHardlink: true });
   let replacedPublishedTrigger = false;
   if (fs.existsSync(targetPath)) {
     const existingVersion = normalizeReleaseVersion(fs.readFileSync(targetPath, "utf8"));
@@ -1660,6 +1747,15 @@ function runNodeScript(relativePath, args = []) {
 
 /** Executa runProcess no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function runProcess(command, args, options = {}) {
+  if (String(command).toLocaleLowerCase("en-US") === "git") {
+    try {
+      if (!REPOSITORY_BOUNDARY) REPOSITORY_BOUNDARY = resolveRepositoryBoundary(ROOT_DIR);
+      assertRepositoryGit(REPOSITORY_BOUNDARY, args);
+    } catch (error) {
+      if (options.optional) return { error, status: 1, stderr: `${error.message}\n`, stdout: "" };
+      throw error;
+    }
+  }
   const result = childProcess.spawnSync(command, args, {
     cwd: ROOT_DIR,
     encoding: "utf8",
@@ -1850,6 +1946,7 @@ function readPackageScripts() {
 
 /** Executa cleanDirectory no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function cleanDirectory(dirPath) {
+  guardTarget(dirPath, { allowHardlink: true });
   if (fs.existsSync(dirPath)) {
     try {
       fs.rmSync(dirPath, { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
@@ -1886,8 +1983,15 @@ function listFiles(dirPath) {
 
 /** Executa writeJsonMinified no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function writeJsonMinified(filePath, value) {
+  guardTarget(filePath, { allowHardlink: true });
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, JSON.stringify(value), "utf8");
+}
+
+/** Valida destino físico pelo contrato comum antes de qualquer escrita/remoção deste runtime. */
+function guardTarget(filePath, options = {}) {
+  if (!REPOSITORY_BOUNDARY) REPOSITORY_BOUNDARY = resolveRepositoryBoundary(ROOT_DIR);
+  return assertRepositoryTarget(REPOSITORY_BOUNDARY, filePath, options);
 }
 
 /** Executa hashTextFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */

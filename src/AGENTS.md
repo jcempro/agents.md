@@ -12,3 +12,5 @@ Antes de operação material, quando a rota não estiver na memória válida ou 
 `./.ia.rules/agents.inc.md` preserva integralmente a Norma operacional. Sua leitura integral é obrigatória somente diante de mudança de rota, perda de contexto, conflito normativo, regra não localizada, índice/cache inválido, auditoria de preservação ou confiança insuficiente; fora desses casos, não a releia. Referências seletivas resolvem-se por `MN-REF`.
 
 Todo repositório é Final; durante fonte, build, atualização, distribuição ou release deste produto, agregue o papel Construtor. Alteração da Norma ativa a partir da fonte exige solicitação humana explícita. Ambiguidade preserva comportamento e conteúdo. Saída técnica usa PT-BR.
+
+Cada solicitação autoriza escrita e Git somente no único repositório corrente associado ao prompt; root irmã, dependência, submódulo, worktree, repositório aninhado ou path físico externo permanece intocável, ainda que aberto ou relacionado.

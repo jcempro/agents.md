@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, backupDivergentManagedFiles, collectRemoteGovernanceFiles, compareRemoteFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.ia.rules/core/runtime/scripts/update-agents");
+const { applyLegacyExtensionMigrations, applyPlan, backupDivergentManagedFiles, collectRemoteGovernanceFiles, compareRemoteFiles, handoffToReleaseRuntime, mergePackageManifest, parseArgs, planLegacyExtensionMigrations, prepareReleaseHandoff, prepareUpdateAnalogFiles, resolveReleaseRuntime, signHandoffPayload, verifyHandoffState } = require("../.ia.rules/core/runtime/scripts/update-agents");
 const { extractZip } = require("../.ia.rules/core/runtime/scripts/archive");
 const { planPackageMigration, readSuccessorPolicy, withVirtualUpstream } = require("../.ia.rules/core/runtime/scripts/autoupdate");
 const { isManagedDistributionFile, isManagedScriptPath } = require("../.ia.rules/core/runtime/scripts/repo-tools");
@@ -12,7 +12,18 @@ const { isManagedDistributionFile, isManagedScriptPath } = require("../.ia.rules
 async function main() {
   assert.deepEqual(parseArgs([]), { check: false, dryRun: false, force: false, help: false });
   assert.deepEqual(parseArgs(["force", "check"]), { check: true, dryRun: false, force: true, help: false });
-  const local = Buffer.from(JSON.stringify({ name: "consumer", scripts: { "agent:agents": "node scripts/.ia.rules/repo-tools.ts agent:agents", publish: "ruby publish.rb" } }));
+  const local = Buffer.from(JSON.stringify({
+    name: "consumer",
+    scripts: {
+      "agent:agents": "node scripts/.ia.rules/repo-tools.ts agent:agents",
+      build: "vite build",
+      check: "eslint . && vitest run",
+      prepare: "husky",
+      publish: "ruby publish.rb",
+      test: "vitest run",
+    },
+    agentsGovernance: { schema: 1, productVerifyScript: "check:product" },
+  }));
   const remote = Buffer.from(JSON.stringify({
     agentsUpstream: { schema: 1, upstreamRepository: "jcempro/agents.md", predecessorRepositories: ["JeanCarloEM/agents.md"] },
     scripts: {
@@ -20,11 +31,29 @@ async function main() {
       "agents:autoupdate": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
       "agent:agents": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
       "agents:update": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:autoupdate",
+      build: "npm run agent:build",
+      check: "npm run agent:verify",
+      prepare: "npm run agent:setup",
+      publish: "npm run agent:publish",
+      test: "npm run agent:test",
     },
-    agentsGovernance: { schema: 1, managedScriptPrefixes: ["agent:"], managedScripts: ["agents:autoupdate", "agents:update"], dependencies: [], optionalDependencies: [] },
+    agentsGovernance: {
+      schema: 1,
+      managedScriptPrefixes: ["agent:"],
+      managedScripts: ["agents:autoupdate", "agents:update"],
+      installableScripts: ["build", "check", "prepare", "publish", "test"],
+      dependencies: [],
+      optionalDependencies: [],
+    },
   }));
   const merged = JSON.parse(mergePackageManifest(local, remote).toString("utf8"));
   assert.equal(merged.scripts.publish, "ruby publish.rb");
+  assert.equal(merged.scripts.build, "vite build");
+  assert.equal(merged.scripts.check, "eslint . && vitest run");
+  assert.equal(merged.scripts.prepare, "husky");
+  assert.equal(merged.scripts.test, "vitest run");
+  assert.equal(merged.agentsGovernance.productVerifyScript, "check:product");
+  assert.deepEqual(merged.agentsGovernance.installedScripts, {});
   assert.match(merged.scripts["agent:autoupdate"], /agent:autoupdate/u);
   assert.equal(merged.scripts["agent:agents"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:autoupdate"], merged.scripts["agent:autoupdate"]);
@@ -37,9 +66,21 @@ async function main() {
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "local", "custom.js")), false);
   assert.equal(isManagedDistributionFile(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json")), true);
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
-  assert.match(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "update-agents.ts"), "utf8"), /"add", "-f", "--"/u);
+  const absentDefaults = JSON.parse(mergePackageManifest(Buffer.from(JSON.stringify({ name: "new-consumer" })), remote).toString("utf8"));
+  assert.equal(absentDefaults.scripts.build, "npm run agent:build");
+  assert.match(absentDefaults.agentsGovernance.installedScripts.build, /^[a-f0-9]{64}$/u);
+  const previousDefault = absentDefaults.scripts.build;
+  const updatedRemote = JSON.parse(remote.toString("utf8"));
+  updatedRemote.scripts.build = "npm run agent:build -- --new";
+  const upgradedDefaults = JSON.parse(mergePackageManifest(Buffer.from(JSON.stringify(absentDefaults)), Buffer.from(JSON.stringify(updatedRemote))).toString("utf8"));
+  assert.notEqual(upgradedDefaults.scripts.build, previousDefault);
+  absentDefaults.scripts.build = "rollup -c";
+  const customizedDefault = JSON.parse(mergePackageManifest(Buffer.from(JSON.stringify(absentDefaults)), Buffer.from(JSON.stringify(updatedRemote))).toString("utf8"));
+  assert.equal(customizedDefault.scripts.build, "rollup -c");
+  assert.equal(customizedDefault.agentsGovernance.installedScripts.build, undefined);
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "agents-autoupdate-test-"));
   try {
+    initGovernedRepository(root);
     fs.writeFileSync(path.join(root, ".gitignore"), ".ia.rules\nnode_modules/\n", "utf8");
     fs.mkdirSync(path.join(root, ".ia.rules", "core", "update"), { recursive: true });
     fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ agentsUpstream: { schema: 1, upstreamRepository: "old/repository" } }));
@@ -115,9 +156,43 @@ async function main() {
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(path.join("scripts", ".agents"))), false);
   assert.equal(remoteFiles.length, release.canonicalUpdate.files.length - legacyBridgeEntries.length);
 
+  const extensionRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-extension-migration-"));
+  try {
+    initGovernedRepository(extensionRoot);
+    const fixtures = {
+      ".agents/hooks/pre-release.js": "module.exports = () => 'hook antigo';\n",
+      ".agents/local/team.json": "{\"team\":true}\n",
+      ".agents/agents.local.md": "# Diretrizes locais antigas\n",
+      ".agents/roles/custom.md": "# Papel local desconhecido\n",
+      "scripts/.agents/hooks/post-release.js": "module.exports = () => 'hook scripts';\n",
+    };
+    for (const [relativePath, content] of Object.entries(fixtures)) {
+      const target = path.join(extensionRoot, relativePath);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, content);
+    }
+    fs.writeFileSync(path.join(extensionRoot, "agents.local.md"), "# Diretrizes locais atuais\n");
+    const migrations = planLegacyExtensionMigrations(extensionRoot, remoteFiles);
+    assert.equal(migrations.length, Object.keys(fixtures).length);
+    assert.ok(migrations.some((entry) => entry.source === ".agents/hooks/pre-release.js" && entry.target === ".ia.rules/hooks/pre-release.js"));
+    assert.ok(migrations.some((entry) => entry.source === ".agents/local/team.json" && entry.target === ".ia.rules/local/team.json"));
+    assert.ok(migrations.some((entry) => entry.source === ".agents/agents.local.md" && entry.collision && entry.target.startsWith(".ia.rules/local/inherited/")));
+    assert.ok(migrations.some((entry) => entry.source === ".agents/roles/custom.md" && entry.target.startsWith(".ia.rules/local/inherited/")));
+    applyLegacyExtensionMigrations(extensionRoot, migrations);
+    for (const relativePath of Object.keys(fixtures)) assert.equal(fs.existsSync(path.join(extensionRoot, relativePath)), false);
+    assert.equal(fs.readFileSync(path.join(extensionRoot, ".ia.rules", "hooks", "pre-release.js"), "utf8"), fixtures[".agents/hooks/pre-release.js"]);
+    assert.equal(fs.readFileSync(path.join(extensionRoot, ".ia.rules", "local", "team.json"), "utf8"), fixtures[".agents/local/team.json"]);
+    assert.equal(fs.readFileSync(path.join(extensionRoot, "agents.local.md"), "utf8"), "# Diretrizes locais atuais\n");
+    const extensionManifest = JSON.parse(fs.readFileSync(path.join(extensionRoot, ".ia.rules", "local", "inherited", "extensions.json"), "utf8"));
+    assert.equal(extensionManifest.entries.length, Object.keys(fixtures).length);
+    for (const entry of extensionManifest.entries) assert.match(entry.sha256, /^[a-f0-9]{64}$/u);
+  } finally {
+    fs.rmSync(extensionRoot, { force: true, recursive: true });
+  }
+
   const partialRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-partial-consumer-"));
   try {
-    fs.writeFileSync(path.join(partialRoot, "AGENTS.md"), fs.readFileSync(path.join(distRoot, "AGENTS.md")));
+    initGovernedRepository(partialRoot, fs.readFileSync(path.join(distRoot, "AGENTS.md")));
     fs.writeFileSync(path.join(partialRoot, "package.json"), `${JSON.stringify({ name: "partial", scripts: { "custom:publish": "ruby publish.rb" } }, null, 2)}\n`);
     const legacyContract = path.join(partialRoot, ".agents", "core", "contracts.md");
     const legacyRuntime = path.join(partialRoot, ".agents", "core", "runtime", "scripts", "repo-tools.js");
@@ -164,7 +239,7 @@ async function main() {
   assert.match(bridgeHelp.stdout, /Uso: update:agents/u);
   const runtime = resolveReleaseRuntime(distRoot);
   assert.equal(runtime.entryPath, fs.realpathSync(path.join(distRoot, ".ia.rules", "core", "runtime", "scripts", "update-agents.js")));
-  assert.equal(Object.keys(runtime.runtimeHashes).length, 5);
+  assert.equal(Object.keys(runtime.runtimeHashes).length, 6);
 
   const previousCandidateRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-previous-candidate-"));
   try {
@@ -175,7 +250,7 @@ async function main() {
     fs.writeFileSync(previousCandidateReleasePath, `${JSON.stringify(previousCandidateRelease)}\n`, "utf8");
     const previousCandidateRuntime = resolveReleaseRuntime(previousCandidateRoot);
     assert.equal(previousCandidateRuntime.entryPath, fs.realpathSync(path.join(previousCandidateRoot, ".ia.rules", "core", "runtime", "scripts", "update-agents.js")));
-    assert.equal(Object.keys(previousCandidateRuntime.runtimeHashes).length, 5);
+    assert.equal(Object.keys(previousCandidateRuntime.runtimeHashes).length, 6);
   } finally {
     fs.rmSync(previousCandidateRoot, { force: true, recursive: true });
   }
@@ -186,6 +261,8 @@ async function main() {
     const targetRoot = path.join(handoffRoot, "target");
     fs.cpSync(distRoot, releaseRoot, { recursive: true });
     fs.mkdirSync(targetRoot, { recursive: true });
+    initGovernedRepository(targetRoot);
+    const targetEntriesBeforeResume = fs.readdirSync(targetRoot).sort();
     const copiedRuntime = resolveReleaseRuntime(releaseRoot);
     const key = crypto.randomBytes(32).toString("hex");
     const statePath = path.join(handoffRoot, "handoff-state.json");
@@ -211,7 +288,7 @@ async function main() {
     });
     assert.equal(resumed.status, 0, resumed.stderr || resumed.stdout);
     assert.match(resumed.stdout, /agent:autoupdate dry-run: release:v-test/u);
-    assert.equal(fs.readdirSync(targetRoot).length, 0);
+    assert.deepEqual(fs.readdirSync(targetRoot).sort(), targetEntriesBeforeResume);
 
     const tampered = JSON.parse(fs.readFileSync(statePath, "utf8"));
     tampered.payload.phase = "download-pending";
@@ -282,6 +359,13 @@ async function main() {
   });
   assert.equal(handoffResult.handoff, true);
   assert.equal(fs.existsSync(cleanedHandoffRoot), false);
+}
+
+function initGovernedRepository(root, agents = Buffer.from("# AGENTS\n")) {
+  fs.mkdirSync(root, { recursive: true });
+  if (!fs.existsSync(path.join(root, "AGENTS.md"))) fs.writeFileSync(path.join(root, "AGENTS.md"), agents);
+  const init = childProcess.spawnSync("git", ["init"], { cwd: root, encoding: "utf8", windowsHide: true });
+  assert.equal(init.status, 0, init.stderr || init.stdout);
 }
 
 main().catch((error) => { console.error(error); process.exitCode = 1; });

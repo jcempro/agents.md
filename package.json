@@ -25,24 +25,27 @@
   },
   "agentsGovernance": {
     "schema": 1,
+    "repositoryProfile": "canonical-constructor",
     "managedScriptPrefixes": [
       "agent:",
+      "agents:",
       "shared:"
     ],
     "managedScripts": [
+      "update:agents"
+    ],
+    "installableScripts": [
       "build",
       "check",
       "clean",
       "dev-live",
+      "lint",
       "prepare",
       "publish",
       "release",
       "release:publish",
       "release:trigger",
-      "test",
-      "update:agents",
-      "agents:autoupdate",
-      "agents:update"
+      "test"
     ],
     "dependencies": [],
     "optionalDependencies": []

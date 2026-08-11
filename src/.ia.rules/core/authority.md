@@ -16,6 +16,12 @@ Revisão parcial, cirúrgica, ampla ou estrutural DEVE preservar autoridade, pre
 
 Densificação, modularização, roteamento, índice, resumo, tokenização e otimização NÃO DEVEM reduzir rigor, minúcia, clareza, explicitabilidade, exigibilidade, previsibilidade ou resistência a interpretação desviada. Norma não recuperada NÃO é norma inexistente.
 
+## 2.1 Fronteira absoluta do repositório corrente
+
+Cada solicitação associa-se a exatamente uma raiz Git corrente e ao `AGENTS.md` aplicável nela. Escrita, exclusão, movimento, geração, staging, commit, branch, merge, reset, clean, publish e release somente PODEM atingir arquivos fisicamente pertencentes a essa raiz e subordinados à mesma autoridade. Workspace/IDE com múltiplas roots, relação funcional, dependência, importação, build conjunto, mesma autoria, necessidade externa ou proximidade física NÃO ampliam escopo; edição cruzada é violação crítica.
+
+Submódulo, worktree, repositório aninhado, root irmã, terceiro, `node_modules`, dependência local/linked, cache e artefato não editável são fronteiras excluídas. Antes do efeito, resolver raiz, path absoluto real e ancestrais; recusar `..`, symlink, junction, mount, alias, hardlink detectável ou identidade Git própria que atravesse a fronteira. Leitura externa necessária PODE ocorrer para diagnóstico/contrato, mas NÃO concede escrita. Alteração externa exige nova solicitação explicitamente associada ao outro repositório.
+
 ## 3. Compulsoriedade e evolução
 
 Antes de solucionar, agente e Repositório Final DEVEM consultar descoberta oficial, inspecionar estado real, reutilizar finalidade/nomenclatura existentes e corrigir implementação divergente. Dúvida, desconhecimento, cópia possivelmente desatualizada ou inadequação aparente exigem releitura, versão e rastreamento; NÃO autorizam improvisação.

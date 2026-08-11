@@ -18,6 +18,8 @@ O papel Final DEVE:
 4. manter configuração, estado, cache e artefato local fora do núcleo gerenciado;
 5. validar integração, atualização futura, remoção e ausência de regressão.
 
+O papel Final não autoriza atravessar a raiz Git associada à solicitação. Dependência, upstream, submódulo, worktree, nested repo ou projeto irmão PODE ser inspecionado somente quando necessário, mas permanece fora de toda mutação e operação Git até receber prompt próprio sob sua própria governança.
+
 Particularidade do produto pertence ao RCF/cenário do consumidor; particularidade operacional pertence à extensão local. Nenhuma delas reescreve contrato global.
 
 ## 3. Lacuna e upstream

@@ -10,12 +10,12 @@ const childProcess = require("child_process");
 const crypto = require("crypto");
 const fs = require("fs");
 const https = require("https");
-const os = require("os");
 const path = require("path");
 
 const { createZipFromDirectory, extractZip } = require("./archive");
 const { compareDistributionMaps, findInstalledDistributionMap, readDistributionMap } = require("./distribution-map");
 const { applyTemplate } = require("./template-merge");
+const { assertRepositoryGit, assertRepositoryTarget, resolveRepositoryBoundary } = require("./repository-boundary");
 const { FORMAT, MARKER, VERSION, convertLegacyLock, isCurrentLock } = require("../../update/migrations/v1-to-v2");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
@@ -29,6 +29,7 @@ const HANDOFF_KEY_ENV = "AGENTS_UPDATE_HANDOFF_KEY";
 const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
 const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md", ".py", ".ts", ".txt", ".yml", ".yaml"]);
 const PACKAGE_RELATIVE_PATH = "package.json";
+const REPOSITORY_BOUNDARIES = new Map();
 const BOOTSTRAP_MANAGED = new Set([
   "AGENTS.md",
   ".ia.rules/core/contracts.md",
@@ -71,6 +72,14 @@ const LEGACY_MANAGED_FILES = new Set([
   "scripts/.ia.rules/update-agents.js",
   "scripts/lib/archive.js",
 ]);
+const RECOVERABLE_HANDOFF_RUNTIME = [
+  ".ia.rules/core/runtime/scripts/update-agents.js",
+  ".ia.rules/core/runtime/scripts/repository-boundary.js",
+  ".ia.rules/core/runtime/scripts/archive.js",
+  ".ia.rules/core/runtime/scripts/distribution-map.js",
+  ".ia.rules/core/runtime/scripts/template-merge.js",
+  ".ia.rules/core/update/migrations/v1-to-v2.js",
+];
 const LEGACY_MANAGED_ROOTS = [
   ".agents/core",
   ".agents/meta",
@@ -129,6 +138,10 @@ function executeUpdatePlan(parsed, rootDir, plan) {
   if (backupPath) {
     console.log(`Backup de divergencias locais: ${backupPath}`);
   }
+  const migratedExtensions = applyLegacyExtensionMigrations(rootDir, plan.extensionMigrations || []);
+  for (const migration of migratedExtensions) {
+    console.log(`Extensao legada preservada: ${migration.source} -> ${migration.target}`);
+  }
   applyPlan(rootDir, plan);
   commitAndPushNormativeUpdate(rootDir, plan);
   console.log(`Governanca operacional atualizada de ${plan.source.label}.`);
@@ -186,13 +199,16 @@ async function prepareReleaseHandoff(targetRoot, httpClient = defaultHttpClient,
   const source = await resolveRemoteSource(httpClient, canonicalTarget, options);
   const archive = await httpClient(source.archiveUrl, { binary: true });
   assertArchiveResponse(archive, source);
-  const handoffRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-handoff-"));
+  const handoffCache = assertRepositoryTarget(repositoryBoundary(canonicalTarget), path.join(".ia.rules", "cache", "update-handoff"), { allowHardlink: true });
+  fs.mkdirSync(handoffCache, { recursive: true });
+  const handoffRoot = fs.mkdtempSync(path.join(handoffCache, "run-"));
   const releaseContainer = path.join(handoffRoot, "release");
   fs.mkdirSync(releaseContainer, { recursive: true });
   try {
     extractZip(archive.body, releaseContainer);
     const remoteRoot = discoverRemoteRoot(releaseContainer);
     const runtime = resolveReleaseRuntime(remoteRoot, releaseContainer);
+    if (runtime.recovery) console.warn(`Handoff recuperado: ${runtime.recovery}`);
     const key = crypto.randomBytes(32).toString("hex");
     const statePath = path.join(handoffRoot, "handoff-state.json");
     const payload = {
@@ -220,28 +236,49 @@ async function prepareReleaseHandoff(targetRoot, httpClient = defaultHttpClient,
 function resolveReleaseRuntime(remoteRoot, releaseRoot = remoteRoot) {
   const source = discoverGovernanceManifest(remoteRoot);
   const descriptor = source.raw && source.raw.handoff;
-  if (!descriptor || descriptor.format !== HANDOFF_RUNTIME_FORMAT || descriptor.schema !== 1 ||
-    !Array.isArray(descriptor.files) || descriptor.files.length === 0 || !descriptor.files.includes(descriptor.entry)) {
-    throw new Error("Release sem descritor de runtime de handoff valido.");
+  try {
+    if (!descriptor || descriptor.format !== HANDOFF_RUNTIME_FORMAT || descriptor.schema !== 1 ||
+      !Array.isArray(descriptor.files) || descriptor.files.length === 0 || !descriptor.files.includes(descriptor.entry)) {
+      throw new Error("Release sem descritor de runtime de handoff valido.");
+    }
+    const declared = new Map(source.manifest.files.map((entry) => [toPosixPath(safeRelativePath(entry.path)), entry]));
+    const runtimeHashes = {};
+    let entryPath = "";
+    for (const value of descriptor.files) {
+      const target = toPosixPath(safeRelativePath(value));
+      const manifestEntry = declared.get(target);
+      if (!manifestEntry || !manifestEntry.sha256) throw new Error(`Runtime de handoff nao manifestado: ${target}`);
+      const origin = safeRelativePath(manifestEntry.source || manifestEntry.path);
+      const absolute = path.join(source.baseRoot, origin);
+      if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) throw new Error(`Runtime de handoff ausente: ${target}`);
+      const actualHash = hashTextContent(fs.readFileSync(absolute));
+      if (actualHash !== String(manifestEntry.sha256).toLocaleLowerCase("en-US")) throw new Error(`Runtime de handoff divergente: ${target}`);
+      if (!isPathInside(releaseRoot, absolute)) throw new Error(`Runtime fora da release: ${target}`);
+      runtimeHashes[toPosixPath(path.relative(releaseRoot, absolute))] = actualHash;
+      if (target === descriptor.entry) entryPath = fs.realpathSync(absolute);
+    }
+    if (!entryPath) throw new Error("Entrypoint de handoff ausente.");
+    return { entryPath, runtimeHashes };
+  } catch (error) {
+    if (/divergente|fora da release/iu.test(String(error.message || ""))) throw error;
+    return reconstructReleaseRuntime(source.baseRoot, releaseRoot, error.message);
   }
-  const declared = new Map(source.manifest.files.map((entry) => [toPosixPath(safeRelativePath(entry.path)), entry]));
+}
+
+/** Reconstrói somente o runtime transitivo canônico existente no mesmo artefato fixado, sem executar código remoto adicional. */
+function reconstructReleaseRuntime(baseRoot, releaseRoot, reason) {
   const runtimeHashes = {};
   let entryPath = "";
-  for (const value of descriptor.files) {
-    const target = toPosixPath(safeRelativePath(value));
-    const manifestEntry = declared.get(target);
-    if (!manifestEntry || !manifestEntry.sha256) throw new Error(`Runtime de handoff nao manifestado: ${target}`);
-    const origin = safeRelativePath(manifestEntry.source || manifestEntry.path);
-    const absolute = path.join(source.baseRoot, origin);
-    if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) throw new Error(`Runtime de handoff ausente: ${target}`);
+  for (const relativePath of RECOVERABLE_HANDOFF_RUNTIME) {
+    const absolute = path.join(baseRoot, safeRelativePath(relativePath));
+    if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile() || !isPathInside(releaseRoot, absolute)) {
+      throw new Error(`${reason} Recuperacao de handoff indisponivel: ${relativePath}`);
+    }
     const actualHash = hashTextContent(fs.readFileSync(absolute));
-    if (actualHash !== String(manifestEntry.sha256).toLocaleLowerCase("en-US")) throw new Error(`Runtime de handoff divergente: ${target}`);
-    if (!isPathInside(releaseRoot, absolute)) throw new Error(`Runtime fora da release: ${target}`);
     runtimeHashes[toPosixPath(path.relative(releaseRoot, absolute))] = actualHash;
-    if (target === descriptor.entry) entryPath = fs.realpathSync(absolute);
+    if (relativePath === RECOVERABLE_HANDOFF_RUNTIME[0]) entryPath = fs.realpathSync(absolute);
   }
-  if (!entryPath) throw new Error("Entrypoint de handoff ausente.");
-  return { entryPath, runtimeHashes };
+  return { entryPath, recovery: "runtime-canônico reconstruído do artefato fixado", runtimeHashes };
 }
 
 /** Executa resumeFromHandoff no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -255,12 +292,14 @@ function resumeFromHandoff(statePath, options = {}) {
   const previousLock = readUpdateLock(payload.targetRoot);
   const changes = compareRemoteFiles(payload.targetRoot, remoteFiles, previousLock);
   const distributionTransition = planDistributionTransition(payload.targetRoot, payload.governanceRoot);
+  const extensionMigrations = planLegacyExtensionMigrations(payload.targetRoot, remoteFiles);
   const lock = createUpdateLock(payload.source, remoteFiles, changes);
   if (distributionTransition) lock.distributionMap = distributionTransition;
   const plan = {
-    changed: changes.some((change) => change.action !== "unchanged"),
+    changed: changes.some((change) => change.action !== "unchanged") || extensionMigrations.length > 0,
     changes,
     distributionTransition,
+    extensionMigrations,
     remoteRoot: payload.releaseRoot,
     source: payload.source,
     lock,
@@ -282,7 +321,11 @@ function verifyHandoffState(statePath, key, currentScript = __filename) {
   const releaseRoot = realDirectory(payload.releaseRoot, "releaseRoot");
   const governanceRoot = realDirectory(payload.governanceRoot, "governanceRoot");
   const targetRoot = realDirectory(payload.targetRoot, "targetRoot");
-  if (releaseRoot === targetRoot || isPathInside(targetRoot, releaseRoot) || isPathInside(releaseRoot, targetRoot)) throw new Error("Roots de release e target nao estao segregados.");
+  if (releaseRoot === targetRoot || isPathInside(releaseRoot, targetRoot)) throw new Error("Roots de release e target nao estao segregados.");
+  if (isPathInside(targetRoot, releaseRoot)) {
+    const authorizedCache = path.join(targetRoot, ".ia.rules", "cache", "update-handoff");
+    if (!isPathInside(authorizedCache, releaseRoot)) throw new Error("Release de handoff aninhada fora do cache autorizado.");
+  }
   const canonicalState = fs.realpathSync(statePath);
   if (!isPathInside(path.dirname(canonicalState), releaseRoot)) throw new Error("Estado e release nao pertencem ao mesmo handoff temporario.");
   if (!isPathInside(releaseRoot, governanceRoot)) throw new Error("Raiz de governanca fora da release.");
@@ -333,7 +376,9 @@ async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient, options 
   const source = await resolveRemoteSource(httpClient, rootDir, options);
   const archive = await httpClient(source.archiveUrl, { binary: true });
   assertArchiveResponse(archive, source);
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-"));
+  const updateCache = assertRepositoryTarget(repositoryBoundary(rootDir), path.join(".ia.rules", "cache", "update-plan"), { allowHardlink: true });
+  fs.mkdirSync(updateCache, { recursive: true });
+  const tempRoot = fs.mkdtempSync(path.join(updateCache, "run-"));
 
   try {
     extractZip(archive.body, tempRoot);
@@ -342,13 +387,15 @@ async function buildUpdatePlan(rootDir, httpClient = defaultHttpClient, options 
     const previousLock = readUpdateLock(rootDir);
     const changes = compareRemoteFiles(rootDir, remoteFiles, previousLock);
     const distributionTransition = planDistributionTransition(rootDir, remoteRoot);
+    const extensionMigrations = planLegacyExtensionMigrations(rootDir, remoteFiles);
     const lock = createUpdateLock(source, remoteFiles, changes);
     if (distributionTransition) lock.distributionMap = distributionTransition;
 
     return {
-      changed: changes.some((change) => change.action !== "unchanged"),
+      changed: changes.some((change) => change.action !== "unchanged") || extensionMigrations.length > 0,
       changes,
       distributionTransition,
+      extensionMigrations,
       remoteRoot,
       source,
       lock,
@@ -682,22 +729,33 @@ function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
     const localPath = path.join(rootDir, entry.relativePath);
     const localContent = fs.existsSync(localPath) ? fs.readFileSync(localPath) : null;
     const applied = resolveManagedContent(entry, localContent);
+    const committedBase = readGitBlob(rootDir, `HEAD:${toPosixPath(entry.relativePath)}`);
+    const indexedBase = readGitBlob(rootDir, `:${toPosixPath(entry.relativePath)}`);
+    const committed = resolveManagedContent(entry, committedBase || localContent);
+    const indexed = resolveManagedContent(entry, indexedBase || committedBase || localContent);
     const content = applied.content;
     const same = localContent && hashTextContent(localContent) === hashTextContent(content);
+    const committedSame = committedBase && hashTextContent(committedBase) === hashTextContent(committed.content);
     changes.push({
-      action: same ? "unchanged" : localContent ? "update" : "add",
+      action: same && committedSame ? "unchanged" : localContent ? "update" : "add",
+      commitContent: committed.content,
       content,
+      indexContent: indexed.content,
       kind: entry.kind,
+      remoteContent: entry.content,
+      remoteDescriptor: entry.descriptor,
       relativePath: entry.relativePath,
       rollback: applied.rollback,
     });
   }
 
-  for (const localRel of listManagedCleanupPaths(rootDir, previousLock)) {
+  for (const localRel of listManagedCleanupPaths(rootDir, previousLock, remotePaths)) {
     if (toPosixPath(localRel) !== toPosixPath(LOCK_FILE) && toPosixPath(localRel) !== PACKAGE_RELATIVE_PATH &&
       !remotePaths.has(toPosixPath(localRel)) && fs.existsSync(path.join(rootDir, localRel))) {
       changes.push({
         action: "remove",
+        commitContent: null,
+        indexContent: null,
         relativePath: localRel,
       });
     }
@@ -733,13 +791,24 @@ function listPreviouslyManagedFiles(lock) {
 }
 
 /** Executa listManagedCleanupPaths no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-function listManagedCleanupPaths(rootDir, lock) {
+function listManagedCleanupPaths(rootDir, lock, remotePaths = new Set()) {
   return [...new Set([
     ...BOOTSTRAP_MANAGED,
     ...LEGACY_MANAGED_FILES,
-    ...listLegacyManagedTreeFiles(rootDir),
+    ...listLegacyManagedTreeFiles(rootDir).filter((relativePath) => {
+      const normalized = toPosixPath(relativePath);
+      if (!normalized.startsWith(".agents/")) return false;
+      return remotePaths.has(`.ia.rules/${normalized.slice(".agents/".length)}`);
+    }),
     ...listPreviouslyManagedFiles(lock),
   ])].filter((relativePath) => !isLocalExtensionPath(relativePath) && toPosixPath(relativePath).toLocaleLowerCase("en-US") !== "agents.local.md");
+}
+
+/** Lê uma camada Git sem alterar index ou worktree; ausência legítima retorna null. */
+function readGitBlob(rootDir, spec) {
+  assertRepositoryGit(repositoryBoundary(rootDir), ["show", spec]);
+  const result = childProcess.spawnSync("git", ["-C", rootDir, "show", spec], { encoding: null, windowsHide: true });
+  return result.status === 0 ? Buffer.from(result.stdout) : null;
 }
 
 /** Varre namespaces estruturais que eram integralmente gerenciados antes de .ia.rules. */
@@ -762,6 +831,124 @@ function listLegacyManagedTreeFiles(rootDir) {
     }
   }
   return result.sort((a, b) => a.localeCompare(b, "en"));
+}
+
+/** Planeja a realocação conservativa de extensões reconhecidas em raízes predecessoras. */
+function planLegacyExtensionMigrations(rootDir, remoteFiles = []) {
+  const remotePaths = new Set(remoteFiles.map((entry) => toPosixPath(entry.relativePath)));
+  const roots = [
+    [".agents/hooks", ".ia.rules/hooks"],
+    [".agents/local", ".ia.rules/local"],
+    ["scripts/.agents/hooks", ".ia.rules/hooks"],
+    ["scripts/.agents/local", ".ia.rules/local"],
+  ];
+  const candidates = [];
+  for (const [sourceRoot, targetRoot] of roots) {
+    const absoluteSource = path.join(rootDir, sourceRoot);
+    if (!fs.existsSync(absoluteSource) || !fs.statSync(absoluteSource).isDirectory()) continue;
+    for (const source of listTreeFiles(absoluteSource)) {
+      const suffix = toPosixPath(path.relative(absoluteSource, source));
+      candidates.push({ source: toPosixPath(path.relative(rootDir, source)), target: toPosixPath(path.posix.join(targetRoot, suffix)) });
+    }
+  }
+  for (const source of [".agents/agents.local.md", "scripts/.agents/agents.local.md"]) {
+    if (fs.existsSync(path.join(rootDir, source)) && fs.statSync(path.join(rootDir, source)).isFile()) {
+      candidates.push({ source, target: "agents.local.md" });
+    }
+  }
+  for (const source of listLegacyManagedTreeFiles(rootDir)) {
+    const normalized = toPosixPath(source);
+    const canonical = normalized.startsWith(".agents/") ? `.ia.rules/${normalized.slice(".agents/".length)}` : "";
+    if (!canonical || remotePaths.has(canonical) || LEGACY_MANAGED_FILES.has(normalized)) continue;
+    candidates.push({ source: normalized, target: `.ia.rules/local/inherited/${normalized}` });
+  }
+
+  const uniqueBySource = new Map();
+  for (const entry of candidates) {
+    if (!uniqueBySource.has(entry.source)) uniqueBySource.set(entry.source, entry);
+  }
+  const unique = [...uniqueBySource.values()];
+  return unique.map((entry) => {
+    const content = fs.readFileSync(path.join(rootDir, safeRelativePath(entry.source)));
+    const intended = path.join(rootDir, safeRelativePath(entry.target));
+    let target = entry.target;
+    let collision = false;
+    if (fs.existsSync(intended) && hashBuffer(fs.readFileSync(intended)) !== hashBuffer(content)) {
+      collision = true;
+      const inherited = path.posix.join(".ia.rules/local/inherited", entry.source);
+      target = `${inherited}.${hashBuffer(content).slice(0, 12)}`;
+    }
+    const targetPath = path.join(rootDir, safeRelativePath(target));
+    if (fs.existsSync(targetPath) && hashBuffer(fs.readFileSync(targetPath)) === hashBuffer(content)) {
+      return { ...entry, collision, content, target, targetExists: true };
+    }
+    return { ...entry, collision, content, target, targetExists: false };
+  }).sort((a, b) => a.source.localeCompare(b.source, "en"));
+}
+
+/** Lista arquivos regulares sem seguir links; links locais desconhecidos permanecem intocados para classificação. */
+function listTreeFiles(rootDir) {
+  const files = [];
+  const pending = [rootDir];
+  while (pending.length) {
+    const current = pending.pop();
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const absolute = path.join(current, entry.name);
+      if (entry.isSymbolicLink()) continue;
+      if (entry.isDirectory()) pending.push(absolute);
+      else if (entry.isFile()) files.push(absolute);
+    }
+  }
+  return files.sort((a, b) => a.localeCompare(b, "en"));
+}
+
+/** Aplica migrações locais com rollback em memória e registra origem/hash sem alterar o conteúdo herdado. */
+function applyLegacyExtensionMigrations(rootDir, migrations) {
+  if (!migrations.length) return [];
+  const created = [];
+  const removed = [];
+  const manifestPath = path.join(rootDir, ".ia.rules", "local", "inherited", "extensions.json");
+  const previousManifest = fs.existsSync(manifestPath) ? fs.readFileSync(manifestPath) : null;
+  try {
+    for (const migration of migrations) {
+      const source = assertRepositoryTarget(repositoryBoundary(rootDir), safeRelativePath(migration.source), { allowHardlink: true });
+      const target = assertRepositoryTarget(repositoryBoundary(rootDir), safeRelativePath(migration.target), { allowHardlink: true });
+      if (!migration.targetExists) {
+        fs.mkdirSync(path.dirname(target), { recursive: true });
+        const temporary = `${target}.agents-update-${process.pid}.tmp`;
+        fs.writeFileSync(temporary, migration.content);
+        fs.renameSync(temporary, target);
+        created.push(target);
+      }
+      if (hashBuffer(fs.readFileSync(target)) !== hashBuffer(migration.content)) throw new Error(`MIGRACAO_EXTENSAO_DIVERGENTE:${migration.source}`);
+      removed.push({ content: migration.content, source });
+      fs.rmSync(source, { force: true });
+      removeEmptyLegacyParents(rootDir, path.dirname(source));
+    }
+    const previous = previousManifest ? JSON.parse(previousManifest.toString("utf8")) : { schema: 1, entries: [] };
+    const bySource = new Map((Array.isArray(previous.entries) ? previous.entries : []).map((entry) => [entry.source, entry]));
+    for (const migration of migrations) {
+      bySource.set(migration.source, {
+        collision: migration.collision,
+        inherited: true,
+        sha256: hashBuffer(migration.content),
+        source: migration.source,
+        target: migration.target,
+      });
+    }
+    fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+    fs.writeFileSync(manifestPath, `${JSON.stringify({ schema: 1, entries: [...bySource.values()].sort((a, b) => a.source.localeCompare(b.source, "en")) }, null, 2)}\n`, "utf8");
+    return migrations;
+  } catch (error) {
+    for (const entry of removed.reverse()) {
+      fs.mkdirSync(path.dirname(entry.source), { recursive: true });
+      fs.writeFileSync(entry.source, entry.content);
+    }
+    for (const target of created.reverse()) fs.rmSync(target, { force: true });
+    if (previousManifest) fs.writeFileSync(manifestPath, previousManifest);
+    else fs.rmSync(manifestPath, { force: true });
+    throw error;
+  }
 }
 
 /** Executa backupDivergentManagedFiles no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -788,8 +975,11 @@ function backupDivergentManagedFiles(rootDir, plan, options = {}) {
   const repository = sanitizeBackupName(path.basename(rootDir)) || "repository";
   const version = sanitizeBackupName(plan.source && plan.source.ref) || "unknown";
   const backupRoot = options.backupRoot || path.join(rootDir, "agents-governance-backups");
+  assertRepositoryTarget(repositoryBoundary(rootDir), backupRoot, { allowHardlink: true });
   const dayRoot = path.join(backupRoot, day);
-  const stagingRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-governance-backup-stage-"));
+  const stagingBase = assertRepositoryTarget(repositoryBoundary(rootDir), path.join(backupRoot, ".staging"), { allowHardlink: true });
+  fs.mkdirSync(stagingBase, { recursive: true });
+  const stagingRoot = fs.mkdtempSync(path.join(stagingBase, "run-"));
   const targetZip = path.join(dayRoot, `agents-update-${repository}-${version}-${instant}.zip`);
 
   try {
@@ -829,11 +1019,29 @@ function mergePackageManifest(localContent, remoteContent) {
   const merged = { ...localPackage };
   const localScripts = localPackage.scripts && typeof localPackage.scripts === "object" ? localPackage.scripts : {};
   const remoteScripts = remotePackage.scripts && typeof remotePackage.scripts === "object" ? remotePackage.scripts : {};
+  const previousGovernance = localPackage["agentsGovernance"] && typeof localPackage["agentsGovernance"] === "object"
+    ? localPackage["agentsGovernance"]
+    : {};
+  const previousInstalled = previousGovernance.installedScripts && typeof previousGovernance.installedScripts === "object"
+    ? previousGovernance.installedScripts
+    : {};
+  const installedScripts = {};
 
   merged.scripts = { ...localScripts };
   for (const [name, command] of Object.entries(remoteScripts)) {
     if (isManagedScriptName(name, policy)) {
       merged.scripts[name] = command;
+    }
+  }
+  for (const name of policy.installableScripts) {
+    const remoteCommand = remoteScripts[name];
+    if (typeof remoteCommand !== "string") throw new Error(`Script instalavel ausente no pacote distribuido: ${name}.`);
+    const localCommand = localScripts[name];
+    const previousHash = String(previousInstalled[name] || "");
+    const localHash = typeof localCommand === "string" ? hashTextContent(Buffer.from(localCommand, "utf8")) : "";
+    if (typeof localCommand !== "string" || (previousHash && localHash === previousHash)) {
+      merged.scripts[name] = remoteCommand;
+      installedScripts[name] = hashTextContent(Buffer.from(remoteCommand, "utf8"));
     }
   }
 
@@ -843,7 +1051,14 @@ function mergePackageManifest(localContent, remoteContent) {
     /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(String(remotePackage["agentsUpstream"].upstreamRepository || ""))) {
     merged["agentsUpstream"] = remotePackage["agentsUpstream"];
   }
-  merged["agentsGovernance"] = policy;
+  merged["agentsGovernance"] = {
+    ...policy,
+    installedScripts,
+    repositoryProfile: "consumer",
+    ...(typeof previousGovernance.productVerifyScript === "string" && previousGovernance.productVerifyScript.trim()
+      ? { productVerifyScript: previousGovernance.productVerifyScript.trim() }
+      : {}),
+  };
   return Buffer.from(`${JSON.stringify(merged, null, 2)}\n`, "utf8");
 }
 
@@ -873,6 +1088,7 @@ function readGovernancePolicy(remotePackage) {
     schema: 1,
     managedScriptPrefixes: policy.managedScriptPrefixes.map(String),
     managedScripts: policy.managedScripts.map(String),
+    installableScripts: Array.isArray(policy.installableScripts) ? policy.installableScripts.map(String) : [],
     dependencies: policy.dependencies.map(String),
     optionalDependencies: policy.optionalDependencies.map(String),
   };
@@ -908,7 +1124,9 @@ function isRecognizedLegacyGovernanceFile(relativePath) {
 
 /** Executa applyPlan no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function applyPlan(rootDir, plan) {
-  const backupRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-update-backup-"));
+  const transactionCache = assertRepositoryTarget(repositoryBoundary(rootDir), path.join(".ia.rules", "cache", "update-transaction"), { allowHardlink: true });
+  fs.mkdirSync(transactionCache, { recursive: true });
+  const backupRoot = fs.mkdtempSync(path.join(transactionCache, "run-"));
   const touched = [];
   const lockTarget = path.join(rootDir, LOCK_FILE);
   try {
@@ -935,7 +1153,7 @@ function applyPlan(rootDir, plan) {
 
 /** Executa applyTransactionalChange no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function applyTransactionalChange(rootDir, backupRoot, change, touched) {
-  const target = path.join(rootDir, change.relativePath);
+  const target = assertRepositoryTarget(repositoryBoundary(rootDir), change.relativePath, { allowHardlink: change.action === "remove" });
   const backup = path.join(backupRoot, change.relativePath);
   const existed = fs.existsSync(target);
   if (existed) {
@@ -992,33 +1210,116 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
   }
 
   const upstream = resolveUpstream(rootDir);
-  assertNoPendingLocalCommits(rootDir, upstream);
-  // FIX-BUG: consumidor pode ignorar .ia.rules; paths gerenciados validados pelo manifesto devem ser staged mesmo assim.
-  runGit(rootDir, ["add", "-f", "--", ...paths]);
+  const branch = currentBranchName(rootDir);
+  if (!branch) throw new Error("BRANCH_ATUAL_AUSENTE");
+  const head = runGit(rootDir, ["rev-parse", "HEAD"]).stdout.trim();
+  const message = `ajuste: sincroniza governanca ${plan.source.ref}`;
+  const localChanges = commitChangesForParent(rootDir, plan, paths, head, false);
+  const localCommit = createPlumbingCommit(rootDir, head, localChanges, message);
+  runGit(rootDir, ["update-ref", `refs/heads/${branch}`, localCommit, head]);
+  updateRealIndex(rootDir, plan, paths);
 
-  const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout
-    .trim()
-    .split(/\r?\n/u)
-    .filter(Boolean)
-    .map(toPosixPath);
-  const allowed = new Set(paths.map(toPosixPath));
-  const invalid = staged.filter((entry) => !allowed.has(entry));
-
-  if (invalid.length > 0) {
-    throw new Error(`Staging normativo contem path proibido: ${invalid.join(", ")}`);
-  }
-
-  if (staged.length === 0) {
+  if (!upstream) {
+    runGit(rootDir, ["push", "-u", "origin", branch]);
     return;
   }
 
-  runGit(rootDir, ["commit", "-m", `ajuste: sincroniza governanca ${plan.source.ref}`]);
-
-  if (upstream) {
+  const pending = Number(runGit(rootDir, ["rev-list", "--count", `${upstream}..${head}`]).stdout.trim()) > 0;
+  if (!pending) {
     runGit(rootDir, ["push"]);
-  } else {
-    runGit(rootDir, ["push", "-u", "origin", currentBranchName(rootDir)]);
+    return;
   }
+
+  const upstreamCommit = runGit(rootDir, ["rev-parse", upstream]).stdout.trim();
+  const remoteChanges = commitChangesForParent(rootDir, plan, paths, upstreamCommit, true);
+  const remoteCommit = createPlumbingCommit(rootDir, upstreamCommit, remoteChanges, message);
+  const remoteName = runGit(rootDir, ["config", "--get", `branch.${branch}.remote`]).stdout.trim() || "origin";
+  const mergeRef = runGit(rootDir, ["config", "--get", `branch.${branch}.merge`]).stdout.trim() || `refs/heads/${branch}`;
+  runGit(rootDir, ["push", remoteName, `${remoteCommit}:${mergeRef}`]);
+
+  const localTree = runGit(rootDir, ["rev-parse", `${localCommit}^{tree}`]).stdout.trim();
+  const mergeCommit = runGit(rootDir, ["commit-tree", localTree, "-p", localCommit, "-p", remoteCommit, "-m", `${message} (reconcilia commits locais)`]).stdout.trim();
+  runGit(rootDir, ["update-ref", `refs/heads/${branch}`, mergeCommit, localCommit]);
+}
+
+/** Materializa somente os paths autorizados sobre um parent, sem tocar index/worktree nem incluir alterações alheias. */
+function createPlumbingCommit(rootDir, parent, changes, message) {
+  const gitDirRaw = runGit(rootDir, ["rev-parse", "--git-dir"]).stdout.trim();
+  const gitDir = path.isAbsolute(gitDirRaw) ? gitDirRaw : path.join(rootDir, gitDirRaw);
+  const indexPath = path.join(gitDir, `agents-update-index-${process.pid}-${crypto.randomBytes(6).toString("hex")}`);
+  try {
+    runGitWithEnv(rootDir, ["read-tree", parent], { GIT_INDEX_FILE: indexPath });
+    for (const change of changes) updateIndexEntry(rootDir, indexPath, change.relativePath, change.content, change.mode);
+    const tree = runGitWithEnv(rootDir, ["write-tree"], { GIT_INDEX_FILE: indexPath }).stdout.trim();
+    return runGit(rootDir, ["commit-tree", tree, "-p", parent, "-m", message]).stdout.trim();
+  } finally {
+    fs.rmSync(indexPath, { force: true });
+  }
+}
+
+/** Projeta o conteúdo de commit contra HEAD ou upstream, preservando campos compartilhados próprios de cada base. */
+function commitChangesForParent(rootDir, plan, paths, parent, remoteProjection) {
+  return paths.map((relativePath) => {
+    const change = plan.changes.find((entry) => toPosixPath(entry.relativePath) === relativePath);
+    const base = readGitBlob(rootDir, `${parent}:${relativePath}`);
+    let content = change ? change.commitContent : fs.existsSync(path.join(rootDir, relativePath)) ? fs.readFileSync(path.join(rootDir, relativePath)) : null;
+    if (remoteProjection && change && ["package", "template"].includes(change.kind)) {
+      content = resolveManagedContent({
+        content: change.remoteContent,
+        descriptor: change.remoteDescriptor,
+        kind: change.kind,
+        relativePath: change.relativePath,
+      }, base).content;
+    } else if (relativePath === GITIGNORE_RELATIVE_PATH) {
+      content = mergeManagedGitignore(base || Buffer.from(""));
+    }
+    return { content, mode: gitPathMode(rootDir, parent, relativePath), relativePath };
+  });
+}
+
+/** Atualiza somente entradas gerenciadas no index real, preservando staging alheio e mesclando o staging compartilhado. */
+function updateRealIndex(rootDir, plan, paths) {
+  const indexRaw = runGit(rootDir, ["rev-parse", "--git-path", "index"]).stdout.trim();
+  const indexPath = path.isAbsolute(indexRaw) ? indexRaw : path.join(rootDir, indexRaw);
+  for (const relativePath of paths) {
+    const change = plan.changes.find((entry) => toPosixPath(entry.relativePath) === relativePath);
+    const content = relativePath === GITIGNORE_RELATIVE_PATH
+      ? mergeManagedGitignore(readGitBlob(rootDir, `:${relativePath}`) || readGitBlob(rootDir, `HEAD:${relativePath}`) || Buffer.from(""))
+      : change ? change.indexContent : fs.existsSync(path.join(rootDir, relativePath)) ? fs.readFileSync(path.join(rootDir, relativePath)) : null;
+    updateIndexEntry(rootDir, indexPath, relativePath, content, gitPathMode(rootDir, "HEAD", relativePath));
+  }
+}
+
+/** Insere/remove uma entrada de index por blob explícito; nunca enumera nem inclui paths externos ao plano. */
+function updateIndexEntry(rootDir, indexPath, relativePath, content, mode = "100644") {
+  const env = { GIT_INDEX_FILE: indexPath };
+  if (content === null || content === undefined) {
+    runGitWithEnv(rootDir, ["update-index", "--force-remove", "--", relativePath], env, true);
+    return;
+  }
+  const blob = runGitWithEnv(rootDir, ["hash-object", "-w", "--stdin"], env, false, content).stdout.trim();
+  runGitWithEnv(rootDir, ["update-index", "--add", "--cacheinfo", `${mode},${blob},${relativePath}`], env);
+}
+
+/** Resolve o modo Git do parent, mantendo executabilidade quando já declarada. */
+function gitPathMode(rootDir, parent, relativePath) {
+  assertRepositoryGit(repositoryBoundary(rootDir), ["ls-tree", parent, "--", relativePath]);
+  const result = childProcess.spawnSync("git", ["-C", rootDir, "ls-tree", parent, "--", relativePath], { encoding: "utf8", windowsHide: true });
+  const match = result.status === 0 ? /^(\d{6})\s/u.exec(result.stdout) : null;
+  return match ? match[1] : "100644";
+}
+
+/** Executa Git com ambiente adicional e input binário sem expor conteúdo em argumentos ou logs. */
+function runGitWithEnv(rootDir, args, extraEnv, optional = false, input = undefined) {
+  assertRepositoryGit(repositoryBoundary(rootDir), args);
+  const result = childProcess.spawnSync("git", ["-C", rootDir, ...args], {
+    encoding: "utf8",
+    env: { ...process.env, ...extraEnv },
+    input,
+    windowsHide: true,
+  });
+  if (result.status !== 0 && !optional) throw new Error(`git ${args.join(" ")} falhou: ${result.stderr || result.stdout}`);
+  return result;
 }
 
 /** Executa prepareUpdateAnalogFiles no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1035,8 +1336,17 @@ function prepareUpdateAnalogFiles(rootDir, plan) {
 /** Executa ensureGitignoreAllowsManagedRules no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function ensureGitignoreAllowsManagedRules(rootDir) {
   const gitignorePath = path.join(rootDir, GITIGNORE_RELATIVE_PATH);
-  const eol = fs.existsSync(gitignorePath) && fs.readFileSync(gitignorePath, "utf8").includes("\r\n") ? "\r\n" : "\n";
-  const current = fs.existsSync(gitignorePath) ? fs.readFileSync(gitignorePath, "utf8") : "";
+  const current = fs.existsSync(gitignorePath) ? fs.readFileSync(gitignorePath) : Buffer.from("");
+  const next = mergeManagedGitignore(current);
+  if (hashTextContent(current) === hashTextContent(next)) return false;
+  fs.writeFileSync(gitignorePath, next);
+  return true;
+}
+
+/** Mescla somente o bloco gerenciado no .gitignore e preserva exterior e EOL da camada recebida. */
+function mergeManagedGitignore(content) {
+  const current = Buffer.from(content || "").toString("utf8");
+  const eol = current.includes("\r\n") ? "\r\n" : "\n";
   const block = [
     "# BEGIN agents-governance managed",
     "# Permite versionar o nucleo gerenciado atualizado por update:agents.",
@@ -1052,9 +1362,7 @@ function ensureGitignoreAllowsManagedRules(rootDir) {
   const next = pattern.test(current)
     ? current.replace(pattern, `${current.startsWith("# BEGIN agents-governance managed") ? "" : eol}${block}${eol}`)
     : `${current.trimEnd()}${current.trimEnd() ? eol + eol : ""}${block}${eol}`;
-  if (normalizeText(current) === normalizeText(next)) return false;
-  fs.writeFileSync(gitignorePath, next, "utf8");
-  return true;
+  return Buffer.from(next, "utf8");
 }
 
 /** Executa listChangedNormativePaths no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1066,6 +1374,7 @@ function listChangedNormativePaths(plan) {
 
 /** Executa resolveUpstream no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function resolveUpstream(rootDir) {
+  repositoryBoundary(rootDir);
   const upstream = childProcess.spawnSync("git", [
     "-C",
     rootDir,
@@ -1084,19 +1393,6 @@ function resolveUpstream(rootDir) {
   return upstream.stdout.trim();
 }
 
-/** Executa assertNoPendingLocalCommits no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-function assertNoPendingLocalCommits(rootDir, upstream) {
-  if (!upstream) {
-    return;
-  }
-
-  const count = runGit(rootDir, ["rev-list", "--count", `${upstream}..HEAD`]).stdout.trim();
-
-  if (Number(count) > 0) {
-    throw new Error("Ha commits locais pendentes; push normativo exclusivo bloqueado.");
-  }
-}
-
 /** Executa currentBranchName no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function currentBranchName(rootDir) {
   return runGit(rootDir, ["branch", "--show-current"]).stdout.trim();
@@ -1104,6 +1400,7 @@ function currentBranchName(rootDir) {
 
 /** Executa runGit no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function runGit(rootDir, args) {
+  assertRepositoryGit(repositoryBoundary(rootDir), args);
   const result = childProcess.spawnSync("git", ["-C", rootDir, ...args], {
     encoding: "utf8",
   });
@@ -1115,6 +1412,13 @@ function runGit(rootDir, args) {
   return result;
 }
 
+/** Mantém uma única fronteira física validada por raiz durante a execução corrente. */
+function repositoryBoundary(rootDir) {
+  const key = path.resolve(rootDir);
+  if (!REPOSITORY_BOUNDARIES.has(key)) REPOSITORY_BOUNDARIES.set(key, resolveRepositoryBoundary(key));
+  return REPOSITORY_BOUNDARIES.get(key);
+}
+
 /** Executa printPlan no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function printPlan(plan, mode) {
   console.log(`agent:autoupdate ${mode}: ${plan.source.label}`);
@@ -1123,6 +1427,9 @@ function printPlan(plan, mode) {
     if (change.action !== "unchanged") {
       console.log(`${change.action}: ${toPosixPath(change.relativePath)}`);
     }
+  }
+  for (const migration of plan.extensionMigrations || []) {
+    console.log(`migrate-extension: ${migration.source} -> ${migration.target}`);
   }
 
   if (!plan.changed) {
@@ -1297,6 +1604,8 @@ module.exports = {
   mergePackageManifest,
   normalizeGovernanceRelativePath,
   parseArgs,
+  planLegacyExtensionMigrations,
+  applyLegacyExtensionMigrations,
   prepareUpdateAnalogFiles,
   prepareReleaseHandoff,
   resolveReleaseRuntime,

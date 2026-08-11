@@ -594,6 +594,31 @@
       }
     },
     {
+      "path": ".ia.rules/core/runtime/scripts/repository-boundary.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/repository-boundary.ts",
+      "purpose": "contenção física e Git ao repositório associado à solicitação",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "repository-boundary"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/repository-boundary.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
+    },
+    {
       "path": ".ia.rules/core/runtime/scripts/repo-tools.ts",
       "profile": "consumer-runtime",
       "destination": ".ia.rules/core/runtime/scripts/repo-tools.ts",
