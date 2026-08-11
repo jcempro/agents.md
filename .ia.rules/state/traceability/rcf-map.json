@@ -138,6 +138,38 @@
     },
     {
       "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "db861944bc01e2a84e864c2a",
+      "line": 43,
+      "rcf": "RCF.md",
+      "sentenceSha256": "8c93f8727ebf619474ef29588f6d2241b636014f44b729056f40a1b048b4c435",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "35f7505b419a4ba498811337",
+      "line": 45,
+      "rcf": "RCF.md",
+      "sentenceSha256": "6725f71d5877ba37941a4ccb711e2aed9884957e73d2e094d66a79d69dd3e73f",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "16cdb8ffe0448c00cf3e3531c7f3c548d5443d42",
@@ -739,6 +771,23 @@
     },
     {
       "artifacts": [
+        "src/.ia.rules/core/authority.md",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/repository-boundary.ts",
+        "src/AGENTS.md",
+        "test/repository-boundary.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-073",
+      "id": "c01ff761542af946034f5583",
+      "line": 185,
+      "rcf": "RCF.md",
+      "sentenceSha256": "d88a4154b812995f3bb627979dbb85077332cd3836230e2dd2a7cee91ec98dde",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
@@ -752,6 +801,23 @@
     },
     {
       "artifacts": [
+        "src/.ia.rules/core/authority.md",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/repository-boundary.ts",
+        "src/AGENTS.md",
+        "test/repository-boundary.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-073",
+      "id": "ae69c13491a7ddc74da0545a",
+      "line": 187,
+      "rcf": "RCF.md",
+      "sentenceSha256": "3cc995cbcbe90f4d55f4b6b185358820bcade6005a309559d27fdab408c721ad",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "b11c642c2c6f272dc1739f542222247deda480fc",
@@ -761,6 +827,57 @@
       "rcf": "RCF.md",
       "sentenceSha256": "de45712c6c450022307ac747413294dc4cd53ba740cd92c89bb8a28a5a5b00ef",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/authority.md",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/repository-boundary.ts",
+        "src/AGENTS.md",
+        "test/repository-boundary.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-073",
+      "id": "de9f767cef166be3e42e3163",
+      "line": 189,
+      "rcf": "RCF.md",
+      "sentenceSha256": "c4c08fdd0b5c3a044e88518419898abd2c81254f942af54e2978136c3fb82286",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/authority.md",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/repository-boundary.ts",
+        "src/AGENTS.md",
+        "test/repository-boundary.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-073",
+      "id": "4391e7955db48c224b18e53d",
+      "line": 191,
+      "rcf": "RCF.md",
+      "sentenceSha256": "132676c67b2ffea90b119f66f46c2c74fe00db9f91e22e479cd6b564c42121e5",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/authority.md",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/repository-boundary.ts",
+        "src/AGENTS.md",
+        "test/repository-boundary.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-073",
+      "id": "47beccebbf263923575563dd",
+      "line": 193,
+      "rcf": "RCF.md",
+      "sentenceSha256": "3fd2e792eda36f35333d0f01eb1dea43b35916173f49bd1146ae8abba3394462",
+      "state": "pending",
       "syncCommit": ""
     },
     {
@@ -1413,6 +1530,22 @@
       "rcf": "RCF.md",
       "sentenceSha256": "da78104997462cb2cb1b53fb68c18f022839e273bc59c7cccd632ed2a7d9bfd1",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "7f71be1729ad5a55e792a70d",
+      "line": 617,
+      "rcf": "RCF.md",
+      "sentenceSha256": "afef25572d2eb1c0fa169ea76dca22d69dc2952e316ea38af5200e55c877a3e4",
+      "state": "pending",
       "syncCommit": ""
     },
     {
@@ -2760,6 +2893,22 @@
     },
     {
       "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "b48111dc4330f178534a48ea",
+      "line": 1338,
+      "rcf": "RCF.md",
+      "sentenceSha256": "1557909f9c9a059a2ea3864e89135c4b64ba350b24acb069a047e26cf063d8c1",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
@@ -2773,6 +2922,22 @@
     },
     {
       "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "19712ddf8547912bff3d49fe",
+      "line": 1340,
+      "rcf": "RCF.md",
+      "sentenceSha256": "6bce6bd6189a218e63ebd66babed89348d7ddedd3259c25fab5802d1f697f56c",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
@@ -2782,6 +2947,22 @@
       "rcf": "RCF.md",
       "sentenceSha256": "5c8f92fb5b1b55e5433145375ddbeb082891899ca8cfe3664e2f139ff166cd4b",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "53bd98c384e086a01675c5c4",
+      "line": 1344,
+      "rcf": "RCF.md",
+      "sentenceSha256": "768a599152686994e90c213ca71ae49c569544b9b91be34fa27cd1e75fc2e679",
+      "state": "pending",
       "syncCommit": ""
     },
     {
@@ -3406,6 +3587,39 @@
       "rcf": "RCF.md",
       "sentenceSha256": "5b2fe737538a6de28a336ac0a6b3eee0614c983a9b1e7c2c7d00b50969c0eb13",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-071",
+      "id": "490171c9bef5ec4379d46522",
+      "line": 1559,
+      "rcf": "RCF.md",
+      "sentenceSha256": "4ffcee32b7ecbf5534c90d5091ce287770ffd0ca54ec48045353ceb941609f40",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/authority.md",
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "src/.ia.rules/core/runtime/scripts/repository-boundary.ts",
+        "src/AGENTS.md",
+        "test/repository-boundary.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-073",
+      "id": "969fdd2a1358df3ac0e0a763",
+      "line": 1561,
+      "rcf": "RCF.md",
+      "sentenceSha256": "d6b86f61f3e94c4901e52e1e9d6c71661bae9e4b0640092450b55c0570c136a1",
+      "state": "pending",
       "syncCommit": ""
     }
   ]
