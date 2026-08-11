@@ -1095,7 +1095,8 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "repository-boundary.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "consumer-verify.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "updater-git-state.test.js")]);
-  return ok("TEST_OK", { suites: 22 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "handoff-fallback.test.js")]);
+  return ok("TEST_OK", { suites: 23 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */

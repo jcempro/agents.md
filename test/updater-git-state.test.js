@@ -3,7 +3,7 @@ const childProcess = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { applyPlan, commitAndPushNormativeUpdate } = require("../.ia.rules/core/runtime/scripts/update-agents");
+const { applyPlan, commitAndPushNormativeUpdate, verifyMaterialUpdate } = require("../.ia.rules/core/runtime/scripts/update-agents");
 
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "agents-updater-git-"));
 const remote = path.join(sandbox, "remote.git");
@@ -64,6 +64,7 @@ try {
   };
   applyPlan(local, plan);
   commitAndPushNormativeUpdate(local, plan);
+  assert.equal(verifyMaterialUpdate(local, plan), true);
 
   git(sandbox, ["clone", "-b", "dev", remote, audit]);
   assert.equal(text(path.join(audit, "AGENTS.md")), governance.toString("utf8"));

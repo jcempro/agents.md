@@ -80,6 +80,7 @@ const RECOVERABLE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/template-merge.js",
   ".ia.rules/core/update/migrations/v1-to-v2.js",
 ];
+const LEGACY_SELF_CONTAINED_HANDOFF = "scripts/.agents/autoupdate.js";
 const LEGACY_MANAGED_ROOTS = [
   ".agents/core",
   ".agents/meta",
@@ -144,6 +145,7 @@ function executeUpdatePlan(parsed, rootDir, plan) {
   }
   applyPlan(rootDir, plan);
   commitAndPushNormativeUpdate(rootDir, plan);
+  verifyMaterialUpdate(rootDir, plan);
   console.log(`Governanca operacional atualizada de ${plan.source.label}.`);
   return plan;
 }
@@ -261,24 +263,41 @@ function resolveReleaseRuntime(remoteRoot, releaseRoot = remoteRoot) {
     return { entryPath, runtimeHashes };
   } catch (error) {
     if (/divergente|fora da release/iu.test(String(error.message || ""))) throw error;
-    return reconstructReleaseRuntime(source.baseRoot, releaseRoot, error.message);
+    return reconstructReleaseRuntime(source, releaseRoot, error.message);
   }
 }
 
 /** Reconstrói somente o runtime transitivo canônico existente no mesmo artefato fixado, sem executar código remoto adicional. */
-function reconstructReleaseRuntime(baseRoot, releaseRoot, reason) {
+function reconstructReleaseRuntime(source, releaseRoot, reason) {
   const runtimeHashes = {};
   let entryPath = "";
+  let canonicalComplete = true;
   for (const relativePath of RECOVERABLE_HANDOFF_RUNTIME) {
-    const absolute = path.join(baseRoot, safeRelativePath(relativePath));
+    const absolute = path.join(source.baseRoot, safeRelativePath(relativePath));
     if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile() || !isPathInside(releaseRoot, absolute)) {
-      throw new Error(`${reason} Recuperacao de handoff indisponivel: ${relativePath}`);
+      canonicalComplete = false;
+      break;
     }
     const actualHash = hashTextContent(fs.readFileSync(absolute));
     runtimeHashes[toPosixPath(path.relative(releaseRoot, absolute))] = actualHash;
     if (relativePath === RECOVERABLE_HANDOFF_RUNTIME[0]) entryPath = fs.realpathSync(absolute);
   }
-  return { entryPath, recovery: "runtime-canônico reconstruído do artefato fixado", runtimeHashes };
+  if (canonicalComplete) return { entryPath, recovery: "runtime-canônico reconstruído do artefato fixado", runtimeHashes };
+
+  const bridgeEntry = source.manifest.files.find((entry) => toPosixPath(entry.path) === LEGACY_SELF_CONTAINED_HANDOFF);
+  const bridgePath = path.join(source.baseRoot, LEGACY_SELF_CONTAINED_HANDOFF);
+  if (bridgeEntry && fs.existsSync(bridgePath) && fs.statSync(bridgePath).isFile() && isPathInside(releaseRoot, bridgePath)) {
+    const actualHash = hashTextContent(fs.readFileSync(bridgePath));
+    if (bridgeEntry.sha256 && actualHash !== String(bridgeEntry.sha256).toLocaleLowerCase("en-US")) {
+      throw new Error(`Runtime de handoff divergente: ${LEGACY_SELF_CONTAINED_HANDOFF}`);
+    }
+    return {
+      entryPath: fs.realpathSync(bridgePath),
+      recovery: "bridge legado autocontido e manifestado",
+      runtimeHashes: { [toPosixPath(path.relative(releaseRoot, bridgePath))]: actualHash },
+    };
+  }
+  throw new Error(`${reason} Recuperacao de handoff indisponivel: runtime canônico e bridge legado ausentes.`);
 }
 
 /** Executa resumeFromHandoff no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -792,6 +811,7 @@ function listPreviouslyManagedFiles(lock) {
 
 /** Executa listManagedCleanupPaths no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function listManagedCleanupPaths(rootDir, lock, remotePaths = new Set()) {
+  const preserved = preservedDistributionPaths(rootDir);
   return [...new Set([
     ...BOOTSTRAP_MANAGED,
     ...LEGACY_MANAGED_FILES,
@@ -801,7 +821,31 @@ function listManagedCleanupPaths(rootDir, lock, remotePaths = new Set()) {
       return remotePaths.has(`.ia.rules/${normalized.slice(".agents/".length)}`);
     }),
     ...listPreviouslyManagedFiles(lock),
-  ])].filter((relativePath) => !isLocalExtensionPath(relativePath) && toPosixPath(relativePath).toLocaleLowerCase("en-US") !== "agents.local.md");
+  ])].filter((relativePath) => !isLocalExtensionPath(relativePath) &&
+    toPosixPath(relativePath).toLocaleLowerCase("en-US") !== "agents.local.md" &&
+    !isPreservedDistributionPath(relativePath, preserved));
+}
+
+/** Recupera paths locais/extensíveis declarados pelo mapa instalado sem atribuir-lhes autoria gerenciada. */
+function preservedDistributionPaths(rootDir) {
+  try {
+    const map = findInstalledDistributionMap(rootDir);
+    if (!map || !Array.isArray(map.entries)) return [];
+    return map.entries.filter((entry) => entry.property === "local" || entry.property === "extension" ||
+      entry.updatePolicy === "preserve-local" || entry.removalPolicy === "preserve")
+      .map((entry) => toPosixPath(entry.path));
+  } catch {
+    return [];
+  }
+}
+
+/** Testa path ou descendente de diretório preservado conforme declaração histórica. */
+function isPreservedDistributionPath(relativePath, preserved) {
+  const normalized = toPosixPath(relativePath).toLocaleLowerCase("en-US");
+  return preserved.some((entry) => {
+    const declared = toPosixPath(entry).toLocaleLowerCase("en-US");
+    return declared.endsWith("/") ? normalized.startsWith(declared) : normalized === declared;
+  });
 }
 
 /** Lê uma camada Git sem alterar index ou worktree; ausência legítima retorna null. */
@@ -1196,6 +1240,32 @@ function restoreTransactionalChanges(rootDir, backupRoot, touched) {
       fs.rmSync(target, { force: true });
     }
   }
+}
+
+/** Verifica independentemente worktree, HEAD, index, lock e migrações após a finalização. */
+function verifyMaterialUpdate(rootDir, plan) {
+  for (const change of plan.changes) {
+    const target = path.join(rootDir, change.relativePath);
+    const worktree = fs.existsSync(target) && fs.statSync(target).isFile() ? fs.readFileSync(target) : null;
+    const expected = change.action === "remove" ? null : change.content;
+    const expectedCommit = change.action === "remove" ? null : change.commitContent === undefined ? expected : change.commitContent;
+    const expectedIndex = change.action === "remove" ? null : change.indexContent === undefined ? expected : change.indexContent;
+    if (!buffersEquivalent(worktree, expected)) throw new Error(`VALIDACAO_FINAL_WORKTREE_DIVERGENTE:${change.relativePath}`);
+    const committed = readGitBlob(rootDir, `HEAD:${toPosixPath(change.relativePath)}`);
+    if (!buffersEquivalent(committed, expectedCommit)) throw new Error(`VALIDACAO_FINAL_HEAD_DIVERGENTE:${change.relativePath}`);
+    const indexed = readGitBlob(rootDir, `:${toPosixPath(change.relativePath)}`);
+    if (!buffersEquivalent(indexed, expectedIndex)) throw new Error(`VALIDACAO_FINAL_INDEX_DIVERGENTE:${change.relativePath}`);
+  }
+  const lock = readUpdateLock(rootDir);
+  if (!lock || !isCurrentLock(lock)) throw new Error("VALIDACAO_FINAL_LOCK_INVALIDO");
+  for (const migration of plan.extensionMigrations || []) {
+    const source = path.join(rootDir, migration.source);
+    const target = path.join(rootDir, migration.target);
+    if (fs.existsSync(source) || !fs.existsSync(target) || hashBuffer(fs.readFileSync(target)) !== hashBuffer(migration.content)) {
+      throw new Error(`VALIDACAO_FINAL_EXTENSAO_DIVERGENTE:${migration.source}`);
+    }
+  }
+  return true;
 }
 
 /** Executa commitAndPushNormativeUpdate no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1702,4 +1772,5 @@ module.exports = {
   resumeFromHandoff,
   signHandoffPayload,
   verifyHandoffState,
+  verifyMaterialUpdate,
 };
