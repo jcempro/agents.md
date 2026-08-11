@@ -1209,9 +1209,14 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
     return;
   }
 
-  const upstream = resolveUpstream(rootDir);
   const branch = currentBranchName(rootDir);
   if (!branch) throw new Error("BRANCH_ATUAL_AUSENTE");
+  let upstream = resolveUpstream(rootDir);
+  if (upstream) {
+    const configuredRemote = runGit(rootDir, ["config", "--get", `branch.${branch}.remote`]).stdout.trim() || "origin";
+    runGit(rootDir, ["fetch", configuredRemote]);
+    upstream = resolveUpstream(rootDir);
+  }
   const head = runGit(rootDir, ["rev-parse", "HEAD"]).stdout.trim();
   const message = `ajuste: sincroniza governanca ${plan.source.ref}`;
   const localChanges = commitChangesForParent(rootDir, plan, paths, head, false);
@@ -1233,28 +1238,109 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
   const upstreamCommit = runGit(rootDir, ["rev-parse", upstream]).stdout.trim();
   const remoteChanges = commitChangesForParent(rootDir, plan, paths, upstreamCommit, true);
   const remoteCommit = createPlumbingCommit(rootDir, upstreamCommit, remoteChanges, message);
+  const mergeBase = runGit(rootDir, ["merge-base", head, upstreamCommit]).stdout.trim();
+  const localChanged = gitChangedPaths(rootDir, mergeBase, localCommit);
+  const remoteChanged = gitChangedPaths(rootDir, mergeBase, remoteCommit);
+  assertReconcilableGitChanges(rootDir, localChanged, remoteChanged, localCommit, remoteCommit, new Set(paths));
+  const remoteOnly = remoteChanged.filter((relativePath) => !localChanged.includes(relativePath));
+  const remoteOnlyChanges = planRemoteOnlyWorktreeChanges(rootDir, head, remoteCommit, remoteOnly);
   const remoteName = runGit(rootDir, ["config", "--get", `branch.${branch}.remote`]).stdout.trim() || "origin";
   const mergeRef = runGit(rootDir, ["config", "--get", `branch.${branch}.merge`]).stdout.trim() || `refs/heads/${branch}`;
   runGit(rootDir, ["push", remoteName, `${remoteCommit}:${mergeRef}`]);
 
-  const localTree = runGit(rootDir, ["rev-parse", `${localCommit}^{tree}`]).stdout.trim();
-  const mergeCommit = runGit(rootDir, ["commit-tree", localTree, "-p", localCommit, "-p", remoteCommit, "-m", `${message} (reconcilia commits locais)`]).stdout.trim();
+  applyRemoteOnlyWorktreeChanges(rootDir, remoteOnlyChanges);
+  const localOverlay = localChanged.map((relativePath) => ({
+    content: readGitBlob(rootDir, `${localCommit}:${relativePath}`),
+    mode: gitPathMode(rootDir, localCommit, relativePath),
+    relativePath,
+  }));
+  const reconciledTree = createPlumbingTree(rootDir, remoteCommit, localOverlay);
+  const mergeCommit = runGit(rootDir, ["commit-tree", reconciledTree, "-p", localCommit, "-p", remoteCommit, "-m", `${message} (reconcilia commits locais)`]).stdout.trim();
   runGit(rootDir, ["update-ref", `refs/heads/${branch}`, mergeCommit, localCommit]);
 }
 
 /** Materializa somente os paths autorizados sobre um parent, sem tocar index/worktree nem incluir alterações alheias. */
 function createPlumbingCommit(rootDir, parent, changes, message) {
+  const tree = createPlumbingTree(rootDir, parent, changes);
+  return runGit(rootDir, ["commit-tree", tree, "-p", parent, "-m", message]).stdout.trim();
+}
+
+/** Produz uma árvore isolada sobre o parent sem tocar index ou worktree reais. */
+function createPlumbingTree(rootDir, parent, changes) {
   const gitDirRaw = runGit(rootDir, ["rev-parse", "--git-dir"]).stdout.trim();
   const gitDir = path.isAbsolute(gitDirRaw) ? gitDirRaw : path.join(rootDir, gitDirRaw);
   const indexPath = path.join(gitDir, `agents-update-index-${process.pid}-${crypto.randomBytes(6).toString("hex")}`);
   try {
     runGitWithEnv(rootDir, ["read-tree", parent], { GIT_INDEX_FILE: indexPath });
     for (const change of changes) updateIndexEntry(rootDir, indexPath, change.relativePath, change.content, change.mode);
-    const tree = runGitWithEnv(rootDir, ["write-tree"], { GIT_INDEX_FILE: indexPath }).stdout.trim();
-    return runGit(rootDir, ["commit-tree", tree, "-p", parent, "-m", message]).stdout.trim();
+    return runGitWithEnv(rootDir, ["write-tree"], { GIT_INDEX_FILE: indexPath }).stdout.trim();
   } finally {
     fs.rmSync(indexPath, { force: true });
   }
+}
+
+/** Lista paths alterados entre duas árvores sem depender de quoting textual do Git. */
+function gitChangedPaths(rootDir, base, tip) {
+  return runGit(rootDir, ["diff", "--name-only", "-z", base, tip, "--"]).stdout
+    .split("\0").filter(Boolean).map(toPosixPath).sort((a, b) => a.localeCompare(b, "en"));
+}
+
+/** Recusa somente conflito concorrente real fora dos paths gerenciados que o plano sabe mesclar. */
+function assertReconcilableGitChanges(rootDir, localPaths, remotePaths, localCommit, remoteCommit, managedPaths) {
+  const remote = new Set(remotePaths);
+  for (const relativePath of localPaths.filter((entry) => remote.has(entry) && !managedPaths.has(entry))) {
+    const localContent = readGitBlob(rootDir, `${localCommit}:${relativePath}`);
+    const remoteContent = readGitBlob(rootDir, `${remoteCommit}:${relativePath}`);
+    if (!buffersEquivalent(localContent, remoteContent)) throw new Error(`CONFLITO_GIT_NAO_GERENCIADO:${relativePath}`);
+  }
+}
+
+/** Planeja materialização remota somente quando index e worktree ainda equivalem ao HEAD local. */
+function planRemoteOnlyWorktreeChanges(rootDir, head, remoteCommit, relativePaths) {
+  return relativePaths.map((relativePath) => {
+    const headContent = readGitBlob(rootDir, `${head}:${relativePath}`);
+    const indexContent = readGitBlob(rootDir, `:${relativePath}`);
+    const target = path.join(rootDir, relativePath);
+    const worktreeContent = fs.existsSync(target) && fs.statSync(target).isFile() ? fs.readFileSync(target) : null;
+    if (!buffersEquivalent(headContent, indexContent) || !buffersEquivalent(headContent, worktreeContent)) {
+      throw new Error(`CONFLITO_GIT_LOCAL_NAO_COMMITADO:${relativePath}`);
+    }
+    const content = readGitBlob(rootDir, `${remoteCommit}:${relativePath}`);
+    return { action: content === null ? "remove" : headContent === null ? "add" : "update", content, relativePath };
+  });
+}
+
+/** Aplica paths exclusivamente remotos de modo transacional e atualiza só suas entradas do index. */
+function applyRemoteOnlyWorktreeChanges(rootDir, changes) {
+  if (!changes.length) return;
+  const transactionCache = assertRepositoryTarget(repositoryBoundary(rootDir), path.join(".ia.rules", "cache", "update-transaction"), { allowHardlink: true });
+  fs.mkdirSync(transactionCache, { recursive: true });
+  const backupRoot = fs.mkdtempSync(path.join(transactionCache, "remote-"));
+  const touched = [];
+  const indexRaw = runGit(rootDir, ["rev-parse", "--git-path", "index"]).stdout.trim();
+  const indexPath = path.isAbsolute(indexRaw) ? indexRaw : path.join(rootDir, indexRaw);
+  const indexBackup = fs.readFileSync(indexPath);
+  try {
+    for (const change of changes) {
+      applyTransactionalChange(rootDir, backupRoot, change, touched);
+      updateIndexEntry(rootDir, indexPath, change.relativePath, change.content, gitPathMode(rootDir, "HEAD", change.relativePath));
+    }
+  } catch (error) {
+    restoreTransactionalChanges(rootDir, backupRoot, touched);
+    fs.writeFileSync(indexPath, indexBackup);
+    throw error;
+  } finally {
+    fs.rmSync(backupRoot, { force: true, recursive: true });
+  }
+}
+
+/** Compara ausência, binário e texto com neutralização exclusiva de EOL de checkout. */
+function buffersEquivalent(left, right) {
+  if (left === null || left === undefined || right === null || right === undefined) return left == null && right == null;
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  if (leftBuffer.includes(0) || rightBuffer.includes(0)) return leftBuffer.equals(rightBuffer);
+  return normalizeText(leftBuffer.toString("utf8")) === normalizeText(rightBuffer.toString("utf8"));
 }
 
 /** Projeta o conteúdo de commit contra HEAD ou upstream, preservando campos compartilhados próprios de cada base. */
@@ -1606,6 +1692,7 @@ module.exports = {
   parseArgs,
   planLegacyExtensionMigrations,
   applyLegacyExtensionMigrations,
+  commitAndPushNormativeUpdate,
   prepareUpdateAnalogFiles,
   prepareReleaseHandoff,
   resolveReleaseRuntime,

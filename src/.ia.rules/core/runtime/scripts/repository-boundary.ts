@@ -64,7 +64,8 @@ function assertRepositoryGit(boundaryOrRoot, args = []) {
   const values = args.map(String);
   for (let index = 0; index < values.length; index += 1) {
     const value = values[index];
-    if (["-C", "--git-dir", "--work-tree"].includes(value) || /^--(?:git-dir|work-tree)=/u.test(value)) {
+    const readOnlyGitDirQuery = values[0] === "rev-parse" && value === "--git-dir";
+    if (!readOnlyGitDirQuery && (["-C", "--git-dir", "--work-tree"].includes(value) || /^--(?:git-dir|work-tree)=/u.test(value))) {
       throw new RepositoryBoundaryError("REDIRECIONAMENTO_GIT_PROIBIDO", value);
     }
     if (value === "submodule" && values[index + 1] === "foreach") throw new RepositoryBoundaryError("GIT_RECURSIVO_PROIBIDO", "submodule foreach");
