@@ -1702,3 +1702,122 @@ prova_publica=Fixture isolada copiou o estado real do DSLens e seu update-agents
 publicacao=Release/tag v0.1.2 anterior removida estritamente conforme autorização; workflow 31353945180 concluiu com sucesso. Nova tag v0.1.2 em 16e71815ab3c8b1435e67ddf086c5ba2f42cbe93; commit terminal 08e780a7a51fc9370ac65b24f1eb3781e9d79521; asset agents-v0.1.2.zip com 335355 bytes e SHA-256 b46fb1c04de655c0ed3f998ea15637aae8dea197d2093d7a6d56b63dff8316b0; release-note SHA-256 da67b0eda7ca71ecf02e7eeea3ad9beabc211b6bd12339d159a17936407c046e.
 origem_incorporada=Solicitação efêmera preservada integralmente no commit 53424f0 e incorporada nesta FT, na implementação, testes e provas públicas; fonte transitória removida no fechamento.
 pendencias=Nenhuma.
+
+FT-071|nome=Equalização normativa da atualização resiliente e da Issue 11|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-08-11T01:04:43-03:00|inicio=2026-08-11T01:04:43-03:00|atualizacao=2026-08-11T01:04:43-03:00
+objetivo=Equalizar no RCF a Issue github:jcempro/agents.md#11 e a TO-DO de atualização integralmente resiliente, preservando autoridades do produto e da governança, scripts próprios, hooks, agents.local.md, equivalentes históricos, customizações autorizadas, handoff, transação, Git legítimo, retrocompatibilidade e conclusão material.
+origem=.ia.rules/state/requests/FT-071/request.md; TODO.ia.md item `Tornar o script de atualização integralmente resiliente, fail-safe, retrocompatível e orientado a sucesso efetivo`.
+origem_sha256=B29F9C5651082B2114445A6ADA87E99395AE6428DD0912EE302BE23337FDCD79
+referencia_issue=github:jcempro/agents.md#11, aberta e altamente recomendada na consulta; sem aceite/label remoto inferido.
+triagem_recusas=DEC-20260725-001 e DEC-20260725-002 não são materialmente equivalentes; solicitação admitida.
+autorizacao=O prompt humano ordena avaliação, correção, execução conjunta das FTs/equalizer e release 0.1.3, autorizando todas as fases locais e a publicação condicionada aos gates; não autoriza por si só comentar, rotular ou fechar a Issue.
+equalizer=Item perene preservado literalmente; rege FT-071 a FT-075 como frentes convergentes. A autorização de implementação e release já consta expressamente do mesmo prompt, satisfazendo o gate posterior às fases normativas.
+1/4 Análise e equalização [em_andamento]
+  1/4 Confrontar Issue, resposta do mantenedor, TODO, RCF, Norma e comportamento real [em_andamento]
+  2/4 Inventariar scripts públicos, gerenciados, aliases, hooks e customizações históricas [pendente]
+  3/4 Classificar falhas recuperáveis, fallbacks e impedimentos externos [pendente]
+  4/4 Fixar invariantes e dependências sem redução de escopo [pendente]
+2/4 RCF [pendente]
+  1/3 Distinguir autoridade dos scripts do produto e da governança [pendente]
+  2/3 Normatizar preservação/migração conservativa de extensões e legado [pendente]
+  3/3 Normatizar resiliência, reconciliação e verificação final exaustiva [pendente]
+3/4 Validação normativa [pendente]
+  1/3 Auditar origem para RCF e RCF para origem [pendente]
+  2/3 Executar agent:rcf, trace e diff check [pendente]
+  3/3 Comprovar ausência de redução normativa contra v0.1.2 [pendente]
+4/4 Fechamento da fase [pendente]
+  1/2 Commitar RCF separadamente [pendente]
+  2/2 Liberar FT-072 após gate normativo [pendente]
+aceite=RCF cobre integralmente Issue #11 e TO-DO resiliente; nenhuma autoridade, feature, hook, customização, fallback, compatibilidade ou força normativa anterior é reduzida; divergência da resposta do mantenedor é decidida por evidência real.
+dependencias=Fonte e FTs registradas em commit exclusivo; FT-072 depende desta FT.
+
+FT-072|nome=Atualizador resiliente e preservador de consumidores|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-11T01:04:44-03:00|atualizacao=2026-08-11T01:04:44-03:00
+objetivo=Implementar o contrato equalizado da FT-071 no atualizador, mescla de package.json, seleção de gates, handoff, transação, backups, descoberta/migração de extensões e fallbacks, com sucesso material em todo estado programaticamente recuperável.
+origem=.ia.rules/state/requests/FT-071/request.md; TODO.ia.md item de atualização resiliente.
+normativa=FT-071.
+1/5 Diagnóstico estrutural [pendente]
+  1/4 Reproduzir Issue #11 em consumidor com produto próprio [pendente]
+  2/4 Auditar throws/exits/guardas e classificar recuperabilidade [pendente]
+  3/4 Auditar hooks, agents.local.md e equivalentes em layouts históricos [pendente]
+  4/4 Comparar superfícies da v0.1.2 ao candidato [pendente]
+2/5 Implementação preservadora [pendente]
+  1/4 Corrigir autoridade/merge dos scripts e perfil do gate [pendente]
+  2/4 Preservar ou migrar toda customização autorizada sem perda [pendente]
+  3/4 Implementar fallbacks, retomada e reconciliação de estados recuperáveis [pendente]
+  4/4 Garantir transação, backup, idempotência e pós-condições exaustivas [pendente]
+3/5 Testes de matriz [pendente]
+  1/4 Cobrir os cenários obrigatórios do TODO e da Issue #11 [pendente]
+  2/4 Cobrir layouts/releases anteriores e atualização interrompida [pendente]
+  3/4 Cobrir Git limpo, sujo, commits locais e divergência sem perda [pendente]
+  4/4 Cobrir falha de estratégia seguida de fallback e irrecuperável real [pendente]
+4/5 Validação funcional [pendente]
+  1/3 Executar build, typecheck, lint, test, verify, RCF e grafo [pendente]
+  2/3 Provar consumidor real/isolado e reexecução idempotente [pendente]
+  3/3 Auditar zero arquivo aplicável desatualizado e zero perda de dados [pendente]
+5/5 Fechamento [pendente]
+  1/2 Commitar implementação e rastreabilidade causal [pendente]
+  2/2 Liberar integração final após verde global [pendente]
+aceite=Todo cenário programaticamente recuperável converge com exit 0 e estado final correto; scripts próprios, hooks, agents.local.md, customizações e trabalho Git legítimo permanecem; impedimento externo só falha após fallbacks seguros; nenhuma pós-condição é inferida por sentinela parcial.
+dependencias=FT-071 concluída; autorização humana explícita já presente na origem.
+
+FT-073|nome=Norma de contenção absoluta ao repositório corrente|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-11T01:04:45-03:00|atualizacao=2026-08-11T01:04:45-03:00
+objetivo=Normatizar integralmente a TO-DO crítica e reincidente que limita toda escrita e operação Git ao único repositório imediatamente associado ao prompt, excluindo repositórios irmãos, aninhados, submódulos, worktrees, dependências, links e destinos canônicos externos.
+origem=TODO.ia.md item `Blindar definitivamente o escopo de edição da IA ao repositório imediatamente associado ao prompt`.
+1/3 Equalização [pendente]
+  1/3 Auditar todas as regras existentes de escopo e integração externa [pendente]
+  2/3 Conciliar inspeção permitida com proibição absoluta de escrita [pendente]
+  3/3 Fixar critérios cross-platform contra paths indiretos [pendente]
+2/3 RCF [pendente]
+  1/3 Centralizar autoridade no root Git e AGENTS aplicável [pendente]
+  2/3 Normatizar exclusões, recusas e operações Git contidas [pendente]
+  3/3 Especificar salvaguardas e matriz obrigatória [pendente]
+3/3 Validação [pendente]
+  1/3 Auditar cobertura bidirecional sem remover exceção válida [pendente]
+  2/3 Executar gates normativos [pendente]
+  3/3 Commitar RCF e liberar FT-074 [pendente]
+aceite=RCF torna edição cruzada violação crítica, deriva autoridade exclusivamente do repositório associado ao prompt, permite somente leitura externa necessária e exige contenção por path real, fronteiras Git e salvaguardas programáticas portáveis.
+dependencias=Commit exclusivo de criação das FTs; equalização normativa conjunta com FT-071.
+
+FT-074|nome=Salvaguardas de contenção ao repositório corrente|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-11T01:04:46-03:00|atualizacao=2026-08-11T01:04:46-03:00
+objetivo=Projetar a Norma da FT-073 e implementar salvaguardas programáticas que impeçam escrita ou Git fora da raiz autorizada, inclusive por traversal, symlink, junction, submódulo, nested repo, worktree, dependência ou múltiplas roots.
+origem=TODO.ia.md item de contenção absoluta.
+normativa=FT-073.
+1/4 Norma Operacional [pendente]
+  1/3 Reforçar fonte AGENTS e módulos aplicáveis sem perda [pendente]
+  2/3 Regenerar núcleo ativo/índice e validar força modal [pendente]
+  3/3 Documentar comportamento e diagnósticos operacionais [pendente]
+2/4 Implementação [pendente]
+  1/3 Resolver raiz Git, path real e fronteiras excluídas [pendente]
+  2/3 Aplicar guardas a operações de escrita/destrutivas/Git [pendente]
+  3/3 Preservar edição legítima interna e portabilidade [pendente]
+3/4 Testes [pendente]
+  1/3 Cobrir toda a matriz obrigatória de fronteiras e links [pendente]
+  2/3 Comprovar integridade de terceiros e edição interna normal [pendente]
+  3/3 Executar gates globais e auditoria de regressão [pendente]
+4/4 Fechamento [pendente]
+  1/2 Commitar implementação e sincronização causal [pendente]
+  2/2 Liberar integração final após verde global [pendente]
+aceite=Nenhuma superfície oficial escreve ou executa Git fora do repositório corrente; paths indiretos e fronteiras próprias são recusados antes do efeito; arquivos internos legítimos continuam operáveis; testes portáveis comprovam preservação integral dos externos.
+dependencias=FT-073 concluída; autorização humana explícita já presente na origem.
+
+FT-075|nome=Integração, comparação e release 0.1.3|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-08-11T01:04:47-03:00|atualizacao=2026-08-11T01:04:47-03:00
+objetivo=Integrar todas as frentes, concluir os itens materiais regidos pelo equalizer, comparar diretamente o candidato à release oficial v0.1.2 e publicar v0.1.3 somente após prova de zero regressão funcional/normativa e preservação de customizações.
+origem=.ia.rules/state/requests/FT-071/request.md; TODO.ia.md integral.
+1/4 Auditoria cumulativa [pendente]
+  1/4 Revisar FTs ativas e critérios globais [pendente]
+  2/4 Comparar arquivos, features, scripts, APIs, hooks, fallbacks e customizações com v0.1.2 [pendente]
+  3/4 Comparar força, explicitude e cobertura normativa com v0.1.2 [pendente]
+  4/4 Corrigir qualquer perda antes de prosseguir [pendente]
+2/4 Provas finais [pendente]
+  1/3 Executar todos os gates locais pertinentes [pendente]
+  2/3 Validar package/ZIP/release manifest e consumidores históricos [pendente]
+  3/3 Comprovar equalizer perene intacto e demais TODOs materialmente concluídos [pendente]
+3/4 Release [pendente]
+  1/3 Publicar beta permitido somente se necessário [pendente]
+  2/3 Publicar e comprovar v0.1.3 como release final [pendente]
+  3/3 Vincular versão, artefatos, hashes e estado remoto [pendente]
+4/4 Convergência e registro [pendente]
+  1/3 Concluir FTs e gerar handoff [pendente]
+  2/3 Convergir dev, primária e remotos [pendente]
+  3/3 Registrar análise, correções, testes, comparação, betas e release [pendente]
+aceite=FT-071 a FT-074 concluídas; Issue #11 analisada/corrigida; todos os hooks/customizações preservados; itens materiais do TODO concluídos sem editar/remover o equalizer; candidato não reduz v0.1.2 em nenhuma superfície; v0.1.3 publicada, íntegra e convergida.
+dependencias=FT-071, FT-072, FT-073 e FT-074 concluídas; gates globais verdes; ausência de perda comprovada.
