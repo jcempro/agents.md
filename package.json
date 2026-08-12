@@ -25,7 +25,6 @@
   },
   "agentsGovernance": {
     "schema": 1,
-    "repositoryProfile": "canonical-constructor",
     "managedScriptPrefixes": [
       "agent:",
       "agents:",
@@ -48,7 +47,9 @@
       "test"
     ],
     "dependencies": [],
-    "optionalDependencies": []
+    "optionalDependencies": [],
+    "installedScripts": {},
+    "repositoryProfile": "consumer"
   },
   "scripts": {
     "build": "npm run agent:build",

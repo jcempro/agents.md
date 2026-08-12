@@ -31,6 +31,8 @@ Aplicar `CT-8`. Diferença de SO, shell, permissão, filesystem, separador, caix
 
 Operação longa desacoplada declara cwd, comando/argumentos sanitizados, PID/ID, início/fim/duração, código, log, estado, cancelamento, limpeza e retomada. Estados são os de `CT-6`; retomada lê estado, código e cauda antes do log integral e não repete conclusão. Processo que exige decisão intermediária, deixa lock abandonável ou torna polling mais caro que espera permanece acoplado.
 
+Toda API oficial com efeito em arquivo ou Git recebe raiz autorizada explícita e aplica a fronteira do `core.authority` antes do primeiro efeito. A guarda usa raiz Git e path físico real, detecta fronteira aninhada/terceiro e impede redirecionamento por `-C`, `--git-dir`, `--work-tree`, pathspec externo, link ou traversal; validação por prefixo textual é insuficiente. Temporário, checkpoint e worktree auxiliar, quando indispensáveis, permanecem dentro da raiz autorizada e não adquirem identidade Git concorrente.
+
 ## 4. Fontes e artefatos
 
 Script Node.js tem TypeScript como fonte canônica; JavaScript manual em fonte é legado a converter. Fonte transpila para Node.js `24+`, com alvo ECMAScript estabilizado aproximadamente um ano antes da versão corrente e baseline revisado por necessidade/benefício. JavaScript distribuído é transpilado, validado, otimizado e minificado sem perda de contrato, interoperabilidade ou diagnóstico indispensável.

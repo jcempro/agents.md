@@ -48,6 +48,7 @@
             "additionalProperties": false,
             "required": ["destination", "format", "target", "builder"],
             "properties": {
+              "bundle": { "const": true },
               "destination": { "type": "string", "minLength": 1 },
               "format": { "const": "commonjs" },
               "target": { "const": "node24" },

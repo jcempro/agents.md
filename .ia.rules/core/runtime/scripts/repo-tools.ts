@@ -19,6 +19,7 @@ const { resolveExistingReleaseTrigger } = require("./release-trigger-policy");
 const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
+const { assertRepositoryGit, assertRepositoryTarget, resolveRepositoryBoundary } = require("./repository-boundary");
 
 const RUNTIME_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
 // FIX-BUG: o mesmo runtime executa na fonte src/.ia.rules e no pacote .ia.rules.
@@ -47,10 +48,28 @@ const SOURCE_DISTRIBUTION_PROFILES = new Set([
   "consumer-bootstrap",
   "generated-release",
 ]);
+const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
+const LEGACY_UPDATE_EXTENSIONS = new Set([".js", ".json", ".md"]);
+const LEGACY_UPDATE_TARGETS = new Map([
+  ["scripts/.agents/bootstrap/core/contracts.md", ".agents/core/contracts.md"],
+  ["scripts/.agents/bootstrap/core/concepts/microconceitos.md", ".agents/core/concepts/microconceitos.md"],
+  ["scripts/.agents/bootstrap/core/update/scenario.md", ".agents/core/update/scenario.md"],
+  ["scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md", ".agents/scenarios/web/page-like/scenario.md"],
+]);
+const READ_ONLY_COMMANDS = new Set([
+  "agent:analyze", "agent:benchmark", "agent:context", "agent:deps", "agent:diff-file", "agent:docs", "agent:doctor",
+  "agent:find", "agent:git-blame", "agent:git-changelog", "agent:git-diff", "agent:git-history", "agent:git-last-release",
+  "agent:git-log", "agent:git-release-notes", "agent:git-show", "agent:git-status", "agent:grep", "agent:hash", "agent:head",
+  "agent:licenses", "agent:logs", "agent:ls", "agent:ports", "agent:process", "agent:pwd", "agent:rcf", "agent:search",
+  "agent:security", "agent:size", "agent:stat", "agent:status", "agent:tail", "agent:tree", "agent:view", "agent:workspace",
+]);
+let REPOSITORY_BOUNDARY = null;
 const UPDATE_HANDOFF_RUNTIME = [
   ".ia.rules/core/runtime/scripts/update-agents.js",
+  ".ia.rules/core/runtime/scripts/repository-boundary.js",
   ".ia.rules/core/runtime/scripts/archive.js",
   ".ia.rules/core/runtime/scripts/distribution-map.js",
+  ".ia.rules/core/runtime/scripts/template-merge.js",
   ".ia.rules/core/update/migrations/v1-to-v2.js",
 ];
 const LEGACY_RULES_ROOT = [".", "agents"].join("");
@@ -423,6 +442,7 @@ function main(argv = process.argv.slice(2)) {
   }
 
   if (COMMANDS[command]) {
+    if (!READ_ONLY_COMMANDS.has(command) || command.startsWith("agent:git-")) commandBoundary(command, args);
     return COMMANDS[command].run(args);
   }
 
@@ -461,6 +481,7 @@ function buildIndex() {
       profile: entry.profile,
       runtime: {
         builder: entry.artifact.builder,
+        bundle: Boolean(entry.artifact.bundle),
         format: entry.artifact.format,
         target: entry.artifact.target,
       },
@@ -533,7 +554,8 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
     destinations.set(destinationKey, entry.destination);
     if (entry.artifact) {
       if (entry.language !== "typescript" || path.posix.extname(entry.path) !== ".ts" ||
-        path.posix.extname(entry.destination) !== ".ts" || entry.profile !== "consumer-runtime" ||
+        path.posix.extname(entry.destination) !== ".ts" ||
+        !["consumer-runtime", "consumer-bootstrap"].includes(entry.profile) ||
         entry.artifact.format !== "commonjs" || entry.artifact.target !== "node24" ||
         !entry.artifact.builder || !entry.artifact.destination) {
         throw new Error(`MANIFESTO_FONTE_ARTEFATO_INVALIDO:${entry.path}`);
@@ -590,6 +612,7 @@ function buildDist(options = {}) {
   const index = buildIndex();
   const archiveName = resolveArchiveName(releaseVersion);
   const files = buildDistributionFiles(index);
+  guardTarget(DIST_DIR, { allowHardlink: true });
   cleanDirectory(DIST_DIR);
   fs.mkdirSync(DIST_DIR, { recursive: true });
 
@@ -631,6 +654,7 @@ function buildDist(options = {}) {
     schema: 1,
   };
   if (releaseNotes) {
+    guardTarget(RELEASE_NOTE_PATH, { allowHardlink: true });
     fs.writeFileSync(RELEASE_NOTE_PATH, `${releaseNotes}\n`, "utf8");
     releaseIndex.files.push({
       name: "release-note.txt",
@@ -651,12 +675,17 @@ function buildDist(options = {}) {
       version: releaseVersion,
     };
   }
-  releaseIndex.update = createGovernanceManifest(
+  releaseIndex.canonicalUpdate = createGovernanceManifest(
     releaseIndex.files.filter((entry) => !["release.json", "release-note.txt", distributionMapPath].includes(entry.path)),
     (entry) => fs.readFileSync(path.join(DIST_DIR, entry.path)),
     { installedSource: true },
   );
-  releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.update);
+  releaseIndex.update = createGovernanceManifest(
+    buildLegacyBootstrapUpdateEntries(releaseIndex.files),
+    (entry) => fs.readFileSync(path.join(DIST_DIR, entry.installedSource || entry.path)),
+    { installedSource: true },
+  );
+  releaseIndex.handoff = createUpdateHandoffDescriptor(releaseIndex.canonicalUpdate);
   writeJsonMinified(RELEASE_PATH, releaseIndex);
   const distributionMap = buildDistributionMap({
     files: releaseIndex.files.map((entry) => ({
@@ -703,6 +732,7 @@ function buildDistributionFiles(index) {
 
 /** Executa copyDistributionFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function copyDistributionFile(entry, targetPath) {
+  guardTarget(targetPath, { allowHardlink: true });
   fs.writeFileSync(targetPath, distributionContent(entry));
 }
 
@@ -711,6 +741,7 @@ function distributionContent(entry) {
   const sourcePath = path.join(ROOT_DIR, entry.sourcePath);
   if (!entry.artifact) return fs.readFileSync(sourcePath);
   return Buffer.from(transpileTypeScript(sourcePath, {
+    bundle: Boolean(entry.runtime && entry.runtime.bundle),
     minify: true,
     sourceLabel: entry.generatedFrom || entry.sourcePath,
   }), "utf8");
@@ -725,30 +756,33 @@ function transpileTypeScript(sourcePath, options = {}) {
     throw new Error(`TOOLCHAIN_TYPESCRIPT_INDISPONIVEL:${error.message}`);
   }
   const source = fs.readFileSync(sourcePath, "utf8");
-  const result = esbuild.transformSync(source, {
+  const common = {
     charset: "utf8",
     format: "cjs",
     legalComments: "none",
-    loader: "ts",
     minify: Boolean(options.minify),
     platform: "node",
     sourcemap: false,
     target: "node24",
     treeShaking: true,
-  });
-  return `${distributionBanner()}\n// Gerado de: ${toPosix(options.sourceLabel || path.relative(ROOT_DIR, sourcePath))}; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.\n\n${result.code.trim()}\n`;
+  };
+  const code = options.bundle
+    ? esbuild.buildSync({ ...common, bundle: true, entryPoints: [sourcePath], write: false }).outputFiles[0].text
+    : esbuild.transformSync(source, { ...common, loader: "ts" }).code;
+  return `${distributionBanner()}\n// Gerado de: ${toPosix(options.sourceLabel || path.relative(ROOT_DIR, sourcePath))}; TypeScript 7.0.2 + esbuild 0.28.1; Node 24+.\n\n${code.trim()}\n`;
 }
 
 /** Executa syncActiveRuntime no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function syncActiveRuntime() {
   const manifest = readSourceDistributionManifest();
   let generated = 0;
-  for (const entry of manifest.entries.filter((item) => item.artifact)) {
+  for (const entry of manifest.entries.filter((item) => item.artifact && item.condition !== LEGACY_UPDATE_BRIDGE_CONDITION)) {
     const sourcePath = path.join(SRC_DIR, entry.path);
     const targetPath = path.join(ROOT_DIR, entry.artifact.destination);
+    guardTarget(targetPath, { allowHardlink: true });
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.writeFileSync(targetPath, transpileTypeScript(sourcePath, {
-      minify: false,
+      minify: true,
       sourceLabel: toPosix(path.join("src", entry.path)),
     }), "utf8");
     generated += 1;
@@ -810,14 +844,38 @@ function createGovernanceManifest(entries, contentForEntry, options = {}) {
     marker: format.marker,
     schema: format.version,
     files: entries.map((entry) => ({
+      ...(entry.condition ? { condition: entry.condition } : {}),
       ...(entry.kind ? { kind: entry.kind } : {}),
       path: entry.path,
       ...(entry.profile ? { profile: entry.profile } : {}),
-      ...(options.installedSource ? { source: entry.path } :
+      ...(options.installedSource ? { source: entry.installedSource || entry.path } :
         (entry.sourcePath || entry.source ? { source: entry.sourcePath || entry.source } : {})),
       sha256: hashTextBuffer(contentForEntry(entry)),
     })),
   };
+}
+
+/** Valida a fronteira antes de qualquer comando potencialmente mutável ou operação Git. */
+function commandBoundary(command, args) {
+  if (!REPOSITORY_BOUNDARY) REPOSITORY_BOUNDARY = resolveRepositoryBoundary(ROOT_DIR);
+  if (command.startsWith("agent:git-")) assertRepositoryGit(REPOSITORY_BOUNDARY, args);
+  return REPOSITORY_BOUNDARY;
+}
+
+/** Limita o manifesto lido por runtimes históricos ao bootstrap que eles conseguem validar e versionar. */
+function isLegacyBootstrapUpdateEntry(entry) {
+  if (entry.path === "AGENTS.md" || entry.path === "package.json") return true;
+  if (UPDATE_HANDOFF_RUNTIME.includes(entry.path)) return true;
+  return entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION && LEGACY_UPDATE_EXTENSIONS.has(path.posix.extname(entry.path));
+}
+
+/** Projeta aliases exigidos por coletores com manifesto sem expor esses paths ao coletor físico v0.0.1. */
+function buildLegacyBootstrapUpdateEntries(entries) {
+  return entries.filter((entry) => isLegacyBootstrapUpdateEntry(entry)).map((entry) => ({
+    ...entry,
+    installedSource: entry.path,
+    path: LEGACY_UPDATE_TARGETS.get(entry.path) || entry.path,
+  }));
 }
 
 /** Executa createUpdateHandoffDescriptor no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -850,9 +908,12 @@ function buildDistributionPackage() {
   const aliases = new Set(["build", "check", "clean", "dev-live", "lint", "prepare", "publish", "release", "release:publish", "release:trigger", "test", "update:agents"]);
   const scripts = Object.fromEntries(Object.entries(sourceScripts)
     .filter(([name]) => name === "agents:update" || name === "agents:autoupdate" || name.startsWith("agent:") || name.startsWith("shared:") || aliases.has(name))
-    .map(([name, command]) => [name, String(command)
-      .split(LEGACY_RULES_ROOT + "/").join(".ia.rules/")
-      .split(LEGACY_RULES_ROOT + "\\").join(".ia.rules\\")]));
+    .map(([name, command]) => [name, name === "shared:update:agents"
+      // O dispatcher contém deliberadamente as rotas moderna e legada; reescrever a segunda elimina o bootstrap.
+      ? String(command)
+      : String(command)
+        .split(LEGACY_RULES_ROOT + "/").join(".ia.rules/")
+        .split(LEGACY_RULES_ROOT + "\\").join(".ia.rules\\")]));
   const dependencies = source.dependencies || {};
   const optionalDependencies = source.optionalDependencies || {};
   const governance = source["agentsGovernance"] || {};
@@ -871,8 +932,10 @@ function buildDistributionPackage() {
     ...(Object.keys(optionalDependencies).length ? { optionalDependencies } : {}),
     agentsGovernance: {
       schema: 1,
-      managedScriptPrefixes: governance.managedScriptPrefixes || ["agent:", "shared:"],
-      managedScripts: governance.managedScripts || ["agents:autoupdate", "agents:update", "update:agents"],
+      repositoryProfile: "consumer",
+      managedScriptPrefixes: governance.managedScriptPrefixes || ["agent:", "agents:", "shared:"],
+      managedScripts: governance.managedScripts || ["update:agents"],
+      installableScripts: governance.installableScripts || ["build", "check", "clean", "dev-live", "lint", "prepare", "publish", "release", "release:publish", "release:trigger", "test"],
       dependencies: Object.keys(dependencies).sort((a, b) => a.localeCompare(b, "en")),
       optionalDependencies: Object.keys(optionalDependencies).sort((a, b) => a.localeCompare(b, "en")),
     },
@@ -906,16 +969,18 @@ function readExistingReleaseMetadata() {
 
 /** Executa verify no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function verify() {
+  if (repositoryProfile() !== "canonical-constructor") return verifyInstalledGovernance();
   const checks = [];
+  let documentationDeclarations = 0;
   const manualJavaScript = listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".js" && isManagedScriptPath(filePath));
   if (manualJavaScript.length) {
     throw new Error(`FONTE_JAVASCRIPT_MANUAL_PROIBIDA:${manualJavaScript.map((file) => toPosix(path.relative(ROOT_DIR, file))).join(",")}`);
   }
   typecheck();
-  for (const script of listFiles(SOURCE_RULES_DIR).filter((filePath) => path.extname(filePath) === ".ts" && isManagedScriptPath(filePath))) {
+  for (const script of listFiles(SOURCE_RULES_DIR).filter((filePath) => [".py", ".ts"].includes(path.extname(filePath)) && isManagedScriptPath(filePath))) {
     const content = fs.readFileSync(script, "utf8");
     assertCodeBanner(content, toPosix(path.relative(ROOT_DIR, script)));
-    assertNativeDocumentation(content, toPosix(path.relative(ROOT_DIR, script)));
+    documentationDeclarations += assertNativeDocumentation(content, toPosix(path.relative(ROOT_DIR, script)));
     if (ALIEN_SCRIPT_TERMS.some((term) => content.toLocaleLowerCase("en-US").includes(term.toLocaleLowerCase("en-US")))) {
       throw new Error(`Referencia alienigena detectada em ${toPosix(path.relative(ROOT_DIR, script))}.`);
     }
@@ -935,7 +1000,65 @@ function verify() {
   }
   assertPublishedNorms(index);
 
-  return ok("VERIFY_OK", { scripts: checks.length, indexedFiles: index.files.length, refusedDecisions });
+  return ok("VERIFY_OK", { scripts: checks.length, documentationDeclarations, indexedFiles: index.files.length, refusedDecisions });
+}
+
+/** Resolve o perfil local sem inferir papel por nome de pacote, diretório src ou posição do runtime. */
+function repositoryProfile() {
+  const manifest = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
+  const governance = manifest.agentsGovernance && typeof manifest.agentsGovernance === "object" ? manifest.agentsGovernance : {};
+  return governance.repositoryProfile === "canonical-constructor" ? "canonical-constructor" : "consumer";
+}
+
+/** Valida a instalação gerenciada do consumidor sem executar o pipeline-fonte do construtor canônico. */
+function verifyInstalledGovernance() {
+  const required = [
+    "AGENTS.md",
+    ".ia.rules/agents.inc.md",
+    ".ia.rules/config/repository.json",
+    ".ia.rules/distribution/source-manifest.json",
+    ".ia.rules/normative-index.json",
+  ];
+  for (const relativePath of required) assertFile(path.join(ROOT_DIR, relativePath), `GOVERNANCA_INSTALADA_AUSENTE:${relativePath}`);
+
+  const sourceManifest = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, ".ia.rules", "distribution", "source-manifest.json"), "utf8"));
+  if (sourceManifest.schema !== SOURCE_DISTRIBUTION_FORMAT || !Array.isArray(sourceManifest.entries)) {
+    throw new Error("MANIFESTO_INSTALADO_INVALIDO");
+  }
+  const installed = new Set();
+  for (const entry of sourceManifest.entries) {
+    for (const destination of [entry.destination, entry.artifact && entry.artifact.destination].filter(Boolean)) {
+      const normalized = normalizeSourceDistributionPath(destination, "destination");
+      if (installed.has(normalized)) throw new Error(`MANIFESTO_INSTALADO_DESTINO_DUPLICADO:${normalized}`);
+      installed.add(normalized);
+      assertFile(path.join(ROOT_DIR, normalized), `GOVERNANCA_INSTALADA_INCOMPLETA:${normalized}`);
+    }
+  }
+
+  const normativeIndex = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, ".ia.rules", "normative-index.json"), "utf8"));
+  if (!normativeIndex || !Array.isArray(normativeIndex.nodes) || normativeIndex.nodes.length === 0) {
+    throw new Error("INDICE_NORMATIVO_INSTALADO_INVALIDO");
+  }
+  for (const node of normativeIndex.nodes) {
+    const normalized = normalizeSourceDistributionPath(node.path, "normative-index");
+    const target = path.join(ROOT_DIR, normalized);
+    assertFile(target, `NORMA_INSTALADA_AUSENTE:${normalized}`);
+    if (node.sha256 && hashTextFile(target) !== String(node.sha256).toLocaleLowerCase("en-US")) {
+      throw new Error(`NORMA_INSTALADA_DIVERGENTE:${normalized}`);
+    }
+  }
+
+  const manifest = JSON.parse(fs.readFileSync(PACKAGE_PATH, "utf8"));
+  const governance = manifest.agentsGovernance || {};
+  const productGate = typeof governance.productVerifyScript === "string" && governance.productVerifyScript.trim()
+    ? { script: governance.productVerifyScript.trim(), status: "declarado-nao-executado" }
+    : { status: "nao-declarado" };
+  return ok("VERIFY_CONSUMER_OK", {
+    installedFiles: installed.size,
+    normativeNodes: normativeIndex.nodes.length,
+    productGate,
+    repositoryProfile: "consumer",
+  });
 }
 
 /** Executa assertCodeBanner no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -950,6 +1073,7 @@ function assertCodeBanner(content, label) {
 /** Executa testAll no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function testAll() {
   verify();
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "documentation-policy.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "distribution-map.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "upstream-share.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "issue-inbox.test.js")]);
@@ -968,7 +1092,11 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "rcf-trace.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "runtime-resilience.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "clean-consumer.test.js")]);
-  return ok("TEST_OK", { suites: 18 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "repository-boundary.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "consumer-verify.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "updater-git-state.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "handoff-fallback.test.js")]);
+  return ok("TEST_OK", { suites: 23 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1073,7 +1201,8 @@ function validateDist() {
   if (!release.files.some((file) => file.path === "package.json")) {
     throw new Error("dist/release.json nao indexa package.json.");
   }
-  validateGovernanceManifest(release.update, "dist/release.json");
+  validateGovernanceManifest(release.update, "dist/release.json:update");
+  validateGovernanceManifest(release.canonicalUpdate, "dist/release.json:canonicalUpdate");
   validateUpdateHandoffDescriptor(release.handoff, "dist/release.json");
   validateReleasePayloadTopology(release);
   const distributionPackage = JSON.parse(fs.readFileSync(DISTRIBUTION_PACKAGE_PATH, "utf8"));
@@ -1092,20 +1221,84 @@ function validateDist() {
     !policy.managedScriptPrefixes.includes("shared:")) {
     throw new Error("dist/package.json nao contem contrato executavel de governanca.");
   }
+  const sharedUpdateCommand = String(distributionPackage.scripts["shared:update:agents"]);
+  if (!sharedUpdateCommand.includes(".ia.rules/core/runtime/scripts/repo-tools.js") ||
+    !sharedUpdateCommand.includes(".agents/core/runtime/scripts/autoupdate.js") ||
+    !sharedUpdateCommand.includes("scripts/.agents/autoupdate.js")) {
+    throw new Error("dist/package.json perdeu dispatcher moderno e fallbacks legados de update:agents.");
+  }
+  if (release.update.files.some((entry) => !LEGACY_UPDATE_EXTENSIONS.has(path.posix.extname(entry.path)))) {
+    throw new Error("dist/release.json:update excede extensoes aceitas pelo bootstrap historico.");
+  }
+  if (!release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js")) {
+    throw new Error("dist/release.json:update omite bridge versionavel pelo coletor fisico.");
+  }
 }
 
-/** Executa assertNativeDocumentation no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
+/** Valida documentação nativa nas linguagens humanas atualmente distribuídas sem inspecionar derivados. */
 function assertNativeDocumentation(content, label) {
-  const declarations = [
-    /(^|\n)([ \t]*)(?:async[ \t]+)?function[ \t]+\*?[ \t]*([A-Za-z_$][\w$]*)[ \t]*\(/gu,
-    /(^|\n)([ \t]*)class[ \t]+([A-Za-z_$][\w$]*)\b/gu,
+  const extension = path.extname(String(label)).toLocaleLowerCase("en-US");
+  if (extension === ".py") return assertPythonDocumentation(content, label);
+  if (extension === ".ts" || extension === ".js") return assertTypeScriptDocumentation(content, label);
+  return 0;
+}
+
+/** Identifica declarações TypeScript/JavaScript por padrões conservadores e exige JSDoc imediatamente associado. */
+function assertTypeScriptDocumentation(content, label) {
+  const source = String(content).replace(/\r\n/gu, "\n");
+  const missing = [];
+  let declarations = 0;
+  const patterns = [
+    /(^|\n)[ \t]*(?:export[ \t]+(?:default[ \t]+)?)?(?:async[ \t]+)?function[ \t]+\*?[ \t]*([A-Za-z_$][\w$]*)[ \t]*\(/gu,
+    /(^|\n)[ \t]*(?:export[ \t]+(?:default[ \t]+)?)?(?:abstract[ \t]+)?class[ \t]+([A-Za-z_$][\w$]*)\b/gu,
+    /(^|\n)[ \t]*(?:export[ \t]+)?(?:interface|type|enum)[ \t]+([A-Za-z_$][\w$]*)\b/gu,
+    /(^|\n)[ \t]+(?:(?:public|private|protected|static|async|readonly|abstract|override|get|set)[ \t]+)*(constructor|[A-Za-z_$][\w$]*)[ \t]*\([^;\n]*\)[ \t]*(?::[^\n{]+)?[ \t]*\{/gu,
+    /(^|\n)[ \t]*(?:export[ \t]+)?(?:const|let)[ \t]+([A-Za-z_$][\w$]*)[ \t]*=[ \t]*(?:async[ \t]+)?(?:function\b|(?:\([^\n]*\)|[A-Za-z_$][\w$]*)[ \t]*=>)/gu,
   ];
-  for (const declaration of declarations) for (const match of content.matchAll(declaration)) {
-    const before = content.slice(0, match.index + match[1].length).trimEnd();
+  const ignoredMethods = new Set(["catch", "for", "if", "switch", "while"]);
+  for (const [patternIndex, pattern] of patterns.entries()) for (const match of source.matchAll(pattern)) {
+    const name = match[2];
+    if (ignoredMethods.has(name)) continue;
+    if (patternIndex === 3) {
+      const candidate = match[0].slice(match[0].indexOf(name) + name.length);
+      const openings = (candidate.match(/\(/gu) || []).length;
+      const closings = (candidate.match(/\)/gu) || []).length;
+      if (openings !== closings) continue;
+    }
+    declarations += 1;
+    const declarationStart = match.index + match[1].length;
+    const before = source.slice(0, declarationStart).trimEnd();
     if (!/\/\*\*[^]*?\*\/$/u.test(before)) {
-      throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${match[3]}`);
+      const line = source.slice(0, declarationStart).split("\n").length;
+      missing.push(`${name}@${line}`);
     }
   }
+  if (missing.length) throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${missing.join(",")}`);
+  return declarations;
+}
+
+/** Exige docstring imediatamente no corpo de cada função ou classe Python distribuída. */
+function assertPythonDocumentation(content, label) {
+  const lines = String(content).replace(/\r\n/gu, "\n").split("\n");
+  const missing = [];
+  let declarations = 0;
+  for (let index = 0; index < lines.length; index += 1) {
+    const match = /^(\s*)(?:async\s+def|def|class)\s+([A-Za-z_]\w*)\b/u.exec(lines[index]);
+    if (!match) continue;
+    declarations += 1;
+    const indentation = match[1].length;
+    let signatureEnd = index;
+    while (signatureEnd < lines.length && !/:\s*(?:#.*)?$/u.test(lines[signatureEnd])) signatureEnd += 1;
+    let body = signatureEnd + 1;
+    while (body < lines.length && !lines[body].trim()) body += 1;
+    const bodyIndentation = body < lines.length ? /^\s*/u.exec(lines[body])[0].length : 0;
+    if (body >= lines.length || bodyIndentation <= indentation || !/^(?:[rubf]{0,2})?(?:"""|''')/iu.test(lines[body].trim())) {
+      missing.push(`${match[2]}@${index + 1}`);
+    }
+    index = Math.max(index, signatureEnd);
+  }
+  if (missing.length) throw new Error(`DOCUMENTACAO_NATIVA_AUSENTE:${label}:${missing.join(",")}`);
+  return declarations;
 }
 
 /** Executa validateDistributionProfiles no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1120,7 +1313,7 @@ function validateDistributionProfiles(release, distributionMap) {
       throw new Error(`RELEASE_MAPA_PERFIL_DIVERGENTE:${entry.path}`);
     }
   }
-  for (const entry of release.update.files) {
+  for (const entry of [...release.update.files, ...release.canonicalUpdate.files]) {
     if (!SOURCE_DISTRIBUTION_PROFILES.has(entry.profile) || entry.profile === "builder-internal") {
       throw new Error(`UPDATE_PERFIL_INVALIDO:${entry.path}`);
     }
@@ -1142,19 +1335,26 @@ function validateDistributionMapCompleteness(distributionMap) {
 /** Executa validateReleasePayloadTopology no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function validateReleasePayloadTopology(release) {
   const directories = new Set();
+  const bridgePaths = new Set(release.files
+    .filter((entry) => entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION)
+    .map((entry) => entry.path));
   for (const filePath of listFiles(DIST_DIR)) {
     const relativePath = toPosix(path.relative(DIST_DIR, filePath));
-    if (relativePath.includes(LEGACY_RULES_ROOT)) throw new Error(`PAYLOAD_LEGADO_PROIBIDO:${relativePath}`);
+    if (relativePath.includes(LEGACY_RULES_ROOT) && !bridgePaths.has(relativePath)) {
+      throw new Error(`PAYLOAD_LEGADO_PROIBIDO:${relativePath}`);
+    }
     const segments = relativePath.split("/");
     if (segments.length > 1) directories.add(segments[0]);
   }
-  if ([...directories].some((directory) => directory !== ".ia.rules")) {
+  const permittedDirectories = new Set([".ia.rules", ".agents", "scripts"]);
+  if ([...directories].some((directory) => !permittedDirectories.has(directory))) {
     throw new Error(`DIRETORIO_PAYLOAD_PROIBIDO:${[...directories].sort().join(",")}`);
   }
-  for (const entry of [...release.files, ...release.update.files]) {
-    if (entry.path.includes(LEGACY_RULES_ROOT)) throw new Error(`MANIFESTO_LEGADO_PROIBIDO:${entry.path}`);
+  for (const entry of [...release.files, ...release.update.files, ...release.canonicalUpdate.files]) {
+    const bridge = entry.condition === LEGACY_UPDATE_BRIDGE_CONDITION;
+    if (entry.path.includes(LEGACY_RULES_ROOT) && !bridge) throw new Error(`MANIFESTO_LEGADO_PROIBIDO:${entry.path}`);
     const segments = entry.path.split("/");
-    if (segments.length > 1 && segments[0] !== ".ia.rules") throw new Error(`MANIFESTO_FORA_ALLOWLIST:${entry.path}`);
+    if (segments.length > 1 && segments[0] !== ".ia.rules" && !bridge) throw new Error(`MANIFESTO_FORA_ALLOWLIST:${entry.path}`);
   }
 }
 
@@ -1185,6 +1385,7 @@ function cleanGeneratedArtifacts() {
     if (fs.statSync(target).isDirectory()) {
       cleanDirectory(target);
     } else {
+      guardTarget(target, { allowHardlink: true });
       fs.rmSync(target, { force: true });
     }
     removed.push(toPosix(relativePath));
@@ -1404,6 +1605,7 @@ function releaseTrigger(args = []) {
 
   const release = resolveRelease(requestedVersion);
   const targetPath = path.join(ROOT_DIR, "release");
+  guardTarget(targetPath, { allowHardlink: true });
   let replacedPublishedTrigger = false;
   if (fs.existsSync(targetPath)) {
     const existingVersion = normalizeReleaseVersion(fs.readFileSync(targetPath, "utf8"));
@@ -1547,6 +1749,15 @@ function runNodeScript(relativePath, args = []) {
 
 /** Executa runProcess no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function runProcess(command, args, options = {}) {
+  if (String(command).toLocaleLowerCase("en-US") === "git") {
+    try {
+      if (!REPOSITORY_BOUNDARY) REPOSITORY_BOUNDARY = resolveRepositoryBoundary(ROOT_DIR);
+      assertRepositoryGit(REPOSITORY_BOUNDARY, args);
+    } catch (error) {
+      if (options.optional) return { error, status: 1, stderr: `${error.message}\n`, stdout: "" };
+      throw error;
+    }
+  }
   const result = childProcess.spawnSync(command, args, {
     cwd: ROOT_DIR,
     encoding: "utf8",
@@ -1737,6 +1948,7 @@ function readPackageScripts() {
 
 /** Executa cleanDirectory no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function cleanDirectory(dirPath) {
+  guardTarget(dirPath, { allowHardlink: true });
   if (fs.existsSync(dirPath)) {
     try {
       fs.rmSync(dirPath, { force: true, maxRetries: 20, recursive: true, retryDelay: 250 });
@@ -1773,8 +1985,15 @@ function listFiles(dirPath) {
 
 /** Executa writeJsonMinified no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function writeJsonMinified(filePath, value) {
+  guardTarget(filePath, { allowHardlink: true });
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, JSON.stringify(value), "utf8");
+}
+
+/** Valida destino físico pelo contrato comum antes de qualquer escrita/remoção deste runtime. */
+function guardTarget(filePath, options = {}) {
+  if (!REPOSITORY_BOUNDARY) REPOSITORY_BOUNDARY = resolveRepositoryBoundary(ROOT_DIR);
+  return assertRepositoryTarget(REPOSITORY_BOUNDARY, filePath, options);
 }
 
 /** Executa hashTextFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1827,7 +2046,7 @@ function assertPublishedNorms(index) {
     assertFile(sourcePath, `Fonte normativa ausente: ${toPosix(file.path)}.`);
     assertFile(publishedPath, `Norma publicada ausente: ${toPosix(path.relative(ROOT_DIR, publishedPath))}.`);
     const expected = file.artifact
-      ? distributionContent({ artifact: true, generatedFrom: file.generatedFrom, sourcePath: file.path })
+      ? distributionContent({ artifact: true, generatedFrom: file.generatedFrom, runtime: file.runtime, sourcePath: file.path })
       : fs.readFileSync(sourcePath);
     if (hashTextBuffer(expected) !== hashTextFile(publishedPath)) {
       throw new Error(`Paridade fonte/publicado divergente: ${toPosix(file.path)}.`);
@@ -1898,6 +2117,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  assertNativeDocumentation,
   buildDist,
   buildDistributionPackage,
   buildIndex,

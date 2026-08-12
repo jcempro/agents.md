@@ -1,24 +1,24 @@
 # Mapa normativo gerado
 
-Origem: `76fc322168a79dfd27ef0e8e601cbf1de1e7fd83861ae3afc1541d5451c72516`; revisão: `a9bdfdf`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `ba36eb29036ccc2ed7dd2774e8daa5be96f572adc12536e58edb90e9b40537f4`; revisão: `53c494b`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 
 ```mermaid
 flowchart TD
-  core_agents["core.agents\nhybrid\n338 tokens"]
-  core_agents_full["core.agents-full\nleaf\n7364 tokens"]
-  core_authority["core.authority\nleaf\n880 tokens"]
+  core_agents["core.agents\nhybrid\n392 tokens"]
+  core_agents_full["core.agents-full\nleaf\n7420 tokens"]
+  core_authority["core.authority\nleaf\n1130 tokens"]
   core_microconcepts["core.microconcepts\nleaf\n3020 tokens"]
   core_contracts["core.contracts\nleaf\n1500 tokens"]
   core_routing["core.routing\nleaf\n1502 tokens"]
   core_update["core.update\nleaf\n2172 tokens"]
-  role_final["role.final\nleaf\n512 tokens"]
+  role_final["role.final\nleaf\n577 tokens"]
   role_constructor["role.constructor\nderivation\n702 tokens"]
   scenario_constructor_operation["scenario.constructor-operation\nleaf\n902 tokens"]
-  resource_scripts["resource.scripts\nhybrid\n1279 tokens"]
+  resource_scripts["resource.scripts\nhybrid\n1400 tokens"]
   resource_workflows["resource.workflows\nleaf\n873 tokens"]
-  resource_traceability["resource.traceability\nleaf\n540 tokens"]
+  resource_traceability["resource.traceability\nleaf\n965 tokens"]
   scenario_request_lifecycle["scenario.request-lifecycle\nhybrid\n888 tokens"]
   scenario_refused_decisions["scenario.refused-decisions\nleaf\n1201 tokens"]
   scenario_official_gap["scenario.official-gap\nleaf\n555 tokens"]
@@ -85,45 +85,45 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 
 | Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
 |---|---:|---:|---:|---:|---:|---:|
-| Folha | 29 | 437 | 1588.79 | 1211 | 1430.75 | 7702 |
-| Híbrido | 6 | 338 | 1174.83 | 1381.0 | 485.84 | 1617 |
+| Folha | 29 | 491 | 1674.41 | 1357 | 1431.66 | 7812 |
+| Híbrido | 6 | 392 | 1249.0 | 1435.0 | 505.87 | 1792 |
 
 ## Caminhos
 
 | ID | Rota | Terminal | Tokens |
 |---|---|---|---:|
-| path-001 | core.agents | hybrid | 338 |
-| path-002 | core.agents → core.authority | leaf | 1218 |
-| path-003 | core.agents → core.routing | leaf | 1840 |
-| path-004 | core.agents → core.microconcepts | leaf | 3358 |
-| path-005 | core.agents → core.contracts | leaf | 1838 |
-| path-006 | core.agents → role.final | leaf | 850 |
-| path-007 | core.agents → role.constructor → scenario.constructor-operation | leaf | 1942 |
-| path-008 | core.agents → scenario.request-lifecycle | hybrid | 1226 |
-| path-009 | core.agents → scenario.request-lifecycle → scenario.refused-decisions | leaf | 2427 |
-| path-010 | core.agents → scenario.official-gap | leaf | 893 |
-| path-011 | core.agents → scenario.upstream-sharing | hybrid | 1536 |
-| path-012 | core.agents → scenario.upstream-sharing → scenario.issue-lifecycle | leaf | 1977 |
-| path-013 | core.agents → core.update | leaf | 2510 |
-| path-014 | core.agents → resource.scripts | hybrid | 1617 |
-| path-015 | core.agents → resource.scripts → meta.cli | leaf | 1756 |
-| path-016 | core.agents → resource.workflows | leaf | 1211 |
-| path-017 | core.agents → resource.traceability | leaf | 878 |
-| path-018 | core.agents → scenario.release | hybrid | 1606 |
-| path-019 | core.agents → scenario.release → capability.package-registry | leaf | 2063 |
-| path-020 | core.agents → scenario.application-update | leaf | 736 |
-| path-021 | core.agents → scenario.content-publication | leaf | 760 |
-| path-022 | core.agents → scenario.web-page-like | hybrid | 726 |
-| path-023 | core.agents → scenario.web-page-like → capability.web-browser | leaf | 2127 |
-| path-024 | core.agents → scenario.web-page-like → capability.web-static | leaf | 1008 |
-| path-025 | core.agents → scenario.web-page-like → capability.web-editorial | leaf | 1793 |
-| path-026 | core.agents → meta.build | leaf | 575 |
-| path-027 | core.agents → meta.ia | leaf | 445 |
-| path-028 | core.agents → meta.maintenance | leaf | 438 |
-| path-029 | core.agents → meta.publish | leaf | 473 |
-| path-030 | core.agents → meta.release | leaf | 499 |
-| path-031 | core.agents → meta.update | leaf | 539 |
-| path-032 | core.agents → meta.upstream | leaf | 467 |
-| path-033 | core.agents → meta.validation | leaf | 437 |
-| path-034 | core.agents → bootstrap.init-repo | leaf | 3315 |
-| path-035 | core.agents → core.agents-full | leaf | 7702 |
+| path-001 | core.agents | hybrid | 392 |
+| path-002 | core.agents → core.authority | leaf | 1522 |
+| path-003 | core.agents → core.routing | leaf | 1894 |
+| path-004 | core.agents → core.microconcepts | leaf | 3412 |
+| path-005 | core.agents → core.contracts | leaf | 1892 |
+| path-006 | core.agents → role.final | leaf | 969 |
+| path-007 | core.agents → role.constructor → scenario.constructor-operation | leaf | 1996 |
+| path-008 | core.agents → scenario.request-lifecycle | hybrid | 1280 |
+| path-009 | core.agents → scenario.request-lifecycle → scenario.refused-decisions | leaf | 2481 |
+| path-010 | core.agents → scenario.official-gap | leaf | 947 |
+| path-011 | core.agents → scenario.upstream-sharing | hybrid | 1590 |
+| path-012 | core.agents → scenario.upstream-sharing → scenario.issue-lifecycle | leaf | 2031 |
+| path-013 | core.agents → core.update | leaf | 2564 |
+| path-014 | core.agents → resource.scripts | hybrid | 1792 |
+| path-015 | core.agents → resource.scripts → meta.cli | leaf | 1931 |
+| path-016 | core.agents → resource.workflows | leaf | 1265 |
+| path-017 | core.agents → resource.traceability | leaf | 1357 |
+| path-018 | core.agents → scenario.release | hybrid | 1660 |
+| path-019 | core.agents → scenario.release → capability.package-registry | leaf | 2117 |
+| path-020 | core.agents → scenario.application-update | leaf | 790 |
+| path-021 | core.agents → scenario.content-publication | leaf | 814 |
+| path-022 | core.agents → scenario.web-page-like | hybrid | 780 |
+| path-023 | core.agents → scenario.web-page-like → capability.web-browser | leaf | 2181 |
+| path-024 | core.agents → scenario.web-page-like → capability.web-static | leaf | 1062 |
+| path-025 | core.agents → scenario.web-page-like → capability.web-editorial | leaf | 1847 |
+| path-026 | core.agents → meta.build | leaf | 629 |
+| path-027 | core.agents → meta.ia | leaf | 499 |
+| path-028 | core.agents → meta.maintenance | leaf | 492 |
+| path-029 | core.agents → meta.publish | leaf | 527 |
+| path-030 | core.agents → meta.release | leaf | 553 |
+| path-031 | core.agents → meta.update | leaf | 593 |
+| path-032 | core.agents → meta.upstream | leaf | 521 |
+| path-033 | core.agents → meta.validation | leaf | 491 |
+| path-034 | core.agents → bootstrap.init-repo | leaf | 3369 |
+| path-035 | core.agents → core.agents-full | leaf | 7812 |

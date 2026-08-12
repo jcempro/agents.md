@@ -24,4 +24,5 @@ agents-governance-backups/
 /.ia.rules/cache/
 /.ia.rules/local/
 /.ia.rules/agents-update.lock.json
+/agents-governance-backups/
 # END agents-governance managed

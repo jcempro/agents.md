@@ -14,6 +14,111 @@
   ],
   "entries": [
     {
+      "path": ".ia.rules/core/runtime/scripts/legacy-update-bridge.ts",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/autoupdate.ts",
+      "purpose": "bridge transitório para atualizadores anteriores ao handoff",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "legacy-bootstrap-functional"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": "scripts/.agents/autoupdate.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1",
+        "bundle": true
+      }
+    },
+    {
+      "path": "legacy-update-bridge/.agents/core/contracts.md",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/bootstrap/core/contracts.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/core/concepts/microconceitos.md",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/bootstrap/core/concepts/microconceitos.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/core/update/scenario.md",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/bootstrap/core/update/scenario.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/.agents/scenarios/web/page-like/scenario.md",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md",
+      "purpose": "marcador exigido por coletores históricos",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": "legacy-update-bridge/scripts/.agents/package.json",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/package.json",
+      "purpose": "sentinela para coletores físicos anteriores ao manifesto",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
       "path": ".ia.rules/config/core.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/config/core.json",
@@ -483,6 +588,31 @@
       "language": "typescript",
       "artifact": {
         "destination": ".ia.rules/core/runtime/scripts/release-trigger-policy.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1"
+      }
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/repository-boundary.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/repository-boundary.ts",
+      "purpose": "contenção física e Git ao repositório associado à solicitação",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "repository-boundary"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": ".ia.rules/core/runtime/scripts/repository-boundary.js",
         "format": "commonjs",
         "target": "node24",
         "builder": "typescript@7.0.2+esbuild@0.28.1"
