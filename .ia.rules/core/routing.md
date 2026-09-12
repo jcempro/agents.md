@@ -51,3 +51,13 @@ Roteamento possui eixos independentes: `roles` controla carga normativa; perfil 
 ## 7. Sintaxe
 
 Linguagem natural com modalidade RFC 2119 e referências `MN-*` permanece canônica. Nenhum token lógico novo está aprovado. A decisão vigente está no RCF e no registro local de recusa; ausência de tokenizer oficial e perdas semânticas documentadas impedem comprovar ganho líquido. Parser, formatter ou migração são proibidos até nova decisão no RCF anterior à implementação.
+
+## 8. Divulgação progressiva e unidades
+
+Aplicar `MN-UNIT`, `MN-DISC` e `MN-EVID`. O entrypoint permanece em até 400 tokens, medidos em UTF-8/LF por `tiktoken 0.13.0` com `o200k_base`; índice, mapa e teste DEVEM declarar e validar os mesmos parâmetros. Regra que exceda o teto ingressa no módulo coeso aplicável sem perda de sujeito, modalidade, condição, exceção, precedência ou aceite.
+
+O índice expõe somente metadados necessários à seleção. Skill, Subagent, estado, execução longa, visual ou terceiro aplicável deriva diretamente do entrypoint; corpo e recurso auxiliar só entram após o gatilho material. Rota falsa, cadeia profunda, ciclo, leitura integral preventiva ou recurso carregado por proximidade são proibidos. Falha de rota, conflito, baixa confiança ou índice/cache inválido aciona o fallback integral já declarado.
+
+## 9. Matriz de escolha
+
+Ação mecânica usa Script; procedimento recorrente estreito PODE usar Skill; trabalho independente e paralelizável PODE usar Subagent; contexto amplo permanece Cenário; ambiguidade e síntese permanecem no Agent primário; serviço externo usa MCP/ferramenta somente sob `MN-TRUST`. Skill ou Subagent só ingressa após inventário de chamadores, finalidade, frequência, duração, determinismo, interpretação, estado, efeitos, dependências e paralelismo demonstrar ganho sobre o mecanismo vigente. Cenário existente permanece quando equivalência e benefício não forem comprovados.

@@ -25,6 +25,8 @@ Hook aplica `CT-6`, é descoberto somente no namespace/configuração oficial, r
 
 Callback é função de observação/decisão local declarada, sem autoridade para trocar contrato ou destino. Adaptador traduz ambiente/interface, preserva semântica e diagnóstico e não reimplementa finalidade. Fallback é rota oficial finita, ordenada, acionada somente por classe de falha declarada e registrada no resultado.
 
+Capacidade essencial DEVE operar e ser testada sem hook. Hook PODE observar ou otimizar e só PODE bloquear quando norma explícita o definir como gate fail-closed. Script mecânico permanece fonte do algoritmo; Skill apenas interpreta procedimento e Subagent apenas orquestra objetivo isolável, sem duplicar lógica determinística.
+
 ## 3. Resiliência e plataformas
 
 Aplicar `CT-8`. Diferença de SO, shell, permissão, filesystem, separador, caixa, encoding, EOL, runtime, dependência, Git, rede ou release DEVE ser detectada. Comparação textual normativa normaliza UTF-8 e EOL somente quando contrato declarar equivalência; manifesto/hash binário permanece byte a byte. Comando indisponível aciona equivalente oficial seguro quando existente.

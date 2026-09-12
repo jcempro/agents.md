@@ -22,6 +22,8 @@ O papel Final não autoriza atravessar a raiz Git associada à solicitação. De
 
 Particularidade do produto pertence ao RCF/cenário do consumidor; particularidade operacional pertence à extensão local. Nenhuma delas reescreve contrato global.
 
+Agent primário conserva síntese, decisão sensível e resposta. Skill, Subagent, Script, Hook ou MCP/ferramenta aplicável DEVE ser carregado pela rota direta do índice, manter autoridade e privilégio do papel ativo e declarar capacidade ausente sem simulação. Instalação, conexão, contratação ou envio de dados a terceiro exige autorização expressa quando não decorrer inequivocamente da solicitação atual.
+
 ## 3. Lacuna e upstream
 
 Possível lacuna aplica `../scenarios/governance/official-gap.md` e `../scenarios/governance/upstream-sharing/scenario.md`. Issue criada no upstream é proposta somente: o Repositório Final NÃO DEVE tratá-la, movimentá-la, atribuí-la, implementá-la, rotulá-la ou encerrá-la. FT dependente sem rota aderente é suspensa; trabalho independente prossegue.

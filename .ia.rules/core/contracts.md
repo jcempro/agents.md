@@ -45,3 +45,21 @@ Failsafe significa concluir a finalidade por rotas seguras. Falha previsível DE
 Fonte distribuível DEVE constar de manifesto positivo manual com `path`, `profile`, `destination`, `purpose`, `roles`, `condition`, `ownership` e `validation`; perfis permitidos são `consumer-core`, `consumer-runtime`, `consumer-scenario`, `consumer-bootstrap` e `generated-release`. O manifesto é exaustivo para `src/`: entrada física não declarada, destino duplicado, perfil desconhecido ou classificação negativa bloqueia o build.
 
 `builder-internal` é classificação de não distribuição e NÃO DEVE ocorrer em `src/`, manifesto positivo, dist, pacote, ZIP, release, publish ou update. Aplicabilidade exclusiva ao papel Construtor não basta para essa classificação: norma, cenário, capacidade, workflow ou runtime reutilizável por outro Construtor permanece `consumer-scenario`. Toda projeção derivada DEVE preservar identidade, perfil, destino e integridade da entrada manual.
+
+## CT-10 — Skill e Subagent
+
+Skill aplica `../resources/skills.md` e o schema `./formats/skill-descriptor.v1.schema.json`; Subagent aplica `../resources/subagents.md` e `./formats/subagent-descriptor.v1.schema.json`. Ambas as unidades DEVEM declarar identidade, versão/schema, finalidade, gatilhos positivos/negativos, papéis, autoridade, entradas, saída, dependências, recursos, scripts, hooks, permissões, efeitos, limites, validação, origem, licença, confiança, destino/cliente, precedência, merge, atualização e remoção. Campo não aplicável permanece explícito conforme o schema; ausência não autoriza inferência.
+
+Metadado de descoberta é distinto do corpo executável. Validação DEVE provar ativação e não ativação corretas, path com caixa exata, uma camada de referências, ausência de ciclo, privilégio mínimo, recursos sob demanda e preservação da autoridade do primário. Skill/Subagent não concede escrita, rede, ferramenta, orçamento ou escopo além da solicitação e do papel ativos.
+
+## CT-11 — Cliente e instalação declarativa
+
+Adaptador só PODE declarar cliente/superfície comprovados por documentação oficial, loader/schema real e fixture correspondente. Campos homônimos entre clientes NÃO DEVEM ser tratados como equivalentes sem contrato. Configuração-modelo permanece neutra e NÃO DEVE tornar-se configuração ativa pela distribuição. Capacidade sem suporte comprovado é declarada ausente, nunca simulada.
+
+Instalação futura DEVE planejar e validar raiz, versão, fronteira, configuração existente, diff, merge preservador, temporário único, sincronização suportada, rename atômico, lock, backup/rollback, idempotência e descoberta real. Retry limita-se a método seguro suportado com backoff finito; esgotamento preserva bytes/estado e retorna diagnóstico acionável.
+
+## CT-12 — Inventário e aceite de unidade
+
+Antes de criar, agrupar ou converter Skill/Subagent, inventário reproduzível DEVE comparar script, cenário e Agent primário por chamadores, uso conjunto, custo, frequência, duração, determinismo, interpretação, estado, efeitos, dependências, hooks e paralelismo. Script mecânico permanece Script; Cenário amplo permanece Cenário; agrupamento exige contrato e estado comuns. Wrapper nominal, autoridade duplicada, uma unidade por script ou corpo especializado por produto são proibidos.
+
+Capacidade essencial DEVE operar e ser testada sem hook. Hook somente observa, otimiza ou bloqueia por norma fail-closed explícita. Aceite vincula regra, fonte, teste, artefato e comportamento e mede `MN-EVID`; ausência de implementação correspondente mantém o contrato normativo sem simular disponibilidade.

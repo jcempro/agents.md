@@ -1868,29 +1868,31 @@ resultado=Origem equalizada em oito FTs sem remover ou marcar o Equalizer/frente
 verificacoes=Commits bb80d2f e 77f476c; `agent:rcf` retornou RCF_OK com 220595 bytes, 305 entradas e 301 unidades materiais; `agent:rcf:trace -- validate` confirmou 305/301; testes diretos de entrypoint, grafo normativo e rcf-trace passaram 3/3; mapa contém 32 unidades PENDENTE-CODIGO vinculadas à FT-076 e aos artefatos futuros; entrypoint vigente mede 392 tokens no índice com tiktoken 0.13.0/o200k_base, abaixo do teto 400; RCF 77f476c^→77f476c elevou DEVE(M) 373→398, NÃO 366→401 e PODE(M) 82→94; `git diff --check` limpo. Gate global `npm test -- --runInBand` não iniciou suites por `GOVERNANCA_INSTALADA_INCOMPLETA:scripts/.agents/autoupdate.ts`, ausência pré-existente que não autoriza correção funcional nesta fase.
 pendencias=FT-077 aguarda autorização humana nova e deve limitar-se à Norma Operacional em src, ainda sem código funcional. FT-078 a FT-082 dependem da FT-077 concluída e de autorização posterior; FT-083 integra e valida. A degradação global da instalação deve ser reavaliada na fase autorizada aplicável. Release continua sem versão nem autorização.
 
-FT-077|nome=Norma Operacional de Skills Subagents e rotas sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T04:10:52-03:00|atualizacao=2026-09-12T04:10:52-03:00
+FT-077|nome=Norma Operacional de Skills Subagents e rotas sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-12T04:10:52-03:00|atualizacao=2026-09-12T04:40:08-03:00
 objetivo=Projetar o RCF equalizado na fonte distribuível, reduzir src/AGENTS.md a no máximo 400 tokens e criar contratos/rotas de Skills, Subagents, memória, TODO, processos longos, visual e terceiros sem implementar runtime funcional.
 origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md integral.
 normativa=FT-076.
-1/4 Projeção da Norma [pendente]
-  1/4 Atualizar entrypoint, microconceitos, papéis, cenários e recursos [pendente]
-  2/4 Criar contratos enxutos de Skill e Subagent com divulgação de uma camada [pendente]
-  3/4 Criar cenários/recursos para TODO, estado, execução longa e precisão visual [pendente]
-  4/4 Regenerar índice ativo e artefatos normativos pelo fluxo oficial [pendente]
-2/4 Compatibilidade [pendente]
-  1/3 Preservar fallback integral, precedência, rotas e clientes atuais [pendente]
-  2/3 Declarar capacidades ausentes sem simulação [pendente]
-  3/3 Impedir especialização de produto no núcleo generalista [pendente]
-3/4 Validação [pendente]
-  1/3 Medir tokens, rotas, precisão, cobertura e equivalência antes/depois [pendente]
-  2/3 Validar schemas oficiais, referências, ciclos e força normativa [pendente]
-  3/3 Commitar fonte normativa e sincronização causal isoladamente [pendente]
-4/4 Gate [pendente]
-  1/2 Informar implementações liberadas e impedimentos [pendente]
-  2/2 Interromper antes de runtime, migração, automação e distribuição [pendente]
+1/4 Projeção da Norma [concluido]
+  1/4 Atualizar entrypoint, microconceitos, papéis, cenários e recursos [concluido]
+  2/4 Criar contratos enxutos de Skill e Subagent com divulgação de uma camada [concluido]
+  3/4 Criar cenários/recursos para TODO, estado, execução longa e precisão visual [concluido]
+  4/4 Regenerar índice ativo e artefatos normativos pelo fluxo oficial [concluido]
+2/4 Compatibilidade [concluido]
+  1/3 Preservar fallback integral, precedência, rotas e clientes atuais [concluido]
+  2/3 Declarar capacidades ausentes sem simulação [concluido]
+  3/3 Impedir especialização de produto no núcleo generalista [concluido]
+3/4 Validação [concluido]
+  1/3 Medir tokens, rotas, precisão, cobertura e equivalência antes/depois [concluido]
+  2/3 Validar schemas oficiais, referências, ciclos e força normativa [concluido]
+  3/3 Commitar fonte normativa e sincronização causal isoladamente [concluido]
+4/4 Gate [concluido]
+  1/2 Informar implementações liberadas e impedimentos [concluido]
+  2/2 Interromper antes de runtime, migração, automação e distribuição [concluido]
 aceite=Fonte operacional distribui somente contratos e rotas comprovados, src/AGENTS.md possui no máximo 400 tokens, leitura é seletiva de uma camada e nenhuma capacidade funcional é antecipada.
 dependencias=FT-076 concluída; nova autorização humana após a fase RCF.
-pendencias=Aguardando FT-076 e autorização humana.
+resultado=Norma projetada na fonte, no núcleo ativo e no artefato local com microconceitos MN-UNIT/MN-DISC/MN-EVID/MN-TRUST, contratos CT-10 a CT-12, schemas fechados de Skill/Subagent e seis módulos diretos para Skills, Subagents, execução longa, terceiros/MCP, estado/TODO e precisão visual. Manifesto positivo contém 128 arquivos/projeções; grafo contém 42 nós e 41 rotas, seis novas com profundidade 1. Entrypoint passou de 392 para 393 tokens e permanece abaixo de 400; nenhum guard de nó anterior perdeu exceção, modalidade, proibição ou referência. TODO raiz permaneceu byte a byte inalterado. Nenhum runtime, parser, migração, instalador, adaptador de cliente ou release foi implementado/publicado.
+verificacoes=`agent:index` retornou INDEX_OK com 128 projeções; `agent:build` retornou DIST_OK com 132 arquivos; `agent:rcf` retornou RCF_OK com 220595 bytes e mapa 305/301; `agent:rcf:trace -- validate` confirmou 305/301; testes diretos agents-entrypoint, normative-graph, source-distribution e rcf-trace passaram 4/4; schemas JSON Draft 2020-12 foram parseados e tiveram contrato fechado/required íntegro verificado; paridade fonte→ativo dos oito novos arquivos e fonte→dist de 68 fontes não compiladas passou; seis rotas diretas/folha passaram; `git diff --check` limpo. Gate global `npm test -- --runInBand` permanece bloqueado antes das suites por `GOVERNANCA_INSTALADA_INCOMPLETA:scripts/.agents/autoupdate.ts`, ausência preexistente já registrada na FT-076 e fora desta fase normativa.
+pendencias=FT-078 a FT-082 estão liberadas apenas quanto à dependência normativa e exigem nova autorização humana para código; FT-083 permanece dependente da integração. O bridge legado ausente deve ser tratado na FT de código aplicável. Release continua sem versão nem autorização próprias.
 
 FT-078|nome=Inventário e implementação criteriosa de Skills e Subagents|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-12T04:10:53-03:00|atualizacao=2026-09-12T04:10:53-03:00
 objetivo=Inventariar scripts e cenários por grafo/custo/determinismo e materializar somente Skills ou Subagents com benefício mensurado, mantendo scripts mecânicos e cenários amplos.

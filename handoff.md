@@ -13,54 +13,54 @@ Objetivo: Projetar o RCF equalizado na fonte distribuível, reduzir src/AGENTS.m
 <tr>
 <td rowspan="4">Projeção da Norma</td>
 <td>Atualizar entrypoint, microconceitos, papéis, cenários e recursos</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Criar contratos enxutos de Skill e Subagent com divulgação de uma camada</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Criar cenários/recursos para TODO, estado, execução longa e precisão visual</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Regenerar índice ativo e artefatos normativos pelo fluxo oficial</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Compatibilidade</td>
 <td>Preservar fallback integral, precedência, rotas e clientes atuais</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Declarar capacidades ausentes sem simulação</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Impedir especialização de produto no núcleo generalista</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Validação</td>
 <td>Medir tokens, rotas, precisão, cobertura e equivalência antes/depois</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Validar schemas oficiais, referências, ciclos e força normativa</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Commitar fonte normativa e sincronização causal isoladamente</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="2">Gate</td>
 <td>Informar implementações liberadas e impedimentos</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Interromper antes de runtime, migração, automação e distribuição</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 </tbody>
 </table>

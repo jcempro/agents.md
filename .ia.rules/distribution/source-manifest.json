@@ -255,6 +255,24 @@
       ]
     },
     {
+      "path": ".ia.rules/core/formats/skill-descriptor.v1.schema.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/formats/skill-descriptor.v1.schema.json",
+      "purpose": "schema público do descritor extraído de Skill",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "skill-contract-or-validation",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "json-schema-draft-2020-12"
+      ]
+    },
+    {
       "path": ".ia.rules/core/formats/source-distribution-manifest.v1.schema.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/core/formats/source-distribution-manifest.v1.schema.json",
@@ -269,6 +287,24 @@
         "source-exists",
         "destination-unique",
         "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/core/formats/subagent-descriptor.v1.schema.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/core/formats/subagent-descriptor.v1.schema.json",
+      "purpose": "schema público do descritor de Subagent",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "subagent-contract-or-validation",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "json-schema-draft-2020-12"
       ]
     },
     {
@@ -1132,6 +1168,40 @@
       ]
     },
     {
+      "path": ".ia.rules/resources/external-tools.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/external-tools.md",
+      "purpose": "contrato condicional de terceiros MCP e ferramentas",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "third-party-or-external-tool",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/resources/long-running.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/long-running.md",
+      "purpose": "contrato condicional de execução longa e retomada",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "long-running-operation",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
       "path": ".ia.rules/resources/scripts.md",
       "profile": "consumer-scenario",
       "destination": ".ia.rules/resources/scripts.md",
@@ -1141,6 +1211,40 @@
         "constructor"
       ],
       "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/resources/skills.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/skills.md",
+      "purpose": "contrato condicional de Skills",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "skill-lifecycle",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/resources/subagents.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/subagents.md",
+      "purpose": "contrato condicional de Subagents",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "subagent-lifecycle",
       "ownership": "managed",
       "validation": [
         "source-exists",
@@ -1370,6 +1474,23 @@
         "constructor"
       ],
       "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/governance/state-and-todo.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/governance/state-and-todo.md",
+      "purpose": "cenário condicional de estado memória correção migração e TODO",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "state-memory-fix-migration-or-todo",
       "ownership": "managed",
       "validation": [
         "source-exists",
@@ -1610,6 +1731,23 @@
         "constructor"
       ],
       "condition": "applicable-role-or-scenario",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build"
+      ]
+    },
+    {
+      "path": ".ia.rules/scenarios/visual/precision.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/scenarios/visual/precision.md",
+      "purpose": "cenário condicional de precisão visual para imagem PDF e Web",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "visual-image-pdf-or-web-validation",
       "ownership": "managed",
       "validation": [
         "source-exists",

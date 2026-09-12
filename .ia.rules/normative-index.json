@@ -25,9 +25,9 @@
         "governed-operation",
         "route"
       ],
-      "bytes": 1760,
-      "sha256": "4d6170fafae88fced8a5e6a062d0d79be9ef941ba3cb71feb1cf521f84c9f047",
-      "tokens": 392,
+      "bytes": 1768,
+      "sha256": "51688f7f6b086770f8d7b78ea45ab24869ff4c20333bbe9f2f1b872553d50e11",
+      "tokens": 393,
       "guard": {
         "exceptions": 1,
         "modalities": 0,
@@ -57,14 +57,14 @@
         "context"
       ],
       "outputs": [],
-      "bytes": 33613,
-      "sha256": "cc13769817bbeecebcd043ad34317a98a685896e01bc5f63221477b264fb73c6",
-      "tokens": 7420,
+      "bytes": 36456,
+      "sha256": "beab28c8fbad8bbffd2a8dc1c35f7af85ff7386ef9b4ab27f990cfde2a9ebaf0",
+      "tokens": 8035,
       "guard": {
-        "exceptions": 7,
-        "modalities": 136,
-        "prohibitions": 25,
-        "references": 267
+        "exceptions": 9,
+        "modalities": 138,
+        "prohibitions": 26,
+        "references": 278
       }
     },
     {
@@ -108,14 +108,14 @@
         "concept-id"
       ],
       "outputs": [],
-      "bytes": 12692,
-      "sha256": "db749e1a59315ada723ee7bbbaa23b055405579cc8b5a07a4b88a32422544456",
-      "tokens": 3020,
+      "bytes": 14507,
+      "sha256": "e0c274c053eb6ad8d792258fd011ec2f0d35cf85ab3276eefa9943bb55748ef0",
+      "tokens": 3393,
       "guard": {
         "exceptions": 6,
-        "modalities": 44,
-        "prohibitions": 8,
-        "references": 70
+        "modalities": 51,
+        "prohibitions": 11,
+        "references": 74
       }
     },
     {
@@ -137,14 +137,14 @@
         "composition"
       ],
       "outputs": [],
-      "bytes": 6639,
-      "sha256": "2f7d2cf1f64f6fa96d72977c4a619769b7303cd57d8af54aab3f6888fbed7467",
-      "tokens": 1500,
+      "bytes": 9358,
+      "sha256": "994fbcd9e211e1c9fcb4df21a4f3728131ac5d840823fbc3dda6934ec2739831",
+      "tokens": 2069,
       "guard": {
         "exceptions": 0,
-        "modalities": 24,
-        "prohibitions": 7,
-        "references": 103
+        "modalities": 32,
+        "prohibitions": 10,
+        "references": 108
       }
     },
     {
@@ -168,14 +168,14 @@
         "active-roles"
       ],
       "outputs": [],
-      "bytes": 6907,
-      "sha256": "8649f808a21626e0738ec6df116b361ef7d069f9613e08a039b33a11f7fa049f",
-      "tokens": 1502,
+      "bytes": 8388,
+      "sha256": "2029489e516fe848987416cbdf2dbe4725dfd70c3983e1e5f4ce36982c21280d",
+      "tokens": 1833,
       "guard": {
-        "exceptions": 1,
-        "modalities": 4,
-        "prohibitions": 3,
-        "references": 24
+        "exceptions": 2,
+        "modalities": 7,
+        "prohibitions": 4,
+        "references": 30
       }
     },
     {
@@ -223,12 +223,12 @@
         "managed-governance"
       ],
       "outputs": [],
-      "bytes": 2639,
-      "sha256": "414e9770835a0b5fdd1cb957046c995e0e5fa7f743f50e49a5d83efc27bdb127",
-      "tokens": 577,
+      "bytes": 3064,
+      "sha256": "17778910a4db8581ba150e51d62b5f48ba56393ef1e6373e2d26dfd227d2b7b2",
+      "tokens": 663,
       "guard": {
         "exceptions": 0,
-        "modalities": 4,
+        "modalities": 5,
         "prohibitions": 2,
         "references": 10
       }
@@ -257,12 +257,12 @@
       "outputs": [
         "constructor-operation-route"
       ],
-      "bytes": 3238,
-      "sha256": "ff3b9577c3b5f084cc3b4d494e82e849223e1b0e909760b089163f4bf8dae9eb",
-      "tokens": 702,
+      "bytes": 3767,
+      "sha256": "12cf177fbc8d18782b3b359a4256e00ff8597a45b13519e8e3578cf8bcf2101c",
+      "tokens": 801,
       "guard": {
         "exceptions": 2,
-        "modalities": 2,
+        "modalities": 4,
         "prohibitions": 1,
         "references": 14
       }
@@ -324,15 +324,152 @@
         "resource-contract"
       ],
       "outputs": [],
-      "bytes": 6199,
-      "sha256": "4fbd9dcc79ab5ee116522de88895b411d5269c3eadc457639c6a6a2c990a52a7",
-      "tokens": 1400,
+      "bytes": 6535,
+      "sha256": "0258ef0bfccf1ebad65bc29cbd24fd1171d6a8a7f579cc71ae5a1c9167ad93c8",
+      "tokens": 1467,
       "guard": {
         "exceptions": 0,
-        "modalities": 2,
+        "modalities": 5,
         "prohibitions": 1,
         "references": 33
       }
+    },
+    {
+      "id": "resource.skills",
+      "path": ".ia.rules/resources/skills.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "skill",
+        "SKILL.md",
+        "skill-discovery",
+        "skill-validation",
+        "skill-installation"
+      ],
+      "inputs": [
+        "request-context",
+        "skill-candidate"
+      ],
+      "outputs": [
+        "skill-route",
+        "skill-contract"
+      ],
+      "bytes": 2485,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 5,
+        "prohibitions": 1,
+        "references": 15
+      },
+      "sha256": "74bf13cd3425ce15ba268eeeff70cd598b4630cfd3442b28603a1fe63b973172",
+      "tokens": 561
+    },
+    {
+      "id": "resource.subagents",
+      "path": ".ia.rules/resources/subagents.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "subagent",
+        "delegation",
+        "parallel-agent",
+        "isolated-objective"
+      ],
+      "inputs": [
+        "request-context",
+        "delegation-candidate"
+      ],
+      "outputs": [
+        "subagent-route",
+        "subagent-contract"
+      ],
+      "bytes": 2294,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 3,
+        "prohibitions": 1,
+        "references": 9
+      },
+      "sha256": "08622e36414fa2618d4faf1ba6af6f7b9a5b6565f398ff7648925258b763b528",
+      "tokens": 516
+    },
+    {
+      "id": "resource.long-running",
+      "path": ".ia.rules/resources/long-running.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "long-running",
+        "timeout",
+        "wait",
+        "polling",
+        "cancellation",
+        "resume",
+        "orphan-process"
+      ],
+      "inputs": [
+        "command-context",
+        "execution-history"
+      ],
+      "outputs": [
+        "wait-policy",
+        "execution-evidence"
+      ],
+      "bytes": 2356,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 4,
+        "prohibitions": 3,
+        "references": 6
+      },
+      "sha256": "b2b40ad7f2a4418ed01519d02b84440e5a12daf5e4595fca2fd2fa3473393d95",
+      "tokens": 511
+    },
+    {
+      "id": "resource.external-tools",
+      "path": ".ia.rules/resources/external-tools.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "third-party",
+        "MCP",
+        "plugin",
+        "external-tool",
+        "external-service"
+      ],
+      "inputs": [
+        "external-capability-candidate",
+        "authorization"
+      ],
+      "outputs": [
+        "admission-decision",
+        "security-requirements"
+      ],
+      "bytes": 1863,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 4,
+        "prohibitions": 1,
+        "references": 6
+      },
+      "sha256": "96c302a631c7ef1937bfdf6c0b7c39855864c068e7c3313bec1a64e327dcb910",
+      "tokens": 425
     },
     {
       "id": "resource.workflows",
@@ -424,6 +561,41 @@
         "prohibitions": 0,
         "references": 11
       }
+    },
+    {
+      "id": "scenario.state-and-todo",
+      "path": ".ia.rules/scenarios/governance/state-and-todo.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "state",
+        "memory",
+        "fix",
+        "TODO",
+        "migration",
+        "resume"
+      ],
+      "inputs": [
+        "canonical-state",
+        "request-context"
+      ],
+      "outputs": [
+        "state-route",
+        "todo-transition"
+      ],
+      "bytes": 3872,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 5,
+        "prohibitions": 0,
+        "references": 21
+      },
+      "sha256": "9a483ddb5f8c5a4dacb3fde2946e4a60c50b1f8bc98eecff4f5152cfac6b21cd",
+      "tokens": 878
     },
     {
       "id": "scenario.refused-decisions",
@@ -777,6 +949,41 @@
         "prohibitions": 7,
         "references": 7
       }
+    },
+    {
+      "id": "scenario.visual-precision",
+      "path": ".ia.rules/scenarios/visual/precision.md",
+      "class": "scenario",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "visual",
+        "image",
+        "PDF",
+        "screenshot",
+        "render",
+        "responsive-UI"
+      ],
+      "inputs": [
+        "visual-source",
+        "request-context"
+      ],
+      "outputs": [
+        "visual-ledger",
+        "post-change-evidence"
+      ],
+      "bytes": 2027,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 6,
+        "prohibitions": 2,
+        "references": 15
+      },
+      "sha256": "4fa316d5b3becf41ce4cd60c08fdb6f31d7e23bf74852856a6ece472e9a1dbdd",
+      "tokens": 453
     },
     {
       "id": "meta.cli",
@@ -1297,7 +1504,49 @@
       "to": "core.agents-full",
       "mode": "passive",
       "condition": "route change, context loss, normative conflict, rule not found, invalid index/cache, preservation audit or low confidence",
+      "order": 33
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.skills",
+      "mode": "passive",
+      "condition": "skill evaluation, discovery, lifecycle or validation",
       "order": 27
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.subagents",
+      "mode": "passive",
+      "condition": "subagent evaluation, delegation, lifecycle or validation",
+      "order": 28
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.long-running",
+      "mode": "passive",
+      "condition": "long-running operation, timeout, wait, cancellation, resume or orphan",
+      "order": 29
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.external-tools",
+      "mode": "passive",
+      "condition": "third-party, MCP, plugin, external tool or external service",
+      "order": 30
+    },
+    {
+      "from": "core.agents",
+      "to": "scenario.state-and-todo",
+      "mode": "passive",
+      "condition": "state, memory, fix, TODO, migration or resume",
+      "order": 31
+    },
+    {
+      "from": "core.agents",
+      "to": "scenario.visual-precision",
+      "mode": "passive",
+      "condition": "visual image, PDF, screenshot, render or responsive UI work",
+      "order": 32
     }
   ],
   "fallback": {
@@ -1312,32 +1561,32 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "53c494b",
-    "commitDate": "2026-08-11T01:12:46-03:00",
+    "commit": "f8bc3c1",
+    "commitDate": "2026-09-12T04:24:30-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "ba36eb29036ccc2ed7dd2774e8daa5be96f572adc12536e58edb90e9b40537f4",
+    "sourceDigest": "935821dec5a6dc93ed26c98b7948d6e47f03828f5f5d1bf5901834f96ebce1a1",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
   "metrics": {
     "leaf": {
-      "count": 29,
-      "min": 491,
-      "average": 1674.41,
-      "median": 1357,
-      "populationStandardDeviation": 1431.66,
-      "max": 7812
+      "count": 35,
+      "min": 492,
+      "average": 1612.26,
+      "median": 1063,
+      "populationStandardDeviation": 1442.0,
+      "max": 8428
     },
     "hybrid": {
       "count": 6,
-      "min": 392,
-      "average": 1249.0,
-      "median": 1435.0,
-      "populationStandardDeviation": 505.87,
-      "max": 1792
+      "min": 393,
+      "average": 1261.17,
+      "median": 1436.0,
+      "populationStandardDeviation": 518.32,
+      "max": 1860
     }
   },
   "paths": [
@@ -1350,12 +1599,12 @@
         {
           "id": "core.agents",
           "mode": "terminal",
-          "tokens": 392
+          "tokens": 393
         }
       ],
       "terminal": "core.agents",
       "terminalType": "hybrid",
-      "tokens": 392
+      "tokens": 393
     },
     {
       "id": "path-002",
@@ -1369,7 +1618,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "core.authority",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "core.authority",
@@ -1379,7 +1628,7 @@
       ],
       "terminal": "core.authority",
       "terminalType": "leaf",
-      "tokens": 1522
+      "tokens": 1523
     },
     {
       "id": "path-003",
@@ -1393,17 +1642,17 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "core.routing",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "core.routing",
           "mode": "terminal",
-          "tokens": 1502
+          "tokens": 1833
         }
       ],
       "terminal": "core.routing",
       "terminalType": "leaf",
-      "tokens": 1894
+      "tokens": 2226
     },
     {
       "id": "path-004",
@@ -1417,17 +1666,17 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "core.microconcepts",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "core.microconcepts",
           "mode": "terminal",
-          "tokens": 3020
+          "tokens": 3393
         }
       ],
       "terminal": "core.microconcepts",
       "terminalType": "leaf",
-      "tokens": 3412
+      "tokens": 3786
     },
     {
       "id": "path-005",
@@ -1441,17 +1690,17 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "core.contracts",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "core.contracts",
           "mode": "terminal",
-          "tokens": 1500
+          "tokens": 2069
         }
       ],
       "terminal": "core.contracts",
       "terminalType": "leaf",
-      "tokens": 1892
+      "tokens": 2462
     },
     {
       "id": "path-006",
@@ -1465,17 +1714,17 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "role.final",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "role.final",
           "mode": "terminal",
-          "tokens": 577
+          "tokens": 663
         }
       ],
       "terminal": "role.final",
       "terminalType": "leaf",
-      "tokens": 969
+      "tokens": 1056
     },
     {
       "id": "path-007",
@@ -1490,14 +1739,14 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "role.constructor",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "source, classification, build, dist, package, archive, update, distribution, release or publish",
           "from": "role.constructor",
           "mode": "passive",
           "to": "scenario.constructor-operation",
-          "tokens": 702
+          "tokens": 801
         },
         {
           "id": "scenario.constructor-operation",
@@ -1507,7 +1756,7 @@
       ],
       "terminal": "scenario.constructor-operation",
       "terminalType": "leaf",
-      "tokens": 1996
+      "tokens": 2096
     },
     {
       "id": "path-008",
@@ -1521,7 +1770,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.request-lifecycle",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.request-lifecycle",
@@ -1531,7 +1780,7 @@
       ],
       "terminal": "scenario.request-lifecycle",
       "terminalType": "hybrid",
-      "tokens": 1280
+      "tokens": 1281
     },
     {
       "id": "path-009",
@@ -1546,7 +1795,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.request-lifecycle",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "every new request after source capture and before substantive analysis",
@@ -1563,7 +1812,7 @@
       ],
       "terminal": "scenario.refused-decisions",
       "terminalType": "leaf",
-      "tokens": 2481
+      "tokens": 2482
     },
     {
       "id": "path-010",
@@ -1577,7 +1826,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.official-gap",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.official-gap",
@@ -1587,7 +1836,7 @@
       ],
       "terminal": "scenario.official-gap",
       "terminalType": "leaf",
-      "tokens": 947
+      "tokens": 948
     },
     {
       "id": "path-011",
@@ -1601,7 +1850,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.upstream-sharing",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.upstream-sharing",
@@ -1611,7 +1860,7 @@
       ],
       "terminal": "scenario.upstream-sharing",
       "terminalType": "hybrid",
-      "tokens": 1590
+      "tokens": 1591
     },
     {
       "id": "path-012",
@@ -1626,7 +1875,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.upstream-sharing",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "constructor receives human-approved issue",
@@ -1643,7 +1892,7 @@
       ],
       "terminal": "scenario.issue-lifecycle",
       "terminalType": "leaf",
-      "tokens": 2031
+      "tokens": 2032
     },
     {
       "id": "path-013",
@@ -1657,7 +1906,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "core.update",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "core.update",
@@ -1667,7 +1916,7 @@
       ],
       "terminal": "core.update",
       "terminalType": "leaf",
-      "tokens": 2564
+      "tokens": 2565
     },
     {
       "id": "path-014",
@@ -1681,17 +1930,17 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "resource.scripts",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "resource.scripts",
           "mode": "terminal",
-          "tokens": 1400
+          "tokens": 1467
         }
       ],
       "terminal": "resource.scripts",
       "terminalType": "hybrid",
-      "tokens": 1792
+      "tokens": 1860
     },
     {
       "id": "path-015",
@@ -1706,14 +1955,14 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "resource.scripts",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "reusable CLI",
           "from": "resource.scripts",
           "mode": "passive",
           "to": "meta.cli",
-          "tokens": 1400
+          "tokens": 1467
         },
         {
           "id": "meta.cli",
@@ -1723,7 +1972,7 @@
       ],
       "terminal": "meta.cli",
       "terminalType": "leaf",
-      "tokens": 1931
+      "tokens": 1999
     },
     {
       "id": "path-016",
@@ -1737,7 +1986,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "resource.workflows",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "resource.workflows",
@@ -1747,7 +1996,7 @@
       ],
       "terminal": "resource.workflows",
       "terminalType": "leaf",
-      "tokens": 1265
+      "tokens": 1266
     },
     {
       "id": "path-017",
@@ -1761,7 +2010,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "resource.traceability",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "resource.traceability",
@@ -1771,7 +2020,7 @@
       ],
       "terminal": "resource.traceability",
       "terminalType": "leaf",
-      "tokens": 1357
+      "tokens": 1358
     },
     {
       "id": "path-018",
@@ -1785,7 +2034,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.release",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.release",
@@ -1795,7 +2044,7 @@
       ],
       "terminal": "scenario.release",
       "terminalType": "hybrid",
-      "tokens": 1660
+      "tokens": 1661
     },
     {
       "id": "path-019",
@@ -1810,7 +2059,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.release",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "RCF opts into package registry",
@@ -1827,7 +2076,7 @@
       ],
       "terminal": "capability.package-registry",
       "terminalType": "leaf",
-      "tokens": 2117
+      "tokens": 2118
     },
     {
       "id": "path-020",
@@ -1841,7 +2090,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.application-update",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.application-update",
@@ -1851,7 +2100,7 @@
       ],
       "terminal": "scenario.application-update",
       "terminalType": "leaf",
-      "tokens": 790
+      "tokens": 791
     },
     {
       "id": "path-021",
@@ -1865,7 +2114,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.content-publication",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.content-publication",
@@ -1875,7 +2124,7 @@
       ],
       "terminal": "scenario.content-publication",
       "terminalType": "leaf",
-      "tokens": 814
+      "tokens": 815
     },
     {
       "id": "path-022",
@@ -1889,7 +2138,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.web-page-like",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "scenario.web-page-like",
@@ -1899,7 +2148,7 @@
       ],
       "terminal": "scenario.web-page-like",
       "terminalType": "hybrid",
-      "tokens": 780
+      "tokens": 781
     },
     {
       "id": "path-023",
@@ -1914,7 +2163,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.web-page-like",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "browser capability",
@@ -1931,7 +2180,7 @@
       ],
       "terminal": "capability.web-browser",
       "terminalType": "leaf",
-      "tokens": 2181
+      "tokens": 2182
     },
     {
       "id": "path-024",
@@ -1946,7 +2195,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.web-page-like",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "static hosting capability",
@@ -1963,7 +2212,7 @@
       ],
       "terminal": "capability.web-static",
       "terminalType": "leaf",
-      "tokens": 1062
+      "tokens": 1063
     },
     {
       "id": "path-025",
@@ -1978,7 +2227,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "scenario.web-page-like",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "condition": "editorial capability",
@@ -1995,7 +2244,7 @@
       ],
       "terminal": "capability.web-editorial",
       "terminalType": "leaf",
-      "tokens": 1847
+      "tokens": 1848
     },
     {
       "id": "path-026",
@@ -2009,7 +2258,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.build",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.build",
@@ -2019,7 +2268,7 @@
       ],
       "terminal": "meta.build",
       "terminalType": "leaf",
-      "tokens": 629
+      "tokens": 630
     },
     {
       "id": "path-027",
@@ -2033,7 +2282,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.ia",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.ia",
@@ -2043,7 +2292,7 @@
       ],
       "terminal": "meta.ia",
       "terminalType": "leaf",
-      "tokens": 499
+      "tokens": 500
     },
     {
       "id": "path-028",
@@ -2057,7 +2306,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.maintenance",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.maintenance",
@@ -2067,7 +2316,7 @@
       ],
       "terminal": "meta.maintenance",
       "terminalType": "leaf",
-      "tokens": 492
+      "tokens": 493
     },
     {
       "id": "path-029",
@@ -2081,7 +2330,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.publish",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.publish",
@@ -2091,7 +2340,7 @@
       ],
       "terminal": "meta.publish",
       "terminalType": "leaf",
-      "tokens": 527
+      "tokens": 528
     },
     {
       "id": "path-030",
@@ -2105,7 +2354,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.release",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.release",
@@ -2115,7 +2364,7 @@
       ],
       "terminal": "meta.release",
       "terminalType": "leaf",
-      "tokens": 553
+      "tokens": 554
     },
     {
       "id": "path-031",
@@ -2129,7 +2378,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.update",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.update",
@@ -2139,7 +2388,7 @@
       ],
       "terminal": "meta.update",
       "terminalType": "leaf",
-      "tokens": 593
+      "tokens": 594
     },
     {
       "id": "path-032",
@@ -2153,7 +2402,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.upstream",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.upstream",
@@ -2163,7 +2412,7 @@
       ],
       "terminal": "meta.upstream",
       "terminalType": "leaf",
-      "tokens": 521
+      "tokens": 522
     },
     {
       "id": "path-033",
@@ -2177,7 +2426,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "meta.validation",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "meta.validation",
@@ -2187,7 +2436,7 @@
       ],
       "terminal": "meta.validation",
       "terminalType": "leaf",
-      "tokens": 491
+      "tokens": 492
     },
     {
       "id": "path-034",
@@ -2201,7 +2450,7 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "bootstrap.init-repo",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "bootstrap.init-repo",
@@ -2211,10 +2460,154 @@
       ],
       "terminal": "bootstrap.init-repo",
       "terminalType": "leaf",
-      "tokens": 3369
+      "tokens": 3370
     },
     {
       "id": "path-035",
+      "nodes": [
+        "core.agents",
+        "resource.skills"
+      ],
+      "segments": [
+        {
+          "condition": "skill evaluation, discovery, lifecycle or validation",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.skills",
+          "tokens": 393
+        },
+        {
+          "id": "resource.skills",
+          "mode": "terminal",
+          "tokens": 561
+        }
+      ],
+      "terminal": "resource.skills",
+      "terminalType": "leaf",
+      "tokens": 954
+    },
+    {
+      "id": "path-036",
+      "nodes": [
+        "core.agents",
+        "resource.subagents"
+      ],
+      "segments": [
+        {
+          "condition": "subagent evaluation, delegation, lifecycle or validation",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.subagents",
+          "tokens": 393
+        },
+        {
+          "id": "resource.subagents",
+          "mode": "terminal",
+          "tokens": 516
+        }
+      ],
+      "terminal": "resource.subagents",
+      "terminalType": "leaf",
+      "tokens": 909
+    },
+    {
+      "id": "path-037",
+      "nodes": [
+        "core.agents",
+        "resource.long-running"
+      ],
+      "segments": [
+        {
+          "condition": "long-running operation, timeout, wait, cancellation, resume or orphan",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.long-running",
+          "tokens": 393
+        },
+        {
+          "id": "resource.long-running",
+          "mode": "terminal",
+          "tokens": 511
+        }
+      ],
+      "terminal": "resource.long-running",
+      "terminalType": "leaf",
+      "tokens": 904
+    },
+    {
+      "id": "path-038",
+      "nodes": [
+        "core.agents",
+        "resource.external-tools"
+      ],
+      "segments": [
+        {
+          "condition": "third-party, MCP, plugin, external tool or external service",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.external-tools",
+          "tokens": 393
+        },
+        {
+          "id": "resource.external-tools",
+          "mode": "terminal",
+          "tokens": 425
+        }
+      ],
+      "terminal": "resource.external-tools",
+      "terminalType": "leaf",
+      "tokens": 818
+    },
+    {
+      "id": "path-039",
+      "nodes": [
+        "core.agents",
+        "scenario.state-and-todo"
+      ],
+      "segments": [
+        {
+          "condition": "state, memory, fix, TODO, migration or resume",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "scenario.state-and-todo",
+          "tokens": 393
+        },
+        {
+          "id": "scenario.state-and-todo",
+          "mode": "terminal",
+          "tokens": 878
+        }
+      ],
+      "terminal": "scenario.state-and-todo",
+      "terminalType": "leaf",
+      "tokens": 1271
+    },
+    {
+      "id": "path-040",
+      "nodes": [
+        "core.agents",
+        "scenario.visual-precision"
+      ],
+      "segments": [
+        {
+          "condition": "visual image, PDF, screenshot, render or responsive UI work",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "scenario.visual-precision",
+          "tokens": 393
+        },
+        {
+          "id": "scenario.visual-precision",
+          "mode": "terminal",
+          "tokens": 453
+        }
+      ],
+      "terminal": "scenario.visual-precision",
+      "terminalType": "leaf",
+      "tokens": 846
+    },
+    {
+      "id": "path-041",
       "nodes": [
         "core.agents",
         "core.agents-full"
@@ -2225,17 +2618,17 @@
           "from": "core.agents",
           "mode": "passive",
           "to": "core.agents-full",
-          "tokens": 392
+          "tokens": 393
         },
         {
           "id": "core.agents-full",
           "mode": "terminal",
-          "tokens": 7420
+          "tokens": 8035
         }
       ],
       "terminal": "core.agents-full",
       "terminalType": "leaf",
-      "tokens": 7812
+      "tokens": 8428
     }
   ]
 }

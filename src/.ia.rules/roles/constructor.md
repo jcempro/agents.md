@@ -25,6 +25,8 @@ Regra exclusiva de geração, compilação, validação, empacotamento, versão,
 
 Release DEVE ser reproduzível, declarar matriz de runtimes/toolchain, manter equivalência fonte→artefato, distinguir conteúdo interno/distribuível, publicar somente seleção positiva perfilada e bloquear divergência, parcial ou derivado obsoleto. Classificação, movimentos e pipeline aplicam integralmente `../scenarios/governance/constructor-operation.md`. Nenhum contrato normativo autoriza implementar recurso antes da FT e autorização correspondentes.
 
+Skill/Subagent distribuível exige inventário comparativo, contrato/schema, rota direta, seleção positiva em manifesto e evidência de ganho líquido; produto específico permanece em extensão/adaptador local. Cliente não comprovado, capacidade não implementada ou recurso opcional ausente DEVE permanecer explicitamente indisponível. A fase normativa PODE criar somente contratos, schemas e rotas; runtime, migração, instalador, automação, adaptador e distribuição publicada exigem FT e autorização posteriores.
+
 ## 4. Aceite
 
 Conformidade exige autoridade segregada, fases respeitadas, índice coerente, módulos sem duplicação, recursos com contrato completo, artefatos derivados rastreáveis, consumidor preservado e validação equivalente local/CI.

@@ -5,7 +5,7 @@ Este arquivo governa a atuação da IA. O RCF governa requisito, contrato, arqui
 Antes de operação material, quando a rota não estiver na memória válida ou houver alteração física:
 
 1. consulte `./.ia.rules/normative-index.json`;
-2. carregue `./.ia.rules/core/authority.md`, os papéis cumulativos aplicáveis em `./.ia.rules/roles/` e somente as rotas, cenários, contratos e recursos disparados;
+2. carregue `./.ia.rules/core/authority.md`, os papéis cumulativos aplicáveis em `./.ia.rules/roles/` e somente a rota direta, os cenários, contratos e recursos disparados;
 3. consulte prioritariamente `./.ia.rules/state/decisions/refused/index.json`;
 4. execute do estado canônico `./.ia.rules/continue.ia`, com FT, plano, RCF e autorização compatíveis.
 

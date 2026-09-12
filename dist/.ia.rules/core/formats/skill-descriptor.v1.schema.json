@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agents-skill-descriptor/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "name", "description", "version", "purpose", "positiveTriggers", "negativeTriggers", "roles", "authority", "inputs", "output", "requires", "resources", "scripts", "hooks", "permissions", "effects", "limits", "validation", "origin", "license", "trust", "clients", "precedence", "merge", "update", "removal"],
+  "properties": {
+    "schema": { "const": "agents-skill-descriptor/v1" },
+    "name": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "description": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "positiveTriggers": { "$ref": "#/$defs/strings" },
+    "negativeTriggers": { "$ref": "#/$defs/strings" },
+    "roles": { "$ref": "#/$defs/strings" },
+    "authority": { "type": "string", "minLength": 1 },
+    "inputs": { "type": "object" },
+    "output": { "type": "object" },
+    "requires": { "$ref": "#/$defs/strings" },
+    "resources": { "$ref": "#/$defs/strings" },
+    "scripts": { "$ref": "#/$defs/strings" },
+    "hooks": { "$ref": "#/$defs/strings" },
+    "permissions": { "$ref": "#/$defs/strings" },
+    "effects": { "$ref": "#/$defs/strings" },
+    "limits": { "type": "object" },
+    "validation": { "$ref": "#/$defs/strings" },
+    "origin": { "type": "string", "minLength": 1 },
+    "license": { "type": "string", "minLength": 1 },
+    "trust": { "type": "string", "minLength": 1 },
+    "clients": { "$ref": "#/$defs/strings" },
+    "precedence": { "type": "string", "minLength": 1 },
+    "merge": { "type": "string", "minLength": 1 },
+    "update": { "type": "string", "minLength": 1 },
+    "removal": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "strings": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+  }
+}
