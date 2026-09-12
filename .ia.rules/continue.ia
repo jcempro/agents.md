@@ -1837,7 +1837,7 @@ resultado=Issue #11 confirmada como pertinente: scripts universais do produto er
 verificacoes=23 suites; verify/lint/RCF/grafo/rastreabilidade verdes; v0.1.2→v0.1.3 preserva 120/120 scripts, remove 0 arquivos do release/update e adiciona somente repository-boundary.ts/js; handoff 5→6; DEVE 361→373, PODE 76→82, NÃO/PROIBIDO sem redução. Workflow 31460756824 success; asset agents-v0.1.3.zip SHA-256 66c0fcdb603e7968fd13f27f61ba898856496c57a9d176b2ce737aec68fac9c9; asset remoto VERIFY_CONSUMER_OK installedFiles=120 normativeNodes=36; dev/main/origin convergidos em 0e8b43dbbed3b9a2b058d587d248acdcc18b0c63; tag v0.1.3=c32e97134ebf5977d2b2d0d286f71587adc05381.
 pendencias=nenhuma. Issue remota permaneceu sem mutação porque o prompt autorizou análise/correção/release, não comentário, rotulagem ou fechamento; tentativa anterior foi recusada antes de qualquer efeito.
 
-FT-076|nome=Equalização e RCF de Skills Subagents memória automação e precisão visual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-12T04:10:51-03:00|inicio=2026-09-12T04:10:51-03:00|atualizacao=2026-09-12T04:10:51-03:00
+FT-076|nome=Equalização e RCF de Skills Subagents memória automação e precisão visual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-09-12T04:10:51-03:00|inicio=2026-09-12T04:10:51-03:00|atualizacao=2026-09-12T04:22:46-03:00|conclusao=2026-09-12T04:22:46-03:00
 objetivo=Equalizar integralmente a nova TO-DO e normatizar no RCF a evolução distribuível de Skills, Subagents, roteamento, memória, automação, clientes, processos longos, precisão visual, terceiros, segurança e validação sem perda da Norma vigente.
 origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md@30b07f9 item `Evoluir a governança distribuível de agents.md com Skills, Subagents, memória, automação e precisão visual`.
 origem_sha256=81B9EEAF4B14C197338E1A98C4F4B28B248855802E463A22CB2BA906264F9E74
@@ -1845,26 +1845,28 @@ triagem_recusas=DEC-20260725-001 e DEC-20260725-002 permanecem vigentes; a solic
 autorizacao=O prompt ordena implementar a TO-DO começando por equalizar; a governança perene e o papel Construtor autorizam somente equalização e fase RCF nesta execução, impondo nova autorização antes da Norma Operacional em src, código, migração, automação ou distribuição.
 equalizer=Item perene preservado literalmente e desmarcado; rege FT-076 a FT-083 como frentes convergentes. A frente raiz também permanece porque não foi implementada nem aprovada.
 notacao=Estado canônico conserva temporariamente o adaptador textual legado exigido pelo gerador de handoff; a migração para emoji pertence à FT-080.
-1/4 Inventário e equalização [em_andamento]
+1/4 Inventário e equalização [concluido]
   1/4 Ler integralmente TO-DO, Norma, RCF, estado, recusas, manifestos, runtime e testes [concluido]
   2/4 Atualizar e confrontar fontes externas primárias e acadêmicas [concluido]
   3/4 Classificar sobreposição, lacunas, conflitos, dependências e fora de escopo [concluido]
   4/4 Fixar decomposição e decisões sem reduzir intenção ou força [concluido]
-2/4 RCF [pendente]
-  1/4 Normatizar modelo de rota, entrypoint, Skills e Subagents [pendente]
-  2/4 Normatizar manifestos, clientes, memória, TODO e execução longa [pendente]
-  3/4 Normatizar precisão visual, terceiros, segurança e provenance [pendente]
-  4/4 Atualizar matriz origem para contrato e critérios de fases [pendente]
-3/4 Validação normativa [pendente]
-  1/3 Preparar rastreabilidade pendente por FT e artefato futuro [pendente]
-  2/3 Executar agent:rcf, trace, grafo aplicável e diff check [pendente]
-  3/3 Auditar cobertura bidirecional e ausência de regressão modal [pendente]
-4/4 Fechamento da fase [pendente]
-  1/2 Commitar o RCF e estado em commit normativo isolado [pendente]
-  2/2 Interromper e solicitar autorização para FT-077 [pendente]
+2/4 RCF [concluido]
+  1/4 Normatizar modelo de rota, entrypoint, Skills e Subagents [concluido]
+  2/4 Normatizar manifestos, clientes, memória, TODO e execução longa [concluido]
+  3/4 Normatizar precisão visual, terceiros, segurança e provenance [concluido]
+  4/4 Atualizar matriz origem para contrato e critérios de fases [concluido]
+3/4 Validação normativa [concluido]
+  1/3 Preparar rastreabilidade pendente por FT e artefato futuro [concluido]
+  2/3 Executar agent:rcf, trace, grafo aplicável e diff check [concluido]
+  3/3 Auditar cobertura bidirecional e ausência de regressão modal [concluido]
+4/4 Fechamento da fase [concluido]
+  1/2 Commitar o RCF e estado em commit normativo isolado [concluido]
+  2/2 Interromper e solicitar autorização para FT-077 [concluido]
 aceite=RCF incorpora cada requisito, exceção, evidência, decisão de rota, dependência e gate da TO-DO; recusas vigentes, Equalizer, funcionalidades e força normativa anteriores permanecem; todas as implementações futuras possuem FT e rastreabilidade.
 dependencias=Registro exclusivo das FTs; FT-077 depende desta fase concluída e de nova autorização humana.
-pendencias=Concluir RCF e validação normativa.
+resultado=Origem equalizada em oito FTs sem remover ou marcar o Equalizer/frente raiz; RCF §21 fixa modelo de decisão, disclosure seletivo de uma camada, teto de 400 tokens, contratos de Skills/Subagents/scripts/hooks, manifestos/clientes, execução longa, estado/memória/TODO, precisão visual, terceiros/MCP, segurança e aceite. `MCU` foi interpretado como `MCP` por coerência inequívoca da própria origem. Código, Norma Operacional, migração, automação, distribuição e release não foram antecipados.
+verificacoes=Commits bb80d2f e 77f476c; `agent:rcf` retornou RCF_OK com 220595 bytes, 305 entradas e 301 unidades materiais; `agent:rcf:trace -- validate` confirmou 305/301; testes diretos de entrypoint, grafo normativo e rcf-trace passaram 3/3; mapa contém 32 unidades PENDENTE-CODIGO vinculadas à FT-076 e aos artefatos futuros; entrypoint vigente mede 392 tokens no índice com tiktoken 0.13.0/o200k_base, abaixo do teto 400; RCF 77f476c^→77f476c elevou DEVE(M) 373→398, NÃO 366→401 e PODE(M) 82→94; `git diff --check` limpo. Gate global `npm test -- --runInBand` não iniciou suites por `GOVERNANCA_INSTALADA_INCOMPLETA:scripts/.agents/autoupdate.ts`, ausência pré-existente que não autoriza correção funcional nesta fase.
+pendencias=FT-077 aguarda autorização humana nova e deve limitar-se à Norma Operacional em src, ainda sem código funcional. FT-078 a FT-082 dependem da FT-077 concluída e de autorização posterior; FT-083 integra e valida. A degradação global da instalação deve ser reavaliada na fase autorizada aplicável. Release continua sem versão nem autorização.
 
 FT-077|nome=Norma Operacional de Skills Subagents e rotas sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T04:10:52-03:00|atualizacao=2026-09-12T04:10:52-03:00
 objetivo=Projetar o RCF equalizado na fonte distribuível, reduzir src/AGENTS.md a no máximo 400 tokens e criar contratos/rotas de Skills, Subagents, memória, TODO, processos longos, visual e terceiros sem implementar runtime funcional.
