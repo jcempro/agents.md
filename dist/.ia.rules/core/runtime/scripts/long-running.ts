@@ -28,6 +28,21 @@ function deriveTimeout(history, options = {}) {
   return Math.min(maximum, Math.max(minimum, Math.ceil(basis * (1 + margin))));
 }
 
+/** Calcula fallback finito de espera quando um executor não expõe eventos. */
+function boundedBackoff(attempt, options = {}) {
+  const initialMs = Number.isFinite(options.initialMs) ? Math.max(250, options.initialMs) : 500;
+  const maximumMs = Number.isFinite(options.maximumMs) ? Math.max(initialMs, options.maximumMs) : 30000;
+  const maximumAttempts = Number.isInteger(options.maximumAttempts) ? Math.max(1, options.maximumAttempts) : 8;
+  if (!Number.isInteger(attempt) || attempt < 0 || attempt >= maximumAttempts) return null;
+  return Math.min(maximumMs, initialMs * (2 ** attempt));
+}
+
+/** Verifica processo registrado sem assumir que ausência de permissão significa término. */
+function processExists(pid) {
+  if (!Number.isInteger(pid) || pid <= 0) return false;
+  try { process.kill(pid, 0); return true; } catch (error) { return error.code === "EPERM"; }
+}
+
 /** Grava JSON por temporário e rename, mantendo estado retomável. */
 function writeState(target, state) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
@@ -47,13 +62,15 @@ function runLongProcess(command, args = [], options = {}) {
     environment: { platform: os.platform(), release: os.release(), arch: os.arch(), node: process.version },
     status: "running",
   };
-  if (statePath) writeState(statePath, base);
   return new Promise((resolve, reject) => {
     const child = childProcess.spawn(command, args, {
       cwd: options.cwd || process.cwd(), env: options.env || process.env,
       shell: false, stdio: options.stdio || "ignore", windowsHide: true,
     });
+    base.pid = child.pid || null;
+    if (statePath) writeState(statePath, base);
     let settled = false;
+    /** Consolida exatamente um estado terminal e remove observadores. */
     const finish = (status, code, error) => {
       if (settled) return;
       settled = true;
@@ -64,6 +81,7 @@ function runLongProcess(command, args = [], options = {}) {
       if (statePath) writeState(statePath, result);
       if (status === "completed") resolve(result); else reject(Object.assign(new Error(`LONG_RUN_${status.toLocaleUpperCase("en-US")}`), { result }));
     };
+    /** Cancela o filho sem converter cancelamento em timeout ou falha funcional. */
     const cancel = () => { child.kill(); finish("cancelled", null); };
     const timer = setTimeout(() => { child.kill(); finish("timed_out", null); }, timeoutMs);
     child.once("error", (error) => finish("failed", null, error));
@@ -81,8 +99,12 @@ function resumeLongProcess(command, args = [], options = {}) {
   if (previous.status === "completed" && previous.command === command && JSON.stringify(previous.args) === JSON.stringify(args)) {
     return Promise.resolve({ ...previous, resumed: false, reused: true });
   }
+  if (previous.status === "running" && processExists(previous.pid)) {
+    return Promise.reject(Object.assign(new Error("LONG_RUN_ALREADY_ACTIVE"), { result: previous }));
+  }
+  const previousStatus = previous.status === "running" ? "orphaned" : previous.status;
   return runLongProcess(command, args, { ...options, history: [...(options.history || []), previous.durationMs].filter(Number.isFinite) })
-    .then((result) => ({ ...result, resumed: true, previousStatus: previous.status }));
+    .then((result) => ({ ...result, resumed: true, previousStatus }));
 }
 
 /** Executa CLI de observação com estado explícito. */
@@ -98,4 +120,4 @@ async function main(argv = process.argv.slice(2)) {
 
 if (require.main === module) main().catch((error) => { console.error(error.message); process.exitCode = 1; });
 
-module.exports = { deriveTimeout, percentile, resumeLongProcess, runLongProcess, writeState };
+module.exports = { boundedBackoff, deriveTimeout, percentile, processExists, resumeLongProcess, runLongProcess, writeState };

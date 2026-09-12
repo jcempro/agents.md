@@ -12,9 +12,13 @@
     "LICENSE",
     "package.json",
     ".ia.rules/config/",
+    ".ia.rules/clients/",
     ".ia.rules/core/",
     ".ia.rules/meta/",
-    ".ia.rules/scenarios/"
+    ".ia.rules/scenarios/",
+    ".ia.rules/skills/",
+    ".ia.rules/subagents/",
+    ".ia.rules/units/"
   ],
   "agentsUpstream": {
     "schema": 1,
@@ -174,7 +178,8 @@
     "agent:query-data": "node .ia.rules/core/runtime/scripts/repo-tools.js agent:query-data",
     "agent:units": "node .ia.rules/core/runtime/scripts/unit-manager.js",
     "agent:long-run": "node .ia.rules/core/runtime/scripts/long-running.js",
-    "agent:visual": "node .ia.rules/core/runtime/scripts/visual-evidence.js"
+    "agent:visual": "node .ia.rules/core/runtime/scripts/visual-evidence.js",
+    "agent:state": "node .ia.rules/core/runtime/scripts/state-manager.js"
   },
   "devDependencies": {
     "@types/node": "26.1.1",

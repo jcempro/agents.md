@@ -1,0 +1,9 @@
+{
+  "schema": "agents-state-index/v1",
+  "active": "continue.ia",
+  "todo": "TODO.ia.md",
+  "durable": "memory.md",
+  "corrections": "fix.md",
+  "completed": "FT.implementados.md",
+  "governanceHash": "be7e321c2d313ec0fc95dcf03c9e7b9924a86a9c0c34e5c185f59d1571190a4c"
+}

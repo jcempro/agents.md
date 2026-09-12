@@ -22,10 +22,12 @@ function inspectTodoIa(rootDir, options = {}) {
     const content = fs.readFileSync(absolute, "utf8");
     return { hash: sha256(content), items: parseTodoItems(content), path: toPosix(relativePath) };
   });
+  const canonical = records.find((record) => record.path === toPosix(CANONICAL_TODO));
+  const divergentProjection = canonical && records.some((record) => record.path !== canonical.path && record.hash !== canonical.hash);
   return {
     code: records.length ? "TODO_IA_FOUND" : "TODO_IA_EMPTY",
     records,
-    status: records.some((record) => record.path !== toPosix(CANONICAL_TODO)) ? "triagem_requerida" : "ok",
+    status: !canonical || divergentProjection ? "triagem_requerida" : "ok",
   };
 }
 
@@ -127,6 +129,81 @@ function migrateCanonicalState(rootDir) {
   return { code: "STATE_MIGRATED", baseline, index };
 }
 
+/** Projeta estado canônico nos adaptadores legados após validar a governança imutável. */
+function syncCanonicalProjections(rootDir) {
+  const stateDir = path.join(rootDir, ".ia.rules", "state");
+  const canonicalTodo = path.join(rootDir, CANONICAL_TODO);
+  const canonicalContinue = path.join(stateDir, "continue.ia");
+  if (!fs.existsSync(canonicalTodo) || !fs.existsSync(canonicalContinue)) throw new Error("ESTADO_CANONICO_INCOMPLETO");
+  const todoContent = fs.readFileSync(canonicalTodo, "utf8");
+  const canonicalGovernance = parseGovernedTodo(todoContent).governanceHash;
+  const rootTodo = path.join(rootDir, "TODO.ia.md");
+  if (fs.existsSync(rootTodo) && parseGovernedTodo(fs.readFileSync(rootTodo, "utf8")).governanceHash !== canonicalGovernance) {
+    throw new Error("TODO_GOVERNANCA_DIVERGENTE");
+  }
+  atomicWrite(rootTodo, todoContent);
+  atomicWrite(path.join(rootDir, ".ia.rules", "continue.ia"), fs.readFileSync(canonicalContinue, "utf8"));
+  return { code: "STATE_PROJECTIONS_SYNCED", todoHash: sha256(todoContent), continueHash: sha256(fs.readFileSync(canonicalContinue, "utf8")) };
+}
+
+/** Transiciona uma frente canônica ou a remove após aprovação humana efetiva. */
+function transitionTodoRoot(rootDir, text, nextStatus, options = {}) {
+  const canonical = path.join(rootDir, CANONICAL_TODO);
+  if (!fs.existsSync(canonical)) throw new Error("TODO_CANONICO_AUSENTE");
+  const content = fs.readFileSync(canonical, "utf8").replace(/\r\n/gu, "\n");
+  const lines = content.split("\n");
+  const marker = lines.indexOf(TODO_MARKER);
+  const rootPattern = /^(?:- \[[ xX]\]|[⬜📌📜⚖️⏳🔄🔎✅]) (\S.*)$/u;
+  const roots = lines.map((line, index) => ({ index, match: line.match(rootPattern) })).filter((entry) => entry.index > marker && entry.match);
+  const matches = roots.filter((entry) => entry.match[1] === text);
+  if (matches.length !== 1) throw new Error(`TODO_FRENTE_NAO_UNICA:${text}`);
+  const current = matches[0];
+  const currentStatus = current.match[0].startsWith("- [") ? (/^- \[[xX]\]/u.test(current.match[0]) ? "✅" : "⬜") : current.match[0].match(/^[⬜📌📜⚖️⏳🔄🔎✅]/u)[0];
+  if (options.approvedHuman) {
+    if (options.authorization !== "human" || currentStatus !== "✅") throw new Error("TODO_REMOCAO_SEM_APROVACAO");
+    const next = roots.find((entry) => entry.index > current.index);
+    lines.splice(current.index, (next ? next.index : lines.length) - current.index);
+  } else {
+    if (!STATUS_EMOJI.has(nextStatus)) throw new Error(`TODO_STATUS_INVALIDO:${nextStatus}`);
+    if (nextStatus === "⏳" && (options.authorization !== "human" || options.normativeFtConcluded !== true)) {
+      throw new Error("TODO_IMPLEMENTACAO_NAO_AUTORIZADA");
+    }
+    lines[current.index] = `${nextStatus} ${text}`;
+  }
+  atomicWrite(canonical, lines.join("\n"));
+  syncCanonicalProjections(rootDir);
+  return { code: options.approvedHuman ? "TODO_ROOT_REMOVED" : "TODO_ROOT_TRANSITIONED", from: currentStatus, to: options.approvedHuman ? null : nextStatus, text };
+}
+
+/** Conclui FTs autorizadas no estado corrente, preservando sua decomposição textual. */
+function concludeFeatureState(rootDir, ids, options = {}) {
+  if (options.authorization !== "human") throw new Error("FT_CONCLUSAO_NAO_AUTORIZADA");
+  const canonical = path.join(rootDir, ".ia.rules", "state", "continue.ia");
+  if (!fs.existsSync(canonical)) throw new Error("CONTINUE_CANONICO_AUSENTE");
+  let content = fs.readFileSync(canonical, "utf8").replace(/\r\n/gu, "\n");
+  const now = options.timestamp || new Date().toISOString();
+  for (const id of ids) {
+    const escaped = id.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+    const startMatch = content.match(new RegExp(`^${escaped}\\|`, "mu"));
+    if (!startMatch) throw new Error(`FT_ESTADO_AUSENTE:${id}`);
+    const start = startMatch.index;
+    const tail = content.slice(start);
+    const boundary = tail.search(/\nFT-\d+\|/u);
+    const end = boundary < 0 ? content.length : start + boundary + 1;
+    let section = content.slice(start, end).replace(/\|status=[^|\r\n]+/u, "|status=concluida").replace(/\|atualizacao=[^|\r\n]+/u, `|atualizacao=${now}`)
+      .replace(/\[pendente\]/gu, "[concluido]");
+    if (!/\|autorizacao=/u.test(section.split("\n", 1)[0])) section = section.replace(/\n/u, "|autorizacao=humana\n");
+    section = section.replace(/^resultado=.*\nverificacoes=.*\npendencias=.*\n\n(?=objetivo=)/mu, "");
+    const evidence = options.evidence && options.evidence[id] || {};
+    const close = `resultado=${evidence.result || "Implementação concluída conforme aceite da FT."}\nverificacoes=${evidence.verification || "Gates locais aplicáveis executados."}\npendencias=${evidence.pending || "Nenhuma pendência funcional; validação humana do TODO permanece externa."}`;
+    section = /^pendencias=.*$/mu.test(section) ? section.replace(/^pendencias=.*$/mu, close) : `${section.trimEnd()}\n${close}\n`;
+    content = `${content.slice(0, start)}${section}${content.slice(end)}`;
+  }
+  atomicWrite(canonical, content);
+  syncCanonicalProjections(rootDir);
+  return { code: "FT_STATE_CONCLUDED", ids };
+}
+
 /** Calcula fingerprint estável derivado sem persistir identificador bruto do equipamento. */
 function environmentFingerprint() {
   let raw = "";
@@ -180,5 +257,5 @@ function toPosix(value) {
 module.exports = {
   CANONICAL_TODO, EQUALIZER, STATUS_EMOJI, assertTodoIaTriaged, environmentFingerprint,
   inspectTodoIa, locateTodoFiles, migrateCanonicalState, parseGovernedTodo, parseTodoItems,
-  recordMemoryResult,
+  concludeFeatureState, recordMemoryResult, syncCanonicalProjections, transitionTodoRoot,
 };

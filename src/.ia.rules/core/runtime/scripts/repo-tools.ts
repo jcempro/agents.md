@@ -705,6 +705,7 @@ function buildDist(options = {}) {
     })),
     rootDir: DIST_DIR,
     selfPath: distributionMapPath,
+    units: releaseIndex.units,
     version: effectiveVersion,
   });
   fs.mkdirSync(path.dirname(path.join(DIST_DIR, distributionMapPath)), { recursive: true });
@@ -746,7 +747,7 @@ function buildUnitIndex(rootDir) {
     const descriptorPath = path.join(rootDir, unit.descriptor);
     const descriptor = validateDescriptor(JSON.parse(fs.readFileSync(descriptorPath, "utf8")), unit.kind);
     const sourcePath = path.join(rootDir, unit.source);
-    const sources = fs.statSync(sourcePath).isDirectory() ? listFiles(sourcePath) : [sourcePath];
+    const sources = [...new Set([descriptorPath, ...(fs.statSync(sourcePath).isDirectory() ? listFiles(sourcePath) : [sourcePath])])];
     const hash = crypto.createHash("sha256");
     for (const filePath of sources.sort((a, b) => a.localeCompare(b, "en"))) {
       hash.update(toPosix(path.relative(rootDir, filePath))); hash.update("\0"); hash.update(fs.readFileSync(filePath)); hash.update("\0");
@@ -815,6 +816,14 @@ function syncActiveRuntime() {
       minify: true,
       sourceLabel: toPosix(path.join("src", entry.path)),
     }), "utf8");
+    generated += 1;
+  }
+  for (const entry of manifest.entries.filter((item) => item.unit && !item.artifact)) {
+    const sourcePath = path.join(SRC_DIR, entry.path);
+    const targetPath = path.join(ROOT_DIR, entry.destination);
+    guardTarget(targetPath, { allowHardlink: true });
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+    fs.copyFileSync(sourcePath, targetPath);
     generated += 1;
   }
   return generated;

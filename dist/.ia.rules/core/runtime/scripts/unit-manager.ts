@@ -92,6 +92,7 @@ function discoverUnits(query, rootDir = ROOT_DIR) {
   const catalog = loadCatalog(rootDir);
   return catalog.units.flatMap((unit) => {
     const descriptor = validateDescriptor(JSON.parse(fs.readFileSync(path.join(catalog.baseDir, safeRelative(unit.descriptor)), "utf8")), unit.kind);
+    /** Normaliza gatilhos sem apagar palavras ou ampliar equivalências. */
     const norm = (value) => String(value).normalize("NFD").replace(/[\u0300-\u036f]/gu, "").toLocaleLowerCase("pt-BR");
     const blocked = descriptor.negativeTriggers.some((trigger) => normalized.includes(norm(trigger)));
     const matches = descriptor.positiveTriggers.filter((trigger) => normalized.includes(norm(trigger)));
@@ -103,6 +104,7 @@ function discoverUnits(query, rootDir = ROOT_DIR) {
 function inventoryMechanisms(rootDir = ROOT_DIR) {
   const catalog = loadCatalog(rootDir);
   const rulesRoot = path.join(catalog.baseDir, ".ia.rules");
+  /** Percorre somente arquivos regulares sob a raiz fornecida. */
   const walk = (directory) => fs.existsSync(directory) ? fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const absolute = path.join(directory, entry.name);
     return entry.isDirectory() ? walk(absolute) : [absolute];
@@ -113,6 +115,7 @@ function inventoryMechanisms(rootDir = ROOT_DIR) {
   const scenarios = walk(path.join(rulesRoot, "scenarios")).filter((file) => path.extname(file) === ".md");
   const corpusFiles = walk(rulesRoot).filter((file) => [".ts", ".md", ".json"].includes(path.extname(file)));
   const corpus = corpusFiles.map((file) => fs.readFileSync(file, "utf8"));
+  /** Constrói uma observação reproduzível sem promover classificação nominal. */
   const entry = (file, kind) => {
     const content = fs.readFileSync(file, "utf8");
     const stem = path.basename(file, path.extname(file));
@@ -146,6 +149,7 @@ function listUnitFiles(rootDir, unit, client) {
     return [{ source, relative: path.basename(unit.destinations[client]) }];
   }
   const sourceRoot = path.join(rootDir, safeRelative(unit.source));
+  /** Enumera recursivamente o conteúdo atômico da Skill. */
   const walk = (directory) => fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const absolute = path.join(directory, entry.name);
     return entry.isDirectory() ? walk(absolute) : [{ source: absolute, relative: path.relative(sourceRoot, absolute) }];
@@ -205,15 +209,22 @@ function readManagedState(rootDir) {
 /** Aplica plano transacional, preservando bytes não gerenciados e backup recuperável. */
 function applyInstallation(rootDir, unitId, client) {
   const lock = acquireLock(rootDir);
+  const snapshots = [];
   try {
     const plan = planInstallation(rootDir, unitId, client);
     const state = readManagedState(rootDir);
     const backupRoot = path.join(rootDir, ".ia.rules", "state", "backups", "units", `${Date.now()}-${unitId}-${client}`);
     for (const file of plan.files) {
       const target = path.join(rootDir, file.target);
-      if (fs.existsSync(target) && state.files[file.target] !== sha256(fs.readFileSync(target)) && file.action !== "unchanged") {
+      if (!fs.existsSync(target)) continue;
+      const currentHash = sha256(fs.readFileSync(target));
+      if (!state.files[file.target] || state.files[file.target] !== currentHash) {
         throw new Error(`UNIT_DESTINO_NAO_GERENCIADO:${file.target}`);
       }
+    }
+    for (const file of plan.files) {
+      const target = path.join(rootDir, file.target);
+      snapshots.push({ target, existed: fs.existsSync(target), content: fs.existsSync(target) ? fs.readFileSync(target) : null });
       if (fs.existsSync(target) && file.action === "update") {
         const backup = path.join(backupRoot, file.target);
         fs.mkdirSync(path.dirname(backup), { recursive: true });
@@ -224,6 +235,12 @@ function applyInstallation(rootDir, unitId, client) {
     }
     atomicWrite(path.join(rootDir, ".ia.rules", "state", "units-installed.json"), `${JSON.stringify(state, null, 2)}\n`);
     return { ...plan, files: plan.files.map(({ content, ...file }) => file) };
+  } catch (error) {
+    for (const snapshot of snapshots.reverse()) {
+      if (snapshot.existed) atomicWrite(snapshot.target, snapshot.content);
+      else fs.rmSync(snapshot.target, { force: true });
+    }
+    throw error;
   } finally { fs.closeSync(lock.handle); fs.rmSync(lock.path, { force: true }); }
 }
 

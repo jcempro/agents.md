@@ -76,6 +76,7 @@ function diffPpm(before, after) {
 
 /** Calcula contraste WCAG entre duas cores hexadecimais RGB. */
 function contrastRatio(foreground, background) {
+  /** Converte hexadecimal sRGB em luminância relativa WCAG. */
   const luminance = (hex) => {
     if (!/^#[0-9a-f]{6}$/iu.test(hex)) throw new Error(`COR_INVALIDA:${hex}`);
     const channels = [1, 3, 5].map((offset) => Number.parseInt(hex.slice(offset, offset + 2), 16) / 255)
@@ -118,6 +119,23 @@ function validateLedger(entries) {
   return { code: "LEDGER_OK", entries: entries.length };
 }
 
+/** Valida matriz visual explícita para impedir inferência de viewport ou render. */
+function validateVisualMatrix(entries) {
+  const required = ["width", "height", "zoom", "density", "theme", "font", "content"];
+  const seen = new Set();
+  for (const [index, entry] of entries.entries()) {
+    const missing = required.filter((field) => !entry || entry[field] === undefined || entry[field] === "");
+    if (missing.length) throw new Error(`MATRIZ_VISUAL_INCOMPLETA:${index}:${missing.join(",")}`);
+    for (const field of ["width", "height", "zoom", "density"]) {
+      if (!Number.isFinite(entry[field]) || entry[field] <= 0) throw new Error(`MATRIZ_VISUAL_VALOR_INVALIDO:${index}:${field}`);
+    }
+    const key = required.map((field) => String(entry[field])).join("\0");
+    if (seen.has(key)) throw new Error(`MATRIZ_VISUAL_DUPLICADA:${index}`);
+    seen.add(key);
+  }
+  return { code: "VISUAL_MATRIX_OK", cases: entries.length };
+}
+
 /** Executa capturador/renderizador opcional por contrato explícito e sem shell. */
 function runOptionalRenderer(command, args, options = {}) {
   if (!command) throw new Error("RENDERIZADOR_NAO_CONFIGURADO");
@@ -144,4 +162,4 @@ function main(argv = process.argv.slice(2)) {
 
 if (require.main === module) { try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; } }
 
-module.exports = { auditFluidUnits, contrastRatio, cropPpm, diffPpm, encodePpm, imageDimensions, inspectAsset, inspectPdf, parsePpm, runOptionalRenderer, validateLedger };
+module.exports = { auditFluidUnits, contrastRatio, cropPpm, diffPpm, encodePpm, imageDimensions, inspectAsset, inspectPdf, parsePpm, runOptionalRenderer, validateLedger, validateVisualMatrix };

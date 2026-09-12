@@ -1,6 +1,6 @@
 # Mapa normativo gerado
 
-Origem: `935821dec5a6dc93ed26c98b7948d6e47f03828f5f5d1bf5901834f96ebce1a1`; revisão: `f8bc3c1`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `935821dec5a6dc93ed26c98b7948d6e47f03828f5f5d1bf5901834f96ebce1a1`; revisão: `e93ff1d`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 

@@ -1965,6 +1965,18 @@
       "artifact": {"destination":".ia.rules/core/runtime/scripts/visual-evidence.js","format":"commonjs","target":"node24","builder":"typescript@7.0.2+esbuild@0.28.1"}
     },
     {
+      "path": ".ia.rules/core/runtime/scripts/state-manager.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/state-manager.ts",
+      "purpose": "migração inspeção e projeção do estado canônico",
+      "roles": ["final", "constructor"],
+      "condition": "governed-state-transition",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "canonical-state"],
+      "language": "typescript",
+      "artifact": {"destination":".ia.rules/core/runtime/scripts/state-manager.js","format":"commonjs","target":"node24","builder":"typescript@7.0.2+esbuild@0.28.1"}
+    },
+    {
       "path": "AGENTS.md",
       "profile": "consumer-core",
       "destination": "AGENTS.md",

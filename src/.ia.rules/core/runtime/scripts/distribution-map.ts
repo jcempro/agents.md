@@ -87,6 +87,7 @@ function buildDistributionMap(options = {}) {
     schema: DISTRIBUTION_MAP_SCHEMA,
     self: selfPath,
     version,
+    units: Array.isArray(options.units) ? options.units : [],
     entries: entries.sort((a, b) => a.path.localeCompare(b.path, "en")),
   };
   validateDistributionMap(map, { rootDir, requireFiles: options.requireFiles !== false });
@@ -133,6 +134,9 @@ function validateDistributionMap(map, options = {}) {
   }
 
   const rootDir = options.rootDir ? path.resolve(options.rootDir) : "";
+  if (map.units !== undefined && (!Array.isArray(map.units) || map.units.some((unit) => !unit || !unit.id || !["skill", "subagent"].includes(unit.kind) || !/^[a-f0-9]{64}$/u.test(unit.sha256 || "")))) {
+    throw new Error("MAPA_DISTRIBUICAO_UNIDADES_INVALIDAS");
+  }
   const seen = new Map();
   for (const entry of map.entries) {
     const relativePath = normalizeMapPath(entry && entry.path);

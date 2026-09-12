@@ -1561,8 +1561,8 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "f8bc3c1",
-    "commitDate": "2026-09-12T04:24:30-03:00",
+    "commit": "e93ff1d",
+    "commitDate": "2026-09-12T14:32:32-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
