@@ -1424,7 +1424,7 @@ Reestruturação/renomeação exige ganho líquido comprovado, migração, refer
 
 ### 16.3 Entrypoint injetável e Norma integral sob demanda
 
-`AGENTS.md` DEVE ser exclusivamente o entrypoint Markdown reconhecível pelos clientes e permanecer permanentemente em até 500 tokens, medidos em UTF-8 com LF canônico pelo tokenizer/versionamento declarado no índice normativo; nesta arquitetura, `tiktoken 0.13.0` com `o200k_base`. O entrypoint identifica a Norma, fixa precedência e papéis, aponta autoridade/índice/RCF/estado, descreve decisão de carregamento e conserva somente invariantes indispensáveis antes da rota. Regra nova que exceda o limite DEVE ingressar no módulo coeso aplicável, nunca expandir o entrypoint. Build e validação bloqueiam contagem superior, tokenizer ausente, metadado divergente ou entrypoint sem referência resolvível. [447bef3]
+`AGENTS.md` DEVE ser exclusivamente o entrypoint Markdown reconhecível pelos clientes e permanecer permanentemente em até 400 tokens, medidos em UTF-8 com LF canônico pelo tokenizer/versionamento declarado no índice normativo; nesta arquitetura, `tiktoken 0.13.0` com `o200k_base`. O entrypoint identifica a Norma, fixa precedência e papéis, aponta autoridade/índice/RCF/estado, descreve decisão de carregamento e conserva somente invariantes indispensáveis antes da rota. Regra nova que exceda o limite DEVE ingressar no módulo coeso aplicável, nunca expandir o entrypoint. Build e validação bloqueiam contagem superior, tokenizer ausente, metadado divergente ou entrypoint sem referência resolvível. [PENDENTE-CODIGO]
 
 O corpo integral anterior de `AGENTS.md`, identificado pelo SHA-256 LF `4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024`, DEVE migrar sem resumo, eliminação, reinterpretação ou perda para `.ia.rules/agents.inc.md`, autoridade auxiliar gerenciada e distribuída. Os módulos especializados já existentes continuam as rotas preferenciais de menor custo; o auxiliar integral é fallback obrigatório somente diante de mudança de rota, ausência/perda de contexto, conflito normativo, regra ainda não localizada, índice/cache inválido, auditoria de preservação ou confiança insuficiente. Fora dessas condições, NÃO DEVE ser relido. Delegar o corpo não altera autoridade, precedência, força, modus operandi, Final/Construtor, RCF, `continue.ia`, workflows, scripts, update ou compatibilidade de clientes. [447bef3]
 
@@ -1545,6 +1545,7 @@ A aprovação futura DEVE atualizar este RCF com decisão, gramática, tabela, s
 | `github:jcempro/agents.md#11` | §§0.0.2, 4.0, 14.2 e 20.2 |
 | TO-DO de atualização orientada a sucesso efetivo | §§0.0.2, 14.1–14.2 e 20.2 |
 | TO-DO de contenção absoluta ao repositório corrente | §§0.0.15, 1.1, 3.11, 14.1 e 20.2 |
+| TO-DO de Skills, Subagents, memória, automação e precisão visual | §§16, 18, 20.2 e 21 |
 
 Esta matriz é bidirecional: toda implementação posterior DEVE apontar à seção; toda seção com implementação DEVE apontar ao artefato/teste e, após §15.4 materializado, ao commit causal. O relatório de FT registra arquivos, conceitos centralizados, duplicações removidas, referências, contratos preservados, lacunas, testes, limites, não regressão e métricas de bytes/tokens/rotas. [c143be5]
 
@@ -1560,8 +1561,110 @@ Para a Issue `github:jcempro/agents.md#11` e a atualização resiliente, a fase 
 
 Para a contenção absoluta, a fase normativa só conclui quando a autoridade derivar exclusivamente da raiz Git associada ao prompt e seu `AGENTS.md`, com leitura externa separada de escrita e todas as fronteiras/indireções explicitadas. A fase técnica deve projetar a regra na Norma, aplicar guarda comum antes de efeitos oficiais e comprovar a matriz de roots irmãs, dependências, submódulos, aninhados, worktrees, links, traversal, múltiplas roots, `node_modules`, referência externa e Git; qualquer byte ou estado externo alterado falha criticamente, e arquivo interno legítimo deve continuar operável. [05f2ed9]
 
+Para a TO-DO de Skills, Subagents, memória, automação e precisão visual, FT-076 DEVE concluir somente com equalização integral, fontes atualizadas, RCF e mapa pendente; FT-077, após nova autorização, projeta a Norma Operacional e comprova entrypoint de até 400 tokens, rotas diretas, contratos e schemas sem código funcional. FT-078 a FT-082 exigem nova autorização posterior à FT-077 e implementam responsabilidades independentes; FT-083 integra e valida, mas NÃO publica release sem versão e autorização próprias. Nenhuma conclusão parcial autoriza absorver fase, simular cliente, antecipar migração ou remover a frente raiz antes da aprovação humana. [PENDENTE-CODIGO]
+
 Validação automática DEVE detectar nomes oficiais alterados, script/comando/workflow duplicado, fluxo paralelo, gatilho substituído, publicação local proibida, hook contornado, extensão fora do ponto, norma adaptada ao código, Princípio Estruturante degradado, ciclo/órfão/profundidade, duplicação semântica, temporário retido/removido indevidamente, compactação com perda, diagnóstico suprimido, processo desacoplado opaco, promoção incompatível, exceção sem vínculo/reversibilidade/remoção, runtime/artefato divergente, hash material inválido, derivado obsoleto e as inconsistências estruturais do Registro Decisório enumeradas em §13.6. Quando automação integral for impossível, verificação determinística documentada é obrigatória. [a6dc410]
 
 ### 20.3 Gate terminal da issue #2
 
 `github:jcempro/agents.md#2` somente DEVE ser reavaliada após todas as demais unidades de §§13–19 estarem implementadas, validadas e refletidas no estado real. A avaliação compara issue, código, normas, releases e correções posteriores; determina com fundamentos verificáveis se a proposta permanece aplicável, pertinente e necessária. Independentemente do resultado, DEVE publicar comentário técnico conciso, inequívoco e incisivo na issue; nota `0–10` PODE destacar relevância, impacto, validade ou prioridade sem prolixidade. Esse gate NÃO autoriza reavaliação, comentário ou mutação remota durante a fase RCF. [c143be5]
+
+## 21. Skills, Subagents, memória, automação e precisão visual
+
+### 21.1 Modelo equalizado e evidência
+
+Agent primário mantém percepção, síntese global, decisão e resposta ao usuário; Cenário fornece contexto operacional amplo e cumulativo; Skill empacota procedimento recorrente de escopo estreito e recursos sob demanda; Subagent recebe objetivo isolável verificável sob orquestração; Script executa algoritmo mecânico determinístico; Hook integra evento opcional sem formar dependência oculta, salvo gate de segurança explicitamente fail-closed; MCP/ferramenta oferece capacidade externa sob schema, confiança e autoridade delimitados. Essas unidades PODEM compor-se, mas NÃO se substituem por nomenclatura, conveniência ou equivalência aparente. [PENDENTE-CODIGO]
+
+| Necessidade material | Padrão | Não usar quando |
+|---|---|---|
+| Ação mecânica, repetível e verificável | Script hookable | Exige interpretação sem algoritmo comprovado |
+| Procedimento recorrente, conhecido e estreito | Skill apoiada por script | A semelhança é apenas tangencial |
+| Trabalho independente, isolável e paralelizável | Subagent sob primário | É pequeno, sequencial ou fortemente acoplado |
+| Contexto principal amplo | Cenário | Uma Skill resolve a subtarefa pontual |
+| Exploração, ambiguidade ou síntese transversal | Agent primário | Um script resolve integralmente |
+| Serviço ou capacidade externa | MCP/ferramenta autorizada | Não há confiança, necessidade ou consentimento |
+
+A matriz DEVE ser decidida por custo líquido observado — acerto, cobertura, tokens, latência, coordenação, privilégio, manutenção e risco — e preservar orquestração central. Ação mecânica usa Script; Skill e Subagent só entram quando superarem o mecanismo vigente; Cenários existentes permanecem quando a conversão não provar equivalência e ganho; “MCU” da origem significa MCP por coerência inequívoca com a referência e a matriz. [PENDENTE-CODIGO]
+
+As fontes abaixo são evidência, não autoridade, e foram reconsultadas em 2026-09-12; revisão posterior relevante DEVE ser reavaliada antes da implementação, sem incorporar prática externa à revelia: [PENDENTE-CODIGO]
+
+| Fonte | Versão/estado consultado | Decisão apoiada |
+|---|---|---|
+| [Agent Skills Specification](https://agentskills.io/specification) | página vigente em 2026-09-12 | `SKILL.md`, metadados, recursos opcionais, validação e três níveis de divulgação |
+| [Progressive Disclosure](https://arxiv.org/abs/2607.17598) e [SkillJuror](https://arxiv.org/abs/2606.11543) | v1 e v1 | uma rota padrão; medir descoberta, uso de recursos e resultado |
+| [Reusable Skills](https://arxiv.org/abs/2608.08453) e [Agent Skills survey](https://arxiv.org/abs/2602.12430) | v1 e v4 | metadados, corpo enxuto, reutilização, lint e segurança |
+| [Impact of AGENTS.md](https://arxiv.org/abs/2601.20404) e [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988) | v2 e v2 | benefícios mistos; limite e regra exigem baseline empírico |
+| [Google scaling agent systems](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/), [ClawArena-Team](https://arxiv.org/abs/2606.31174) e [OpenAI agents guide](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) | página de 2026-01-28, v2 e página vigente | multiagente seletivo, privilégio mínimo e agente único por padrão |
+| [GitHub customization](https://docs.github.com/en/copilot/reference/customization-cheat-sheet), [custom agents](https://docs.github.com/en/copilot/reference/custom-agents-configuration) e [hooks](https://docs.github.com/en/copilot/reference/hooks-reference) | documentação vigente | adaptadores por schema/superfície, sem formato universal inventado |
+| [MCP 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) | revisão 2025-11-25 | validação e annotations não confiáveis sem servidor confiável |
+| [Qwen-UI-Agent](https://arxiv.org/abs/2607.28227), [RegionFocus](https://arxiv.org/abs/2505.00684) e [W3C Visual Presentation](https://www.w3.org/WAI/WCAG20/Understanding/visual-presentation.html) | v1, v2 e página vigente | inspeção visual regional, grounding e apresentação adaptável |
+
+### 21.2 Entrypoint, microconceitos e divulgação progressiva
+
+O teto atual de §16.3 é 400 tokens e substitui somente o teto numérico anterior, preservando conteúdo integral nos módulos. Descoberta inicial DEVE carregar apenas identidade, gatilho/descrição e path; uma rota direta resolve a unidade coesa; corpo de Skill/Subagent só entra após ativação material; `references/`, scripts e assets entram individualmente quando condição explícita os exigir. Segunda camada, cadeia profunda ou ciclo são proibidos sem comparação reproduzível que demonstre ganho sem perda. [PENDENTE-CODIGO]
+
+Microconceito DEVE possuir identidade única, asserção curta, referência íntegra e aplicação estável. Omissão de conceito aparentemente óbvio só PODE ocorrer quando equivalência e interpretação inequívoca forem demonstradas por casos positivos, negativos, limítrofes e regressões; redução de bytes/tokens NÃO PODE suprimir sujeito, modalidade, escopo, condição, exceção, precedência, resultado ou aceite. [PENDENTE-CODIGO]
+
+Baseline e candidato DEVEM usar tokenizer, corpus, tarefas, harness, modelo, serialização e ambiente declarados; comparar bytes, tokens totais/carregados, módulos, profundidade, latência, passos, precisão, cobertura, regra irrelevante, erro de precedência, retrabalho e manutenção. Melhoria global NÃO compensa perda local, e resultado dependente de modelo/cliente NÃO PODE ser generalizado sem amostra reiterada. [PENDENTE-CODIGO]
+
+### 21.3 Skills, Subagents, scripts e Cenários
+
+Skill distribuível reside sob raiz canônica declarada, contém `SKILL.md` com frontmatter compatível — `name`, `description` e somente metadados opcionais suportados — e PODE conter `scripts/`, `references/` e `assets/` focados. Nome/descrição decidem descoberta e gatilhos positivos/negativos; corpo é enxuto, instruções completas e referências no máximo uma camada a partir da raiz; validação oficial ou equivalente bit a bit é gate, não recomendação. [PENDENTE-CODIGO]
+
+Subagent distribuível DEVE declarar objetivo, gatilhos positivos/negativos, ferramentas, permissões, leitura, escrita, autoridade, entradas, saída compacta, orçamento, duração/timeout, cancelamento, retorno ao primário, dependências, concorrência e condições de parada. O primário conserva síntese, decisões sensíveis e resposta; delegação NÃO amplia autoridade, não duplica monitoração e não persiste depois da finalidade. [PENDENTE-CODIGO]
+
+Antes de criar ou converter unidade, inventário reproduzível DEVE mapear cada script e Cenário por chamadores, finalidade, custo, frequência, duração, determinismo, interpretação, estado, efeitos, hooks, dependências e paralelismo. Script mecânico permanece Script; Skill exige SOP recorrente; Subagent exige isolamento ou paralelismo com ganho; agrupamento exige uso conjunto e contrato/estado comum; conversão de Cenário exige equivalência e benefício. É proibido criar uma Skill/Subagent por script, wrapper nominal, autoridade duplicada ou corpo especializado por produto. [PENDENTE-CODIGO]
+
+Toda capacidade essencial DEVE operar e ser testada sem hook; hook somente observa, bloqueia por norma explícita ou otimiza por contrato. Skill/Subagent da fonte são generalistas para qualquer domínio; particularidade de produto permanece em extensão/adaptador local preservável, e indisponibilidade do pacote adicional degrada somente a capacidade opcional. [PENDENTE-CODIGO]
+
+### 21.4 Manifestos, instalação e clientes
+
+Índice normativo, manifesto-fonte, mapa de distribuição, configuração, release e schemas DEVEM declarar por Skill/Subagent origem, hash, licença, confiança, versão/schema, condição, papéis, recursos, scripts, hooks, dependências, destinos/clientes suportados, precedência, política de merge, validação e remoção. Seleção é positiva; arquivo, destino ou suporte não declarado é ausente, nunca inferido por convenção. [PENDENTE-CODIGO]
+
+Adaptador só PODE existir para cliente e superfície comprovados por documentação oficial, loader/schema real e fixture da configuração correspondente; capacidade ausente é declarada, não simulada. Campos homônimos entre Codex, Copilot, Claude, Gemini ou outro cliente NÃO PODEM ser tratados como equivalentes sem contrato; configuração-modelo permanece em área neutra e jamais substitui configuração ativa ao ser distribuída. [PENDENTE-CODIGO]
+
+Instalador/atualizador DEVE resolver raiz/versão/fronteira, validar configuração existente, produzir plano e diff, preservar chaves/comentários/entradas não gerenciadas quando o formato permitir, gravar temporário único, validar, sincronizar em disco quando suportado, renomear atomicamente, manter lock e backup/rollback recuperável e comprovar idempotência e descoberta pelo cliente. Retry só alcança método seguro suportado com backoff finito; fail-safe conclui por rota compatível conhecida ou para com bytes/estado preservados e diagnóstico acionável, nunca contorna segurança ou alega sucesso parcial. [PENDENTE-CODIGO]
+
+### 21.5 Execução longa e economia do primário
+
+Cada comando medido DEVE registrar início, término, duração, código, timeout, comando/entrada sanitizados, hash/versão do projeto, runtime, ambiente e máquina somente na medida relevante. Perfil por comando/máquina conserva amostra, percentis, margem e mudança material; timeout deriva dessa evidência e NÃO equivale a falha funcional sem inspeção de processo, estado e artefato. [PENDENTE-CODIGO]
+
+Operação longa DEVE usar espera/evento do executor; quando indisponível, polling começa no intervalo derivado do histórico e aplica backoff limitado, preservando atualização ao usuário e detecção terminal. Polling curto/fixo, espera duplicada e releitura integral repetida são proibidos; retomada lê estado/código/cauda antes do log integral, não repete conclusão e trata cancelamento, lock, limpeza e órfão explicitamente. [PENDENTE-CODIGO]
+
+Subagent de espera/validação longa só PODE ser usado quando houver isolamento real, progresso útil em paralelo e retorno compacto que reduzam custo do primário; fluxo sequencial, decisão intermediária, lock abandonável ou coordenação mais cara permanece no primário. Ação mecânica é Script hookable; Skill só interpreta procedimento leve, não substitui algoritmo determinístico. [PENDENTE-CODIGO]
+
+### 21.6 Estado, memória e governança de `TODO.ia.md`
+
+No mesmo diretório canônico, `continue.ia` mantém somente estado corrente/retomável com próxima ação, evidência, impedimento e autorização; `memory.md` mantém aprendizado durável contextual; `fix.md` roteia reclamações/correções por contexto, circunstância, FT/TO-DO/issue, commits e fonte detalhada; `FT.implementados.md` indexa conclusões e aponta à evidência original sem repetir história. Cada índice DEVE permitir decisão de rota antes de carregar detalhes; partição adicional exige métrica de ganho. [PENDENTE-CODIGO]
+
+Migração DEVE produzir previamente a matriz `conteúdo antigo → destino → hash/evidência`, mover somente aprendizado durável, preservar todo estado ativo/retomável e comprovar cardinalidade, ordem, links, duplicação e resíduos. Remoção só ocorre após auditoria bidirecional; arquivo ausente é criado pelo mecanismo oficial, e histórico Git não substitui o conteúdo operacional necessário. [PENDENTE-CODIGO]
+
+Resultado de ambiente material DEVE registrar identificador estável e não secreto obtido por API suportada do SO/kernel, SO/kernel/build, arquitetura, runtime/toolchain, virtualização/container e hardware somente quando relevantes; nome livre do host, segredo, serial sensível ou dado pessoal desnecessário são proibidos. Evidência vincula comando/entrada, projeto/hash, data, código/erro, condição, hipótese e próxima retentativa; reprodução em dois ambientes independentes interrompe novas trocas de máquina até mudança material, enquanto alteração relevante reabre teste sem apagar histórico. Generalização ou especialização de aprendizado exige evidência reiterada, amostra, contraexemplos e limite de aplicabilidade. [PENDENTE-CODIGO]
+
+`TODO.ia.md` canônico DEVE permanecer perene sob `.ia.rules/state/`, com a seção `# RCF — Governança da TO-DO` imutável no topo até marcador operacional explícito. Cada frente raiz sem indentação inicia exatamente por `- [ ]` ou `- [x]`, e todo conteúdo até a próxima raiz pertence a ela com aninhamento visual inequívoco; forma interna é livre e hierarquia semântica prevalece. Exemplar de raiz é entrada legada a migrar sem perda, nunca segunda autoridade. [PENDENTE-CODIGO]
+
+Item operacional usa isoladamente ⬜, 📌, 📜, ⚖️, ⏳, 🔄, 🔎 ou ✅ para, respectivamente, não iniciada, FT registrada, normatizada, equalizada, em desenvolvimento, retomada após correção, em reavaliação ou implementada pendente de validação humana. Checkbox estrutural da frente raiz e o item literal sempre desmarcado `- [ ] Equalizar e executar as TO-DOs como frentes convergentes de um único objetivo` são exceções necessárias; adaptador legado PODE projetar estado textual somente enquanto parser oficial não aceitar emoji, sem alterar a semântica canônica. [PENDENTE-CODIGO]
+
+O ciclo mínimo DEVE ser ⬜ → ⏳ → ✅; estados intermediários só se aplicam quando verdadeiros. Após aprovação humana efetiva, a tarefa é removida integralmente; ✅ NÃO significa aprovada/encerrada. Pedido para executar TODO começa pela Equalização; “continuar” retoma o estado canônico sem reiniciá-la; conflito material insolúvel ou possível inadequação exige consulta ao dev. Todas as TO-DOs são normatizadas com rastreabilidade e a execução interrompe antes da implementação para nova autorização, informando pendências, dependências, ordem e impedimentos. [PENDENTE-CODIGO]
+
+Parser, renderização e migração DEVEM testar raiz/subordinação, conteúdo livre, cada status/transição, adaptador legado, delta/hash, retomada, governança/Equalizer imutáveis e remoção somente após aprovação; TODO NÃO se converte por si em issue, FT, RCF ou autorização. Mudança aplicável ao modo de codificar Markdown é documentada no modo de uso correspondente; automação interna não reescreve conteúdo autoral além da equalização necessária e rastreável. [PENDENTE-CODIGO]
+
+### 21.7 Precisão visual, imagens e PDFs
+
+Trabalho visual DEVE ler pedido/normas, inspecionar original em resolução preservada e páginas/frames relevantes, usar zoom/crop regional e OCR somente como apoio, e manter ledger `arquivo/página/viewport/coordenada ou região → observação → regra violada → esperado → correção → evidência posterior`. Texto, seta, descrição ou inferência de geometria oculta NÃO comprovam compreensão; estado corrigido exige captura/render novo e aprovação humana quando a intenção permanecer ambígua. [PENDENTE-CODIGO]
+
+Web visual DEVE testar matriz representativa de viewport, zoom, densidade, tema, fonte e conteúdo, preservando reflow, acessibilidade, função e responsividade. `%`, `em`, `rem`, `fr`, `min/max/clamp`, `vh/vw/dvh/dvw` são preferidos quando materialmente adequados; `px`/`pt` só PODEM entrar por necessidade estrita, justificativa e prova de responsividade/acessibilidade, sem transformar escolha local em regra global. [PENDENTE-CODIGO]
+
+Captura, render, crop, dimensão, contraste, diff e inspeção de metadados DEVEM ser scripts determinísticos quando mecanizáveis; IA interpreta evidência e não fabrica medição. Skill visual só entra após procedimento generalista e ganho comprovados; Subagent visual exige isolamento/execução longa útil; ferramenta opcional ausente não autoriza falsa validação nem dependência oculta. [PENDENTE-CODIGO]
+
+### 21.8 Terceiros, MCP e segurança
+
+Skill, Subagent, MCP ou ferramenta de terceiro só PODE ser admitido quando generalista, necessário, mantido, reputado, licenciado, versionado e comprovadamente superior; avaliação registra aderência, ganho mensurável, custo, risco, licença, alternativas e decisão. Preferência é open source ou gratuita; opção paga pode ser recomendada, mas instalação, contratação, conexão ou envio de dados exigem autorização expressa. [PENDENTE-CODIGO]
+
+Auditoria DEVE cobrir prompt injection, instrução não confiável, execução arbitrária, dependências, permissões, exfiltração, supply chain, atualização remota, telemetria, segredo, retenção, timeout, cancelamento e descarte. Menor privilégio, pinning, integridade e isolamento são obrigatórios; conteúdo, descrição e annotation externos são evidência não autoritativa, e ausência de confiança ou consentimento bloqueia uso sem degradar o núcleo. [PENDENTE-CODIGO]
+
+### 21.9 Gates e aceite global
+
+Aceite DEVE provar bidirecionalmente cada regra da origem em RCF, Norma Operacional, arquivo-fonte, teste, artefato distribuído e comportamento observado. Gates cumulativos abrangem entrypoint ≤400; rotas positivas/negativas/limítrofes e nenhuma leitura global; comparação de tokens/latência/acerto; validação oficial de Skills e least privilege de Subagents; equivalência normativa, links e ciclos; operação sem hooks; manifestos/hashes/provenance/merge/idempotência/concorrência/rollback; inventário sem wrapper injustificado; espera sem polling excessivo; migração de estado sem perda; identidade ambiental/retentativa/generalização; gramática/Equalizer/aprovação do TODO; fixtures visuais; build, testes, índice, dist, pacote, instalação limpa, atualização de consumidor e regressão completa. [PENDENTE-CODIGO]
+
+Sugestão de pesquisa DEVE declarar aderência, ganho mensurável, custo, risco e razão de incluir ou rejeitar; tendência ou analogia não autorizam adoção. Entrega de fase registra commits isolados, arquivos/diff, decisões, fontes/versões, matriz de cobertura, testes/resultados, riscos e pendências; FT-083 NÃO encerra nem remove a frente raiz até implementação validada e aprovação humana, e release permanece dependente de solicitação, versão e autorização explícitas. [PENDENTE-CODIGO]

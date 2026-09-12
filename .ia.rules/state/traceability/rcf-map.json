@@ -3395,6 +3395,25 @@
     },
     {
       "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "6aae7e004b340ebe08f2501f",
+      "line": 1427,
+      "rcf": "RCF.md",
+      "sentenceSha256": "895131f7c8fe4daf40461a32eaebcd47a7edafb57095310c2e958663871a6407",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
         "RCF.md"
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
@@ -3620,6 +3639,595 @@
       "rcf": "RCF.md",
       "sentenceSha256": "d6b86f61f3e94c4901e52e1e9d6c71661bae9e4b0640092450b55c0570c136a1",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "b5b04bd78824ba3b02fc9cd2",
+      "line": 1564,
+      "rcf": "RCF.md",
+      "sentenceSha256": "34f285e94995d28c95cf4e890824ff58a6c0a6aca083e76598c27ef8d2478bfc",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "02c477a84247bb9682851a8c",
+      "line": 1576,
+      "rcf": "RCF.md",
+      "sentenceSha256": "a7d5277475dec4437ab478f08181487a76654ee027fadde5c0e12464d94319dc",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "165e6f35b99a257eaeb2cdff",
+      "line": 1587,
+      "rcf": "RCF.md",
+      "sentenceSha256": "4b93fd466e4f8586b618302961f6b48b607c6e3f461c7a9131a97296eb53a33f",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "6507ec84ad2237e6c55d796d",
+      "line": 1589,
+      "rcf": "RCF.md",
+      "sentenceSha256": "8f25be82bcf343ab4331549b9864ae2c9aef7ec81e4af9c3122de365712da7d9",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "2ade562c0d6cc862aeaaf12f",
+      "line": 1604,
+      "rcf": "RCF.md",
+      "sentenceSha256": "f61616d3e879fe9bfb4ed71c7da6b911d5ba3c163cb46de71a48fe055a1fe4af",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "e7f7cbc61075c9bbe901375d",
+      "line": 1606,
+      "rcf": "RCF.md",
+      "sentenceSha256": "b83748377b2f8a3b61a5761eb83abc21eed22a687668130659dfca3a7510f629",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "c60f0d4baf55803d2e631400",
+      "line": 1608,
+      "rcf": "RCF.md",
+      "sentenceSha256": "fd2354e8a613a676ac9c1432e2b634667fb7c900aedcc4a67f3ae77743ac035b",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "bea0547a7ae066a83725dac7",
+      "line": 1612,
+      "rcf": "RCF.md",
+      "sentenceSha256": "42997ea605da2a0a6b043c9abd56fea6cd73260c35f0ff48eda27b3d1040d5cb",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "430f9e980bf9785e27c3ce20",
+      "line": 1614,
+      "rcf": "RCF.md",
+      "sentenceSha256": "0dd6616a8a453dca4ce5313a361cb3e257298c5ae86fef1a60911b363beefed4",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "9e8be37eca220d159a1aa4cc",
+      "line": 1616,
+      "rcf": "RCF.md",
+      "sentenceSha256": "2ee89f3bfafc7af4a61606be7b4320180008c6d6e7229dba371096d2138e8cf2",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "9aa673d618f68eee36762f74",
+      "line": 1618,
+      "rcf": "RCF.md",
+      "sentenceSha256": "f0ff185d2ab72de499b2d83c6b902b63625eb97938a25d688b4ac34c5e11d72a",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "69a7f30c8a3917a4484766c1",
+      "line": 1622,
+      "rcf": "RCF.md",
+      "sentenceSha256": "355e146397a40e85efc7bfd0cb12d564433f1be39b948d7ce5dd47946e8345a7",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "f360bcc80c7c03f1d06f5ffe",
+      "line": 1624,
+      "rcf": "RCF.md",
+      "sentenceSha256": "433c292f41b3557a1ce3536090ed4d91f7ab025b1ade337e7325b066ac298214",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "21ddc94e064ce10e65535ba0",
+      "line": 1626,
+      "rcf": "RCF.md",
+      "sentenceSha256": "b78a28ea7982f1ff2f4351b8e17fb54cd23dcf572c3ead50b46c4945d9c9637e",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "609c8953123cf4844e0c68fb",
+      "line": 1630,
+      "rcf": "RCF.md",
+      "sentenceSha256": "9afc64fbbf402bd9c08b6b8bbea0bd4f4eb5e778a5419dd2d27d49923565ca40",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "d52d6ea2cae6857ac94859f2",
+      "line": 1632,
+      "rcf": "RCF.md",
+      "sentenceSha256": "6cc68e746ef1d5d503315efb4baa7dc67a3136dd648c464f8216fb4f274730d8",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "29f5d9aee138f186e9b7203b",
+      "line": 1634,
+      "rcf": "RCF.md",
+      "sentenceSha256": "72c18bd64af9143fc39bf79ab6e15815d54c30dd74802ec25b06a5cdd84c6f20",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "bff0abb0778d1b2990955886",
+      "line": 1638,
+      "rcf": "RCF.md",
+      "sentenceSha256": "c860da51beaa7184adbbc042bfa052816d30a5809cb8dc2baf2114b21642ca85",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "3c3f3bd350a9527b1c05635c",
+      "line": 1640,
+      "rcf": "RCF.md",
+      "sentenceSha256": "cdec47e2b6941415514aa2bf56f571dfa3b71a18c3f74d17b6a83d5c8a6fcd09",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "df5eeb4c4c2d734ccdd25002",
+      "line": 1642,
+      "rcf": "RCF.md",
+      "sentenceSha256": "82411385ac6d466d7cde284d22210002cbe4a1d6b7464334458d92c4215a8aba",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "f7ef6738175bff113c871c2a",
+      "line": 1644,
+      "rcf": "RCF.md",
+      "sentenceSha256": "c2b487ccfef929233b0d7487a603b03ad8edee859151d1ab4ee937405c744e61",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "2cb97f2cd298cc118b46340a",
+      "line": 1646,
+      "rcf": "RCF.md",
+      "sentenceSha256": "426893c5cdf27b70c1a825c0c309d2f09a13b61abbcf5fabf66a84f9e9342eaf",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "0164b3eb38d711ec1ff3001e",
+      "line": 1648,
+      "rcf": "RCF.md",
+      "sentenceSha256": "5304d9e3bf904e21ae849912db794661fdc9ef7a29d14ec55856d68ac6c99438",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "7a462962ee5e76bc9e3fe93f",
+      "line": 1650,
+      "rcf": "RCF.md",
+      "sentenceSha256": "b031ebf9cd82046e9df7bbaf369792f1dbaf7d5beb477c35ceb8e0c7329a4f75",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "5e8e0175c13cf84a6c6e0dd7",
+      "line": 1654,
+      "rcf": "RCF.md",
+      "sentenceSha256": "a4c2c534de8208e4a200a4bb8e085303a25c208899e32f0d01cddc0c1ef83701",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "b9b9526aab12c1de83fba2fc",
+      "line": 1656,
+      "rcf": "RCF.md",
+      "sentenceSha256": "3e649585a4868b566fdaff73708811d2af7329a2c405bbf98f8dbe2f38618a6d",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "cadb6b95bc0c30273bea8074",
+      "line": 1658,
+      "rcf": "RCF.md",
+      "sentenceSha256": "9c5e2daf4afe73c9836d63f6423b958c7e1230508dd3c9b90e231105a36d837a",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "153aabe4b6552dd746f5ab60",
+      "line": 1662,
+      "rcf": "RCF.md",
+      "sentenceSha256": "9138c9013e443eff1b46ab89db0b722e07e4b096fb416043c568cc0a156ec79b",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "11b8dcb5e5dd2f1f4a04498f",
+      "line": 1664,
+      "rcf": "RCF.md",
+      "sentenceSha256": "a4b2cc0f79afd2d3f4d8c024b1a6d4003afc443f623790e20ae1cf6b517348db",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "61cfdc64f84a02f11dd66abd",
+      "line": 1668,
+      "rcf": "RCF.md",
+      "sentenceSha256": "1b1a58bb6afe3cb0e9a677c802994647d1260ef9d39251b908373dc8cf9e249e",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/agents.inc.md",
+        "src/.ia.rules/core/routing.md",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/normative-index.json",
+        "src/AGENTS.md",
+        "test/agents-entrypoint.test.js",
+        "test/normative-graph.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-076",
+      "id": "f3fba9f754e9fb24b0934866",
+      "line": 1670,
+      "rcf": "RCF.md",
+      "sentenceSha256": "a8192ff74d54d8ed9aa5f9ff52038dc812271b94b6e0b4e766f4f1d20d7855b4",
+      "state": "pending",
       "syncCommit": ""
     }
   ]
