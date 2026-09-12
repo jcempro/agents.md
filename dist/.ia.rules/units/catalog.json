@@ -1,0 +1,11 @@
+{
+  "schema": "agents-unit-catalog/v1",
+  "version": 1,
+  "generated": false,
+  "units": [
+    {"id":"governed-state","kind":"skill","descriptor":".ia.rules/skills/governed-state/descriptor.json","source":".ia.rules/skills/governed-state","destinations":{"codex":".agents/skills/governed-state","github-copilot":".agents/skills/governed-state"}},
+    {"id":"visual-evidence","kind":"skill","descriptor":".ia.rules/skills/visual-evidence/descriptor.json","source":".ia.rules/skills/visual-evidence","destinations":{"codex":".agents/skills/visual-evidence","github-copilot":".agents/skills/visual-evidence"}},
+    {"id":"validation-audit","kind":"subagent","descriptor":".ia.rules/subagents/validation-audit/descriptor.json","source":".ia.rules/clients","destinations":{"codex":".codex/agents/validation-audit.toml","github-copilot":".github/agents/validation-audit.agent.md"}}
+  ],
+  "unsupportedClients": ["claude","gemini"]
+}

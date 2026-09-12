@@ -20,6 +20,7 @@ const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
 const { assertRepositoryGit, assertRepositoryTarget, resolveRepositoryBoundary } = require("./repository-boundary");
+const { loadCatalog, sha256, validateDescriptor } = require("./unit-manager");
 
 const RUNTIME_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
 // FIX-BUG: o mesmo runtime executa na fonte src/.ia.rules e no pacote .ia.rules.
@@ -468,6 +469,7 @@ function buildIndex() {
       path: toPosix(path.join("src", entry.path)),
       profile: entry.profile,
       ...(entry.language ? { language: entry.language } : {}),
+      ...(entry.unit ? { unit: entry.unit } : {}),
     };
     if (!entry.artifact) return [source];
     return [source, {
@@ -501,6 +503,7 @@ function buildIndex() {
       path: toPosix(path.relative(ROOT_DIR, SOURCE_DISTRIBUTION_MANIFEST_PATH)),
       version: sourceManifest.version,
     },
+    units: buildUnitIndex(SRC_DIR),
   };
   index.update = createGovernanceManifest(buildDistributionFiles(index), distributionContent);
   index.update.files.push({
@@ -543,6 +546,10 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
       !Array.isArray(entry.roles) || entry.roles.length === 0 ||
       !Array.isArray(entry.validation) || entry.validation.length === 0) {
       throw new Error(`MANIFESTO_FONTE_ENTRADA_INVALIDA:${JSON.stringify(entry)}`);
+    }
+    if (entry.unit && (!entry.unit.id || !["skill", "subagent", "adapter", "catalog"].includes(entry.unit.kind) ||
+      !entry.unit.version || !entry.unit.license || !entry.unit.trust || !Array.isArray(entry.unit.clients))) {
+      throw new Error(`MANIFESTO_FONTE_UNIDADE_INVALIDA:${entry.path}`);
     }
     entry.path = normalizeSourceDistributionPath(entry.path, "origem");
     entry.destination = normalizeSourceDistributionPath(entry.destination, "destino");
@@ -652,6 +659,7 @@ function buildDist(options = {}) {
     },
     root: ".",
     schema: 1,
+    units: index.units,
   };
   if (releaseNotes) {
     guardTarget(RELEASE_NOTE_PATH, { allowHardlink: true });
@@ -727,7 +735,29 @@ function buildDistributionFiles(index) {
     profile: file.profile,
     runtime: file.runtime || null,
     sourcePath: file.path,
+    unit: file.unit || null,
   })).sort((a, b) => a.path.localeCompare(b.path, "en"));
+}
+
+/** Gera índice de unidades com hashes efetivos, origem e suporte declarado. */
+function buildUnitIndex(rootDir) {
+  const catalog = loadCatalog(rootDir);
+  return catalog.units.map((unit) => {
+    const descriptorPath = path.join(rootDir, unit.descriptor);
+    const descriptor = validateDescriptor(JSON.parse(fs.readFileSync(descriptorPath, "utf8")), unit.kind);
+    const sourcePath = path.join(rootDir, unit.source);
+    const sources = fs.statSync(sourcePath).isDirectory() ? listFiles(sourcePath) : [sourcePath];
+    const hash = crypto.createHash("sha256");
+    for (const filePath of sources.sort((a, b) => a.localeCompare(b, "en"))) {
+      hash.update(toPosix(path.relative(rootDir, filePath))); hash.update("\0"); hash.update(fs.readFileSync(filePath)); hash.update("\0");
+    }
+    return {
+      id: unit.id, kind: unit.kind, schema: descriptor.schema, version: descriptor.version,
+      origin: descriptor.origin, license: descriptor.license, trust: descriptor.trust,
+      clients: descriptor.clients, destinations: unit.destinations, precedence: descriptor.precedence,
+      sha256: hash.digest("hex"),
+    };
+  }).sort((a, b) => a.id.localeCompare(b.id, "en"));
 }
 
 /** Executa copyDistributionFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1096,6 +1126,7 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "consumer-verify.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "updater-git-state.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "handoff-fallback.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "governance-evolution.test.js")]);
   return ok("TEST_OK", { suites: 23 });
 }
 
