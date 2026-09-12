@@ -1836,3 +1836,200 @@ dependencias=FT-071, FT-072, FT-073 e FT-074 concluídas; gates globais verdes; 
 resultado=Issue #11 confirmada como pertinente: scripts universais do produto eram sobrescritos por coincidência nominal e agent:verify executava perfil de construtor em consumidor; a resposta do mantenedor só era correta para paths/namespaces com autoria gerenciada comprovada. Correção separa proveniência/defaults/namespaces, preserva scripts próprios, hooks, agents.local.md, extensões atuais/históricas, trabalho Git e reforça fronteira absoluta. Equalizer permaneceu byte a byte; os dois itens materiais foram concluídos e removidos. Nenhum beta foi necessário. Release final https://github.com/jcempro/agents.md/releases/tag/v0.1.3 publicada.
 verificacoes=23 suites; verify/lint/RCF/grafo/rastreabilidade verdes; v0.1.2→v0.1.3 preserva 120/120 scripts, remove 0 arquivos do release/update e adiciona somente repository-boundary.ts/js; handoff 5→6; DEVE 361→373, PODE 76→82, NÃO/PROIBIDO sem redução. Workflow 31460756824 success; asset agents-v0.1.3.zip SHA-256 66c0fcdb603e7968fd13f27f61ba898856496c57a9d176b2ce737aec68fac9c9; asset remoto VERIFY_CONSUMER_OK installedFiles=120 normativeNodes=36; dev/main/origin convergidos em 0e8b43dbbed3b9a2b058d587d248acdcc18b0c63; tag v0.1.3=c32e97134ebf5977d2b2d0d286f71587adc05381.
 pendencias=nenhuma. Issue remota permaneceu sem mutação porque o prompt autorizou análise/correção/release, não comentário, rotulagem ou fechamento; tentativa anterior foi recusada antes de qualquer efeito.
+
+FT-076|nome=Equalização e RCF de Skills Subagents memória automação e precisão visual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-12T04:10:51-03:00|inicio=2026-09-12T04:10:51-03:00|atualizacao=2026-09-12T04:10:51-03:00
+objetivo=Equalizar integralmente a nova TO-DO e normatizar no RCF a evolução distribuível de Skills, Subagents, roteamento, memória, automação, clientes, processos longos, precisão visual, terceiros, segurança e validação sem perda da Norma vigente.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md@30b07f9 item `Evoluir a governança distribuível de agents.md com Skills, Subagents, memória, automação e precisão visual`.
+origem_sha256=81B9EEAF4B14C197338E1A98C4F4B28B248855802E463A22CB2BA906264F9E74
+triagem_recusas=DEC-20260725-001 e DEC-20260725-002 permanecem vigentes; a solicitação é distinta e preserva integralmente suas parcelas recusadas.
+autorizacao=O prompt ordena implementar a TO-DO começando por equalizar; a governança perene e o papel Construtor autorizam somente equalização e fase RCF nesta execução, impondo nova autorização antes da Norma Operacional em src, código, migração, automação ou distribuição.
+equalizer=Item perene preservado literalmente e desmarcado; rege FT-076 a FT-083 como frentes convergentes. A frente raiz também permanece porque não foi implementada nem aprovada.
+notacao=Estado canônico conserva temporariamente o adaptador textual legado exigido pelo gerador de handoff; a migração para emoji pertence à FT-080.
+1/4 Inventário e equalização [em_andamento]
+  1/4 Ler integralmente TO-DO, Norma, RCF, estado, recusas, manifestos, runtime e testes [concluido]
+  2/4 Atualizar e confrontar fontes externas primárias e acadêmicas [concluido]
+  3/4 Classificar sobreposição, lacunas, conflitos, dependências e fora de escopo [concluido]
+  4/4 Fixar decomposição e decisões sem reduzir intenção ou força [concluido]
+2/4 RCF [pendente]
+  1/4 Normatizar modelo de rota, entrypoint, Skills e Subagents [pendente]
+  2/4 Normatizar manifestos, clientes, memória, TODO e execução longa [pendente]
+  3/4 Normatizar precisão visual, terceiros, segurança e provenance [pendente]
+  4/4 Atualizar matriz origem para contrato e critérios de fases [pendente]
+3/4 Validação normativa [pendente]
+  1/3 Preparar rastreabilidade pendente por FT e artefato futuro [pendente]
+  2/3 Executar agent:rcf, trace, grafo aplicável e diff check [pendente]
+  3/3 Auditar cobertura bidirecional e ausência de regressão modal [pendente]
+4/4 Fechamento da fase [pendente]
+  1/2 Commitar o RCF e estado em commit normativo isolado [pendente]
+  2/2 Interromper e solicitar autorização para FT-077 [pendente]
+aceite=RCF incorpora cada requisito, exceção, evidência, decisão de rota, dependência e gate da TO-DO; recusas vigentes, Equalizer, funcionalidades e força normativa anteriores permanecem; todas as implementações futuras possuem FT e rastreabilidade.
+dependencias=Registro exclusivo das FTs; FT-077 depende desta fase concluída e de nova autorização humana.
+pendencias=Concluir RCF e validação normativa.
+
+FT-077|nome=Norma Operacional de Skills Subagents e rotas sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T04:10:52-03:00|atualizacao=2026-09-12T04:10:52-03:00
+objetivo=Projetar o RCF equalizado na fonte distribuível, reduzir src/AGENTS.md a no máximo 400 tokens e criar contratos/rotas de Skills, Subagents, memória, TODO, processos longos, visual e terceiros sem implementar runtime funcional.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md integral.
+normativa=FT-076.
+1/4 Projeção da Norma [pendente]
+  1/4 Atualizar entrypoint, microconceitos, papéis, cenários e recursos [pendente]
+  2/4 Criar contratos enxutos de Skill e Subagent com divulgação de uma camada [pendente]
+  3/4 Criar cenários/recursos para TODO, estado, execução longa e precisão visual [pendente]
+  4/4 Regenerar índice ativo e artefatos normativos pelo fluxo oficial [pendente]
+2/4 Compatibilidade [pendente]
+  1/3 Preservar fallback integral, precedência, rotas e clientes atuais [pendente]
+  2/3 Declarar capacidades ausentes sem simulação [pendente]
+  3/3 Impedir especialização de produto no núcleo generalista [pendente]
+3/4 Validação [pendente]
+  1/3 Medir tokens, rotas, precisão, cobertura e equivalência antes/depois [pendente]
+  2/3 Validar schemas oficiais, referências, ciclos e força normativa [pendente]
+  3/3 Commitar fonte normativa e sincronização causal isoladamente [pendente]
+4/4 Gate [pendente]
+  1/2 Informar implementações liberadas e impedimentos [pendente]
+  2/2 Interromper antes de runtime, migração, automação e distribuição [pendente]
+aceite=Fonte operacional distribui somente contratos e rotas comprovados, src/AGENTS.md possui no máximo 400 tokens, leitura é seletiva de uma camada e nenhuma capacidade funcional é antecipada.
+dependencias=FT-076 concluída; nova autorização humana após a fase RCF.
+pendencias=Aguardando FT-076 e autorização humana.
+
+FT-078|nome=Inventário e implementação criteriosa de Skills e Subagents|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-12T04:10:53-03:00|atualizacao=2026-09-12T04:10:53-03:00
+objetivo=Inventariar scripts e cenários por grafo/custo/determinismo e materializar somente Skills ou Subagents com benefício mensurado, mantendo scripts mecânicos e cenários amplos.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md §§ Modelo normativo e Estrutura de Skills e Subagents.
+normativa=FT-076, FT-077.
+1/4 Inventário comparativo [pendente]
+  1/3 Medir chamadas, frequência, duração, estado e paralelismo [pendente]
+  2/3 Classificar manter, agrupar, encapsular ou delegar [pendente]
+  3/3 Registrar rejeições e condições sem criar wrappers artificiais [pendente]
+2/4 Materialização seletiva [pendente]
+  1/3 Implementar Skills aderentes ao schema validado [pendente]
+  2/3 Implementar Subagents somente sob isolamento e privilégio mínimos [pendente]
+  3/3 Garantir operação essencial sem hook e recursos sob demanda [pendente]
+3/4 Testes [pendente]
+  1/3 Cobrir descoberta, ativação, não ativação e recursos [pendente]
+  2/3 Cobrir escopo, timeout, retorno e parada de Subagents [pendente]
+  3/3 Comparar custo e acerto contra agente primário/script/cenário [pendente]
+4/4 Fechamento [pendente]
+  1/2 Versionar implementação e rastreabilidade causal [pendente]
+  2/2 Liberar integração após ausência de regressão [pendente]
+aceite=Nenhuma Skill/Subagent é criada por equivalência nominal; cada unidade é generalista, validada, acionada somente no contexto correto e demonstra ganho líquido sobre o mecanismo anterior.
+dependencias=FT-077 concluída; autorização humana posterior ao gate normativo.
+pendencias=Aguardando Norma Operacional e autorização de código.
+
+FT-079|nome=Manifestação e instalação segura por cliente de IA|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T04:10:54-03:00|atualizacao=2026-09-12T04:10:54-03:00
+objetivo=Estender manifestos, schemas, build, update e adaptadores para declarar, instalar, atualizar, mesclar e reverter Skills/Subagents somente em clientes oficialmente comprovados.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md §§ Manifestações instalação e clientes de IA; Terceiros MCP e segurança.
+normativa=FT-076, FT-077.
+1/4 Contratos e seleção positiva [pendente]
+  1/3 Estender índice, manifesto, mapa, release e schemas [pendente]
+  2/3 Declarar origem, hash, licença, confiança, versão, destino e precedência [pendente]
+  3/3 Rejeitar suporte inferido e configuração ativa por template [pendente]
+2/4 Instalação transacional [pendente]
+  1/3 Implementar plano/diff, temporário, validação, fsync, rename e lock [pendente]
+  2/3 Implementar merge estrutural preservador e backup/rollback [pendente]
+  3/3 Implementar fallbacks finitos e diagnósticos por capacidade ausente [pendente]
+3/4 Adaptadores e segurança [pendente]
+  1/3 Criar somente adaptadores com documentação e fixtures reais [pendente]
+  2/3 Auditar injeção, execução, permissões, exfiltração, supply chain e telemetria [pendente]
+  3/3 Validar MCP/ferramentas como evidência não autoritativa [pendente]
+4/4 Testes [pendente]
+  1/3 Cobrir configuração preexistente, comentários, chaves e concorrência [pendente]
+  2/3 Cobrir idempotência, descoberta pelo cliente, atualização e remoção [pendente]
+  3/3 Provar igualdade fonte, dist, pacote e consumidor limpo [pendente]
+aceite=Cada cliente suportado possui schema/fixture oficial, merge sem perda, transação recuperável e descoberta comprovada; cliente não suportado permanece explicitamente ausente e nenhum terceiro entra sem avaliação rastreável.
+dependencias=FT-077 concluída; coordena com FT-078; autorização humana posterior ao gate normativo.
+pendencias=Aguardando Norma Operacional e autorização de código.
+
+FT-080|nome=Estado canônico memória durável e governança executável de TODO|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T04:10:55-03:00|atualizacao=2026-09-12T04:10:55-03:00
+objetivo=Criar/migrar continue.ia, memory.md, fix.md, FT.implementados.md e TODO.ia.md com índices mínimos, preservação comprovada, notação compatível, provenance ambiental e retomada determinística.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md §§ Estado memória e rastreabilidade; Governança canônica de TODO.ia.md.
+normativa=FT-076, FT-077.
+1/5 Baseline e migração [pendente]
+  1/3 Inventariar conteúdo antigo por destino e hash [pendente]
+  2/3 Separar estado ativo, aprendizado, correções e FTs concluídas sem perda [pendente]
+  3/3 Migrar exemplar raiz de TODO para o caminho canônico com compatibilidade [pendente]
+2/5 Estado e memória [pendente]
+  1/3 Implementar índices mínimos e roteamento contextual [pendente]
+  2/3 Registrar resultado, comando, projeto, data e ambiente sem segredo [pendente]
+  3/3 Implementar decisão de retentativa e limites de generalização [pendente]
+3/5 TODO executável [pendente]
+  1/3 Implementar parser de raiz/subordinação/status e Equalizer perene [pendente]
+  2/3 Implementar retomada, delta, remoção pós-aprovação e adaptador legado [pendente]
+  3/3 Preservar governança imutável e bloquear implementação sem fase normativa [pendente]
+4/5 Testes [pendente]
+  1/3 Cobrir gramática, renderização, migração, delta e retomada [pendente]
+  2/3 Cobrir aprovação, remoção, permanência e conflitos [pendente]
+  3/3 Cobrir fingerprints independentes e reabertura por mudança material [pendente]
+5/5 Fechamento [pendente]
+  1/2 Validar ausência de duplicação e perda por hashes [pendente]
+  2/2 Versionar implementação e rastreabilidade causal [pendente]
+aceite=Estado decide rota sem carregar histórico; memória conserva evidência durável e segura; TODO canônico executa a gramática nova, preserva Equalizer/governança e não confunde demanda, FT, norma ou autorização.
+dependencias=FT-077 concluída; coordena com FT-081; autorização humana posterior ao gate normativo.
+pendencias=Aguardando Norma Operacional e autorização de código.
+
+FT-081|nome=Execução longa observável e economia do agente primário|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-12T04:10:56-03:00|atualizacao=2026-09-12T04:10:56-03:00
+objetivo=Instrumentar duração, ambiente, percentis, espera orientada a evento, backoff limitado, cancelamento e retomada para comandos longos sem polling excessivo nem delegação redundante.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md § Execuções longas e economia do agente primário.
+normativa=FT-076, FT-077.
+1/4 Baseline [pendente]
+  1/3 Medir comandos representativos por ambiente e runtime [pendente]
+  2/3 Classificar acoplamento, duração e timeout com margem [pendente]
+  3/3 Definir condições em que Subagent reduz custo real [pendente]
+2/4 Runtime [pendente]
+  1/3 Implementar eventos/espera e fallback com backoff limitado [pendente]
+  2/3 Persistir início, fim, duração, código, ambiente e retomada [pendente]
+  3/3 Preservar cancelamento, lock, limpeza e decisão intermediária [pendente]
+3/4 Testes [pendente]
+  1/3 Cobrir sucesso, timeout, cancelamento, retomada e processo órfão [pendente]
+  2/3 Comprovar ausência de polling curto e duplicado [pendente]
+  3/3 Validar diagnóstico sem confundir timeout e falha funcional [pendente]
+4/4 Fechamento [pendente]
+  1/2 Atualizar memória durável somente com evidência aplicável [pendente]
+  2/2 Versionar implementação e rastreabilidade causal [pendente]
+aceite=Timeouts derivam de evidência; espera não desperdiça o primário; retomada não repete conclusão; Subagent de monitoração só existe com isolamento e ganho comprovados.
+dependencias=FT-077 concluída; integra estado da FT-080; autorização humana posterior ao gate normativo.
+pendencias=Aguardando Norma Operacional e autorização de código.
+
+FT-082|nome=Capacidade generalista de precisão visual imagem e PDF|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-12T04:10:57-03:00|atualizacao=2026-09-12T04:10:57-03:00
+objetivo=Implementar procedimento, automação e validação generalistas para compreender e corrigir imagens, PDFs e interfaces por evidência regional, render posterior e matriz responsiva sem inferir geometria oculta.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md § Precisão visual imagens e PDFs.
+normativa=FT-076, FT-077.
+1/4 Procedimento [pendente]
+  1/3 Inspecionar original em resolução preservada e regiões relevantes [pendente]
+  2/3 Registrar ledger evidência elemento erro esperado critério [pendente]
+  3/3 Exigir render/captura posterior e aprovação quando intenção for ambígua [pendente]
+2/4 Automação [pendente]
+  1/3 Implementar captura, render, crop, dimensões, contraste e diff [pendente]
+  2/3 Parametrizar viewport, zoom, densidade, tema, fonte e conteúdo [pendente]
+  3/3 Validar unidades fluidas e exceções justificadas de px/pt [pendente]
+3/4 Empacotamento seletivo [pendente]
+  1/3 Criar Skill generalista se o procedimento validar ganho [pendente]
+  2/3 Criar Subagent somente se isolamento/execução longa justificar [pendente]
+  3/3 Manter ferramentas opcionais e sem dependência oculta [pendente]
+4/4 Testes [pendente]
+  1/3 Cobrir fixtures de imagem, PDF e Web responsiva [pendente]
+  2/3 Comprovar vínculo regional antes/depois [pendente]
+  3/3 Versionar implementação e rastreabilidade causal [pendente]
+aceite=Correção visual possui evidência inequívoca antes/depois, ledger regional, matriz aplicável e automação mecânica; texto ou OCR isolados nunca substituem inspeção visual.
+dependencias=FT-077 concluída; coordena com FT-078 e FT-079; autorização humana posterior ao gate normativo.
+pendencias=Aguardando Norma Operacional e autorização de código.
+
+FT-083|nome=Integração segurança comparação e aceite global da evolução|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T04:10:58-03:00|atualizacao=2026-09-12T04:10:58-03:00
+objetivo=Integrar FT-077 a FT-082, fechar rastreabilidade bidirecional e comprovar compatibilidade, segurança, reprodutibilidade, ganho contextual e ausência de regressão em fonte, dist, pacote e consumidor.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md § Validação e aceite.
+1/4 Auditoria cumulativa [pendente]
+  1/3 Revisar origem, RCF, Norma, código, testes e artefatos [pendente]
+  2/3 Comparar funcionalidades, força modal, rotas, tokens e custos com baseline [pendente]
+  3/3 Corrigir qualquer perda antes do gate terminal [pendente]
+2/4 Gates globais [pendente]
+  1/3 Executar build, typecheck, lint, testes, índice, grafo, RCF e trace [pendente]
+  2/3 Validar dist, pacote, instalação limpa, atualização e configuração existente [pendente]
+  3/3 Validar segurança, provenance, cross-platform e clientes suportados [pendente]
+3/4 Aceite material [pendente]
+  1/3 Comprovar entrypoint menor ou igual a 400 tokens e seleção exata de rotas [pendente]
+  2/3 Comprovar Skills/Subagents/estado/TODO/longos/visual sem hooks [pendente]
+  3/3 Comprovar Equalizer perene e frente raiz implementada pendente de validação humana [pendente]
+4/4 Fechamento [pendente]
+  1/3 Sincronizar hashes causais e índices finais [pendente]
+  2/3 Gerar handoff e relatório de cobertura/riscos [pendente]
+  3/3 Não publicar release sem versão e autorização explícitas [pendente]
+aceite=Cada regra da TO-DO possui evidência RCF-fonte-teste-artefato-comportamento; nenhuma feature/norma vigente regride; tarefas ficam em ✅ até aprovação humana; release permanece fora do escopo sem autorização própria.
+dependencias=FT-077, FT-078, FT-079, FT-080, FT-081 e FT-082 concluídas; gates locais verdes.
+pendencias=Aguardando todas as FTs anteriores; publicação não autorizada.
