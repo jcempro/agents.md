@@ -101,13 +101,13 @@
         "test/autoupdate.test.js",
         "test/fixtures/legacy-physical-updater-v0.1.3.json"
       ],
-      "commit": "",
+      "commit": "2cf8ecc5ee2fa97d97cbf8e77c68d36d796b3804",
       "ft": "FT-084",
       "id": "f74cebd1e6c7aceb0d6a6079",
       "line": 39,
       "rcf": "RCF.md",
       "sentenceSha256": "5192fdcf4bc9c45f5e4769b5be64898142cf6e8710dcd065d08397016c13af05",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -1337,13 +1337,13 @@
         "test/agents-entrypoint.test.js",
         "test/governance-evolution.test.js"
       ],
-      "commit": "",
+      "commit": "2cf8ecc5ee2fa97d97cbf8e77c68d36d796b3804",
       "ft": "FT-086",
       "id": "9bc6c2f4677f68153d8243d2",
       "line": 467,
       "rcf": "RCF.md",
       "sentenceSha256": "13f2f6f472cb2225a8733068d07d4c50d241a369a8f54251aee69f19379c57a5",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2506,13 +2506,13 @@
         "src/.ia.rules/scenarios/governance/state-and-todo.md",
         "src/AGENTS.md"
       ],
-      "commit": "",
+      "commit": "2cf8ecc5ee2fa97d97cbf8e77c68d36d796b3804",
       "ft": "FT-086",
       "id": "89b966a05c7c4bc62726dd20",
       "line": 1253,
       "rcf": "RCF.md",
       "sentenceSha256": "ecf0157867de75c23cbf3cc60b6fbcbc786f93b8d8c52c9abab0265a8ba016b3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -2902,13 +2902,13 @@
         "test/autoupdate.test.js",
         "test/fixtures/legacy-physical-updater-v0.1.3.json"
       ],
-      "commit": "",
+      "commit": "2cf8ecc5ee2fa97d97cbf8e77c68d36d796b3804",
       "ft": "FT-084",
       "id": "dedcdf964d01a5b01b189dea",
       "line": 1334,
       "rcf": "RCF.md",
       "sentenceSha256": "f4adbd713516782b13c6f8b3f46c3c533837277f61e6f7bb39402de2701c91ca",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -3003,13 +3003,13 @@
         "test/autoupdate.test.js",
         "test/fixtures/legacy-physical-updater-v0.1.3.json"
       ],
-      "commit": "",
+      "commit": "2cf8ecc5ee2fa97d97cbf8e77c68d36d796b3804",
       "ft": "FT-084",
       "id": "53bd98c384e086a01675c5c4",
       "line": 1344,
       "rcf": "RCF.md",
       "sentenceSha256": "768a599152686994e90c213ca71ae49c569544b9b91be34fa27cd1e75fc2e679",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
