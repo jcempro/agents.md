@@ -1,0 +1,25 @@
+FT-079|nome=Manifestação e instalação segura por cliente de IA|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-12T04:10:54-03:00|atualizacao=2026-09-12T17:55:09.401Z|autorizacao=humana
+objetivo=Estender manifestos, schemas, build, update e adaptadores para declarar, instalar, atualizar, mesclar e reverter Skills/Subagents somente em clientes oficialmente comprovados.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md §§ Manifestações instalação e clientes de IA; Terceiros MCP e segurança.
+normativa=FT-076, FT-077.
+1/4 Contratos e seleção positiva [concluido]
+  1/3 Estender índice, manifesto, mapa, release e schemas [concluido]
+  2/3 Declarar origem, hash, licença, confiança, versão, destino e precedência [concluido]
+  3/3 Rejeitar suporte inferido e configuração ativa por template [concluido]
+2/4 Instalação transacional [concluido]
+  1/3 Implementar plano/diff, temporário, validação, fsync, rename e lock [concluido]
+  2/3 Implementar merge estrutural preservador e backup/rollback [concluido]
+  3/3 Implementar fallbacks finitos e diagnósticos por capacidade ausente [concluido]
+3/4 Adaptadores e segurança [concluido]
+  1/3 Criar somente adaptadores com documentação e fixtures reais [concluido]
+  2/3 Auditar injeção, execução, permissões, exfiltração, supply chain e telemetria [concluido]
+  3/3 Validar MCP/ferramentas como evidência não autoritativa [concluido]
+4/4 Testes [concluido]
+  1/3 Cobrir configuração preexistente, comentários, chaves e concorrência [concluido]
+  2/3 Cobrir idempotência, descoberta pelo cliente, atualização e remoção [concluido]
+  3/3 Provar igualdade fonte, dist, pacote e consumidor limpo [concluido]
+aceite=Cada cliente suportado possui schema/fixture oficial, merge sem perda, transação recuperável e descoberta comprovada; cliente não suportado permanece explicitamente ausente e nenhum terceiro entra sem avaliação rastreável.
+dependencias=FT-077 concluída; coordena com FT-078; autorização humana posterior ao gate normativo.
+resultado=Manifestos, mapa, release, adaptadores Codex/Copilot e instalação transacional por arquivos atômicos implementados.
+verificacoes=Idempotência, destino não gerenciado, lock, backup, rollback, remoção por hash e clientes ausentes cobertos.
+pendencias=Nenhuma pendência funcional; validação humana do TODO permanece externa.

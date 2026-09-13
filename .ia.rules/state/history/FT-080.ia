@@ -1,0 +1,28 @@
+FT-080|nome=Estado canônico memória durável e governança executável de TODO|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-12T04:10:55-03:00|atualizacao=2026-09-12T17:55:09.401Z|autorizacao=humana
+objetivo=Criar/migrar continue.ia, memory.md, fix.md, FT.implementados.md e TODO.ia.md com índices mínimos, preservação comprovada, notação compatível, provenance ambiental e retomada determinística.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md §§ Estado memória e rastreabilidade; Governança canônica de TODO.ia.md.
+normativa=FT-076, FT-077.
+1/5 Baseline e migração [concluido]
+  1/3 Inventariar conteúdo antigo por destino e hash [concluido]
+  2/3 Separar estado ativo, aprendizado, correções e FTs concluídas sem perda [concluido]
+  3/3 Migrar exemplar raiz de TODO para o caminho canônico com compatibilidade [concluido]
+2/5 Estado e memória [concluido]
+  1/3 Implementar índices mínimos e roteamento contextual [concluido]
+  2/3 Registrar resultado, comando, projeto, data e ambiente sem segredo [concluido]
+  3/3 Implementar decisão de retentativa e limites de generalização [concluido]
+3/5 TODO executável [concluido]
+  1/3 Implementar parser de raiz/subordinação/status e Equalizer perene [concluido]
+  2/3 Implementar retomada, delta, remoção pós-aprovação e adaptador legado [concluido]
+  3/3 Preservar governança imutável e bloquear implementação sem fase normativa [concluido]
+4/5 Testes [concluido]
+  1/3 Cobrir gramática, renderização, migração, delta e retomada [concluido]
+  2/3 Cobrir aprovação, remoção, permanência e conflitos [concluido]
+  3/3 Cobrir fingerprints independentes e reabertura por mudança material [concluido]
+5/5 Fechamento [concluido]
+  1/2 Validar ausência de duplicação e perda por hashes [concluido]
+  2/2 Versionar implementação e rastreabilidade causal [concluido]
+aceite=Estado decide rota sem carregar histórico; memória conserva evidência durável e segura; TODO canônico executa a gramática nova, preserva Equalizer/governança e não confunde demanda, FT, norma ou autorização.
+dependencias=FT-077 concluída; coordena com FT-081; autorização humana posterior ao gate normativo.
+resultado=Estado canônico migrado com TODO, continue, memória, correções, índice de FTs, baseline e projeções legadas.
+verificacoes=Parser, Equalizer perene, autorização, transição, remoção pós-aprovação, fingerprint e hashes cobertos.
+pendencias=Nenhuma pendência funcional; validação humana do TODO permanece externa.

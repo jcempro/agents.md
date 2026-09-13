@@ -1,0 +1,32 @@
+FT-069|nome=Reparo convergente do atualizador legado e release 0.1.2|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-08-09T22:26:26-03:00|inicio=2026-08-09T22:26:26-03:00|atualizacao=2026-08-10T00:26:21-03:00|conclusao=2026-08-10T00:26:21-03:00
+objetivo=Corrigir a atualização a partir de consumidores legados ou parciais para que a release materialize integralmente AGENTS.md, a árvore gerenciada .ia.rules e a projeção canônica update:agents, sem concluir “sem alterações” por sentinela isolado, e publicar a release 0.1.2 funcional.
+origem=Prompt efêmero preservado integralmente no histórico pelo commit a734caf e incorporado nesta FT, no RCF vigente, na implementação e nas provas públicas.
+origem_sha256=7B22742678C1E3C5C569A317666A17A6285C0B8541B3A240243F6761966CA5BC
+contratos=RCF.md §0.0.2 e §4.0; core.update AU-1 a AU-4; resource.scripts; FT-030 a FT-033.
+triagem_recusas=DEC-20260725-001 e DEC-20260725-002 não são materialmente equivalentes; solicitação admitida.
+autorizacao=Prompt humano `concluso, e funcional, lance o release 0.1.2`, recebido em 2026-08-09, autoriza correção, validação, commits, push, release 0.1.2 e convergência.
+decisao_normativa=RCF e Norma vigentes já exigem manifesto remoto exaustivo, adoção de todo path gerenciado, projeção mesclada de package.json, aliases equivalentes e --force sem autoridade adicional; não criar cláusula redundante nem alterar Norma ativa.
+1/4 Reprodução e contrato [concluido]
+  1/3 Reproduzir instalação parcial que contém somente AGENTS.md [concluido]
+  2/3 Reproduzir propagação legada de force sem prefixo [concluido]
+  3/3 Fixar aceite de varredura profunda limitada ao manifesto autoritativo [concluido]
+2/4 Implementação [concluido]
+  1/3 Corrigir bootstrap/adaptador legado na fonte TypeScript [concluido]
+  2/3 Tornar a conclusão dependente do conjunto gerenciado e da projeção package.json [concluido]
+  3/3 Corrigir projeção final do dispatcher e regenerar derivados [concluido]
+3/4 Validação funcional [concluido]
+  1/3 Cobrir --force e consumidor parcial/legado em testes de regressão [concluido]
+  2/3 Executar build, typecheck, lint, testes, verify, RCF e grafo [concluido]
+  3/3 Ensaiar atualização real sem falso “sem alterações” e comprovar pós-condições [concluido]
+4/4 Publicação [concluido]
+  1/3 Sincronizar rastreabilidade causal e concluir a FT [concluido]
+  2/3 Publicar e comprovar release 0.1.2 e assets [concluido]
+  3/3 Convergir dev, branch primária e remotos sem conflito [concluido]
+aceite=Consumidor somente com AGENTS.md recebe toda a árvore gerenciada e update:agents; alias legado aceita --force com semântica idêntica; “sem alterações” requer igualdade exaustiva de todos os destinos manifestados, remoções oficiais e projeção gerenciada de package.json; extensões e scripts locais não gerenciados permanecem; transação, backup, handoff e saída/código continuam íntegros; v0.1.2 é publicada e validada funcionalmente.
+diagnostico=O coletor físico da v0.0.1 seleciona AGENTS.md, .agents, scripts/.agents e package.json somente quando a raiz remota contém scripts; a v0.1.1 não distribuía os dois namespaces de bootstrap, portanto o coletor via apenas AGENTS.md. Wrappers npm históricos também entregam `force` sem prefixo ao parser estrito.
+diagnostico_adicional=A primeira republicação autorizada, workflow 31349909550, expôs na prova pública que o v0.0.1 aplicava o bridge sob .agents, mas não conseguia versionar subpaths ignorados; o v0.0.13 também exige manifesto limitado a .js, .json e .md antes do handoff. A correção desloca o bridge físico para scripts/.agents e separa manifesto bootstrap compatível do manifesto canônico exaustivo.
+resultado=Fonte carrega bridge TypeScript empacotado em scripts/.agents, marcadores físicos versionáveis e aliases de manifesto para coletores intermediários. A release separa manifesto bootstrap compatível de oito entradas e manifesto canônico exaustivo de 119 entradas; o dispatcher prioriza o bridge novo antes do runtime legado. O runtime canônico compara destinos, remoções e package.json, projeta agentsUpstream e varre recursivamente os namespaces estruturais historicamente gerenciados sob .agents, preservando extensões e scripts locais.
+verificacoes=Provas candidatas cobriram v0.0.1 e v0.0.13. A prova pública final partiu do pacote real v0.0.13: agent:agents -- --force instalou scripts/.agents/autoupdate.js e update:agents em dois commits; update:agents -- force --help aceitou o parâmetro sem prefixo; update:agents -- force materializou .ia.rules, removeu integralmente .agents e scripts/.agents, preservou custom:publish, projetou jcempro/agents.md, criou backup ignorado, fez commit/push e terminou com HEAD igual ao upstream e worktree limpa. A checagem pública posterior retornou atualizado e sem alterações normativas somente após todas as pós-condições. npm test aprovou 19 suítes; verify aprovou 30 scripts, 118 entradas e 521 declarações; RCF aprovou 260 entradas de trace.
+publicacao=A release/tag inicial e três candidatas públicas rejeitadas foram removidas estritamente conforme autorização destrutiva, preservando commits e branches. A publicação final pelo workflow 31352272269 concluiu com sucesso; tag v0.1.2 em ffe68ef9f8d4e3cd405691ff15ed48c0f0b87c47; commit terminal e60022cbedd0522dd14d141330677df32412f2ad convergiu origin/dev e origin/main; asset agents-v0.1.2.zip com 335349 bytes e SHA-256 3f6d326b726a654cbb99af4b5fbdd2c420d721653c799b27195bf698dfe5fb46; manifesto público validado com 119 entradas canônicas, oito bootstrap e bridge físico presente.
+decisao_recuperacao=Prompt humano `Destrutivo: apagar release/tag v0.1.2 e republicar o mesmo número.`, recebido em 2026-08-09, autoriza excluir exclusivamente a release pública e a tag remota v0.1.2, preservar commits e branches e republicar o mesmo número pelo pipeline oficial.
+pendencias=Nenhuma.

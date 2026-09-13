@@ -1,0 +1,19 @@
+FT-085|nome=Integração e auditoria da atualização completa v0.1.4-rc1|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-12T23:32:58-03:00|atualizacao=2026-09-13T01:20:00-03:00|autorizacao=humana|conclusao=2026-09-13T01:20:00-03:00
+objetivo=Auditar a correção da FT-084 entre fonte, build, dist, manifesto, mapa, pacote e release local, comprovando o salto histórico, idempotência, falhas fechadas e ausência de perda.
+origem=.ia.rules/state/requests/FT-084/request.md.
+1/3 Matriz de artefatos [concluido]
+  1/3 Comparar inventário e hashes fonte→build→dist→ZIP [concluido]
+  2/3 Validar esperado versus atualizado por perfil e condição [concluido]
+  3/3 Confirmar ausência de interno/excluído e preservação local [concluido]
+2/3 Matriz de execução [concluido]
+  1/3 Executar salto limpo, repetição idempotente e estado legado real [concluido]
+  2/3 Rejeitar asset, manifesto, versão e hash incompatíveis [concluido]
+  3/3 Executar gates focados e globais com códigos registrados [concluido]
+3/3 Fechamento [concluido]
+  1/2 Confirmar Git do construtor e integridade somente leitura do consumidor [concluido]
+  2/2 Delimitar ações remotas sem executá-las [concluido]
+aceite=Evidência reproduzível demonstra convergência integral e detecta a regressão de três arquivos; nenhum efeito alcança o consumidor original nem qualquer estado remoto.
+dependencias=FT-084 concluída localmente; publicação remota permanece sem autorização.
+resultado=Fonte, build, dist, manifesto, mapa e pacote local foram reconciliados; o consumidor esperado possui 138 destinos canônicos, enquanto a rota defeituosa selecionou oito bootstrap e alterou apenas AGENTS.md, package.json e autoupdate.js.
+verificacoes=Build com 150 arquivos; suíte global TEST_OK 23 e VERIFY_OK; integridade, perfis, preservação, idempotência e falhas fechadas cobertos.
+pendencias=Auditoria binária direta do asset remoto permanece indisponível pelo limite de download; metadado remoto e causa anterior ao payload foram confirmados.

@@ -61,10 +61,37 @@ async function main() {
     assert.throws(() => todo.transitionTodoRoot(todoRoot, task, null, { approvedHuman: true }), /TODO_REMOCAO_SEM_APROVACAO/u);
     todo.recordMemoryResult(todoRoot, { command: "node fixture", projectHash: "abc", timestamp: "2026-09-12T00:00:00Z", exitCode: 0 });
     assert.match(fs.readFileSync(path.join(todoRoot, ".ia.rules", "state", "memory.md"), "utf8"), /agents-env-v1|environment/u);
+    const refusedDir = path.join(todoRoot, ".ia.rules", "state", "decisions", "refused");
+    fs.mkdirSync(refusedDir, { recursive: true });
+    fs.writeFileSync(path.join(refusedDir, "index.json"), `${JSON.stringify({ entries: [{ relatedArtifacts: [".ia.rules/continue.ia#FT-001"] }] }, null, 2)}\n`);
     todo.concludeFeatureState(todoRoot, ["FT-001"], { authorization: "human" });
     const concludedState = fs.readFileSync(path.join(todoRoot, ".ia.rules", "state", "continue.ia"), "utf8");
-    assert.match(concludedState, /FT-001\|status=concluida/u);
+    assert.match(concludedState, /FT-001\|status=concluida\|[^\r\n]*autorizacao=humana\|[^\r\n]*validacao=pendente_desenvolvedor/u);
     assert.doesNotMatch(concludedState, /\[pendente\]/u);
+    assert.match(concludedState, /historico=\.ia\.rules\/state\/history\/FT-001\.ia\|sha256=[a-f0-9]{64}/u);
+    const historyPath = path.join(todoRoot, ".ia.rules", "state", "history", "FT-001.ia");
+    const historyBefore = fs.readFileSync(historyPath, "utf8");
+    assert.throws(() => todo.reconcileFeatureState(todoRoot, { validated: ["FT-001"] }, { authorization: "human" }), /FT_VALIDACAO_DESENVOLVEDOR_AUSENTE/u);
+    const archived = todo.reconcileFeatureState(todoRoot, { validated: ["FT-001"] }, { authorization: "human", validatedBy: "developer" });
+    assert.equal(archived.code, "FT_STATE_RECONCILED");
+    assert.doesNotMatch(fs.readFileSync(path.join(todoRoot, ".ia.rules", "state", "continue.ia"), "utf8"), /^FT-001\|/mu);
+    assert.equal(fs.readFileSync(historyPath, "utf8"), historyBefore);
+    assert.deepEqual(todo.reconcileFeatureState(todoRoot, { validated: ["FT-001"] }, { authorization: "human", validatedBy: "developer" }).unchanged, ["FT-001"]);
+    assert.match(fs.readFileSync(path.join(todoRoot, ".ia.rules", "state", "FT.implementados.md"), "utf8"), /FT-001.*estado: validada.*history\/FT-001\.ia/u);
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(refusedDir, "index.json"), "utf8")).entries[0].relatedArtifacts, [".ia.rules/state/history/FT-001.ia#FT-001"]);
+
+    fs.writeFileSync(path.join(todoRoot, ".ia.rules", "state", "continue.ia"), "FT-002|nome=Ativa|status=em_andamento\n", "utf8");
+    assert.throws(() => todo.reconcileFeatureState(todoRoot, { pendingValidation: ["FT-002"] }, { authorization: "human" }), /FT_NAO_CONCLUIDA:FT-002/u);
+
+    fs.writeFileSync(path.join(todoRoot, ".ia.rules", "state", "continue.ia"), "FT-003|nome=Duplicada|status=concluida\nresultado=primeiro\n\nFT-003|nome=Duplicada|status=concluida\nresultado=segundo\n", "utf8");
+    todo.reconcileFeatureState(todoRoot, { validated: ["FT-003"] }, { authorization: "human", validatedBy: "developer" });
+    const duplicateHistory = fs.readFileSync(path.join(todoRoot, ".ia.rules", "state", "history", "FT-003.ia"), "utf8");
+    assert.match(duplicateHistory, /resultado=primeiro[\s\S]*resultado=segundo/u);
+
+    fs.writeFileSync(path.join(todoRoot, ".ia.rules", "state", "continue.ia"), "FT-004|nome=Colisão|status=concluida\nresultado=íntegro\n", "utf8");
+    fs.writeFileSync(path.join(todoRoot, ".ia.rules", "state", "history", "FT-004.ia"), "divergente\n", "utf8");
+    assert.throws(() => todo.reconcileFeatureState(todoRoot, { validated: ["FT-004"] }, { authorization: "human", validatedBy: "developer" }), /FT_HISTORICO_COLISAO:FT-004/u);
+    assert.match(fs.readFileSync(path.join(todoRoot, ".ia.rules", "state", "continue.ia"), "utf8"), /^FT-004\|/mu);
   } finally { fs.rmSync(todoRoot, { recursive: true, force: true }); }
 
   assert.equal(longRun.deriveTimeout([100, 200, 300], { minimumMs: 1, maximumMs: 1000 }), 450);

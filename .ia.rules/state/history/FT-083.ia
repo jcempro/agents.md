@@ -1,0 +1,24 @@
+FT-083|nome=Integração segurança comparação e aceite global da evolução|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-12T04:10:58-03:00|atualizacao=2026-09-12T17:55:09.401Z|autorizacao=humana
+objetivo=Integrar FT-077 a FT-082, fechar rastreabilidade bidirecional e comprovar compatibilidade, segurança, reprodutibilidade, ganho contextual e ausência de regressão em fonte, dist, pacote e consumidor.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md § Validação e aceite.
+1/4 Auditoria cumulativa [concluido]
+  1/3 Revisar origem, RCF, Norma, código, testes e artefatos [concluido]
+  2/3 Comparar funcionalidades, força modal, rotas, tokens e custos com baseline [concluido]
+  3/3 Corrigir qualquer perda antes do gate terminal [concluido]
+2/4 Gates globais [concluido]
+  1/3 Executar build, typecheck, lint, testes, índice, grafo, RCF e trace [concluido]
+  2/3 Validar dist, pacote, instalação limpa, atualização e configuração existente [concluido]
+  3/3 Validar segurança, provenance, cross-platform e clientes suportados [concluido]
+3/4 Aceite material [concluido]
+  1/3 Comprovar entrypoint menor ou igual a 400 tokens e seleção exata de rotas [concluido]
+  2/3 Comprovar Skills/Subagents/estado/TODO/longos/visual sem hooks [concluido]
+  3/3 Comprovar Equalizer perene e frente raiz implementada pendente de validação humana [concluido]
+4/4 Fechamento [concluido]
+  1/3 Sincronizar hashes causais e índices finais [concluido]
+  2/3 Gerar handoff e relatório de cobertura/riscos [concluido]
+  3/3 Não publicar release sem versão e autorização explícitas [concluido]
+aceite=Cada regra da TO-DO possui evidência RCF-fonte-teste-artefato-comportamento; nenhuma feature/norma vigente regride; tarefas ficam em ✅ até aprovação humana; release permanece fora do escopo sem autorização própria.
+dependencias=FT-077, FT-078, FT-079, FT-080, FT-081 e FT-082 concluídas; gates locais verdes.
+resultado=FT-077 a FT-082 integradas; fonte, ativo, dist, pacote e consumidor convergem sem release.
+verificacoes=TEST_OK 23 suítes; VERIFY_OK; RCF 305/301; entrypoint 393 tokens; pacote seco inclui unidades; diff check limpo.
+pendencias=Somente validação humana do item ✅; release sem versão/autorização permanece fora do escopo.

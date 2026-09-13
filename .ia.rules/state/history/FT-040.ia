@@ -1,0 +1,32 @@
+FT-040|nome=Código para raiz canônica e templates gerenciáveis|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-22T00:33:29Z|inicio=2026-07-21T22:38:35-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
+objetivo=Materializar em código a intenção válida da issue github:jcempro/agents.md#6 sob a raiz canônica `.ia.rules`, somente após FT-047 concluída e autorização humana posterior.
+issue_id=github:jcempro/agents.md#6
+issue_repo=jcempro/agents.md
+issue_number=6
+issue_url=https://github.com/jcempro/agents.md/issues/6
+issue_state=corrigida
+release=0.0.19
+dependencias=FT-047 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs; migração `.ia.rules` → `.ia.rules` vigente.
+norma=RCF §0.0.12; src/AGENTS.md §0.14.
+criterios=Não introduzir `.ia.gules`; implementar manifesto, templates, merge, rollback e preservação conforme RCF.
+1/5 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/5 Topologia e empacotamento restritivo [concluido]
+  1/4 Consolidar runtime e configuração pública em src/.ia.rules [concluido]
+  2/4 Refatorar paths gerenciados para .ia.rules [concluido]
+  3/4 Restringir package.json, manifesto, dist e ZIP à allowlist [concluido]
+  4/4 Preservar a governança ativa raiz sem edição [concluido]
+3/5 Validação da etapa topológica [concluido]
+  1/3 Validar sintaxe dos scripts migrados [concluido]
+  2/3 Executar build e verify pela fonte [concluido]
+  3/3 Auditar dist, ZIP e npm pack --dry-run [concluido]
+4/5 Templates, merge e rollback da issue [concluido]
+  1/2 Implementar contratos de template e merge semântico [concluido]
+  2/2 Validar rollback e preservação de extensões [concluido]
+5/5 Entrega da etapa topológica [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Registrar evidências e regenerar handoff [concluido]
+decisoes=template-merge.js implementa região textual gerenciada, merge JSON preservando campos locais e rollback com hashes; update-agents aplica kind=template e grava lock pelo conteúdo final aplicado.
+verificacoes=node --check; template-merge.test.js; autoupdate.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.

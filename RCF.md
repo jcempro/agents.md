@@ -130,8 +130,6 @@ Ciclo: obter identidade local imutável → consultar origem sob política → l
 
 ### 0.0.12 Integração gerenciada sob `.ia.rules`
 
-CONTRADIÇÃO DETECTADA: issue `github:jcempro/agents.md#6` propõe `.ia.gules` vs `AGENTS.md` §0.14 e RCF §0.0.5 definem `.ia.rules` — Aplicando a norma superior vigente e preservando a intenção de isolamento, propriedade, templates, migração e atualização segura. `.ia.gules` NÃO é alias, destino novo ou fonte concorrente; eventual ocorrência é entrada experimental desconhecida, preservada até classificação humana/conversor autorizado.
-
 `./.ia.rules/` reserva o namespace gerenciado, mas não presume propriedade irrestrita: manifesto distingue gerenciado, extensão local declarada, desconhecido, legado e conflito. Estrutura PODE conter `config`, `docs`, `hooks`, `manifests`, `migrations`, `schemas`, `scripts`, `state` e `templates`, cada qual com finalidade, perfil de distribuição, atualização e remoção. `AGENTS.md` permanece na raiz; `INIT-REPO.md` e exigência externa são exceções com finalidade, autoridade, permanência e remoção declaradas. Build publica somente allowlist do manifesto, nunca todo o ambiente do construtor. [90ad88e]
 
 Templates são completos, fragmentos, exemplos, regiões gerenciadas ou patches estruturais classificados por ecossistema e aplicados somente quando stack, arquivo, precedência, escopo, autorização e compatibilidade forem comprovados. Texto comentável PODE usar região com ID, versão, origem e delimitadores estáveis; atualizador altera só o interior, preserva exterior, detecta ausência/duplicação/malformação/edição e produz diff/conflito controlado. Estruturado usa parser, schema e merge semântico determinístico, preservando campos desconhecidos e locais; concatenação textual é vedada. Manifesto de integração declara destino, método, precondição, conflito, validação, rollback, propriedade e remoção. [90ad88e]
@@ -160,15 +158,15 @@ Excluir do release é necessário, mas insuficiente. Ao classificar entrada como
 
 A auditoria inicial vinculada à FT-056 fixa o tratamento mínimo dos achados reais, sem tornar a lista exaustiva:
 
-| Fonte atual | Classificação e destino normativo |
-|---|---|
-| `constructor/evaluations/logical-syntax.md` | avaliação histórica `builder-internal` já segregada; manter referências decisórias locais e excluir de índice/payload consumidor |
-| `constructor/docs/rcf-projection.md` | mapa de conformidade exclusivo deste construtor já segregado; não integrar grafo consumidor |
-| `src/.ia.rules/roles/constructor.md` | contrato reutilizável do papel Construtor; manter em `src`/release como `consumer-scenario`, com carregamento condicional e sem retirar sua normatização de `AGENTS.md` |
-| `src/.ia.rules/scenarios/governance/issue-lifecycle.md` | cenário técnico reutilizável do papel Construtor; manter em `src`/release, descoberto somente por gatilho aplicável |
-| `src/.ia.rules/core/runtime/scripts/issue-inbox.js` e `issue-lifecycle.js` | mecanismos oficiais do cenário técnico Construtor; manter como runtime condicional se a FT-058 comprovar correspondência integral ao contrato; separar somente implementação exclusiva deste repositório que não seja reutilizável |
-| `config/repository.json` | configuração física e metadados deste construtor; duplicata removida de `src`; build gera somente configuração/proveniência mínima segura para consumidor quando necessária |
-| `src/AGENTS.md`, `src/.ia.rules/normative-index.json`, `src/.ia.rules/meta/index.json` e `src/.ia.rules/core/runtime/scripts/repo-tools.js` | preservar normas, rotas, nós e comandos reutilizáveis de Final e Construtor; separar somente configuração, validação ou implementação exclusiva deste repositório canônico, mantendo descoberta condicional por cenário técnico |
+| Fonte atual                                                                                                                                 | Classificação e destino normativo                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `constructor/evaluations/logical-syntax.md`                                                                                                 | avaliação histórica `builder-internal` já segregada; manter referências decisórias locais e excluir de índice/payload consumidor                                                                                                   |
+| `constructor/docs/rcf-projection.md`                                                                                                        | mapa de conformidade exclusivo deste construtor já segregado; não integrar grafo consumidor                                                                                                                                        |
+| `src/.ia.rules/roles/constructor.md`                                                                                                        | contrato reutilizável do papel Construtor; manter em `src`/release como `consumer-scenario`, com carregamento condicional e sem retirar sua normatização de `AGENTS.md`                                                            |
+| `src/.ia.rules/scenarios/governance/issue-lifecycle.md`                                                                                     | cenário técnico reutilizável do papel Construtor; manter em `src`/release, descoberto somente por gatilho aplicável                                                                                                                |
+| `src/.ia.rules/core/runtime/scripts/issue-inbox.js` e `issue-lifecycle.js`                                                                  | mecanismos oficiais do cenário técnico Construtor; manter como runtime condicional se a FT-058 comprovar correspondência integral ao contrato; separar somente implementação exclusiva deste repositório que não seja reutilizável |
+| `config/repository.json`                                                                                                                    | configuração física e metadados deste construtor; duplicata removida de `src`; build gera somente configuração/proveniência mínima segura para consumidor quando necessária                                                        |
+| `src/AGENTS.md`, `src/.ia.rules/normative-index.json`, `src/.ia.rules/meta/index.json` e `src/.ia.rules/core/runtime/scripts/repo-tools.js` | preservar normas, rotas, nós e comandos reutilizáveis de Final e Construtor; separar somente configuração, validação ou implementação exclusiva deste repositório canônico, mantendo descoberta condicional por cenário técnico    |
 
 Estado auditado em 2026-07-25: `src/` possui 70 arquivos em 26 subdiretórios; o `dist/` rastreado possui 61 arquivos e antecede as fontes normativas mais recentes, portanto sua ausência atual não comprova exclusão. `buildIndex()` enumera recursivamente todo `.md`, `.json` e `.js` de `src`, e `buildDistributionFiles()` transforma cada entrada em cópia de release; inexiste perfil de consumidor. Essa seleção por extensão é a causa-raiz e DEVE ser substituída pela seleção positiva da FT-058. Acrescentar apenas denylist para `core/evaluations` seria correção incompleta e deixaria novos internos vulneráveis ao mesmo vazamento. [b528cf3]
 
@@ -618,6 +616,7 @@ NPM DEVE possuir `release`, `publish` e `update:agents` como comandos universais
 Os nomes universais descrevem pontos de orquestração do produto anfitrião, não propriedade automática da Norma. Quando já existirem no consumidor, seus valores e autoridades permanecem; a governança compõe por `shared:*`, `agent:*`, hook ou adaptador declarado e só gerencia o trecho/bloco cuja proveniência instalou. Pacote distribuído DEVE separar `managedNamespacedScripts`, aliases obrigatórios, defaults instaláveis e scripts do construtor canônico; lista remota não transforma script preexistente do produto em gerenciado. [05f2ed9]
 
 CONTRADIÇÃO DETECTADA: comando canônico anterior `agent:autoupdate` vs aditamento humano `update:agents` — Aplicando a regra humana evolutiva e preservando aliases transitórios.
+
 - **Qualidade:** `agent:test`, `agent:test:<grupo>`, `agent:lint`, `agent:format`, `agent:typecheck`, `agent:benchmark`, `agent:security`, `agent:analyze`.
 - **Dependências:** `agent:deps`, `agent:update-deps`, `agent:licenses`.
 - **Documentação/governança:** `agent:index`, `agent:map`, `agent:handoff`, `agent:docs`, `agent:rcf`, `update:agents`; `agent:autoupdate`, `agents:autoupdate`, `agent:agents` e `agents:update` são aliases transitórios equivalentes.
@@ -1346,7 +1345,7 @@ A matriz mínima comprova estado final, não apenas código zero: atualizado; an
 
 ### 14.3 Workflows distribuíveis
 
-CONTRADIÇÃO DETECTADA: origem solicita `.ia.rule` vs raiz exclusiva vigente `.ia.rules` — Aplicando `.ia.rules`, sem alias ou árvore concorrente, e preservando integralmente a intenção de distribuir workflows.
+CONTRADIÇÃO DETECTADA: origem solicita `.ia.rule` = `.ia.rules`
 
 Release DEVE incluir sob `.ia.rules/` todos os workflows GitHub Actions destinados a consumidores, separados dos workflows internos do construtor. Índice canônico humano/máquina declara ID, finalidade, escopo, dependências, permissões, instalação, destino, gatilho, hook/script de acionamento, versão e hash; permite localizar, selecionar, copiar, instalar, atualizar, validar disponibilidade, integridade e atualidade. Workflow DEVERIA ser acionável por hook; quando execução direta for inadequada, adaptador oficial PODE executá-lo sem reduzir obrigatoriedade nem duplicar lógica. [c143be5]
 
@@ -1523,30 +1522,30 @@ A aprovação futura DEVE atualizar este RCF com decisão, gramática, tabela, s
 
 ### 20.1 Origem → contrato permanente
 
-| Origem material | Contrato canônico |
-|---|---|
-| `github:jcempro/agents.md#9` | §§13.1–13.5, 14.1, 16, 18 e proteção inicial |
-| atualização resiliente | §§0.0.2, 14.1–14.2 |
-| scripts resilientes/padronizados | §§4.0, 13.5, 14.1 |
-| solicitações faseadas e segmentação | §§0.0.1, 13.4 |
-| intervenção mínima e codificação | §§15.1–15.2 |
-| modularização e roteamento | §§16, 18.2–18.3 |
-| papéis, cenários técnicos e recursos | §§0.0.3–0.0.4, 16 |
-| documentação nativa | §15.3 |
-| hash material por sentença RCF | §15.4 |
-| workflows distribuíveis | §14.3 |
-| arquitetura multilíngue | §17 |
-| RAG, grafo, tokenização e mapa | §18 |
-| sintaxe lógica | §19 |
-| registro indexado de decisões recusadas | §§13.6, 18.2 e 20.2 |
-| solicitação direta de segregação entre fonte distribuível e internos do construtor | §§0, 0.0.2, 0.0.14, 9–12, 16–17 e 20.2 |
-| reavaliação de `github:jcempro/agents.md#2` | §20.3 |
-| implementação de `github:jcempro/agents.md#2` | §§0.0.5, 0.0.7, 3.11 e 20.2 |
-| `github:jcempro/agents.md#10` | §§16.1–16.3, 18.3–18.5 e 20.2 |
-| `github:jcempro/agents.md#11` | §§0.0.2, 4.0, 14.2 e 20.2 |
-| TO-DO de atualização orientada a sucesso efetivo | §§0.0.2, 14.1–14.2 e 20.2 |
-| TO-DO de contenção absoluta ao repositório corrente | §§0.0.15, 1.1, 3.11, 14.1 e 20.2 |
-| TO-DO de Skills, Subagents, memória, automação e precisão visual | §§16, 18, 20.2 e 21 |
+| Origem material                                                                    | Contrato canônico                            |
+| ---------------------------------------------------------------------------------- | -------------------------------------------- |
+| `github:jcempro/agents.md#9`                                                       | §§13.1–13.5, 14.1, 16, 18 e proteção inicial |
+| atualização resiliente                                                             | §§0.0.2, 14.1–14.2                           |
+| scripts resilientes/padronizados                                                   | §§4.0, 13.5, 14.1                            |
+| solicitações faseadas e segmentação                                                | §§0.0.1, 13.4                                |
+| intervenção mínima e codificação                                                   | §§15.1–15.2                                  |
+| modularização e roteamento                                                         | §§16, 18.2–18.3                              |
+| papéis, cenários técnicos e recursos                                               | §§0.0.3–0.0.4, 16                            |
+| documentação nativa                                                                | §15.3                                        |
+| hash material por sentença RCF                                                     | §15.4                                        |
+| workflows distribuíveis                                                            | §14.3                                        |
+| arquitetura multilíngue                                                            | §17                                          |
+| RAG, grafo, tokenização e mapa                                                     | §18                                          |
+| sintaxe lógica                                                                     | §19                                          |
+| registro indexado de decisões recusadas                                            | §§13.6, 18.2 e 20.2                          |
+| solicitação direta de segregação entre fonte distribuível e internos do construtor | §§0, 0.0.2, 0.0.14, 9–12, 16–17 e 20.2       |
+| reavaliação de `github:jcempro/agents.md#2`                                        | §20.3                                        |
+| implementação de `github:jcempro/agents.md#2`                                      | §§0.0.5, 0.0.7, 3.11 e 20.2                  |
+| `github:jcempro/agents.md#10`                                                      | §§16.1–16.3, 18.3–18.5 e 20.2                |
+| `github:jcempro/agents.md#11`                                                      | §§0.0.2, 4.0, 14.2 e 20.2                    |
+| TO-DO de atualização orientada a sucesso efetivo                                   | §§0.0.2, 14.1–14.2 e 20.2                    |
+| TO-DO de contenção absoluta ao repositório corrente                                | §§0.0.15, 1.1, 3.11, 14.1 e 20.2             |
+| TO-DO de Skills, Subagents, memória, automação e precisão visual                   | §§16, 18, 20.2 e 21                          |
 
 Esta matriz é bidirecional: toda implementação posterior DEVE apontar à seção; toda seção com implementação DEVE apontar ao artefato/teste e, após §15.4 materializado, ao commit causal. O relatório de FT registra arquivos, conceitos centralizados, duplicações removidas, referências, contratos preservados, lacunas, testes, limites, não regressão e métricas de bytes/tokens/rotas. [c143be5]
 
@@ -1576,29 +1575,29 @@ Validação automática DEVE detectar nomes oficiais alterados, script/comando/w
 
 Agent primário mantém percepção, síntese global, decisão e resposta ao usuário; Cenário fornece contexto operacional amplo e cumulativo; Skill empacota procedimento recorrente de escopo estreito e recursos sob demanda; Subagent recebe objetivo isolável verificável sob orquestração; Script executa algoritmo mecânico determinístico; Hook integra evento opcional sem formar dependência oculta, salvo gate de segurança explicitamente fail-closed; MCP/ferramenta oferece capacidade externa sob schema, confiança e autoridade delimitados. Essas unidades PODEM compor-se, mas NÃO se substituem por nomenclatura, conveniência ou equivalência aparente. [e2588cd]
 
-| Necessidade material | Padrão | Não usar quando |
-|---|---|---|
-| Ação mecânica, repetível e verificável | Script hookable | Exige interpretação sem algoritmo comprovado |
-| Procedimento recorrente, conhecido e estreito | Skill apoiada por script | A semelhança é apenas tangencial |
-| Trabalho independente, isolável e paralelizável | Subagent sob primário | É pequeno, sequencial ou fortemente acoplado |
-| Contexto principal amplo | Cenário | Uma Skill resolve a subtarefa pontual |
-| Exploração, ambiguidade ou síntese transversal | Agent primário | Um script resolve integralmente |
-| Serviço ou capacidade externa | MCP/ferramenta autorizada | Não há confiança, necessidade ou consentimento |
+| Necessidade material                            | Padrão                    | Não usar quando                                |
+| ----------------------------------------------- | ------------------------- | ---------------------------------------------- |
+| Ação mecânica, repetível e verificável          | Script hookable           | Exige interpretação sem algoritmo comprovado   |
+| Procedimento recorrente, conhecido e estreito   | Skill apoiada por script  | A semelhança é apenas tangencial               |
+| Trabalho independente, isolável e paralelizável | Subagent sob primário     | É pequeno, sequencial ou fortemente acoplado   |
+| Contexto principal amplo                        | Cenário                   | Uma Skill resolve a subtarefa pontual          |
+| Exploração, ambiguidade ou síntese transversal  | Agent primário            | Um script resolve integralmente                |
+| Serviço ou capacidade externa                   | MCP/ferramenta autorizada | Não há confiança, necessidade ou consentimento |
 
 A matriz DEVE ser decidida por custo líquido observado — acerto, cobertura, tokens, latência, coordenação, privilégio, manutenção e risco — e preservar orquestração central. Ação mecânica usa Script; Skill e Subagent só entram quando superarem o mecanismo vigente; Cenários existentes permanecem quando a conversão não provar equivalência e ganho; “MCU” da origem significa MCP por coerência inequívoca com a referência e a matriz. [e2588cd]
 
 As fontes abaixo são evidência, não autoridade, e foram reconsultadas em 2026-09-12; revisão posterior relevante DEVE ser reavaliada antes da implementação, sem incorporar prática externa à revelia: [08c3583]
 
-| Fonte | Versão/estado consultado | Decisão apoiada |
-|---|---|---|
-| [Agent Skills Specification](https://agentskills.io/specification) | página vigente em 2026-09-12 | `SKILL.md`, metadados, recursos opcionais, validação e três níveis de divulgação |
-| [Progressive Disclosure](https://arxiv.org/abs/2607.17598) e [SkillJuror](https://arxiv.org/abs/2606.11543) | v1 e v1 | uma rota padrão; medir descoberta, uso de recursos e resultado |
-| [Reusable Skills](https://arxiv.org/abs/2608.08453) e [Agent Skills survey](https://arxiv.org/abs/2602.12430) | v1 e v4 | metadados, corpo enxuto, reutilização, lint e segurança |
-| [Impact of AGENTS.md](https://arxiv.org/abs/2601.20404) e [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988) | v2 e v2 | benefícios mistos; limite e regra exigem baseline empírico |
-| [Google scaling agent systems](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/), [ClawArena-Team](https://arxiv.org/abs/2606.31174) e [OpenAI agents guide](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) | página de 2026-01-28, v2 e página vigente | multiagente seletivo, privilégio mínimo e agente único por padrão |
-| [GitHub customization](https://docs.github.com/en/copilot/reference/customization-cheat-sheet), [custom agents](https://docs.github.com/en/copilot/reference/custom-agents-configuration) e [hooks](https://docs.github.com/en/copilot/reference/hooks-reference) | documentação vigente | adaptadores por schema/superfície, sem formato universal inventado |
-| [MCP 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) | revisão 2025-11-25 | validação e annotations não confiáveis sem servidor confiável |
-| [Qwen-UI-Agent](https://arxiv.org/abs/2607.28227), [RegionFocus](https://arxiv.org/abs/2505.00684) e [W3C Visual Presentation](https://www.w3.org/WAI/WCAG20/Understanding/visual-presentation.html) | v1, v2 e página vigente | inspeção visual regional, grounding e apresentação adaptável |
+| Fonte                                                                                                                                                                                                                                                                                                           | Versão/estado consultado                  | Decisão apoiada                                                                  |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | -------------------------------------------------------------------------------- |
+| [Agent Skills Specification](https://agentskills.io/specification)                                                                                                                                                                                                                                              | página vigente em 2026-09-12              | `SKILL.md`, metadados, recursos opcionais, validação e três níveis de divulgação |
+| [Progressive Disclosure](https://arxiv.org/abs/2607.17598) e [SkillJuror](https://arxiv.org/abs/2606.11543)                                                                                                                                                                                                     | v1 e v1                                   | uma rota padrão; medir descoberta, uso de recursos e resultado                   |
+| [Reusable Skills](https://arxiv.org/abs/2608.08453) e [Agent Skills survey](https://arxiv.org/abs/2602.12430)                                                                                                                                                                                                   | v1 e v4                                   | metadados, corpo enxuto, reutilização, lint e segurança                          |
+| [Impact of AGENTS.md](https://arxiv.org/abs/2601.20404) e [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988)                                                                                                                                                                                              | v2 e v2                                   | benefícios mistos; limite e regra exigem baseline empírico                       |
+| [Google scaling agent systems](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/), [ClawArena-Team](https://arxiv.org/abs/2606.31174) e [OpenAI agents guide](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) | página de 2026-01-28, v2 e página vigente | multiagente seletivo, privilégio mínimo e agente único por padrão                |
+| [GitHub customization](https://docs.github.com/en/copilot/reference/customization-cheat-sheet), [custom agents](https://docs.github.com/en/copilot/reference/custom-agents-configuration) e [hooks](https://docs.github.com/en/copilot/reference/hooks-reference)                                               | documentação vigente                      | adaptadores por schema/superfície, sem formato universal inventado               |
+| [MCP 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/server/tools)                                                                                                                                                                                                                         | revisão 2025-11-25                        | validação e annotations não confiáveis sem servidor confiável                    |
+| [Qwen-UI-Agent](https://arxiv.org/abs/2607.28227), [RegionFocus](https://arxiv.org/abs/2505.00684) e [W3C Visual Presentation](https://www.w3.org/WAI/WCAG20/Understanding/visual-presentation.html)                                                                                                            | v1, v2 e página vigente                   | inspeção visual regional, grounding e apresentação adaptável                     |
 
 ### 21.2 Entrypoint, microconceitos e divulgação progressiva
 

@@ -1,0 +1,21 @@
+FT-020|nome=Atualizacao declarativa e compatibilidade versionada|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.210500|atualizacao=20260714.212500|conclusao=20260714.212500
+objetivo=Fazer agents:update reconciliar estritamente o estado gerenciado recebido de release ou main, limpar legados gerenciados sem tocar extensoes locais e manter transicoes de formato versionadas e conversiveis para publicar 0.0.5.
+1/4 Contrato e inventario [concluido]
+  1/3 Reler governanca, RCF, cenario de atualizacao e atualizador [concluido]
+  2/3 Delimitar fonte autoritativa, preservacoes locais e limpeza de legado [concluido]
+  3/3 Definir manifesto, linguagem e compatibilidade de formato [concluido]
+2/4 Implementacao [concluido]
+  1/3 Criar descritor versionado e parser unico [concluido]
+  2/3 Reconciliar estado remoto e remover somente legado gerenciado [concluido]
+  3/3 Incluir conversor permanente de lock/formato anterior [concluido]
+3/4 Validacao e documentacao [concluido]
+  1/3 Exercitar atualizacao com fixture de release e preservacao local [concluido]
+  2/3 Regenerar dist e validar aderencia/documentacao [concluido]
+  3/3 Atualizar memoria e handoff [concluido]
+4/4 Release e convergencia [concluido]
+  1/3 Commitar e publicar dev [concluido]
+  2/3 Acionar e comprovar release 0.0.5 [concluido]
+  3/3 Convergir main e encerrar FT [concluido]
+decisoes=Fonte remota recebida define exclusivamente o conjunto gerenciado; estado anterior serve para identificar legado e conversao, nunca para repor arquivo ausente. Extensoes locais declaradas permanecem fora do lock, plano e limpeza. Toda evolucao estrutural recebe descritor versionado e conversor permanente, com marcador de variacao.
+verificacoes=agent:verify=VERIFY_OK scripts=11 indexedFiles=17; UPDATE_RECONCILIATION_FIXTURE_OK; UPDATE_BRANCH_MANIFEST_FIXTURE_OK; UPDATE_TRANSACTION_FIXTURE_OK; dry-run 0.0.5 aprovado; tag v0.0.5 e release estavel com agents-v0.0.5.zip e release-note.txt comprovadas; origin/main=origin/dev apos workflow.
+pendencias=Nenhuma.

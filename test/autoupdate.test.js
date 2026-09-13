@@ -140,14 +140,17 @@ async function main() {
   const distRoot = path.join(repositoryRoot, "dist");
   const release = JSON.parse(fs.readFileSync(path.join(distRoot, "release.json"), "utf8"));
   const distributionPackage = JSON.parse(fs.readFileSync(path.join(distRoot, "package.json"), "utf8"));
+  const legacyFixture = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "test", "fixtures", "legacy-physical-updater-v0.1.3.json"), "utf8"));
   const dispatcher = distributionPackage.scripts["shared:update:agents"];
   assert.ok(dispatcher.indexOf("scripts/.agents/autoupdate.js") < dispatcher.indexOf(".agents/core/runtime/scripts/autoupdate.js"));
   const legacyBridgeEntries = release.canonicalUpdate.files.filter((entry) => entry.condition === "legacy-update-bridge");
   assert.ok(legacyBridgeEntries.length >= 7);
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
+  assert.ok(legacyBridgeEntries.some((entry) => entry.path === legacyFixture.requiredRecoveryEntrypoint));
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/package.json"));
   assert.ok(release.update.files.every((entry) => [".js", ".json", ".md"].includes(path.extname(entry.path))));
   assert.ok(release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
+  assert.ok(release.update.files.some((entry) => entry.path === legacyFixture.requiredRecoveryEntrypoint));
   for (const handoffPath of release.handoff.files) {
     assert.ok(release.update.files.some((entry) => entry.path === handoffPath), `bootstrap omite runtime de handoff: ${handoffPath}`);
   }
@@ -155,6 +158,22 @@ async function main() {
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(".agents")), false);
   assert.equal(remoteFiles.some((entry) => entry.relativePath.startsWith(path.join("scripts", ".agents"))), false);
   assert.equal(remoteFiles.length, release.canonicalUpdate.files.length - legacyBridgeEntries.length);
+
+  const legacySelection = collectLegacyPhysicalFixture(distRoot, legacyFixture);
+  const beforeFixPaths = Object.keys(legacyFixture.targetBeforeFixSemanticHashes).sort();
+  assert.deepEqual(beforeFixPaths, Object.keys(legacyFixture.previousSemanticHashes).sort());
+  assert.deepEqual(Object.keys(legacySelection).filter((entry) => entry !== legacyFixture.requiredRecoveryEntrypoint).sort(), beforeFixPaths);
+  for (const relativePath of beforeFixPaths) {
+    assert.match(legacySelection[relativePath], /^[a-f0-9]{64}$/u, `bootstrap atual inválido: ${relativePath}`);
+  }
+  const reproducedThreeFileRegression = beforeFixPaths.filter((relativePath) =>
+    legacyFixture.previousSemanticHashes[relativePath] !== legacyFixture.targetBeforeFixSemanticHashes[relativePath]);
+  assert.deepEqual(reproducedThreeFileRegression, legacyFixture.observedChangedFiles);
+  const recoveryEntry = release.update.files.find((entry) => entry.path === legacyFixture.requiredRecoveryEntrypoint);
+  assert.equal(legacySelection[legacyFixture.requiredRecoveryEntrypoint], recoveryEntry.sha256);
+  const legacyEntryHelp = childProcess.spawnSync(process.execPath, [path.join(distRoot, legacyFixture.requiredRecoveryEntrypoint), "help"], { encoding: "utf8", windowsHide: true });
+  assert.equal(legacyEntryHelp.status, 0, legacyEntryHelp.stderr || legacyEntryHelp.stdout);
+  assert.match(legacyEntryHelp.stdout, /Uso: update:agents/u);
 
   const extensionRoot = fs.mkdtempSync(path.join(os.tmpdir(), "agents-extension-migration-"));
   try {
@@ -366,6 +385,35 @@ function initGovernedRepository(root, agents = Buffer.from("# AGENTS\n")) {
   if (!fs.existsSync(path.join(root, "AGENTS.md"))) fs.writeFileSync(path.join(root, "AGENTS.md"), agents);
   const init = childProcess.spawnSync("git", ["init"], { cwd: root, encoding: "utf8", windowsHide: true });
   assert.equal(init.status, 0, init.stderr || init.stdout);
+}
+
+/** Reproduz a seleção física autenticada do updater que permaneceu no consumidor. */
+function collectLegacyPhysicalFixture(root, fixture) {
+  const selected = new Map();
+  const extensions = new Set(fixture.collector.extensions);
+  const excluded = new Set(fixture.collector.excludedPaths);
+  const add = (relativePath) => {
+    const normalized = relativePath.split(path.sep).join("/");
+    if (excluded.has(normalized) || !extensions.has(path.extname(normalized).toLocaleLowerCase("en-US"))) return;
+    const content = fs.readFileSync(path.join(root, relativePath));
+    selected.set(normalized, crypto.createHash("sha256").update(content.toString("utf8").replace(/\r\n/gu, "\n"), "utf8").digest("hex"));
+  };
+  add("AGENTS.md");
+  for (const relativeRoot of fixture.collector.roots) {
+    const absoluteRoot = path.join(root, relativeRoot);
+    if (!fs.existsSync(absoluteRoot)) continue;
+    const pending = [absoluteRoot];
+    while (pending.length) {
+      const current = pending.pop();
+      for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+        const absolute = path.join(current, entry.name);
+        if (entry.isDirectory()) pending.push(absolute);
+        else if (entry.isFile()) add(path.relative(root, absolute));
+      }
+    }
+  }
+  add("package.json");
+  return Object.fromEntries([...selected.entries()].sort(([left], [right]) => left.localeCompare(right, "en")));
 }
 
 main().catch((error) => { console.error(error); process.exitCode = 1; });

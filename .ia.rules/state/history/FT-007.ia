@@ -1,0 +1,17 @@
+FT-007|nome=Conformidade integral da interface to-ia|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.180000|atualizacao=20260711.204500|conclusao=20260711.204500
+objetivo=Fechar lacunas residuais do filtro operacional e garantir que a atualizacao de governanca atravesse a saida canonica.
+1/3 Auditoria de contrato [concluido]
+  1/2 Reler AGENTS, microconceitos, RCF e memoria canonica [concluido]
+  2/2 Confirmar ordem incorreta e bypass de agent:agents [concluido]
+2/3 Correcao minima [concluido]
+  1/3 Ordenar registros JSONL pela severidade normativa [concluido]
+  2/3 Preservar codigo de retorno do comando encapsulado [concluido]
+  3/3 Encaminhar agents:update e agent:agents pelo despachante filtrado [concluido]
+3/3 Validacao e sincronizacao [concluido]
+  1/3 Exercitar ordenacao, limites e codigo de retorno [concluido]
+  2/3 Executar verificacao e handoff derivado [concluido]
+  3/3 Registrar memoria externa, pendencias e aderencia residual [concluido]
+decisoes=FT-005 permanece ativa somente para consolidar a validacao do release; a lacuna do filtro pertence a FT propria porque afeta toda a API operacional.
+falhas=O smoke test exibiu `info`, `warning`, `result`, `error`, contrariando a ordem obrigatoria do MN-OUT; npm tambem confirmou que `agent:agents` apontava diretamente para update-agents.
+verificacoes=node --check scripts/.ia.rules/to-ia.js; smoke confirmou ordem error->warning->result->info; smoke de falha retornou envelope e codigo 2; agent:status confirmou truncamento e artefato integral; npm run agent:verify OK.
+pendencias=nenhuma local; update remoto de governanca permanece condicionado a rede, credenciais e politica.

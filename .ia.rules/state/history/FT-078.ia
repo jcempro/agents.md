@@ -1,0 +1,24 @@
+FT-078|nome=Inventário e implementação criteriosa de Skills e Subagents|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-12T04:10:53-03:00|atualizacao=2026-09-12T17:55:09.401Z|autorizacao=humana
+objetivo=Inventariar scripts e cenários por grafo/custo/determinismo e materializar somente Skills ou Subagents com benefício mensurado, mantendo scripts mecânicos e cenários amplos.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md §§ Modelo normativo e Estrutura de Skills e Subagents.
+normativa=FT-076, FT-077.
+1/4 Inventário comparativo [concluido]
+  1/3 Medir chamadas, frequência, duração, estado e paralelismo [concluido]
+  2/3 Classificar manter, agrupar, encapsular ou delegar [concluido]
+  3/3 Registrar rejeições e condições sem criar wrappers artificiais [concluido]
+2/4 Materialização seletiva [concluido]
+  1/3 Implementar Skills aderentes ao schema validado [concluido]
+  2/3 Implementar Subagents somente sob isolamento e privilégio mínimos [concluido]
+  3/3 Garantir operação essencial sem hook e recursos sob demanda [concluido]
+3/4 Testes [concluido]
+  1/3 Cobrir descoberta, ativação, não ativação e recursos [concluido]
+  2/3 Cobrir escopo, timeout, retorno e parada de Subagents [concluido]
+  3/3 Comparar custo e acerto contra agente primário/script/cenário [concluido]
+4/4 Fechamento [concluido]
+  1/2 Versionar implementação e rastreabilidade causal [concluido]
+  2/2 Liberar integração após ausência de regressão [concluido]
+aceite=Nenhuma Skill/Subagent é criada por equivalência nominal; cada unidade é generalista, validada, acionada somente no contexto correto e demonstra ganho líquido sobre o mecanismo anterior.
+dependencias=FT-077 concluída; autorização humana posterior ao gate normativo.
+resultado=Inventário de 48 mecanismos preservou 32 scripts e 16 cenários; materializou duas Skills generalistas e um Subagent read-only.
+verificacoes=Descoberta positiva/negativa, schemas, retorno, parada e ausência de wrapper nominal cobertos.
+pendencias=Nenhuma pendência funcional; validação humana do TODO permanece externa.

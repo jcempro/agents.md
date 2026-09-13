@@ -39,6 +39,31 @@
       }
     },
     {
+      "path": ".ia.rules/core/runtime/scripts/legacy-update-entry.ts",
+      "profile": "consumer-bootstrap",
+      "destination": "scripts/.agents/update-agents.ts",
+      "purpose": "compatibilidade com dispatchers históricos que carregam diretamente update-agents.js",
+      "roles": [
+        "final"
+      ],
+      "condition": "legacy-update-bridge",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "legacy-bootstrap-functional"
+      ],
+      "language": "typescript",
+      "artifact": {
+        "destination": "scripts/.agents/update-agents.js",
+        "format": "commonjs",
+        "target": "node24",
+        "builder": "typescript@7.0.2+esbuild@0.28.1",
+        "bundle": true
+      }
+    },
+    {
       "path": "legacy-update-bridge/.agents/core/contracts.md",
       "profile": "consumer-bootstrap",
       "destination": "scripts/.agents/bootstrap/core/contracts.md",

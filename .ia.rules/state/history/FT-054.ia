@@ -1,0 +1,26 @@
+FT-054|nome=Norma Operacional e acervo local de decisões recusadas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T19:21:56-03:00|inicio=2026-07-25T19:35:30-03:00|atualizacao=2026-07-25T19:48:24-03:00|conclusao=2026-07-25T19:48:24-03:00
+objetivo=Projetar em src/AGENTS.md e associados o contrato do RCF e criar, somente no estado local deste construtor, o diretório canônico, índice, schema, modelo e registros comprováveis, sem código executável nem conteúdo decisório em release.
+origens=attachment:f3a0c754-b749-4c54-892d-ca9c1c7b7978/pasted-text.txt; RCF produzido pela FT-053.
+dependencias=FT-053 concluída, validada e commitada; autorização humana explícita recebida em 2026-07-25 após refinamento de escopo.
+1/4 Projeção operacional [concluido]
+  1/3 Atualizar src/AGENTS.md e ciclo de solicitação com consulta e manutenção compulsórias [concluido]
+  2/3 Criar módulo normativo do registro decisório e integrá-lo ao roteamento [concluido]
+  3/3 Atualizar índice normativo, schema e projeção RCF [concluido]
+2/4 Estrutura canônica [concluido]
+  1/3 Criar diretório local único, índice geral e schema versionado [concluido]
+  2/3 Criar modelo denso e estrutura estável sem fragmentação excessiva [concluido]
+  3/3 Definir referências cruzadas e tratamento de concluído, parcial e em andamento [concluido]
+3/4 Migração comprovável [concluido]
+  1/2 Migrar a rejeição documentada da sintaxe lógica sem duplicar sua evidência [concluido]
+  2/2 Migrar a não adoção parcial de técnicas RAG somente com evidência suficiente [concluido]
+4/4 Validação e encerramento [concluido]
+  1/3 Validar manualmente IDs, estados, paths, links, cobertura e ausência de invenção [concluido]
+  2/3 Medir integração e atualizar memória/handoff derivados [concluido]
+  3/3 Commitar fase src e interromper antes de código [concluido]
+aceite=Diretório canônico e indexado existe somente no estado local do construtor; recusas totais/parciais e restrições em trabalho ativo são inequívocas; consulta e reavaliação estão operacionais na Norma; fonte e release não contêm registros; nenhum código executável alterado.
+decisoes=A Norma distribuível contém somente cenário/roteamento; o acervo concreto reside exclusivamente em .ia.rules/state/decisions/refused e tem ownership repository-local. Inclusão exige recusa expressa, ausência, risco de recorrência, evidência e ganho líquido. ADIADO é inválido. Foram migrados somente DEC-20260725-001 (sintaxe lógica/parser, RECUSADO_PARA_RECONSIDERACAO) e DEC-20260725-002 (RAG avançado, PARCIALMENTE_RECUSADO); ambos possuem evidência material no commit eba4dcc e permanecem ausentes.
+verificacoes=Índice/schema JSON parseáveis; 2 entradas/2 registros; IDs e chaves únicos; zero path ausente ou entrada inválida; modelo e registros possuem 11 seções. Grafo normativo 36 nós/35 arestas, zero ID/path duplicado, path ausente, aresta inválida, leaf com saída ou nó inalcançável. Corpus 36 Markdown/155471 bytes; AGENTS 31636 bytes; rota de nova solicitação 5 arquivos/47008 bytes/5347 palavras. Acervo local 5 arquivos/13083 bytes fora do corpus. npm pack --dry-run --json lista 59 arquivos e nenhum state/decisions/refused. agent:rcf RCF_OK bytes=163491; agent:status OK; git diff --check OK; zero JS, TS, YAML, workflow ou package alterado.
+falhas=agent:verify alcançou a fonte nova e falhou na paridade byte/EOL já conhecida de src/.ia.rules/core/runtime/scripts/archive.js. Todos os derivados rastreados e não rastreados gerados pela tentativa foram restaurados/removidos; a correção permanece na FT-052 e nenhum acervo local entrou em dist.
+resultado=Consulta prioritária e encerramento sem reanálise foram projetados na Norma; acervo local mínimo e rastreável criado; fonte/release contêm somente o contrato; nenhum código executável iniciado.
+pendencias=FT-055 permanece pendente e exige nova autorização humana explícita; FT-052 mantém o bloqueio técnico EOL e demais implementações previamente planejadas.
+proximo_ponto=Interromper. Não iniciar FT-055 ou FT-052 nesta atuação.

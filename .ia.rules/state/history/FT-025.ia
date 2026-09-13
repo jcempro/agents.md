@@ -1,0 +1,27 @@
+FT-025|nome=Validacao, distribuicao e encerramento da evolucao upstream|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.235000|atualizacao=20260716.003000|conclusao=20260716.003000
+objetivo=Validar ponta a ponta a evolucao normativa e operacional, regenerar artefatos distribuiveis e registrar a entrega sem declarar acao externa nao comprovada.
+escopo=Testes de integridade, build, dist, verificacao, documentacao, estado operacional, handoff, commits e convergencia conforme politica vigente.
+nao_escopo=Publicar release ou issue sem versao/autorizacao explicita e sem comprovacao remota.
+dependencias=FT-022, FT-023 e FT-024 concluidas.
+arquivos_previstos=README.md; RCF.md; index.json; dist/; .ia.rules/continue.ia; handoff.md; testes e fixtures criados pelas FTs predecessoras.
+riscos=Paridade quebrada entre fonte e dist; indice obsoleto; teste apenas estatico; alteracao de AGENTS raiz; publicacao presumida.
+testes=agent:index; agent:build; agent:test; agent:lint; agent:verify; verificacao de paridade; dry-run dos comandos upstream; git diff --check; auditoria de estado Git.
+aceite=Todos os criterios das FTs predecessoras passam; artefato distribuivel contem apenas conteudo gerenciado; ./AGENTS.md nao muda; memoria/handoff refletem a conclusao e qualquer impedimento externo permanece explicito.
+ordem=4
+1/3 Validacao integrada [concluido]
+  1/4 Executar testes unitarios e fixtures [concluido]
+  2/4 Executar build, indice, dist e verify [concluido]
+  3/4 Auditar pacote, referencias e paridade [concluido]
+  4/4 Verificar Git e ausencia de segredo [concluido]
+2/3 Registro e commits [concluido]
+  1/3 Atualizar RCF, README, memoria e handoff [concluido]
+  2/3 Criar commits funcionais proporcionais [concluido]
+  3/3 Convergir dev para primaria conforme regra [concluido]
+3/3 Encerramento [concluido]
+  1/2 Registrar resultados e impedimentos comprovados [concluido]
+  2/2 Encerrar FTs e produzir relatorio objetivo [concluido]
+verificacoes=CONVERGENCIA_NORMATIVA_OK; node --check release-workflow.js; agent:verify OK; fast-forward 58f41c8..76fa22f publicado em origin/main.
+falhas=agent:verify reconstroi release.json sem metadado de release; detector aceita extensao de gatilho sem autorizacao explicita do RCF; agent:release:trigger pode sobrescrever sinalizador existente.
+verificacoes=agent:test=TEST_OK suites=1; agent:build=DIST_OK files=33; agent:verify=VERIFY_OK scripts=13 indexedFiles=19; DIST_UPSTREAM_CONTRACT_OK; git diff --check OK; AGENTS.md raiz sem diff.
+convergencia=dev e main publicados em e6566df por fast-forward; o commit de encerramento desta memoria sera reconvergido imediatamente.
+pendencias=Nenhuma local. Publicacao de issue e release permanecem fora do escopo: exigem autorizacao/versionamento explicitos.

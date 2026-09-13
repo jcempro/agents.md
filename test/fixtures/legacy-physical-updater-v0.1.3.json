@@ -1,0 +1,57 @@
+{
+  "schema": "agents-legacy-update-fixture/v1",
+  "evidence": {
+    "consumerCommit": "5b9647cc9b4f1adb598228ae3bf3319b504f4e4b",
+    "consumerParent": "b44b10436646ec1eed7085e325ae843f943572f9",
+    "consumerUpdaterPath": "scripts/.agents/update-agents.js",
+    "consumerUpdaterSha256": "c7f424f370966e84756c2321ab87caaaf549a0ae57c1fd22bdbf6b17bd396e50",
+    "previousAssetSha256": "66c0fcdb603e7968fd13f27f61ba898856496c57a9d176b2ce737aec68fac9c9",
+    "previousManifestSha256": "b655cf559449e32ac1609a482fb912516cad93d3fb9f118ae525d109f1e82149",
+    "previousRelease": "v0.1.3",
+    "targetAssetSha256": "4a073216235ddee07dedce2ad41987cb0ed68b9ab123d21eb2efd236ee96fd15",
+    "targetManifestSha256": "7cb7b146613b1dbd9e6ba530b009ff9f133b886a72fe55769add987d2e752aff",
+    "targetRelease": "v0.1.4-rc1"
+  },
+  "collector": {
+    "excludedPaths": [
+      "scripts/.agents/generate-agents-status.js",
+      "scripts/.agents/repo-tools.js"
+    ],
+    "extensions": [
+      ".js",
+      ".json",
+      ".md"
+    ],
+    "roots": [
+      ".agents",
+      "scripts/.agents",
+      "scripts/lib"
+    ]
+  },
+  "previousSemanticHashes": {
+    "AGENTS.md": "4d6170fafae88fced8a5e6a062d0d79be9ef941ba3cb71feb1cf521f84c9f047",
+    "package.json": "3abdd350dd2a68f40c134b694fb6aacdbeff1858efd9ccdcaf4d15e022edd669",
+    "scripts/.agents/autoupdate.js": "549efdef9905bc7cc201b5040a185d70bdf6b501886022131df8600df7b83c7c",
+    "scripts/.agents/bootstrap/core/concepts/microconceitos.md": "d61298ed074b395a8f2f7f3ec08804a76e3cf644413096ec345887ef600f747f",
+    "scripts/.agents/bootstrap/core/contracts.md": "d5e39705bcc90d94a0e27a632f3f2d758ab4f1b90c2700f45a51393d22870535",
+    "scripts/.agents/bootstrap/core/update/scenario.md": "7bb951bf1a388a184f666fa044b887f3750e74173c88be47c207c01c84aeee78",
+    "scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md": "4eaa821f87433b137362ff54493d35414510f0a3fc4b213c8a46b606cf3fba81",
+    "scripts/.agents/package.json": "8157552369b3e8cce837717e67ef5c0522afbfd1d53ac954d37ac05e4838a94e"
+  },
+  "targetBeforeFixSemanticHashes": {
+    "AGENTS.md": "51688f7f6b086770f8d7b78ea45ab24869ff4c20333bbe9f2f1b872553d50e11",
+    "package.json": "9a4015741d3cd9a0b180f9c5e721ff35b946d3a15c8052a4ec126f2f78dd202d",
+    "scripts/.agents/autoupdate.js": "06d68d9246ce17edc566ffb1ca712dbb0a9c888732989a055998a76161fe2eaa",
+    "scripts/.agents/bootstrap/core/concepts/microconceitos.md": "d61298ed074b395a8f2f7f3ec08804a76e3cf644413096ec345887ef600f747f",
+    "scripts/.agents/bootstrap/core/contracts.md": "d5e39705bcc90d94a0e27a632f3f2d758ab4f1b90c2700f45a51393d22870535",
+    "scripts/.agents/bootstrap/core/update/scenario.md": "7bb951bf1a388a184f666fa044b887f3750e74173c88be47c207c01c84aeee78",
+    "scripts/.agents/bootstrap/scenarios/web/page-like/scenario.md": "4eaa821f87433b137362ff54493d35414510f0a3fc4b213c8a46b606cf3fba81",
+    "scripts/.agents/package.json": "8157552369b3e8cce837717e67ef5c0522afbfd1d53ac954d37ac05e4838a94e"
+  },
+  "observedChangedFiles": [
+    "AGENTS.md",
+    "package.json",
+    "scripts/.agents/autoupdate.js"
+  ],
+  "requiredRecoveryEntrypoint": "scripts/.agents/update-agents.js"
+}

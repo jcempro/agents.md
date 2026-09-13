@@ -1,0 +1,17 @@
+FT-010|nome=Execucao remota inicial do release|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.001000|atualizacao=20260712.002700|conclusao=20260712.002700
+objetivo=Executar e comprovar o primeiro release remoto versionado, incluindo tag, asset, GitHub Release e marcador release.
+1/3 Preparo e gatilho [concluido]
+  1/3 Confirmar versao explicita e autenticacao remota [concluido]
+  2/3 Publicar estado operacional anterior ao gatilho [concluido]
+  3/3 Criar e publicar commit exclusivo do arquivo release [concluido]
+2/3 Monitoramento remoto [concluido]
+  1/3 Confirmar inicio do workflow [concluido]
+  2/3 Confirmar tag, asset e GitHub Release latest [concluido]
+  3/3 Confirmar commit release e limpeza do gatilho [concluido]
+3/3 Fechamento [concluido]
+  1/3 Validar estado local/remoto final [concluido]
+  2/3 Atualizar memoria e handoff [concluido]
+  3/3 Commitar registro final [concluido]
+decisoes=Versao explicitamente confirmada=0.0.0-beta; o gatilho release sera o unico arquivo adicionado em seu commit para acionar o workflow tecnico.
+verificacoes=workflow 29173646187 concluido com sucesso; tag v0.0.0-beta aponta para 22e8373; release latest possui agents-v0.0.0-beta.zip SHA-256 aac95bbc871f68fa12b59bb48de2b52a062107d0c107c7046200eb8da7af28f5 e release-note.txt; commit marcador=43ea03a; gatilho removido.
+pendencias=nenhuma.

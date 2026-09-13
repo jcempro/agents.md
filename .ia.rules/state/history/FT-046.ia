@@ -1,0 +1,18 @@
+FT-046|nome=Norma do artefato INIT-REPO.md|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:03-03:00|inicio=2026-07-21T22:08:03-03:00|atualizacao=20260721.222045|conclusao=2026-07-21T22:20:45-03:00
+objetivo=Conciliar e normatizar a intenção válida da issue github:jcempro/agents.md#5 sem implementar ou distribuir o artefato.
+issue_id=github:jcempro/agents.md#5|issue_number=5|issue_url=https://github.com/jcempro/agents.md/issues/5
+dependencias=FT-048 e raiz canônica `.ia.rules`; desbloqueia FT-039.
+conciliacao=Bootstrap excepcional subordinado a AGENTS; arquivo `src/INIT-REPO.md` preexistente não prova conformidade nem será alterado nesta FT.
+aceite=RCF e fonte definem finalidade, ciclo, parametrização, distribuição futura, remoção, evolução e validação; zero alteração funcional.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=INIT-REPO é bootstrap subordinado e excepcional na raiz do release; presença preexistente em `src` não comprova conformidade nem distribuição.
+verificacoes=Cobertura issue5 OK; ciclo, Prompt, README, commit/push, compactação e gate de código foram normatizados; `src/INIT-REPO.md` não foi alterado.
+pendencias=FT-039 permanece pendente de autorização humana para código.

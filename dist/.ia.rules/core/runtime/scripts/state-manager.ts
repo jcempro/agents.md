@@ -29,7 +29,12 @@ function main(argv = process.argv.slice(2), rootDir = process.cwd()) {
     const request = JSON.parse(payload);
     return todo.concludeFeatureState(rootDir, request.ids, request);
   }
-  throw new Error("Uso: state-manager <migrate|inspect|sync|record JSON|transition JSON|conclude JSON>");
+  if (command === "reconcile") {
+    if (!payload) throw new Error("STATE_RECONCILE_JSON_AUSENTE");
+    const request = JSON.parse(payload);
+    return todo.reconcileFeatureState(rootDir, request, request);
+  }
+  throw new Error("Uso: state-manager <migrate|inspect|sync|record JSON|transition JSON|conclude JSON|reconcile JSON>");
 }
 
 if (require.main === module) {

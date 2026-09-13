@@ -1,0 +1,614 @@
+{
+  "schema": "agents-feature-history-index/v1",
+  "entries": [
+    {
+      "id": "FT-001",
+      "name": "Aderencia operacional ao RCF",
+      "path": ".ia.rules/state/history/FT-001.ia",
+      "sha256": "271fb657910cd218f009aee993dfcd7883150ff4c0187599f50e4d8437e3d5b5",
+      "state": "validada"
+    },
+    {
+      "id": "FT-002",
+      "name": "Correcao da memoria canonica",
+      "path": ".ia.rules/state/history/FT-002.ia",
+      "sha256": "74886c92ac453564362b31887d64eed1368ccff3fe365e8179c6723d752e0297",
+      "state": "validada"
+    },
+    {
+      "id": "FT-003",
+      "name": "Resposta degradada da API operacional",
+      "path": ".ia.rules/state/history/FT-003.ia",
+      "sha256": "5b09c825592423138f25dacf29346217c3853be0db54edbc1ed4cd4b3d1e166f",
+      "state": "validada"
+    },
+    {
+      "id": "FT-004",
+      "name": "Implementacoes seguras da API operacional",
+      "path": ".ia.rules/state/history/FT-004.ia",
+      "sha256": "a6a634cf57f784041a174fd3f7150711553ed51b5f2137d8601cb6c7c0982faf",
+      "state": "validada"
+    },
+    {
+      "id": "FT-005",
+      "name": "Release automatico aderente ao RCF",
+      "path": ".ia.rules/state/history/FT-005.ia",
+      "sha256": "09cf01507d69aafd4e62bbaabdee9472e96ee77ceacbebbbe122d863b5448ca6",
+      "state": "validada"
+    },
+    {
+      "id": "FT-006",
+      "name": "Densificacao normativa e preparo para IA",
+      "path": ".ia.rules/state/history/FT-006.ia",
+      "sha256": "97d45bf4f9239cc19199d570076b117c1b1f4d7b88c00427a0ce87d1d1f26d37",
+      "state": "validada"
+    },
+    {
+      "id": "FT-007",
+      "name": "Conformidade integral da interface to-ia",
+      "path": ".ia.rules/state/history/FT-007.ia",
+      "sha256": "3618fa5bad34756b4eaae3240b9ec93bbf8b70a1954223a4596bf09c8a122efb",
+      "state": "validada"
+    },
+    {
+      "id": "FT-008",
+      "name": "Separacao dos cenarios Release e Publicacao de Conteudo",
+      "path": ".ia.rules/state/history/FT-008.ia",
+      "sha256": "a24e0eed50c87acf3486b65cda9c78dea680adc9a81adc73f39a77f423e63139",
+      "state": "validada"
+    },
+    {
+      "id": "FT-009",
+      "name": "Ordem e resiliencia do workflow de release",
+      "path": ".ia.rules/state/history/FT-009.ia",
+      "sha256": "9567e2bbabbb63b9cbd8abe5e8c9c385c70f584e63e59a30e98f16a7ebc1bf7b",
+      "state": "validada"
+    },
+    {
+      "id": "FT-010",
+      "name": "Execucao remota inicial do release",
+      "path": ".ia.rules/state/history/FT-010.ia",
+      "sha256": "82e18d341e5aa5b5ad19cf2b84a4ca57981eb3fefb4786d19a720cc3e8c83f96",
+      "state": "validada"
+    },
+    {
+      "id": "FT-011",
+      "name": "Manifesto executavel e mesclagem segura de package.json",
+      "path": ".ia.rules/state/history/FT-011.ia",
+      "sha256": "6f3bba7b5cf79e9a76ea0f8f3614412805d4afe42bdb815754ad6a5e66bb0cbb",
+      "state": "validada"
+    },
+    {
+      "id": "FT-012",
+      "name": "Convergencia obrigatoria de dev para main",
+      "path": ".ia.rules/state/history/FT-012.ia",
+      "sha256": "76862f037a7724c70be8a08dc496c745990e1f5c89f08521402ccb5a0301d31d",
+      "state": "validada"
+    },
+    {
+      "id": "FT-013",
+      "name": "Release estavel do manifesto executavel",
+      "path": ".ia.rules/state/history/FT-013.ia",
+      "sha256": "2bcee266867e9623e94a8ee4d1c1285041fe652c27fb64a245e9a9f17e5ffb1a",
+      "state": "validada"
+    },
+    {
+      "id": "FT-014",
+      "name": "Topologia explicita de repositorio aplicacao e artefato",
+      "path": ".ia.rules/state/history/FT-014.ia",
+      "sha256": "1f02e19f61fef7323263d320a63b9541a3dc32cca3d1b5214469a2fc33fa39ea",
+      "state": "validada"
+    },
+    {
+      "id": "FT-015",
+      "name": "Publicacao all-in-one de release",
+      "path": ".ia.rules/state/history/FT-015.ia",
+      "sha256": "24a503aea8bf02150a9989c1fdaa43c2b53508344c326e7fdae8627b3c00e258",
+      "state": "validada"
+    },
+    {
+      "id": "FT-016",
+      "name": "Contrato transversal e metaarquivos de scripts reutilizaveis",
+      "path": ".ia.rules/state/history/FT-016.ia",
+      "sha256": "79f1b623df9232f44753fda506d2f02ff458e8c59bad1aedc71f738e9ff477ac",
+      "state": "validada"
+    },
+    {
+      "id": "FT-017",
+      "name": "Extensao local imutavel da governanca distribuida",
+      "path": ".ia.rules/state/history/FT-017.ia",
+      "sha256": "c271f54d9c58a9291e6ca7c7b6f2b87511f0f7f4f7377f258609a4046c495f97",
+      "state": "validada"
+    },
+    {
+      "id": "FT-018",
+      "name": "Composicao tipada de cenarios e scripts aninhados",
+      "path": ".ia.rules/state/history/FT-018.ia",
+      "sha256": "7f387f4059c3d0733fda6e66d241ba46b1b2251266a99b4e77104dcd35fcf7f7",
+      "state": "validada"
+    },
+    {
+      "id": "FT-019",
+      "name": "Parametrizacao editorial e release 0.0.4",
+      "path": ".ia.rules/state/history/FT-019.ia",
+      "sha256": "8f1b7a85b5372ca864935a63879c143640ab3e8ae35e6af646f24efc540b24f0",
+      "state": "validada"
+    },
+    {
+      "id": "FT-020",
+      "name": "Atualizacao declarativa e compatibilidade versionada",
+      "path": ".ia.rules/state/history/FT-020.ia",
+      "sha256": "c4cb8def8d4b7bef39e3fe42752038141d0b5bf7ce5ba14b0a27ad455f5a0606",
+      "state": "validada"
+    },
+    {
+      "id": "FT-021",
+      "name": "Canonizacao de hash do manifesto",
+      "path": ".ia.rules/state/history/FT-021.ia",
+      "sha256": "5b9bea6b6f110b5f74d4428d9d0cbd0ee7ce96107e4c317ca744df03d96a4ea4",
+      "state": "validada"
+    },
+    {
+      "id": "FT-022",
+      "name": "Taxonomia construtor-consumidor e autoridade normativa",
+      "path": ".ia.rules/state/history/FT-022.ia",
+      "sha256": "9a077a97123872187a0492aafb3f638a82be03d05177943322ff09eaccc5c252",
+      "state": "validada"
+    },
+    {
+      "id": "FT-023",
+      "name": "Pipeline compartilhavel do consumidor para upstream de AGENTS",
+      "path": ".ia.rules/state/history/FT-023.ia",
+      "sha256": "4ac295a173e579f148263d56fa143b5a7b0692135e414c1445afc80489adef8b",
+      "state": "validada"
+    },
+    {
+      "id": "FT-024",
+      "name": "Integracoes externas fail-safe da governanca",
+      "path": ".ia.rules/state/history/FT-024.ia",
+      "sha256": "639006f8b1b2a3da7f66bc849d5d574278ba90c4909b69e450b566ffc67b5a56",
+      "state": "validada"
+    },
+    {
+      "id": "FT-025",
+      "name": "Validacao, distribuicao e encerramento da evolucao upstream",
+      "path": ".ia.rules/state/history/FT-025.ia",
+      "sha256": "0d86298753769f6b4fcb6c3187be4066e30484da940c1f1475c424194e80b0aa",
+      "state": "validada"
+    },
+    {
+      "id": "FT-026",
+      "name": "Inbox e decisao construtora de issues upstream",
+      "path": ".ia.rules/state/history/FT-026.ia",
+      "sha256": "72cd2e191aeecc493e80d39832cec8c7914c743a1f8339b05042fd5e30a69230",
+      "state": "validada"
+    },
+    {
+      "id": "FT-027",
+      "name": "Otimizacao agressiva do contexto em src",
+      "path": ".ia.rules/state/history/FT-027.ia",
+      "sha256": "822be4afaadff1032ec9a238a08f599aef2c9794ac7768614509fb38e5684ee6",
+      "state": "validada"
+    },
+    {
+      "id": "FT-028",
+      "name": "Cabeçalho portátil e release 0.0.8",
+      "path": ".ia.rules/state/history/FT-028.ia",
+      "sha256": "c5f24b8f25f9b97e42d4f5cb099b0bdfdabc120745bc35b152ed5e3bd772c1a7",
+      "state": "validada"
+    },
+    {
+      "id": "FT-029",
+      "name": "Aprovacao humana de issue e release 0.0.9",
+      "path": ".ia.rules/state/history/FT-029.ia",
+      "sha256": "54ecd1656f512b9c26b7d513d02ac17a3b3dfc58ff715cdc8f39915b2069ccb0",
+      "state": "validada"
+    },
+    {
+      "id": "FT-030",
+      "name": "Autoupdate explicito e recuperacao de bootstrap legado",
+      "path": ".ia.rules/state/history/FT-030.ia",
+      "sha256": "bd921631e319146de5894c961d04c3c1834cdd9d449a0c660812af33419c9715",
+      "state": "validada"
+    },
+    {
+      "id": "FT-031",
+      "name": "Atualizacao autoritativa e aditamento estrutural",
+      "path": ".ia.rules/state/history/FT-031.ia",
+      "sha256": "829d6ab40adda531b46fc3533e4577f2702a4edc40dc7142dd1feec361669caf",
+      "state": "validada"
+    },
+    {
+      "id": "FT-032",
+      "name": "Atualizacao convergente em consumidores",
+      "path": ".ia.rules/state/history/FT-032.ia",
+      "sha256": "eb9857f8da2dbaf42dc0d72ed0cb1309ca46e9440765a3b5e68825eddee14128",
+      "state": "validada"
+    },
+    {
+      "id": "FT-033",
+      "name": "Handoff fail-safe do atualizador",
+      "path": ".ia.rules/state/history/FT-033.ia",
+      "sha256": "3f584953beb1b6ec80fdea7e0eb771d081323758a56c07b52d5a0cda34910477",
+      "state": "validada"
+    },
+    {
+      "id": "FT-035",
+      "name": "Retomada idempotente do gatilho de release",
+      "path": ".ia.rules/state/history/FT-035.ia",
+      "sha256": "be62c8e92d866e64ebeffe418f1425d97be551c60b2de93621648b2222017c53",
+      "state": "validada"
+    },
+    {
+      "id": "FT-036",
+      "name": "Código para verificação de atualização de aplicações distribuídas",
+      "path": ".ia.rules/state/history/FT-036.ia",
+      "sha256": "b21b217d0180fbe5b5d69fa742784703ebf7dd5c246d42509845ba9c632612b2",
+      "state": "validada"
+    },
+    {
+      "id": "FT-037",
+      "name": "Código para publicação atômica em registros de pacote",
+      "path": ".ia.rules/state/history/FT-037.ia",
+      "sha256": "2fd7e731ae88fff7e28fa953c090e6434bff87c971e92681e0793ddd48d655d1",
+      "state": "validada"
+    },
+    {
+      "id": "FT-038",
+      "name": "Código para processamento de TODO.ia.md",
+      "path": ".ia.rules/state/history/FT-038.ia",
+      "sha256": "d4092f0b5f545ba405df2ca571a4889deb9eb91e76819aef6fb31b056889c2ec",
+      "state": "validada"
+    },
+    {
+      "id": "FT-039",
+      "name": "Código e distribuição de INIT-REPO.md",
+      "path": ".ia.rules/state/history/FT-039.ia",
+      "sha256": "b26a4f3488df53ae0bb7058613636b4f9a213bc38b5fa864287d90d6ba2d88c6",
+      "state": "validada"
+    },
+    {
+      "id": "FT-040",
+      "name": "Código para raiz canônica e templates gerenciáveis",
+      "path": ".ia.rules/state/history/FT-040.ia",
+      "sha256": "0fb18c9aba98368c0b2f9fdf189a3d3f431391814398471a4ef0714e7d10e967",
+      "state": "validada"
+    },
+    {
+      "id": "FT-041",
+      "name": "Código para o bloqueio norma antes de código",
+      "path": ".ia.rules/state/history/FT-041.ia",
+      "sha256": "86f524dc9a4a608128b1ce8fcca18393abc7e08618a69eb5566fa3d3d63c6a61",
+      "state": "validada"
+    },
+    {
+      "id": "FT-042",
+      "name": "Código para encerramento idempotente de issues",
+      "path": ".ia.rules/state/history/FT-042.ia",
+      "sha256": "0d04443b22c29407ffcfb1a5d93407aa46e40f8e3f676e0566a32aaeef7199d1",
+      "state": "validada"
+    },
+    {
+      "id": "FT-043",
+      "name": "Norma de publicação atômica em registros de pacote",
+      "path": ".ia.rules/state/history/FT-043.ia",
+      "sha256": "350a38564b8ac8a09786576e02c755fa806933552d2fb6396fa766c26cf4b434",
+      "state": "validada"
+    },
+    {
+      "id": "FT-044",
+      "name": "Norma de verificação de atualização de aplicações distribuídas",
+      "path": ".ia.rules/state/history/FT-044.ia",
+      "sha256": "f029751cc4c8a7d00ab18b9f571918a0e717f3368cb3a157aa030c7cc7f5a18a",
+      "state": "validada"
+    },
+    {
+      "id": "FT-045",
+      "name": "Norma de TODO.ia.md e demanda do desenvolvedor",
+      "path": ".ia.rules/state/history/FT-045.ia",
+      "sha256": "c166c49afa349f0738a9fb46c7f7bcf733bdad29ff9da730c6169c043a501e74",
+      "state": "validada"
+    },
+    {
+      "id": "FT-046",
+      "name": "Norma do artefato INIT-REPO.md",
+      "path": ".ia.rules/state/history/FT-046.ia",
+      "sha256": "e1b853a120a15b0162b44e111564b628eea1175a67271abe11ece8912f70b8bd",
+      "state": "validada"
+    },
+    {
+      "id": "FT-047",
+      "name": "Norma de isolamento e templates na raiz `.ia.rules`",
+      "path": ".ia.rules/state/history/FT-047.ia",
+      "sha256": "ee893eb5299542b2fb0766988c72b637bb7f92f1304ef7863b54ceb42d47ae4d",
+      "state": "validada"
+    },
+    {
+      "id": "FT-048",
+      "name": "Norma da sequência solicitação → norma → autorização → código",
+      "path": ".ia.rules/state/history/FT-048.ia",
+      "sha256": "f8126b9f7e12098f457386437f92dca9b585f764e2457656e1be625b8250b719",
+      "state": "validada"
+    },
+    {
+      "id": "FT-049",
+      "name": "Norma de encerramento idempotente de issues",
+      "path": ".ia.rules/state/history/FT-049.ia",
+      "sha256": "580bc97df10ecfa574bad027796c3360178b75341eb8295ca99d12e4953b0b50",
+      "state": "validada"
+    },
+    {
+      "id": "FT-050",
+      "name": "Normatização integrada da governança operacional",
+      "path": ".ia.rules/state/history/FT-050.ia",
+      "sha256": "28cbf7ad84ff1ac5a5560bab9084daeaa584a9b17e59ed123533b0729e25cefb",
+      "state": "validada"
+    },
+    {
+      "id": "FT-051",
+      "name": "Implementação da norma operacional integrada em src",
+      "path": ".ia.rules/state/history/FT-051.ia",
+      "sha256": "e93bb2ca01c35feabbf23383a77d0b374da617c0104bae2086e278dc632e4146",
+      "state": "validada"
+    },
+    {
+      "id": "FT-052",
+      "name": "Implementação integrada dos códigos, scripts e automações",
+      "path": ".ia.rules/state/history/FT-052.ia",
+      "sha256": "bcefa01c2fb7ab993a0d7c80ccd0fb0845ccd9c4c8ead2648ee5b6a2fcacc8a1",
+      "state": "validada"
+    },
+    {
+      "id": "FT-053",
+      "name": "Normatização RCF do registro de decisões recusadas",
+      "path": ".ia.rules/state/history/FT-053.ia",
+      "sha256": "e43b380c0127d01bc92e46bb8ba04401cc252b386ff197b2af826d31be5d81fd",
+      "state": "validada"
+    },
+    {
+      "id": "FT-054",
+      "name": "Norma Operacional e acervo local de decisões recusadas",
+      "path": ".ia.rules/state/history/FT-054.ia",
+      "sha256": "5426f100c2369c852ad4bb8932741d152747bb327fc42dd3deccef963c013026",
+      "state": "validada"
+    },
+    {
+      "id": "FT-055",
+      "name": "Validação automatizada do registro de decisões recusadas",
+      "path": ".ia.rules/state/history/FT-055.ia",
+      "sha256": "9b8ae81e4058ebd4d022d5c2966a360fb7190da17591e45a49011cf2492c1548",
+      "state": "validada"
+    },
+    {
+      "id": "FT-056",
+      "name": "Arquitetura RCF de fontes distribuíveis e internos do construtor",
+      "path": ".ia.rules/state/history/FT-056.ia",
+      "sha256": "eaef397a9453f28235e193ae02f5846f11208425dca530fa703e2ddbafd55764",
+      "state": "validada"
+    },
+    {
+      "id": "FT-057",
+      "name": "Norma Operacional da segregação construtor-consumidor",
+      "path": ".ia.rules/state/history/FT-057.ia",
+      "sha256": "e43f347924cb3d6882c49e16d4d9b940ed5203234a8c94b32cc5002215e40ce2",
+      "state": "validada"
+    },
+    {
+      "id": "FT-058",
+      "name": "Reorganização física e pipeline de distribuição mínima",
+      "path": ".ia.rules/state/history/FT-058.ia",
+      "sha256": "e1124cd42d32c39b16d6b0ad693a67b7579695f072266fca1edd1df2e52da571",
+      "state": "validada"
+    },
+    {
+      "id": "FT-059",
+      "name": "Integração e auditoria do release mínimo",
+      "path": ".ia.rules/state/history/FT-059.ia",
+      "sha256": "e05a1499141305370cf88feb534ef412324f11185b501124929aba7196e6eacb",
+      "state": "validada"
+    },
+    {
+      "id": "FT-060",
+      "name": "Normatização dos metadados distribuídos e autorização upstream",
+      "path": ".ia.rules/state/history/FT-060.ia",
+      "sha256": "55306032882ed34dd05385f2bf21c89cef1ccb53aa86d2ce98fa9a2b34550866",
+      "state": "validada"
+    },
+    {
+      "id": "FT-061",
+      "name": "Normatização do ponto de entrada AGENTS e carregamento sob demanda",
+      "path": ".ia.rules/state/history/FT-061.ia",
+      "sha256": "415070cc918c61d025f68d120f0a51b9fb2ae4d380680f445570c17d4c34c5bc",
+      "state": "validada"
+    },
+    {
+      "id": "FT-062",
+      "name": "Implementação dos metadados distribuídos e autorização upstream",
+      "path": ".ia.rules/state/history/FT-062.ia",
+      "sha256": "59bf96df5baedd89767fc99c781a22f4d1198b04efad0680baeba8b7f4ed9118",
+      "state": "validada"
+    },
+    {
+      "id": "FT-063",
+      "name": "Implementação técnica do entrypoint AGENTS sob demanda",
+      "path": ".ia.rules/state/history/FT-063.ia",
+      "sha256": "86cc49eed59f3a644998dadbd2d9d01c3e487a67470a3ba1c6040308b0cc1d29",
+      "state": "validada"
+    },
+    {
+      "id": "FT-064",
+      "name": "Normatização do runtime de workflows e das métricas do grafo",
+      "path": ".ia.rules/state/history/FT-064.ia",
+      "sha256": "46a9dcdb61c7664068a779637fe0839a6a1161262d77f796f99d2f18ba172df8",
+      "state": "validada"
+    },
+    {
+      "id": "FT-065",
+      "name": "Implementação das métricas estatísticas e verificação da matriz",
+      "path": ".ia.rules/state/history/FT-065.ia",
+      "sha256": "9db23740ef02ee4e54ead16450bbc1c75785c231963e177ae738ffd7d75e6698",
+      "state": "validada"
+    },
+    {
+      "id": "FT-066",
+      "name": "Normatização RCF da política cumulativa de comentários",
+      "path": ".ia.rules/state/history/FT-066.ia",
+      "sha256": "f04c3a68e3acc3aba19cb081090b8b415f890680c77df509ad568312276fb9e8",
+      "state": "validada"
+    },
+    {
+      "id": "FT-067",
+      "name": "Norma Operacional da documentação e comentários",
+      "path": ".ia.rules/state/history/FT-067.ia",
+      "sha256": "06957517699ef208a302db89b255f67753353654dd35a1099302edadaefcc97f",
+      "state": "validada"
+    },
+    {
+      "id": "FT-068",
+      "name": "Conformidade documental, limpeza do TODO e release 0.1.1",
+      "path": ".ia.rules/state/history/FT-068.ia",
+      "sha256": "5348680a203d69289cef692fb89a3cf7b75d9f0e84fadab6ff01f977547ddd1d",
+      "state": "validada"
+    },
+    {
+      "id": "FT-069",
+      "name": "Reparo convergente do atualizador legado e release 0.1.2",
+      "path": ".ia.rules/state/history/FT-069.ia",
+      "sha256": "b207ff78cc07a483bcf77d41b86c453d6fff6745d62ee1c9178758fd18e5fcb6",
+      "state": "validada"
+    },
+    {
+      "id": "FT-070",
+      "name": "Correção do manifesto de handoff da release 0.1.2",
+      "path": ".ia.rules/state/history/FT-070.ia",
+      "sha256": "5339118149388b10fd311c386c82c0037e98f4cc37396ed9ebf193c649fd0904",
+      "state": "validada"
+    },
+    {
+      "id": "FT-071",
+      "name": "Equalização normativa da atualização resiliente e da Issue 11",
+      "path": ".ia.rules/state/history/FT-071.ia",
+      "sha256": "23641d196db68c995f2cbddb2ace6364b2ab0783e4a7e902c975f155772254a0",
+      "state": "validada"
+    },
+    {
+      "id": "FT-072",
+      "name": "Atualizador resiliente e preservador de consumidores",
+      "path": ".ia.rules/state/history/FT-072.ia",
+      "sha256": "89be8bc12bceb4cf9fd105b2373b75a8c83a88acb1685d39252e57a83b719041",
+      "state": "validada"
+    },
+    {
+      "id": "FT-073",
+      "name": "Norma de contenção absoluta ao repositório corrente",
+      "path": ".ia.rules/state/history/FT-073.ia",
+      "sha256": "fea122cc0f92eaf0c7ccc6d4d38efba8817a874873206b88f4b0b311d5955857",
+      "state": "validada"
+    },
+    {
+      "id": "FT-074",
+      "name": "Salvaguardas de contenção ao repositório corrente",
+      "path": ".ia.rules/state/history/FT-074.ia",
+      "sha256": "1055ee58c73118f2db0a9ef9d3ccd02522f5f93793918ee38e4401d89007001e",
+      "state": "validada"
+    },
+    {
+      "id": "FT-075",
+      "name": "Integração, comparação e release 0.1.3",
+      "path": ".ia.rules/state/history/FT-075.ia",
+      "sha256": "33f09598fe9fe8da8bfc1cfd54375b863f99e89d010484a089545297dd5cfd45",
+      "state": "validada"
+    },
+    {
+      "id": "FT-076",
+      "name": "Equalização e RCF de Skills Subagents memória automação e precisão visual",
+      "path": ".ia.rules/state/history/FT-076.ia",
+      "sha256": "20653954addeb81e468af996c16bd464b808d56306a9548f540cb9cf4ce80daf",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-077",
+      "name": "Norma Operacional de Skills Subagents e rotas sob demanda",
+      "path": ".ia.rules/state/history/FT-077.ia",
+      "sha256": "f703ebe54fe04256472e70eea8d023327754e8b3411efd145e782ddde8f2134d",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-078",
+      "name": "Inventário e implementação criteriosa de Skills e Subagents",
+      "path": ".ia.rules/state/history/FT-078.ia",
+      "sha256": "b53b5b0ed0c3a8829c0512d03e38554b41a37f391ade3f515dfebace43b1d12a",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-079",
+      "name": "Manifestação e instalação segura por cliente de IA",
+      "path": ".ia.rules/state/history/FT-079.ia",
+      "sha256": "46fb049cb4a24d0646b74d42be5b94e689fe0fabb8a8c48e5aec347fce201397",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-080",
+      "name": "Estado canônico memória durável e governança executável de TODO",
+      "path": ".ia.rules/state/history/FT-080.ia",
+      "sha256": "0890cbec7a02392ea43fe6f5569a138b9bcff30b8bcd9bb16aaacc8fa2fd472d",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-081",
+      "name": "Execução longa observável e economia do agente primário",
+      "path": ".ia.rules/state/history/FT-081.ia",
+      "sha256": "fa53424b7500bd0af0cf4cd700f441c6c5bb4da05170b6dc07f421917efaf21a",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-082",
+      "name": "Capacidade generalista de precisão visual imagem e PDF",
+      "path": ".ia.rules/state/history/FT-082.ia",
+      "sha256": "99b2779d1fa4c42accb4a735accc940bebc5e7515681707245fe582e6ae005c0",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-083",
+      "name": "Integração segurança comparação e aceite global da evolução",
+      "path": ".ia.rules/state/history/FT-083.ia",
+      "sha256": "6443992ba35302939b34648fee8c67fc1ca6d0e6f38010d6e73818b0f59c52be",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-084",
+      "name": "Correção da convergência integral por aliases legados",
+      "path": ".ia.rules/state/history/FT-084.ia",
+      "sha256": "386ff14f6cd1e76a90b50bb5ff2d17312a443a6609212a27c90795024a361aef",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-085",
+      "name": "Integração e auditoria da atualização completa v0.1.4-rc1",
+      "path": ".ia.rules/state/history/FT-085.ia",
+      "sha256": "91ec30f69cb6d278bea51c9918f3d60fb3008b1212655e07bd38ae14d9b82a73",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-086",
+      "name": "Contrato de estado corrente e segregação normativa versionada",
+      "path": ".ia.rules/state/history/FT-086.ia",
+      "sha256": "d81cf122dfcb0c52702db32402d676d28e8169d31094f40ad2efe415a15fac70",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-087",
+      "name": "Arquivamento determinístico e compactação do estado operacional",
+      "path": ".ia.rules/state/history/FT-087.ia",
+      "sha256": "6d721aa46eddf45e24e40033dce5d2979376930d170b506a307a9b106d4d9777",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-088",
+      "name": "Auditoria integrada do estado e das autoridades normativas",
+      "path": ".ia.rules/state/history/FT-088.ia",
+      "sha256": "b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b",
+      "state": "pendente-validacao"
+    }
+  ]
+}

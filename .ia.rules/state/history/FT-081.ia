@@ -1,0 +1,24 @@
+FT-081|nome=Execução longa observável e economia do agente primário|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-12T04:10:56-03:00|atualizacao=2026-09-12T17:55:09.401Z|autorizacao=humana
+objetivo=Instrumentar duração, ambiente, percentis, espera orientada a evento, backoff limitado, cancelamento e retomada para comandos longos sem polling excessivo nem delegação redundante.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md § Execuções longas e economia do agente primário.
+normativa=FT-076, FT-077.
+1/4 Baseline [concluido]
+  1/3 Medir comandos representativos por ambiente e runtime [concluido]
+  2/3 Classificar acoplamento, duração e timeout com margem [concluido]
+  3/3 Definir condições em que Subagent reduz custo real [concluido]
+2/4 Runtime [concluido]
+  1/3 Implementar eventos/espera e fallback com backoff limitado [concluido]
+  2/3 Persistir início, fim, duração, código, ambiente e retomada [concluido]
+  3/3 Preservar cancelamento, lock, limpeza e decisão intermediária [concluido]
+3/4 Testes [concluido]
+  1/3 Cobrir sucesso, timeout, cancelamento, retomada e processo órfão [concluido]
+  2/3 Comprovar ausência de polling curto e duplicado [concluido]
+  3/3 Validar diagnóstico sem confundir timeout e falha funcional [concluido]
+4/4 Fechamento [concluido]
+  1/2 Atualizar memória durável somente com evidência aplicável [concluido]
+  2/2 Versionar implementação e rastreabilidade causal [concluido]
+aceite=Timeouts derivam de evidência; espera não desperdiça o primário; retomada não repete conclusão; Subagent de monitoração só existe com isolamento e ganho comprovados.
+dependencias=FT-077 concluída; integra estado da FT-080; autorização humana posterior ao gate normativo.
+resultado=Executor longo orientado a eventos implementado com p95, margem, timeout, cancelamento, retomada e órfão.
+verificacoes=Sucesso, falha funcional, timeout, cancelamento, reuso, órfão e backoff finito cobertos.
+pendencias=Nenhuma pendência funcional; validação humana do TODO permanece externa.

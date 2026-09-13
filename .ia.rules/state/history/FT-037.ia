@@ -1,0 +1,23 @@
+FT-037|nome=Código para publicação atômica em registros de pacote|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-20T01:33:50Z|inicio=2026-07-22T00:00:00-03:00|atualizacao=20260722.120000|conclusao=2026-07-22T12:00:00-03:00
+objetivo=Materializar em código a norma da issue github:jcempro/agents.md#1 somente após FT-043 concluída e autorização humana posterior.
+issue_id=github:jcempro/agents.md#1
+issue_repo=jcempro/agents.md
+issue_number=1
+issue_url=https://github.com/jcempro/agents.md/issues/1
+issue_state=corrigida
+release=0.0.19
+dependencias=FT-043 concluída; autorização humana explícita recebida na solicitação de implementação de todas as demais FTs.
+norma=RCF §0.0.13; src/.ia.rules/scenarios/release/capabilities/package-registry.md.
+criterios=Implementar capacidade opt-in; prepare, verify, publish e confirm ordenados antes do release externo; dry-run sem mutação.
+1/3 Analise e plano [concluido]
+  1/2 Validar escopo e criterios de aceite da issue [concluido]
+  2/2 Atualizar plano e contratos aplicaveis [concluido]
+2/3 Implementacao e validacao [concluido]
+  1/2 Implementar sem regressao [concluido]
+  2/2 Executar validacoes proporcionais [concluido]
+3/3 Entrega [concluido]
+  1/2 Commitar e publicar desenvolvimento [concluido]
+  2/2 Incluir em release e encerrar issue [concluido]
+decisoes=Capacidade implementada em src/.ia.rules/scenarios/release/scripts/package-registry.js e integrada ao agent:release como opt-in, retornando skipped sem configuração.
+verificacoes=node --check; package-registry.test.js; agent:test via runtime src.
+pendencias=Incluir em release e encerrar issue no ciclo de publicação.

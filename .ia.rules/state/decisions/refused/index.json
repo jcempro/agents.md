@@ -19,8 +19,8 @@
         "constructor/evaluations/logical-syntax.md",
         "src/.ia.rules/core/routing.md",
         "RCF.md#19",
-        ".ia.rules/continue.ia#FT-051",
-        ".ia.rules/continue.ia#FT-052",
+        ".ia.rules/state/history/FT-051.ia#FT-051",
+        ".ia.rules/state/history/FT-052.ia#FT-052",
         "git:eba4dcc"
       ],
       "reconsiderationCondition": "Tokenizer oficial/versionado, corpus ampliado, avaliação cega e métricas de precisão, ambiguidade, tempo e manutenção com candidatos semanticamente integrais.",
@@ -43,9 +43,9 @@
       "relatedArtifacts": [
         "src/.ia.rules/core/routing.md",
         "RCF.md#18",
-        ".ia.rules/continue.ia#FT-050",
-        ".ia.rules/continue.ia#FT-051",
-        ".ia.rules/continue.ia#FT-052",
+        ".ia.rules/state/history/FT-050.ia#FT-050",
+        ".ia.rules/state/history/FT-051.ia#FT-051",
+        ".ia.rules/state/history/FT-052.ia#FT-052",
         "git:eba4dcc"
       ],
       "reconsiderationCondition": "Baseline reproduzível deve demonstrar ganho líquido recorrente sobre índice local, grafo, busca lexical e metadados, preservando privacidade, reversibilidade, autoridade e operação offline preferencial.",

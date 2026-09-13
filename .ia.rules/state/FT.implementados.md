@@ -1,12 +1,91 @@
 # FTs implementadas
 
-Índice mínimo para pedidos e evidências canônicas.
+Índice mínimo; carregue somente o histórico da FT pertinente.
 
-- FT-076 — Equalização integral. Pedido: `state/requests/FT-076/request.md`; evidência: `RCF.md` §21 e commits normativos.
-- FT-077 — Norma Operacional. Evidência: `src/AGENTS.md`, `src/.ia.rules/agents.inc.md` e índice normativo.
-- FT-078 — Inventário, dois Skills e Subagent read-only. Evidência: `src/.ia.rules/units/catalog.json` e `test/governance-evolution.test.js`.
-- FT-079 — Manifestação e instalação segura. Evidência: `src/.ia.rules/core/runtime/scripts/unit-manager.ts` e artefatos de distribuição.
-- FT-080 — Estado, memória e TODO canônicos. Evidência: `index.json`, `migration-baseline.json` e runtime `state-manager`.
-- FT-081 — Execução longa observável. Evidência: runtime `long-running` e suíte de evolução.
-- FT-082 — Precisão visual generalista. Evidência: runtime/Skill `visual-evidence` e fixtures imagem/PDF/Web.
-- FT-083 — Integração e aceite local. Evidência: `TEST_OK` (23 suítes), `VERIFY_OK`, RCF 305/301 e pacote seco.
+- FT-001 — Aderencia operacional ao RCF; estado: validada; histórico: `history/FT-001.ia`; sha256: `271fb657910cd218f009aee993dfcd7883150ff4c0187599f50e4d8437e3d5b5`.
+- FT-002 — Correcao da memoria canonica; estado: validada; histórico: `history/FT-002.ia`; sha256: `74886c92ac453564362b31887d64eed1368ccff3fe365e8179c6723d752e0297`.
+- FT-003 — Resposta degradada da API operacional; estado: validada; histórico: `history/FT-003.ia`; sha256: `5b09c825592423138f25dacf29346217c3853be0db54edbc1ed4cd4b3d1e166f`.
+- FT-004 — Implementacoes seguras da API operacional; estado: validada; histórico: `history/FT-004.ia`; sha256: `a6a634cf57f784041a174fd3f7150711553ed51b5f2137d8601cb6c7c0982faf`.
+- FT-005 — Release automatico aderente ao RCF; estado: validada; histórico: `history/FT-005.ia`; sha256: `09cf01507d69aafd4e62bbaabdee9472e96ee77ceacbebbbe122d863b5448ca6`.
+- FT-006 — Densificacao normativa e preparo para IA; estado: validada; histórico: `history/FT-006.ia`; sha256: `97d45bf4f9239cc19199d570076b117c1b1f4d7b88c00427a0ce87d1d1f26d37`.
+- FT-007 — Conformidade integral da interface to-ia; estado: validada; histórico: `history/FT-007.ia`; sha256: `3618fa5bad34756b4eaae3240b9ec93bbf8b70a1954223a4596bf09c8a122efb`.
+- FT-008 — Separacao dos cenarios Release e Publicacao de Conteudo; estado: validada; histórico: `history/FT-008.ia`; sha256: `a24e0eed50c87acf3486b65cda9c78dea680adc9a81adc73f39a77f423e63139`.
+- FT-009 — Ordem e resiliencia do workflow de release; estado: validada; histórico: `history/FT-009.ia`; sha256: `9567e2bbabbb63b9cbd8abe5e8c9c385c70f584e63e59a30e98f16a7ebc1bf7b`.
+- FT-010 — Execucao remota inicial do release; estado: validada; histórico: `history/FT-010.ia`; sha256: `82e18d341e5aa5b5ad19cf2b84a4ca57981eb3fefb4786d19a720cc3e8c83f96`.
+- FT-011 — Manifesto executavel e mesclagem segura de package.json; estado: validada; histórico: `history/FT-011.ia`; sha256: `6f3bba7b5cf79e9a76ea0f8f3614412805d4afe42bdb815754ad6a5e66bb0cbb`.
+- FT-012 — Convergencia obrigatoria de dev para main; estado: validada; histórico: `history/FT-012.ia`; sha256: `76862f037a7724c70be8a08dc496c745990e1f5c89f08521402ccb5a0301d31d`.
+- FT-013 — Release estavel do manifesto executavel; estado: validada; histórico: `history/FT-013.ia`; sha256: `2bcee266867e9623e94a8ee4d1c1285041fe652c27fb64a245e9a9f17e5ffb1a`.
+- FT-014 — Topologia explicita de repositorio aplicacao e artefato; estado: validada; histórico: `history/FT-014.ia`; sha256: `1f02e19f61fef7323263d320a63b9541a3dc32cca3d1b5214469a2fc33fa39ea`.
+- FT-015 — Publicacao all-in-one de release; estado: validada; histórico: `history/FT-015.ia`; sha256: `24a503aea8bf02150a9989c1fdaa43c2b53508344c326e7fdae8627b3c00e258`.
+- FT-016 — Contrato transversal e metaarquivos de scripts reutilizaveis; estado: validada; histórico: `history/FT-016.ia`; sha256: `79f1b623df9232f44753fda506d2f02ff458e8c59bad1aedc71f738e9ff477ac`.
+- FT-017 — Extensao local imutavel da governanca distribuida; estado: validada; histórico: `history/FT-017.ia`; sha256: `c271f54d9c58a9291e6ca7c7b6f2b87511f0f7f4f7377f258609a4046c495f97`.
+- FT-018 — Composicao tipada de cenarios e scripts aninhados; estado: validada; histórico: `history/FT-018.ia`; sha256: `7f387f4059c3d0733fda6e66d241ba46b1b2251266a99b4e77104dcd35fcf7f7`.
+- FT-019 — Parametrizacao editorial e release 0.0.4; estado: validada; histórico: `history/FT-019.ia`; sha256: `8f1b7a85b5372ca864935a63879c143640ab3e8ae35e6af646f24efc540b24f0`.
+- FT-020 — Atualizacao declarativa e compatibilidade versionada; estado: validada; histórico: `history/FT-020.ia`; sha256: `c4cb8def8d4b7bef39e3fe42752038141d0b5bf7ce5ba14b0a27ad455f5a0606`.
+- FT-021 — Canonizacao de hash do manifesto; estado: validada; histórico: `history/FT-021.ia`; sha256: `5b9bea6b6f110b5f74d4428d9d0cbd0ee7ce96107e4c317ca744df03d96a4ea4`.
+- FT-022 — Taxonomia construtor-consumidor e autoridade normativa; estado: validada; histórico: `history/FT-022.ia`; sha256: `9a077a97123872187a0492aafb3f638a82be03d05177943322ff09eaccc5c252`.
+- FT-023 — Pipeline compartilhavel do consumidor para upstream de AGENTS; estado: validada; histórico: `history/FT-023.ia`; sha256: `4ac295a173e579f148263d56fa143b5a7b0692135e414c1445afc80489adef8b`.
+- FT-024 — Integracoes externas fail-safe da governanca; estado: validada; histórico: `history/FT-024.ia`; sha256: `639006f8b1b2a3da7f66bc849d5d574278ba90c4909b69e450b566ffc67b5a56`.
+- FT-025 — Validacao, distribuicao e encerramento da evolucao upstream; estado: validada; histórico: `history/FT-025.ia`; sha256: `0d86298753769f6b4fcb6c3187be4066e30484da940c1f1475c424194e80b0aa`.
+- FT-026 — Inbox e decisao construtora de issues upstream; estado: validada; histórico: `history/FT-026.ia`; sha256: `72cd2e191aeecc493e80d39832cec8c7914c743a1f8339b05042fd5e30a69230`.
+- FT-027 — Otimizacao agressiva do contexto em src; estado: validada; histórico: `history/FT-027.ia`; sha256: `822be4afaadff1032ec9a238a08f599aef2c9794ac7768614509fb38e5684ee6`.
+- FT-028 — Cabeçalho portátil e release 0.0.8; estado: validada; histórico: `history/FT-028.ia`; sha256: `c5f24b8f25f9b97e42d4f5cb099b0bdfdabc120745bc35b152ed5e3bd772c1a7`.
+- FT-029 — Aprovacao humana de issue e release 0.0.9; estado: validada; histórico: `history/FT-029.ia`; sha256: `54ecd1656f512b9c26b7d513d02ac17a3b3dfc58ff715cdc8f39915b2069ccb0`.
+- FT-030 — Autoupdate explicito e recuperacao de bootstrap legado; estado: validada; histórico: `history/FT-030.ia`; sha256: `bd921631e319146de5894c961d04c3c1834cdd9d449a0c660812af33419c9715`.
+- FT-031 — Atualizacao autoritativa e aditamento estrutural; estado: validada; histórico: `history/FT-031.ia`; sha256: `829d6ab40adda531b46fc3533e4577f2702a4edc40dc7142dd1feec361669caf`.
+- FT-032 — Atualizacao convergente em consumidores; estado: validada; histórico: `history/FT-032.ia`; sha256: `eb9857f8da2dbaf42dc0d72ed0cb1309ca46e9440765a3b5e68825eddee14128`.
+- FT-033 — Handoff fail-safe do atualizador; estado: validada; histórico: `history/FT-033.ia`; sha256: `3f584953beb1b6ec80fdea7e0eb771d081323758a56c07b52d5a0cda34910477`.
+- FT-035 — Retomada idempotente do gatilho de release; estado: validada; histórico: `history/FT-035.ia`; sha256: `be62c8e92d866e64ebeffe418f1425d97be551c60b2de93621648b2222017c53`.
+- FT-036 — Código para verificação de atualização de aplicações distribuídas; estado: validada; histórico: `history/FT-036.ia`; sha256: `b21b217d0180fbe5b5d69fa742784703ebf7dd5c246d42509845ba9c632612b2`.
+- FT-037 — Código para publicação atômica em registros de pacote; estado: validada; histórico: `history/FT-037.ia`; sha256: `2fd7e731ae88fff7e28fa953c090e6434bff87c971e92681e0793ddd48d655d1`.
+- FT-038 — Código para processamento de TODO.ia.md; estado: validada; histórico: `history/FT-038.ia`; sha256: `d4092f0b5f545ba405df2ca571a4889deb9eb91e76819aef6fb31b056889c2ec`.
+- FT-039 — Código e distribuição de INIT-REPO.md; estado: validada; histórico: `history/FT-039.ia`; sha256: `b26a4f3488df53ae0bb7058613636b4f9a213bc38b5fa864287d90d6ba2d88c6`.
+- FT-040 — Código para raiz canônica e templates gerenciáveis; estado: validada; histórico: `history/FT-040.ia`; sha256: `0fb18c9aba98368c0b2f9fdf189a3d3f431391814398471a4ef0714e7d10e967`.
+- FT-041 — Código para o bloqueio norma antes de código; estado: validada; histórico: `history/FT-041.ia`; sha256: `86f524dc9a4a608128b1ce8fcca18393abc7e08618a69eb5566fa3d3d63c6a61`.
+- FT-042 — Código para encerramento idempotente de issues; estado: validada; histórico: `history/FT-042.ia`; sha256: `0d04443b22c29407ffcfb1a5d93407aa46e40f8e3f676e0566a32aaeef7199d1`.
+- FT-043 — Norma de publicação atômica em registros de pacote; estado: validada; histórico: `history/FT-043.ia`; sha256: `350a38564b8ac8a09786576e02c755fa806933552d2fb6396fa766c26cf4b434`.
+- FT-044 — Norma de verificação de atualização de aplicações distribuídas; estado: validada; histórico: `history/FT-044.ia`; sha256: `f029751cc4c8a7d00ab18b9f571918a0e717f3368cb3a157aa030c7cc7f5a18a`.
+- FT-045 — Norma de TODO.ia.md e demanda do desenvolvedor; estado: validada; histórico: `history/FT-045.ia`; sha256: `c166c49afa349f0738a9fb46c7f7bcf733bdad29ff9da730c6169c043a501e74`.
+- FT-046 — Norma do artefato INIT-REPO.md; estado: validada; histórico: `history/FT-046.ia`; sha256: `e1b853a120a15b0162b44e111564b628eea1175a67271abe11ece8912f70b8bd`.
+- FT-047 — Norma de isolamento e templates na raiz `.ia.rules`; estado: validada; histórico: `history/FT-047.ia`; sha256: `ee893eb5299542b2fb0766988c72b637bb7f92f1304ef7863b54ceb42d47ae4d`.
+- FT-048 — Norma da sequência solicitação → norma → autorização → código; estado: validada; histórico: `history/FT-048.ia`; sha256: `f8126b9f7e12098f457386437f92dca9b585f764e2457656e1be625b8250b719`.
+- FT-049 — Norma de encerramento idempotente de issues; estado: validada; histórico: `history/FT-049.ia`; sha256: `580bc97df10ecfa574bad027796c3360178b75341eb8295ca99d12e4953b0b50`.
+- FT-050 — Normatização integrada da governança operacional; estado: validada; histórico: `history/FT-050.ia`; sha256: `28cbf7ad84ff1ac5a5560bab9084daeaa584a9b17e59ed123533b0729e25cefb`.
+- FT-051 — Implementação da norma operacional integrada em src; estado: validada; histórico: `history/FT-051.ia`; sha256: `e93bb2ca01c35feabbf23383a77d0b374da617c0104bae2086e278dc632e4146`.
+- FT-052 — Implementação integrada dos códigos, scripts e automações; estado: validada; histórico: `history/FT-052.ia`; sha256: `bcefa01c2fb7ab993a0d7c80ccd0fb0845ccd9c4c8ead2648ee5b6a2fcacc8a1`.
+- FT-053 — Normatização RCF do registro de decisões recusadas; estado: validada; histórico: `history/FT-053.ia`; sha256: `e43b380c0127d01bc92e46bb8ba04401cc252b386ff197b2af826d31be5d81fd`.
+- FT-054 — Norma Operacional e acervo local de decisões recusadas; estado: validada; histórico: `history/FT-054.ia`; sha256: `5426f100c2369c852ad4bb8932741d152747bb327fc42dd3deccef963c013026`.
+- FT-055 — Validação automatizada do registro de decisões recusadas; estado: validada; histórico: `history/FT-055.ia`; sha256: `9b8ae81e4058ebd4d022d5c2966a360fb7190da17591e45a49011cf2492c1548`.
+- FT-056 — Arquitetura RCF de fontes distribuíveis e internos do construtor; estado: validada; histórico: `history/FT-056.ia`; sha256: `eaef397a9453f28235e193ae02f5846f11208425dca530fa703e2ddbafd55764`.
+- FT-057 — Norma Operacional da segregação construtor-consumidor; estado: validada; histórico: `history/FT-057.ia`; sha256: `e43f347924cb3d6882c49e16d4d9b940ed5203234a8c94b32cc5002215e40ce2`.
+- FT-058 — Reorganização física e pipeline de distribuição mínima; estado: validada; histórico: `history/FT-058.ia`; sha256: `e1124cd42d32c39b16d6b0ad693a67b7579695f072266fca1edd1df2e52da571`.
+- FT-059 — Integração e auditoria do release mínimo; estado: validada; histórico: `history/FT-059.ia`; sha256: `e05a1499141305370cf88feb534ef412324f11185b501124929aba7196e6eacb`.
+- FT-060 — Normatização dos metadados distribuídos e autorização upstream; estado: validada; histórico: `history/FT-060.ia`; sha256: `55306032882ed34dd05385f2bf21c89cef1ccb53aa86d2ce98fa9a2b34550866`.
+- FT-061 — Normatização do ponto de entrada AGENTS e carregamento sob demanda; estado: validada; histórico: `history/FT-061.ia`; sha256: `415070cc918c61d025f68d120f0a51b9fb2ae4d380680f445570c17d4c34c5bc`.
+- FT-062 — Implementação dos metadados distribuídos e autorização upstream; estado: validada; histórico: `history/FT-062.ia`; sha256: `59bf96df5baedd89767fc99c781a22f4d1198b04efad0680baeba8b7f4ed9118`.
+- FT-063 — Implementação técnica do entrypoint AGENTS sob demanda; estado: validada; histórico: `history/FT-063.ia`; sha256: `86cc49eed59f3a644998dadbd2d9d01c3e487a67470a3ba1c6040308b0cc1d29`.
+- FT-064 — Normatização do runtime de workflows e das métricas do grafo; estado: validada; histórico: `history/FT-064.ia`; sha256: `46a9dcdb61c7664068a779637fe0839a6a1161262d77f796f99d2f18ba172df8`.
+- FT-065 — Implementação das métricas estatísticas e verificação da matriz; estado: validada; histórico: `history/FT-065.ia`; sha256: `9db23740ef02ee4e54ead16450bbc1c75785c231963e177ae738ffd7d75e6698`.
+- FT-066 — Normatização RCF da política cumulativa de comentários; estado: validada; histórico: `history/FT-066.ia`; sha256: `f04c3a68e3acc3aba19cb081090b8b415f890680c77df509ad568312276fb9e8`.
+- FT-067 — Norma Operacional da documentação e comentários; estado: validada; histórico: `history/FT-067.ia`; sha256: `06957517699ef208a302db89b255f67753353654dd35a1099302edadaefcc97f`.
+- FT-068 — Conformidade documental, limpeza do TODO e release 0.1.1; estado: validada; histórico: `history/FT-068.ia`; sha256: `5348680a203d69289cef692fb89a3cf7b75d9f0e84fadab6ff01f977547ddd1d`.
+- FT-069 — Reparo convergente do atualizador legado e release 0.1.2; estado: validada; histórico: `history/FT-069.ia`; sha256: `b207ff78cc07a483bcf77d41b86c453d6fff6745d62ee1c9178758fd18e5fcb6`.
+- FT-070 — Correção do manifesto de handoff da release 0.1.2; estado: validada; histórico: `history/FT-070.ia`; sha256: `5339118149388b10fd311c386c82c0037e98f4cc37396ed9ebf193c649fd0904`.
+- FT-071 — Equalização normativa da atualização resiliente e da Issue 11; estado: validada; histórico: `history/FT-071.ia`; sha256: `23641d196db68c995f2cbddb2ace6364b2ab0783e4a7e902c975f155772254a0`.
+- FT-072 — Atualizador resiliente e preservador de consumidores; estado: validada; histórico: `history/FT-072.ia`; sha256: `89be8bc12bceb4cf9fd105b2373b75a8c83a88acb1685d39252e57a83b719041`.
+- FT-073 — Norma de contenção absoluta ao repositório corrente; estado: validada; histórico: `history/FT-073.ia`; sha256: `fea122cc0f92eaf0c7ccc6d4d38efba8817a874873206b88f4b0b311d5955857`.
+- FT-074 — Salvaguardas de contenção ao repositório corrente; estado: validada; histórico: `history/FT-074.ia`; sha256: `1055ee58c73118f2db0a9ef9d3ccd02522f5f93793918ee38e4401d89007001e`.
+- FT-075 — Integração, comparação e release 0.1.3; estado: validada; histórico: `history/FT-075.ia`; sha256: `33f09598fe9fe8da8bfc1cfd54375b863f99e89d010484a089545297dd5cfd45`.
+- FT-076 — Equalização e RCF de Skills Subagents memória automação e precisão visual; estado: pendente-validacao; histórico: `history/FT-076.ia`; sha256: `20653954addeb81e468af996c16bd464b808d56306a9548f540cb9cf4ce80daf`.
+- FT-077 — Norma Operacional de Skills Subagents e rotas sob demanda; estado: pendente-validacao; histórico: `history/FT-077.ia`; sha256: `f703ebe54fe04256472e70eea8d023327754e8b3411efd145e782ddde8f2134d`.
+- FT-078 — Inventário e implementação criteriosa de Skills e Subagents; estado: pendente-validacao; histórico: `history/FT-078.ia`; sha256: `b53b5b0ed0c3a8829c0512d03e38554b41a37f391ade3f515dfebace43b1d12a`.
+- FT-079 — Manifestação e instalação segura por cliente de IA; estado: pendente-validacao; histórico: `history/FT-079.ia`; sha256: `46fb049cb4a24d0646b74d42be5b94e689fe0fabb8a8c48e5aec347fce201397`.
+- FT-080 — Estado canônico memória durável e governança executável de TODO; estado: pendente-validacao; histórico: `history/FT-080.ia`; sha256: `0890cbec7a02392ea43fe6f5569a138b9bcff30b8bcd9bb16aaacc8fa2fd472d`.
+- FT-081 — Execução longa observável e economia do agente primário; estado: pendente-validacao; histórico: `history/FT-081.ia`; sha256: `fa53424b7500bd0af0cf4cd700f441c6c5bb4da05170b6dc07f421917efaf21a`.
+- FT-082 — Capacidade generalista de precisão visual imagem e PDF; estado: pendente-validacao; histórico: `history/FT-082.ia`; sha256: `99b2779d1fa4c42accb4a735accc940bebc5e7515681707245fe582e6ae005c0`.
+- FT-083 — Integração segurança comparação e aceite global da evolução; estado: pendente-validacao; histórico: `history/FT-083.ia`; sha256: `6443992ba35302939b34648fee8c67fc1ca6d0e6f38010d6e73818b0f59c52be`.
+- FT-084 — Correção da convergência integral por aliases legados; estado: pendente-validacao; histórico: `history/FT-084.ia`; sha256: `386ff14f6cd1e76a90b50bb5ff2d17312a443a6609212a27c90795024a361aef`.
+- FT-085 — Integração e auditoria da atualização completa v0.1.4-rc1; estado: pendente-validacao; histórico: `history/FT-085.ia`; sha256: `91ec30f69cb6d278bea51c9918f3d60fb3008b1212655e07bd38ae14d9b82a73`.
+- FT-086 — Contrato de estado corrente e segregação normativa versionada; estado: pendente-validacao; histórico: `history/FT-086.ia`; sha256: `d81cf122dfcb0c52702db32402d676d28e8169d31094f40ad2efe415a15fac70`.
+- FT-087 — Arquivamento determinístico e compactação do estado operacional; estado: pendente-validacao; histórico: `history/FT-087.ia`; sha256: `6d721aa46eddf45e24e40033dce5d2979376930d170b506a307a9b106d4d9777`.
+- FT-088 — Auditoria integrada do estado e das autoridades normativas; estado: pendente-validacao; histórico: `history/FT-088.ia`; sha256: `b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b`.

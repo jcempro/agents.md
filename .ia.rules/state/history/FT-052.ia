@@ -1,0 +1,46 @@
+FT-052|nome=Implementação integrada dos códigos, scripts e automações|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluido|criado_em=2026-07-25T18:27:45-03:00|inicio=2026-07-25T20:52:00-03:00|atualizacao=2026-07-25T22:29:59-03:00|conclusao=2026-07-25T22:29:59-03:00
+objetivo=Implementar, adaptar e validar todos os códigos, scripts, hooks, workflows, geradores, validadores, atualizador e artefatos derivados exigidos pela FT-050 e materializados normativamente pela FT-051.
+origens=github:jcempro/agents.md#9; fontes materiais enumeradas em FT-050; RCF.md e src produzidos por FT-050/FT-051; github:jcempro/agents.md#2 como tarefa terminal condicionada.
+dependencias=FT-050 e FT-051 concluídas, validadas e commitadas; nova autorização humana explícita; reavaliação da issue #2 somente após conclusão de todas as demais tarefas.
+1/6 Base transversal [concluido]
+  1/3 Implementar contratos comuns, configuração central, logs, estados, hooks e fallbacks [concluido]
+  2/3 Migrar fontes Node.js para TypeScript e instituir build/distribuição dual [concluido]
+  3/3 Implementar metadados por recurso e matriz multilíngue de runtime/compatibilidade [concluido]
+2/6 Atualização e distribuição [concluido]
+  1/3 Blindar atualizador, migrações, marcadores, checkpoints, backups e commit isolado [concluido]
+  2/3 Distribuir e instalar workflows oficiais de forma indexada e determinística [concluido]
+  3/3 Validar instalações limpas, saltos, cópias manuais, coexistência e árvores sujas [concluido]
+3/6 Roteamento e recuperação [concluido]
+  1/3 Implementar índice/grafo global e validações estruturais [concluido]
+  2/3 Implementar tokenização exata, custos por caminho, métricas e mapa visual [concluido]
+  3/3 Implementar workflow idempotente, concorrente e equivalente à execução local [concluido]
+4/6 Rastreabilidade e linguagem [concluido]
+  1/3 Implementar associação sentença RCF ↔ commit material em duas fases sem recursão [concluido]
+  2/3 Implementar parser/formatter de sintaxe lógica somente se aprovado pela FT-050/FT-051 [concluido]
+  3/3 Implementar validações contra degradação, fluxo paralelo e artefato obsoleto [concluido]
+5/6 Auditoria integral [concluido]
+  1/3 Inventariar e adequar todos os scripts distribuídos [concluido]
+  2/3 Executar corpus cross-platform, shells, runtimes, permissões, falhas e retomadas [concluido]
+  3/3 Comprovar reprodutibilidade, equivalência, privacidade, segurança e custo líquido [concluido]
+6/6 Fechamento [concluido]
+  1/3 Reavaliar issue github:jcempro/agents.md#2 contra o estado final e comentar tecnicamente [concluido]
+  2/3 Produzir relatório rastreável e incluir a issue #9 no ciclo de release [concluido]
+  3/3 Publicar, convergir branches e encerrar issues conforme contrato [concluido]
+aceite=Todos os critérios técnicos do RCF e das fontes satisfeitos; nenhuma implementação paralela; release reproduzível; issue #2 reavaliada somente no gate terminal.
+pendencias=Nenhuma nesta FT.
+proximo_ponto=FT-059 e as FTs importadas posteriormente possuem ciclos próprios e não integram a Fase 3 concluída.
+conciliacao=FT-058 especializa a segregação física de fonte distribuível, internos, allowlist, manifests e pipeline solicitada posteriormente. Nos pontos sobrepostos, FT-058 prevalece por especificidade e `criado_em`; FT-052 reutiliza seu resultado e NÃO DEVE refazer, reverter ou manter classificação incompatível. A correção transversal de EOL, TypeScript e demais contratos amplos permanece na FT-052.
+resultado_etapa_1=26 fontes Node convertidas para TypeScript canônico; 26 artefatos CommonJS Node 24+ derivados por TypeScript 7.0.2/esbuild 0.28.1; release dual com matriz por runtime; TypeScript e JavaScript manualmente concorrente bloqueados; 448 funções e 8 classes receberam documentação nativa; EOL comparado por hash textual normalizado.
+verificacoes_etapa_1=agent:typecheck TYPECHECK_OK sources=26; agent:verify VERIFY_OK scripts=26 indexedFiles=98; agent:test TEST_OK suites=12; dist contém pares .ts/.js, JavaScript minificado e origem rastreável.
+resultado_etapa_2=Atualizador ampliado para fontes TypeScript, Python, texto e YAML manifestadas; handoff HMAC, marcador versionado, backup ZIP, transação e rollback preservados; catálogo de 2 workflows, instalador atômico, dry-run, estado de integridade, proteção contra customização divergente e runtimes executáveis implementados.
+resultado_etapa_3=Grafo global validado com 35 nós e 34 arestas; 34 rotas terminais; tiktoken 0.13.0/o200k_base exato; corpus integral 35.190 tokens e rota média 8.352,91, redução contextual média 76,26%; mapa Mermaid, região README, hashes, digest de obsolescência, execução local e workflow concorrente/anti-recursão implementados.
+verificacoes_etapa_3=agent:map NORMATIVE_GRAPH_OK paths=34; agent:verify VERIFY_OK indexedFiles=106; agent:test TEST_OK suites=14; teste comprova idempotência e ausência de alteração em --check.
+resultado_etapa_4=Runtime rcf-trace TypeScript implementa migração por blame causal no Construtor, preparo explícito, marcador PENDENTE-CODIGO, finalização por commit material, últimos 7 caracteres no RCF, hash integral/mapa local, validação round trip, workflow em segunda fase e anti-recursão. RCF.md possui 245 unidades materiais assinadas. Parser/formatter lógico foi encerrado como não aplicável por DEC-20260725-001 e RCF §19; nenhum código proibido foi criado. Guardas do grafo bloqueiam redução silenciosa de modalidade, proibição, exceção ou referência; JavaScript manual, workflow conflitante e derivado obsoleto também bloqueiam.
+verificacoes_etapa_4=agent:rcf:trace validate entries=245 material=245; rcf-trace.test comprova migração, últimos sete caracteres, preparo/finalização causal e detecção de sentença órfã; agent:test TEST_OK suites=15.
+resultado_etapa_5=Inventário positivo comprovou 81 entradas, 28 fontes TypeScript/28 artefatos JavaScript minificados, 1 runtime Python e 113 arquivos de artefato; zero interno proibido no ZIP. Hashes textuais do grafo e workflows foram normalizados entre LF/CRLF; checkout da matriz passou a preservar histórico causal; workflows internos foram alinhados ao Node 24. Segurança deixou de autossinalizar definições/dependências e passou a retornar SECURITY_OK.
+verificacoes_etapa_5=Node 24.18.0 local TEST_OK suites=16; GitHub Actions run 30182524514 aprovado em windows-latest, ubuntu-latest e macos-latest com Node 24/Python 3.14; npm audit produção zero vulnerabilidade; ZIP reproduzido duas vezes com SHA-256 BEB0759EE517AAEB5439245CB40BD9E572FA18DD29C5466DA802E0F29EA215A2 e 306931 bytes; npm pack dry-run 63 entradas; relatório constructor/reports/FT-052-phase3.md.
+resultado_issue_2=Reavaliação terminal executada somente após 249 controles anteriores baixados. A issue permanece aplicável, pertinente e necessária: repository.json continua expressamente ausente do manifesto/payload, core.json não contém metadata, requireAuthorization segue chamada sem definição/importação e o verify do dist para antes em TSCONFIG_AUSENTE. Comentário técnico publicado em https://github.com/jcempro/agents.md/issues/2#issuecomment-5081355087; validade 10/10, impacto 10/10, prioridade 9/10; naquele gate, a issue foi mantida aberta por ainda não possuir aceite para implementação.
+resultado_etapa_6=Issue #2 reavaliada e comentada no gate terminal; relatório rastreável concluído; release v0.0.22 publicado em https://github.com/jcempro/agents.md/releases/tag/v0.0.22 pelo run 30183009599; asset agents-v0.0.22.zip com SHA-256 9ac55e51ff03cc5e51b41e7a5b0b2c08b383f8da1e5dfed778f347f5fa4c0380 e 308006 bytes; issue #9 marcada agents:fixed e encerrada; origin/dev e origin/main convergiram em 069a6ab9a9e5190171d2e73507cf50616d6f34b6.
+verificacoes_etapa_6=Workflow manual e automático preservados; runner limpo materializou npm ci, Python 3.14 e requisitos versionados antes do build; release não é draft nem prerelease; tag v0.0.22 e dois assets publicados; issue #9 CLOSED em 2026-07-26T01:31:26Z; branches remotas idênticas após o ciclo oficial.
+pendencias=Nenhuma nesta FT. FT-059 corresponde à Fase 4 e permanece fora do escopo; FT-060 e FT-061 foram importadas automaticamente de issues aprovadas após o gate e possuem ciclos próprios.
+proximo_ponto=Não iniciar FT-059, FT-060 ou FT-061 sem enquadramento e autorização próprios.

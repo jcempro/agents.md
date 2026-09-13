@@ -1,0 +1,10 @@
+FT-004|nome=Implementacoes seguras da API operacional|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.000000|atualizacao=20260711.000000|conclusao=20260711.000000
+objetivo=Converter comandos canonicos de baixo risco de degradado generico para implementacoes locais reais, mantendo comandos destrutivos/rede em resposta segura.
+1/2 Implementacao segura [concluido]
+  1/3 Diagnostico/contexto/workspace/docs/rcf/deps/licenses [concluido]
+  2/3 Qualidade local por lint/typecheck/test/analyze/security [concluido]
+  3/3 Git somente-leitura e release notes/changelog locais [concluido]
+2/2 Validacao e commit [concluido]
+  1/2 Executar agent:status, agent:verify e comandos amostrais [concluido]
+  2/2 Commitar etapa funcional [concluido]
+verificacoes=agent:verify OK; agent:status total=80 available=30 degraded=50 n/a=0; agent:security OK; agent:deps OK; agent:git-release-notes OK.

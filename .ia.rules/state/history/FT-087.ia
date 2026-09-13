@@ -1,0 +1,18 @@
+FT-087|nome=Arquivamento determinístico e compactação do estado operacional|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-13T00:20:01-03:00|atualizacao=2026-09-13T01:20:00-03:00|autorizacao=humana|conclusao=2026-09-13T01:20:00-03:00
+objetivo=Implementar no mecanismo oficial classificação, arquivamento segmentado, índice mínimo, preservação integral e retirada idempotente de FTs concluídas e validadas.
+origem=.ia.rules/state/requests/FT-086/request.md.
+1/3 Implementação [concluido]
+  1/3 Estender runtime canônico com transação e seleção explícita [concluido]
+  2/3 Migrar o estado atual por matriz conteúdo-destino-hash [concluido]
+  3/3 Manter pendentes de validação em forma operacional mínima [concluido]
+2/3 Derivação [concluido]
+  1/2 Regenerar ativo e dist pelo build oficial [concluido]
+  2/2 Atualizar índices, manifestos e projeções sem editar derivados à mão [concluido]
+3/3 Regressão [concluido]
+  1/2 Testar preservação, cardinalidade, colisão, repetição e falha fechada [concluido]
+  2/2 Impedir nova retenção após aprovação humana [concluido]
+aceite=Arquivo monolítico deixa de reter FTs validadas; cada histórico permanece pequeno, íntegro, indexado e carregável isoladamente; repetição não produz diff.
+dependencias=FT-086 concluída; autorização humana consta desta solicitação.
+resultado=Mecanismo oficial agora grava histórico por FT antes de retirar, compacta pendências, exige validação explícita do desenvolvedor, atualiza índices/âncoras e rejeita colisão, hash, estado ou classificação incertos.
+verificacoes=Estado caiu de 2093 para 146 linhas; 84 seções foram preservadas em 83 arquivos, FT-018 reteve ambas as variantes, índice possui 83 hashes válidos e repetição manteve SHA-256 idêntico.
+pendencias=Validação humana das FTs correntes permanece externa.

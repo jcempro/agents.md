@@ -17,18 +17,21 @@ const index = JSON.parse(fs.readFileSync(path.join(root, "src", ".ia.rules", "no
 const entrypointNode = index.nodes.find((node) => node.id === "core.agents");
 const auxiliaryNode = index.nodes.find((node) => node.id === "core.agents-full");
 
-assert.equal(activeEntrypoint, sourceEntrypoint);
-assert.equal(activeAuxiliary, sourceAuxiliary);
+assert.notEqual(activeEntrypoint, sourceEntrypoint);
+assert.notEqual(activeAuxiliary, sourceAuxiliary);
 assert.equal(distributedEntrypoint, sourceEntrypoint);
 assert.equal(distributedAuxiliary, sourceAuxiliary);
+assert.equal(hash(activeEntrypoint), "51688f7f6b086770f8d7b78ea45ab24869ff4c20333bbe9f2f1b872553d50e11");
 assert.equal(hash(activeAuxiliary), "beab28c8fbad8bbffd2a8dc1c35f7af85ff7386ef9b4ab27f990cfde2a9ebaf0");
 assert.ok(entrypointNode && entrypointNode.tokens <= 400);
-assert.ok(auxiliaryNode && auxiliaryNode.tokens === 8035);
+assert.ok(auxiliaryNode && auxiliaryNode.tokens === 8058);
 assert.equal(auxiliaryNode.sha256, hash(sourceAuxiliary));
 assert.ok(index.edges.some((edge) => edge.from === "core.agents" && edge.to === "core.agents-full" && edge.mode === "passive"));
 assert.match(activeEntrypoint, /\.ia\.rules\/normative-index\.json/u);
 assert.match(activeEntrypoint, /\.ia\.rules\/agents\.inc\.md/u);
 assert.match(activeEntrypoint, /papel Construtor/u);
+assert.doesNotMatch(activeEntrypoint, /SOURCE\/DEVELOPED/u);
+assert.match(sourceEntrypoint, /CURRENT\/CONSUMED.*SOURCE\/DEVELOPED/u);
 assert.doesNotMatch(activeEntrypoint, /^## 18\. API operacional/mu);
 
 const directUnits = [
@@ -57,7 +60,7 @@ for (const relativePath of [
   ".ia.rules/scenarios/visual/precision.md",
 ]) {
   assert.ok(sourceManifest.entries.some((entry) => entry.path === relativePath && entry.destination === relativePath));
-  assert.equal(readLf(path.join(root, "src", relativePath)), readLf(path.join(root, relativePath)));
+  assert.equal(readLf(path.join(root, "src", relativePath)), readLf(path.join(root, "dist", relativePath)));
 }
 
 for (const schemaName of ["skill-descriptor.v1.schema.json", "subagent-descriptor.v1.schema.json"]) {

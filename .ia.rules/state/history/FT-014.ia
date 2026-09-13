@@ -1,0 +1,23 @@
+FT-014|nome=Topologia explicita de repositorio aplicacao e artefato|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.010000|atualizacao=20260712.014000|conclusao=20260712.014000
+objetivo=Eliminar ambiguidade entre root do repositorio, root da aplicacao e root do artefato publicado; corrigir caminhos e validacoes para que a fonte interna nao vaze ao pacote distribuivel.
+1/4 Diagnostico arquitetural [concluido]
+  1/3 Reler AGENTS, subordinados e RCF aplicaveis [concluido]
+  2/3 Mapear repositorio, fonte distribuivel e dist [concluido]
+  3/3 Confirmar inconsistencias de caminho e paridade [concluido]
+2/4 Contrato e estrutura [concluido]
+  1/4 Declarar os tres roots e sua precedencia [concluido]
+  2/4 Canonizar AGENTS.md em raiz, fonte e distribuicao [concluido]
+  3/4 Corrigir main do manifesto para a raiz publicada [concluido]
+  4/4 Tornar obrigatoria a paridade da fonte normativa distribuivel [concluido]
+3/4 Validacao [concluido]
+  1/3 Regenerar indice e artefato [concluido]
+  2/3 Verificar manifesto, roots e ausencia de src publicado [concluido]
+  3/3 Executar verificacao integral e diff estrutural [concluido]
+4/4 Fechamento [concluido]
+  1/3 Atualizar memoria canonica e handoff derivado [concluido]
+  2/3 Compactar contexto operacional [concluido]
+  3/3 Commitar, publicar e convergir dev para main [concluido]
+decisoes=AGENTS e .ia.rules da raiz permanecem governanca ativa excepcional; src e somente estrutura-fonte distribuivel, nunca raiz da aplicacao; dist contem artefato publicado. Em Web Page Like, raiz da aplicacao e raiz publicada coincidem com /. O espelho raiz-src e verificacao local de leitura do pacote, sem escrita em src, sem propagacao e sem participacao no agents:update de consumidor. Convergencia ocorreu por fast-forward de origin/dev em 27f042e, sem conflito.
+verificacoes=Diagnostico confirmou package.json.main=src/agents.md enquanto dist/package.json nao contem src; RCF ja distingue dominio normativo e dominio de negocio, mas nao formaliza os tres roots; paridade entre raiz operacional e fonte distribuivel nao era validada. Correcao: AGENTS.md e src/AGENTS.md canonicos; package.main=AGENTS.md; validateDist exige main publicado e verify exige seis espelhos normativos; publish beta residual removido. node --check repo-tools.js/update-agents.js e agent:verify=VERIFY_OK scripts=7 indexedFiles=6; arvore do artefato nao contem src/.
+falhas=Interpretacao inicial tratou src como raiz da aplicacao; correcao aplicada antes de commit e validada.
+pendencias=Nenhuma.

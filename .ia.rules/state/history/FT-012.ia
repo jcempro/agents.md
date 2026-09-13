@@ -1,0 +1,20 @@
+FT-012|nome=Convergencia obrigatoria de dev para main|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.004000|atualizacao=20260711.232551|conclusao=20260711.232551
+objetivo=Impedir que main/master permaneça defasado ou órfão após FT concluída ou release publicado.
+1/4 Norma e diagnostico [concluido]
+  1/3 Confirmar divergencia atual entre dev e main [concluido]
+  2/3 Definir convergencia generica sem sobrescrita silenciosa [concluido]
+  3/3 Localizar pontos de release e merge [concluido]
+2/4 Contrato e automacao [concluido]
+  1/3 Normatizar convergencia em AGENTS e fonte distribuivel [concluido]
+  2/3 Sincronizar RCF e documentacao [concluido]
+  3/3 Convergir main/master no workflow de release sem ocultar conflito [concluido]
+3/4 Validacao [concluido]
+  1/3 Validar ordem do workflow e regra de branch [concluido]
+  2/3 Executar verificacao integral e artefato [concluido]
+  3/3 Confirmar merge atual dev para main [concluido]
+4/4 Fechamento [concluido]
+  1/3 Atualizar memoria e handoff [concluido]
+  2/3 Commitar etapas funcionais [concluido]
+  3/3 Publicar branches convergidas [concluido]
+decisoes=Convergencia usa merge normal ou fast-forward conforme historico; conflito bloqueia publicacao e exige resolucao explicita, sem reset, rebase forcado ou sobrescrita.
+pendencias=Nenhuma.

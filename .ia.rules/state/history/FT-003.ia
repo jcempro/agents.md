@@ -1,0 +1,9 @@
+FT-003|nome=Resposta degradada da API operacional|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260711.000000|atualizacao=20260711.000000|conclusao=20260711.000000
+objetivo=Eliminar `n/a` operacional indevido para comandos canonicos ja expostos em package.json, retornando envelope degradado seguro quando nao houver implementacao completa.
+1/2 Ajuste de CLI [concluido]
+  1/2 Reconhecer todo comando canonico via repo-tools [concluido]
+  2/2 Evitar acao destrutiva/rede/mutacao implicita em comandos pendentes [concluido]
+2/2 Validacao e commit [concluido]
+  1/2 Executar agent:status e agent:verify [concluido]
+  2/2 Commitar etapa funcional [concluido]
+verificacoes=npm run agent:status sem comandos n/a; npm run agent:verify OK.

@@ -1,0 +1,25 @@
+FT-082|nome=Capacidade generalista de precisão visual imagem e PDF|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-12T04:10:57-03:00|atualizacao=2026-09-12T17:55:09.401Z|autorizacao=humana
+objetivo=Implementar procedimento, automação e validação generalistas para compreender e corrigir imagens, PDFs e interfaces por evidência regional, render posterior e matriz responsiva sem inferir geometria oculta.
+origem=.ia.rules/state/requests/FT-076/request.md; TODO.ia.md § Precisão visual imagens e PDFs.
+normativa=FT-076, FT-077.
+1/4 Procedimento [concluido]
+  1/3 Inspecionar original em resolução preservada e regiões relevantes [concluido]
+  2/3 Registrar ledger evidência elemento erro esperado critério [concluido]
+  3/3 Exigir render/captura posterior e aprovação quando intenção for ambígua [concluido]
+2/4 Automação [concluido]
+  1/3 Implementar captura, render, crop, dimensões, contraste e diff [concluido]
+  2/3 Parametrizar viewport, zoom, densidade, tema, fonte e conteúdo [concluido]
+  3/3 Validar unidades fluidas e exceções justificadas de px/pt [concluido]
+3/4 Empacotamento seletivo [concluido]
+  1/3 Criar Skill generalista se o procedimento validar ganho [concluido]
+  2/3 Criar Subagent somente se isolamento/execução longa justificar [concluido]
+  3/3 Manter ferramentas opcionais e sem dependência oculta [concluido]
+4/4 Testes [concluido]
+  1/3 Cobrir fixtures de imagem, PDF e Web responsiva [concluido]
+  2/3 Comprovar vínculo regional antes/depois [concluido]
+  3/3 Versionar implementação e rastreabilidade causal [concluido]
+aceite=Correção visual possui evidência inequívoca antes/depois, ledger regional, matriz aplicável e automação mecânica; texto ou OCR isolados nunca substituem inspeção visual.
+dependencias=FT-077 concluída; coordena com FT-078 e FT-079; autorização humana posterior ao gate normativo.
+resultado=Skill e runtime visual implementados para dimensão, crop, diff regional, contraste, PDF, CSS, ledger e matriz.
+verificacoes=Fixtures reais de imagem, PDF e Web e renderizador opcional sem dependência oculta cobertos.
+pendencias=Nenhuma pendência funcional; validação humana do TODO permanece externa.

@@ -1,0 +1,16 @@
+FT-028|nome=Cabeçalho portátil e release 0.0.8|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.234731|atualizacao=20260715.235901|conclusao=20260715.235901
+objetivo=Normatizar preservação/inclusão de cabeçalho próprio de autoria/licença em código-fonte e entrega e publicar 0.0.8.
+escopo=src/AGENTS.md; RCF.md; índice/dist; release; memória/handoff.
+nao_escopo=Fixar autor, upstream ou licença deste construtor em consumidores; alterar scripts/cabeçalhos atuais; inferir dados ausentes.
+aceite=Regra portátil, sem licença fixa, distribuída e validada; v0.0.8 latest; dev/main convergentes.
+1/3 Norma cirúrgica [concluído]
+  1/2 Inserir regra no AGENTS e projeção mínima no RCF [concluído]
+  2/2 Validar diff e distribuição [concluído]
+2/3 Release 0.0.8 [concluído]
+  1/2 Executar fluxo nativo [concluído]
+  2/2 Confirmar release latest e convergência [concluído]
+3/3 Fechamento [concluído]
+  1/1 Atualizar memória/handoff e encerrar [concluído]
+decisoes=A regra pertence ao AGENTS distribuível e usa exclusivamente os dados autorais/licença do repositório que possui o código; nenhum valor deste construtor é imposto a consumidores.
+verificacoes=Diff normativo: 2 linhas em src/AGENTS.md e 1 projeção no RCF; INDEX_OK files=22; DIST_OK files=37; VERIFY_OK scripts=14 indexedFiles=22; TEST_OK suites=2; LINT_OK; workflow=29467909669; latest=v0.0.8; ZIP sha256=8dee805369e81da993aca362d361a2422c43886e85371dc7d4404c53edb4ec51.
+pendencias=Nenhuma.

@@ -1,0 +1,30 @@
+FT-018|nome=Composicao tipada de cenarios e scripts aninhados|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.230000|atualizacao=20260714.235000|conclusao=20260714.235000
+objetivo=Sincronizar RCF explicativo e AGENTS objetivo; decompor cenarios por composicao tipada e aninhar scripts no nucleo ou cenario correspondente.
+decisoes=Web Page Like compoe capacidades, sem heranca multipla nem inferencia de Jekyll, GitHub Pages, Git, hospedagem ou saida estatica. RCF explica e AGENTS projeta; mudanca material atualiza ambos. Core runtime concentra scripts transversais; release concentra seus scripts e hooks encadeiam core para adaptador local.
+verificacoes=agent:verify OK scripts=10 indexedFiles=16; agent:handoff e agent:status OK; contrato validou cadeia; agents:update --help OK apos corrigir despachante legado; diff check OK.
+pendencias=Publicacao remota condicionada a autorizacao.
+
+FT-018|nome=Composicao tipada de cenarios e scripts aninhados|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260714.230000|atualizacao=20260714.234000|conclusao=20260714.234000
+objetivo=Vincular RCF explicativo a AGENTS objetivo, decompor cenarios por composicao tipada e mover scripts para o nucleo ou cenario correspondente sem regressao.
+1/5 Inventario [concluido]
+  1/2 Mapear cenarios, scripts, indice, pacote e workflow [concluido]
+  2/2 Confirmar concentracao indevida em Web Page Like e scripts paralelos [concluido]
+2/5 Contrato e RCF [concluido]
+  1/3 Normatizar sincronizacao RCF maior -> AGENTS aderente [concluido]
+  2/3 Definir composicao, contrato tipado, estado protegido e hooks encadeados [concluido]
+  3/3 Delimitar Web Page Like como borda composta [concluido]
+3/5 Migracao estrutural [concluido]
+  1/3 Aninhar nucleo e cenarios [concluido]
+  2/3 Migrar scripts runtime e release aos respectivos escopos [concluido]
+  3/3 Atualizar pacote, workflow, indice, build e atualizador [concluido]
+4/5 Validacao [concluido]
+  1/3 Validar sintaxe, build, dist e paridade normativa [concluido]
+  2/3 Exercitar contrato e cadeia de hooks [concluido]
+  3/3 Regenerar index e handoff [concluido]
+5/5 Fechamento [concluido]
+  1/2 Registrar memoria e handoff derivado [concluido]
+  2/2 Auditar diff e commitar migracao isolada [concluido]
+decisoes=Composicao prevalece sobre heranca; Web Page Like e cenario de borda que ordena capacidades, sem inferir Jekyll, GitHub Pages, Git, hospedagem ou saida estatica. Scripts transversais residem em .ia.rules/core/runtime/scripts; scripts de release residem em .ia.rules/scenarios/release/scripts. RCF mantem explicacao e AGENTS sua projecao operacional; mudanca material exige ambos na mesma FT.
+verificacoes=agent:verify=VERIFY_OK scripts=10 indexedFiles=16; npm run agent:verify=OK; contrato validou tipo e cadeia core->local com duas observacoes; build atualizou dist na nova topologia; git diff --check=OK.
+falhas=Handoff inicialmente referia o caminho legado scripts/.ia.rules/generate-agents-status.js; caminho migrado e handoff aprovado.
+pendencias=Publicacao remota condicionada a autorizacao.

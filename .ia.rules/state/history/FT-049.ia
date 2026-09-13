@@ -1,0 +1,18 @@
+FT-049|nome=Norma de encerramento idempotente de issues|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-21T21:58:06-03:00|inicio=2026-07-21T22:08:06-03:00|atualizacao=20260721.222048|conclusao=2026-07-21T22:20:48-03:00
+objetivo=Conciliar e normatizar a issue github:jcempro/agents.md#8 sem implementar código ou encerrar issue com FT de código aberta.
+issue_id=github:jcempro/agents.md#8|issue_number=8|issue_url=https://github.com/jcempro/agents.md/issues/8
+dependencias=FT-029, FT-048 e ciclo de release vigente; desbloqueia FT-042.
+conciliacao=Generaliza o encerramento além do release sem enfraquecer o gate: issue com múltiplas FTs só fecha quando todo escopo obrigatório estiver concluído; vínculo referencial não autoriza efeito.
+aceite=RCF e fonte definem pré-condições, múltiplos vínculos, comentário, idempotência, falha parcial, impedimento e sincronização; zero código funcional.
+1/3 Análise e conciliação [concluido]
+  1/2 Confrontar issue, normas e FTs relacionadas [concluido]
+  2/2 Registrar especializações, correções e conteúdo preservado [concluido]
+2/3 Implementação normativa [concluido]
+  1/2 Atualizar RCF e projeção normativa da fonte [concluido]
+  2/2 Atualizar referências e critérios da FT de código [concluido]
+3/3 Validação e entrega [concluido]
+  1/2 Validar cobertura, coerência e ausência de código [concluido]
+  2/2 Concluir estado normativo para o segundo commit [concluido]
+decisoes=Encerramento foi generalizado sem enfraquecer release: vínculo explícito, todas as FTs obrigatórias concluídas, avaliação individual e retomada sem duplicação.
+verificacoes=Cobertura issue8 OK; precondições, múltiplos vínculos, comentário, impedimento e falha parcial estão normatizados; nenhuma issue foi fechada porque FTs de código permanecem abertas.
+pendencias=FT-042 permanece pendente de autorização humana para código.

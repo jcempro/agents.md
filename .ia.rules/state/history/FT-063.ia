@@ -1,0 +1,26 @@
+FT-063|nome=Implementação técnica do entrypoint AGENTS sob demanda|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluido|criado_em=2026-07-25T22:45:45-03:00|inicio=2026-07-25T23:16:01-03:00|atualizacao=2026-07-25T23:42:00-03:00|conclusao=2026-07-25T23:42:00-03:00
+objetivo=Materializar, distribuir e validar a arquitetura normatizada por FT-061 para AGENTS.md de até 500 tokens com conteúdo auxiliar integral, índice, grafo, atualização e compatibilidade.
+issue_id=github:jcempro/agents.md#10
+issue_repo=jcempro/agents.md
+issue_number=10
+issue_url=https://github.com/jcempro/agents.md/issues/10
+issue_state=corrigida
+release=0.0.23
+origem=.ia.rules/state/requests/FT-061/request.md
+dependencias=FT-061 concluída e autorização humana explícita desta solicitação.
+1/3 Pipeline e roteamento [concluido]
+  1/3 Manifestar e distribuir entrypoint e auxiliar canônico [concluido]
+  2/3 Atualizar índice/grafo, custos e invalidação [concluido]
+  3/3 Atualizar referências, update e compatibilidade [concluido]
+2/3 Guardas e testes [concluido]
+  1/3 Medir tokenização oficial e bloquear limite acima de 500 [concluido]
+  2/3 Provar preservação integral e carregamento seletivo [concluido]
+  3/3 Provar build, release, clientes e comportamento do construtor [concluido]
+3/3 Entrega [concluido]
+  1/2 Validar integralmente e concluir FT [concluido]
+  2/2 Vincular a release e encerrar issue somente com todas as FTs concluídas [concluido]
+aceite=Critérios da issue #10 comprovados por tokenização oficial, equivalência normativa, rotas, artefato e atualização, sem perda ou regressão.
+resultado_parcial=Manifesto positivo distribui entrypoint e auxiliar; grafo possui 36 nós/35 rotas e aresta passiva condicional; tiktoken oficial mede 338 tokens no entrypoint e 7.364 no auxiliar integral; update autentica ambos por SHA-256.
+verificacoes=Hash LF do auxiliar 4bd38947f9071855ecb4ae9fa9bae6a9f1fd802117f134373a66a029d4d95024; NORMATIVE_GRAPH_OK paths=35; teste dedicado comprova limite, equivalência ativo/fonte, hash, aresta, referências e preservação do papel Construtor; build/verify/test globais aprovados.
+pendencias=Nenhuma nesta FT.
+proximo_ponto=Encerramento idempotente da issue pelo ciclo terminal da FT-059.

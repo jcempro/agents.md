@@ -13,6 +13,8 @@ const os = require("os");
 const path = require("path");
 
 const CANONICAL_TODO = path.join(".ia.rules", "state", "TODO.ia.md");
+const FEATURE_HISTORY_DIR = path.join(".ia.rules", "state", "history");
+const COMPLETED_FEATURES_INDEX = path.join(".ia.rules", "state", "FT.implementados.md");
 
 /** Executa inspectTodoIa no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function inspectTodoIa(rootDir, options = {}) {
@@ -175,7 +177,7 @@ function transitionTodoRoot(rootDir, text, nextStatus, options = {}) {
   return { code: options.approvedHuman ? "TODO_ROOT_REMOVED" : "TODO_ROOT_TRANSITIONED", from: currentStatus, to: options.approvedHuman ? null : nextStatus, text };
 }
 
-/** Conclui FTs autorizadas no estado corrente, preservando sua decomposição textual. */
+/** Conclui FTs autorizadas e reduz imediatamente seu estado corrente sem perder o registro integral. */
 function concludeFeatureState(rootDir, ids, options = {}) {
   if (options.authorization !== "human") throw new Error("FT_CONCLUSAO_NAO_AUTORIZADA");
   const canonical = path.join(rootDir, ".ia.rules", "state", "continue.ia");
@@ -191,8 +193,9 @@ function concludeFeatureState(rootDir, ids, options = {}) {
     const boundary = tail.search(/\nFT-\d+\|/u);
     const end = boundary < 0 ? content.length : start + boundary + 1;
     let section = content.slice(start, end).replace(/\|status=[^|\r\n]+/u, "|status=concluida").replace(/\|atualizacao=[^|\r\n]+/u, `|atualizacao=${now}`)
-      .replace(/\[pendente\]/gu, "[concluido]");
+      .replace(/\[(?:pendente|em_andamento)\]/gu, "[concluido]");
     if (!/\|autorizacao=/u.test(section.split("\n", 1)[0])) section = section.replace(/\n/u, "|autorizacao=humana\n");
+    if (!/\|conclusao=/u.test(section.split("\n", 1)[0])) section = section.replace(/\n/u, `|conclusao=${now}\n`);
     section = section.replace(/^resultado=.*\nverificacoes=.*\npendencias=.*\n\n(?=objetivo=)/mu, "");
     const evidence = options.evidence && options.evidence[id] || {};
     const close = `resultado=${evidence.result || "Implementação concluída conforme aceite da FT."}\nverificacoes=${evidence.verification || "Gates locais aplicáveis executados."}\npendencias=${evidence.pending || "Nenhuma pendência funcional; validação humana do TODO permanece externa."}`;
@@ -200,8 +203,188 @@ function concludeFeatureState(rootDir, ids, options = {}) {
     content = `${content.slice(0, start)}${section}${content.slice(end)}`;
   }
   atomicWrite(canonical, content);
+  const plan = options.developerValidated === true
+    ? { validated: ids, pendingValidation: [] }
+    : { validated: [], pendingValidation: ids };
+  const reconciliation = reconcileFeatureState(rootDir, plan, {
+    authorization: options.authorization,
+    validatedBy: options.developerValidated === true ? "developer" : "",
+  });
+  return { code: "FT_STATE_CONCLUDED", ids, reconciliation };
+}
+
+/** Separa seções de FT sem interpretar ou reescrever seu histórico material. */
+function parseFeatureState(content) {
+  const text = String(content || "").replace(/\r\n/gu, "\n");
+  const starts = [...text.matchAll(/^FT-\d+\|.*$/gmu)];
+  const sections = starts.map((match, index) => {
+    const start = match.index;
+    const end = index + 1 < starts.length ? starts[index + 1].index : text.length;
+    const body = text.slice(start, end).trimEnd();
+    const header = body.split("\n", 1)[0];
+    const fields = Object.fromEntries(header.split("|").slice(1).map((field) => {
+      const separator = field.indexOf("=");
+      return separator < 0 ? [field, ""] : [field.slice(0, separator), field.slice(separator + 1)];
+    }));
+    return { body, fields, id: header.split("|", 1)[0] };
+  });
+  const preamble = starts.length ? text.slice(0, starts[0].index).trimEnd() : text.trimEnd();
+  return { preamble, sections };
+}
+
+/** Reconcilia classificação humana explícita com histórico por FT e estado operacional mínimo. */
+function reconcileFeatureState(rootDir, plan = {}, options = {}) {
+  if (options.authorization !== "human") throw new Error("FT_RECONCILIACAO_NAO_AUTORIZADA");
+  const validated = normalizeFeatureIds(plan.validated || []);
+  const pendingValidation = normalizeFeatureIds(plan.pendingValidation || []);
+  if (validated.length && options.validatedBy !== "developer") throw new Error("FT_VALIDACAO_DESENVOLVEDOR_AUSENTE");
+  const overlap = validated.find((id) => pendingValidation.includes(id));
+  if (overlap) throw new Error(`FT_CLASSIFICACAO_AMBIGUA:${overlap}`);
+
+  const canonical = path.join(rootDir, ".ia.rules", "state", "continue.ia");
+  if (!fs.existsSync(canonical)) throw new Error("CONTINUE_CANONICO_AUSENTE");
+  const parsed = parseFeatureState(fs.readFileSync(canonical, "utf8"));
+  const byId = new Map();
+  for (const section of parsed.sections) {
+    if (!byId.has(section.id)) byId.set(section.id, []);
+    byId.get(section.id).push(section);
+  }
+  const records = new Map();
+
+  for (const id of [...validated, ...pendingValidation]) {
+    const sections = byId.get(id);
+    if (!sections) {
+      if (validated.includes(id) && fs.existsSync(featureHistoryAbsolute(rootDir, id))) continue;
+      throw new Error(`FT_ESTADO_AUSENTE:${id}`);
+    }
+    if (pendingValidation.includes(id) && sections.length !== 1) throw new Error(`FT_ESTADO_DUPLICADO:${id}`);
+    if (sections.some((section) => !/^conclu[ií]d[oa]$/iu.test(String(section.fields.status || "")))) throw new Error(`FT_NAO_CONCLUIDA:${id}`);
+    records.set(id, persistFeatureHistory(rootDir, sections));
+  }
+
+  const nextSections = parsed.sections.flatMap((section) => {
+    if (validated.includes(section.id)) return [];
+    if (pendingValidation.includes(section.id)) return [renderPendingValidation(section, records.get(section.id))];
+    return [section.body];
+  });
+  const nextContent = `${[parsed.preamble, ...nextSections].filter(Boolean).join("\n\n").trimEnd()}\n`;
+  rewriteFeatureStateReferences(rootDir, validated);
+  writeFeatureHistoryIndexes(rootDir, nextContent);
+  atomicWrite(canonical, nextContent);
   syncCanonicalProjections(rootDir);
-  return { code: "FT_STATE_CONCLUDED", ids };
+  return {
+    code: "FT_STATE_RECONCILED",
+    pendingValidation,
+    stateSha256: sha256(nextContent),
+    unchanged: [...validated].filter((id) => !byId.has(id)),
+    validated,
+  };
+}
+
+/** Converge somente âncoras estruturadas conhecidas; texto livre permanece para revisão explícita. */
+function rewriteFeatureStateReferences(rootDir, validated) {
+  if (!validated.length) return 0;
+  const target = path.join(rootDir, ".ia.rules", "state", "decisions", "refused", "index.json");
+  if (!fs.existsSync(target)) return 0;
+  const index = JSON.parse(fs.readFileSync(target, "utf8"));
+  let changed = 0;
+  for (const entry of index.entries || []) {
+    if (!Array.isArray(entry.relatedArtifacts)) continue;
+    entry.relatedArtifacts = entry.relatedArtifacts.map((artifact) => {
+      const match = String(artifact).match(/^\.ia\.rules\/(?:state\/)?continue\.ia#(FT-\d+)$/u);
+      if (!match || !validated.includes(match[1])) return artifact;
+      changed += 1;
+      return `.ia.rules/state/history/${match[1]}.ia#${match[1]}`;
+    });
+  }
+  if (changed) atomicWrite(target, `${JSON.stringify(index, null, 2)}\n`);
+  return changed;
+}
+
+/** Normaliza IDs, rejeita ambiguidades e conserva ordem determinística. */
+function normalizeFeatureIds(ids) {
+  if (!Array.isArray(ids)) throw new Error("FT_CLASSIFICACAO_INVALIDA");
+  const normalized = ids.map((id) => String(id || "").trim());
+  for (const id of normalized) if (!/^FT-\d+$/u.test(id)) throw new Error(`FT_ID_INVALIDO:${id}`);
+  if (new Set(normalized).size !== normalized.length) throw new Error("FT_ID_DUPLICADO");
+  return normalized.sort((left, right) => left.localeCompare(right, "en", { numeric: true }));
+}
+
+/** Resolve destino fixo por identidade validada, sem aceitar path fornecido externamente. */
+function featureHistoryAbsolute(rootDir, id) {
+  return path.join(rootDir, FEATURE_HISTORY_DIR, `${id}.ia`);
+}
+
+/** Obtém o histórico integral original de seção já compactada ou da própria seção. */
+function featureHistoryContent(rootDir, section) {
+  const pointer = section.body.match(/^historico=([^|\r\n]+)\|sha256=([a-f0-9]{64})$/mu);
+  if (!pointer) return `${section.body.trimEnd()}\n`;
+  const expected = toPosix(path.join(FEATURE_HISTORY_DIR, `${section.id}.ia`));
+  if (toPosix(pointer[1]) !== expected) throw new Error(`FT_HISTORICO_PATH_INVALIDO:${section.id}`);
+  const target = featureHistoryAbsolute(rootDir, section.id);
+  if (!fs.existsSync(target)) throw new Error(`FT_HISTORICO_AUSENTE:${section.id}`);
+  const content = fs.readFileSync(target, "utf8").replace(/\r\n/gu, "\n");
+  if (sha256(content) !== pointer[2]) throw new Error(`FT_HISTORICO_HASH_DIVERGENTE:${section.id}`);
+  return content;
+}
+
+/** Grava antes da remoção; duplicata histórica legítima é conservada integralmente no mesmo registro. */
+function persistFeatureHistory(rootDir, sections) {
+  const content = sections.map((section) => featureHistoryContent(rootDir, section).trimEnd()).join("\n\n") + "\n";
+  const [section] = sections;
+  const target = featureHistoryAbsolute(rootDir, section.id);
+  const digest = sha256(content);
+  if (fs.existsSync(target)) {
+    if (sha256(fs.readFileSync(target, "utf8")) !== digest) throw new Error(`FT_HISTORICO_COLISAO:${section.id}`);
+  } else {
+    atomicWrite(target, content);
+  }
+  return { id: section.id, path: toPosix(path.join(FEATURE_HISTORY_DIR, `${section.id}.ia`)), sha256: digest };
+}
+
+/** Projeta somente identificação, conclusão, pendência e ponte ao histórico íntegro. */
+function renderPendingValidation(section, record) {
+  const header = section.body.split("\n", 1)[0];
+  const normalizedHeader = /\|validacao=/u.test(header)
+    ? header.replace(/\|validacao=[^|\r\n]+/u, "|validacao=pendente_desenvolvedor")
+    : `${header}|validacao=pendente_desenvolvedor`;
+  const lines = [normalizedHeader];
+  for (const key of ["objetivo", "origem", "resultado", "verificacoes", "pendencias"]) {
+    const match = section.body.match(new RegExp(`^${key}=(.*)$`, "mu"));
+    if (match) lines.push(`${key}=${match[1]}`);
+  }
+  if (!lines.some((line) => line.startsWith("pendencias="))) lines.push("pendencias=Validação do desenvolvedor.");
+  lines.push(`historico=${record.path}|sha256=${record.sha256}`);
+  return lines.join("\n");
+}
+
+/** Regenera índices humano/mecânico exclusivamente dos históricos verificados. */
+function writeFeatureHistoryIndexes(rootDir, stateContent) {
+  const historyDir = path.join(rootDir, FEATURE_HISTORY_DIR);
+  fs.mkdirSync(historyDir, { recursive: true });
+  const currentIds = new Set(parseFeatureState(stateContent).sections.map((section) => section.id));
+  const entries = fs.readdirSync(historyDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && /^FT-\d+\.ia$/u.test(entry.name))
+    .map((entry) => {
+      const id = entry.name.slice(0, -3);
+      const relativePath = toPosix(path.join(FEATURE_HISTORY_DIR, entry.name));
+      const content = fs.readFileSync(path.join(historyDir, entry.name), "utf8");
+      const header = content.split(/\r?\n/u, 1)[0];
+      const name = (header.match(/\|nome=([^|\r\n]+)/u) || [])[1] || "Sem nome";
+      return { id, name, path: relativePath, sha256: sha256(content), state: currentIds.has(id) ? "pendente-validacao" : "validada" };
+    }).sort((left, right) => left.id.localeCompare(right.id, "en", { numeric: true }));
+  const machine = { schema: "agents-feature-history-index/v1", entries };
+  atomicWrite(path.join(historyDir, "index.json"), `${JSON.stringify(machine, null, 2)}\n`);
+  const markdown = ["# FTs implementadas", "", "Índice mínimo; carregue somente o histórico da FT pertinente.", "",
+    ...entries.map((entry) => `- ${entry.id} — ${entry.name}; estado: ${entry.state}; histórico: \`${toPosix(path.relative(path.join(rootDir, ".ia.rules", "state"), path.join(rootDir, entry.path)))}\`; sha256: \`${entry.sha256}\`.`), ""].join("\n");
+  atomicWrite(path.join(rootDir, COMPLETED_FEATURES_INDEX), markdown);
+  const stateIndexPath = path.join(rootDir, ".ia.rules", "state", "index.json");
+  if (fs.existsSync(stateIndexPath)) {
+    const stateIndex = JSON.parse(fs.readFileSync(stateIndexPath, "utf8"));
+    stateIndex.history = "history/index.json";
+    atomicWrite(stateIndexPath, `${JSON.stringify(stateIndex, null, 2)}\n`);
+  }
+  return entries;
 }
 
 /** Calcula fingerprint estável derivado sem persistir identificador bruto do equipamento. */
@@ -257,5 +440,6 @@ function toPosix(value) {
 module.exports = {
   CANONICAL_TODO, EQUALIZER, STATUS_EMOJI, assertTodoIaTriaged, environmentFingerprint,
   inspectTodoIa, locateTodoFiles, migrateCanonicalState, parseGovernedTodo, parseTodoItems,
-  concludeFeatureState, recordMemoryResult, syncCanonicalProjections, transitionTodoRoot,
+  concludeFeatureState, parseFeatureState, reconcileFeatureState, recordMemoryResult,
+  syncCanonicalProjections, transitionTodoRoot,
 };

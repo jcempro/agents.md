@@ -1,0 +1,24 @@
+FT-011|nome=Manifesto executavel e mesclagem segura de package.json|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.003500|atualizacao=20260711.232430|conclusao=20260711.232430
+objetivo=Distribuir package.json executavel e atualizar projetos existentes por mesclagem rastreavel de scripts e dependencias de agentes, preservando dados especificos do anfitriao.
+1/4 Contrato e inventario [concluido]
+  1/3 Auditar dist, atualizador e manifesto atual [concluido]
+  2/3 Delimitar superficie gerenciada e campos preservados [concluido]
+  3/3 Definir metadado de proveniencia package agentsGovernance [concluido]
+2/4 Geracao e mesclagem [concluido]
+  1/4 Gerar package.json minimo no dist [concluido]
+  2/4 Coletar manifesto distribuido no atualizador [concluido]
+  3/4 Mesclar scripts e dependencias gerenciadas [concluido]
+  4/4 Preservar colisao, dirty state, legado gerenciado e campos do anfitriao [concluido]
+3/4 Contrato e validacao [concluido]
+  1/3 Atualizar RCF, autoupdate e README [concluido]
+  2/3 Criar ensaios isolados de instalacao e atualizacao [concluido]
+  3/3 Executar verificacao integral e artefato [concluido]
+4/4 Fechamento [concluido]
+  1/3 Atualizar memoria e handoff [concluido]
+  2/3 Commitar etapas funcionais [concluido]
+  3/3 Publicar branch dev [concluido]
+decisoes=Somente scripts namespaces agent:* e agents:update serao gerenciados no anfitriao; aliases universais do pacote distribuido permanecem executaveis no release isolado, mas nao sobrescrevem scripts de projeto existentes. Dependencias serao declaradas explicitamente no metadado agentsGovernance e mescladas somente quando pertencentes a esse conjunto.
+invariantes=name, version, private, descricao, scripts nao gerenciados, dependencias nao gerenciadas, lockfiles e configuracoes do anfitriao permanecem intocados; package.json sujo bloqueia atualizacao sem --force.
+pendencias=Nenhuma nesta FT; release sucessora requer nova FT e versao explicitamente confirmada.
+verificacoes=node --check repo-tools.js e update-agents.js OK; agent:dist OK com dist/package.json e 89 scripts; MERGE_PACKAGE_TEST_OK; LEGACY_COLLISION_TEST_OK; DISTRIBUTION_PACKAGE_DISCOVERY_OK; agent:verify OK; git diff --check OK.
+falhas=apply_patch recusou tres gravacoes consecutivas em scripts/.ia.rules/repo-tools.js embora o arquivo nao esteja somente-leitura; retomada posterior liberou a gravacao, sem codigo parcial anterior.

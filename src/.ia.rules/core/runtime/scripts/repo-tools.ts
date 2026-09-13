@@ -50,6 +50,7 @@ const SOURCE_DISTRIBUTION_PROFILES = new Set([
   "generated-release",
 ]);
 const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
+const LEGACY_UPDATE_ENTRY = "scripts/.agents/update-agents.js";
 const LEGACY_UPDATE_EXTENSIONS = new Set([".js", ".json", ".md"]);
 const LEGACY_UPDATE_TARGETS = new Map([
   ["scripts/.agents/bootstrap/core/contracts.md", ".agents/core/contracts.md"],
@@ -1272,6 +1273,9 @@ function validateDist() {
   }
   if (!release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js")) {
     throw new Error("dist/release.json:update omite bridge versionavel pelo coletor fisico.");
+  }
+  if (!release.update.files.some((entry) => entry.path === LEGACY_UPDATE_ENTRY)) {
+    throw new Error("dist/release.json:update omite entrypoint carregado por dispatchers historicos.");
   }
 }
 

@@ -1,0 +1,29 @@
+FT-023|nome=Pipeline compartilhavel do consumidor para upstream de AGENTS|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260715.235000|atualizacao=20260716.001000|conclusao=20260716.001000
+objetivo=Normatizar e implementar o ciclo do consumidor para identificar, classificar, deduplicar, sanitizar, preparar, validar, registrar e acompanhar contribuicoes reutilizaveis ao upstream de AGENTS.md.
+escopo=Cenario upstream-sharing, configuracao declarativa, artefatos de proposta, hooks formais, scripts agent prefixados, testes locais e documentacao tecnica.
+nao_escopo=Publicar issue sem autorizacao, editar artefato gerenciado no consumidor, escolher por mantenedor humano, tratar upstream do consumidor como upstream de AGENTS.md.
+dependencias=FT-022 concluida; contrato CLI, filtro to-ia e extensoes locais existentes.
+arquivos_previstos=.ia.rules/scenarios/governance/upstream-sharing/; .ia.rules/core/runtime/scripts/; .ia.rules/meta/upstream.md; .ia.rules/meta/index.json; package.json; README.md; RCF.md; src/AGENTS.md; index.json.
+riscos=Vazamento de segredo; proposta duplicada; destino nao canonico; rede indisponivel; dupla funcao nao segregada; automatizacao que publique sem autorizacao.
+testes=Fixtures de configuracao/destino/duplicacao/recusa/sanitizacao; dry-run; testes de parametros; node --check; agent:verify; saida JSONL e codigos de erro.
+aceite=Pipeline resolve papel e destino sem inferencia; preserva proposta quando bloqueado; nunca publica sem autorizacao; sanitiza evidencias; diferencia atualizacao, hook local e issue; cada resultado e rastreavel.
+ordem=2
+1/4 Contrato e configuracao [concluido]
+  1/3 Definir entrada declarativa, estados e codigos [concluido]
+  2/3 Definir extensoes, hooks e segregacao de dupla funcao [concluido]
+  3/3 Projetar persistencia sanitizada e reavaliacao [concluido]
+2/4 Descoberta e avaliacao [concluido]
+  1/4 Implementar resolucao de upstream e versao [concluido]
+  2/4 Implementar consulta, deduplicacao e recusas [concluido]
+  3/4 Implementar classificacao, sanitizacao e proposta [concluido]
+  4/4 Implementar validacao e artefato de revisao [concluido]
+3/4 Publicacao e acompanhamento controlados [concluido]
+  1/3 Implementar autorizacao explicita e canal GitHub compativel [concluido]
+  2/3 Implementar registro e sincronizacao de resultado [concluido]
+  3/3 Implementar reavaliacao e protecao contra recorrencia [concluido]
+4/4 Validacao [concluido]
+  1/3 Executar fixtures e falhas de seguranca [concluido]
+  2/3 Auditar saida compacta e determinismo [concluido]
+  3/3 Atualizar memoria e handoff [concluido]
+verificacoes=agent:upstream:check --offline=UPSTREAM_CHECK_OK; agent:test:upstream=UPSTREAM_SELF_TEST_OK; teste de configuracao do atualizador passou com cliente fixture.
+pendencias=Publicacao real de issue requer papel consumidor declarado, destino validado, token externo e --authorize; nao executada.

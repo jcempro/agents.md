@@ -1,0 +1,23 @@
+FT-015|nome=Publicacao all-in-one de release|escopo=Tecnico|prioridade=alta|status=concluido|inicio=20260712.015000|atualizacao=20260713.025500|conclusao=20260713.025500
+objetivo=Disponibilizar comando unico que prepare versao, valide artefato, crie commit exclusivo release, envie o gatilho ao GitHub, acompanhe o workflow e confirme release e convergencia.
+1/4 Diagnostico e seguranca [concluido]
+  1/3 Mapear release local, gatilho e workflow remoto [concluido]
+  2/3 Preservar alteracoes preexistentes release=0.0.2 e dist/release.json [concluido]
+  3/3 Definir precondicao de branch dev e worktree limpo [concluido]
+2/4 Orquestracao [concluido]
+  1/4 Implementar agent:release:publish com versao explicita e dry-run [concluido]
+  2/4 Atualizar manifesto, build, validacao e commits isolados [concluido]
+  3/4 Enviar gatilho, aguardar GitHub Actions e confirmar release [concluido]
+  4/4 Confirmar convergencia remota dev-main/master [concluido]
+3/4 Documentacao e validacao [concluido]
+  1/3 Atualizar normas, RCF e README com contrato e exemplos [concluido]
+  2/3 Validar sintaxe, dry-run e integridade sem consumir gatilho existente [concluido]
+  3/3 Regenerar artefato somente em estado seguro [concluido]
+4/4 Fechamento [concluido]
+  1/3 Atualizar memoria e handoff derivado [concluido]
+  2/3 Compactar contexto operacional [concluido]
+  3/3 Commitar, publicar e convergir branches [concluido]
+decisoes=O orquestrador exige versao explicita, branch dev e worktree limpo; nao sobrescreve alteracao incidental. O usuario autorizou publicar v0.0.2 e, apos a correcao posterior, autorizou explicitamente v0.0.3. O orquestrador recria versao, artefato e gatilho transacionalmente em commits separados. O push do commit exclusivo release aciona o workflow existente; gh acompanha a execucao e consulta o GitHub Release quando disponivel; sem gh, envia o gatilho e retorna estado remoto pendente. O comando nao usa publish. A superficie e exposta diretamente por to-ia para evitar dependencia do dispatcher bloqueado.
+verificacoes=Estado preexistente preservado antes da autorizacao: release=0.0.2 adicionado e dist/release.json preparado para v0.0.2 no indice, porem package.json ainda declara 0.0.1. A autorizacao permitiu remover somente esses arquivos e recria-los pelo orquestrador. npm run release:publish -- 0.0.2 criou f016475/a68ad01/618a5df, tag v0.0.2 e GitHub Release com agents-v0.0.2.zip SHA-256 0733be0d744fe68c3c0d060ac1679c9de0e078b006d7a8fbda3da4c29211927b; workflow 29218800004 concluiu sucesso e origin/dev=origin/main=9d768a4. v0.0.3 retomou 5871b39, criou 09115e6/66fc9e2, tag e GitHub Release com agents-v0.0.3.zip SHA-256 f449ef20073709b7d8021e67938e9e8ab5baace70f2ed3ae535c6ed2560b3e4f; workflow 29219752717 concluiu sucesso e origin/dev=origin/main=f96f318. agent:verify OK scripts=9 indexedFiles=15; agents:update --check=atualizado. RELEASE_RESUME_DETECTION_OK; INDEX_OK files=15; dry-run do adaptador nao escreve.
+falhas=apply_patch nao conseguiu gravar scripts/.ia.rules/repo-tools.js ou release-publish.js embora os arquivos estejam gravaveis; a superficie equivalente usa to-ia diretamente e permanece filtrada. v0.0.3 encontrou EPERM ao remover dist/agents-v0.0.3.zip, deixando dist parcial; restaurado exclusivamente o artefato gerado. O adaptador release-publish-resume retoma apenas commit preparatorio reconhecido e repete falha transitória de artefato. gh existe no shell, mas configuracao do GitHub CLI esta inacessivel neste sandbox; observacao remota fica condicional ao gh autenticado.
+pendencias=Nenhuma.

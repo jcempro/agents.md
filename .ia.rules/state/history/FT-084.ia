@@ -1,0 +1,27 @@
+FT-084|nome=Correção da convergência integral por aliases legados|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-12T23:32:57-03:00|atualizacao=2026-09-13T01:20:00-03:00|autorizacao=humana|conclusao=2026-09-13T01:20:00-03:00
+objetivo=Corrigir a rota que permitiu a `agents:update` executar atualizador predecessor, selecionar apenas o subconjunto bootstrap e declarar sucesso sem convergir a governança canônica do release v0.1.4-rc1.
+origem=.ia.rules/state/requests/FT-084/request.md; evidência externa somente leitura em D:\trampo\jeancarloem.com.blog commit 5b9647cc9b4f1adb598228ae3bf3319b504f4e4b.
+origem_sha256=ec87b2e3a049f5dc6c66bf51750a250c0eeedca9ca754bca32d4acca8ba83a2f
+triagem_recusas=DEC-20260725-001 e DEC-20260725-002 não correspondem à matéria; ambas permanecem preservadas.
+normativa=RCF.md §§0.0.2, 14.2 e 20.2; src/.ia.rules/core/update/scenario.md AU-1 a AU-4; nenhuma evolução normativa identificada, pois o comportamento esperado já é expresso e a correção restaura o contrato vigente.
+1/4 Evidência e primeira divergência [concluido]
+  1/4 Confirmar commit, versão, diff, hashes, inventário anterior/posterior e log do consumidor sem mutação [concluido]
+  2/4 Confrontar v0.1.3, v0.1.4-rc1, fonte, dist, manifests, mapas, pacote e asset [concluido]
+  3/4 Classificar diferenças distribuíveis, condicionais, internas e excluídas [concluido]
+  4/4 Reproduzir a rota real e localizar a primeira divergência causal [concluido]
+2/4 Correção canônica [concluido]
+  1/3 Eliminar bypass do handoff e restaurar equivalência de aliases históricos [concluido]
+  2/3 Garantir seleção exaustiva do manifesto canônico e limpeza do legado comprovado [concluido]
+  3/3 Impedir sucesso quando o estado final/commit omitir destino aplicável [concluido]
+3/4 Derivação e regressão [concluido]
+  1/3 Adicionar fixture autenticada do salto v0.1.3 para v0.1.4-rc1 [concluido]
+  2/3 Cobrir o falso sucesso de apenas três arquivos e incompatibilidades de integridade [concluido]
+  3/3 Regenerar JavaScript, dist, manifestos, mapas e pacote pelo mecanismo oficial [concluido]
+4/4 Fechamento técnico [concluido]
+  1/2 Comprovar preservação, rollback, idempotência e consumidor intocado [concluido]
+  2/2 Versionar correção material e preparar rastreabilidade causal [concluido]
+aceite=Todo alias suportado alcança o runtime da release; o salto v0.1.3→v0.1.4-rc1 materializa todos e somente os destinos aplicáveis, versiona o gerenciado necessário, preserva produto/extensões e falha explicitamente diante de parcial ou incompatibilidade.
+dependencias=Contrato normativo vigente já materializado; não há autorização para publicar, substituir ou remover tag, release ou asset remoto.
+resultado=Primeira divergência comprovada no roteamento: o alias histórico carregava o atualizador físico predecessor, que selecionava oito arquivos bootstrap e nunca alcançava handoff/manifesta canônico; entrypoint de recuperação e gate de dist foram adicionados.
+verificacoes=Fixture autenticada reproduziu exatamente os três arquivos alterados; salto v0.1.3→v0.1.4-rc1 em temporário aplicou 47 mudanças canônicas, preservou quatro extensões/arquivos e scripts build/check/prepare/test; segunda execução teve zero mudanças.
+pendencias=Publicar somente nova versão futura após autorização; não substituir v0.1.4-rc1.
