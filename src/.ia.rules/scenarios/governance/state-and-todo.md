@@ -4,9 +4,9 @@ Identidade normativa: `scenario.governance.state-and-todo`; cenário técnico; t
 
 ## 1. Arquivos canônicos e índices
 
-No diretório canônico `.ia.rules/state/`, `continue.ia` mantém somente estado corrente/retomável, próxima ação, evidência, impedimento e autorização; `memory.md` mantém aprendizado durável contextual; `fix.md` roteia reclamação/correção por contexto, circunstância, FT/TO-DO/issue, commits e fonte detalhada; `FT.implementados.md` indexa conclusões e aponta à evidência original sem repetir história. Índice DEVE permitir decidir a rota antes do detalhe; partição adicional exige ganho medido.
+No diretório canônico `.ia.rules/state/`, `continue.ia` é estado operacional, nunca histórico: contém somente FT ativa ou tecnicamente concluída ainda pendente de validação do desenvolvedor; esta permanece mínima, com identidade/TO-DO, resultado, pendência e retomada. Validação concluída exige retirada imediata. Acumulação, changelog, arquivo morto, catálogo integral ou retenção por rastreabilidade são violações. `memory.md` mantém aprendizado durável; `fix.md` roteia correção; `FT.implementados.md` indexa conclusões sem repetir história; histórico necessário fica íntegro em subarquivo pequeno, coeso e carregável por FT sob demanda. Índice DEVE decidir a rota antes do detalhe; partição adicional exige ganho medido.
 
-Migração futura DEVE produzir primeiro a matriz `conteúdo antigo → destino → hash/evidência`, mover somente aprendizado durável, preservar estado ativo/retomável e comprovar cardinalidade, ordem, links, duplicação e resíduos. Remoção só ocorre após auditoria bidirecional; arquivo ausente é criado pelo mecanismo oficial. Histórico Git NÃO substitui conteúdo operacional necessário.
+Migração DEVE produzir primeiro a matriz `conteúdo antigo → destino → hash/evidência`, gravar/validar histórico antes de retirar, preservar estado ativo/retomável e comprovar cardinalidade, ordem, links, hashes, duplicação e resíduos. Operação é transacional, idempotente e falha fechada diante de classificação, colisão ou integridade incerta. Histórico Git NÃO substitui conteúdo operacional necessário; conteúdo operacional NÃO justifica manter história no estado corrente.
 
 ## 2. Evidência ambiental e retentativa
 
