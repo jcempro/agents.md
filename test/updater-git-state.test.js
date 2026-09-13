@@ -49,6 +49,11 @@ try {
   fs.writeFileSync(path.join(local, "product.txt"), "produto modificado sem commit\n");
 
   const governance = Buffer.from("# AGENTS atualizado\n");
+  const generatedChanges = Array.from({ length: 138 }, (_entry, position) => {
+    const relativePath = `.ia.rules/generated/file-${String(position).padStart(3, "0")}.txt`;
+    const content = Buffer.from(`governanca ${position}\n`);
+    return { action: "add", commitContent: content, content, indexContent: content, kind: "file", relativePath, remoteContent: content };
+  });
   const plan = {
     changes: [{
       action: "update",
@@ -58,16 +63,22 @@ try {
       kind: "file",
       relativePath: "AGENTS.md",
       remoteContent: governance,
-    }],
-    lock: { files: { "AGENTS.md": "test" }, managedFiles: [{ path: "AGENTS.md" }] },
+    }, ...generatedChanges],
+    lock: {
+      files: Object.fromEntries(["AGENTS.md", ...generatedChanges.map((entry) => entry.relativePath)].map((entry) => [entry, "test"])),
+      managedFiles: ["AGENTS.md", ...generatedChanges.map((entry) => entry.relativePath)].map((entry) => ({ path: entry })),
+    },
     source: { label: "release:v-test", ref: "v-test", type: "release" },
   };
+  const updateStartedAt = Date.now();
   applyPlan(local, plan);
   commitAndPushNormativeUpdate(local, plan);
   assert.equal(verifyMaterialUpdate(local, plan), true);
+  assert.ok(Date.now() - updateStartedAt < 120000, "atualizacao integral excedeu o timeout legado de 120 s");
 
   git(sandbox, ["clone", "-b", "dev", remote, audit]);
   assert.equal(text(path.join(audit, "AGENTS.md")), governance.toString("utf8"));
+  assert.equal(text(path.join(audit, generatedChanges.at(-1).relativePath)), generatedChanges.at(-1).content.toString("utf8"));
   assert.equal(text(path.join(audit, "remote-only.txt")), "mudanca remota\n");
   assert.equal(fs.existsSync(path.join(audit, "local-only.txt")), false);
   assert.equal(text(path.join(audit, "product.txt")), "produto base\n");

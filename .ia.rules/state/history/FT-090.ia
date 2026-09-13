@@ -1,0 +1,7 @@
+FT-090|nome=Integração e auditoria da recuperação legada em uma invocação|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-13T18:22:23-03:00|atualizacao=2026-09-13T19:54:42.3170108-03:00|autorizacao=humana|conclusao=2026-09-13T19:54:42.3170108-03:00
+objetivo=Comprovar ponta a ponta o salto real anterior a v0.1.4-rc2, o inventário distribuído, o commit completo, a segunda execução idempotente, as falhas explícitas e a preservação do consumidor.
+origem=.ia.rules/state/requests/FT-089/request.md; depende=FT-089.
+aceite=Teste de regressão falha se uma única chamada encerrar com sucesso alterando apenas o bootstrap; fonte, dist, manifesto, pacote e fixture mantêm hashes coerentes; consumidor externo permanece intocado.
+resultado=Auditoria integrou inventario, payload, atualizador, preservacao, Git, idempotencia, falhas fechadas e o caso real de somente dois arquivos; Issue 11 permanece corretamente fechada porque trata preservacao de scripts do produto, nao o bootstrap parcial.
+verificacoes=Fixture exata pos-rc2 preservou scripts build/check/prepare/test, agents.local.md, extensao herdada, arquivos nao gerenciados e status Git limpo; hash incompativel falha explicitamente; fonte, build, dist, mapa e ZIP passaram 23 suites.
+pendencias=Nova release e validacao no consumidor real aguardam exclusivamente execucao manual do desenvolvedor; nenhuma publicacao foi feita.

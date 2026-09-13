@@ -2,4 +2,4 @@
 
 Índice de riscos e reclamações do desenvolvedor.
 
-- FT-089 — `v0.1.4-rc2` declarou sucesso após atualizar somente `AGENTS.md` e o próprio `scripts/.agents/update-agents.js`; reabre a lacuna da FT-084/FT-085 para validar o comando legado completo em uma única invocação. Fonte: `requests/FT-089/request.md`.
+- FT-089 — Corrigida na fonte: o processo legado já carregado instalava o sucessor sem executá-lo; leitura/hash/index Git agora são batelados e `.gitignore` recebe somente a allowlist manifestada. `v0.1.4-rc2` remoto permanece imutável; publicação futura é manual. Fonte/evidência: `requests/FT-089/request.md`, `history/FT-089.ia`.

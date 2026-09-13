@@ -127,8 +127,13 @@ async function main() {
     const gitignore = fs.readFileSync(path.join(root, ".gitignore"), "utf8");
     assert.match(gitignore, /BEGIN agents-governance managed/u);
     assert.match(gitignore, /^!\/\.ia\.rules\/$/mu);
-    assert.match(gitignore, /^!\/\.ia\.rules\/\*\*$/mu);
+    assert.match(gitignore, /^!\/\.ia\.rules\/core\/runtime\/scripts\/repo-tools\.js$/mu);
+    assert.doesNotMatch(gitignore, /^!\/\.ia\.rules\/\*\*$/mu);
     assert.match(gitignore, /^\/\.ia\.rules\/cache\/$/mu);
+    fs.mkdirSync(path.join(root, ".ia.rules", "state"), { recursive: true });
+    fs.writeFileSync(path.join(root, ".ia.rules", "state", "consumer-local.md"), "local\n");
+    const localStateIgnored = childProcess.spawnSync("git", ["check-ignore", "-q", ".ia.rules/state/consumer-local.md"], { cwd: root, windowsHide: true });
+    assert.equal(localStateIgnored.status, 0, "estado local alheio ao manifesto foi exposto pelo .gitignore");
     assert.deepEqual(prepareUpdateAnalogFiles(root, {
       changes: [{ action: "add", relativePath: ".ia.rules/core/runtime/scripts/repo-tools.js" }],
     }), []);
@@ -141,9 +146,16 @@ async function main() {
   const release = JSON.parse(fs.readFileSync(path.join(distRoot, "release.json"), "utf8"));
   const distributionPackage = JSON.parse(fs.readFileSync(path.join(distRoot, "package.json"), "utf8"));
   const legacyFixture = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "test", "fixtures", "legacy-physical-updater-v0.1.3.json"), "utf8"));
+  const rc2Regression = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "test", "fixtures", "legacy-physical-updater-v0.1.4-rc2.json"), "utf8"));
   const dispatcher = distributionPackage.scripts["shared:update:agents"];
   assert.ok(dispatcher.indexOf("scripts/.agents/autoupdate.js") < dispatcher.indexOf(".agents/core/runtime/scripts/autoupdate.js"));
   const legacyBridgeEntries = release.canonicalUpdate.files.filter((entry) => entry.condition === "legacy-update-bridge");
+  const canonicalFiles = release.canonicalUpdate.files.filter((entry) => entry.condition !== "legacy-update-bridge");
+  assert.equal(canonicalFiles.length, rc2Regression.expectedCanonicalFiles);
+  assert.deepEqual(rc2Regression.observed.changedFiles, ["AGENTS.md", "scripts/.agents/update-agents.js"]);
+  assert.equal(rc2Regression.observed.matchedCanonicalFiles + rc2Regression.observed.missingCanonicalFiles + rc2Regression.observed.divergentCanonicalFiles, rc2Regression.expectedCanonicalFiles);
+  assert.ok(rc2Regression.observed.changedFiles.length < rc2Regression.expectedCanonicalFiles);
+  assert.equal(rc2Regression.legacyDispatcherTimeoutMs, 120000);
   assert.ok(legacyBridgeEntries.length >= 7);
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === "scripts/.agents/autoupdate.js"));
   assert.ok(legacyBridgeEntries.some((entry) => entry.path === legacyFixture.requiredRecoveryEntrypoint));

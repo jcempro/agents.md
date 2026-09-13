@@ -609,6 +609,20 @@
       "path": ".ia.rules/state/history/FT-088.ia",
       "sha256": "b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b",
       "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-089",
+      "name": "Correção definitiva da atualização em uma única invocação",
+      "path": ".ia.rules/state/history/FT-089.ia",
+      "sha256": "748c14f38daf97917ae46397c1dc2571b645400e7583a38418b0416351043b8e",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-090",
+      "name": "Integração e auditoria da recuperação legada em uma invocação",
+      "path": ".ia.rules/state/history/FT-090.ia",
+      "sha256": "eb6e3c82bfbc83f24a456a361b6e1cfb5b802c77b74bf187ddc1c892c6ee4190",
+      "state": "pendente-validacao"
     }
   ]
 }

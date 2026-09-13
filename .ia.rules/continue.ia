@@ -102,15 +102,18 @@ verificacoes=Npm test: TEST_OK 23, VERIFY_OK, 36 scripts, 620 declarações e gr
 pendencias=Somente validação humana e eventual release nova autorizada.
 historico=.ia.rules/state/history/FT-088.ia|sha256=b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b
 
-FT-089|nome=Correção definitiva da atualização em uma única invocação|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-13T18:22:22-03:00|inicio=2026-09-13T18:22:22-03:00|atualizacao=2026-09-13T18:22:22-03:00|autorizacao=humana
+FT-089|nome=Correção definitiva da atualização em uma única invocação|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-13T18:22:22-03:00|inicio=2026-09-13T18:22:22-03:00|atualizacao=2026-09-13T19:54:42.3170108-03:00|autorizacao=humana|conclusao=2026-09-13T19:54:42.3170108-03:00|validacao=pendente_desenvolvedor
 objetivo=Eliminar o sucesso parcial observado no salto legado para v0.1.4-rc2 e garantir que uma única execução do comando público converja integralmente ou falhe de modo explícito, sem exigir segunda invocação silenciosa.
 origem=.ia.rules/state/requests/FT-089/request.md; FT-084; FT-085; github:jcempro/agents.md#11.
-plano=Reproduzir o comando completo desde o commit consumidor anterior; localizar a primeira divergência no processo legado já carregado; corrigir a fonte canônica e o contrato de compatibilidade sem perda; regenerar somente derivados oficiais.
-aceite=Fixture autenticada executa o mesmo dispatcher legado uma vez e converge todos e somente os gerenciados; saída zero exige pós-condição integral; preservações, falhas fechadas e idempotência permanecem válidas.
-pendencias=Diagnóstico de implementação, correção, build e commit material.
+resultado=Processo legado ja carregado instalava o novo entrypoint e encerrava sem executa-lo; retrocorrigir essa mesma execucao e impossivel. A fonte agora agrupa leituras, hashes, modos e index Git e limita .gitignore a allowlist manifestada, fazendo o bridge instalado e releases futuras convergirem dentro do timeout.
+verificacoes=Asset remoto rc2: 150 arquivos, 138 canonicos, sha256 37927db0; consumidor: 87 coerentes, 27 ausentes e 24 divergentes. Fixture v0.1.4-test: 196 operacoes, 146 paths, 16,6 s; repeticao: zero, 1,36 s. TEST_OK 23 e regressao de 138 arquivos passaram.
+pendencias=Publicacao remota depende de npm run release manual pelo desenvolvedor; v0.1.4-rc2 nao foi alterada. Validacao humana permanece pendente.
+historico=.ia.rules/state/history/FT-089.ia|sha256=748c14f38daf97917ae46397c1dc2571b645400e7583a38418b0416351043b8e
 
-FT-090|nome=Integração e auditoria da recuperação legada em uma invocação|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-13T18:22:23-03:00|atualizacao=2026-09-13T18:22:23-03:00|autorizacao=humana
+FT-090|nome=Integração e auditoria da recuperação legada em uma invocação|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-13T18:22:23-03:00|atualizacao=2026-09-13T19:54:42.3170108-03:00|autorizacao=humana|conclusao=2026-09-13T19:54:42.3170108-03:00|validacao=pendente_desenvolvedor
 objetivo=Comprovar ponta a ponta o salto real anterior a v0.1.4-rc2, o inventário distribuído, o commit completo, a segunda execução idempotente, as falhas explícitas e a preservação do consumidor.
 origem=.ia.rules/state/requests/FT-089/request.md; depende=FT-089.
-aceite=Teste de regressão falha se uma única chamada encerrar com sucesso alterando apenas o bootstrap; fonte, dist, manifesto, pacote e fixture mantêm hashes coerentes; consumidor externo permanece intocado.
-pendencias=Aguarda implementação da FT-089.
+resultado=Auditoria integrou inventario, payload, atualizador, preservacao, Git, idempotencia, falhas fechadas e o caso real de somente dois arquivos; Issue 11 permanece corretamente fechada porque trata preservacao de scripts do produto, nao o bootstrap parcial.
+verificacoes=Fixture exata pos-rc2 preservou scripts build/check/prepare/test, agents.local.md, extensao herdada, arquivos nao gerenciados e status Git limpo; hash incompativel falha explicitamente; fonte, build, dist, mapa e ZIP passaram 23 suites.
+pendencias=Nova release e validacao no consumidor real aguardam exclusivamente execucao manual do desenvolvedor; nenhuma publicacao foi feita.
+historico=.ia.rules/state/history/FT-090.ia|sha256=eb6e3c82bfbc83f24a456a361b6e1cfb5b802c77b74bf187ddc1c892c6ee4190

@@ -89,3 +89,5 @@
 - FT-086 — Contrato de estado corrente e segregação normativa versionada; estado: pendente-validacao; histórico: `history/FT-086.ia`; sha256: `d81cf122dfcb0c52702db32402d676d28e8169d31094f40ad2efe415a15fac70`.
 - FT-087 — Arquivamento determinístico e compactação do estado operacional; estado: pendente-validacao; histórico: `history/FT-087.ia`; sha256: `6d721aa46eddf45e24e40033dce5d2979376930d170b506a307a9b106d4d9777`.
 - FT-088 — Auditoria integrada do estado e das autoridades normativas; estado: pendente-validacao; histórico: `history/FT-088.ia`; sha256: `b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b`.
+- FT-089 — Correção definitiva da atualização em uma única invocação; estado: pendente-validacao; histórico: `history/FT-089.ia`; sha256: `748c14f38daf97917ae46397c1dc2571b645400e7583a38418b0416351043b8e`.
+- FT-090 — Integração e auditoria da recuperação legada em uma invocação; estado: pendente-validacao; histórico: `history/FT-090.ia`; sha256: `eb6e3c82bfbc83f24a456a361b6e1cfb5b802c77b74bf187ddc1c892c6ee4190`.

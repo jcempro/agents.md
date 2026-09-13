@@ -1,0 +1,28 @@
+{
+  "schema": "agents-legacy-update-regression/v1",
+  "evidence": {
+    "consumerCommit": "ec94192f7e84fd1e7e148cc79742ad1d620552ea",
+    "consumerParent": "5b9647cc9b4f1adb598228ae3bf3319b504f4e4b",
+    "previousRelease": "v0.1.4-rc1",
+    "targetRelease": "v0.1.4-rc2",
+    "targetAssetSha256": "37927db0244c9ffdf057e82ac49a5b8f558566c3abbf6e5d2d1b88d809ab15d1",
+    "targetAssetSize": 442468,
+    "targetReleaseManifestSha256": "9a380ed1dc7f69276bf400657e867511c6641068321694976f3f94cd8327b7fc"
+  },
+  "observed": {
+    "changedFiles": [
+      "AGENTS.md",
+      "scripts/.agents/update-agents.js"
+    ],
+    "sha256": {
+      "AGENTS.md": "d8e94f943d916af502a5e7f20810420dce6d5efb3b3bc233dfd8187fa71b18e5",
+      "scripts/.agents/update-agents.js": "537c54a5878a252edbe54789140f7037ad0ab14664f5c5378497989e14e617db"
+    },
+    "matchedCanonicalFiles": 87,
+    "missingCanonicalFiles": 27,
+    "divergentCanonicalFiles": 24
+  },
+  "expectedCanonicalFiles": 138,
+  "legacyDispatcherTimeoutMs": 120000,
+  "firstDivergence": "processo legado carregado concluiu apos instalar o novo entrypoint sem executa-lo"
+}
