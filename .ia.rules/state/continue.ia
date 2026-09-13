@@ -2049,3 +2049,45 @@ dependencias=FT-077, FT-078, FT-079, FT-080, FT-081 e FT-082 concluídas; gates 
 resultado=FT-077 a FT-082 integradas; fonte, ativo, dist, pacote e consumidor convergem sem release.
 verificacoes=TEST_OK 23 suítes; VERIFY_OK; RCF 305/301; entrypoint 393 tokens; pacote seco inclui unidades; diff check limpo.
 pendencias=Somente validação humana do item ✅; release sem versão/autorização permanece fora do escopo.
+
+FT-084|nome=Correção da convergência integral por aliases legados|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-12T23:32:57-03:00|atualizacao=2026-09-12T23:32:57-03:00|autorizacao=humana
+objetivo=Corrigir a rota que permitiu a `agents:update` executar atualizador predecessor, selecionar apenas o subconjunto bootstrap e declarar sucesso sem convergir a governança canônica do release v0.1.4-rc1.
+origem=.ia.rules/state/requests/FT-084/request.md; evidência externa somente leitura em D:\trampo\jeancarloem.com.blog commit 5b9647cc9b4f1adb598228ae3bf3319b504f4e4b.
+origem_sha256=ec87b2e3a049f5dc6c66bf51750a250c0eeedca9ca754bca32d4acca8ba83a2f
+triagem_recusas=DEC-20260725-001 e DEC-20260725-002 não correspondem à matéria; ambas permanecem preservadas.
+normativa=RCF.md §§0.0.2, 14.2 e 20.2; src/.ia.rules/core/update/scenario.md AU-1 a AU-4; nenhuma evolução normativa identificada, pois o comportamento esperado já é expresso e a correção restaura o contrato vigente.
+1/4 Evidência e primeira divergência [em_andamento]
+  1/4 Confirmar commit, versão, diff, hashes, inventário anterior/posterior e log do consumidor sem mutação [concluido]
+  2/4 Confrontar v0.1.3, v0.1.4-rc1, fonte, dist, manifests, mapas, pacote e asset [em_andamento]
+  3/4 Classificar diferenças distribuíveis, condicionais, internas e excluídas [pendente]
+  4/4 Reproduzir a rota real e localizar a primeira divergência causal [pendente]
+2/4 Correção canônica [pendente]
+  1/3 Eliminar bypass do handoff e restaurar equivalência de aliases históricos [pendente]
+  2/3 Garantir seleção exaustiva do manifesto canônico e limpeza do legado comprovado [pendente]
+  3/3 Impedir sucesso quando o estado final/commit omitir destino aplicável [pendente]
+3/4 Derivação e regressão [pendente]
+  1/3 Adicionar fixture autenticada do salto v0.1.3 para v0.1.4-rc1 [pendente]
+  2/3 Cobrir o falso sucesso de apenas três arquivos e incompatibilidades de integridade [pendente]
+  3/3 Regenerar JavaScript, dist, manifestos, mapas e pacote pelo mecanismo oficial [pendente]
+4/4 Fechamento técnico [pendente]
+  1/2 Comprovar preservação, rollback, idempotência e consumidor intocado [pendente]
+  2/2 Versionar correção material e preparar rastreabilidade causal [pendente]
+aceite=Todo alias suportado alcança o runtime da release; o salto v0.1.3→v0.1.4-rc1 materializa todos e somente os destinos aplicáveis, versiona o gerenciado necessário, preserva produto/extensões e falha explicitamente diante de parcial ou incompatibilidade.
+dependencias=Contrato normativo vigente já materializado; não há autorização para publicar, substituir ou remover tag, release ou asset remoto.
+
+FT-085|nome=Integração e auditoria da atualização completa v0.1.4-rc1|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-12T23:32:58-03:00|atualizacao=2026-09-12T23:32:58-03:00|autorizacao=humana
+objetivo=Auditar a correção da FT-084 entre fonte, build, dist, manifesto, mapa, pacote e release local, comprovando o salto histórico, idempotência, falhas fechadas e ausência de perda.
+origem=.ia.rules/state/requests/FT-084/request.md.
+1/3 Matriz de artefatos [pendente]
+  1/3 Comparar inventário e hashes fonte→build→dist→ZIP [pendente]
+  2/3 Validar esperado versus atualizado por perfil e condição [pendente]
+  3/3 Confirmar ausência de interno/excluído e preservação local [pendente]
+2/3 Matriz de execução [pendente]
+  1/3 Executar salto limpo, repetição idempotente e estado legado real [pendente]
+  2/3 Rejeitar asset, manifesto, versão e hash incompatíveis [pendente]
+  3/3 Executar gates focados e globais com códigos registrados [pendente]
+3/3 Fechamento [pendente]
+  1/2 Confirmar Git do construtor e integridade somente leitura do consumidor [pendente]
+  2/2 Delimitar ações remotas sem executá-las [pendente]
+aceite=Evidência reproduzível demonstra convergência integral e detecta a regressão de três arquivos; nenhum efeito alcança o consumidor original nem qualquer estado remoto.
+dependencias=FT-084 concluída localmente; publicação remota permanece sem autorização.
