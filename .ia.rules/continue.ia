@@ -101,3 +101,16 @@ resultado=Contextos CURRENT/CONSUMED e SOURCE/DEVELOPED foram auditados separada
 verificacoes=Npm test: TEST_OK 23, VERIFY_OK, 36 scripts, 620 declarações e grafo 42 nós/41 rotas; histórico 83/83; consumidor externo limpo no commit 5b9647c com os três hashes originais.
 pendencias=Somente validação humana e eventual release nova autorizada.
 historico=.ia.rules/state/history/FT-088.ia|sha256=b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b
+
+FT-089|nome=Correção definitiva da atualização em uma única invocação|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-13T18:22:22-03:00|inicio=2026-09-13T18:22:22-03:00|atualizacao=2026-09-13T18:22:22-03:00|autorizacao=humana
+objetivo=Eliminar o sucesso parcial observado no salto legado para v0.1.4-rc2 e garantir que uma única execução do comando público converja integralmente ou falhe de modo explícito, sem exigir segunda invocação silenciosa.
+origem=.ia.rules/state/requests/FT-089/request.md; FT-084; FT-085; github:jcempro/agents.md#11.
+plano=Reproduzir o comando completo desde o commit consumidor anterior; localizar a primeira divergência no processo legado já carregado; corrigir a fonte canônica e o contrato de compatibilidade sem perda; regenerar somente derivados oficiais.
+aceite=Fixture autenticada executa o mesmo dispatcher legado uma vez e converge todos e somente os gerenciados; saída zero exige pós-condição integral; preservações, falhas fechadas e idempotência permanecem válidas.
+pendencias=Diagnóstico de implementação, correção, build e commit material.
+
+FT-090|nome=Integração e auditoria da recuperação legada em uma invocação|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-13T18:22:23-03:00|atualizacao=2026-09-13T18:22:23-03:00|autorizacao=humana
+objetivo=Comprovar ponta a ponta o salto real anterior a v0.1.4-rc2, o inventário distribuído, o commit completo, a segunda execução idempotente, as falhas explícitas e a preservação do consumidor.
+origem=.ia.rules/state/requests/FT-089/request.md; depende=FT-089.
+aceite=Teste de regressão falha se uma única chamada encerrar com sucesso alterando apenas o bootstrap; fonte, dist, manifesto, pacote e fixture mantêm hashes coerentes; consumidor externo permanece intocado.
+pendencias=Aguarda implementação da FT-089.
