@@ -2505,13 +2505,13 @@
         "test/agents-entrypoint.test.js",
         "test/autoupdate.test.js"
       ],
-      "commit": "",
+      "commit": "76b764054eed43e4009899c4b9698eea1610d7a6",
       "ft": "FT-100",
       "id": "89b966a05c7c4bc62726dd20",
       "line": 1252,
       "rcf": "RCF.md",
       "sentenceSha256": "ecf0157867de75c23cbf3cc60b6fbcbc786f93b8d8c52c9abab0265a8ba016b3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -3193,13 +3193,13 @@
         "test/agents-entrypoint.test.js",
         "test/autoupdate.test.js"
       ],
-      "commit": "",
+      "commit": "76b764054eed43e4009899c4b9698eea1610d7a6",
       "ft": "FT-100",
       "id": "1f4262bbdc5f135cf9c41c54",
       "line": 1378,
       "rcf": "RCF.md",
       "sentenceSha256": "73c200e112f3fe46a75a0d846c011de6be1c1caadfbda9aff99193689c9f7643",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
