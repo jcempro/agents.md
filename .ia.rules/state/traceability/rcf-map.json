@@ -5006,13 +5006,13 @@
         "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
         "test/context-cost-report.test.js"
       ],
-      "commit": "",
+      "commit": "405bf031a8ca049bcd172dec9c9d84dda22520b2",
       "ft": "FT-099",
       "id": "39857d0f2d156ba7e0e2a2be",
       "line": 1766,
       "rcf": "RCF.md",
       "sentenceSha256": "82682b5753c46c770050b7b20feba305c93cd4faddd7b523ec286a3a779ec900",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
