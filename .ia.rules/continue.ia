@@ -197,3 +197,18 @@ resultado=Filtro da retomada reconhece a primeira linha Porcelain após trim e l
 verificacoes=Teste dirigido reproduziu M dist/... e bloqueio de src/; build DIST_OK 163 arquivos; VERIFY_OK 39 scripts/159 entradas.
 pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.
 historico=.ia.rules/state/history/FT-102.ia|sha256=7ffcbfcd5dc5a87f56f4f4d62a91dadd30f00a335bc99f2e9e8d7d4b6d9b6dda
+
+FT-103|nome=Atualizador compatível com consumidores ESM|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-09-15T16:23:16-03:00|inicio=2026-09-15T16:23:16-03:00|atualizacao=2026-09-15T16:23:16-03:00|autorizacao=humana|validacao=pendente
+objetivo=Garantir que todo runtime CommonJS distribuído mantenha fronteira CommonJS própria e que agents:update --check funcione em consumidor com package.json type=module.
+origem=.ia.rules/state/requests/FT-103/request.md; issue_id=github:jcempro/agents.md#12; issue_state=em_desenvolvimento; release=pendente.
+1/3 Análise e plano [concluido]
+  1/2 Capturar integralmente a issue e validar recusas [concluido]
+  2/2 Confirmar RCF, causa, fonte e manifesto aplicáveis [concluido]
+2/3 Implementação e validação [em andamento]
+  1/2 Implementar fronteira CommonJS pela fonte e manifesto [em andamento]
+  2/2 Cobrir consumidor ESM e requires entre subárvores [pendente]
+3/3 Entrega [pendente]
+  1/2 Gerar derivados, validar e sincronizar rastreabilidade [pendente]
+  2/2 Publicar nova release e encerrar issue [pendente]
+verificacoes=Worktree inicial limpo e dev alinhada a origin/dev; update:agents --check tentou a release vigente e falhou com Runtime da release falhou com codigo 2.
+pendencias=Implementação, regressões, commit material, rastreabilidade e release com versão explicitamente autorizada.
