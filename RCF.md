@@ -1546,6 +1546,8 @@ A aprovação futura DEVE atualizar este RCF com decisão, gramática, tabela, s
 | TO-DO de atualização orientada a sucesso efetivo                                   | §§0.0.2, 14.1–14.2 e 20.2                    |
 | TO-DO de contenção absoluta ao repositório corrente                                | §§0.0.15, 1.1, 3.11, 14.1 e 20.2             |
 | TO-DO de Skills, Subagents, memória, automação e precisão visual                   | §§16, 18, 20.2 e 21                          |
+| TO-DO de edição redacional autoral e normalização semântico-fonética para TTS      | §§20.2 e 22                                  |
+| TO-DO de auditoria e otimização do custo contextual                                | §§18, 20.2, 21 e 23                          |
 
 Esta matriz é bidirecional: toda implementação posterior DEVE apontar à seção; toda seção com implementação DEVE apontar ao artefato/teste e, após §15.4 materializado, ao commit causal. O relatório de FT registra arquivos, conceitos centralizados, duplicações removidas, referências, contratos preservados, lacunas, testes, limites, não regressão e métricas de bytes/tokens/rotas. [c143be5]
 
@@ -1562,6 +1564,10 @@ Para a Issue `github:jcempro/agents.md#11` e a atualização resiliente, a fase 
 Para a contenção absoluta, a fase normativa só conclui quando a autoridade derivar exclusivamente da raiz Git associada ao prompt e seu `AGENTS.md`, com leitura externa separada de escrita e todas as fronteiras/indireções explicitadas. A fase técnica deve projetar a regra na Norma, aplicar guarda comum antes de efeitos oficiais e comprovar a matriz de roots irmãs, dependências, submódulos, aninhados, worktrees, links, traversal, múltiplas roots, `node_modules`, referência externa e Git; qualquer byte ou estado externo alterado falha criticamente, e arquivo interno legítimo deve continuar operável. [05f2ed9]
 
 Para a TO-DO de Skills, Subagents, memória, automação e precisão visual, FT-076 DEVE concluir somente com equalização integral, fontes atualizadas, RCF e mapa pendente; FT-077, após nova autorização, projeta a Norma Operacional e comprova entrypoint de até 400 tokens, rotas diretas, contratos e schemas sem código funcional. FT-078 a FT-082 exigem nova autorização posterior à FT-077 e implementam responsabilidades independentes; FT-083 integra e valida, mas NÃO publica release sem versão e autorização próprias. Nenhuma conclusão parcial autoriza absorver fase, simular cliente, antecipar migração ou remover a frente raiz antes da aprovação humana. [e2588cd]
+
+Para a TO-DO editorial/TTS, FT-091 DEVE equalizar e normatizar o RCF; FT-092 projeta somente a Norma Operacional; FT-093, após autorização nova, implementa capacidades independentes e hookable; FT-094 integra e valida. Nenhuma dessas fases publica release sem pedido, versão e autorização específicos. [PENDENTE-CODIGO]
+
+Para a TO-DO de custo contextual, FT-095 DEVE normatizar método e decisão de unidade; FT-096 projeta somente o contrato/rota da Skill; FT-097, somente após FT-094 e autorização nova, implementa Skill, medições, experimentos e relatório sem aplicar recomendação material; FT-098 integra e valida. Recomendação de alteração cria FT posterior e NÃO autoriza a própria mudança; nenhuma fase publica release sem pedido, versão e autorização específicos. [PENDENTE-CODIGO]
 
 Validação automática DEVE detectar nomes oficiais alterados, script/comando/workflow duplicado, fluxo paralelo, gatilho substituído, publicação local proibida, hook contornado, extensão fora do ponto, norma adaptada ao código, Princípio Estruturante degradado, ciclo/órfão/profundidade, duplicação semântica, temporário retido/removido indevidamente, compactação com perda, diagnóstico suprimido, processo desacoplado opaco, promoção incompatível, exceção sem vínculo/reversibilidade/remoção, runtime/artefato divergente, hash material inválido, derivado obsoleto e as inconsistências estruturais do Registro Decisório enumeradas em §13.6. Quando automação integral for impossível, verificação determinística documentada é obrigatória. [a6dc410]
 
@@ -1668,3 +1674,95 @@ Auditoria DEVE cobrir prompt injection, instrução não confiável, execução 
 Aceite DEVE provar bidirecionalmente cada regra da origem em RCF, Norma Operacional, arquivo-fonte, teste, artefato distribuído e comportamento observado. Gates cumulativos abrangem entrypoint ≤400; rotas positivas/negativas/limítrofes e nenhuma leitura global; comparação de tokens/latência/acerto; validação oficial de Skills e least privilege de Subagents; equivalência normativa, links e ciclos; operação sem hooks; manifestos/hashes/provenance/merge/idempotência/concorrência/rollback; inventário sem wrapper injustificado; espera sem polling excessivo; migração de estado sem perda; identidade ambiental/retentativa/generalização; gramática/Equalizer/aprovação do TODO; fixtures visuais; build, testes, índice, dist, pacote, instalação limpa, atualização de consumidor e regressão completa. [e2588cd]
 
 Sugestão de pesquisa DEVE declarar aderência, ganho mensurável, custo, risco e razão de incluir ou rejeitar; tendência ou analogia não autorizam adoção. Entrega de fase registra commits isolados, arquivos/diff, decisões, fontes/versões, matriz de cobertura, testes/resultados, riscos e pendências; FT-083 NÃO encerra nem remove a frente raiz até implementação validada e aprovação humana, e release permanece dependente de solicitação, versão e autorização explícitas. [08c3583]
+
+## 22. Edição autoral e representação semântico-fonética
+
+### 22.1 Fronteira, proveniência e composição
+
+A capacidade é generalista e distribuível: texto editorial original é fonte de verdade; representação acessível e representação para fala são derivadas, aditivas e reversíveis. Elas NÃO DEVEM substituir ou degradar Markdown/HTML, grafia, pontuação, referência, navegação, conteúdo, autoria ou árvore de acessibilidade. Especialização de Jekyll, template, página, voz ou sintetizador permanece em extensão do produto e não integra o núcleo. [PENDENTE-CODIGO]
+
+A origem normativa autenticada é `RCFs/leitura-acessivel-e-tts.md` e `.ia.rules/scenarios/web/page-like/capabilities/editorial.md` do commit externo somente leitura `9c8c997c38e3e3e53028598e5c33d53138433060`. Hash divergente, arquivo ausente ou detalhe de implementação não autenticado NÃO PODE fundamentar equivalência funcional; a FT registra a divergência e preserva o original sem completar por memória ou inferência. [PENDENTE-CODIGO]
+
+Edição autoral e preparação semântico-fonética são capacidades independentes e carregáveis separadamente; tarefa só redacional NÃO DEVE carregar o corpo completo de TTS, e normalização técnica simples NÃO DEVE carregar toda a norma editorial. Podem compartilhar contrato de preservação, diagnóstico e proveniência, sem duplicar autoridade nem formar fluxo paralelo. [PENDENTE-CODIGO]
+
+Cada capacidade DEVE declarar identidade, gatilhos positivos/negativos/limítrofes, entrada, saída, versão, efeitos, idempotência, erro, limites/timeout aplicáveis, validação e ponto de hook futuro; funcionamento essencial independe de hook. Ambiguidade material preserva a forma original, produz diagnóstico rastreável e remete à revisão humana, sem inventar interpretação, pronúncia, autoria, citação, referência ou exceção. [PENDENTE-CODIGO]
+
+### 22.2 Identidade autoral e inteligibilidade
+
+Edição DEVE preservar vocabulário, ritmo, sintaxe, pontuação, cadência, intensidade, argumentação, oralidade/escrita, formalidade, construção idiomática, literatura/retórica, intenção, personalidade e peculiaridade válida. A prioridade é `identidade → intenção → problema real → clareza → organização`; correção ortográfica, gramatical, semântica ou de fluidez ocorre dentro da voz original. [PENDENTE-CODIGO]
+
+A intervenção NÃO DEVE homogeneizar para estilo de IA, sofisticar artificialmente, corporativizar, publicitar, academizar sem base, neutralizar peculiaridade válida, substituir pontuação característica sem necessidade ou deixar assinatura linguística perceptível do agente. Reescrita, reorganização, expansão, resumo, simplificação, adaptação ou geração marcam na fonte a menor região transformada; correção puramente mecânica, link ou metadado não recebe marca indevida. [PENDENTE-CODIGO]
+
+O texto DEVE maximizar simultaneamente rigor intelectual e inteligibilidade, inclusive para baixa proficiência, analfabetismo funcional ou escolaridade equivalente à quarta série, sem infantilização, condescendência, redução de conteúdo ou apagamento de nuance. Palavra simples igualmente precisa é preferida; termo complexo necessário permanece e recebe na primeira ocorrência pertinente explicação curta, correta, direta, não circular e igualmente simples, repetida somente após mudança material de sentido/contexto, texto suficientemente longo ou prejuízo demonstrado de compreensão. [PENDENTE-CODIGO]
+
+Complexidade emergente de palavras simples também DEVE ser reduzida quando possível sem perda: períodos excessivos, subordinação acumulada, abstrações encadeadas, múltiplas negações, referência ambígua, combinação lexical difícil e densidade conceitual sem apoio. Distinções entre fala/transcrição, síntese editorial, inferência, citação, referência e disclaimer, além da verificabilidade exigida pela origem, permanecem explícitas. [PENDENTE-CODIGO]
+
+### 22.3 Pipeline acessível e normalização para fala
+
+O fluxo obrigatório é `conteúdo editorial original → detecção/classificação contextual → representação própria para fala → adaptador TTS`. A normalização pt-BR DEVE ser contextual quando ambígua, determinística quando possível, extensível, testável e desacoplada do sintetizador; expressão regular pode detectar candidato, mas NÃO DEVE decidir sem o contexto requerido. [PENDENTE-CODIGO]
+
+HTML semântico, ordem de leitura e árvore de acessibilidade DEVEM permanecer completos sem JavaScript, voz ou serviço externo; TTS é consumidor opcional e progressivo. Semântica nativa precede ARIA, que somente supre lacuna real. Modos `continuous`, `summary` e `full`, quando aplicáveis no adaptador, preservam ocorrência visual, expansão, troca sem reinício silencioso e posição/unidade corrente. [PENDENTE-CODIGO]
+
+`vs`, `vs.`, variações de caixa e `x`/`X` só PODEM virar `versus` em confronto ou comparação; multiplicação, dimensão, variável, identificador, símbolo técnico e demais usos legítimos permanecem. Algarismo romano exige validação formal e classificação contextual, com cardinal/ordinal conforme século, capítulo, volume, enumeração, soberano, título histórico ou uso comprovado; sequência de `I,V,X,L,C,D,M` não é convertida cegamente. [PENDENTE-CODIGO]
+
+Aspas citacionais, `blockquote`, parênteses e colchetes são mecanismos distintos: nenhum PODE acionar, substituir, fechar ou rebatizar outro. Aspas que efetivamente delimitam citação verbalizam `abre aspas ... fecha aspas`; realce, ironia, sarcasmo ou uso não citacional não recebem essa leitura automática. Parênteses e colchetes editorialmente pertinentes verbalizam seu próprio par, preservando tipo, ordem e aninhamento; código, URL, sintaxe, metadado, fórmula ou estrutura não editorial mantém sua semântica. Par incompleto, cruzado ou indeterminado preserva conteúdo, diagnostica e exige revisão humana. [PENDENTE-CODIGO]
+
+Nota, `<sup>` ou equivalente pronunciado NUNCA DEVE anunciar apenas número ou glifo: usa marcador humano como `nota trinta e dois`; chamadas adjacentes são um conjunto natural que preserva ordem e identificadores, sem apagar a distinção entre modos que citam, resumem, ignoram ou expandem referências. [PENDENTE-CODIGO]
+
+Referência bíblica DEVE ser classificada antes da síntese e NUNCA interpretada como horário. Forma básica como `Mateus 3:22` preserva livro, capítulo e versículo; modo completo pode explicitar `capítulo` e `versículo`. Livro numerado, abreviação comprovada, intervalo, múltiplos versículos/capítulos e versão seguem sintaxe autenticada; `15:30` em contexto temporal continua horário. Exemplo composto herdado é revalidado e não vira hardcode nem perpetua erro tipográfico. [PENDENTE-CODIGO]
+
+Idioma/BCP 47, ausência de voz, forma falada local excepcional revisada, tabela, imagem, gráfico, citação, referência, navegação, aviso, sumário, pausa, `play/pause/resume/stop` e degradação progressiva DEVEM preservar os contratos herdados quando aplicáveis. Pronúncia especial exige fonte confiável ou revisão identificada; IPA pode ser evidência e NÃO DEVE ser fala crua. [PENDENTE-CODIGO]
+
+### 22.4 Implementação futura e aceite
+
+FT-093 DEVE implementar pela fonte canônica, regenerar derivados pelo fluxo oficial e manter capacidades independentes/hookable; nenhum artefato gerado é editado manualmente. A matriz cobre preservação de voz/pontuação, correção sem troca autoral, acessibilidade sem perda, primeira explicação e repetição legítima, `vs`/`x`, romanos, todos os delimitadores isolados/combinados/aninhados/cruzados, exclusões estruturais, notas únicas/agregadas, Bíblia versus horário, modos, pausas, idioma, tabela, imagem e gráfico. [PENDENTE-CODIGO]
+
+Validação DEVE percorrer `original → normalização → payload efetivo do sintetizador → pronúncia esperada`; regex ou texto intermediário isolado não basta. Quando houver infraestrutura, amostra auditiva registra ferramenta, versão, voz/idioma, entrada, sequência, resultado e limites; automação NÃO PODE substituir escuta humana de prosódia, naturalidade e fronteira autoral. [PENDENTE-CODIGO]
+
+Aceite DEVE exigir fonte externa intacta/reconsultável; regras herdadas, aperfeiçoamentos, decisões e incompatibilidades distinguidos; menor combinação aderente; conteúdo/identidade preservados; rigor inteligível; mecanismos contextuais sem falso positivo; Bíblia nunca como horário; testes positivos, negativos, regressivos e auditivos aplicáveis; ausência de regressão em datas, unidades, Markdown/HTML, acessibilidade, build, Windows/Linux, distribuição e publicação. Falha opcional conserva conteúdo acessível, não fabrica sucesso e emite diagnóstico. [PENDENTE-CODIGO]
+
+## 23. Auditoria experimental do custo contextual
+
+### 23.1 Unidade, dependência e princípio absoluto
+
+A auditoria DEVE ser uma Skill generalista carregada sob demanda, porque constitui procedimento recorrente, conhecido, estreito no método e predominantemente sequencial; o agente primário conserva síntese, ranking, decisão e resposta. Scripts determinísticos medem e geram matrizes; Subagent só pode executar experimento realmente independente e isolável, com retorno compacto, sem se tornar dependência da capacidade nem decidir a recomendação global. [PENDENTE-CODIGO]
+
+A execução funcional da Skill só PODE iniciar depois das demais frentes operacionais anteriores, inclusive FT-094, e de autorização humana nova. FT-095/096 podem normatizar antecipadamente contrato e rota sem executar baseline, protótipo, compressão ou alteração recomendada. [PENDENTE-CODIGO]
+
+O critério absoluto combina menos tokens efetivamente lidos, mesma informação material, mesma força normativa e mesma capacidade de decisão/execução. A Skill NÃO PODE reduzir significado, intenção, explicitude, intensidade, rigor, condições, exceções, precedências, restrições, rastreabilidade ou operação; enfraquecimento gradual, má compreensão, inferência não garantida, custo apenas deslocado ou releitura recorrente escondida invalidam o candidato. [PENDENTE-CODIGO]
+
+### 23.2 Baseline, pesquisa e alternativas
+
+O baseline DEVE reconstruir cada percurso real `gatilho → roteador → normas comuns → especializações → estado/memória → auxiliares → contexto apto à ação` e declarar tokenizer/modelo/versão/encoding/serialização. Mede tokens fixos, condicionais e redundantes; nós, profundidade, leituras, custo total por rota, memória/status e recovery/resume; variabilidade usa min/mediana/P95 ou estatística equivalente, nunca amostra favorável isolada. [PENDENTE-CODIGO]
+
+A pesquisa DEVE priorizar fontes primárias publicadas ou atualizadas nos seis meses anteriores, registrar data, premissa, benefício alegado, risco e aderência e comparar técnica consolidada anterior quando ainda necessária. Deferred discovery, carregamento sob demanda, prefixo estável/cache, compaction, memória persistente, snapshots/deltas, recuperação seletiva, canonicalização, deduplicação, referências, granularidade e representação densa são candidatos, não adoções automáticas. [PENDENTE-CODIGO]
+
+Evidência recente inclui deferred discovery e limite de saída no harness descritos pela OpenAI em 2026, separação entre contexto recuperável e gestão arbitrária de memória descrita pela Anthropic em 2026 e estudos primários recentes de compactação/memória seletiva. Técnica com embeddings, banco vetorial, similaridade semântica ou reranking permanece recusada por `DEC-20260725-002` e só PODE entrar como comparação não adotada, salvo reconsideração formal anterior à implementação. [PENDENTE-CODIGO]
+
+| Fonte primária | Data | Premissa/benefício alegado | Risco e aplicação nesta frente |
+| --- | --- | --- | --- |
+| [OpenAI — GPT-5.6 frontier efficiency](https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency/) | 2026-07-29 | deferred discovery, limite de saída, ordem determinística e prefixo estável reduzem contexto/reprocessamento | evidência de harness, não prova automática no corpus local; medir isolado e combinado |
+| [OpenAI — Responses API computer environment](https://openai.com/index/equip-responses-api-computer-environment/) | 2026-03-11 | arquivos/consultas seletivas, saída limitada e compaction evitam carregar dados brutos | compaction é específica da plataforma; comparar sem torná-la dependência do núcleo |
+| [Anthropic — Scaling Managed Agents](https://www.anthropic.com/engineering/managed-agents) | 2026-04-08 | estado recuperável separado de transformação de contexto permite releitura seletiva | descarte/compactação irreversível pode perder contexto futuro; fonte recuperável é gate |
+| [ContextSniper](https://arxiv.org/abs/2607.01916) | 2026-07-02 | seleção de evidência reduziu tokens/custo em reparo de repositório | taxa de resolução caiu levemente; sinais semânticos violam decisão vigente se adotados |
+| [Compact-Memory LLM Agents](https://arxiv.org/abs/2609.04915) | 2026-09-04 | agrupamento por átomos e merge definiram Pareto sob orçamento estreito | qualidade ficou abaixo de contexto integral e o merge vetorial permanece recusado; somente comparação |
+
+A partir do baseline, a Skill DEVE gerar múltiplas estratégias concretas, isoladas ou combináveis, abrangendo texto, arquitetura, roteamento, granularidade, estado, memória, índices, snapshots, referências e ordem de carregamento. Cada proposta declara custo atacado, mecanismo, arquivos/componentes, risco, dependências, efeitos por rota e interação positiva/negativa plausível. [PENDENTE-CODIGO]
+
+### 23.3 Experimentos, equivalência e métricas end-to-end
+
+Cada alternativa DEVE ser prototipada em representação segura que não altere irreversivelmente a norma vigente e medida isoladamente contra o baseline, registrando tokens antes/depois, delta absoluto/percentual, rotas, memória/status, recovery/resume, overhead e latência/leitura aplicável. Ganho individual pequeno NÃO PODE eliminar candidato antes da análise de interação. [PENDENTE-CODIGO]
+
+Combinações plausíveis DEVEM medir efeitos aditivos, sinérgicos e antagônicos; conjunto pequeno usa busca exaustiva, e conjunto maior usa fatorial/fracionário, ablation, beam, Pareto ou método justificado. A Skill não limita combinações a pares quando interação de três ou mais técnicas for plausível. [PENDENTE-CODIGO]
+
+Toda variante DEVE preservar 100% dos átomos materiais e relações de obrigação, proibição, permissão, condição, exceção, precedência, escopo, aceite, consequência, exemplo delimitador, rastreabilidade e validação. Comparação combina estrutura, equivalência bidirecional, casos positivos/negativos, contraexemplos, cenários reais e revisão humana de mudança normativa; tornar obrigação implícita, remover exceção, reduzir modalidade, esconder custo ou eliminar exemplo necessário é proibido. [PENDENTE-CODIGO]
+
+Métrica end-to-end DEVE cobrir cada rota relevante, cold context, reuso/cache legítimo, consulta e atualização de memória/status, criação/continuidade de FT, recovery, retomada sem contexto prévio e consulta histórica específica. Ranking pondera economia absoluta/percentual, frequência/cobertura, memória/status, recovery/resume, complexidade, manutenção, risco, robustez, compatibilidade e benefício acumulado; ganho global NÃO PODE mascarar regressão local injustificada. [PENDENTE-CODIGO]
+
+### 23.4 Relatório, recomendação e gate posterior
+
+O relatório persistente DEVE usar localização canônica descoberta no repositório e conter baseline, método, fontes, experimentos individuais, combinações, tokens/deltas, equivalência, riscos, ranking, Pareto, descartes objetivos e recomendação. Sua tabela mínima relaciona solução/combinação, tokens, delta, rotas, memória/status, resume, equivalência, risco e recomendação; a saída ao dev informa diretamente melhor combinação, ganho agregado, impactos, alternativas ordenadas, path e próximos passos. [PENDENTE-CODIGO]
+
+Qualquer recomendação de alteração material DEVE criar FT posterior com baseline/evidências, solução recomendada, alternativas viáveis ordenadas, critérios de escolha, dependências, implementação, migração, testes, rollback, equivalência, medição posterior e aceite. Empate material mantém ponto de decisão explícito; FT, relatório ou conclusão da Skill NÃO autorizam executar a recomendação. [PENDENTE-CODIGO]
+
+Aceite da FT-098 DEVE exigir estado e rotas medidos, pesquisa recente verificável, múltiplas alternativas, testes isolados e combinatórios, nenhuma eliminação prematura, prova de preservação material, ganhos end-to-end, relatório reproduzível, ranking objetivo e redução efetiva sem perda. Release, instalação externa ou mudança recomendada permanecem fora do escopo sem autorização própria. [PENDENTE-CODIGO]

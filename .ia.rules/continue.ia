@@ -102,19 +102,19 @@ verificacoes=Npm test: TEST_OK 23, VERIFY_OK, 36 scripts, 620 declarações e gr
 pendencias=Somente validação humana e eventual release nova autorizada.
 historico=.ia.rules/state/history/FT-088.ia|sha256=b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b
 
-FT-091|nome=Equalização e RCF de edição autoral e normalização TTS|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-15T12:11:42-03:00|inicio=2026-09-15T12:11:42-03:00|atualizacao=2026-09-15T12:11:42-03:00|autorizacao=humana
+FT-091|nome=Equalização e RCF de edição autoral e normalização TTS|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:42-03:00|inicio=2026-09-15T12:11:42-03:00|atualizacao=2026-09-15T12:24:00-03:00|conclusao=2026-09-15T12:24:00-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
 objetivo=Equalizar integralmente a nova frente editorial/TTS e incorporar ao RCF contratos gerais de preservação autoral, acessibilidade textual e representação semântico-fonética desacoplada.
 origem=.ia.rules/state/requests/FT-091/request.md; TODO.ia.md@7d72d56.
-plano=Autenticar fontes somente leitura; separar capacidades e fases; normatizar regras comuns e especializadas; validar cobertura sem código funcional.
-aceite=Todos os requisitos, proibições, exceções, exemplos e gates da origem possuem cobertura rastreável, sem importar detalhe de produto nem usar evidência de hash divergente.
-pendencias=Concluir RCF e liberar FT-092; FT-093 e FT-094 permanecem sem autorização funcional.
+resultado=RCF §§20.2 e 22 separa edição autoral, representação acessível e preparação semântico-fonética; preserva mecanismos independentes, pipeline, modos, casos linguísticos e gates sem importar Jekyll ou implementar runtime.
+verificacoes=As duas fontes normativas conferiram SHA-256; dois artefatos funcionais divergiram e dois paths estavam ausentes, registrados sem inferência. RCF_OK: 243299 bytes, 341 entradas e 336 materiais; trace validate passou com 19 sentenças FT-091 pendentes do commit causal.
+pendencias=FT-092 projeta a Norma Operacional; FT-093 e FT-094 aguardam autorização funcional nova.
 
-FT-092|nome=Norma Operacional editorial e semântico-fonética sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:43-03:00|atualizacao=2026-09-15T12:11:43-03:00
+FT-092|nome=Norma Operacional editorial e semântico-fonética sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-15T12:11:43-03:00|inicio=2026-09-15T12:24:01-03:00|atualizacao=2026-09-15T12:24:01-03:00|autorizacao=humana
 objetivo=Projetar em src capacidades generalistas e diretamente roteadas para edição autoral e preparação contextual de fala, sem runtime funcional.
 origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-091.
 plano=Criar módulos coesos e rotas seletivas; atualizar índice/manifesto; gerar derivados oficiais; validar descoberta e paridade.
 aceite=Norma completa, uma camada, capacidades independentes, entrypoint dentro do teto e nenhuma implementação antecipada.
-pendencias=Aguardar conclusão da FT-091.
+pendencias=Projetar RCF §22 em src e derivados, sem código funcional.
 
 FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:44-03:00|atualizacao=2026-09-15T12:11:44-03:00
 objetivo=Implementar capacidades independentes e hookable de edição autoral e representação para fala conforme RCF e Norma.
@@ -130,19 +130,19 @@ plano=Executar matriz estrutural, auditiva, cross-platform e de falhas opcionais
 aceite=Todos os gates materiais passam e limites de validação humana são explicitados.
 pendencias=Sem autorização; depende da FT-093.
 
-FT-095|nome=Equalização e RCF da auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-15T12:11:46-03:00|inicio=2026-09-15T12:11:46-03:00|atualizacao=2026-09-15T12:11:46-03:00|autorizacao=humana
+FT-095|nome=Equalização e RCF da auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:46-03:00|inicio=2026-09-15T12:11:46-03:00|atualizacao=2026-09-15T12:24:02-03:00|conclusao=2026-09-15T12:24:02-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
 objetivo=Normatizar auditoria experimental de tokens por rota, memória, estado, recovery e resume, preservando integralmente átomos e força normativa.
 origem=.ia.rules/state/requests/FT-095/request.md; TODO.ia.md@7d72d56.
-plano=Reconsultar pesquisa recente; definir baseline, alternativas, experimentos isolados/combinatórios, equivalência, ranking, relatório e gate de recomendação.
-aceite=RCF seleciona Skill por critério reproduzível, mantém primário como decisor e proíbe aplicar otimização sem FT posterior.
-pendencias=Concluir RCF e liberar FT-096; execução experimental aguarda FT-094 e autorização nova.
+resultado=RCF §§20.2 e 23 seleciona Skill generalista com scripts e delegação somente experimental/independente; normatiza baseline, pesquisa, alternativas, combinações, equivalência integral, métricas end-to-end, relatório e FT posterior sem aplicar recomendação.
+verificacoes=Fontes primárias recentes de 2026 foram reconsultadas; DEC-20260725-002 permanece íntegra. RCF_OK: 243299 bytes, 341 entradas e 336 materiais; trace validate passou com 15 sentenças FT-095 pendentes do commit causal.
+pendencias=FT-096 projeta contrato e rota da Skill; execução FT-097/098 aguarda FT-094 e autorização funcional nova.
 
-FT-096|nome=Norma Operacional da Skill de auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:47-03:00|atualizacao=2026-09-15T12:11:47-03:00
+FT-096|nome=Norma Operacional da Skill de auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-15T12:11:47-03:00|inicio=2026-09-15T12:24:03-03:00|atualizacao=2026-09-15T12:24:03-03:00|autorizacao=humana
 objetivo=Projetar em src contrato e rota direta da futura Skill generalista de auditoria de custo contextual, sem implementá-la funcionalmente.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-095.
 plano=Adicionar contrato, rota e seleção positiva; regenerar derivados; validar gatilhos e ausência de delegação indevida.
 aceite=Norma completa, uma camada, recursos condicionais, nenhuma execução/protótipo/alteração otimizada antecipada.
-pendencias=Aguardar conclusão da FT-095.
+pendencias=Projetar RCF §23 em src e derivados, sem Skill funcional ou experimentos.
 
 FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:48-03:00|atualizacao=2026-09-15T12:11:48-03:00
 objetivo=Implementar a Skill, scripts de medição, experimentos isolados/combinatórios e relatório reproduzível, sem aplicar automaticamente recomendações materiais.
