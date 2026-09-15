@@ -686,6 +686,13 @@
       "path": ".ia.rules/state/history/FT-099.ia",
       "sha256": "d900d73fe3f9f60c383b9fe734a5ce3b6a5cdadec851400b1829714b61869d92",
       "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-100",
+      "name": "Preservação da identidade do construtor na atualização",
+      "path": ".ia.rules/state/history/FT-100.ia",
+      "sha256": "856a4b008564359f5dfc256fbc7601ee1688c014bdfccf97e00bc4ea773a20bc",
+      "state": "pendente-validacao"
     }
   ]
 }

@@ -54,11 +54,17 @@ async function main() {
   assert.equal(merged.scripts.test, "vitest run");
   assert.equal(merged.agentsGovernance.productVerifyScript, "check:product");
   assert.deepEqual(merged.agentsGovernance.installedScripts, {});
+  assert.equal(merged.agentsGovernance.repositoryProfile, "consumer");
   assert.match(merged.scripts["agent:autoupdate"], /agent:autoupdate/u);
   assert.equal(merged.scripts["agent:agents"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:autoupdate"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.scripts["agents:update"], merged.scripts["agent:autoupdate"]);
   assert.equal(merged.agentsUpstream.upstreamRepository, "jcempro/agents.md");
+  const canonical = JSON.parse(mergePackageManifest(Buffer.from(JSON.stringify({
+    name: "agents-governance",
+    agentsGovernance: { schema: 1, repositoryProfile: "canonical-constructor" },
+  })), remote).toString("utf8"));
+  assert.equal(canonical.agentsGovernance.repositoryProfile, "canonical-constructor");
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "repo-tools.js")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "core", "update", "migrations", "v1-to-v2.ts")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "scenarios", "release", "scripts", "release-hooks.ts")), true);

@@ -1137,7 +1137,7 @@ function mergePackageManifest(localContent, remoteContent) {
   merged["agentsGovernance"] = {
     ...policy,
     installedScripts,
-    repositoryProfile: "consumer",
+    repositoryProfile: previousGovernance.repositoryProfile === "canonical-constructor" ? "canonical-constructor" : "consumer",
     ...(typeof previousGovernance.productVerifyScript === "string" && previousGovernance.productVerifyScript.trim()
       ? { productVerifyScript: previousGovernance.productVerifyScript.trim() }
       : {}),

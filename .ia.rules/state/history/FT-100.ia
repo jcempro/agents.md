@@ -1,0 +1,8 @@
+FT-100|nome=Preservação da identidade do construtor na atualização|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T15:20:00-03:00|inicio=2026-09-15T15:20:00-03:00|atualizacao=2026-09-15T18:30:26.009Z|autorizacao=humana|conclusao=2026-09-15T18:30:26.009Z
+objetivo=Impedir que update:agents reclassifique o construtor canônico como consumidor e restaurar a validação e release oficiais sem regredir FTs ou TO-DOs existentes.
+origem=.ia.rules/state/requests/FT-100/request.md; falha=npm run release -- 0.1.4-rc4; autorizacao=humana_em_2026-09-15.
+plano=Preservar canonical-constructor somente quando já declarado localmente, manter consumer nos demais destinos, restaurar o manifesto raiz, adicionar regressão e validar fonte, dist, pacote e retomada da release.
+aceite=agent:verify executa o pipeline do construtor; testes comprovam segregação dos perfis; dist/package.json permanece consumer; release 0.1.4-rc4 retoma sem perda ou incorporação alheia.
+resultado=Atualizador preserva a identidade canonical-constructor já declarada, mantém consumer nos demais destinos e o manifesto raiz foi restaurado; o gate obsoleto de divergência física entre CURRENT e SOURCE foi substituído por integridade contra índices segregados.
+verificacoes=TYPECHECK_OK 38 fontes; autoupdate e agents-entrypoint dirigidos passaram; VERIFY_OK 39 scripts/159 entradas; TEST_OK 31 suítes; dist/package.json permanece consumer.
+pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.

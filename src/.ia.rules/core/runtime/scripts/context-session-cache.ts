@@ -99,6 +99,7 @@ function prepareUnits(rootDir, inputUnits) {
   }
   const fingerprints = new Map();
   const visiting = new Set();
+  /** Calcula a identidade transitiva da unidade e rejeita ciclos antes de expor o cache. */
   const fingerprint = (unit) => {
     if (fingerprints.has(unit.id)) return fingerprints.get(unit.id);
     if (visiting.has(unit.id)) throw new Error(`CONTEXT_DEPENDENCIA_CICLICA:${unit.id}`);

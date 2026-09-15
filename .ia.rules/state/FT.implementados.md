@@ -100,3 +100,4 @@
 - FT-097 — Skill de auditoria experimental de custo contextual; estado: pendente-validacao; histórico: `history/FT-097.ia`; sha256: `3e8076d8103f46a46f3edd550e8fb79c693037cdcc7a21896ed47fe6a8c73d87`.
 - FT-098 — Integração e validação da auditoria de custo contextual; estado: pendente-validacao; histórico: `history/FT-098.ia`; sha256: `0d5db7f7ab80d03c0a727fa46c326b41d764ced2ceec8b5ba5ed9a130dc0964f`.
 - FT-099 — Cache contextual validado por hash durante a sessão; estado: pendente-validacao; histórico: `history/FT-099.ia`; sha256: `d900d73fe3f9f60c383b9fe734a5ce3b6a5cdadec851400b1829714b61869d92`.
+- FT-100 — Preservação da identidade do construtor na atualização; estado: pendente-validacao; histórico: `history/FT-100.ia`; sha256: `856a4b008564359f5dfc256fbc7601ee1688c014bdfccf97e00bc4ea773a20bc`.

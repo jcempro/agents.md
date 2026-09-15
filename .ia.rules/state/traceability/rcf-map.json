@@ -2499,20 +2499,19 @@
     },
     {
       "artifacts": [
-        "agents.local.md",
-        "src/.ia.rules/agents.inc.md",
-        "src/.ia.rules/core/concepts/microconceitos.md",
-        "src/.ia.rules/roles/constructor.md",
-        "src/.ia.rules/scenarios/governance/state-and-todo.md",
-        "src/AGENTS.md"
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/context-session-cache.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/agents-entrypoint.test.js",
+        "test/autoupdate.test.js"
       ],
-      "commit": "2cf8ecc5ee2fa97d97cbf8e77c68d36d796b3804",
-      "ft": "FT-086",
+      "commit": "",
+      "ft": "FT-100",
       "id": "89b966a05c7c4bc62726dd20",
-      "line": 1253,
+      "line": 1252,
       "rcf": "RCF.md",
       "sentenceSha256": "ecf0157867de75c23cbf3cc60b6fbcbc786f93b8d8c52c9abab0265a8ba016b3",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {
@@ -3040,20 +3039,6 @@
     },
     {
       "artifacts": [
-        "src/.ia.rules/agents.inc.md",
-        "src/.ia.rules/resources/traceability.md"
-      ],
-      "commit": "190df41e27ff604753d8ec99ebc849d5a7f31177",
-      "ft": "FT-066",
-      "id": "1f4262bbdc5f135cf9c41c54",
-      "line": 1348,
-      "rcf": "RCF.md",
-      "sentenceSha256": "73c200e112f3fe46a75a0d846c011de6be1c1caadfbda9aff99193689c9f7643",
-      "state": "synchronized",
-      "syncCommit": ""
-    },
-    {
-      "artifacts": [
         "RCF.md"
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
@@ -3198,6 +3183,23 @@
       "rcf": "RCF.md",
       "sentenceSha256": "296cbec96c0ddb7ec733e7a55571584a519d474492e9c5f55f6ae04f0ab0bb4e",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "package.json",
+        "src/.ia.rules/core/runtime/scripts/context-session-cache.ts",
+        "src/.ia.rules/core/runtime/scripts/update-agents.ts",
+        "test/agents-entrypoint.test.js",
+        "test/autoupdate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-100",
+      "id": "1f4262bbdc5f135cf9c41c54",
+      "line": 1378,
+      "rcf": "RCF.md",
+      "sentenceSha256": "73c200e112f3fe46a75a0d846c011de6be1c1caadfbda9aff99193689c9f7643",
+      "state": "pending",
       "syncCommit": ""
     },
     {
