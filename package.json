@@ -179,7 +179,9 @@
     "agent:units": "node .ia.rules/core/runtime/scripts/unit-manager.js",
     "agent:long-run": "node .ia.rules/core/runtime/scripts/long-running.js",
     "agent:visual": "node .ia.rules/core/runtime/scripts/visual-evidence.js",
-    "agent:state": "node .ia.rules/core/runtime/scripts/state-manager.js"
+    "agent:state": "node .ia.rules/core/runtime/scripts/state-manager.js",
+    "agent:editorial": "node .ia.rules/core/runtime/scripts/editorial-authoring.js",
+    "agent:spoken": "node .ia.rules/core/runtime/scripts/spoken-normalization.js"
   },
   "devDependencies": {
     "@types/node": "26.1.1",
