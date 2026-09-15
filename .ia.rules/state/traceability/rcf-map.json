@@ -3716,26 +3716,26 @@
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "06f31af02d564d983ad54be4",
       "line": 1568,
       "rcf": "RCF.md",
       "sentenceSha256": "6da145a0bbbf486f8906d141cf19a9782e9b91deea9666021dbf7e358cb7fc45",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "e8a727a40b3c5f0102e6fa3b",
       "line": 1570,
       "rcf": "RCF.md",
       "sentenceSha256": "7568eca422e276903977a8989766929eb1a967cfdc79b1edf402b364b7b68135",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
@@ -4407,416 +4407,416 @@
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "14b2ecfcbf0c29382528a11a",
       "line": 1682,
       "rcf": "RCF.md",
       "sentenceSha256": "db79304006f393ecd91088c4bb6a5bdf2195f10cfc58cfc48b7c608e0bc46478",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "11e998a3f954e6c9735fd51d",
       "line": 1684,
       "rcf": "RCF.md",
       "sentenceSha256": "f1cefd882239af4e946ae375e927218694e36bd4eb0d794bd9bd90da0641c8aa",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "e04fecb0e5ec017d0833f6b4",
       "line": 1686,
       "rcf": "RCF.md",
       "sentenceSha256": "b6c7f189f163dbd2f98e76b61363669c9e523613e5e2b03f7d448d1713cd1fb9",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "f4d39921caf0362770542573",
       "line": 1688,
       "rcf": "RCF.md",
       "sentenceSha256": "5b53dca03367f49a8f3a5b3945db8e8b02599de597ed2ddbbff994d7c9952491",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "6a367963e6de28842352b81c",
       "line": 1692,
       "rcf": "RCF.md",
       "sentenceSha256": "cc57d06547a41c63fbec32b3f98009828b97418ad0be5a7903bcb2a6ccaa0239",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "3d8b7f23652048ae1c3c1c99",
       "line": 1694,
       "rcf": "RCF.md",
       "sentenceSha256": "06302bf7ccc534a9c376f683c3740d59cc35a481f5183618682016a57f9b25f3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "a39a0ea450f7cc03f9a4f5cd",
       "line": 1696,
       "rcf": "RCF.md",
       "sentenceSha256": "392d81ed0a7a47a377af06c332aa9c4def49a98eb0bcefd8effedfee07cd3ac3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "8b5b658796bdabb27f2b4166",
       "line": 1698,
       "rcf": "RCF.md",
       "sentenceSha256": "59caa250c3feb308ad9a2da03b153d3198530f31f4a6567da21fd4f426a9018b",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "7945e4da6b268f75a3c50984",
       "line": 1702,
       "rcf": "RCF.md",
       "sentenceSha256": "e215430e81ac52e7006de2d8f97031d9a711dec77319bcbb4e2f0b58f7f79d86",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "83db264f5c92639ab31b7c82",
       "line": 1704,
       "rcf": "RCF.md",
       "sentenceSha256": "4a9756723378246310cf223c258e23f88f0dc7f7163c4b271cb031247b4593e3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "759e55d2835075a0b3dd8bec",
       "line": 1706,
       "rcf": "RCF.md",
       "sentenceSha256": "0d714e60702c7630179f25f71423237ba9dd5616a18461a0a3372b0db2aa545e",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "b08935c085fea8c3173b7012",
       "line": 1708,
       "rcf": "RCF.md",
       "sentenceSha256": "afe56d60e69332be26ee9a8be937b78f55b09bef7aac7c74b0ab3b96f034ac4a",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "5b00e8b83ef94ef2d6064694",
       "line": 1710,
       "rcf": "RCF.md",
       "sentenceSha256": "7056a778dc8401e3622b590cd2ee55b2b41f40a43c68aa0e82394f6a0013a799",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "f5eb09d1c83887eabf7d9eee",
       "line": 1712,
       "rcf": "RCF.md",
       "sentenceSha256": "29ccfc8c5bbd9b2f61d3848f2ed40be2f7f467ccf918597d0213ea8015f0b22a",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "0ac28b5645ba6a304e3bbbba",
       "line": 1714,
       "rcf": "RCF.md",
       "sentenceSha256": "e45613bcf2270bd57bf089c8887a18faa5c4c23f7993d0a31f404e9282473e6e",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "bfc4c9c84cb1e09121b52f4a",
       "line": 1718,
       "rcf": "RCF.md",
       "sentenceSha256": "d698fa13b4a90e3a55f078b1337181c62f070824dee004d925892fab0d4b63eb",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "172b3794c089241f8630dced",
       "line": 1720,
       "rcf": "RCF.md",
       "sentenceSha256": "ca319b413de9e6bebe557ff97cbc48dbf13c0f1c49c76f79515cde16e33166f9",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-091",
       "id": "22c0d4c53966e1ebc7714193",
       "line": 1722,
       "rcf": "RCF.md",
       "sentenceSha256": "cbfe3bd8be143d182b1ecb993c1c3ffdd78af0a19a5e2b6c584b1424130d5236",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "c2c8c67021dfaa0edcdb3396",
       "line": 1728,
       "rcf": "RCF.md",
       "sentenceSha256": "41a3d32f6b2d5ad168d7bc26085587d304fe44820b016a8c5de9adee7554e9c0",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "b5e71f52b1b5b956e9143ba8",
       "line": 1730,
       "rcf": "RCF.md",
       "sentenceSha256": "99657dcd32ab1bb77a86b22615e2ad6875d6eb802764e8acb21612a229709a39",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "90832e26209a1b94363ffd1d",
       "line": 1732,
       "rcf": "RCF.md",
       "sentenceSha256": "71ebedd8e7f44397814089fb59df4c5274088e021c14a7a390d785b43816797e",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "1ff234d96702ab1a9ae2dceb",
       "line": 1736,
       "rcf": "RCF.md",
       "sentenceSha256": "3b6e1080b6d0d0635edd4b51f337f74a36382a9f581eb324158ecdafa912b481",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "8734f224307fdf166d34a59b",
       "line": 1738,
       "rcf": "RCF.md",
       "sentenceSha256": "cfbea86f5eb46308dedb4a50076fae6f3d8275d5e1c20ba2e5eacf26f4fc83d3",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "51219b5fea00740f571a601a",
       "line": 1740,
       "rcf": "RCF.md",
       "sentenceSha256": "b289e40cd7f9ebcbe1dc5dc9e77f8ef9c9668a105f5d4afd198975ebb427a1e1",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "3cb5ce370f181670d23e4907",
       "line": 1750,
       "rcf": "RCF.md",
       "sentenceSha256": "d6eb8be99c7b204fed0a6e3e17d8f699d865ebbf00d738e7d9094aa271550249",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "7187c57587bccd8989f0c21b",
       "line": 1754,
       "rcf": "RCF.md",
       "sentenceSha256": "e28be989f92a1860c27755067c64112810e414446378cede8fcf26c0471c64ed",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "a569b29ea3fb1937037ba7dc",
       "line": 1756,
       "rcf": "RCF.md",
       "sentenceSha256": "f2478897e452537fcc0d28da5d61bf9a11f6d45e0dae0ff740b3c7f2eeb8473c",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "5fa041dcf9a3b405085f2afa",
       "line": 1758,
       "rcf": "RCF.md",
       "sentenceSha256": "fe231d5fef4f0a6667ba5d33ab4c3ffe4f0f77c8f3111d98c17367b6402eac6f",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "6e3a5287330a7ba20a2e289d",
       "line": 1760,
       "rcf": "RCF.md",
       "sentenceSha256": "9ba0ac05f33293d9ac1928897bc6b9bbb674ce2e1f852a7ed554c8c6aacc3e95",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "2808e851890f6eebf381ff78",
       "line": 1764,
       "rcf": "RCF.md",
       "sentenceSha256": "28eae525360eb5e7e62708aff0f42e7a964b20de7f20df2f689bf44dfe46abfd",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "39857d0f2d156ba7e0e2a2be",
       "line": 1766,
       "rcf": "RCF.md",
       "sentenceSha256": "82682b5753c46c770050b7b20feba305c93cd4faddd7b523ec286a3a779ec900",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
       "artifacts": [
         "RCF.md"
       ],
-      "commit": "",
+      "commit": "8c1da1ca4e9b3ae7519249644edc4068e8f5b95f",
       "ft": "FT-095",
       "id": "6d7e3b1df9ab8c08e8df8660",
       "line": 1768,
       "rcf": "RCF.md",
       "sentenceSha256": "49483195fd1a6570ca854dec8ebfb00fe1a6cb6951f72011d1df99bdf2c057fb",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     }
   ]
