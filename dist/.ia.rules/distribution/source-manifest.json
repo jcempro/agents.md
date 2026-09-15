@@ -2008,6 +2008,30 @@
       "artifact": {"destination":".ia.rules/core/runtime/scripts/long-running.js","format":"commonjs","target":"node24","builder":"typescript@7.0.2+esbuild@0.28.1"}
     },
     {
+      "path": ".ia.rules/core/runtime/scripts/editorial-authoring.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/editorial-authoring.ts",
+      "purpose": "aplicação rastreável de planos editoriais com preservação autoral e hooks opcionais",
+      "roles": ["final", "constructor"],
+      "condition": "editorial-authoring-runtime",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "editorial-authoring-fixtures"],
+      "language": "typescript",
+      "artifact": {"destination":".ia.rules/core/runtime/scripts/editorial-authoring.js","format":"commonjs","target":"node24","builder":"typescript@7.0.2+esbuild@0.28.1"}
+    },
+    {
+      "path": ".ia.rules/core/runtime/scripts/spoken-normalization.ts",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/core/runtime/scripts/spoken-normalization.ts",
+      "purpose": "normalização semântico-fonética pt-BR desacoplada de sintetizador",
+      "roles": ["final", "constructor"],
+      "condition": "spoken-normalization-runtime",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "spoken-normalization-fixtures"],
+      "language": "typescript",
+      "artifact": {"destination":".ia.rules/core/runtime/scripts/spoken-normalization.js","format":"commonjs","target":"node24","builder":"typescript@7.0.2+esbuild@0.28.1"}
+    },
+    {
       "path": ".ia.rules/core/runtime/scripts/visual-evidence.ts",
       "profile": "consumer-runtime",
       "destination": ".ia.rules/core/runtime/scripts/visual-evidence.ts",
