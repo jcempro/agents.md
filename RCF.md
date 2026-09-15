@@ -1729,7 +1729,7 @@ A auditoria DEVE ser uma Skill generalista carregada sob demanda, porque constit
 
 A execução funcional da Skill só PODE iniciar depois das demais frentes operacionais anteriores, inclusive FT-094, e de autorização humana nova. FT-095/096 podem normatizar antecipadamente contrato e rota sem executar baseline, protótipo, compressão ou alteração recomendada. [3725de7]
 
-O critério absoluto combina menos tokens efetivamente lidos, mesma informação material, mesma força normativa e mesma capacidade de decisão/execução. A Skill NÃO PODE reduzir significado, intenção, explicitude, intensidade, rigor, condições, exceções, precedências, restrições, rastreabilidade ou operação; enfraquecimento gradual, má compreensão, inferência não garantida, custo apenas deslocado ou releitura recorrente escondida invalidam o candidato. [PENDENTE-CODIGO]
+O critério absoluto combina menos tokens efetivamente lidos, mesma informação material, mesma força normativa e mesma capacidade de decisão/execução. A Skill NÃO PODE reduzir significado, intenção, explicitude, intensidade, rigor, condições, exceções, precedências, restrições, rastreabilidade ou operação; enfraquecimento gradual, má compreensão, inferência não garantida, custo apenas deslocado ou releitura recorrente escondida invalidam o candidato. [a727759]
 
 ### 23.2 Baseline, pesquisa e alternativas
 
