@@ -41,7 +41,8 @@ function isResumable(version) {
 /** Executa assertPreflight no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function assertPreflight(preflight) {
   if (preflight.branch !== preflight.expectedBranch) throw new Error(`BRANCH_RELEASE_INVALIDA:${preflight.branch || "(vazia)"}`);
-  if (preflight.dirty.length) throw new Error(`WORKTREE_NAO_LIMPO:${preflight.dirty.join(",")}`);
+  const unsafeDirty = preflight.dirty.filter((line) => !/^.. (?:dist(?:[\\/]|$)|index\.json$)/u.test(line));
+  if (unsafeDirty.length) throw new Error(`WORKTREE_NAO_LIMPO:${unsafeDirty.join(",")}`);
   if (preflight.localTag) throw new Error(`VERSAO_JA_PUBLICADA:${preflight.tag}`);
   if (!preflight.workflow) throw new Error("WORKFLOW_RELEASE_AUSENTE:.github/workflows/release.yml");
 }
@@ -174,4 +175,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { isResumable, main, runTransient };
+module.exports = { assertPreflight, isResumable, main, runTransient };

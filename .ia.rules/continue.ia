@@ -181,3 +181,11 @@ resultado=Atualizador preserva a identidade canonical-constructor já declarada,
 verificacoes=TYPECHECK_OK 38 fontes; autoupdate e agents-entrypoint dirigidos passaram; VERIFY_OK 39 scripts/159 entradas; TEST_OK 31 suítes; dist/package.json permanece consumer.
 pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.
 historico=.ia.rules/state/history/FT-100.ia|sha256=856a4b008564359f5dfc256fbc7601ee1688c014bdfccf97e00bc4ea773a20bc
+
+FT-101|nome=Retomada de release com artefato derivado parcial|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T15:35:00-03:00|inicio=2026-09-15T15:35:00-03:00|atualizacao=2026-09-15T18:36:22.521Z|autorizacao=humana|conclusao=2026-09-15T18:36:22.521Z|validacao=pendente_desenvolvedor
+objetivo=Permitir que a retomada oficial reconstrua e valide resíduos parciais exclusivamente derivados sem aceitar fonte ou estado local sujo.
+origem=.ia.rules/state/requests/FT-101/request.md; depende=FT-100; release=0.1.4-rc4; autorizacao=humana_em_2026-09-15.
+resultado=Retomada aceita exclusivamente resíduos Git de dist/ e index.json, reconstrói e verifica esses derivados no mecanismo oficial e continua bloqueando qualquer fonte ou estado sujo.
+verificacoes=TYPECHECK_OK 38 fontes; teste release-trigger cobriu derivados permitidos e fonte proibida; VERIFY_OK 39 scripts/159 entradas; TEST_OK 31 suítes.
+pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.
+historico=.ia.rules/state/history/FT-101.ia|sha256=159b10a94a66b937df405be4736b00cb8efeafecfc651f4f8587e79183fd8ffa
