@@ -55,6 +55,19 @@
               "builder": { "type": "string", "minLength": 1 }
             }
           },
+          "unit": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "kind", "version", "license", "trust", "clients"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "kind": { "enum": ["skill", "subagent", "adapter", "catalog"] },
+              "version": { "type": "string", "minLength": 1 },
+              "license": { "type": "string", "minLength": 1 },
+              "trust": { "type": "string", "minLength": 1 },
+              "clients": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+            }
+          },
           "validation": {
             "type": "array",
             "minItems": 1,

@@ -20,6 +20,7 @@ const { filterOutput } = require("./to-ia");
 const { runPackageRegistryLifecycle } = require("../../../scenarios/release/scripts/package-registry");
 const { runReleaseHook } = require("../../../scenarios/release/scripts/release-hooks");
 const { assertRepositoryGit, assertRepositoryTarget, resolveRepositoryBoundary } = require("./repository-boundary");
+const { loadCatalog, sha256, validateDescriptor } = require("./unit-manager");
 
 const RUNTIME_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
 // FIX-BUG: o mesmo runtime executa na fonte src/.ia.rules e no pacote .ia.rules.
@@ -49,6 +50,7 @@ const SOURCE_DISTRIBUTION_PROFILES = new Set([
   "generated-release",
 ]);
 const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
+const LEGACY_UPDATE_ENTRY = "scripts/.agents/update-agents.js";
 const LEGACY_UPDATE_EXTENSIONS = new Set([".js", ".json", ".md"]);
 const LEGACY_UPDATE_TARGETS = new Map([
   ["scripts/.agents/bootstrap/core/contracts.md", ".agents/core/contracts.md"],
@@ -468,6 +470,7 @@ function buildIndex() {
       path: toPosix(path.join("src", entry.path)),
       profile: entry.profile,
       ...(entry.language ? { language: entry.language } : {}),
+      ...(entry.unit ? { unit: entry.unit } : {}),
     };
     if (!entry.artifact) return [source];
     return [source, {
@@ -501,6 +504,7 @@ function buildIndex() {
       path: toPosix(path.relative(ROOT_DIR, SOURCE_DISTRIBUTION_MANIFEST_PATH)),
       version: sourceManifest.version,
     },
+    units: buildUnitIndex(SRC_DIR),
   };
   index.update = createGovernanceManifest(buildDistributionFiles(index), distributionContent);
   index.update.files.push({
@@ -543,6 +547,10 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
       !Array.isArray(entry.roles) || entry.roles.length === 0 ||
       !Array.isArray(entry.validation) || entry.validation.length === 0) {
       throw new Error(`MANIFESTO_FONTE_ENTRADA_INVALIDA:${JSON.stringify(entry)}`);
+    }
+    if (entry.unit && (!entry.unit.id || !["skill", "subagent", "adapter", "catalog"].includes(entry.unit.kind) ||
+      !entry.unit.version || !entry.unit.license || !entry.unit.trust || !Array.isArray(entry.unit.clients))) {
+      throw new Error(`MANIFESTO_FONTE_UNIDADE_INVALIDA:${entry.path}`);
     }
     entry.path = normalizeSourceDistributionPath(entry.path, "origem");
     entry.destination = normalizeSourceDistributionPath(entry.destination, "destino");
@@ -652,6 +660,7 @@ function buildDist(options = {}) {
     },
     root: ".",
     schema: 1,
+    units: index.units,
   };
   if (releaseNotes) {
     guardTarget(RELEASE_NOTE_PATH, { allowHardlink: true });
@@ -697,6 +706,7 @@ function buildDist(options = {}) {
     })),
     rootDir: DIST_DIR,
     selfPath: distributionMapPath,
+    units: releaseIndex.units,
     version: effectiveVersion,
   });
   fs.mkdirSync(path.dirname(path.join(DIST_DIR, distributionMapPath)), { recursive: true });
@@ -727,7 +737,29 @@ function buildDistributionFiles(index) {
     profile: file.profile,
     runtime: file.runtime || null,
     sourcePath: file.path,
+    unit: file.unit || null,
   })).sort((a, b) => a.path.localeCompare(b.path, "en"));
+}
+
+/** Gera índice de unidades com hashes efetivos, origem e suporte declarado. */
+function buildUnitIndex(rootDir) {
+  const catalog = loadCatalog(rootDir);
+  return catalog.units.map((unit) => {
+    const descriptorPath = path.join(rootDir, unit.descriptor);
+    const descriptor = validateDescriptor(JSON.parse(fs.readFileSync(descriptorPath, "utf8")), unit.kind);
+    const sourcePath = path.join(rootDir, unit.source);
+    const sources = [...new Set([descriptorPath, ...(fs.statSync(sourcePath).isDirectory() ? listFiles(sourcePath) : [sourcePath])])];
+    const hash = crypto.createHash("sha256");
+    for (const filePath of sources.sort((a, b) => a.localeCompare(b, "en"))) {
+      hash.update(toPosix(path.relative(rootDir, filePath))); hash.update("\0"); hash.update(fs.readFileSync(filePath)); hash.update("\0");
+    }
+    return {
+      id: unit.id, kind: unit.kind, schema: descriptor.schema, version: descriptor.version,
+      origin: descriptor.origin, license: descriptor.license, trust: descriptor.trust,
+      clients: descriptor.clients, destinations: unit.destinations, precedence: descriptor.precedence,
+      sha256: hash.digest("hex"),
+    };
+  }).sort((a, b) => a.id.localeCompare(b.id, "en"));
 }
 
 /** Executa copyDistributionFile no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -785,6 +817,14 @@ function syncActiveRuntime() {
       minify: true,
       sourceLabel: toPosix(path.join("src", entry.path)),
     }), "utf8");
+    generated += 1;
+  }
+  for (const entry of manifest.entries.filter((item) => item.unit && !item.artifact)) {
+    const sourcePath = path.join(SRC_DIR, entry.path);
+    const targetPath = path.join(ROOT_DIR, entry.destination);
+    guardTarget(targetPath, { allowHardlink: true });
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+    fs.copyFileSync(sourcePath, targetPath);
     generated += 1;
   }
   return generated;
@@ -1096,6 +1136,7 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "consumer-verify.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "updater-git-state.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "handoff-fallback.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "governance-evolution.test.js")]);
   return ok("TEST_OK", { suites: 23 });
 }
 
@@ -1232,6 +1273,9 @@ function validateDist() {
   }
   if (!release.update.files.some((entry) => entry.path === "scripts/.agents/autoupdate.js")) {
     throw new Error("dist/release.json:update omite bridge versionavel pelo coletor fisico.");
+  }
+  if (!release.update.files.some((entry) => entry.path === LEGACY_UPDATE_ENTRY)) {
+    throw new Error("dist/release.json:update omite entrypoint carregado por dispatchers historicos.");
   }
 }
 

@@ -53,7 +53,7 @@
     "dependencies": [],
     "optionalDependencies": [],
     "installedScripts": {},
-    "repositoryProfile": "canonical-constructor"
+    "repositoryProfile": "consumer"
   },
   "scripts": {
     "build": "npm run agent:build",

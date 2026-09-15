@@ -27,7 +27,7 @@ const HANDOFF_RUNTIME_FORMAT = "agents-update-runtime/v1";
 const HANDOFF_STATE_ENV = "AGENTS_UPDATE_HANDOFF_STATE";
 const HANDOFF_KEY_ENV = "AGENTS_UPDATE_HANDOFF_KEY";
 const LEGACY_UPDATE_BRIDGE_CONDITION = "legacy-update-bridge";
-const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md", ".py", ".ts", ".txt", ".yml", ".yaml"]);
+const MANAGED_EXTENSIONS = new Set([".js", ".json", ".md", ".py", ".toml", ".ts", ".txt", ".yml", ".yaml"]);
 const PACKAGE_RELATIVE_PATH = "package.json";
 const REPOSITORY_BOUNDARIES = new Map();
 const BOOTSTRAP_MANAGED = new Set([
@@ -743,13 +743,16 @@ function addRemoteFile(files, remoteRoot, relativePath, targetRelativePath = rel
 function compareRemoteFiles(rootDir, remoteFiles, previousLock = null) {
   const changes = [];
   const remotePaths = new Set(remoteFiles.map((entry) => toPosixPath(entry.relativePath)));
+  const relativePaths = remoteFiles.map((entry) => toPosixPath(entry.relativePath));
+  const committedBases = readGitBlobs(rootDir, relativePaths.map((relativePath) => `HEAD:${relativePath}`));
+  const indexedBases = readGitBlobs(rootDir, relativePaths.map((relativePath) => `:${relativePath}`));
 
-  for (const entry of remoteFiles) {
+  for (const [position, entry] of remoteFiles.entries()) {
     const localPath = path.join(rootDir, entry.relativePath);
     const localContent = fs.existsSync(localPath) ? fs.readFileSync(localPath) : null;
     const applied = resolveManagedContent(entry, localContent);
-    const committedBase = readGitBlob(rootDir, `HEAD:${toPosixPath(entry.relativePath)}`);
-    const indexedBase = readGitBlob(rootDir, `:${toPosixPath(entry.relativePath)}`);
+    const committedBase = committedBases[position];
+    const indexedBase = indexedBases[position];
     const committed = resolveManagedContent(entry, committedBase || localContent);
     const indexed = resolveManagedContent(entry, indexedBase || committedBase || localContent);
     const content = applied.content;
@@ -850,9 +853,45 @@ function isPreservedDistributionPath(relativePath, preserved) {
 
 /** Lê uma camada Git sem alterar index ou worktree; ausência legítima retorna null. */
 function readGitBlob(rootDir, spec) {
-  assertRepositoryGit(repositoryBoundary(rootDir), ["show", spec]);
-  const result = childProcess.spawnSync("git", ["-C", rootDir, "show", spec], { encoding: null, windowsHide: true });
-  return result.status === 0 ? Buffer.from(result.stdout) : null;
+  return readGitBlobs(rootDir, [spec])[0];
+}
+
+/** Lê blobs Git em lote, preservando bytes e a ordem dos specs; ausência legítima retorna null. */
+function readGitBlobs(rootDir, specs) {
+  if (!specs.length) return [];
+  if (specs.some((spec) => /[\r\n]/u.test(String(spec)))) throw new Error("SPEC_GIT_INVALIDO");
+  assertRepositoryGit(repositoryBoundary(rootDir), ["cat-file", "--batch"]);
+  const result = childProcess.spawnSync("git", ["-C", rootDir, "cat-file", "--batch"], {
+    encoding: null,
+    input: Buffer.from(`${specs.join("\n")}\n`, "utf8"),
+    maxBuffer: 64 * 1024 * 1024,
+    windowsHide: true,
+  });
+  if (result.error || result.status !== 0) {
+    throw new Error(`git cat-file --batch falhou: ${result.error ? result.error.message : Buffer.from(result.stderr || "").toString("utf8")}`);
+  }
+  const output = Buffer.from(result.stdout);
+  const blobs = [];
+  let offset = 0;
+  for (const spec of specs) {
+    const end = output.indexOf(10, offset);
+    if (end < 0) throw new Error(`RESPOSTA_GIT_LOTE_TRUNCADA:${spec}`);
+    const header = output.subarray(offset, end).toString("utf8");
+    offset = end + 1;
+    if (header.endsWith(" missing")) {
+      blobs.push(null);
+      continue;
+    }
+    const match = /^[a-f0-9]{40,64}\s+blob\s+(\d+)$/u.exec(header);
+    if (!match) throw new Error(`RESPOSTA_GIT_LOTE_INVALIDA:${spec}`);
+    const size = Number(match[1]);
+    if (!Number.isSafeInteger(size) || size < 0 || offset + size >= output.length) throw new Error(`RESPOSTA_GIT_LOTE_TRUNCADA:${spec}`);
+    blobs.push(Buffer.from(output.subarray(offset, offset + size)));
+    offset += size;
+    if (output[offset] !== 10) throw new Error(`RESPOSTA_GIT_LOTE_INVALIDA:${spec}`);
+    offset += 1;
+  }
+  return blobs;
 }
 
 /** Varre namespaces estruturais que eram integralmente gerenciados antes de .ia.rules. */
@@ -1244,16 +1283,19 @@ function restoreTransactionalChanges(rootDir, backupRoot, touched) {
 
 /** Verifica independentemente worktree, HEAD, index, lock e migrações após a finalização. */
 function verifyMaterialUpdate(rootDir, plan) {
-  for (const change of plan.changes) {
+  const relativePaths = plan.changes.map((change) => toPosixPath(change.relativePath));
+  const committedFiles = readGitBlobs(rootDir, relativePaths.map((relativePath) => `HEAD:${relativePath}`));
+  const indexedFiles = readGitBlobs(rootDir, relativePaths.map((relativePath) => `:${relativePath}`));
+  for (const [position, change] of plan.changes.entries()) {
     const target = path.join(rootDir, change.relativePath);
     const worktree = fs.existsSync(target) && fs.statSync(target).isFile() ? fs.readFileSync(target) : null;
     const expected = change.action === "remove" ? null : change.content;
     const expectedCommit = change.action === "remove" ? null : change.commitContent === undefined ? expected : change.commitContent;
     const expectedIndex = change.action === "remove" ? null : change.indexContent === undefined ? expected : change.indexContent;
     if (!buffersEquivalent(worktree, expected)) throw new Error(`VALIDACAO_FINAL_WORKTREE_DIVERGENTE:${change.relativePath}`);
-    const committed = readGitBlob(rootDir, `HEAD:${toPosixPath(change.relativePath)}`);
+    const committed = committedFiles[position];
     if (!buffersEquivalent(committed, expectedCommit)) throw new Error(`VALIDACAO_FINAL_HEAD_DIVERGENTE:${change.relativePath}`);
-    const indexed = readGitBlob(rootDir, `:${toPosixPath(change.relativePath)}`);
+    const indexed = indexedFiles[position];
     if (!buffersEquivalent(indexed, expectedIndex)) throw new Error(`VALIDACAO_FINAL_INDEX_DIVERGENTE:${change.relativePath}`);
   }
   const lock = readUpdateLock(rootDir);
@@ -1319,9 +1361,11 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
   runGit(rootDir, ["push", remoteName, `${remoteCommit}:${mergeRef}`]);
 
   applyRemoteOnlyWorktreeChanges(rootDir, remoteOnlyChanges);
-  const localOverlay = localChanged.map((relativePath) => ({
-    content: readGitBlob(rootDir, `${localCommit}:${relativePath}`),
-    mode: gitPathMode(rootDir, localCommit, relativePath),
+  const localModes = gitPathModes(rootDir, localCommit);
+  const localContents = readGitBlobs(rootDir, localChanged.map((relativePath) => `${localCommit}:${relativePath}`));
+  const localOverlay = localChanged.map((relativePath, position) => ({
+    content: localContents[position],
+    mode: localModes.get(relativePath) || "100644",
     relativePath,
   }));
   const reconciledTree = createPlumbingTree(rootDir, remoteCommit, localOverlay);
@@ -1342,7 +1386,7 @@ function createPlumbingTree(rootDir, parent, changes) {
   const indexPath = path.join(gitDir, `agents-update-index-${process.pid}-${crypto.randomBytes(6).toString("hex")}`);
   try {
     runGitWithEnv(rootDir, ["read-tree", parent], { GIT_INDEX_FILE: indexPath });
-    for (const change of changes) updateIndexEntry(rootDir, indexPath, change.relativePath, change.content, change.mode);
+    updateIndexEntries(rootDir, indexPath, changes);
     return runGitWithEnv(rootDir, ["write-tree"], { GIT_INDEX_FILE: indexPath }).stdout.trim();
   } finally {
     fs.rmSync(indexPath, { force: true });
@@ -1358,24 +1402,30 @@ function gitChangedPaths(rootDir, base, tip) {
 /** Recusa somente conflito concorrente real fora dos paths gerenciados que o plano sabe mesclar. */
 function assertReconcilableGitChanges(rootDir, localPaths, remotePaths, localCommit, remoteCommit, managedPaths) {
   const remote = new Set(remotePaths);
-  for (const relativePath of localPaths.filter((entry) => remote.has(entry) && !managedPaths.has(entry))) {
-    const localContent = readGitBlob(rootDir, `${localCommit}:${relativePath}`);
-    const remoteContent = readGitBlob(rootDir, `${remoteCommit}:${relativePath}`);
+  const conflicts = localPaths.filter((entry) => remote.has(entry) && !managedPaths.has(entry));
+  const localContents = readGitBlobs(rootDir, conflicts.map((relativePath) => `${localCommit}:${relativePath}`));
+  const remoteContents = readGitBlobs(rootDir, conflicts.map((relativePath) => `${remoteCommit}:${relativePath}`));
+  for (const [position, relativePath] of conflicts.entries()) {
+    const localContent = localContents[position];
+    const remoteContent = remoteContents[position];
     if (!buffersEquivalent(localContent, remoteContent)) throw new Error(`CONFLITO_GIT_NAO_GERENCIADO:${relativePath}`);
   }
 }
 
 /** Planeja materialização remota somente quando index e worktree ainda equivalem ao HEAD local. */
 function planRemoteOnlyWorktreeChanges(rootDir, head, remoteCommit, relativePaths) {
-  return relativePaths.map((relativePath) => {
-    const headContent = readGitBlob(rootDir, `${head}:${relativePath}`);
-    const indexContent = readGitBlob(rootDir, `:${relativePath}`);
+  const headContents = readGitBlobs(rootDir, relativePaths.map((relativePath) => `${head}:${relativePath}`));
+  const indexContents = readGitBlobs(rootDir, relativePaths.map((relativePath) => `:${relativePath}`));
+  const remoteContents = readGitBlobs(rootDir, relativePaths.map((relativePath) => `${remoteCommit}:${relativePath}`));
+  return relativePaths.map((relativePath, position) => {
+    const headContent = headContents[position];
+    const indexContent = indexContents[position];
     const target = path.join(rootDir, relativePath);
     const worktreeContent = fs.existsSync(target) && fs.statSync(target).isFile() ? fs.readFileSync(target) : null;
     if (!buffersEquivalent(headContent, indexContent) || !buffersEquivalent(headContent, worktreeContent)) {
       throw new Error(`CONFLITO_GIT_LOCAL_NAO_COMMITADO:${relativePath}`);
     }
-    const content = readGitBlob(rootDir, `${remoteCommit}:${relativePath}`);
+    const content = remoteContents[position];
     return { action: content === null ? "remove" : headContent === null ? "add" : "update", content, relativePath };
   });
 }
@@ -1391,10 +1441,14 @@ function applyRemoteOnlyWorktreeChanges(rootDir, changes) {
   const indexPath = path.isAbsolute(indexRaw) ? indexRaw : path.join(rootDir, indexRaw);
   const indexBackup = fs.readFileSync(indexPath);
   try {
+    const modes = gitPathModes(rootDir, "HEAD");
     for (const change of changes) {
       applyTransactionalChange(rootDir, backupRoot, change, touched);
-      updateIndexEntry(rootDir, indexPath, change.relativePath, change.content, gitPathMode(rootDir, "HEAD", change.relativePath));
     }
+    updateIndexEntries(rootDir, indexPath, changes.map((change) => ({
+      ...change,
+      mode: modes.get(toPosixPath(change.relativePath)) || "100644",
+    })));
   } catch (error) {
     restoreTransactionalChanges(rootDir, backupRoot, touched);
     fs.writeFileSync(indexPath, indexBackup);
@@ -1415,9 +1469,11 @@ function buffersEquivalent(left, right) {
 
 /** Projeta o conteúdo de commit contra HEAD ou upstream, preservando campos compartilhados próprios de cada base. */
 function commitChangesForParent(rootDir, plan, paths, parent, remoteProjection) {
-  return paths.map((relativePath) => {
+  const modes = gitPathModes(rootDir, parent);
+  const bases = readGitBlobs(rootDir, paths.map((relativePath) => `${parent}:${relativePath}`));
+  return paths.map((relativePath, position) => {
     const change = plan.changes.find((entry) => toPosixPath(entry.relativePath) === relativePath);
-    const base = readGitBlob(rootDir, `${parent}:${relativePath}`);
+    const base = bases[position];
     let content = change ? change.commitContent : fs.existsSync(path.join(rootDir, relativePath)) ? fs.readFileSync(path.join(rootDir, relativePath)) : null;
     if (remoteProjection && change && ["package", "template"].includes(change.kind)) {
       content = resolveManagedContent({
@@ -1427,9 +1483,9 @@ function commitChangesForParent(rootDir, plan, paths, parent, remoteProjection) 
         relativePath: change.relativePath,
       }, base).content;
     } else if (relativePath === GITIGNORE_RELATIVE_PATH) {
-      content = mergeManagedGitignore(base || Buffer.from(""));
+      content = mergeManagedGitignore(base || Buffer.from(""), managedGitignorePaths(plan));
     }
-    return { content, mode: gitPathMode(rootDir, parent, relativePath), relativePath };
+    return { content, mode: modes.get(relativePath) || "100644", relativePath };
   });
 }
 
@@ -1437,32 +1493,70 @@ function commitChangesForParent(rootDir, plan, paths, parent, remoteProjection) 
 function updateRealIndex(rootDir, plan, paths) {
   const indexRaw = runGit(rootDir, ["rev-parse", "--git-path", "index"]).stdout.trim();
   const indexPath = path.isAbsolute(indexRaw) ? indexRaw : path.join(rootDir, indexRaw);
-  for (const relativePath of paths) {
+  const modes = gitPathModes(rootDir, "HEAD");
+  const changes = paths.map((relativePath) => {
     const change = plan.changes.find((entry) => toPosixPath(entry.relativePath) === relativePath);
     const content = relativePath === GITIGNORE_RELATIVE_PATH
-      ? mergeManagedGitignore(readGitBlob(rootDir, `:${relativePath}`) || readGitBlob(rootDir, `HEAD:${relativePath}`) || Buffer.from(""))
+      ? mergeManagedGitignore(readGitBlob(rootDir, `:${relativePath}`) || readGitBlob(rootDir, `HEAD:${relativePath}`) || Buffer.from(""), managedGitignorePaths(plan))
       : change ? change.indexContent : fs.existsSync(path.join(rootDir, relativePath)) ? fs.readFileSync(path.join(rootDir, relativePath)) : null;
-    updateIndexEntry(rootDir, indexPath, relativePath, content, gitPathMode(rootDir, "HEAD", relativePath));
-  }
+    return { content, mode: modes.get(relativePath) || "100644", relativePath };
+  });
+  updateIndexEntries(rootDir, indexPath, changes);
 }
 
-/** Insere/remove uma entrada de index por blob explícito; nunca enumera nem inclui paths externos ao plano. */
-function updateIndexEntry(rootDir, indexPath, relativePath, content, mode = "100644") {
+/** Insere/remove entradas autorizadas em lote; conteúdo nunca trafega por argumento nem inclui path externo ao plano. */
+function updateIndexEntries(rootDir, indexPath, changes) {
+  if (!changes.length) return;
   const env = { GIT_INDEX_FILE: indexPath };
-  if (content === null || content === undefined) {
-    runGitWithEnv(rootDir, ["update-index", "--force-remove", "--", relativePath], env, true);
-    return;
+  const boundary = repositoryBoundary(rootDir);
+  const cache = assertRepositoryTarget(boundary, path.join(".ia.rules", "cache", "update-transaction"), { allowHardlink: true });
+  fs.mkdirSync(cache, { recursive: true });
+  const staging = fs.mkdtempSync(path.join(cache, "index-"));
+  const materialized = [];
+  const seen = new Set();
+  try {
+    for (const [position, change] of changes.entries()) {
+      const relativePath = toPosixPath(safeRelativePath(change.relativePath));
+      if (/[	\r\n]/u.test(relativePath) || seen.has(relativePath)) throw new Error(`PATH_INDEX_INVALIDO:${relativePath}`);
+      seen.add(relativePath);
+      if (change.content === null || change.content === undefined) continue;
+      const blobPath = assertRepositoryTarget(boundary, path.join(staging, `${String(position).padStart(6, "0")}.blob`), { allowHardlink: true });
+      fs.writeFileSync(blobPath, change.content);
+      materialized.push({ blobPath, relativePath });
+    }
+
+    const hashes = materialized.length
+      ? runGitWithEnv(rootDir, ["hash-object", "-w", "--no-filters", "--stdin-paths"], env, false,
+        `${materialized.map((entry) => toPosixPath(path.relative(rootDir, entry.blobPath))).join("\n")}\n`).stdout.trim().split(/\r?\n/u)
+      : [];
+    if (hashes.length !== materialized.length || hashes.some((hash) => !/^[a-f0-9]{40,64}$/u.test(hash))) {
+      throw new Error("HASH_INDEX_LOTE_INVALIDO");
+    }
+
+    const hashByPath = new Map(materialized.map((entry, position) => [entry.relativePath, hashes[position]]));
+    const zero = "0".repeat(hashes[0] ? hashes[0].length : 40);
+    const indexInfo = changes.map((change) => {
+      const relativePath = toPosixPath(safeRelativePath(change.relativePath));
+      const blob = hashByPath.get(relativePath);
+      return blob
+        ? `${change.mode || "100644"} ${blob}\t${relativePath}`
+        : `0 ${zero}\t${relativePath}`;
+    }).join("\n");
+    runGitWithEnv(rootDir, ["update-index", "--index-info"], env, false, `${indexInfo}\n`);
+  } finally {
+    fs.rmSync(staging, { force: true, recursive: true });
   }
-  const blob = runGitWithEnv(rootDir, ["hash-object", "-w", "--stdin"], env, false, content).stdout.trim();
-  runGitWithEnv(rootDir, ["update-index", "--add", "--cacheinfo", `${mode},${blob},${relativePath}`], env);
 }
 
-/** Resolve o modo Git do parent, mantendo executabilidade quando já declarada. */
-function gitPathMode(rootDir, parent, relativePath) {
-  assertRepositoryGit(repositoryBoundary(rootDir), ["ls-tree", parent, "--", relativePath]);
-  const result = childProcess.spawnSync("git", ["-C", rootDir, "ls-tree", parent, "--", relativePath], { encoding: "utf8", windowsHide: true });
-  const match = result.status === 0 ? /^(\d{6})\s/u.exec(result.stdout) : null;
-  return match ? match[1] : "100644";
+/** Resolve todos os modos do parent em uma leitura, mantendo executabilidade sem um processo Git por path. */
+function gitPathModes(rootDir, parent) {
+  const result = runGit(rootDir, ["ls-tree", "-r", "-z", parent]);
+  const modes = new Map();
+  for (const record of result.stdout.split("\0").filter(Boolean)) {
+    const match = /^(\d{6})\s+\S+\s+[a-f0-9]+\t([\s\S]+)$/u.exec(record);
+    if (match) modes.set(toPosixPath(match[2]), match[1]);
+  }
+  return modes;
 }
 
 /** Executa Git com ambiente adicional e input binário sem expor conteúdo em argumentos ou logs. */
@@ -1483,31 +1577,39 @@ function prepareUpdateAnalogFiles(rootDir, plan) {
   const changed = listChangedNormativePaths(plan);
   const analogs = [];
   if (changed.some((relativePath) => toPosixPath(relativePath).startsWith(".ia.rules/")) &&
-    ensureGitignoreAllowsManagedRules(rootDir)) {
+    ensureGitignoreAllowsManagedRules(rootDir, managedGitignorePaths(plan))) {
     analogs.push(GITIGNORE_RELATIVE_PATH);
   }
   return analogs;
 }
 
 /** Executa ensureGitignoreAllowsManagedRules no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
-function ensureGitignoreAllowsManagedRules(rootDir) {
+function ensureGitignoreAllowsManagedRules(rootDir, managedPaths) {
   const gitignorePath = path.join(rootDir, GITIGNORE_RELATIVE_PATH);
   const current = fs.existsSync(gitignorePath) ? fs.readFileSync(gitignorePath) : Buffer.from("");
-  const next = mergeManagedGitignore(current);
+  const next = mergeManagedGitignore(current, managedPaths);
   if (hashTextContent(current) === hashTextContent(next)) return false;
   fs.writeFileSync(gitignorePath, next);
   return true;
 }
 
 /** Mescla somente o bloco gerenciado no .gitignore e preserva exterior e EOL da camada recebida. */
-function mergeManagedGitignore(content) {
+function mergeManagedGitignore(content, managedPaths) {
   const current = Buffer.from(content || "").toString("utf8");
   const eol = current.includes("\r\n") ? "\r\n" : "\n";
+  const files = [...new Set((managedPaths || []).map(toPosixPath)
+    .filter((relativePath) => relativePath.startsWith(".ia.rules/") && !relativePath.endsWith("/")))]
+    .sort((left, right) => left.localeCompare(right, "en"));
+  const directories = [...new Set(files.flatMap((relativePath) => {
+    const parts = relativePath.split("/").slice(0, -1);
+    return parts.map((_part, position) => `${parts.slice(0, position + 1).join("/")}/`);
+  }))].sort((left, right) => left.split("/").length - right.split("/").length || left.localeCompare(right, "en"));
   const block = [
     "# BEGIN agents-governance managed",
-    "# Permite versionar o nucleo gerenciado atualizado por update:agents.",
-    "!/.ia.rules/",
-    "!/.ia.rules/**",
+    "# Permite versionar somente paths gerenciados recebidos por update:agents.",
+    "/.ia.rules/**",
+    ...directories.map((relativePath) => `!/${relativePath}`),
+    ...files.map((relativePath) => `!/${relativePath}`),
     "/.ia.rules/cache/",
     "/.ia.rules/local/",
     "/.ia.rules/agents-update.lock.json",
@@ -1519,6 +1621,12 @@ function mergeManagedGitignore(content) {
     ? current.replace(pattern, `${current.startsWith("# BEGIN agents-governance managed") ? "" : eol}${block}${eol}`)
     : `${current.trimEnd()}${current.trimEnd() ? eol + eol : ""}${block}${eol}`;
   return Buffer.from(next, "utf8");
+}
+
+/** Deriva a allowlist persistente do manifesto recebido, excluindo remoções e extensões locais. */
+function managedGitignorePaths(plan) {
+  return plan.changes.filter((change) => change.action !== "remove" && !isLocalExtensionPath(change.relativePath))
+    .map((change) => toPosixPath(change.relativePath));
 }
 
 /** Executa listChangedNormativePaths no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */

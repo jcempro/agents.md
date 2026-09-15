@@ -11,7 +11,7 @@ const path = require("path");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..", "..", "..");
 const CANONICAL_FILES = [
-  path.join(".ia.rules", "continue.ia"),
+  path.join(".ia.rules", "state", "continue.ia"),
 ];
 const STATUS_FILE = "handoff.md";
 
@@ -39,7 +39,7 @@ function resolveCanonicalContinueFile(rootDir) {
     .filter((entry) => fs.existsSync(entry.path) && fs.statSync(entry.path).isFile());
 
   if (found.length !== 1) {
-    throw new Error("Deve existir exatamente um arquivo canonico: .ia.rules/continue.ia.");
+    throw new Error("Deve existir exatamente um arquivo canonico: .ia.rules/state/continue.ia.");
   }
 
   return found[0];
@@ -201,7 +201,7 @@ function formatSentence(value) {
 function normalizeStatus(status) {
   const value = String(status || "pendente").trim().replace(/_/gu, " ");
 
-  if (/^conclu[ií]do$/iu.test(value)) {
+  if (/^conclu[ií]d[oa]$/iu.test(value)) {
     return "concluído";
   }
 
