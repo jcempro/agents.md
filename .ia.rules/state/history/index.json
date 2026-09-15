@@ -700,6 +700,13 @@
       "path": ".ia.rules/state/history/FT-101.ia",
       "sha256": "159b10a94a66b937df405be4736b00cb8efeafecfc651f4f8587e79183fd8ffa",
       "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-102",
+      "name": "Normalização Porcelain na retomada de release",
+      "path": ".ia.rules/state/history/FT-102.ia",
+      "sha256": "7ffcbfcd5dc5a87f56f4f4d62a91dadd30f00a335bc99f2e9e8d7d4b6d9b6dda",
+      "state": "pendente-validacao"
     }
   ]
 }

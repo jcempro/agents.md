@@ -102,3 +102,4 @@
 - FT-099 — Cache contextual validado por hash durante a sessão; estado: pendente-validacao; histórico: `history/FT-099.ia`; sha256: `d900d73fe3f9f60c383b9fe734a5ce3b6a5cdadec851400b1829714b61869d92`.
 - FT-100 — Preservação da identidade do construtor na atualização; estado: pendente-validacao; histórico: `history/FT-100.ia`; sha256: `856a4b008564359f5dfc256fbc7601ee1688c014bdfccf97e00bc4ea773a20bc`.
 - FT-101 — Retomada de release com artefato derivado parcial; estado: pendente-validacao; histórico: `history/FT-101.ia`; sha256: `159b10a94a66b937df405be4736b00cb8efeafecfc651f4f8587e79183fd8ffa`.
+- FT-102 — Normalização Porcelain na retomada de release; estado: pendente-validacao; histórico: `history/FT-102.ia`; sha256: `7ffcbfcd5dc5a87f56f4f4d62a91dadd30f00a335bc99f2e9e8d7d4b6d9b6dda`.

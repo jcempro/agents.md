@@ -1,0 +1,8 @@
+FT-102|nome=Normalização Porcelain na retomada de release|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T15:45:00-03:00|inicio=2026-09-15T15:45:00-03:00|atualizacao=2026-09-15T18:41:11.281Z|autorizacao=humana|conclusao=2026-09-15T18:41:11.281Z
+objetivo=Interpretar com segurança a primeira linha Porcelain após trim sem ampliar os paths derivados permitidos na retomada.
+origem=.ia.rules/state/requests/FT-102/request.md; depende=FT-101; release=0.1.4-rc4.
+plano=Ajustar a forma de status aceita, regredir a primeira linha real, validar e retomar a release.
+aceite=M dist/... é aceito como derivado; src/ e estado continuam bloqueados.
+resultado=Filtro da retomada reconhece a primeira linha Porcelain após trim e linhas integrais, sem ampliar a allowlist além de dist/ e index.json.
+verificacoes=Teste dirigido reproduziu M dist/... e bloqueio de src/; build DIST_OK 163 arquivos; VERIFY_OK 39 scripts/159 entradas.
+pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.

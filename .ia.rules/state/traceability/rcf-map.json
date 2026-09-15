@@ -2081,19 +2081,6 @@
     },
     {
       "artifacts": [
-        "RCF.md"
-      ],
-      "commit": "775982728aabc2e1edf9385d8881fcc518af4584",
-      "ft": "FT-052",
-      "id": "8814853d1a23ec03506cd65e",
-      "line": 1119,
-      "rcf": "RCF.md",
-      "sentenceSha256": "0f224d55bcabf55d56a6c7bf9949fcc190ca834c4a33235248cf4af439e2fdf4",
-      "state": "synchronized",
-      "syncCommit": ""
-    },
-    {
-      "artifacts": [
         ".github/workflows/release.yml",
         "test/runtime-resilience.test.js"
       ],
@@ -2143,6 +2130,20 @@
       "rcf": "RCF.md",
       "sentenceSha256": "470e267796d8d71604c86e3bf9925d900722ee365cc62886916641c0ba0cd0be",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/scenarios/release/scripts/release-publish-resume.ts",
+        "test/release-trigger.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-102",
+      "id": "8814853d1a23ec03506cd65e",
+      "line": 1145,
+      "rcf": "RCF.md",
+      "sentenceSha256": "0f224d55bcabf55d56a6c7bf9949fcc190ca834c4a33235248cf4af439e2fdf4",
+      "state": "pending",
       "syncCommit": ""
     },
     {

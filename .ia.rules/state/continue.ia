@@ -189,3 +189,11 @@ resultado=Retomada aceita exclusivamente resíduos Git de dist/ e index.json, re
 verificacoes=TYPECHECK_OK 38 fontes; teste release-trigger cobriu derivados permitidos e fonte proibida; VERIFY_OK 39 scripts/159 entradas; TEST_OK 31 suítes.
 pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.
 historico=.ia.rules/state/history/FT-101.ia|sha256=159b10a94a66b937df405be4736b00cb8efeafecfc651f4f8587e79183fd8ffa
+
+FT-102|nome=Normalização Porcelain na retomada de release|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T15:45:00-03:00|inicio=2026-09-15T15:45:00-03:00|atualizacao=2026-09-15T18:41:11.281Z|autorizacao=humana|conclusao=2026-09-15T18:41:11.281Z|validacao=pendente_desenvolvedor
+objetivo=Interpretar com segurança a primeira linha Porcelain após trim sem ampliar os paths derivados permitidos na retomada.
+origem=.ia.rules/state/requests/FT-102/request.md; depende=FT-101; release=0.1.4-rc4.
+resultado=Filtro da retomada reconhece a primeira linha Porcelain após trim e linhas integrais, sem ampliar a allowlist além de dist/ e index.json.
+verificacoes=Teste dirigido reproduziu M dist/... e bloqueio de src/; build DIST_OK 163 arquivos; VERIFY_OK 39 scripts/159 entradas.
+pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.
+historico=.ia.rules/state/history/FT-102.ia|sha256=7ffcbfcd5dc5a87f56f4f4d62a91dadd30f00a335bc99f2e9e8d7d4b6d9b6dda

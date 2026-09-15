@@ -18,7 +18,7 @@ assert.strictEqual(isReleaseTriggerChange("A"), true);
 assert.strictEqual(isReleaseTriggerChange("M"), true);
 assert.strictEqual(isReleaseTriggerChange("D"), false);
 assert.doesNotThrow(() => assertPreflight({
-  branch: "dev", dirty: [" M dist/release.json", "?? dist/map.json", " M index.json"], expectedBranch: "dev", localTag: false, workflow: true,
+  branch: "dev", dirty: ["M dist/release.json", "?? dist/map.json", " M index.json"], expectedBranch: "dev", localTag: false, workflow: true,
 }));
 assert.throws(() => assertPreflight({
   branch: "dev", dirty: [" M src/runtime.ts"], expectedBranch: "dev", localTag: false, workflow: true,
