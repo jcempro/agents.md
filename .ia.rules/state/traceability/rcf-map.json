@@ -4972,13 +4972,13 @@
         "src/.ia.rules/distribution/source-manifest.json",
         "test/context-session-cache.test.js"
       ],
-      "commit": "",
+      "commit": "5cbfeb3d0ac84262632c42adb0f6cc82275a1f2e",
       "ft": "FT-099",
       "id": "6e3a5287330a7ba20a2e289d",
       "line": 1760,
       "rcf": "RCF.md",
       "sentenceSha256": "9ba0ac05f33293d9ac1928897bc6b9bbb674ce2e1f852a7ed554c8c6aacc3e95",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
