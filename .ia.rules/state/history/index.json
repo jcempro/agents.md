@@ -665,6 +665,20 @@
       "path": ".ia.rules/state/history/FT-096.ia",
       "sha256": "0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae",
       "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-097",
+      "name": "Skill de auditoria experimental de custo contextual",
+      "path": ".ia.rules/state/history/FT-097.ia",
+      "sha256": "3e8076d8103f46a46f3edd550e8fb79c693037cdcc7a21896ed47fe6a8c73d87",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-098",
+      "name": "Integração e validação da auditoria de custo contextual",
+      "path": ".ia.rules/state/history/FT-098.ia",
+      "sha256": "0d5db7f7ab80d03c0a727fa46c326b41d764ced2ceec8b5ba5ed9a130dc0964f",
+      "state": "pendente-validacao"
     }
   ]
 }

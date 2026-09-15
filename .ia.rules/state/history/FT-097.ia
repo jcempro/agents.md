@@ -1,0 +1,8 @@
+FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-15T12:11:48-03:00|inicio=2026-09-15T13:02:02-03:00|atualizacao=2026-09-15T13:34:09-03:00|autorizacao=humana|conclusao=2026-09-15T13:34:09-03:00
+objetivo=Implementar a Skill, scripts de medição, experimentos isolados/combinatórios e relatório reproduzível, sem aplicar automaticamente recomendações materiais.
+origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-094,FT-096; autorizacao=pendente_humana.
+plano=Criar Skill enxuta e descoberta discriminante; implementar medição determinística e experimentos isolados/combinatórios; gerar relatório reproduzível sem aplicar recomendações; integrar ao catálogo e distribuição.
+aceite=Baseline e ganhos end-to-end reproduzíveis, 100 por cento dos átomos preservados e alternativas ranqueadas.
+resultado=Skill context-cost-audit implementada com descoberta discriminante, contrato sob demanda, script exato de medição, experimentos isolados/combinatórios e relatórios JSON/Markdown sem aplicação automática.
+verificacoes=UNITS_OK com 4 unidades; gatilhos positivo/negativo passaram; tiktoken 0.13.0; fixture determinística; build DIST_OK com 161 arquivos; relatório real mediu 688 átomos e 16 relações.
+pendencias=Validador quick_validate da skill-creator não iniciou por PyYAML ausente; frontmatter, descritor, catálogo e comportamento foram validados pelos mecanismos locais. FT-099 posterior permanece sem autorização.

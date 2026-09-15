@@ -150,19 +150,21 @@ verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint 399 tok
 pendencias=FT-097 depende da FT-094 e de autorização humana nova; nenhuma recomendação material foi executada.
 historico=.ia.rules/state/history/FT-096.ia|sha256=0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae
 
-FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_desenvolvimento|criado_em=2026-09-15T12:11:48-03:00|inicio=2026-09-15T13:02:02-03:00|atualizacao=2026-09-15T13:02:02-03:00|autorizacao=humana
+FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-15T12:11:48-03:00|inicio=2026-09-15T13:02:02-03:00|atualizacao=2026-09-15T13:34:09-03:00|autorizacao=humana|conclusao=2026-09-15T13:34:09-03:00|validacao=pendente_desenvolvedor
 objetivo=Implementar a Skill, scripts de medição, experimentos isolados/combinatórios e relatório reproduzível, sem aplicar automaticamente recomendações materiais.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-094,FT-096; autorizacao=pendente_humana.
-plano=Criar Skill enxuta e descoberta discriminante; implementar medição determinística e experimentos isolados/combinatórios; gerar relatório reproduzível sem aplicar recomendações; integrar ao catálogo e distribuição.
-aceite=Baseline e ganhos end-to-end reproduzíveis, 100 por cento dos átomos preservados e alternativas ranqueadas.
-pendencias=Implementação em andamento; FTs 094 e 096 concluídas.
+resultado=Skill context-cost-audit implementada com descoberta discriminante, contrato sob demanda, script exato de medição, experimentos isolados/combinatórios e relatórios JSON/Markdown sem aplicação automática.
+verificacoes=UNITS_OK com 4 unidades; gatilhos positivo/negativo passaram; tiktoken 0.13.0; fixture determinística; build DIST_OK com 161 arquivos; relatório real mediu 688 átomos e 16 relações.
+pendencias=Validador quick_validate da skill-creator não iniciou por PyYAML ausente; frontmatter, descritor, catálogo e comportamento foram validados pelos mecanismos locais. FT-099 posterior permanece sem autorização.
+historico=.ia.rules/state/history/FT-097.ia|sha256=3e8076d8103f46a46f3edd550e8fb79c693037cdcc7a21896ed47fe6a8c73d87
 
-FT-098|nome=Integração e validação da auditoria de custo contextual|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:49-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
+FT-098|nome=Integração e validação da auditoria de custo contextual|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:49-03:00|atualizacao=2026-09-15T13:34:09-03:00|autorizacao=humana|conclusao=2026-09-15T13:34:09-03:00|validacao=pendente_desenvolvedor
 objetivo=Validar a Skill e seu relatório contra rotas, memória, estado, recovery, resume, segurança, reprodutibilidade e equivalência normativa.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-097; autorizacao=pendente_humana.
-plano=Executar matriz end-to-end, ablations, combinações, casos adversos e auditoria bidirecional após implementação autorizada.
-aceite=Nenhum ganho local encobre regressão; relatório e eventual FT posterior permitem decisão humana inequívoca.
-pendencias=Autorizada; depende da FT-097.
+resultado=Skill, script, relatório, fonte, ativo, dist, ZIP, instalação Codex/Copilot e pacote npm seco foram integrados e auditados sem aplicar recomendação material.
+verificacoes=29 suítes diretas fora de agents-entrypoint passaram; relatório reproduzível byte a byte em git show c60fcc7; economia válida 47.530 tokens ponderados (55,80%); RCF 341/336, trace, grafo, manifesto, typecheck e npm pack seco com 129 entradas passaram.
+pendencias=npm test e agent:verify permanecem bloqueados antes das suítes por scripts/.agents/autoupdate.ts ausente; agents-entrypoint mantém falha preexistente de igualdade CURRENT/SOURCE. FT-099 requer autorização posterior.
+historico=.ia.rules/state/history/FT-098.ia|sha256=0d5db7f7ab80d03c0a727fa46c326b41d764ced2ceec8b5ba5ed9a130dc0964f
 
 FT-099|nome=Cache contextual validado por hash durante a sessão|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T13:24:54-03:00|atualizacao=2026-09-15T13:24:54-03:00
 objetivo=Implementar reuso intrassessão somente para unidades contextuais cuja identidade, hash, autoridade e dependências permaneçam válidos, sem alterar cold context nem ocultar releitura necessária.

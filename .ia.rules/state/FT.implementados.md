@@ -97,3 +97,5 @@
 - FT-094 — Integração e validação editorial TTS; estado: pendente-validacao; histórico: `history/FT-094.ia`; sha256: `775b38e623572d5a87a3538323ad89e35f6470017c3e1a18ee1d9a8a2787ab33`.
 - FT-095 — Equalização e RCF da auditoria de custo contextual; estado: pendente-validacao; histórico: `history/FT-095.ia`; sha256: `29f8864f125afb9540118883f21b662c82f976e7f4adc4a0dcb20093d44cf025`.
 - FT-096 — Norma Operacional da Skill de auditoria de custo contextual; estado: pendente-validacao; histórico: `history/FT-096.ia`; sha256: `0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae`.
+- FT-097 — Skill de auditoria experimental de custo contextual; estado: pendente-validacao; histórico: `history/FT-097.ia`; sha256: `3e8076d8103f46a46f3edd550e8fb79c693037cdcc7a21896ed47fe6a8c73d87`.
+- FT-098 — Integração e validação da auditoria de custo contextual; estado: pendente-validacao; histórico: `history/FT-098.ia`; sha256: `0d5db7f7ab80d03c0a727fa46c326b41d764ced2ceec8b5ba5ed9a130dc0964f`.
