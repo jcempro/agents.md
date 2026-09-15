@@ -76,7 +76,7 @@ function prepareUnits(rootDir, inputUnits) {
     ids.add(id);
     const absolutePath = path.resolve(rootDir, required(input.path, `CONTEXT_UNIT_PATH_AUSENTE:${id}`));
     assertWithin(rootDir, absolutePath);
-    const content = normalizeText(fs.readFileSync(absolutePath, "utf8"));
+    const content = normalizeText(Object.prototype.hasOwnProperty.call(input, "content") ? input.content : fs.readFileSync(absolutePath, "utf8"));
     return {
       authority: stableList(input.authority || "AGENTS.md"),
       bytes: Buffer.byteLength(content, "utf8"),
@@ -117,8 +117,10 @@ function prepareUnits(rootDir, inputUnits) {
 function buildDelivery(units, readState, options) {
   const outputUnits = [];
   const reasonCounts = {};
+  const currentIds = new Set(units.map((unit) => unit.id));
+  const removed = [...readState.entries.keys()].filter((id) => !currentIds.has(id)).sort();
   let hits = 0;
-  let invalidations = 0;
+  let invalidations = removed.length;
   let tokensAvoided = 0;
   let bytesAvoided = 0;
   for (const unit of units) {
@@ -137,6 +139,7 @@ function buildDelivery(units, readState, options) {
       outputUnits.push({ ...common, content: unit.content, reason, status: "miss" });
     }
   }
+  if (removed.length) reasonCounts["unit-removed"] = removed.length;
   const misses = units.length - hits;
   const state = readState.status === "corrupt" || readState.status === "write-error" ? "recovered"
     : readState.status === "disabled" ? "disabled"
@@ -159,6 +162,7 @@ function buildDelivery(units, readState, options) {
       units: units.length,
     },
     schema: DELIVERY_SCHEMA,
+    removed,
     units: outputUnits,
   };
 }

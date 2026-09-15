@@ -100,6 +100,12 @@ try {
   assert.ok(corrupted.units.every((unit) => unit.reason === "cache-corrupt" && typeof unit.content === "string"));
   assert.equal(deliver("session-a").metrics.hits, 2);
 
+  const removed = deliver("session-a", [units()[0]]);
+  assert.deepEqual(removed.removed, ["state"]);
+  assert.equal(removed.metrics.invalidations, 1);
+  assert.equal(removed.metrics.reasonCounts["unit-removed"], 1);
+  assert.equal(deliver("session-a").units[1].reason, "cold-context");
+
   const disabled = deliver("unused", units(), { enabled: false });
   assert.equal(disabled.cache.state, "disabled");
   assert.equal(disabled.metrics.hits, 0);
