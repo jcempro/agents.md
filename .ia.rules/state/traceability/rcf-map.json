@@ -1085,13 +1085,13 @@
         "test/autoupdate.test.js",
         "test/runtime-resilience.test.js"
       ],
-      "commit": "",
+      "commit": "f3d74ef0ab4229cf20ae4336e1fd682610ad6fee",
       "ft": "FT-103",
       "id": "88b1ad63b04ffd7a5cb20e65",
       "line": 305,
       "rcf": "RCF.md",
       "sentenceSha256": "e5b47e1113227f23ca8b2d9b867ca26a646a85882a4ff97601a3848286703ab5",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
