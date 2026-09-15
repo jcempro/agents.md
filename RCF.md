@@ -1496,7 +1496,7 @@ Grafo inválido, tokenizer indisponível, divergência, derivado obsoleto ou fon
 
 Operação é local, reproduzível, cross-platform e independente de serviço pago/remoto. Conteúdo privado, código, documento ou metadado do consumidor NÃO DEVE sair para serviço externo sem norma e configuração explícitas. Indexação respeita escopo, exclusão, segredo e inelegível. Economia de tokens NÃO DEVE impor custo financeiro, computacional ou operacional global superior. [c143be5]
 
-Decisão normativa desta revisão: adotar parcialmente princípios determinísticos de RAG — unidades recuperáveis, IDs, metadados mínimos, busca lexical/por ID, filtros de precedência, roteamento, grafo, cache validado e fallback integral — porque são compatíveis com a arquitetura vigente e verificáveis. Embeddings, banco vetorial, similaridade semântica, expansão automática e reranking por modelo NÃO são adotados; permanecem candidatos condicionados a baseline e ganho líquido futuro, sem impedir o índice/grafo obrigatório. [c143be5]
+Decisão normativa desta revisão: adotar parcialmente princípios determinísticos de RAG — unidades recuperáveis, IDs, metadados mínimos, busca lexical/por ID, filtros de precedência, roteamento, grafo, cache validado e fallback integral — porque são compatíveis com a arquitetura vigente e verificáveis. Embeddings, banco vetorial, similaridade semântica, expansão automática e reranking por modelo NÃO são adotados; permanecem candidatos condicionados a baseline e ganho líquido futuro, sem impedir o índice/grafo obrigatório. [PENDENTE-CODIGO]
 
 ## 19. Sintaxe lógica normativa condicionada
 

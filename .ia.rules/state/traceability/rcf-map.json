@@ -3504,19 +3504,6 @@
       ],
       "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
       "ft": "FT-052",
-      "id": "34b3fdcdcf1a5f17e7e3a7ad",
-      "line": 1445,
-      "rcf": "RCF.md",
-      "sentenceSha256": "6bf75e5af0f866bdd01110cf9c6b87485576db7a6cbf0fe29c5bebc30f188589",
-      "state": "synchronized",
-      "syncCommit": ""
-    },
-    {
-      "artifacts": [
-        "RCF.md"
-      ],
-      "commit": "b37ac5793cab7a1142be71cec5d041745c143be5",
-      "ft": "FT-052",
       "id": "a6bd8c1f855c19bf3e518235",
       "line": 1451,
       "rcf": "RCF.md",
@@ -3640,6 +3627,20 @@
       "rcf": "RCF.md",
       "sentenceSha256": "36c1668536c77091828cbe0f913f089412791211eb1f67bfbc656f2fb0a47aa0",
       "state": "synchronized",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "test/context-command-cache.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-099",
+      "id": "34b3fdcdcf1a5f17e7e3a7ad",
+      "line": 1499,
+      "rcf": "RCF.md",
+      "sentenceSha256": "6bf75e5af0f866bdd01110cf9c6b87485576db7a6cbf0fe29c5bebc30f188589",
+      "state": "pending",
       "syncCommit": ""
     },
     {
