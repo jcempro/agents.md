@@ -1,6 +1,6 @@
 const assert = require("assert");
 
-const spoken = require("../src/.ia.rules/core/runtime/scripts/spoken-normalization.ts");
+const spoken = require("../.ia.rules/core/runtime/scripts/spoken-normalization.js");
 
 assert.equal(spoken.normalizeForSpeech("Brasil vs. Argentina").spokenText, "Brasil versus Argentina");
 assert.equal(spoken.normalizeForSpeech("Brasil X Argentina").spokenText, "Brasil versus Argentina");

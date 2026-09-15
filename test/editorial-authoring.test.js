@@ -1,6 +1,6 @@
 const assert = require("assert");
 
-const editorial = require("../src/.ia.rules/core/runtime/scripts/editorial-authoring.ts");
+const editorial = require("../.ia.rules/core/runtime/scripts/editorial-authoring.js");
 
 const original = "Eu gosto disto. Porém, isto é complexo.";
 const start = original.indexOf("complexo");
