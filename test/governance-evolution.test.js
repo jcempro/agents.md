@@ -11,8 +11,10 @@ const visual = require("../.ia.rules/core/runtime/scripts/visual-evidence");
 const root = path.resolve(__dirname, "..");
 
 async function main() {
-  assert.equal(units.loadCatalog(root).units.length, 3);
+  assert.equal(units.loadCatalog(root).units.length, 4);
   assert.deepEqual(units.discoverUnits("executar TODO.ia.md", root).map((unit) => unit.id), ["governed-state"]);
+  assert.deepEqual(units.discoverUnits("auditar custo contextual", root).map((unit) => unit.id), ["context-cost-audit"]);
+  assert.deepEqual(units.discoverUnits("contar tokens de um arquivo", root).map((unit) => unit.id), []);
   assert.deepEqual(units.discoverUnits("lista informal", root), []);
   const inventory = units.inventoryMechanisms(root);
   assert.equal(inventory.entries.length, inventory.decisions.maintainScripts + inventory.decisions.maintainScenarios);

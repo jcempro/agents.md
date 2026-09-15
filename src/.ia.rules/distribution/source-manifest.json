@@ -1962,6 +1962,50 @@
       "unit": {"id":"visual-evidence","kind":"skill","version":"1.0.0","license":"MPL-2.0","trust":"first-party-reviewed","clients":["codex","github-copilot"]}
     },
     {
+      "path": ".ia.rules/skills/context-cost-audit/SKILL.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/skills/context-cost-audit/SKILL.md",
+      "purpose": "Skill generalista de auditoria experimental de custo contextual",
+      "roles": ["final", "constructor"],
+      "condition": "context-cost-audit-requested",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "skill-frontmatter"],
+      "unit": {"id":"context-cost-audit","kind":"skill","version":"1.0.0","license":"MPL-2.0","trust":"first-party-reviewed","clients":["codex","github-copilot"]}
+    },
+    {
+      "path": ".ia.rules/skills/context-cost-audit/descriptor.json",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/skills/context-cost-audit/descriptor.json",
+      "purpose": "descriptor fechado da Skill context-cost-audit",
+      "roles": ["final", "constructor"],
+      "condition": "context-cost-audit-requested",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "skill-schema"],
+      "unit": {"id":"context-cost-audit","kind":"skill","version":"1.0.0","license":"MPL-2.0","trust":"first-party-reviewed","clients":["codex","github-copilot"]}
+    },
+    {
+      "path": ".ia.rules/skills/context-cost-audit/references/experiment-contract.md",
+      "profile": "consumer-core",
+      "destination": ".ia.rules/skills/context-cost-audit/references/experiment-contract.md",
+      "purpose": "contrato sob demanda do experimento contextual",
+      "roles": ["final", "constructor"],
+      "condition": "context-cost-audit-experiment-preparation",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "skill-resource-declared"],
+      "unit": {"id":"context-cost-audit","kind":"skill","version":"1.0.0","license":"MPL-2.0","trust":"first-party-reviewed","clients":["codex","github-copilot"]}
+    },
+    {
+      "path": ".ia.rules/skills/context-cost-audit/scripts/context_cost_audit.py",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/skills/context-cost-audit/scripts/context_cost_audit.py",
+      "purpose": "medição determinística, combinações e relatório de custo contextual",
+      "roles": ["final", "constructor"],
+      "condition": "context-cost-audit-experiment-execution",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build", "python-native-documentation", "context-cost-fixtures"],
+      "unit": {"id":"context-cost-audit","kind":"skill","version":"1.0.0","license":"MPL-2.0","trust":"first-party-reviewed","clients":["codex","github-copilot"]}
+    },
+    {
       "path": ".ia.rules/subagents/validation-audit/descriptor.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/subagents/validation-audit/descriptor.json",

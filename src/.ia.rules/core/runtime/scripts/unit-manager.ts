@@ -135,7 +135,7 @@ function inventoryMechanisms(rootDir = ROOT_DIR) {
       .sort((left, right) => left.path.localeCompare(right.path, "en")),
     decisions: {
       maintainScripts: scripts.length, maintainScenarios: scenarios.length,
-      encapsulateSkills: ["governed-state", "visual-evidence"], delegateSubagents: ["validation-audit"],
+      encapsulateSkills: ["context-cost-audit", "governed-state", "visual-evidence"], delegateSubagents: ["validation-audit"],
       rejected: ["uma Skill por script", "conversão nominal de Cenário", "Subagent para fluxo curto ou sequencial"],
     },
   };
