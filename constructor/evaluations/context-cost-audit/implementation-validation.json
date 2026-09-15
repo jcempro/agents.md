@@ -1,0 +1,79 @@
+{
+  "schema": "agents-context-cache-validation/v1",
+  "ft": "FT-099",
+  "validatedAt": "2026-09-15",
+  "baseline": {
+    "path": "constructor/evaluations/context-cost-audit/report.json",
+    "sha256": "0c42612dba878bb9fc2221293b28f382dc29fba0ee12f5e0162e81579482225a",
+    "revision": "c60fcc7",
+    "tokenizer": "tiktoken 0.13.0 / o200k_base",
+    "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral",
+    "scenarios": 6,
+    "atoms": 688,
+    "relations": 16,
+    "weightedBaselineTokens": 85173,
+    "weightedTokens": 37643,
+    "weightedSavings": 47530,
+    "savingsPercent": 55.80406936470478,
+    "atomCoverage": 1,
+    "relationCoverage": 1,
+    "regressions": []
+  },
+  "implementation": {
+    "candidate": "validated-session-cache",
+    "integratedCommand": "agent:context",
+    "cacheSchema": "agents-context-session-cache/v1",
+    "deliverySchema": "agents-context-delivery/v1",
+    "source": "src/.ia.rules/core/runtime/scripts/context-session-cache.ts",
+    "sourceSha256": "cd4a8b7316772cc78bd45d54753cb98f9e5c4cfd363678f6f444ad3b6ce7d48c",
+    "router": "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+    "routerSha256": "e97cb85b36822c6371efd51560935fd18be8ba7441d964171b79eda00d04eb6b",
+    "materialCommits": [
+      "5cbfeb3d0ac84262632c42adb0f6cc82275a1f2e",
+      "f03318989529ac50589c3101080189d18bfe5de1",
+      "20df930cef6b7ee7459a70268ba22c4a6a727759"
+    ],
+    "persistence": "metadados de identidade, hashes e métricas; nenhum conteúdo canônico",
+    "rollback": "--no-cache ou --reset-cache; ausência restaura leitura integral"
+  },
+  "liveCommandEvidence": {
+    "units": 159,
+    "cold": {
+      "hits": 0,
+      "misses": 159,
+      "tokensAvoidedEstimate": 0
+    },
+    "warm": {
+      "hits": 159,
+      "misses": 0,
+      "bytesAvoided": 60759,
+      "tokensAvoidedEstimate": 11517,
+      "tokenizer": "utf8-json-bytes/4-ceil-estimate"
+    },
+    "sessionIdentifierPersisted": false,
+    "payloadPersisted": false
+  },
+  "coveredBehavior": [
+    "cold-context",
+    "cache-hit",
+    "content-hash-change",
+    "version-change",
+    "role-change",
+    "precedence-change",
+    "authority-change",
+    "route-change",
+    "dependency-change",
+    "state-change",
+    "memory-change",
+    "resume",
+    "new-session",
+    "cache-reset",
+    "cache-corruption",
+    "cache-write-error",
+    "cache-disabled",
+    "unit-removal",
+    "path-boundary"
+  ],
+  "refusedDecisionPreserved": "DEC-20260725-002",
+  "releasePerformed": false
+}

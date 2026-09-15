@@ -1,5 +1,6 @@
 const assert = require("assert");
 const childProcess = require("child_process");
+const crypto = require("crypto");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -31,6 +32,22 @@ try {
   assert.equal(report.recommendation.candidate, "validated-session-cache");
   assert.equal(report.recommendation.applied, false);
   assert.equal(report.recommendation.requiresLaterFt, true);
+
+  const implementation = JSON.parse(fs.readFileSync(path.join(evaluation, "implementation-validation.json"), "utf8"));
+  assert.equal(implementation.schema, "agents-context-cache-validation/v1");
+  assert.equal(implementation.ft, "FT-099");
+  assert.equal(implementation.baseline.sha256, "0c42612dba878bb9fc2221293b28f382dc29fba0ee12f5e0162e81579482225a");
+  const reportSha256 = crypto.createHash("sha256").update(fs.readFileSync(path.join(evaluation, "report.json"), "utf8").replace(/\r\n/gu, "\n"), "utf8").digest("hex");
+  assert.equal(implementation.baseline.sha256, reportSha256);
+  assert.equal(implementation.baseline.atoms, 688);
+  assert.equal(implementation.baseline.relations, 16);
+  assert.equal(implementation.baseline.weightedSavings, 47530);
+  assert.equal(implementation.baseline.atomCoverage, 1);
+  assert.equal(implementation.baseline.relationCoverage, 1);
+  assert.deepEqual(implementation.baseline.regressions, []);
+  assert.equal(implementation.liveCommandEvidence.payloadPersisted, false);
+  assert.equal(implementation.refusedDecisionPreserved, "DEC-20260725-002");
+  assert.equal(implementation.releasePerformed, false);
 
   const state = fs.readFileSync(path.join(root, ".ia.rules", "continue.ia"), "utf8");
   assert.match(state, /^FT-099\|[^\r\n]*status=(?:em_desenvolvimento|concluida)[^\r\n]*autorizacao=humana/mu);

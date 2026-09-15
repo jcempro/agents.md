@@ -4979,21 +4979,16 @@
     },
     {
       "artifacts": [
-        "src/.ia.rules/agents.inc.md",
-        "src/.ia.rules/core/routing.md",
-        "src/.ia.rules/distribution/source-manifest.json",
-        "src/.ia.rules/normative-index.json",
-        "src/.ia.rules/resources/context-cost-audit.md",
-        "test/agents-entrypoint.test.js",
-        "test/normative-graph.test.js"
+        "constructor/evaluations/context-cost-audit/implementation-validation.json",
+        "test/context-cost-report.test.js"
       ],
-      "commit": "2b011844e741ac27f0760d5d1a9654b493725de7",
-      "ft": "FT-096",
+      "commit": "",
+      "ft": "FT-099",
       "id": "2808e851890f6eebf381ff78",
       "line": 1764,
       "rcf": "RCF.md",
       "sentenceSha256": "28eae525360eb5e7e62708aff0f42e7a964b20de7f20df2f689bf44dfe46abfd",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {
