@@ -163,3 +163,10 @@ origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-097; autorizacao=p
 plano=Executar matriz end-to-end, ablations, combinações, casos adversos e auditoria bidirecional após implementação autorizada.
 aceite=Nenhum ganho local encobre regressão; relatório e eventual FT posterior permitem decisão humana inequívoca.
 pendencias=Autorizada; depende da FT-097.
+
+FT-099|nome=Cache contextual validado por hash durante a sessão|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T13:24:54-03:00|atualizacao=2026-09-15T13:24:54-03:00
+objetivo=Implementar reuso intrassessão somente para unidades contextuais cuja identidade, hash, autoridade e dependências permaneçam válidos, sem alterar cold context nem ocultar releitura necessária.
+origem=.ia.rules/state/requests/FT-099/request.md; recomendacao=constructor/evaluations/context-cost-audit/report.json; depende=FT-098; autorizacao=pendente_humana.
+plano=Aguardar autorização posterior; então definir invalidação, integração, migração nula, rollback, telemetria e testes contra todos os cenários medidos.
+aceite=Economia end-to-end reproduzida sem perda dos 682 átomos e 16 relações, sem regressão local e com invalidação segura comprovada.
+pendencias=FT criada obrigatoriamente pela recomendação material; não autorizada pela execução experimental que a originou.
