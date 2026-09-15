@@ -494,14 +494,14 @@
         "preserved-editorial-result",
         "review-diagnostics"
       ],
-      "bytes": 3250,
+      "bytes": 3249,
       "guard": {
         "exceptions": 1,
         "modalities": 6,
         "prohibitions": 2,
         "references": 5
       },
-      "sha256": "33903b128f2704108149d09b6ac741029219c7fee867a6c12b99d005724bc3a8",
+      "sha256": "62c6882ede36db429565aa1ec6592018b110a486cb4bf883f520f08fba7d77a1",
       "tokens": 684
     },
     {
@@ -529,14 +529,14 @@
         "spoken-representation",
         "normalization-diagnostics"
       ],
-      "bytes": 3547,
+      "bytes": 3546,
       "guard": {
         "exceptions": 0,
         "modalities": 12,
         "prohibitions": 2,
         "references": 19
       },
-      "sha256": "a2266bd5ae898aea3bb07844e1105558ab4982143cf799507eb5442339fdf43d",
+      "sha256": "199b705ddfbf503a4c9e8103babb54445446c58afd14ee89f419e23b0e483368",
       "tokens": 808
     },
     {
@@ -564,14 +564,14 @@
         "ranked-recommendation",
         "implementation-ft"
       ],
-      "bytes": 3906,
+      "bytes": 3905,
       "guard": {
         "exceptions": 2,
         "modalities": 10,
         "prohibitions": 0,
         "references": 6
       },
-      "sha256": "6126ba36a5ba0db4c1a7b35bb528c4cfa5f2e3b6a71fa61e4b6409e4fc04b526",
+      "sha256": "72c9a73e24d1d86394f2e205f5b7f21ca7a065ef6b20e86abe2972e900304dc3",
       "tokens": 828
     },
     {
@@ -1685,13 +1685,13 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "688a410",
-    "commitDate": "2026-09-15T12:25:06-03:00",
+    "commit": "2b01184",
+    "commitDate": "2026-09-15T12:35:41-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "26362950991183b12d0b48f67df57675372aaf60b93245605f7a9b7ea260cf4c",
+    "sourceDigest": "41f6fa8b1df14b8b06ed6926512bfb1b3d832e0ffa3dda0a2e4abed5efaf7aea",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
