@@ -15,3 +15,8 @@ Estado de incorporação: fonte local versionada e equalizada; RCF/Norma pendent
 - Pesquisa, baseline, protótipos, relatório e eventual recomendação pertencem à implementação posterior da Skill. A fase atual cobre RCF, contrato e rota normativa.
 - Nenhuma redução é válida sem preservação de 100% dos átomos materiais e de suas relações; ganho local não compensa regressão de rota, memória, status, recovery ou resume.
 - Se o relatório recomendar alteração material do sistema, ele cria FT posterior com alternativas ordenadas e não aplica a mudança automaticamente.
+
+## Autorização funcional posterior
+
+- Em 2026-09-15T12:43:43-03:00, o humano autorizou explicitamente implementar todas as FTs pendentes, incluindo FT-097 e FT-098, respeitadas suas dependências.
+- A mesma autorização exigiu commits intermediários contínuos para evitar alterações médias ou grandes sem histórico e rastreio.

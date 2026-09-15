@@ -118,19 +118,19 @@ verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint permane
 pendencias=FT-093 aguarda autorização humana nova; validação global permanece bloqueada por estado preexistente fora desta FT.
 historico=.ia.rules/state/history/FT-092.ia|sha256=7899639bee3e30ce40433d1f0b2c81815f63685d1e81b6da0dd4c5cc771bcf6d
 
-FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:44-03:00|atualizacao=2026-09-15T12:11:44-03:00
+FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_desenvolvimento|criado_em=2026-09-15T12:11:44-03:00|inicio=2026-09-15T12:43:43-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
 objetivo=Implementar capacidades independentes e hookable de edição autoral e representação para fala conforme RCF e Norma.
 origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-092; autorizacao=pendente_humana.
-plano=Definir após inventário funcional e autorização nova, preservando fonte, clientes e artefatos derivados.
+plano=Inventariar mecanismos oficiais; implementar capacidades independentes em TypeScript com artefatos derivados; expor hooks opcionais; cobrir classificação, preservação, payload e diagnósticos; integrar sem publicar release.
 aceite=Testes positivos, negativos, cruzados, regressivos e percurso real até payload/pronúncia sem troca autoral.
-pendencias=Sem autorização para código; depende da FT-092 concluída.
+pendencias=Implementação e testes em andamento; FT-092 concluída.
 
-FT-094|nome=Integração e validação editorial TTS|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:45-03:00|atualizacao=2026-09-15T12:11:45-03:00
+FT-094|nome=Integração e validação editorial TTS|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:45-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
 objetivo=Comprovar integração, acessibilidade, compatibilidade e ausência de regressão da FT-093 em fonte, dist, pacote e consumidor controlado.
 origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-093; autorizacao=pendente_humana.
 plano=Executar matriz estrutural, auditiva, cross-platform e de falhas opcionais após implementação autorizada.
 aceite=Todos os gates materiais passam e limites de validação humana são explicitados.
-pendencias=Sem autorização; depende da FT-093.
+pendencias=Autorizada; depende da FT-093.
 
 FT-095|nome=Equalização e RCF da auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:46-03:00|inicio=2026-09-15T12:11:46-03:00|atualizacao=2026-09-15T12:24:02-03:00|conclusao=2026-09-15T12:24:02-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
 objetivo=Normatizar auditoria experimental de tokens por rota, memória, estado, recovery e resume, preservando integralmente átomos e força normativa.
@@ -148,16 +148,16 @@ verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint 399 tok
 pendencias=FT-097 depende da FT-094 e de autorização humana nova; nenhuma recomendação material foi executada.
 historico=.ia.rules/state/history/FT-096.ia|sha256=0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae
 
-FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:48-03:00|atualizacao=2026-09-15T12:11:48-03:00
+FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:48-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
 objetivo=Implementar a Skill, scripts de medição, experimentos isolados/combinatórios e relatório reproduzível, sem aplicar automaticamente recomendações materiais.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-094,FT-096; autorizacao=pendente_humana.
 plano=Definir após as dependências e autorização nova; qualquer recomendação cria FT posterior ordenada.
 aceite=Baseline e ganhos end-to-end reproduzíveis, 100 por cento dos átomos preservados e alternativas ranqueadas.
-pendencias=Sem autorização; depende das FTs 094 e 096.
+pendencias=Autorizada; depende das FTs 094 e 096.
 
-FT-098|nome=Integração e validação da auditoria de custo contextual|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:49-03:00|atualizacao=2026-09-15T12:11:49-03:00
+FT-098|nome=Integração e validação da auditoria de custo contextual|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:49-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
 objetivo=Validar a Skill e seu relatório contra rotas, memória, estado, recovery, resume, segurança, reprodutibilidade e equivalência normativa.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-097; autorizacao=pendente_humana.
 plano=Executar matriz end-to-end, ablations, combinações, casos adversos e auditoria bidirecional após implementação autorizada.
 aceite=Nenhum ganho local encobre regressão; relatório e eventual FT posterior permitem decisão humana inequívoca.
-pendencias=Sem autorização; depende da FT-097.
+pendencias=Autorizada; depende da FT-097.

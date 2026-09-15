@@ -25,3 +25,8 @@ Estado de incorporação: fonte local versionada e equalizada; RCF/Norma pendent
 - Edição autoral e normalização para fala são capacidades distintas e carregáveis separadamente, com contrato comum de preservação da fonte.
 - Aspas citacionais, `blockquote`, parênteses e colchetes são mecanismos independentes; nenhum aciona, fecha, substitui ou renomeia outro.
 - A fase atual cobre RCF e Norma Operacional. Código, hooks, distribuição, release e validação funcional exigem autorização humana posterior.
+
+## Autorização funcional posterior
+
+- Em 2026-09-15T12:43:43-03:00, o humano autorizou explicitamente implementar todas as FTs pendentes, incluindo FT-093 e FT-094.
+- A mesma autorização exigiu commits intermediários contínuos para evitar alterações médias ou grandes sem histórico e rastreio.
