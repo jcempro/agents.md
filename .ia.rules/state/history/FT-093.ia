@@ -1,0 +1,8 @@
+FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-15T12:11:44-03:00|inicio=2026-09-15T12:43:43-03:00|atualizacao=2026-09-15T13:00:31-03:00|autorizacao=humana|conclusao=2026-09-15T13:00:31-03:00
+objetivo=Implementar capacidades independentes e hookable de edição autoral e representação para fala conforme RCF e Norma.
+origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-092; autorizacao=pendente_humana.
+plano=Inventariar mecanismos oficiais; implementar capacidades independentes em TypeScript com artefatos derivados; expor hooks opcionais; cobrir classificação, preservação, payload e diagnósticos; integrar sem publicar release.
+aceite=Testes positivos, negativos, cruzados, regressivos e percurso real até payload/pronúncia sem troca autoral.
+resultado=Runtimes independentes de edição autoral e normalização semântico-fonética implementados em TypeScript, com hooks opcionais, CLI e payload TTS desacoplado.
+verificacoes=Testes positivos, negativos, cruzados e regressivos passaram; source manifest 116 entradas; build DIST_OK com 157 arquivos; typecheck passou.
+pendencias=Escuta humana de voz real permanece validação externa; runtime não depende de sintetizador.

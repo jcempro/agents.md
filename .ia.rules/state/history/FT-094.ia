@@ -1,0 +1,8 @@
+FT-094|nome=Integração e validação editorial TTS|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:45-03:00|atualizacao=2026-09-15T13:00:31-03:00|autorizacao=humana|conclusao=2026-09-15T13:00:31-03:00
+objetivo=Comprovar integração, acessibilidade, compatibilidade e ausência de regressão da FT-093 em fonte, dist, pacote e consumidor controlado.
+origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-093; autorizacao=pendente_humana.
+plano=Executar matriz estrutural, auditiva, cross-platform e de falhas opcionais após implementação autorizada.
+aceite=Todos os gates materiais passam e limites de validação humana são explicitados.
+resultado=Fluxo edição para normalização e payload integrado em fonte, ativo, dist e ZIP local, sem release publicado.
+verificacoes=26 suítes funcionais diretas passaram; RCF 341/336; ZIP contém TS e JS; matriz de adaptadores win32, linux e darwin passou.
+pendencias=Gate global permanece bloqueado antes das suítes por scripts/.agents/autoupdate.ts ausente; agents-entrypoint mantém falha preexistente de igualdade CURRENT/SOURCE; validação auditiva humana permanece externa.

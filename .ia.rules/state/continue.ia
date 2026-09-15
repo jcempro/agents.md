@@ -118,19 +118,21 @@ verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint permane
 pendencias=FT-093 aguarda autorização humana nova; validação global permanece bloqueada por estado preexistente fora desta FT.
 historico=.ia.rules/state/history/FT-092.ia|sha256=7899639bee3e30ce40433d1f0b2c81815f63685d1e81b6da0dd4c5cc771bcf6d
 
-FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_desenvolvimento|criado_em=2026-09-15T12:11:44-03:00|inicio=2026-09-15T12:43:43-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
+FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-15T12:11:44-03:00|inicio=2026-09-15T12:43:43-03:00|atualizacao=2026-09-15T13:00:31-03:00|autorizacao=humana|conclusao=2026-09-15T13:00:31-03:00|validacao=pendente_desenvolvedor
 objetivo=Implementar capacidades independentes e hookable de edição autoral e representação para fala conforme RCF e Norma.
 origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-092; autorizacao=pendente_humana.
-plano=Inventariar mecanismos oficiais; implementar capacidades independentes em TypeScript com artefatos derivados; expor hooks opcionais; cobrir classificação, preservação, payload e diagnósticos; integrar sem publicar release.
-aceite=Testes positivos, negativos, cruzados, regressivos e percurso real até payload/pronúncia sem troca autoral.
-pendencias=Implementação e testes em andamento; FT-092 concluída.
+resultado=Runtimes independentes de edição autoral e normalização semântico-fonética implementados em TypeScript, com hooks opcionais, CLI e payload TTS desacoplado.
+verificacoes=Testes positivos, negativos, cruzados e regressivos passaram; source manifest 116 entradas; build DIST_OK com 157 arquivos; typecheck passou.
+pendencias=Escuta humana de voz real permanece validação externa; runtime não depende de sintetizador.
+historico=.ia.rules/state/history/FT-093.ia|sha256=a282338a428c1d906951148366752eef6b43aaad7d36cd11bdfca112cf7ed79f
 
-FT-094|nome=Integração e validação editorial TTS|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:45-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
+FT-094|nome=Integração e validação editorial TTS|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:45-03:00|atualizacao=2026-09-15T13:00:31-03:00|autorizacao=humana|conclusao=2026-09-15T13:00:31-03:00|validacao=pendente_desenvolvedor
 objetivo=Comprovar integração, acessibilidade, compatibilidade e ausência de regressão da FT-093 em fonte, dist, pacote e consumidor controlado.
 origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-093; autorizacao=pendente_humana.
-plano=Executar matriz estrutural, auditiva, cross-platform e de falhas opcionais após implementação autorizada.
-aceite=Todos os gates materiais passam e limites de validação humana são explicitados.
-pendencias=Autorizada; depende da FT-093.
+resultado=Fluxo edição para normalização e payload integrado em fonte, ativo, dist e ZIP local, sem release publicado.
+verificacoes=26 suítes funcionais diretas passaram; RCF 341/336; ZIP contém TS e JS; matriz de adaptadores win32, linux e darwin passou.
+pendencias=Gate global permanece bloqueado antes das suítes por scripts/.agents/autoupdate.ts ausente; agents-entrypoint mantém falha preexistente de igualdade CURRENT/SOURCE; validação auditiva humana permanece externa.
+historico=.ia.rules/state/history/FT-094.ia|sha256=775b38e623572d5a87a3538323ad89e35f6470017c3e1a18ee1d9a8a2787ab33
 
 FT-095|nome=Equalização e RCF da auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:46-03:00|inicio=2026-09-15T12:11:46-03:00|atualizacao=2026-09-15T12:24:02-03:00|conclusao=2026-09-15T12:24:02-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
 objetivo=Normatizar auditoria experimental de tokens por rota, memória, estado, recovery e resume, preservando integralmente átomos e força normativa.

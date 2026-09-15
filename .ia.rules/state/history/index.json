@@ -639,6 +639,20 @@
       "state": "pendente-validacao"
     },
     {
+      "id": "FT-093",
+      "name": "Implementação hookable de edição autoral e normalização TTS",
+      "path": ".ia.rules/state/history/FT-093.ia",
+      "sha256": "a282338a428c1d906951148366752eef6b43aaad7d36cd11bdfca112cf7ed79f",
+      "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-094",
+      "name": "Integração e validação editorial TTS",
+      "path": ".ia.rules/state/history/FT-094.ia",
+      "sha256": "775b38e623572d5a87a3538323ad89e35f6470017c3e1a18ee1d9a8a2787ab33",
+      "state": "pendente-validacao"
+    },
+    {
       "id": "FT-095",
       "name": "Equalização e RCF da auditoria de custo contextual",
       "path": ".ia.rules/state/history/FT-095.ia",
