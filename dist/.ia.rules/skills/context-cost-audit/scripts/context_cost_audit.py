@@ -8,6 +8,7 @@ import hashlib
 import itertools
 import json
 import math
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -49,22 +50,66 @@ def normalized_set(values: Any, label: str) -> tuple[str, ...]:
     return tuple(sorted(values))
 
 
+def resolve_source_path(value: str, repository_root: Path) -> Path:
+    """Resolve fonte textual dentro da raiz declarada do repositório."""
+    target = (repository_root / value).resolve()
+    try:
+        target.relative_to(repository_root)
+    except ValueError as error:
+        raise ValueError(f"FONTE_FORA_DA_RAIZ:{value}") from error
+    if not target.is_file():
+        raise ValueError(f"FONTE_AUSENTE:{value}")
+    return target
+
+
+def read_source_text(value: str, repository_root: Path, revision: str) -> str:
+    """Lê fonte na revisão Git declarada ou, explicitamente, no working tree."""
+    normalized = value.replace("\\", "/")
+    if not normalized or normalized.startswith("/") or normalized == ".." or normalized.startswith("../") or "/../" in normalized:
+        raise ValueError(f"FONTE_FORA_DA_RAIZ:{value}")
+    if revision == "working-tree":
+        return resolve_source_path(normalized, repository_root).read_text(encoding="utf-8")
+    execution = subprocess.run(
+        ["git", "-C", str(repository_root), "show", f"{revision}:{normalized}"],
+        check=False, capture_output=True, text=True, encoding="utf-8",
+    )
+    if execution.returncode != 0:
+        raise ValueError(f"FONTE_REVISAO_AUSENTE:{revision}:{normalized}")
+    return execution.stdout
+
+
+def line_atoms(unit_id: str, text: str) -> tuple[str, ...]:
+    """Atomiza cada linha não vazia por posição e hash, sem interpretar semântica."""
+    return tuple(
+        f"{unit_id}:line:{index + 1}:{sha256_text(line)}"
+        for index, line in enumerate(text.replace("\r\n", "\n").split("\n")) if line.strip()
+    )
+
+
 def prepare_units(spec: dict[str, Any]) -> dict[str, dict[str, Any]]:
     """Valida unidades e materializa contagens exatas ou autenticadas."""
     units: dict[str, dict[str, Any]] = {}
+    repository_root = Path(str(spec["metadata"].get("repositoryRoot", "."))).resolve()
     for position, source in enumerate(spec.get("units", [])):
         unit_id = source.get("id") if isinstance(source, dict) else None
         if not isinstance(unit_id, str) or not unit_id or unit_id in units:
             raise ValueError(f"UNIDADE_INVALIDA:{position}:{unit_id}")
         has_text = isinstance(source.get("text"), str)
+        has_path = isinstance(source.get("path"), str) and bool(source.get("path"))
         has_tokens = isinstance(source.get("tokens"), int) and source["tokens"] >= 0
-        if has_text == has_tokens:
+        if sum((has_text, has_path, has_tokens)) != 1:
             raise ValueError(f"UNIDADE_CONTAGEM_AMBIGUA:{unit_id}")
+        source_text = read_source_text(source["path"], repository_root, str(spec["metadata"]["revision"])) if has_path else source.get("text")
+        atomization = source.get("atomization")
+        if atomization not in (None, "nonblank-lines"):
+            raise ValueError(f"ATOMIZACAO_INVALIDA:{unit_id}")
+        atoms = line_atoms(unit_id, source_text) if atomization == "nonblank-lines" and isinstance(source_text, str) else normalized_set(source.get("atoms"), f"{unit_id}:atoms")
         units[unit_id] = {
             "id": unit_id,
-            "tokens": exact_tokens(source["text"], spec["metadata"]) if has_text else source["tokens"],
-            "atoms": normalized_set(source.get("atoms"), f"{unit_id}:atoms"),
+            "tokens": exact_tokens(source_text, spec["metadata"]) if isinstance(source_text, str) else source["tokens"],
+            "atoms": atoms,
             "relations": normalized_set(source.get("relations"), f"{unit_id}:relations"),
+            "sha256": sha256_text(source_text.replace("\r\n", "\n")) if isinstance(source_text, str) else None,
         }
     if not units:
         raise ValueError("UNIDADES_AUSENTES")
@@ -236,11 +281,16 @@ def build_report(spec: dict[str, Any]) -> dict[str, Any]:
                 results.append(evaluate_variant(prepared, selected))
             except ValueError as error:
                 results.append({"id": "+".join(item["id"] for item in selected), "candidates": [item["id"] for item in selected], "equivalent": False, "error": str(error), "weightedSavings": 0, "risk": sum(float(item["risk"]) for item in selected), "regressions": []})
+    isolated = {result["id"]: result["weightedSavings"] for result in results if len(result["candidates"]) == 1}
+    for result in results:
+        result["interactionSavings"] = result["weightedSavings"] - sum(isolated.get(candidate_id, 0) for candidate_id in result["candidates"])
     valid = [result for result in results if result.get("equivalent") and not result.get("regressions")]
     ranking = [result["id"] for result in sorted(valid, key=lambda item: (-item["weightedSavings"], item["risk"], item["id"]))]
     recommendation = ranking[0] if ranking and next(item for item in results if item["id"] == ranking[0])["weightedSavings"] > 0 else None
     return {
         "schema": REPORT_SCHEMA, "metadata": prepared["metadata"], "sources": prepared["sources"],
+        "alternatives": [{"id": candidate["id"], "summary": candidate["summary"], "risk": candidate["risk"], "cache": candidate["cache"]} for candidate in candidates],
+        "unitEvidence": [{"id": unit["id"], "tokens": unit["tokens"], "sha256": unit["sha256"], "atoms": len(unit["atoms"]), "relations": len(unit["relations"])} for unit in prepared["units"].values()],
         "inputSha256": sha256_text(canonical_json(spec)), "baseline": baseline,
         "experiments": results, "pareto": pareto(results), "ranking": ranking,
         "recommendation": {"candidate": recommendation, "applied": False, "requiresLaterFt": recommendation is not None},
@@ -254,13 +304,26 @@ def render_markdown(report: dict[str, Any]) -> str:
         "# Auditoria experimental de custo contextual", "",
         f"Revisão: `{metadata['revision']}`. Tokenizer: `{metadata['tokenizer']} {metadata['tokenizerVersion']}` / `{metadata['encoding']}` / `{metadata['model']}`.",
         f"Entrada: `{report['inputSha256']}`. Serialização: {metadata['serialization']}.", "",
-        "## Resultados", "", "| Variante | Equivalente | Economia ponderada | Economia | Risco | Regressões |", "|---|---:|---:|---:|---:|---|",
+        "## Alternativas", "",
     ]
+    for alternative in report["alternatives"]:
+        lines.append(f"- `{alternative['id']}`: {alternative['summary']} (cache: {alternative['cache']}; risco: {alternative['risk']:.2f}).")
+    lines.extend(["", "## Resultados", "", "| Variante | Equivalente | Economia ponderada | Economia | Interação | Risco | Regressões |", "|---|---:|---:|---:|---:|---:|---|"])
     for result in report["experiments"]:
-        lines.append(f"| {result['id']} | {'sim' if result.get('equivalent') else 'não'} | {result.get('weightedSavings', 0):.2f} | {result.get('savingsPercent', 0):.2f}% | {result.get('risk', 0):.2f} | {', '.join(result.get('regressions', [])) or 'nenhuma'} |")
+        lines.append(f"| {result['id']} | {'sim' if result.get('equivalent') else 'não'} | {result.get('weightedSavings', 0):.2f} | {result.get('savingsPercent', 0):.2f}% | {result.get('interactionSavings', 0):.2f} | {result.get('risk', 0):.2f} | {', '.join(result.get('regressions', [])) or 'nenhuma'} |")
+    lines.extend(["", "## Deltas por cenário", "", "| Variante | Cenário | Baseline | Variante | Delta | Átomos | Relações |", "|---|---|---:|---:|---:|---:|---:|"])
+    for result in report["experiments"]:
+        for scenario in result.get("scenarios", []):
+            lines.append(f"| {result['id']} | {scenario['id']} | {scenario['baselineTokens']} | {scenario['variantTokens']} | {scenario['deltaTokens']} | {scenario['atomCoverage']:.2%} | {scenario['relationCoverage']:.2%} |")
     lines.extend(["", f"Pareto: {', '.join(report['pareto']) or 'nenhum candidato válido'}.", f"Ranking: {', '.join(report['ranking']) or 'nenhum candidato válido'}.", "", "## Recomendação", ""])
     recommendation = report["recommendation"]["candidate"]
     lines.append(f"Melhor combinação mensurada: `{recommendation}`. A recomendação não foi aplicada e exige FT posterior." if recommendation else "Nenhuma mudança material recomendada pelos experimentos válidos.")
+    lines.extend(["", "## Fontes", ""])
+    for source in report["sources"]:
+        if isinstance(source, dict):
+            lines.append(f"- {source.get('accessed', 'sem data')}: {source.get('url', 'fonte local')} — {source.get('use', source.get('kind', 'evidência'))}.")
+        else:
+            lines.append(f"- {source}")
     lines.extend(["", "O JSON correspondente preserva deltas por cenário, cobertura de átomos/relações, riscos e metadados reproduzíveis.", ""])
     return "\n".join(lines)
 
