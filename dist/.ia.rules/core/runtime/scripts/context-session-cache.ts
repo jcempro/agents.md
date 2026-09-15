@@ -12,6 +12,7 @@ const path = require("path");
 
 const CACHE_SCHEMA = "agents-context-session-cache/v1";
 const DELIVERY_SCHEMA = "agents-context-delivery/v1";
+const MAX_CACHE_BYTES = 5 * 1024 * 1024;
 
 /** Entrega unidades integrais em miss e referências validadas em hit, persistindo somente metadados locais. */
 function deliverSessionContext(options = {}) {
@@ -171,6 +172,7 @@ function buildDelivery(units, readState, options) {
 function readSessionCache(cachePath, sessionDigest) {
   if (!fs.existsSync(cachePath)) return { entries: new Map(), status: "missing" };
   try {
+    if (fs.statSync(cachePath).size > MAX_CACHE_BYTES) throw new Error("CACHE_LIMITE_EXCEDIDO");
     const parsed = JSON.parse(fs.readFileSync(cachePath, "utf8"));
     if (parsed.schema !== CACHE_SCHEMA || parsed.session !== sessionDigest || !Array.isArray(parsed.entries)) throw new Error("CACHE_CONTRATO_INVALIDO");
     const entries = new Map();
@@ -249,9 +251,27 @@ function publicFields(unit) {
 
 /** Rejeita escrita/leitura fora da raiz física autorizada. */
 function assertWithin(rootDir, targetPath) {
-  const relative = path.relative(rootDir, targetPath);
-  if (relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative))) return;
-  throw new Error(`CONTEXT_PATH_FORA_DA_RAIZ:${targetPath}`);
+  const absoluteRoot = path.resolve(rootDir);
+  const absoluteTarget = path.resolve(targetPath);
+  const relative = path.relative(absoluteRoot, absoluteTarget);
+  if (relative !== "" && (relative.startsWith("..") || path.isAbsolute(relative))) throw new Error(`CONTEXT_PATH_FORA_DA_RAIZ:${absoluteTarget}`);
+  const physicalRoot = fs.realpathSync.native(absoluteRoot);
+  let existing = absoluteTarget;
+  while (!fs.existsSync(existing)) {
+    const parent = path.dirname(existing);
+    if (parent === existing) throw new Error(`CONTEXT_PATH_FORA_DA_RAIZ:${absoluteTarget}`);
+    existing = parent;
+  }
+  const physicalExisting = fs.realpathSync.native(existing);
+  const physicalRelative = path.relative(physicalRoot, physicalExisting);
+  if (physicalRelative !== "" && (physicalRelative.startsWith("..") || path.isAbsolute(physicalRelative))) {
+    throw new Error(`CONTEXT_PATH_FORA_DA_RAIZ:${absoluteTarget}`);
+  }
+  let cursor = absoluteRoot;
+  for (const segment of path.relative(absoluteRoot, existing).split(path.sep).filter(Boolean)) {
+    cursor = path.join(cursor, segment);
+    if (fs.lstatSync(cursor).isSymbolicLink()) throw new Error(`CONTEXT_PATH_LINK_NAO_PERMITIDO:${relativePath(absoluteRoot, cursor)}`);
+  }
 }
 
 /** Serializa objetos com chaves ordenadas para fingerprints reproduzíveis. */
