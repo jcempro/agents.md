@@ -197,3 +197,22 @@ resultado=Filtro da retomada reconhece a primeira linha Porcelain após trim e l
 verificacoes=Teste dirigido reproduziu M dist/... e bloqueio de src/; build DIST_OK 163 arquivos; VERIFY_OK 39 scripts/159 entradas.
 pendencias=Validação do desenvolvedor e conclusão da release 0.1.4-rc4 autorizada.
 historico=.ia.rules/state/history/FT-102.ia|sha256=7ffcbfcd5dc5a87f56f4f4d62a91dadd30f00a335bc99f2e9e8d7d4b6d9b6dda
+
+FT-103|nome=Atualizador falha em consumidores com package.json type module|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260915.191618|atualizacao=20260915.191618
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#12 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#12
+issue_repo=jcempro/agents.md
+issue_number=12
+issue_url=https://github.com/jcempro/agents.md/issues/12
+issue_state=aprovada
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
