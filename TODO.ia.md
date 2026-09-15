@@ -860,7 +860,7 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
       - opções alternativas em ordem;
       - path do relatório;
       - próximos passos.
-      - Explicitar de forma clara, objetiva e inequivoca ao dev, a recomendação.
+      - Explicitar de forma clara, objetiva e inequivoca ao dev, a recomendação e porque.
 
   - **10. FT de possível implementação**
     - Se houver **qualquer recomendação de implementação**, criar FT apropriada, sem executar a mudança automaticamente.
