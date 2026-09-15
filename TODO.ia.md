@@ -704,7 +704,7 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
 
   - **3. Geração de alternativas**
     - A partir do baseline + pesquisa, propor **múltiplas estratégias concretas**, individualmente aplicáveis ou combináveis.
-    - NÃO limitar a análise a reescrever textos menores. Avaliar também arquitetura, roteamento, granularidade, estado, memória, índices, snapshots, referências e ordem de carregamento.
+    - NÃO limitar a análise a apenas reescrever textos menores. Avaliar também arquitetura, roteamento, granularidade, estado, memória, índices, snapshots, referências e ordem de carregamento.
     - Cada proposta DEVE indicar:
       - qual custo elimina/reduz;
       - mecanismo;
@@ -860,9 +860,10 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
       - opções alternativas em ordem;
       - path do relatório;
       - próximos passos.
+      - Explicitar de forma clara, objetiva e inequivoca ao dev, a recomendação.
 
   - **10. FT de possível implementação**
-    - Se houver **qualquer recomendação de implementação**, criar FT apropriada, sem executar a mudança automaticamente quando a governança exigir etapa/autorização posterior.
+    - Se houver **qualquer recomendação de implementação**, criar FT apropriada, sem executar a mudança automaticamente.
     - A FT DEVE conter:
       - baseline e evidências;
       - solução recomendada;
