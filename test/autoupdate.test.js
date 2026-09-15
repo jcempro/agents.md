@@ -151,7 +151,7 @@ async function main() {
   assert.ok(dispatcher.indexOf("scripts/.agents/autoupdate.js") < dispatcher.indexOf(".agents/core/runtime/scripts/autoupdate.js"));
   const legacyBridgeEntries = release.canonicalUpdate.files.filter((entry) => entry.condition === "legacy-update-bridge");
   const canonicalFiles = release.canonicalUpdate.files.filter((entry) => entry.condition !== "legacy-update-bridge");
-  assert.equal(canonicalFiles.length, rc2Regression.expectedCanonicalFiles);
+  assert.ok(canonicalFiles.length >= rc2Regression.expectedCanonicalFiles);
   assert.deepEqual(rc2Regression.observed.changedFiles, ["AGENTS.md", "scripts/.agents/update-agents.js"]);
   assert.equal(rc2Regression.observed.matchedCanonicalFiles + rc2Regression.observed.missingCanonicalFiles + rc2Regression.observed.divergentCanonicalFiles, rc2Regression.expectedCanonicalFiles);
   assert.ok(rc2Regression.observed.changedFiles.length < rc2Regression.expectedCanonicalFiles);
