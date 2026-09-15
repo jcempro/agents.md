@@ -1161,7 +1161,7 @@ O processo deve: [c57042e]
 - Caso exista uma versão `latest` anterior, movê-la para uma tag de histórico, como `v0.0.0`.
 - Criar obrigatoriamente uma tag de versão correspondente ao release publicado, como `v0.0.0`.
 
-O fluxo deve ser resiliente, prevendo falhas, inconsistências, indisponibilidade temporária de serviços e erros de execução, utilizando validações, tratamentos e retries quando aplicável. [PENDENTE-CODIGO]
+O fluxo deve ser resiliente, prevendo falhas, inconsistências, indisponibilidade temporária de serviços e erros de execução, utilizando validações, tratamentos e retries quando aplicável. [131b9d2]
 
 ### 11.1 Disparo Automático por Commit
 

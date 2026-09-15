@@ -2216,13 +2216,13 @@
         "src/.ia.rules/scenarios/release/scripts/release-publish-resume.ts",
         "test/release-trigger.test.js"
       ],
-      "commit": "",
+      "commit": "b3356e4364abc12ba23b99e711da30480131b9d2",
       "ft": "FT-101",
       "id": "b17a98cae07e6006b137fcd7",
       "line": 1164,
       "rcf": "RCF.md",
       "sentenceSha256": "a29116b034474bf28f19fdd6cabacf4599655d9716901737d28650b4d558d6ae",
-      "state": "pending",
+      "state": "synchronized",
       "syncCommit": ""
     },
     {
