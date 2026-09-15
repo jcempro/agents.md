@@ -1140,7 +1140,9 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "editorial-authoring.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "spoken-normalization.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "editorial-tts-integration.test.js")]);
-  return ok("TEST_OK", { suites: 26 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "context-cost-audit.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "context-cost-report.test.js")]);
+  return ok("TEST_OK", { suites: 28 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */

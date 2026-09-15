@@ -31,6 +31,10 @@ async function main() {
     assert.ok(second.files.every((file) => file.action === "unchanged"));
     const removed = units.removeInstallation(consumer, "governed-state", "codex");
     assert.ok(removed.removed.includes(".agents/skills/governed-state/SKILL.md"));
+    const contextAudit = units.applyInstallation(consumer, "context-cost-audit", "codex");
+    assert.ok(contextAudit.files.some((file) => file.target.endsWith("context-cost-audit/scripts/context_cost_audit.py")));
+    assert.ok(units.applyInstallation(consumer, "context-cost-audit", "codex").files.every((file) => file.action === "unchanged"));
+    assert.ok(units.removeInstallation(consumer, "context-cost-audit", "codex").removed.some((file) => file.endsWith("experiment-contract.md")));
 
     const conflict = path.join(consumer, ".codex", "agents", "validation-audit.toml");
     fs.mkdirSync(path.dirname(conflict), { recursive: true });
