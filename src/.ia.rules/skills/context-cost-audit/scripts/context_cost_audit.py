@@ -264,11 +264,15 @@ def build_report(spec: dict[str, Any]) -> dict[str, Any]:
                 results.append(evaluate_variant(prepared, selected))
             except ValueError as error:
                 results.append({"id": "+".join(item["id"] for item in selected), "candidates": [item["id"] for item in selected], "equivalent": False, "error": str(error), "weightedSavings": 0, "risk": sum(float(item["risk"]) for item in selected), "regressions": []})
+    isolated = {result["id"]: result["weightedSavings"] for result in results if len(result["candidates"]) == 1}
+    for result in results:
+        result["interactionSavings"] = result["weightedSavings"] - sum(isolated.get(candidate_id, 0) for candidate_id in result["candidates"])
     valid = [result for result in results if result.get("equivalent") and not result.get("regressions")]
     ranking = [result["id"] for result in sorted(valid, key=lambda item: (-item["weightedSavings"], item["risk"], item["id"]))]
     recommendation = ranking[0] if ranking and next(item for item in results if item["id"] == ranking[0])["weightedSavings"] > 0 else None
     return {
         "schema": REPORT_SCHEMA, "metadata": prepared["metadata"], "sources": prepared["sources"],
+        "alternatives": [{"id": candidate["id"], "summary": candidate["summary"], "risk": candidate["risk"], "cache": candidate["cache"]} for candidate in candidates],
         "unitEvidence": [{"id": unit["id"], "tokens": unit["tokens"], "sha256": unit["sha256"], "atoms": len(unit["atoms"]), "relations": len(unit["relations"])} for unit in prepared["units"].values()],
         "inputSha256": sha256_text(canonical_json(spec)), "baseline": baseline,
         "experiments": results, "pareto": pareto(results), "ranking": ranking,
@@ -283,13 +287,26 @@ def render_markdown(report: dict[str, Any]) -> str:
         "# Auditoria experimental de custo contextual", "",
         f"Revisão: `{metadata['revision']}`. Tokenizer: `{metadata['tokenizer']} {metadata['tokenizerVersion']}` / `{metadata['encoding']}` / `{metadata['model']}`.",
         f"Entrada: `{report['inputSha256']}`. Serialização: {metadata['serialization']}.", "",
-        "## Resultados", "", "| Variante | Equivalente | Economia ponderada | Economia | Risco | Regressões |", "|---|---:|---:|---:|---:|---|",
+        "## Alternativas", "",
     ]
+    for alternative in report["alternatives"]:
+        lines.append(f"- `{alternative['id']}`: {alternative['summary']} (cache: {alternative['cache']}; risco: {alternative['risk']:.2f}).")
+    lines.extend(["", "## Resultados", "", "| Variante | Equivalente | Economia ponderada | Economia | Interação | Risco | Regressões |", "|---|---:|---:|---:|---:|---:|---|"])
     for result in report["experiments"]:
-        lines.append(f"| {result['id']} | {'sim' if result.get('equivalent') else 'não'} | {result.get('weightedSavings', 0):.2f} | {result.get('savingsPercent', 0):.2f}% | {result.get('risk', 0):.2f} | {', '.join(result.get('regressions', [])) or 'nenhuma'} |")
+        lines.append(f"| {result['id']} | {'sim' if result.get('equivalent') else 'não'} | {result.get('weightedSavings', 0):.2f} | {result.get('savingsPercent', 0):.2f}% | {result.get('interactionSavings', 0):.2f} | {result.get('risk', 0):.2f} | {', '.join(result.get('regressions', [])) or 'nenhuma'} |")
+    lines.extend(["", "## Deltas por cenário", "", "| Variante | Cenário | Baseline | Variante | Delta | Átomos | Relações |", "|---|---|---:|---:|---:|---:|---:|"])
+    for result in report["experiments"]:
+        for scenario in result.get("scenarios", []):
+            lines.append(f"| {result['id']} | {scenario['id']} | {scenario['baselineTokens']} | {scenario['variantTokens']} | {scenario['deltaTokens']} | {scenario['atomCoverage']:.2%} | {scenario['relationCoverage']:.2%} |")
     lines.extend(["", f"Pareto: {', '.join(report['pareto']) or 'nenhum candidato válido'}.", f"Ranking: {', '.join(report['ranking']) or 'nenhum candidato válido'}.", "", "## Recomendação", ""])
     recommendation = report["recommendation"]["candidate"]
     lines.append(f"Melhor combinação mensurada: `{recommendation}`. A recomendação não foi aplicada e exige FT posterior." if recommendation else "Nenhuma mudança material recomendada pelos experimentos válidos.")
+    lines.extend(["", "## Fontes", ""])
+    for source in report["sources"]:
+        if isinstance(source, dict):
+            lines.append(f"- {source.get('accessed', 'sem data')}: {source.get('url', 'fonte local')} — {source.get('use', source.get('kind', 'evidência'))}.")
+        else:
+            lines.append(f"- {source}")
     lines.extend(["", "O JSON correspondente preserva deltas por cenário, cobertura de átomos/relações, riscos e metadados reproduzíveis.", ""])
     return "\n".join(lines)
 

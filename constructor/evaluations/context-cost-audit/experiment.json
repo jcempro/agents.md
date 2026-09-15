@@ -1,12 +1,13 @@
 {
   "schema": "agents-context-cost-experiment/v1",
   "metadata": {
-    "revision": "ee17ce9",
+    "revision": "dd52a92",
     "repositoryRoot": ".",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0",
     "encoding": "o200k_base",
     "model": "gpt-4o",
+    "weightBasis": "pesos uniformes por ausência de frequência observada autenticada",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral"
   },
   "sources": [
@@ -17,15 +18,15 @@
     {"kind": "paper", "accessed": "2026-09-15", "url": "https://arxiv.org/abs/2609.04915", "use": "otimização contextual recente"}
   ],
   "units": [
-    {"id": "entry", "path": "AGENTS.md", "atomization": "nonblank-lines", "relations": ["entry-routes-directly"]},
-    {"id": "authority", "path": ".ia.rules/core/authority.md", "atomization": "nonblank-lines", "relations": ["authority-precedes-specialization"]},
-    {"id": "final-role", "path": ".ia.rules/roles/final.md", "atomization": "nonblank-lines", "relations": ["final-depends-authority"]},
-    {"id": "constructor-role", "path": ".ia.rules/roles/constructor.md", "atomization": "nonblank-lines", "relations": ["constructor-cumulative-final"]},
-    {"id": "constructor-operation", "path": ".ia.rules/scenarios/governance/constructor-operation.md", "atomization": "nonblank-lines", "relations": ["constructor-operation-depends-role"]},
-    {"id": "skills-contract", "path": ".ia.rules/resources/skills.md", "atomization": "nonblank-lines", "relations": ["skill-subordinate-contract"]},
-    {"id": "cost-contract", "path": ".ia.rules/resources/context-cost-audit.md", "atomization": "nonblank-lines", "relations": ["audit-preserves-atoms"]},
-    {"id": "state-scenario", "path": ".ia.rules/scenarios/state-and-todo.md", "atomization": "nonblank-lines", "relations": ["state-scenario-controls-todo"]},
-    {"id": "full-norm", "path": ".ia.rules/agents.inc.md", "atomization": "nonblank-lines", "relations": ["fallback-preserves-integral-norm"]},
+    {"id": "entry", "path": "src/AGENTS.md", "atomization": "nonblank-lines", "relations": ["entry-routes-directly"]},
+    {"id": "authority", "path": "src/.ia.rules/core/authority.md", "atomization": "nonblank-lines", "relations": ["authority-precedes-specialization"]},
+    {"id": "final-role", "path": "src/.ia.rules/roles/final.md", "atomization": "nonblank-lines", "relations": ["final-depends-authority"]},
+    {"id": "constructor-role", "path": "src/.ia.rules/roles/constructor.md", "atomization": "nonblank-lines", "relations": ["constructor-cumulative-final"]},
+    {"id": "constructor-operation", "path": "src/.ia.rules/scenarios/governance/constructor-operation.md", "atomization": "nonblank-lines", "relations": ["constructor-operation-depends-role"]},
+    {"id": "skills-contract", "path": "src/.ia.rules/resources/skills.md", "atomization": "nonblank-lines", "relations": ["skill-subordinate-contract"]},
+    {"id": "cost-contract", "path": "src/.ia.rules/resources/context-cost-audit.md", "atomization": "nonblank-lines", "relations": ["audit-preserves-atoms"]},
+    {"id": "state-scenario", "path": "src/.ia.rules/scenarios/governance/state-and-todo.md", "atomization": "nonblank-lines", "relations": ["state-scenario-controls-todo"]},
+    {"id": "full-norm", "path": "src/.ia.rules/agents.inc.md", "atomization": "nonblank-lines", "relations": ["fallback-preserves-integral-norm"]},
     {"id": "state-index", "path": ".ia.rules/state/index.json", "atomization": "nonblank-lines", "relations": ["state-index-routes-state"]},
     {"id": "continue", "path": ".ia.rules/continue.ia", "atomization": "nonblank-lines", "relations": ["continue-projects-canonical-state"]},
     {"id": "memory", "path": ".ia.rules/state/memory.md", "atomization": "nonblank-lines", "relations": ["memory-is-durable-evidence"]},
