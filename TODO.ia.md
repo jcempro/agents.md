@@ -490,42 +490,117 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
 - Toda sugestão de pesquisa DEVE indicar aderência, ganho mensurável, custo, risco e razão para incluir ou rejeitar; NÃO aplicar prática externa à revelia.
 - Entrega da fase normativa: commits isolados, diff/arquivos, decisões, fontes, matriz de cobertura, testes executados, resultados, riscos e implementações pendentes. INTERROMPER e aguardar autorização do dev antes da fase funcional.
 
-- [ ] Migrar ao construtor de `agents.md` as capacidades de edição redacional autoral e normalização semântico-fonética para TTS
+- [ ] **Migrar ao construtor de `agents.md` as normas de edição redacional autoral e normalização semântico-fonética para TTS**
   - **Objetivo e fronteira**
-    - Executar somente no repositório construtor corrente, após inspecionar `AGENTS.md`, RCF, `src/`, manifestos, loaders, roteadores, hooks, scripts, Skills, Subagents, cenários, testes e artefatos derivados reais. Este artefato NÃO autoriza editar `D:\trampo\jeancarloem.com.blog\`, nem presume que o layout deste consumidor exista no construtor.
-    - A origem é evidência normativa somente leitura: revalidar o commit `9c8c997c38e3e3e53028598e5c33d53138433060` ou sua revisão materialmente equivalente antes de migrar. Preservar a consulta, diferenças encontradas e decisão de equivalência; NÃO importar bug, path físico ou dependência de Jekyll como contrato do destino.
-    - Fontes herdadas integrais: `RCFs/leitura-acessivel-e-tts.md` (`A37E9747DD3375798C631945BFF2B0A7C6761A900508ADDBAC1A8F49C85970B9`), `.ia.rules/scenarios/web/page-like/capabilities/editorial.md` (`1098AE965511CB35DEB61D7E37E48151423C908A3702D82B8D93AB2A016D513D`), `docs/MODO-DE-USO-LEITURA-ACESSIVEL-E-TTS.md`, `_plugins/jcem_zz_accessible_reading.rb` (`5F32BE6E1086206147C3FF51CAB5995949151F1063C8B91F50D6C336C0E27FCC`), `assets/jcem/js/read-aloud.js` (`CB56AA2056A6AD68D8708B44CD1064DA685DF18D412F755A4BA1E145659E0C0D`) e respectivos testes/fixtures. A solicitação integral permanece em `.ia.rules/state/requests/FT-003/prompt-original.md`; a cópia byte a byte está em `prompt-original.base64`.
-    - Criar e reconciliar FTs distintas para RCF, Norma, código e validação. Concluir e versionar primeiro a fase normativa; interromper antes de implementar código, hook, distribuição ou release e solicitar a autorização humana exigida pela governança do construtor.
-  - **Decisão arquitetural e contrato comum**
-    - Inventariar as capacidades existentes e escolher, com evidência, a menor combinação aderente entre script determinístico, Skill, Subagent, Scenario/cenário e mecanismo já normatizado. NÃO criar uma forma por analogia, NÃO criar fluxo paralelo e NÃO converter cenários, scripts ou regras existentes sem prova de equivalência e ganho líquido.
-    - Regras existentes sobre o mesmo tema devem ser equalizadas, integradas e unificadas com a novas para as novas (se nova) localidades.
-    - Regra comum DEVE ser única e reutilizável; especialização DEVE residir no componente especializado. Tarefas puramente redacionais NÃO carregam o contexto completo de TTS; normalização técnica simples NÃO carrega regras editoriais completas.
-    - Toda capacidade criada ou ampliada DEVE ser **hookable**, com identidade, entrada, saída, versão, validação, erro, timeout, limite, idempotência, efeitos, logs e ponto explícito de invocação futura; DEVE funcionar, ser testável e produzir resultado equivalente sem hook. Hook NÃO é obrigatório, NÃO pode ocultar acoplamento e só pode observar/estender por contrato.
-    - A representação visual/editorial original é a fonte de verdade. A representação acessível/falada é derivada e aditiva; não pode reescrever, ocultar, substituir permanentemente ou degradar Markdown/HTML, referências, pontuação, grafia, voz autoral, navegação e conteúdo publicado.
-    - Caso ambíguo sem evidência suficiente DEVE preservar a forma original, emitir diagnóstico rastreável e encaminhar revisão humana; nunca inventar interpretação, pronúncia, autoria, citação, referência ou exceção.
-  - **Capacidade editorial/autoral**
-    - Preservar rigorosamente vocabulário, ritmo, sintaxe, pontuação, cadência, intensidade, argumentação, oralidade/escrita, formalidade, construções idiomáticas, literatura, retórica, intenção, personalidade e peculiaridades válidas do autor. A intervenção deve parecer do próprio autor inclusive sob avaliação especializada; é proibido homogeneizar para estilo de IA, sofisticar artificialmente, corporativizar, publicitar, academizar sem base, neutralizar peculiaridade ou trocar pontuação característica sem necessidade.
-    - Aplicar a prioridade herdada: identidade → intenção → problema real → clareza → organização. Correção ortográfica, gramatical, semântica e de fluidez ocorre dentro da voz original. Reescrita, reorganização, expansão, resumo, simplificação, adaptação ou geração por IA marca somente a menor região transformada com metadado invisível, persistente, pesquisável e neutro; correção mecânica, link e metadado não recebem marca indevida.
-    - Produzir linguagem máxima e genuinamente acessível, inclusive para leitor com escolaridade equivalente à quarta série do fundalmental, baixa proficiência, analfabetismo funcional ou dificuldade interpretativa, sem infantilizar, condescender, reduzir conteúdo, perder rigor, simplificar conceito incorretamente ou apagar nuance.
-    - Preferir equivalente simples igualmente preciso. Termo técnico ou complexo necessário ao rigor permanece e, na primeira ocorrência pertinente, recebe explicação breve, direta, correta, não circular e sem vocabulário igualmente obscuro entre parênteses. Não repetir a explicação; só reforçá-la em texto longo, mudança material de sentido/contexto ou prejuízo demonstrável de compreensão.
-    - Reduzir períodos excessivos, subordinação acumulada, abstrações encadeadas, múltiplas negações, referência ambígua, combinação lexical desnecessariamente difícil e densidade sem apoio contextual, preservando integralmente significado, conteúdo, rigor conceitual e precisão.
-    - Preservar as distinções herdadas entre fala/transcrição, síntese editorial, inferência, citação, referência e disclaimer. Conteúdo factual, técnico, histórico, estatístico, traduzido ou controverso mantém verificabilidade e fonte direta quando a origem a exige.
-  - **Capacidade de normalização e TTS**
-    - Materializar, antes de qualquer engine, o fluxo `conteúdo editorial original → detecção/interpretação contextual → representação própria para fala → TTS`. A normalização é pt-BR, contextual quando houver ambiguidade, determinística quando possível, extensível, testável e desacoplada do sintetizador. Regex pode auxiliar detecção, mas NÃO substitui interpretação contextual.
-    - Preservar a separação herdada: HTML semântico, ordem de leitura e árvore de acessibilidade funcionam integralmente sem JavaScript, voz ou serviço externo; TTS é consumidor opcional progressivo. Preferir semântica nativa; ARIA somente preenche lacuna real e não rebatiza texto estático suficiente.
-    - Preservar modos de referência da origem quando ainda aplicáveis: `continuous` é padrão e agrupa uma indicação quantitativa no fim da unidade; `summary` e `full` são opt-in, começam cada expansão por `Referência <marcador>:`, mantêm vínculo com a ocorrência visual e nunca interrompem a unidade principal. `full` preserva expansão integral e inclui o sumário; troca de modo não perde posição nem mistura unidades. A ausência de redução inequívoca preserva o destino integral e informa indisponibilidade, sem inventar dados.
-    - Pronunciar `vs`, `vs.`, `VS`, `Vs.`, `x` e `X` como `versus` somente quando o contexto for confronto/comparação. Em especial, `x` NÃO pode converter multiplicação, dimensão, variável, identificador, símbolo técnico ou outro uso legítimo.
-    - Reconhecer numeral romano apenas após validação formal e interpretação contextual; verbalizar séculos, capítulos, volumes, enumerações, reis, papas, títulos históricos e demais usos editoriais legítimos com cardinal/ordinal apropriado. Sequência de `I,V,X,L,C,D,M` em sigla, identificador ou texto comum NÃO pode converter cegamente.
-    - Antes da síntese, classificar cada delimitador editorial e preservar seus pares, ordem e aninhamento. Aspas citacionais, parênteses e colchetes são mecanismos distintos: a presença, ausência ou leitura de um NÃO aciona, substitui, rebatiza ou elimina outro.
-    - Quando aspas delimitarem efetivamente uma citação, verbalizar `abre aspas` antes do trecho e `fecha aspas` depois dele. Esta é a leitura dos sinais de aspas e é distinta da delimitação de `blockquote`: NÃO substituir `abre aspas … fecha aspas` por marcador de bloco, NÃO ativar marcador de bloco por haver aspas e NÃO tratar os dois mecanismos como equivalentes. Aspas de realce, ironia ou uso não citacional NÃO recebem essa verbalização.
-    - Quando parênteses delimitarem conteúdo editorial pertinente à compreensão oral, verbalizar `abre parênteses` antes do conteúdo e `fecha parênteses` depois dele. Quando colchetes delimitarem conteúdo editorial pertinente à compreensão oral, verbalizar `abre colchetes` antes do conteúdo e `fecha colchetes` depois dele. Cada abertura DEVE corresponder ao seu fechamento do mesmo tipo; aninhamento preserva a ordem real e NÃO converte parênteses em colchetes, colchetes em aspas ou qualquer delimitador em citação/bloco.
-    - Delimitador presente em código, URL, sintaxe, metadado, fórmula ou outra estrutura não editorial segue a classificação própria dessa estrutura; NÃO recebe leitura editorial automática. Delimitador incompleto, cruzado ou semanticamente indeterminado preserva o conteúdo original, emite diagnóstico rastreável e exige revisão humana.
-    - Em modo que pronuncie nota, `<sup>` ou equivalente, nunca anunciar o número/glifo isolado: usar marcador humano como `nota trinta e dois` ou forma normativa equivalente. Chamadas adjacentes DEVEM formar um único conjunto natural, preservar ordem e todos os identificadores, preferindo `notas trinta e dois, quinze e dezoito`; modos que citam, resumem, ignoram ou expandem referências permanecem distintos.
-    - Classificar referência bíblica antes da síntese e nunca interpretá-la como horário. `Mateus 3:22` lê, no modo básico, de forma equivalente a `Mateus, três, vinte e dois` e, no completo, a `Mateus, capítulo três, versículo vinte e dois` entre outras variações como `Mateus 3:2,24,25` lê `Mateus 2, dois, vinte e quatro, e vinte e cinco`, `Mateus 3:8-15;18;22-23;7:44;8:2` lê `Mateus trêz, oito ao quinze ao quinze, vinte e dois ao vinte e trêz, ... sete, quarenta e quatro, e oito, dois`; `15:30` real permanece horário. Cobrir livro, livros numerados, capítulo, versículo, intervalos, múltiplos versículos/capítulos, abreviações reconhecidas, versão e sintaxes comprovadas na fonte, sem hardcode de exemplo.
-    - Preservar idiomas/BCP 47, ausência de voz, fala local excepcional revisada, tabelas, imagens, gráficos, citações, referências, navegação, avisos, sumário, pausas, play/pause/resume/stop e degradação progressiva conforme a fonte herdada. Pronúncia especial depende de evidência confiável/revisão identificada; IPA pode ser evidência, nunca fala crua.
-  - **Implementação, validação e aceite**
-    - Implementar somente após a autorização de código e pela fonte canônica do construtor; regenerar derivados pelo fluxo oficial, atualizar manifestos/índices/documentação exigidos e não editar artefato gerado manualmente.
-    - Especificar testes positivos, negativos e regressivos para: preservação de estilo e pontuação; correção sem troca de voz; simplificação lexical/sintática sem perda; primeira explicação de termo complexo, ausência de repetição e reexplicação justificada; rigor sem infantilização; `vs`, `vs.`, caixa, `x` comparativo e não comparativo; romanos válidos e falsos positivos; aspas citacionais com `abre aspas … fecha aspas`; parênteses com `abre parênteses … fecha parênteses`; colchetes com `abre colchetes … fecha colchetes`; cada delimitador isolado e pares/aninhamentos combinados, comprovando que nenhum aciona, substitui ou fecha outro; aspas não citacionais; delimitadores em `blockquote`, código, URL, sintaxe, metadado e fórmula; pares incompletos/cruzados; nota única e consecutiva; referência bíblica simples/completa, horário real; modos de referência, troca de modo, pausa/retomada, língua, tabela, imagem, gráfico e combinações reais.
-    - Validar o percurso `original → normalização → payload efetivo do sintetizador → pronúncia esperada`, não apenas regex ou texto intermediário. Quando a infraestrutura existir, registrar amostra auditiva com ferramenta, versão, voz/idioma, entrada, sequência, resultado e limitação; automação não substitui escuta humana de prosódia, naturalidade e fronteiras autorais.
-    - Provar ausência de regressão em datas, horários, números, unidades, abreviações, Markdown/HTML, notas, citações, conteúdo editorial, estilos, modos de TTS, JavaScript ausente, voz ausente, páginas sem capacidade, acessibilidade, build, Windows/Linux e publicação. Falha opcional conserva conteúdo acessível, não fabrica sucesso e emite diagnóstico.
-    - Aceitar somente com: origem reconsultável e distinção compacta entre regra herdada, aperfeiçoamento deste pedido, decisão dependente do construtor e regra incompatível/obsoleta justificada; capacidade independente e hookable; conteúdo original semanticamente preservado; testes especificados e aprovados; nenhum contexto material implícito; e outra IA apta a implementar sem reconstruir esta análise.
+    - Executar somente no repositório construtor corrente. O repositório `D:\trampo\jeancarloem.com.blog\` é **fonte normativa somente-leitura** e NÃO PODE ser alterado.
+    - Antes de migrar, inspecionar no destino `AGENTS.md`, RCF, `src/`, manifestos, loaders, roteadores, hooks, scripts, Skills, Subagents, cenários, testes e artefatos derivados reais; NÃO presumir que paths/arquitetura do consumidor existam no construtor.
+    - Revalidar a origem no commit `9c8c997c38e3e3e53028598e5c33d53138433060` ou revisão materialmente equivalente e registrar diferenças/equivalência. Fontes herdadas mínimas:
+      - `RCFs/leitura-acessivel-e-tts.md` — `A37E9747DD3375798C631945BFF2B0A7C6761A900508ADDBAC1A8F49C85970B9`;
+      - `.ia.rules/scenarios/web/page-like/capabilities/editorial.md` — `1098AE965511CB35DEB61D7E37E48151423C908A3702D82B8D93AB2A016D513D`;
+      - `docs/MODO-DE-USO-LEITURA-ACESSIVEL-E-TTS.md`;
+      - `_plugins/jcem_zz_accessible_reading.rb` — `5F32BE6E1086206147C3FF51CAB5995949151F1063C8B91F50D6C336C0E27FCC`;
+      - `assets/jcem/js/read-aloud.js` — `CB56AA2056A6AD68D8708B44CD1064DA685DF18D412F755A4BA1E145659E0C0D`;
+      - respectivos testes/fixtures e, para rastreabilidade, `.ia.rules/state/requests/FT-003/prompt-original.md` / `prompt-original.base64`.
+    - NÃO importar bug, path físico, dependência de Jekyll ou detalhe incidental como contrato do destino.
+    - Criar/reconciliar FTs distintas para **RCF, Norma, código e validação** conforme a governança do construtor. Concluir/versionar primeiro a fase normativa e **interromper antes de código, hook, distribuição ou release** se a governança exigir autorização humana.
+
+  - **Arquitetura e contrato comum**
+    - Inventariar capacidades existentes e escolher, com evidência, a menor combinação aderente entre script determinístico, `SKILL`, `SubAgent`, `Scenario`/cenário ou mecanismo já normatizado. NÃO criar fluxo paralelo nem converter artefato existente sem equivalência demonstrada e ganho líquido.
+    - Equalizar/integrar regras já existentes sobre o mesmo tema; regra comum DEVE ter fonte única/reutilizável e especialização DEVE permanecer no componente especializado.
+    - Tarefa puramente redacional NÃO DEVE carregar contexto completo de TTS; normalização técnica simples NÃO DEVE carregar integralmente regras editoriais.
+    - Toda capacidade criada/ampliada DEVE ser **hookable**, com identidade, entrada, saída, versão, validação, erro, timeout/limites quando aplicáveis, idempotência, efeitos, logs e ponto explícito de futura invocação; DEVE funcionar/testar integralmente sem hook. `hookable ≠ hook obrigatório`.
+    - A representação editorial/visual original é a fonte de verdade; representações acessível/falada são derivadas e aditivas e NÃO PODEM degradar ou substituir permanentemente Markdown/HTML, grafia, pontuação, referências, navegação, voz autoral ou conteúdo.
+    - Caso semanticamente ambíguo sem evidência suficiente DEVE preservar a forma original, emitir diagnóstico rastreável e requerer revisão humana; NÃO inventar interpretação, pronúncia, autoria, citação, referência ou exceção.
+
+  - **Norma de edição autoral/redacional**
+    - Preservar rigorosamente **vocabulário, ritmo, sintaxe, pontuação, cadência, intensidade, argumentação, oralidade/escrita, formalidade, construções idiomáticas, literatura/retórica, intenção, personalidade e peculiaridades válidas** do autor humano.
+    - A edição DEVE parecer escrita pelo próprio autor; mesmo sob avaliação técnica especializada, a intervenção da IA/agente NÃO DEVE ser distinguível por mudança de voz, estilo ou assinatura linguística.
+    - É PROIBIDO homogeneizar para “estilo de IA”, sofisticar artificialmente, corporativizar, publicitar, academizar sem base, neutralizar peculiaridade válida ou substituir pontuação característica sem necessidade.
+    - Aplicar a prioridade herdada: `identidade → intenção → problema real → clareza → organização`. Correções ortográficas, gramaticais, semânticas e de fluidez ocorrem **dentro da voz original**.
+    - Preservar a regra herdada de marcação da menor região transformada quando houver reescrita/reorganização/expansão/resumo/simplificação/adaptação/geração por IA; correção mecânica, link ou metadado NÃO recebem marca indevida.
+    - Produzir linguagem **máxima e genuinamente acessível**, inclusive a leitores com escolaridade equivalente à 4ª série do ensino fundamental, baixa proficiência, analfabetismo funcional ou dificuldade interpretativa, sem infantilizar, condescender, reduzir conteúdo, apagar nuance ou perder rigor.
+    - Princípio obrigatório: `máximo rigor intelectual/acadêmico + máxima inteligibilidade`.
+    - Preferir palavra/expressão simples quando igualmente precisa. Termo técnico/rebuscado necessário DEVE permanecer e, na **primeira ocorrência pertinente**, receber imediatamente explicação curta, direta, correta, não circular e igualmente simples entre parênteses.
+    - NÃO repetir a explicação, salvo texto suficientemente longo, mudança material de sentido/contexto ou prejuízo demonstrável de compreensão.
+    - Evitar também complexidade produzida pela combinação de palavras simples: reduzir, quando possível e sem perda semântica, períodos excessivos, subordinação acumulada, abstrações encadeadas, múltiplas negações, referências ambíguas, combinações lexicais difíceis e densidade conceitual sem apoio.
+    - Preservar integralmente distinções herdadas entre fala/transcrição, síntese editorial, inferência, citação, referência e disclaimer, bem como verificabilidade/fontes quando a origem as exige.
+    - A norma e o modus operandi resultantes DEVEM explicitar esses contratos de forma inequívoca, forte e verificável.
+
+  - **Norma de normalização/TTS**
+    - Materializar antes de qualquer engine o fluxo:
+      `conteúdo editorial original → detecção/interpretação contextual → representação própria para fala → TTS`.
+    - A normalização DEVE ser pt-BR, contextual quando houver ambiguidade, determinística quando possível, extensível, testável e desacoplada do sintetizador. Regex PODE detectar; NÃO DEVE substituir interpretação contextual.
+    - Preservar HTML semântico, ordem de leitura e árvore de acessibilidade independentemente de JavaScript, voz ou serviço externo; TTS é consumidor opcional/progressivo. Preferir semântica nativa; ARIA somente supre lacuna real.
+    - Preservar, quando ainda aplicáveis, os modos herdados `continuous`, `summary` e `full`, seus vínculos com a ocorrência visual, regras de expansão e troca de modo sem perda de posição/unidade.
+
+    - **`vs`, `vs.` e `x`**
+      - Pronunciar `vs`, `vs.`, `VS`, `Vs.`, `x` e `X` como `versus` **somente** quando o contexto for confronto/comparação.
+      - `x` NÃO PODE converter multiplicação, dimensão, variável, identificador, símbolo técnico ou outro uso legítimo.
+
+    - **Algarismos romanos**
+      - Reconhecer somente após validação formal + interpretação contextual.
+      - Verbalizar corretamente séculos, capítulos, volumes, enumerações, reis/papas, títulos históricos e demais usos legítimos, escolhendo cardinal/ordinal conforme o contexto.
+      - NÃO converter cegamente sequências de `I,V,X,L,C,D,M` em siglas, identificadores ou texto comum.
+
+    - **Aspas, parênteses e colchetes**
+      - Classificar cada delimitador antes da síntese e preservar pares, ordem e aninhamento; aspas, parênteses e colchetes são mecanismos distintos e um NÃO aciona, substitui, fecha ou rebatiza outro.
+      - Aspas que realmente delimitam citação DEVEM verbalizar `abre aspas ... fecha aspas`; isso é distinto de `blockquote`. Aspas de realce, ironia/sarcasmo ou uso não citacional NÃO recebem automaticamente essa leitura.
+      - Parênteses/colchetes editorialmente pertinentes à compreensão oral DEVEM verbalizar `abre parênteses ... fecha parênteses` / `abre colchetes ... fecha colchetes`, preservando tipo e aninhamento.
+      - Delimitador em código, URL, sintaxe, metadado, fórmula ou estrutura não editorial segue a semântica própria da estrutura e NÃO recebe leitura editorial automática.
+      - Par incompleto, cruzado ou semanticamente indeterminado DEVE preservar o conteúdo, emitir diagnóstico e exigir revisão humana.
+
+    - **Referências `<sup>` / notas**
+      - Em qualquer modo que pronuncie nota, `<sup>` ou equivalente, **NUNCA** anunciar apenas o número/glifo.
+      - Usar marcador humano inequívoco, por exemplo `nota trinta e dois`.
+      - Chamadas adjacentes/agregadas DEVEM ser verbalizadas como um único conjunto natural, preservando ordem e todos os identificadores, por exemplo `[32][15][18]` → `notas trinta e dois, quinze e dezoito`.
+      - Preservar distinções dos modos que citam, resumem, ignoram ou expandem referências.
+
+    - **Referências bíblicas**
+      - Classificar antes da síntese e **NUNCA** interpretar como horário.
+      - `Mateus 3:22` DEVE ser lido, no modo básico, como equivalente a `Mateus, três, vinte e dois`; no completo, `Mateus, capítulo três, versículo vinte e dois`.
+      - Cobrir, conforme sintaxes comprovadas na origem: livro, livros numerados, capítulo, versículo, intervalos, múltiplos versículos/capítulos, abreviações reconhecidas, versão e combinações válidas.
+      - `15:30` em contexto temporal continua podendo ser horário.
+      - Revalidar exemplos compostos herdados antes de convertê-los em casos normativos; NÃO hardcodar exemplos nem perpetuar eventual erro tipográfico da fonte.
+
+    - Preservar ainda, conforme a fonte herdada, idiomas/BCP 47, ausência de voz, fala local excepcional revisada, tabelas, imagens, gráficos, citações, referências, navegação, avisos, sumário, pausas, `play/pause/resume/stop` e degradação progressiva. Pronúncia especial exige evidência confiável/revisão identificada; IPA PODE ser evidência, nunca fala crua.
+
+  - **Implementação e validação**
+    - Implementar somente após a autorização normativa/código exigida pelo construtor, pela fonte canônica; regenerar derivados pelo fluxo oficial, atualizar manifestos/índices/documentação requeridos e NÃO editar artefato gerado manualmente.
+    - Especificar testes positivos, negativos e regressivos para, no mínimo:
+      - preservação de estilo, voz e pontuação;
+      - correção sem troca perceptível de autoria;
+      - simplificação lexical/sintática sem perda;
+      - primeira explicação de termo complexo, ausência de repetição e reexplicação justificada;
+      - rigor sem infantilização;
+      - `vs`, `vs.`, variações de caixa, `x` comparativo e não comparativo;
+      - romanos válidos e falsos positivos;
+      - aspas citacionais e não citacionais;
+      - parênteses e colchetes isolados, combinados, aninhados e cruzados;
+      - delimitadores em `blockquote`, código, URL, sintaxe, metadado e fórmula;
+      - `<sup>` único e múltiplos consecutivos;
+      - referências bíblicas simples, completas, compostas e horário real;
+      - modos de referência e troca de modo;
+      - pausa/retomada, idioma, tabela, imagem, gráfico e combinações reais.
+    - Validar o percurso real:
+      `original → normalização → payload efetivo do sintetizador → pronúncia esperada`;
+      teste apenas de regex ou texto intermediário NÃO é suficiente.
+    - Quando houver infraestrutura, registrar amostra auditiva com ferramenta, versão, voz/idioma, entrada, sequência, resultado e limitações; automação NÃO substitui escuta humana de prosódia, naturalidade e fronteiras autorais.
+    - Provar ausência de regressão em datas, horários, números, unidades, abreviações, Markdown/HTML, notas, citações, conteúdo editorial, estilos, modos de TTS, ausência de JavaScript/voz, páginas sem capacidade, acessibilidade, build, Windows/Linux e publicação.
+    - Falha opcional DEVE conservar conteúdo acessível, NÃO fabricar sucesso e emitir diagnóstico rastreável.
+
+  - **Critério absoluto de aceite**
+    - Aceitar somente quando, simultaneamente:
+      1. a origem permanecer integralmente inalterada e reconsultável;
+      2. regras herdadas, aperfeiçoamentos deste pedido, decisões dependentes do construtor e incompatibilidades/obsolescências estiverem distinguidos e justificados;
+      3. a arquitetura usar o menor conjunto aderente de mecanismos e não criar fluxo paralelo;
+      4. toda capacidade for independente e `hookable`;
+      5. conteúdo original permanecer semanticamente preservado;
+      6. identidade autoral e pontuação forem preservadas sem assinatura perceptível de IA;
+      7. linguagem permanecer acessível a baixa proficiência sem perder rigor;
+      8. termos complexos necessários forem explicados na primeira ocorrência pertinente;
+      9. `vs`/`vs.`/`x`, romanos, delimitadores, notas e referências bíblicas forem tratados contextualmente e sem falsos positivos;
+      10. referências bíblicas nunca forem pronunciadas como horário;
+      11. testes positivos, negativos, regressivos e auditivos aplicáveis estiverem definidos/aprovados;
+      12. não houver regressão de acessibilidade, build, publicação ou comportamento válido herdado;
+      13. nenhuma informação material permanecer implícita;
+      14. outra IA puder implementar/validar a solução sem reconstruir esta análise.

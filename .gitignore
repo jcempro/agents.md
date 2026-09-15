@@ -21,6 +21,9 @@ agents-governance-backups/
 # Permite versionar o nucleo gerenciado atualizado por update:agents.
 !/.ia.rules/
 !/.ia.rules/**
+# Evidências de solicitações são estado versionável, inclusive arquivos ocultos.
+!/.ia.rules/state/requests/evidencias/
+!/.ia.rules/state/requests/evidencias/**
 /.ia.rules/cache/
 /.ia.rules/local/
 /.ia.rules/agents-update.lock.json
