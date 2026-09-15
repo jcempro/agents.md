@@ -1,7 +1,7 @@
 # Solicitação derivada — FT-099
 
 Origem: recomendação `validated-session-cache` de `constructor/evaluations/context-cost-audit/report.json`, entrada SHA-256 `a45c5ba258bc667f402447590f8fabe0d795d5333b16c5ee475eee4cd6c7830b` registrada em 2026-09-15.
-Estado: implementação autorizada explicitamente pelo usuário em 2026-09-15; release permanece fora do escopo.
+Estado: implementação concluída em 2026-09-15, pendente de validação do desenvolvedor; release permanece fora do escopo.
 
 ## Solução recomendada
 

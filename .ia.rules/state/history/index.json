@@ -679,6 +679,13 @@
       "path": ".ia.rules/state/history/FT-098.ia",
       "sha256": "0d5db7f7ab80d03c0a727fa46c326b41d764ced2ceec8b5ba5ed9a130dc0964f",
       "state": "pendente-validacao"
+    },
+    {
+      "id": "FT-099",
+      "name": "Cache contextual validado por hash durante a sessão",
+      "path": ".ia.rules/state/history/FT-099.ia",
+      "sha256": "d900d73fe3f9f60c383b9fe734a5ce3b6a5cdadec851400b1829714b61869d92",
+      "state": "pendente-validacao"
     }
   ]
 }
