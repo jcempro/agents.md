@@ -1,0 +1,814 @@
+{
+  "alternatives": [
+    {
+      "cache": "session",
+      "id": "validated-session-cache",
+      "risk": 0.3,
+      "summary": "reusar somente unidades com hash validado durante a mesma sessão"
+    },
+    {
+      "cache": "scenario",
+      "id": "scenario-deduplication",
+      "risk": 0.1,
+      "summary": "eliminar releitura da mesma unidade dentro de um único cenário"
+    },
+    {
+      "cache": "none",
+      "id": "handoff-replaces-state",
+      "risk": 0.9,
+      "summary": "controle adverso que tenta substituir o estado pelo handoff derivado"
+    }
+  ],
+  "baseline": {
+    "cache": "none",
+    "candidates": [],
+    "equivalent": true,
+    "id": "baseline",
+    "regressions": [],
+    "risk": 0,
+    "savingsPercent": 0.0,
+    "scenarios": [
+      {
+        "atomCoverage": 1,
+        "baselineTokens": 13903,
+        "deltaTokens": 0,
+        "equivalent": true,
+        "id": "cold-audit",
+        "relationCoverage": 1,
+        "variantTokens": 13903,
+        "weight": 1
+      },
+      {
+        "atomCoverage": 1,
+        "baselineTokens": 13342,
+        "deltaTokens": 0,
+        "equivalent": true,
+        "id": "continued-audit",
+        "relationCoverage": 1,
+        "variantTokens": 13342,
+        "weight": 1
+      },
+      {
+        "atomCoverage": 1,
+        "baselineTokens": 19259,
+        "deltaTokens": 0,
+        "equivalent": true,
+        "id": "todo-operation",
+        "relationCoverage": 1,
+        "variantTokens": 19259,
+        "weight": 1
+      },
+      {
+        "atomCoverage": 1,
+        "baselineTokens": 16768,
+        "deltaTokens": 0,
+        "equivalent": true,
+        "id": "recovery",
+        "relationCoverage": 1,
+        "variantTokens": 16768,
+        "weight": 1
+      },
+      {
+        "atomCoverage": 1,
+        "baselineTokens": 11233,
+        "deltaTokens": 0,
+        "equivalent": true,
+        "id": "resume",
+        "relationCoverage": 1,
+        "variantTokens": 11233,
+        "weight": 1
+      },
+      {
+        "atomCoverage": 1,
+        "baselineTokens": 9378,
+        "deltaTokens": 0,
+        "equivalent": true,
+        "id": "historical-query",
+        "relationCoverage": 1,
+        "variantTokens": 9378,
+        "weight": 1
+      }
+    ],
+    "weightedBaselineTokens": 83883.0,
+    "weightedSavings": 0.0,
+    "weightedTokens": 83883.0
+  },
+  "experiments": [
+    {
+      "cache": "session",
+      "candidates": [
+        "validated-session-cache"
+      ],
+      "equivalent": true,
+      "id": "validated-session-cache",
+      "interactionSavings": 0.0,
+      "regressions": [],
+      "risk": 0.3,
+      "savingsPercent": 55.43197072112347,
+      "scenarios": [
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 13903,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "cold-audit",
+          "relationCoverage": 1,
+          "variantTokens": 13903,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 13342,
+          "deltaTokens": -13342,
+          "equivalent": true,
+          "id": "continued-audit",
+          "relationCoverage": 1,
+          "variantTokens": 0,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 19259,
+          "deltaTokens": -11188,
+          "equivalent": true,
+          "id": "todo-operation",
+          "relationCoverage": 1,
+          "variantTokens": 8071,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 16768,
+          "deltaTokens": -8465,
+          "equivalent": true,
+          "id": "recovery",
+          "relationCoverage": 1,
+          "variantTokens": 8303,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 11233,
+          "deltaTokens": -11188,
+          "equivalent": true,
+          "id": "resume",
+          "relationCoverage": 1,
+          "variantTokens": 45,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": -2315,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 7063,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 46498.0,
+      "weightedTokens": 37385.0
+    },
+    {
+      "cache": "scenario",
+      "candidates": [
+        "scenario-deduplication"
+      ],
+      "equivalent": true,
+      "id": "scenario-deduplication",
+      "interactionSavings": 0.0,
+      "regressions": [],
+      "risk": 0.1,
+      "savingsPercent": 0.0,
+      "scenarios": [
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 13903,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "cold-audit",
+          "relationCoverage": 1,
+          "variantTokens": 13903,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 13342,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "continued-audit",
+          "relationCoverage": 1,
+          "variantTokens": 13342,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 19259,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "todo-operation",
+          "relationCoverage": 1,
+          "variantTokens": 19259,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 16768,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "recovery",
+          "relationCoverage": 1,
+          "variantTokens": 16768,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 11233,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "resume",
+          "relationCoverage": 1,
+          "variantTokens": 11233,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 9378,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 0.0,
+      "weightedTokens": 83883.0
+    },
+    {
+      "cache": "none",
+      "candidates": [
+        "handoff-replaces-state"
+      ],
+      "equivalent": false,
+      "id": "handoff-replaces-state",
+      "interactionSavings": 0.0,
+      "regressions": [],
+      "risk": 0.9,
+      "savingsPercent": 47.07747696195892,
+      "scenarios": [
+        {
+          "atomCoverage": 0.46296296296296297,
+          "baselineTokens": 13903,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "cold-audit",
+          "relationCoverage": 0.9,
+          "variantTokens": 6005,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4423076923076923,
+          "baselineTokens": 13342,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "continued-audit",
+          "relationCoverage": 0.8888888888888888,
+          "variantTokens": 5444,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.6643518518518519,
+          "baselineTokens": 19259,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "todo-operation",
+          "relationCoverage": 0.875,
+          "variantTokens": 11361,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4528301886792453,
+          "baselineTokens": 16768,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "recovery",
+          "relationCoverage": 0.8,
+          "variantTokens": 8870,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.35555555555555557,
+          "baselineTokens": 11233,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "resume",
+          "relationCoverage": 0.8571428571428571,
+          "variantTokens": 3335,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 9378,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 39490.0,
+      "weightedTokens": 44393.0
+    },
+    {
+      "cache": "session",
+      "candidates": [
+        "validated-session-cache",
+        "scenario-deduplication"
+      ],
+      "equivalent": true,
+      "id": "validated-session-cache+scenario-deduplication",
+      "interactionSavings": 0.0,
+      "regressions": [],
+      "risk": 0.4,
+      "savingsPercent": 55.43197072112347,
+      "scenarios": [
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 13903,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "cold-audit",
+          "relationCoverage": 1,
+          "variantTokens": 13903,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 13342,
+          "deltaTokens": -13342,
+          "equivalent": true,
+          "id": "continued-audit",
+          "relationCoverage": 1,
+          "variantTokens": 0,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 19259,
+          "deltaTokens": -11188,
+          "equivalent": true,
+          "id": "todo-operation",
+          "relationCoverage": 1,
+          "variantTokens": 8071,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 16768,
+          "deltaTokens": -8465,
+          "equivalent": true,
+          "id": "recovery",
+          "relationCoverage": 1,
+          "variantTokens": 8303,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 11233,
+          "deltaTokens": -11188,
+          "equivalent": true,
+          "id": "resume",
+          "relationCoverage": 1,
+          "variantTokens": 45,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": -2315,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 7063,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 46498.0,
+      "weightedTokens": 37385.0
+    },
+    {
+      "cache": "session",
+      "candidates": [
+        "validated-session-cache",
+        "handoff-replaces-state"
+      ],
+      "equivalent": false,
+      "id": "validated-session-cache+handoff-replaces-state",
+      "interactionSavings": -31592.0,
+      "regressions": [],
+      "risk": 1.2,
+      "savingsPercent": 64.84746611351525,
+      "scenarios": [
+        {
+          "atomCoverage": 0.46296296296296297,
+          "baselineTokens": 13903,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "cold-audit",
+          "relationCoverage": 0.9,
+          "variantTokens": 6005,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4423076923076923,
+          "baselineTokens": 13342,
+          "deltaTokens": -13342,
+          "equivalent": false,
+          "id": "continued-audit",
+          "relationCoverage": 0.8888888888888888,
+          "variantTokens": 0,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.6643518518518519,
+          "baselineTokens": 19259,
+          "deltaTokens": -11188,
+          "equivalent": false,
+          "id": "todo-operation",
+          "relationCoverage": 0.875,
+          "variantTokens": 8071,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4528301886792453,
+          "baselineTokens": 16768,
+          "deltaTokens": -8465,
+          "equivalent": false,
+          "id": "recovery",
+          "relationCoverage": 0.8,
+          "variantTokens": 8303,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.35555555555555557,
+          "baselineTokens": 11233,
+          "deltaTokens": -11188,
+          "equivalent": false,
+          "id": "resume",
+          "relationCoverage": 0.8571428571428571,
+          "variantTokens": 45,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": -2315,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 7063,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 54396.0,
+      "weightedTokens": 29487.0
+    },
+    {
+      "cache": "scenario",
+      "candidates": [
+        "scenario-deduplication",
+        "handoff-replaces-state"
+      ],
+      "equivalent": false,
+      "id": "scenario-deduplication+handoff-replaces-state",
+      "interactionSavings": 0.0,
+      "regressions": [],
+      "risk": 1.0,
+      "savingsPercent": 47.07747696195892,
+      "scenarios": [
+        {
+          "atomCoverage": 0.46296296296296297,
+          "baselineTokens": 13903,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "cold-audit",
+          "relationCoverage": 0.9,
+          "variantTokens": 6005,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4423076923076923,
+          "baselineTokens": 13342,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "continued-audit",
+          "relationCoverage": 0.8888888888888888,
+          "variantTokens": 5444,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.6643518518518519,
+          "baselineTokens": 19259,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "todo-operation",
+          "relationCoverage": 0.875,
+          "variantTokens": 11361,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4528301886792453,
+          "baselineTokens": 16768,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "recovery",
+          "relationCoverage": 0.8,
+          "variantTokens": 8870,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.35555555555555557,
+          "baselineTokens": 11233,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "resume",
+          "relationCoverage": 0.8571428571428571,
+          "variantTokens": 3335,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": 0,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 9378,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 39490.0,
+      "weightedTokens": 44393.0
+    },
+    {
+      "cache": "session",
+      "candidates": [
+        "validated-session-cache",
+        "scenario-deduplication",
+        "handoff-replaces-state"
+      ],
+      "equivalent": false,
+      "id": "validated-session-cache+scenario-deduplication+handoff-replaces-state",
+      "interactionSavings": -31592.0,
+      "regressions": [],
+      "risk": 1.3,
+      "savingsPercent": 64.84746611351525,
+      "scenarios": [
+        {
+          "atomCoverage": 0.46296296296296297,
+          "baselineTokens": 13903,
+          "deltaTokens": -7898,
+          "equivalent": false,
+          "id": "cold-audit",
+          "relationCoverage": 0.9,
+          "variantTokens": 6005,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4423076923076923,
+          "baselineTokens": 13342,
+          "deltaTokens": -13342,
+          "equivalent": false,
+          "id": "continued-audit",
+          "relationCoverage": 0.8888888888888888,
+          "variantTokens": 0,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.6643518518518519,
+          "baselineTokens": 19259,
+          "deltaTokens": -11188,
+          "equivalent": false,
+          "id": "todo-operation",
+          "relationCoverage": 0.875,
+          "variantTokens": 8071,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.4528301886792453,
+          "baselineTokens": 16768,
+          "deltaTokens": -8465,
+          "equivalent": false,
+          "id": "recovery",
+          "relationCoverage": 0.8,
+          "variantTokens": 8303,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 0.35555555555555557,
+          "baselineTokens": 11233,
+          "deltaTokens": -11188,
+          "equivalent": false,
+          "id": "resume",
+          "relationCoverage": 0.8571428571428571,
+          "variantTokens": 45,
+          "weight": 1
+        },
+        {
+          "atomCoverage": 1,
+          "baselineTokens": 9378,
+          "deltaTokens": -2315,
+          "equivalent": true,
+          "id": "historical-query",
+          "relationCoverage": 1,
+          "variantTokens": 7063,
+          "weight": 1
+        }
+      ],
+      "weightedBaselineTokens": 83883.0,
+      "weightedSavings": 54396.0,
+      "weightedTokens": 29487.0
+    }
+  ],
+  "inputSha256": "d1b8180f28aab971d7225140b744f21f095e156321cae7dee5d84d329467f7a4",
+  "metadata": {
+    "encoding": "o200k_base",
+    "model": "gpt-4o",
+    "repositoryRoot": ".",
+    "revision": "4e98b28",
+    "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral",
+    "tokenizer": "tiktoken",
+    "tokenizerVersion": "0.13.0",
+    "weightBasis": "pesos uniformes por ausência de frequência observada autenticada"
+  },
+  "pareto": [
+    "validated-session-cache",
+    "scenario-deduplication"
+  ],
+  "ranking": [
+    "validated-session-cache",
+    "validated-session-cache+scenario-deduplication",
+    "scenario-deduplication"
+  ],
+  "recommendation": {
+    "applied": false,
+    "candidate": "validated-session-cache",
+    "requiresLaterFt": true
+  },
+  "schema": "agents-context-cost-report/v1",
+  "sources": [
+    {
+      "accessed": "2026-09-15",
+      "kind": "primary",
+      "url": "https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency/",
+      "use": "eficiência e custo de agentes"
+    },
+    {
+      "accessed": "2026-09-15",
+      "kind": "primary",
+      "url": "https://openai.com/index/equip-responses-api-computer-environment/",
+      "use": "contexto e ambiente de execução"
+    },
+    {
+      "accessed": "2026-09-15",
+      "kind": "primary",
+      "url": "https://www.anthropic.com/engineering/managed-agents",
+      "use": "estado e retomada de agentes"
+    },
+    {
+      "accessed": "2026-09-15",
+      "kind": "paper",
+      "url": "https://arxiv.org/abs/2607.01916",
+      "use": "avaliação de contexto de agentes"
+    },
+    {
+      "accessed": "2026-09-15",
+      "kind": "paper",
+      "url": "https://arxiv.org/abs/2609.04915",
+      "use": "otimização contextual recente"
+    }
+  ],
+  "unitEvidence": [
+    {
+      "atoms": 10,
+      "id": "entry",
+      "relations": 1,
+      "sha256": "d8e94f943d916af502a5e7f20810420dce6d5efb3b3bc233dfd8187fa71b18e5",
+      "tokens": 399
+    },
+    {
+      "atoms": 18,
+      "id": "authority",
+      "relations": 1,
+      "sha256": "1e376c1931c48cade6da4612264df5501e1199bce1724da793baefca9c5138b6",
+      "tokens": 1130
+    },
+    {
+      "atoms": 19,
+      "id": "final-role",
+      "relations": 1,
+      "sha256": "17778910a4db8581ba150e51d62b5f48ba56393ef1e6373e2d26dfd227d2b7b2",
+      "tokens": 663
+    },
+    {
+      "atoms": 19,
+      "id": "constructor-role",
+      "relations": 1,
+      "sha256": "3d9a0f39701ce343d82e04ce7ccd3c131140fb81735f2b39de8b3e95ce375faa",
+      "tokens": 930
+    },
+    {
+      "atoms": 22,
+      "id": "constructor-operation",
+      "relations": 1,
+      "sha256": "21c026cc3a46241dd933e9d6be5ffb59cadc3a3b833ac8a4380ebc90d0c01b58",
+      "tokens": 902
+    },
+    {
+      "atoms": 10,
+      "id": "skills-contract",
+      "relations": 1,
+      "sha256": "74bf13cd3425ce15ba268eeeff70cd598b4630cfd3442b28603a1fe63b973172",
+      "tokens": 561
+    },
+    {
+      "atoms": 13,
+      "id": "cost-contract",
+      "relations": 1,
+      "sha256": "72c9a73e24d1d86394f2e205f5b7f21ca7a065ef6b20e86abe2972e900304dc3",
+      "tokens": 828
+    },
+    {
+      "atoms": 13,
+      "id": "state-scenario",
+      "relations": 1,
+      "sha256": "215a0006c44b00dbc1eea52ca526b78c64d1830e4b05be03544deebff2041807",
+      "tokens": 946
+    },
+    {
+      "atoms": 97,
+      "id": "full-norm",
+      "relations": 1,
+      "sha256": "f155bc87d6d65b27a89048cabf8af37ea8676cb5e1ccae2963de874bfd91ee00",
+      "tokens": 8194
+    },
+    {
+      "atoms": 10,
+      "id": "state-index",
+      "relations": 1,
+      "sha256": "a465b252116ef6d5e1d1c3119d0f0ae5007f2518355d0808261ec28809fdb82a",
+      "tokens": 123
+    },
+    {
+      "atoms": 145,
+      "id": "continue",
+      "relations": 1,
+      "sha256": "d261cecc1b0aa53de00e4b5c01c17f82898b08878169ada4e3fe4fd58352dfba",
+      "tokens": 7943
+    },
+    {
+      "atoms": 4,
+      "id": "memory",
+      "relations": 1,
+      "sha256": "6985725eb22845098a550d3d756a74bfe916f8c98b9ed05944d51e609f6503f3",
+      "tokens": 424
+    },
+    {
+      "atoms": 198,
+      "id": "todo",
+      "relations": 1,
+      "sha256": "58cb8f2571294a3663ac2b38de1c49f1c8519e309e05730e2f124f2e6b4ef3bf",
+      "tokens": 7125
+    },
+    {
+      "atoms": 3,
+      "id": "fix",
+      "relations": 1,
+      "sha256": "8e0aeb3ecdf9304c9b4f8c5922b5a9b8d0b460705525c68276205c9dab1ebc36",
+      "tokens": 109
+    },
+    {
+      "atoms": 97,
+      "id": "implemented",
+      "relations": 1,
+      "sha256": "6a26553ed9bdd8526267bec4c9fc63a54f51833b309f163835c22930450d079f",
+      "tokens": 7063
+    },
+    {
+      "atoms": 4,
+      "id": "handoff",
+      "relations": 1,
+      "sha256": "28833579bac1a73a9dd9088278395fd69c8afdc54c7f6ed5a21e480339cc4127",
+      "tokens": 45
+    }
+  ]
+}
