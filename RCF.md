@@ -1757,7 +1757,7 @@ Combinações plausíveis DEVEM medir efeitos aditivos, sinérgicos e antagônic
 
 Toda variante DEVE preservar 100% dos átomos materiais e relações de obrigação, proibição, permissão, condição, exceção, precedência, escopo, aceite, consequência, exemplo delimitador, rastreabilidade e validação. Comparação combina estrutura, equivalência bidirecional, casos positivos/negativos, contraexemplos, cenários reais e revisão humana de mudança normativa; tornar obrigação implícita, remover exceção, reduzir modalidade, esconder custo ou eliminar exemplo necessário é proibido. [3725de7]
 
-Métrica end-to-end DEVE cobrir cada rota relevante, cold context, reuso/cache legítimo, consulta e atualização de memória/status, criação/continuidade de FT, recovery, retomada sem contexto prévio e consulta histórica específica. Ranking pondera economia absoluta/percentual, frequência/cobertura, memória/status, recovery/resume, complexidade, manutenção, risco, robustez, compatibilidade e benefício acumulado; ganho global NÃO PODE mascarar regressão local injustificada. [3725de7]
+Métrica end-to-end DEVE cobrir cada rota relevante, cold context, reuso/cache legítimo, consulta e atualização de memória/status, criação/continuidade de FT, recovery, retomada sem contexto prévio e consulta histórica específica. Ranking pondera economia absoluta/percentual, frequência/cobertura, memória/status, recovery/resume, complexidade, manutenção, risco, robustez, compatibilidade e benefício acumulado; ganho global NÃO PODE mascarar regressão local injustificada. [PENDENTE-CODIGO]
 
 ### 23.4 Relatório, recomendação e gate posterior
 
