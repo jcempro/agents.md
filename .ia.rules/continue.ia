@@ -168,5 +168,5 @@ FT-099|nome=Cache contextual validado por hash durante a sessão|tipo=implementa
 objetivo=Implementar reuso intrassessão somente para unidades contextuais cuja identidade, hash, autoridade e dependências permaneçam válidos, sem alterar cold context nem ocultar releitura necessária.
 origem=.ia.rules/state/requests/FT-099/request.md; recomendacao=constructor/evaluations/context-cost-audit/report.json; depende=FT-098; autorizacao=pendente_humana.
 plano=Aguardar autorização posterior; então definir invalidação, integração, migração nula, rollback, telemetria e testes contra todos os cenários medidos.
-aceite=Economia end-to-end reproduzida sem perda dos 682 átomos e 16 relações, sem regressão local e com invalidação segura comprovada.
+aceite=Economia end-to-end reproduzida sem perda dos 688 átomos e 16 relações, sem regressão local e com invalidação segura comprovada.
 pendencias=FT criada obrigatoriamente pela recomendação material; não autorizada pela execução experimental que a originou.

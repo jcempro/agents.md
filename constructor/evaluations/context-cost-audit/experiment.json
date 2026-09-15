@@ -1,7 +1,7 @@
 {
   "schema": "agents-context-cost-experiment/v1",
   "metadata": {
-    "revision": "4e98b28",
+    "revision": "c60fcc7",
     "repositoryRoot": ".",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0",

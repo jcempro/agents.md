@@ -30,52 +30,52 @@
     "scenarios": [
       {
         "atomCoverage": 1,
-        "baselineTokens": 13903,
+        "baselineTokens": 14161,
         "deltaTokens": 0,
         "equivalent": true,
         "id": "cold-audit",
         "relationCoverage": 1,
-        "variantTokens": 13903,
+        "variantTokens": 14161,
         "weight": 1
       },
       {
         "atomCoverage": 1,
-        "baselineTokens": 13342,
+        "baselineTokens": 13600,
         "deltaTokens": 0,
         "equivalent": true,
         "id": "continued-audit",
         "relationCoverage": 1,
-        "variantTokens": 13342,
+        "variantTokens": 13600,
         "weight": 1
       },
       {
         "atomCoverage": 1,
-        "baselineTokens": 19259,
+        "baselineTokens": 19517,
         "deltaTokens": 0,
         "equivalent": true,
         "id": "todo-operation",
         "relationCoverage": 1,
-        "variantTokens": 19259,
+        "variantTokens": 19517,
         "weight": 1
       },
       {
         "atomCoverage": 1,
-        "baselineTokens": 16768,
+        "baselineTokens": 17026,
         "deltaTokens": 0,
         "equivalent": true,
         "id": "recovery",
         "relationCoverage": 1,
-        "variantTokens": 16768,
+        "variantTokens": 17026,
         "weight": 1
       },
       {
         "atomCoverage": 1,
-        "baselineTokens": 11233,
+        "baselineTokens": 11491,
         "deltaTokens": 0,
         "equivalent": true,
         "id": "resume",
         "relationCoverage": 1,
-        "variantTokens": 11233,
+        "variantTokens": 11491,
         "weight": 1
       },
       {
@@ -89,9 +89,9 @@
         "weight": 1
       }
     ],
-    "weightedBaselineTokens": 83883.0,
+    "weightedBaselineTokens": 85173.0,
     "weightedSavings": 0.0,
-    "weightedTokens": 83883.0
+    "weightedTokens": 85173.0
   },
   "experiments": [
     {
@@ -104,22 +104,22 @@
       "interactionSavings": 0.0,
       "regressions": [],
       "risk": 0.3,
-      "savingsPercent": 55.43197072112347,
+      "savingsPercent": 55.80406936470478,
       "scenarios": [
         {
           "atomCoverage": 1,
-          "baselineTokens": 13903,
+          "baselineTokens": 14161,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "cold-audit",
           "relationCoverage": 1,
-          "variantTokens": 13903,
+          "variantTokens": 14161,
           "weight": 1
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 13342,
-          "deltaTokens": -13342,
+          "baselineTokens": 13600,
+          "deltaTokens": -13600,
           "equivalent": true,
           "id": "continued-audit",
           "relationCoverage": 1,
@@ -128,8 +128,8 @@
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 19259,
-          "deltaTokens": -11188,
+          "baselineTokens": 19517,
+          "deltaTokens": -11446,
           "equivalent": true,
           "id": "todo-operation",
           "relationCoverage": 1,
@@ -138,8 +138,8 @@
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 16768,
-          "deltaTokens": -8465,
+          "baselineTokens": 17026,
+          "deltaTokens": -8723,
           "equivalent": true,
           "id": "recovery",
           "relationCoverage": 1,
@@ -148,8 +148,8 @@
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 11233,
-          "deltaTokens": -11188,
+          "baselineTokens": 11491,
+          "deltaTokens": -11446,
           "equivalent": true,
           "id": "resume",
           "relationCoverage": 1,
@@ -167,9 +167,9 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
-      "weightedSavings": 46498.0,
-      "weightedTokens": 37385.0
+      "weightedBaselineTokens": 85173.0,
+      "weightedSavings": 47530.0,
+      "weightedTokens": 37643.0
     },
     {
       "cache": "scenario",
@@ -185,52 +185,52 @@
       "scenarios": [
         {
           "atomCoverage": 1,
-          "baselineTokens": 13903,
+          "baselineTokens": 14161,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "cold-audit",
           "relationCoverage": 1,
-          "variantTokens": 13903,
+          "variantTokens": 14161,
           "weight": 1
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 13342,
+          "baselineTokens": 13600,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "continued-audit",
           "relationCoverage": 1,
-          "variantTokens": 13342,
+          "variantTokens": 13600,
           "weight": 1
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 19259,
+          "baselineTokens": 19517,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "todo-operation",
           "relationCoverage": 1,
-          "variantTokens": 19259,
+          "variantTokens": 19517,
           "weight": 1
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 16768,
+          "baselineTokens": 17026,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "recovery",
           "relationCoverage": 1,
-          "variantTokens": 16768,
+          "variantTokens": 17026,
           "weight": 1
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 11233,
+          "baselineTokens": 11491,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "resume",
           "relationCoverage": 1,
-          "variantTokens": 11233,
+          "variantTokens": 11491,
           "weight": 1
         },
         {
@@ -244,9 +244,9 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
+      "weightedBaselineTokens": 85173.0,
       "weightedSavings": 0.0,
-      "weightedTokens": 83883.0
+      "weightedTokens": 85173.0
     },
     {
       "cache": "none",
@@ -258,12 +258,12 @@
       "interactionSavings": 0.0,
       "regressions": [],
       "risk": 0.9,
-      "savingsPercent": 47.07747696195892,
+      "savingsPercent": 47.8790226949855,
       "scenarios": [
         {
-          "atomCoverage": 0.46296296296296297,
-          "baselineTokens": 13903,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.4528985507246377,
+          "baselineTokens": 14161,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "cold-audit",
           "relationCoverage": 0.9,
@@ -271,9 +271,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4423076923076923,
-          "baselineTokens": 13342,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.4323308270676692,
+          "baselineTokens": 13600,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "continued-audit",
           "relationCoverage": 0.8888888888888888,
@@ -281,9 +281,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.6643518518518519,
-          "baselineTokens": 19259,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.6552511415525114,
+          "baselineTokens": 19517,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "todo-operation",
           "relationCoverage": 0.875,
@@ -291,9 +291,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4528301886792453,
-          "baselineTokens": 16768,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.44280442804428044,
+          "baselineTokens": 17026,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "recovery",
           "relationCoverage": 0.8,
@@ -301,9 +301,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.35555555555555557,
-          "baselineTokens": 11233,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.3463203463203463,
+          "baselineTokens": 11491,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "resume",
           "relationCoverage": 0.8571428571428571,
@@ -321,8 +321,8 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
-      "weightedSavings": 39490.0,
+      "weightedBaselineTokens": 85173.0,
+      "weightedSavings": 40780.0,
       "weightedTokens": 44393.0
     },
     {
@@ -336,22 +336,22 @@
       "interactionSavings": 0.0,
       "regressions": [],
       "risk": 0.4,
-      "savingsPercent": 55.43197072112347,
+      "savingsPercent": 55.80406936470478,
       "scenarios": [
         {
           "atomCoverage": 1,
-          "baselineTokens": 13903,
+          "baselineTokens": 14161,
           "deltaTokens": 0,
           "equivalent": true,
           "id": "cold-audit",
           "relationCoverage": 1,
-          "variantTokens": 13903,
+          "variantTokens": 14161,
           "weight": 1
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 13342,
-          "deltaTokens": -13342,
+          "baselineTokens": 13600,
+          "deltaTokens": -13600,
           "equivalent": true,
           "id": "continued-audit",
           "relationCoverage": 1,
@@ -360,8 +360,8 @@
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 19259,
-          "deltaTokens": -11188,
+          "baselineTokens": 19517,
+          "deltaTokens": -11446,
           "equivalent": true,
           "id": "todo-operation",
           "relationCoverage": 1,
@@ -370,8 +370,8 @@
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 16768,
-          "deltaTokens": -8465,
+          "baselineTokens": 17026,
+          "deltaTokens": -8723,
           "equivalent": true,
           "id": "recovery",
           "relationCoverage": 1,
@@ -380,8 +380,8 @@
         },
         {
           "atomCoverage": 1,
-          "baselineTokens": 11233,
-          "deltaTokens": -11188,
+          "baselineTokens": 11491,
+          "deltaTokens": -11446,
           "equivalent": true,
           "id": "resume",
           "relationCoverage": 1,
@@ -399,9 +399,9 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
-      "weightedSavings": 46498.0,
-      "weightedTokens": 37385.0
+      "weightedBaselineTokens": 85173.0,
+      "weightedSavings": 47530.0,
+      "weightedTokens": 37643.0
     },
     {
       "cache": "session",
@@ -411,15 +411,15 @@
       ],
       "equivalent": false,
       "id": "validated-session-cache+handoff-replaces-state",
-      "interactionSavings": -31592.0,
+      "interactionSavings": -32624.0,
       "regressions": [],
       "risk": 1.2,
-      "savingsPercent": 64.84746611351525,
+      "savingsPercent": 65.37987390370188,
       "scenarios": [
         {
-          "atomCoverage": 0.46296296296296297,
-          "baselineTokens": 13903,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.4528985507246377,
+          "baselineTokens": 14161,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "cold-audit",
           "relationCoverage": 0.9,
@@ -427,9 +427,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4423076923076923,
-          "baselineTokens": 13342,
-          "deltaTokens": -13342,
+          "atomCoverage": 0.4323308270676692,
+          "baselineTokens": 13600,
+          "deltaTokens": -13600,
           "equivalent": false,
           "id": "continued-audit",
           "relationCoverage": 0.8888888888888888,
@@ -437,9 +437,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.6643518518518519,
-          "baselineTokens": 19259,
-          "deltaTokens": -11188,
+          "atomCoverage": 0.6552511415525114,
+          "baselineTokens": 19517,
+          "deltaTokens": -11446,
           "equivalent": false,
           "id": "todo-operation",
           "relationCoverage": 0.875,
@@ -447,9 +447,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4528301886792453,
-          "baselineTokens": 16768,
-          "deltaTokens": -8465,
+          "atomCoverage": 0.44280442804428044,
+          "baselineTokens": 17026,
+          "deltaTokens": -8723,
           "equivalent": false,
           "id": "recovery",
           "relationCoverage": 0.8,
@@ -457,9 +457,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.35555555555555557,
-          "baselineTokens": 11233,
-          "deltaTokens": -11188,
+          "atomCoverage": 0.3463203463203463,
+          "baselineTokens": 11491,
+          "deltaTokens": -11446,
           "equivalent": false,
           "id": "resume",
           "relationCoverage": 0.8571428571428571,
@@ -477,8 +477,8 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
-      "weightedSavings": 54396.0,
+      "weightedBaselineTokens": 85173.0,
+      "weightedSavings": 55686.0,
       "weightedTokens": 29487.0
     },
     {
@@ -492,12 +492,12 @@
       "interactionSavings": 0.0,
       "regressions": [],
       "risk": 1.0,
-      "savingsPercent": 47.07747696195892,
+      "savingsPercent": 47.8790226949855,
       "scenarios": [
         {
-          "atomCoverage": 0.46296296296296297,
-          "baselineTokens": 13903,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.4528985507246377,
+          "baselineTokens": 14161,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "cold-audit",
           "relationCoverage": 0.9,
@@ -505,9 +505,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4423076923076923,
-          "baselineTokens": 13342,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.4323308270676692,
+          "baselineTokens": 13600,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "continued-audit",
           "relationCoverage": 0.8888888888888888,
@@ -515,9 +515,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.6643518518518519,
-          "baselineTokens": 19259,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.6552511415525114,
+          "baselineTokens": 19517,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "todo-operation",
           "relationCoverage": 0.875,
@@ -525,9 +525,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4528301886792453,
-          "baselineTokens": 16768,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.44280442804428044,
+          "baselineTokens": 17026,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "recovery",
           "relationCoverage": 0.8,
@@ -535,9 +535,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.35555555555555557,
-          "baselineTokens": 11233,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.3463203463203463,
+          "baselineTokens": 11491,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "resume",
           "relationCoverage": 0.8571428571428571,
@@ -555,8 +555,8 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
-      "weightedSavings": 39490.0,
+      "weightedBaselineTokens": 85173.0,
+      "weightedSavings": 40780.0,
       "weightedTokens": 44393.0
     },
     {
@@ -568,15 +568,15 @@
       ],
       "equivalent": false,
       "id": "validated-session-cache+scenario-deduplication+handoff-replaces-state",
-      "interactionSavings": -31592.0,
+      "interactionSavings": -32624.0,
       "regressions": [],
       "risk": 1.3,
-      "savingsPercent": 64.84746611351525,
+      "savingsPercent": 65.37987390370188,
       "scenarios": [
         {
-          "atomCoverage": 0.46296296296296297,
-          "baselineTokens": 13903,
-          "deltaTokens": -7898,
+          "atomCoverage": 0.4528985507246377,
+          "baselineTokens": 14161,
+          "deltaTokens": -8156,
           "equivalent": false,
           "id": "cold-audit",
           "relationCoverage": 0.9,
@@ -584,9 +584,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4423076923076923,
-          "baselineTokens": 13342,
-          "deltaTokens": -13342,
+          "atomCoverage": 0.4323308270676692,
+          "baselineTokens": 13600,
+          "deltaTokens": -13600,
           "equivalent": false,
           "id": "continued-audit",
           "relationCoverage": 0.8888888888888888,
@@ -594,9 +594,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.6643518518518519,
-          "baselineTokens": 19259,
-          "deltaTokens": -11188,
+          "atomCoverage": 0.6552511415525114,
+          "baselineTokens": 19517,
+          "deltaTokens": -11446,
           "equivalent": false,
           "id": "todo-operation",
           "relationCoverage": 0.875,
@@ -604,9 +604,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.4528301886792453,
-          "baselineTokens": 16768,
-          "deltaTokens": -8465,
+          "atomCoverage": 0.44280442804428044,
+          "baselineTokens": 17026,
+          "deltaTokens": -8723,
           "equivalent": false,
           "id": "recovery",
           "relationCoverage": 0.8,
@@ -614,9 +614,9 @@
           "weight": 1
         },
         {
-          "atomCoverage": 0.35555555555555557,
-          "baselineTokens": 11233,
-          "deltaTokens": -11188,
+          "atomCoverage": 0.3463203463203463,
+          "baselineTokens": 11491,
+          "deltaTokens": -11446,
           "equivalent": false,
           "id": "resume",
           "relationCoverage": 0.8571428571428571,
@@ -634,17 +634,17 @@
           "weight": 1
         }
       ],
-      "weightedBaselineTokens": 83883.0,
-      "weightedSavings": 54396.0,
+      "weightedBaselineTokens": 85173.0,
+      "weightedSavings": 55686.0,
       "weightedTokens": 29487.0
     }
   ],
-  "inputSha256": "d1b8180f28aab971d7225140b744f21f095e156321cae7dee5d84d329467f7a4",
+  "inputSha256": "a45c5ba258bc667f402447590f8fabe0d795d5333b16c5ee475eee4cd6c7830b",
   "metadata": {
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "repositoryRoot": ".",
-    "revision": "4e98b28",
+    "revision": "c60fcc7",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0",
@@ -769,11 +769,11 @@
       "tokens": 123
     },
     {
-      "atoms": 145,
+      "atoms": 151,
       "id": "continue",
       "relations": 1,
-      "sha256": "d261cecc1b0aa53de00e4b5c01c17f82898b08878169ada4e3fe4fd58352dfba",
-      "tokens": 7943
+      "sha256": "f6a56bc0aacdcaac057dbe07485534f07aadb4fe081d476916cf95093af8fb84",
+      "tokens": 8201
     },
     {
       "atoms": 4,

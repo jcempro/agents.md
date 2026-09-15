@@ -8,6 +8,7 @@ import hashlib
 import itertools
 import json
 import math
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -61,6 +62,22 @@ def resolve_source_path(value: str, repository_root: Path) -> Path:
     return target
 
 
+def read_source_text(value: str, repository_root: Path, revision: str) -> str:
+    """Lê fonte na revisão Git declarada ou, explicitamente, no working tree."""
+    normalized = value.replace("\\", "/")
+    if not normalized or normalized.startswith("/") or normalized == ".." or normalized.startswith("../") or "/../" in normalized:
+        raise ValueError(f"FONTE_FORA_DA_RAIZ:{value}")
+    if revision == "working-tree":
+        return resolve_source_path(normalized, repository_root).read_text(encoding="utf-8")
+    execution = subprocess.run(
+        ["git", "-C", str(repository_root), "show", f"{revision}:{normalized}"],
+        check=False, capture_output=True, text=True, encoding="utf-8",
+    )
+    if execution.returncode != 0:
+        raise ValueError(f"FONTE_REVISAO_AUSENTE:{revision}:{normalized}")
+    return execution.stdout
+
+
 def line_atoms(unit_id: str, text: str) -> tuple[str, ...]:
     """Atomiza cada linha não vazia por posição e hash, sem interpretar semântica."""
     return tuple(
@@ -82,7 +99,7 @@ def prepare_units(spec: dict[str, Any]) -> dict[str, dict[str, Any]]:
         has_tokens = isinstance(source.get("tokens"), int) and source["tokens"] >= 0
         if sum((has_text, has_path, has_tokens)) != 1:
             raise ValueError(f"UNIDADE_CONTAGEM_AMBIGUA:{unit_id}")
-        source_text = resolve_source_path(source["path"], repository_root).read_text(encoding="utf-8") if has_path else source.get("text")
+        source_text = read_source_text(source["path"], repository_root, str(spec["metadata"]["revision"])) if has_path else source.get("text")
         atomization = source.get("atomization")
         if atomization not in (None, "nonblank-lines"):
             raise ValueError(f"ATOMIZACAO_INVALIDA:{unit_id}")
