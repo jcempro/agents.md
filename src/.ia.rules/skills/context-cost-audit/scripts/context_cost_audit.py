@@ -49,22 +49,50 @@ def normalized_set(values: Any, label: str) -> tuple[str, ...]:
     return tuple(sorted(values))
 
 
+def resolve_source_path(value: str, repository_root: Path) -> Path:
+    """Resolve fonte textual dentro da raiz declarada do repositório."""
+    target = (repository_root / value).resolve()
+    try:
+        target.relative_to(repository_root)
+    except ValueError as error:
+        raise ValueError(f"FONTE_FORA_DA_RAIZ:{value}") from error
+    if not target.is_file():
+        raise ValueError(f"FONTE_AUSENTE:{value}")
+    return target
+
+
+def line_atoms(unit_id: str, text: str) -> tuple[str, ...]:
+    """Atomiza cada linha não vazia por posição e hash, sem interpretar semântica."""
+    return tuple(
+        f"{unit_id}:line:{index + 1}:{sha256_text(line)}"
+        for index, line in enumerate(text.replace("\r\n", "\n").split("\n")) if line.strip()
+    )
+
+
 def prepare_units(spec: dict[str, Any]) -> dict[str, dict[str, Any]]:
     """Valida unidades e materializa contagens exatas ou autenticadas."""
     units: dict[str, dict[str, Any]] = {}
+    repository_root = Path(str(spec["metadata"].get("repositoryRoot", "."))).resolve()
     for position, source in enumerate(spec.get("units", [])):
         unit_id = source.get("id") if isinstance(source, dict) else None
         if not isinstance(unit_id, str) or not unit_id or unit_id in units:
             raise ValueError(f"UNIDADE_INVALIDA:{position}:{unit_id}")
         has_text = isinstance(source.get("text"), str)
+        has_path = isinstance(source.get("path"), str) and bool(source.get("path"))
         has_tokens = isinstance(source.get("tokens"), int) and source["tokens"] >= 0
-        if has_text == has_tokens:
+        if sum((has_text, has_path, has_tokens)) != 1:
             raise ValueError(f"UNIDADE_CONTAGEM_AMBIGUA:{unit_id}")
+        source_text = resolve_source_path(source["path"], repository_root).read_text(encoding="utf-8") if has_path else source.get("text")
+        atomization = source.get("atomization")
+        if atomization not in (None, "nonblank-lines"):
+            raise ValueError(f"ATOMIZACAO_INVALIDA:{unit_id}")
+        atoms = line_atoms(unit_id, source_text) if atomization == "nonblank-lines" and isinstance(source_text, str) else normalized_set(source.get("atoms"), f"{unit_id}:atoms")
         units[unit_id] = {
             "id": unit_id,
-            "tokens": exact_tokens(source["text"], spec["metadata"]) if has_text else source["tokens"],
-            "atoms": normalized_set(source.get("atoms"), f"{unit_id}:atoms"),
+            "tokens": exact_tokens(source_text, spec["metadata"]) if isinstance(source_text, str) else source["tokens"],
+            "atoms": atoms,
             "relations": normalized_set(source.get("relations"), f"{unit_id}:relations"),
+            "sha256": sha256_text(source_text.replace("\r\n", "\n")) if isinstance(source_text, str) else None,
         }
     if not units:
         raise ValueError("UNIDADES_AUSENTES")
@@ -241,6 +269,7 @@ def build_report(spec: dict[str, Any]) -> dict[str, Any]:
     recommendation = ranking[0] if ranking and next(item for item in results if item["id"] == ranking[0])["weightedSavings"] > 0 else None
     return {
         "schema": REPORT_SCHEMA, "metadata": prepared["metadata"], "sources": prepared["sources"],
+        "unitEvidence": [{"id": unit["id"], "tokens": unit["tokens"], "sha256": unit["sha256"], "atoms": len(unit["atoms"]), "relations": len(unit["relations"])} for unit in prepared["units"].values()],
         "inputSha256": sha256_text(canonical_json(spec)), "baseline": baseline,
         "experiments": results, "pareto": pareto(results), "ranking": ranking,
         "recommendation": {"candidate": recommendation, "applied": False, "requiresLaterFt": recommendation is not None},

@@ -1,0 +1,58 @@
+{
+  "schema": "agents-context-cost-experiment/v1",
+  "metadata": {
+    "revision": "ee17ce9",
+    "repositoryRoot": ".",
+    "tokenizer": "tiktoken",
+    "tokenizerVersion": "0.13.0",
+    "encoding": "o200k_base",
+    "model": "gpt-4o",
+    "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral"
+  },
+  "sources": [
+    {"kind": "primary", "accessed": "2026-09-15", "url": "https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency/", "use": "eficiência e custo de agentes"},
+    {"kind": "primary", "accessed": "2026-09-15", "url": "https://openai.com/index/equip-responses-api-computer-environment/", "use": "contexto e ambiente de execução"},
+    {"kind": "primary", "accessed": "2026-09-15", "url": "https://www.anthropic.com/engineering/managed-agents", "use": "estado e retomada de agentes"},
+    {"kind": "paper", "accessed": "2026-09-15", "url": "https://arxiv.org/abs/2607.01916", "use": "avaliação de contexto de agentes"},
+    {"kind": "paper", "accessed": "2026-09-15", "url": "https://arxiv.org/abs/2609.04915", "use": "otimização contextual recente"}
+  ],
+  "units": [
+    {"id": "entry", "path": "AGENTS.md", "atomization": "nonblank-lines", "relations": ["entry-routes-directly"]},
+    {"id": "authority", "path": ".ia.rules/core/authority.md", "atomization": "nonblank-lines", "relations": ["authority-precedes-specialization"]},
+    {"id": "final-role", "path": ".ia.rules/roles/final.md", "atomization": "nonblank-lines", "relations": ["final-depends-authority"]},
+    {"id": "constructor-role", "path": ".ia.rules/roles/constructor.md", "atomization": "nonblank-lines", "relations": ["constructor-cumulative-final"]},
+    {"id": "constructor-operation", "path": ".ia.rules/scenarios/governance/constructor-operation.md", "atomization": "nonblank-lines", "relations": ["constructor-operation-depends-role"]},
+    {"id": "skills-contract", "path": ".ia.rules/resources/skills.md", "atomization": "nonblank-lines", "relations": ["skill-subordinate-contract"]},
+    {"id": "cost-contract", "path": ".ia.rules/resources/context-cost-audit.md", "atomization": "nonblank-lines", "relations": ["audit-preserves-atoms"]},
+    {"id": "state-scenario", "path": ".ia.rules/scenarios/state-and-todo.md", "atomization": "nonblank-lines", "relations": ["state-scenario-controls-todo"]},
+    {"id": "full-norm", "path": ".ia.rules/agents.inc.md", "atomization": "nonblank-lines", "relations": ["fallback-preserves-integral-norm"]},
+    {"id": "state-index", "path": ".ia.rules/state/index.json", "atomization": "nonblank-lines", "relations": ["state-index-routes-state"]},
+    {"id": "continue", "path": ".ia.rules/continue.ia", "atomization": "nonblank-lines", "relations": ["continue-projects-canonical-state"]},
+    {"id": "memory", "path": ".ia.rules/state/memory.md", "atomization": "nonblank-lines", "relations": ["memory-is-durable-evidence"]},
+    {"id": "todo", "path": ".ia.rules/state/TODO.ia.md", "atomization": "nonblank-lines", "relations": ["todo-governance-is-immutable"]},
+    {"id": "fix", "path": ".ia.rules/state/fix.md", "atomization": "nonblank-lines", "relations": ["fix-records-corrections"]},
+    {"id": "implemented", "path": ".ia.rules/state/FT.implementados.md", "atomization": "nonblank-lines", "relations": ["implemented-points-history"]},
+    {"id": "handoff", "path": "handoff.md", "atomization": "nonblank-lines", "relations": ["handoff-derived-from-continue"]}
+  ],
+  "scenarios": [
+    {"id": "cold-audit", "reads": ["entry", "authority", "final-role", "constructor-role", "constructor-operation", "skills-contract", "cost-contract", "state-index", "continue", "memory"], "weight": 1},
+    {"id": "continued-audit", "reads": ["entry", "authority", "final-role", "constructor-role", "constructor-operation", "cost-contract", "state-index", "continue", "memory"], "weight": 1},
+    {"id": "todo-operation", "reads": ["entry", "authority", "final-role", "constructor-role", "state-scenario", "state-index", "todo", "continue"], "weight": 1},
+    {"id": "recovery", "reads": ["entry", "full-norm", "state-index", "continue", "fix"], "weight": 1},
+    {"id": "resume", "reads": ["entry", "authority", "final-role", "constructor-role", "state-index", "handoff", "continue"], "weight": 1},
+    {"id": "historical-query", "reads": ["entry", "authority", "final-role", "state-index", "implemented"], "weight": 1}
+  ],
+  "candidates": [
+    {"id": "validated-session-cache", "summary": "reusar somente unidades com hash validado durante a mesma sessão", "cache": "session", "risk": 0.3, "snapshots": []},
+    {"id": "scenario-deduplication", "summary": "eliminar releitura da mesma unidade dentro de um único cenário", "cache": "scenario", "risk": 0.1, "snapshots": []},
+    {
+      "id": "handoff-replaces-state",
+      "summary": "controle adverso que tenta substituir o estado pelo handoff derivado",
+      "cache": "none",
+      "risk": 0.9,
+      "snapshots": [
+        {"id": "handoff-only", "replaces": ["continue"], "tokens": 45, "atoms": ["handoff-only"], "relations": ["handoff-derived-from-continue"]}
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 O JSON de entrada usa `schema: agents-context-cost-experiment/v1` e declara:
 
 - `metadata`: revisão, tokenizer, versão, encoding, modelo e serialização;
-- `units`: conteúdo ou contagem exata, átomos materiais e relações de cada unidade carregável;
+- `units`: conteúdo, caminho interno à raiz ou contagem exata, átomos materiais e relações de cada unidade carregável; `atomization: nonblank-lines` deriva um átomo por linha não vazia com posição e hash;
 - `scenarios`: sequência de unidades efetivamente lidas e peso positivo;
 - `candidates`: plano reversível com cache e/ou snapshots substitutivos;
 - `risks`: risco conhecido por candidato.
