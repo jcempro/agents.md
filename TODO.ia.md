@@ -607,6 +607,9 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
 
 - [ ] **Otimizar agressivamente o custo de tokens por rota/nó, memória, status e retomada sem qualquer perda normativa ou semântica**
   - Executar esta TO-DO apenas após todas as demais terem sido concluídas.
+  - Esta TO-DO, deve ser transformado em uma SKILL ou um SubAGente, o que for mais adequado.
+    - Deve ser adequadamente nomeado e salvo em local apropriado em src/.
+    - Deve ser adequadamente vinculado por meio de roteamento via agents.md
   - **Objetivo**
     - Auditar o sistema atual e buscar **redução máxima dos tokens efetivamente lidos** para:
       - cada rota/nó;
