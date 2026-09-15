@@ -144,6 +144,24 @@
       ]
     },
     {
+      "path": ".ia.rules/package.json",
+      "profile": "consumer-runtime",
+      "destination": ".ia.rules/package.json",
+      "purpose": "fronteira CommonJS comum a runtimes, migrações e cenários distribuídos",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "condition": "managed-command-or-scenario-runtime",
+      "ownership": "managed",
+      "validation": [
+        "source-exists",
+        "destination-unique",
+        "integrity-at-build",
+        "commonjs-boundary"
+      ]
+    },
+    {
       "path": ".ia.rules/config/core.json",
       "profile": "consumer-core",
       "destination": ".ia.rules/config/core.json",

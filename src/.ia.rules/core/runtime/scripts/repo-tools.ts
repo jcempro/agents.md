@@ -597,7 +597,33 @@ function validateSourceDistributionManifest(manifest, sourceRoot) {
   if (physical.length !== sources.size) {
     throw new Error(`MANIFESTO_FONTE_NAO_EXAUSTIVO:physical=${physical.length}:declared=${sources.size}`);
   }
+  validateCommonJsArtifactBoundaries(manifest.entries, sourceRoot);
   return manifest;
+}
+
+/** Garante que todo JavaScript CommonJS gerado permaneça sob pacote explicitamente CommonJS. */
+function validateCommonJsArtifactBoundaries(entries, sourceRoot) {
+  const byDestination = new Map(entries.map((entry) => [entry.destination, entry]));
+  const boundaries = new Map([
+    [".ia.rules/", ".ia.rules/package.json"],
+    ["scripts/.agents/", "scripts/.agents/package.json"],
+  ]);
+  for (const entry of entries.filter((candidate) => candidate.artifact && candidate.artifact.format === "commonjs")) {
+    const artifactPath = entry.artifact.destination;
+    const matched = [...boundaries.entries()].find(([prefix]) => artifactPath.startsWith(prefix));
+    if (!matched) throw new Error(`MANIFESTO_FONTE_FRONTEIRA_COMMONJS_AUSENTE:${artifactPath}`);
+    const boundaryEntry = byDestination.get(matched[1]);
+    if (!boundaryEntry) throw new Error(`MANIFESTO_FONTE_FRONTEIRA_COMMONJS_AUSENTE:${artifactPath}:${matched[1]}`);
+    let boundary;
+    try {
+      boundary = JSON.parse(fs.readFileSync(path.join(sourceRoot, boundaryEntry.path), "utf8"));
+    } catch (error) {
+      throw new Error(`MANIFESTO_FONTE_FRONTEIRA_COMMONJS_INVALIDA:${matched[1]}:${error.message}`);
+    }
+    if (!boundary || boundary.type !== "commonjs") {
+      throw new Error(`MANIFESTO_FONTE_FRONTEIRA_COMMONJS_INVALIDA:${matched[1]}`);
+    }
+  }
 }
 
 /** Executa normalizeSourceDistributionPath no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
@@ -1219,6 +1245,10 @@ function hasExactPathCase(root, relativePath) {
 /** Executa validateDist no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */
 function validateDist() {
   assertFile(path.join(DIST_DIR, "AGENTS.md"), "dist/AGENTS.md ausente.");
+  assertFile(path.join(DIST_DIR, ".ia.rules", "package.json"), "dist/.ia.rules/package.json ausente.");
+  if (JSON.parse(fs.readFileSync(path.join(DIST_DIR, ".ia.rules", "package.json"), "utf8")).type !== "commonjs") {
+    throw new Error("dist/.ia.rules/package.json nao declara fronteira CommonJS.");
+  }
   assertFile(path.join(DIST_DIR, ".ia.rules", "core", "contracts.md"), "dist/.ia.rules/core/contracts.md ausente.");
   assertFile(path.join(DIST_DIR, ".ia.rules", "core", "update", "scenario.md"), "dist/.ia.rules/core/update/scenario.md ausente.");
   assertFile(path.join(DIST_DIR, ".ia.rules", "core", "concepts", "microconceitos.md"), "dist/.ia.rules/core/concepts/microconceitos.md ausente.");

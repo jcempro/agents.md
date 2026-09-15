@@ -70,6 +70,8 @@ async function main() {
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "scenarios", "release", "scripts", "release-hooks.ts")), true);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "cache", "legacy-consumer", ".ia.rules", "core", "runtime", "scripts", "to-ia.js")), false);
   assert.equal(isManagedScriptPath(path.join(__dirname, "..", "src", ".ia.rules", "local", "custom.js")), false);
+  assert.equal(isManagedDistributionFile(path.join(__dirname, "..", "src", ".ia.rules", "package.json")), true);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "package.json"), "utf8")).type, "commonjs");
   assert.equal(isManagedDistributionFile(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json")), true);
   assert.equal(JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", ".ia.rules", "core", "runtime", "scripts", "package.json"), "utf8")).type, "commonjs");
   const absentDefaults = JSON.parse(mergePackageManifest(Buffer.from(JSON.stringify({ name: "new-consumer" })), remote).toString("utf8"));
