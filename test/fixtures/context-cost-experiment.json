@@ -1,0 +1,45 @@
+{
+  "schema": "agents-context-cost-experiment/v1",
+  "metadata": {
+    "revision": "fixture-1",
+    "tokenizer": "tiktoken",
+    "tokenizerVersion": "0.13.0",
+    "encoding": "o200k_base",
+    "model": "gpt-4o",
+    "serialization": "UTF-8 LF; JSON canônico"
+  },
+  "sources": ["fixture local"],
+  "units": [
+    {"id": "router", "tokens": 10, "atoms": ["a-router"], "relations": ["r-router-norm"]},
+    {"id": "norm", "tokens": 100, "atoms": ["a-norm-1", "a-norm-2"], "relations": ["r-norm-authority"]},
+    {"id": "state", "tokens": 80, "atoms": ["a-state"], "relations": ["r-state-ft"]},
+    {"id": "memory", "tokens": 60, "atoms": ["a-memory"], "relations": ["r-memory-source"]},
+    {"id": "resume", "tokens": 40, "atoms": ["a-resume"], "relations": ["r-resume-state"]}
+  ],
+  "scenarios": [
+    {"id": "cold", "reads": ["router", "norm", "state", "memory"], "weight": 1},
+    {"id": "continue", "reads": ["router", "norm", "state"], "weight": 1},
+    {"id": "resume", "reads": ["router", "norm", "resume"], "weight": 1}
+  ],
+  "candidates": [
+    {"id": "session-cache", "summary": "reuso validado na sessão", "cache": "session", "risk": 0.2, "snapshots": []},
+    {
+      "id": "state-snapshot",
+      "summary": "snapshot corrente com ponte ao estado",
+      "cache": "none",
+      "risk": 0.4,
+      "snapshots": [
+        {"id": "state-compact", "replaces": ["state"], "tokens": 20, "atoms": ["a-state"], "relations": ["r-state-ft"]}
+      ]
+    },
+    {
+      "id": "lossy-snapshot",
+      "summary": "controle negativo com relação ausente",
+      "cache": "none",
+      "risk": 0.1,
+      "snapshots": [
+        {"id": "state-lossy", "replaces": ["state"], "tokens": 5, "atoms": ["a-state"], "relations": []}
+      ]
+    }
+  ]
+}
