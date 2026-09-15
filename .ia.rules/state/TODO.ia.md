@@ -237,7 +237,7 @@ Este marcador encerra a seção de governança e inicia exclusivamente as TO-DOs
   - FTs convergentes: FT-091 (RCF), FT-092 (Norma), FT-093 (código) e FT-094 (validação).
   - A fase atual termina após RCF e Norma; código, hook, distribuição e release exigem autorização humana nova.
 
-📜 Otimizar agressivamente o custo de tokens por rota/nó, memória, status e retomada sem qualquer perda normativa ou semântica
+⏳ Otimizar agressivamente o custo de tokens por rota/nó, memória, status e retomada sem qualquer perda normativa ou semântica
   - Fonte integral e refinamentos: `.ia.rules/state/requests/FT-095/request.md` e histórico de `TODO.ia.md` até `7d72d56`.
   - FTs convergentes: FT-095 (RCF), FT-096 (Norma), FT-097 (Skill/experimentos/relatório) e FT-098 (validação).
   - A execução funcional ocorre somente após as demais frentes e nova autorização; recomendação material gera FT posterior, sem aplicação automática.

@@ -150,12 +150,12 @@ verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint 399 tok
 pendencias=FT-097 depende da FT-094 e de autorização humana nova; nenhuma recomendação material foi executada.
 historico=.ia.rules/state/history/FT-096.ia|sha256=0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae
 
-FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:48-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
+FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=em_desenvolvimento|criado_em=2026-09-15T12:11:48-03:00|inicio=2026-09-15T13:02:02-03:00|atualizacao=2026-09-15T13:02:02-03:00|autorizacao=humana
 objetivo=Implementar a Skill, scripts de medição, experimentos isolados/combinatórios e relatório reproduzível, sem aplicar automaticamente recomendações materiais.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-094,FT-096; autorizacao=pendente_humana.
-plano=Definir após as dependências e autorização nova; qualquer recomendação cria FT posterior ordenada.
+plano=Criar Skill enxuta e descoberta discriminante; implementar medição determinística e experimentos isolados/combinatórios; gerar relatório reproduzível sem aplicar recomendações; integrar ao catálogo e distribuição.
 aceite=Baseline e ganhos end-to-end reproduzíveis, 100 por cento dos átomos preservados e alternativas ranqueadas.
-pendencias=Autorizada; depende das FTs 094 e 096.
+pendencias=Implementação em andamento; FTs 094 e 096 concluídas.
 
 FT-098|nome=Integração e validação da auditoria de custo contextual|tipo=validacao_integracao|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-15T12:11:49-03:00|atualizacao=2026-09-15T12:43:43-03:00|autorizacao=humana
 objetivo=Validar a Skill e seu relatório contra rotas, memória, estado, recovery, resume, segurança, reprodutibilidade e equivalência normativa.
