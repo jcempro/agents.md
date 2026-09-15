@@ -1143,7 +1143,9 @@ function testAll() {
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "editorial-tts-integration.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "context-cost-audit.test.js")]);
   runProcess(process.execPath, [path.join(ROOT_DIR, "test", "context-cost-report.test.js")]);
-  return ok("TEST_OK", { suites: 29 });
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "context-session-cache.test.js")]);
+  runProcess(process.execPath, [path.join(ROOT_DIR, "test", "context-command-cache.test.js")]);
+  return ok("TEST_OK", { suites: 31 });
 }
 
 /** Executa validateIndex no fluxo deste módulo; centraliza contrato reutilizável e preserva validações do chamador. */

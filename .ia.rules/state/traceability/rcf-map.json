@@ -5003,21 +5003,16 @@
     },
     {
       "artifacts": [
-        "src/.ia.rules/agents.inc.md",
-        "src/.ia.rules/core/routing.md",
-        "src/.ia.rules/distribution/source-manifest.json",
-        "src/.ia.rules/normative-index.json",
-        "src/.ia.rules/resources/context-cost-audit.md",
-        "test/agents-entrypoint.test.js",
-        "test/normative-graph.test.js"
+        "src/.ia.rules/core/runtime/scripts/repo-tools.ts",
+        "test/context-cost-report.test.js"
       ],
-      "commit": "2b011844e741ac27f0760d5d1a9654b493725de7",
-      "ft": "FT-096",
+      "commit": "",
+      "ft": "FT-099",
       "id": "39857d0f2d156ba7e0e2a2be",
       "line": 1766,
       "rcf": "RCF.md",
       "sentenceSha256": "82682b5753c46c770050b7b20feba305c93cd4faddd7b523ec286a3a779ec900",
-      "state": "synchronized",
+      "state": "pending",
       "syncCommit": ""
     },
     {

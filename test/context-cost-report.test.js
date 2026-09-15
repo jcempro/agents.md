@@ -33,8 +33,7 @@ try {
   assert.equal(report.recommendation.requiresLaterFt, true);
 
   const state = fs.readFileSync(path.join(root, ".ia.rules", "continue.ia"), "utf8");
-  assert.match(state, /^FT-099\|[^\r\n]*status=pendente/mu);
-  assert.match(state, /FT-099[\s\S]*autorizacao=pendente_humana/u);
+  assert.match(state, /^FT-099\|[^\r\n]*status=(?:em_desenvolvimento|concluida)[^\r\n]*autorizacao=humana/mu);
   const refused = JSON.parse(fs.readFileSync(path.join(root, ".ia.rules", "state", "decisions", "refused", "index.json"), "utf8"));
   assert.ok(refused.entries.some((entry) => entry.semanticKey === "advanced-rag-vector-semantic-retrieval" && entry.absenceConfirmed === true));
 } finally {
