@@ -43,6 +43,7 @@ function deliver(sessionId, inputUnits = units(), options = {}) {
 try {
   fixture("authority.md", "autoridade\n");
   fixture("state/continue.ia", "estado=1\n");
+  fixture("state/memory.md", "memória=1\n");
 
   const cold = deliver("session-a");
   assert.equal(cold.schema, "agents-context-delivery/v1");
@@ -105,6 +106,12 @@ try {
   assert.equal(removed.metrics.invalidations, 1);
   assert.equal(removed.metrics.reasonCounts["unit-removed"], 1);
   assert.equal(deliver("session-a").units[1].reason, "cold-context");
+
+  const memoryUnit = [{ id: "memory", path: "state/memory.md", tokens: 7, authority: "AGENTS.md", role: "final", route: "memory", precedence: "state", version: "1" }];
+  assert.equal(deliver("memory", memoryUnit).units[0].reason, "cold-context");
+  assert.equal(deliver("memory", memoryUnit).metrics.tokensAvoided, 7);
+  fixture("state/memory.md", "memória=2\n");
+  assert.equal(deliver("memory", memoryUnit).units[0].reason, "content-changed");
 
   const disabled = deliver("unused", units(), { enabled: false });
   assert.equal(disabled.cache.state, "disabled");
