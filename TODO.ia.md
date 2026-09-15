@@ -616,6 +616,8 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
       - recuperação de contexto;
       - retomada de trabalho após interrupção/nova sessão.
     - A otimização NÃO PODE reduzir **significado, informação, intenção, explicitude, intensidade, rigor, força normativa, condições, exceções, precedências, restrições, rastreabilidade ou capacidade operacional**.
+    - A otimização NÃO PODE enfraquecer a norma, ainda que paulatinamente.
+    - A otimização NÃO PODE gerar má compreensão.
     - Otimizar **tokens realmente consumidos no percurso**, NÃO tamanho aparente de arquivos, linhas, caracteres ou quantidade nominal de artefatos.
 
   - **Princípio absoluto**
