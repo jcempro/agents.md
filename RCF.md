@@ -1761,7 +1761,7 @@ Métrica end-to-end DEVE cobrir cada rota relevante, cold context, reuso/cache l
 
 ### 23.4 Relatório, recomendação e gate posterior
 
-O relatório persistente DEVE usar localização canônica descoberta no repositório e conter baseline, método, fontes, experimentos individuais, combinações, tokens/deltas, equivalência, riscos, ranking, Pareto, descartes objetivos e recomendação. Sua tabela mínima relaciona solução/combinação, tokens, delta, rotas, memória/status, resume, equivalência, risco e recomendação; a saída ao dev informa diretamente melhor combinação, ganho agregado, impactos, alternativas ordenadas, path e próximos passos. [PENDENTE-CODIGO]
+O relatório persistente DEVE usar localização canônica descoberta no repositório e conter baseline, método, fontes, experimentos individuais, combinações, tokens/deltas, equivalência, riscos, ranking, Pareto, descartes objetivos e recomendação. Sua tabela mínima relaciona solução/combinação, tokens, delta, rotas, memória/status, resume, equivalência, risco e recomendação; a saída ao dev informa diretamente melhor combinação, ganho agregado, impactos, alternativas ordenadas, path e próximos passos. [f598844]
 
 Qualquer recomendação de alteração material DEVE criar FT posterior com baseline/evidências, solução recomendada, alternativas viáveis ordenadas, critérios de escolha, dependências, implementação, migração, testes, rollback, equivalência, medição posterior e aceite. Empate material mantém ponto de decisão explícito; FT, relatório ou conclusão da Skill NÃO autorizam executar a recomendação. [22520b2]
 
