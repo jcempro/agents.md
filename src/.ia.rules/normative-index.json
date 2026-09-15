@@ -57,14 +57,14 @@
         "context"
       ],
       "outputs": [],
-      "bytes": 36588,
-      "sha256": "3c30b66ebc047620e2f9ea79b5f63d7bd029b57f0a2266227231c14a061b4646",
-      "tokens": 8058,
+      "bytes": 37215,
+      "sha256": "f155bc87d6d65b27a89048cabf8af37ea8676cb5e1ccae2963de874bfd91ee00",
+      "tokens": 8194,
       "guard": {
         "exceptions": 9,
         "modalities": 137,
         "prohibitions": 26,
-        "references": 279
+        "references": 282
       }
     },
     {
@@ -168,9 +168,9 @@
         "active-roles"
       ],
       "outputs": [],
-      "bytes": 8388,
-      "sha256": "2029489e516fe848987416cbdf2dbe4725dfd70c3983e1e5f4ce36982c21280d",
-      "tokens": 1833,
+      "bytes": 8432,
+      "sha256": "2e0f389865505c95c477b28b4abb6817f5b6ce6322e9f5a126984449df1130b7",
+      "tokens": 1844,
       "guard": {
         "exceptions": 2,
         "modalities": 7,
@@ -470,6 +470,109 @@
       },
       "sha256": "96c302a631c7ef1937bfdf6c0b7c39855864c068e7c3313bec1a64e327dcb910",
       "tokens": 425
+    },
+    {
+      "id": "resource.editorial-authoring",
+      "path": ".ia.rules/resources/editorial-authoring.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "editorial-authoring",
+        "authorial-revision",
+        "accessible-writing",
+        "text-simplification"
+      ],
+      "inputs": [
+        "authorial-source",
+        "editorial-request"
+      ],
+      "outputs": [
+        "preserved-editorial-result",
+        "review-diagnostics"
+      ],
+      "bytes": 3250,
+      "guard": {
+        "exceptions": 1,
+        "modalities": 6,
+        "prohibitions": 2,
+        "references": 5
+      },
+      "sha256": "33903b128f2704108149d09b6ac741029219c7fee867a6c12b99d005724bc3a8",
+      "tokens": 684
+    },
+    {
+      "id": "resource.spoken-normalization",
+      "path": ".ia.rules/resources/spoken-normalization.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "spoken-representation",
+        "TTS",
+        "pronunciation",
+        "editorial-delimiters",
+        "biblical-reference"
+      ],
+      "inputs": [
+        "editorial-source",
+        "spoken-mode",
+        "language-context"
+      ],
+      "outputs": [
+        "spoken-representation",
+        "normalization-diagnostics"
+      ],
+      "bytes": 3547,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 12,
+        "prohibitions": 2,
+        "references": 19
+      },
+      "sha256": "a2266bd5ae898aea3bb07844e1105558ab4982143cf799507eb5442339fdf43d",
+      "tokens": 808
+    },
+    {
+      "id": "resource.context-cost-audit",
+      "path": ".ia.rules/resources/context-cost-audit.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "context-cost-audit",
+        "token-route-optimization",
+        "memory-status-cost",
+        "recovery-resume-cost"
+      ],
+      "inputs": [
+        "repository-routes",
+        "tokenizer-contract",
+        "experiment-authorization"
+      ],
+      "outputs": [
+        "reproducible-baseline",
+        "ranked-recommendation",
+        "implementation-ft"
+      ],
+      "bytes": 3906,
+      "guard": {
+        "exceptions": 2,
+        "modalities": 10,
+        "prohibitions": 0,
+        "references": 6
+      },
+      "sha256": "6126ba36a5ba0db4c1a7b35bb528c4cfa5f2e3b6a71fa61e4b6409e4fc04b526",
+      "tokens": 828
     },
     {
       "id": "resource.workflows",
@@ -1547,6 +1650,27 @@
       "mode": "passive",
       "condition": "visual image, PDF, screenshot, render or responsive UI work",
       "order": 32
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.editorial-authoring",
+      "mode": "passive",
+      "condition": "editorial authoring, authorial revision or accessible text transformation",
+      "order": 34
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.spoken-normalization",
+      "mode": "passive",
+      "condition": "spoken representation, TTS normalization, pronunciation, editorial delimiter or biblical reference",
+      "order": 35
+    },
+    {
+      "from": "core.agents",
+      "to": "resource.context-cost-audit",
+      "mode": "passive",
+      "condition": "context token, route, memory, status, recovery or resume cost audit",
+      "order": 36
     }
   ],
   "fallback": {
@@ -1561,24 +1685,24 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "7b9fd6c",
-    "commitDate": "2026-09-13T00:17:48-03:00",
+    "commit": "688a410",
+    "commitDate": "2026-09-15T12:25:06-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "14b3c6b4ef2c16aa4ba17ff93f601ab9328cdcb9daf579a8c4d38031b7deb3b4",
+    "sourceDigest": "26362950991183b12d0b48f67df57675372aaf60b93245605f7a9b7ea260cf4c",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
   "metrics": {
     "leaf": {
-      "count": 35,
+      "count": 38,
       "min": 498,
-      "average": 1625.69,
-      "median": 1069,
-      "populationStandardDeviation": 1447.8,
-      "max": 8457
+      "average": 1593.76,
+      "median": 1145.0,
+      "populationStandardDeviation": 1412.77,
+      "max": 8593
     },
     "hybrid": {
       "count": 6,
@@ -1647,12 +1771,12 @@
         {
           "id": "core.routing",
           "mode": "terminal",
-          "tokens": 1833
+          "tokens": 1844
         }
       ],
       "terminal": "core.routing",
       "terminalType": "leaf",
-      "tokens": 2232
+      "tokens": 2243
     },
     {
       "id": "path-004",
@@ -2623,12 +2747,84 @@
         {
           "id": "core.agents-full",
           "mode": "terminal",
-          "tokens": 8058
+          "tokens": 8194
         }
       ],
       "terminal": "core.agents-full",
       "terminalType": "leaf",
-      "tokens": 8457
+      "tokens": 8593
+    },
+    {
+      "id": "path-042",
+      "nodes": [
+        "core.agents",
+        "resource.editorial-authoring"
+      ],
+      "segments": [
+        {
+          "condition": "editorial authoring, authorial revision or accessible text transformation",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.editorial-authoring",
+          "tokens": 399
+        },
+        {
+          "id": "resource.editorial-authoring",
+          "mode": "terminal",
+          "tokens": 684
+        }
+      ],
+      "terminal": "resource.editorial-authoring",
+      "terminalType": "leaf",
+      "tokens": 1083
+    },
+    {
+      "id": "path-043",
+      "nodes": [
+        "core.agents",
+        "resource.spoken-normalization"
+      ],
+      "segments": [
+        {
+          "condition": "spoken representation, TTS normalization, pronunciation, editorial delimiter or biblical reference",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.spoken-normalization",
+          "tokens": 399
+        },
+        {
+          "id": "resource.spoken-normalization",
+          "mode": "terminal",
+          "tokens": 808
+        }
+      ],
+      "terminal": "resource.spoken-normalization",
+      "terminalType": "leaf",
+      "tokens": 1207
+    },
+    {
+      "id": "path-044",
+      "nodes": [
+        "core.agents",
+        "resource.context-cost-audit"
+      ],
+      "segments": [
+        {
+          "condition": "context token, route, memory, status, recovery or resume cost audit",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.context-cost-audit",
+          "tokens": 399
+        },
+        {
+          "id": "resource.context-cost-audit",
+          "mode": "terminal",
+          "tokens": 828
+        }
+      ],
+      "terminal": "resource.context-cost-audit",
+      "terminalType": "leaf",
+      "tokens": 1227
     }
   ]
 }

@@ -1,0 +1,6 @@
+FT-091|nome=Equalização e RCF de edição autoral e normalização TTS|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:42-03:00|inicio=2026-09-15T12:11:42-03:00|atualizacao=2026-09-15T12:24:00-03:00|conclusao=2026-09-15T12:24:00-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
+objetivo=Equalizar integralmente a nova frente editorial/TTS e incorporar ao RCF contratos gerais de preservação autoral, acessibilidade textual e representação semântico-fonética desacoplada.
+origem=.ia.rules/state/requests/FT-091/request.md; TODO.ia.md@7d72d56.
+resultado=RCF §§20.2 e 22 separa edição autoral, representação acessível e preparação semântico-fonética; preserva mecanismos independentes, pipeline, modos, casos linguísticos e gates sem importar Jekyll ou implementar runtime.
+verificacoes=As duas fontes normativas conferiram SHA-256; dois artefatos funcionais divergiram e dois paths estavam ausentes, registrados sem inferência. RCF_OK: 243299 bytes, 341 entradas e 336 materiais; trace validate passou com 19 sentenças FT-091 pendentes do commit causal.
+pendencias=FT-092 projeta a Norma Operacional; FT-093 e FT-094 aguardam autorização funcional nova.

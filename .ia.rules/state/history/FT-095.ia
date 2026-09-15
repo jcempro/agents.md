@@ -1,0 +1,6 @@
+FT-095|nome=Equalização e RCF da auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:46-03:00|inicio=2026-09-15T12:11:46-03:00|atualizacao=2026-09-15T12:24:02-03:00|conclusao=2026-09-15T12:24:02-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
+objetivo=Normatizar auditoria experimental de tokens por rota, memória, estado, recovery e resume, preservando integralmente átomos e força normativa.
+origem=.ia.rules/state/requests/FT-095/request.md; TODO.ia.md@7d72d56.
+resultado=RCF §§20.2 e 23 seleciona Skill generalista com scripts e delegação somente experimental/independente; normatiza baseline, pesquisa, alternativas, combinações, equivalência integral, métricas end-to-end, relatório e FT posterior sem aplicar recomendação.
+verificacoes=Fontes primárias recentes de 2026 foram reconsultadas; DEC-20260725-002 permanece íntegra. RCF_OK: 243299 bytes, 341 entradas e 336 materiais; trace validate passou com 15 sentenças FT-095 pendentes do commit causal.
+pendencias=FT-096 projeta contrato e rota da Skill; execução FT-097/098 aguarda FT-094 e autorização funcional nova.

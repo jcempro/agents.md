@@ -43,13 +43,13 @@ Governança operacional portátil para agentes de IA, distribuída como contrato
 <!-- agents:normative-metrics:start -->
 ### Métricas do grafo normativo
 
-Tokenizer exato: `tiktoken 0.13.0` (`o200k_base`, alvo `gpt-4o`); revisão `7b9fd6c`; fonte `14b3c6b4ef2c`. [Mapa completo](src/.ia.rules/generated/normative-map.md).
+Tokenizer exato: `tiktoken 0.13.0` (`o200k_base`, alvo `gpt-4o`); revisão `688a410`; fonte `263629509911`. [Mapa completo](src/.ia.rules/generated/normative-map.md).
 
 O desvio padrão é populacional e considera uma observação por rota válida.
 
 | Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
 |---|---:|---:|---:|---:|---:|---:|
-| Folha | 35 | 498 | 1625.69 | 1069 | 1447.8 | 8457 |
+| Folha | 38 | 498 | 1593.76 | 1145.0 | 1412.77 | 8593 |
 | Híbrido | 6 | 399 | 1267.17 | 1442.0 | 518.32 | 1866 |
 <!-- agents:normative-metrics:end -->
 

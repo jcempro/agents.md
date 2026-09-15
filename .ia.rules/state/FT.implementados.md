@@ -91,3 +91,7 @@
 - FT-088 — Auditoria integrada do estado e das autoridades normativas; estado: pendente-validacao; histórico: `history/FT-088.ia`; sha256: `b19270e88d22ff9d2f973cc3acb7b91cd4e9e5dd4dba8921b2ac513f36b5354b`.
 - FT-089 — Correção definitiva da atualização em uma única invocação; estado: validada; histórico: `history/FT-089.ia`; sha256: `748c14f38daf97917ae46397c1dc2571b645400e7583a38418b0416351043b8e`.
 - FT-090 — Integração e auditoria da recuperação legada em uma invocação; estado: validada; histórico: `history/FT-090.ia`; sha256: `eb6e3c82bfbc83f24a456a361b6e1cfb5b802c77b74bf187ddc1c892c6ee4190`.
+- FT-091 — Equalização e RCF de edição autoral e normalização TTS; estado: pendente-validacao; histórico: `history/FT-091.ia`; sha256: `bb64600149879d06d2608955191614b1ca19246b565f464014210af57357a11c`.
+- FT-092 — Norma Operacional editorial e semântico-fonética sob demanda; estado: pendente-validacao; histórico: `history/FT-092.ia`; sha256: `7899639bee3e30ce40433d1f0b2c81815f63685d1e81b6da0dd4c5cc771bcf6d`.
+- FT-095 — Equalização e RCF da auditoria de custo contextual; estado: pendente-validacao; histórico: `history/FT-095.ia`; sha256: `29f8864f125afb9540118883f21b662c82f976e7f4adc4a0dcb20093d44cf025`.
+- FT-096 — Norma Operacional da Skill de auditoria de custo contextual; estado: pendente-validacao; histórico: `history/FT-096.ia`; sha256: `0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae`.

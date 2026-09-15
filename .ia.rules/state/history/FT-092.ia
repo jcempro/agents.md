@@ -1,0 +1,6 @@
+FT-092|nome=Norma Operacional editorial e semântico-fonética sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:43-03:00|inicio=2026-09-15T12:24:01-03:00|atualizacao=2026-09-15T12:38:00-03:00|conclusao=2026-09-15T12:38:00-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
+objetivo=Projetar em src capacidades generalistas e diretamente roteadas para edição autoral e preparação contextual de fala, sem runtime funcional.
+origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-091.
+resultado=Dois módulos-folha independentes foram projetados em src para edição autoral e normalização de fala; índice e manifesto os roteiam diretamente, e dist foi regenerado sem runtime funcional.
+verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint permaneceu 399 tokens; build DIST_OK com 153 arquivos; normative-graph, source-distribution e rcf-trace passaram. agents-entrypoint falha em assert preexistente porque HEAD já iguala AGENTS.md e src/AGENTS.md; gate global e verify param em GOVERNANCA_INSTALADA_INCOMPLETA:scripts/.agents/autoupdate.ts.
+pendencias=FT-093 aguarda autorização humana nova; validação global permanece bloqueada por estado preexistente fora desta FT.

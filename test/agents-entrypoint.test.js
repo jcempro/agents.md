@@ -41,6 +41,9 @@ const directUnits = [
   "resource.external-tools",
   "scenario.state-and-todo",
   "scenario.visual-precision",
+  "resource.editorial-authoring",
+  "resource.spoken-normalization",
+  "resource.context-cost-audit",
 ];
 for (const id of directUnits) {
   const node = index.nodes.find((candidate) => candidate.id === id);
@@ -58,6 +61,9 @@ for (const relativePath of [
   ".ia.rules/resources/external-tools.md",
   ".ia.rules/scenarios/governance/state-and-todo.md",
   ".ia.rules/scenarios/visual/precision.md",
+  ".ia.rules/resources/editorial-authoring.md",
+  ".ia.rules/resources/spoken-normalization.md",
+  ".ia.rules/resources/context-cost-audit.md",
 ]) {
   assert.ok(sourceManifest.entries.some((entry) => entry.path === relativePath && entry.destination === relativePath));
   assert.equal(readLf(path.join(root, "src", relativePath)), readLf(path.join(root, "dist", relativePath)));

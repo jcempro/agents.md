@@ -108,13 +108,15 @@ origem=.ia.rules/state/requests/FT-091/request.md; TODO.ia.md@7d72d56.
 resultado=RCF §§20.2 e 22 separa edição autoral, representação acessível e preparação semântico-fonética; preserva mecanismos independentes, pipeline, modos, casos linguísticos e gates sem importar Jekyll ou implementar runtime.
 verificacoes=As duas fontes normativas conferiram SHA-256; dois artefatos funcionais divergiram e dois paths estavam ausentes, registrados sem inferência. RCF_OK: 243299 bytes, 341 entradas e 336 materiais; trace validate passou com 19 sentenças FT-091 pendentes do commit causal.
 pendencias=FT-092 projeta a Norma Operacional; FT-093 e FT-094 aguardam autorização funcional nova.
+historico=.ia.rules/state/history/FT-091.ia|sha256=bb64600149879d06d2608955191614b1ca19246b565f464014210af57357a11c
 
-FT-092|nome=Norma Operacional editorial e semântico-fonética sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-15T12:11:43-03:00|inicio=2026-09-15T12:24:01-03:00|atualizacao=2026-09-15T12:24:01-03:00|autorizacao=humana
+FT-092|nome=Norma Operacional editorial e semântico-fonética sob demanda|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:43-03:00|inicio=2026-09-15T12:24:01-03:00|atualizacao=2026-09-15T12:38:00-03:00|conclusao=2026-09-15T12:38:00-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
 objetivo=Projetar em src capacidades generalistas e diretamente roteadas para edição autoral e preparação contextual de fala, sem runtime funcional.
 origem=.ia.rules/state/requests/FT-091/request.md; depende=FT-091.
-plano=Criar módulos coesos e rotas seletivas; atualizar índice/manifesto; gerar derivados oficiais; validar descoberta e paridade.
-aceite=Norma completa, uma camada, capacidades independentes, entrypoint dentro do teto e nenhuma implementação antecipada.
-pendencias=Projetar RCF §22 em src e derivados, sem código funcional.
+resultado=Dois módulos-folha independentes foram projetados em src para edição autoral e normalização de fala; índice e manifesto os roteiam diretamente, e dist foi regenerado sem runtime funcional.
+verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint permaneceu 399 tokens; build DIST_OK com 153 arquivos; normative-graph, source-distribution e rcf-trace passaram. agents-entrypoint falha em assert preexistente porque HEAD já iguala AGENTS.md e src/AGENTS.md; gate global e verify param em GOVERNANCA_INSTALADA_INCOMPLETA:scripts/.agents/autoupdate.ts.
+pendencias=FT-093 aguarda autorização humana nova; validação global permanece bloqueada por estado preexistente fora desta FT.
+historico=.ia.rules/state/history/FT-092.ia|sha256=7899639bee3e30ce40433d1f0b2c81815f63685d1e81b6da0dd4c5cc771bcf6d
 
 FT-093|nome=Implementação hookable de edição autoral e normalização TTS|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:44-03:00|atualizacao=2026-09-15T12:11:44-03:00
 objetivo=Implementar capacidades independentes e hookable de edição autoral e representação para fala conforme RCF e Norma.
@@ -136,13 +138,15 @@ origem=.ia.rules/state/requests/FT-095/request.md; TODO.ia.md@7d72d56.
 resultado=RCF §§20.2 e 23 seleciona Skill generalista com scripts e delegação somente experimental/independente; normatiza baseline, pesquisa, alternativas, combinações, equivalência integral, métricas end-to-end, relatório e FT posterior sem aplicar recomendação.
 verificacoes=Fontes primárias recentes de 2026 foram reconsultadas; DEC-20260725-002 permanece íntegra. RCF_OK: 243299 bytes, 341 entradas e 336 materiais; trace validate passou com 15 sentenças FT-095 pendentes do commit causal.
 pendencias=FT-096 projeta contrato e rota da Skill; execução FT-097/098 aguarda FT-094 e autorização funcional nova.
+historico=.ia.rules/state/history/FT-095.ia|sha256=29f8864f125afb9540118883f21b662c82f976e7f4adc4a0dcb20093d44cf025
 
-FT-096|nome=Norma Operacional da Skill de auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-15T12:11:47-03:00|inicio=2026-09-15T12:24:03-03:00|atualizacao=2026-09-15T12:24:03-03:00|autorizacao=humana
+FT-096|nome=Norma Operacional da Skill de auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:47-03:00|inicio=2026-09-15T12:24:03-03:00|atualizacao=2026-09-15T12:38:01-03:00|conclusao=2026-09-15T12:38:01-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
 objetivo=Projetar em src contrato e rota direta da futura Skill generalista de auditoria de custo contextual, sem implementá-la funcionalmente.
 origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-095.
-plano=Adicionar contrato, rota e seleção positiva; regenerar derivados; validar gatilhos e ausência de delegação indevida.
-aceite=Norma completa, uma camada, recursos condicionais, nenhuma execução/protótipo/alteração otimizada antecipada.
-pendencias=Projetar RCF §23 em src e derivados, sem Skill funcional ou experimentos.
+resultado=Módulo-folha context-cost-audit projeta contrato da futura Skill, scripts mecânicos e Subagent somente experimental/independente; índice/manifesto criam rota direta sem implementar Skill, baseline ou otimização.
+verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint 399 tokens; build DIST_OK com 153 arquivos; três gates dirigidos passaram. Falhas globais são as mesmas preexistentes registradas na FT-092.
+pendencias=FT-097 depende da FT-094 e de autorização humana nova; nenhuma recomendação material foi executada.
+historico=.ia.rules/state/history/FT-096.ia|sha256=0467cbeba5f5366cb4805a3feb2922d3bde67704608c9220815a4e57af1789ae
 
 FT-097|nome=Skill de auditoria experimental de custo contextual|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-15T12:11:48-03:00|atualizacao=2026-09-15T12:11:48-03:00
 objetivo=Implementar a Skill, scripts de medição, experimentos isolados/combinatórios e relatório reproduzível, sem aplicar automaticamente recomendações materiais.

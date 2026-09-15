@@ -1,0 +1,6 @@
+FT-096|nome=Norma Operacional da Skill de auditoria de custo contextual|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-15T12:11:47-03:00|inicio=2026-09-15T12:24:03-03:00|atualizacao=2026-09-15T12:38:01-03:00|conclusao=2026-09-15T12:38:01-03:00|autorizacao=humana|validacao=pendente_desenvolvedor
+objetivo=Projetar em src contrato e rota direta da futura Skill generalista de auditoria de custo contextual, sem implementá-la funcionalmente.
+origem=.ia.rules/state/requests/FT-095/request.md; depende=FT-095.
+resultado=Módulo-folha context-cost-audit projeta contrato da futura Skill, scripts mecânicos e Subagent somente experimental/independente; índice/manifesto criam rota direta sem implementar Skill, baseline ou otimização.
+verificacoes=Grafo NORMATIVE_GRAPH_OK com 45 nós e 44 rotas; entrypoint 399 tokens; build DIST_OK com 153 arquivos; três gates dirigidos passaram. Falhas globais são as mesmas preexistentes registradas na FT-092.
+pendencias=FT-097 depende da FT-094 e de autorização humana nova; nenhuma recomendação material foi executada.

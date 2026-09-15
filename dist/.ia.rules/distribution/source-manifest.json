@@ -1210,6 +1210,36 @@
       ]
     },
     {
+      "path": ".ia.rules/resources/editorial-authoring.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/editorial-authoring.md",
+      "purpose": "contrato condicional de edição autoral e inteligibilidade",
+      "roles": ["final", "constructor"],
+      "condition": "editorial-authoring-or-revision",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build"]
+    },
+    {
+      "path": ".ia.rules/resources/spoken-normalization.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/spoken-normalization.md",
+      "purpose": "contrato condicional de normalização semântico-fonética",
+      "roles": ["final", "constructor"],
+      "condition": "spoken-representation-or-tts-normalization",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build"]
+    },
+    {
+      "path": ".ia.rules/resources/context-cost-audit.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/context-cost-audit.md",
+      "purpose": "contrato e rota da Skill futura de auditoria de custo contextual",
+      "roles": ["final", "constructor"],
+      "condition": "context-token-route-memory-state-recovery-audit",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build"]
+    },
+    {
       "path": ".ia.rules/resources/long-running.md",
       "profile": "consumer-scenario",
       "destination": ".ia.rules/resources/long-running.md",

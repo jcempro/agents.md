@@ -1,17 +1,17 @@
 # Mapa normativo gerado
 
-Origem: `14b3c6b4ef2c16aa4ba17ff93f601ab9328cdcb9daf579a8c4d38031b7deb3b4`; revisão: `7b9fd6c`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `26362950991183b12d0b48f67df57675372aaf60b93245605f7a9b7ea260cf4c`; revisão: `688a410`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 
 ```mermaid
 flowchart TD
   core_agents["core.agents\nhybrid\n399 tokens"]
-  core_agents_full["core.agents-full\nleaf\n8058 tokens"]
+  core_agents_full["core.agents-full\nleaf\n8194 tokens"]
   core_authority["core.authority\nleaf\n1130 tokens"]
   core_microconcepts["core.microconcepts\nleaf\n3433 tokens"]
   core_contracts["core.contracts\nleaf\n2069 tokens"]
-  core_routing["core.routing\nleaf\n1833 tokens"]
+  core_routing["core.routing\nleaf\n1844 tokens"]
   core_update["core.update\nleaf\n2172 tokens"]
   role_final["role.final\nleaf\n663 tokens"]
   role_constructor["role.constructor\nderivation\n930 tokens"]
@@ -21,6 +21,9 @@ flowchart TD
   resource_subagents["resource.subagents\nleaf\n516 tokens"]
   resource_long_running["resource.long-running\nleaf\n511 tokens"]
   resource_external_tools["resource.external-tools\nleaf\n425 tokens"]
+  resource_editorial_authoring["resource.editorial-authoring\nleaf\n684 tokens"]
+  resource_spoken_normalization["resource.spoken-normalization\nleaf\n808 tokens"]
+  resource_context_cost_audit["resource.context-cost-audit\nleaf\n828 tokens"]
   resource_workflows["resource.workflows\nleaf\n873 tokens"]
   resource_traceability["resource.traceability\nleaf\n965 tokens"]
   scenario_request_lifecycle["scenario.request-lifecycle\nhybrid\n888 tokens"]
@@ -89,6 +92,9 @@ flowchart TD
   core_agents -->|"passive: third-party, MCP, plugin, external tool or external service"| resource_external_tools
   core_agents -->|"passive: state, memory, fix, TODO, migration or resume"| scenario_state_and_todo
   core_agents -->|"passive: visual image, PDF, screenshot, render or responsive UI work"| scenario_visual_precision
+  core_agents -->|"passive: editorial authoring, authorial revision or accessible text transformation"| resource_editorial_authoring
+  core_agents -->|"passive: spoken representation, TTS normalization, pronunciation, editorial delimiter or biblical reference"| resource_spoken_normalization
+  core_agents -->|"passive: context token, route, memory, status, recovery or resume cost audit"| resource_context_cost_audit
 ```
 
 ## Resumo
@@ -97,7 +103,7 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 
 | Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
 |---|---:|---:|---:|---:|---:|---:|
-| Folha | 35 | 498 | 1625.69 | 1069 | 1447.8 | 8457 |
+| Folha | 38 | 498 | 1593.76 | 1145.0 | 1412.77 | 8593 |
 | Híbrido | 6 | 399 | 1267.17 | 1442.0 | 518.32 | 1866 |
 
 ## Caminhos
@@ -106,7 +112,7 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 |---|---|---|---:|
 | path-001 | core.agents | hybrid | 399 |
 | path-002 | core.agents → core.authority | leaf | 1529 |
-| path-003 | core.agents → core.routing | leaf | 2232 |
+| path-003 | core.agents → core.routing | leaf | 2243 |
 | path-004 | core.agents → core.microconcepts | leaf | 3832 |
 | path-005 | core.agents → core.contracts | leaf | 2468 |
 | path-006 | core.agents → role.final | leaf | 1062 |
@@ -144,4 +150,7 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 | path-038 | core.agents → resource.external-tools | leaf | 824 |
 | path-039 | core.agents → scenario.state-and-todo | leaf | 1345 |
 | path-040 | core.agents → scenario.visual-precision | leaf | 852 |
-| path-041 | core.agents → core.agents-full | leaf | 8457 |
+| path-041 | core.agents → core.agents-full | leaf | 8593 |
+| path-042 | core.agents → resource.editorial-authoring | leaf | 1083 |
+| path-043 | core.agents → resource.spoken-normalization | leaf | 1207 |
+| path-044 | core.agents → resource.context-cost-audit | leaf | 1227 |

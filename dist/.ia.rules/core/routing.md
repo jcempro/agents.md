@@ -56,7 +56,7 @@ Linguagem natural com modalidade RFC 2119 e referências `MN-*` permanece canôn
 
 Aplicar `MN-UNIT`, `MN-DISC` e `MN-EVID`. O entrypoint permanece em até 400 tokens, medidos em UTF-8/LF por `tiktoken 0.13.0` com `o200k_base`; índice, mapa e teste DEVEM declarar e validar os mesmos parâmetros. Regra que exceda o teto ingressa no módulo coeso aplicável sem perda de sujeito, modalidade, condição, exceção, precedência ou aceite.
 
-O índice expõe somente metadados necessários à seleção. Skill, Subagent, estado, execução longa, visual ou terceiro aplicável deriva diretamente do entrypoint; corpo e recurso auxiliar só entram após o gatilho material. Rota falsa, cadeia profunda, ciclo, leitura integral preventiva ou recurso carregado por proximidade são proibidos. Falha de rota, conflito, baixa confiança ou índice/cache inválido aciona o fallback integral já declarado.
+O índice expõe somente metadados necessários à seleção. Skill, Subagent, estado, execução longa, visual, terceiro, edição autoral, fala ou auditoria de custo aplicável deriva diretamente do entrypoint; corpo e recurso auxiliar só entram após o gatilho material. Rota falsa, cadeia profunda, ciclo, leitura integral preventiva ou recurso carregado por proximidade são proibidos. Falha de rota, conflito, baixa confiança ou índice/cache inválido aciona o fallback integral já declarado.
 
 ## 9. Matriz de escolha
 
