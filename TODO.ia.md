@@ -604,3 +604,291 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
       12. não houver regressão de acessibilidade, build, publicação ou comportamento válido herdado;
       13. nenhuma informação material permanecer implícita;
       14. outra IA puder implementar/validar a solução sem reconstruir esta análise.
+
+- [ ] **Otimizar agressivamente o custo de tokens por rota/nó, memória, status e retomada sem qualquer perda normativa ou semântica**
+  - Executar esta TO-DO apenas após todas as demais terem sido concluídas.
+  - **Objetivo**
+    - Auditar o sistema atual e buscar **redução máxima dos tokens efetivamente lidos** para:
+      - cada rota/nó;
+      - resolução e carregamento de normas;
+      - gestão/leitura de memória;
+      - leitura/atualização de status;
+      - recuperação de contexto;
+      - retomada de trabalho após interrupção/nova sessão.
+    - A otimização NÃO PODE reduzir **significado, informação, intenção, explicitude, intensidade, rigor, força normativa, condições, exceções, precedências, restrições, rastreabilidade ou capacidade operacional**.
+    - Otimizar **tokens realmente consumidos no percurso**, NÃO tamanho aparente de arquivos, linhas, caracteres ou quantidade nominal de artefatos.
+
+  - **Princípio absoluto**
+    - Toda proposta DEVE satisfazer simultaneamente:
+
+      ```text
+      menos tokens efetivamente lidos
+      +
+      mesma informação material
+      +
+      mesma força normativa
+      +
+      mesma capacidade de decisão/execução
+      ```
+
+    - Compressão que introduza ambiguidade, implicitabilidade, dependência de conhecimento não carregado ou necessidade recorrente de releitura adicional **NÃO é otimização válida**.
+    - NÃO transferir custo de um ponto para outro apenas para melhorar uma métrica local.
+
+  - **1. Baseline obrigatório**
+    - Antes de propor alterações, inspecionar o estado real do repositório e mapear:
+      - normas/RCFs;
+      - `agents*`;
+      - roteadores;
+      - Skills/SubAgents/Scenarios;
+      - índices/manifests;
+      - memória;
+      - status/continuidade;
+      - FTs/TO-DOs;
+      - mecanismos de recuperação/retomada;
+      - arquivos derivados e carregamentos implícitos.
+    - Reconstruir cada **rota real de contexto**, identificando:
+
+      ```text
+      gatilho
+      → roteador
+      → normas comuns
+      → especializações
+      → estado/memória
+      → artefatos auxiliares
+      → contexto final lido
+      ```
+
+    - Medir tokens com o **tokenizador efetivamente relevante** ao ambiente/modelo; bytes, caracteres e linhas servem apenas como métricas auxiliares.
+    - Registrar baseline, no mínimo, para:
+      - tokens fixos;
+      - tokens condicionais;
+      - tokens redundantes;
+      - arquivos/nós carregados;
+      - profundidade de roteamento;
+      - quantidade de leituras;
+      - custo total de cada rota;
+      - custo para consultar/atualizar memória/status;
+      - custo para recuperar e retomar uma FT/trabalho real.
+    - Quando houver variabilidade, medir distribuição adequada (`min/mediana/P95` ou equivalente), não apenas uma execução favorável.
+
+  - **2. Pesquisa externa obrigatória**
+    - Pesquisar **agressivamente** técnicas atuais de redução de contexto/tokenização para agentes, roteamento, memória e sistemas normativos.
+    - Priorizar:
+      1. estudos, artigos, benchmarks, documentação técnica e implementações publicados/atualizados nos **6 meses anteriores à execução**;
+      2. fontes primárias;
+      3. técnicas consolidadas anteriores quando ainda forem estado da arte ou necessárias à comparação.
+    - Investigar, sem limitar-se a:
+      - context routing/context engineering;
+      - progressive disclosure;
+      - hierarchical/routed instructions;
+      - semantic deduplication;
+      - canonicalization/normalização normativa;
+      - referências estruturadas em vez de repetição;
+      - carregamento lazy/on-demand;
+      - índices mínimos;
+      - memória hierárquica;
+      - state snapshots/deltas;
+      - event sourcing resumido;
+      - checkpoint/resume;
+      - context caching/reuse;
+      - prompt/context compression;
+      - retrieval seletivo;
+      - chunking semântico;
+      - consolidação de regras comuns;
+      - eliminação de transitividade redundante;
+      - formatos de alta densidade informacional;
+      - codificação/representação estrutural mais eficiente;
+      - outras técnicas recentes aplicáveis.
+    - Para cada técnica pesquisada, registrar fonte, data, premissa, benefício alegado, riscos e aplicabilidade real ao repositório.
+    - NÃO adotar técnica apenas por novidade ou benchmark externo.
+
+  - **3. Geração de alternativas**
+    - A partir do baseline + pesquisa, propor **múltiplas estratégias concretas**, individualmente aplicáveis ou combináveis.
+    - NÃO limitar a análise a reescrever textos menores. Avaliar também arquitetura, roteamento, granularidade, estado, memória, índices, snapshots, referências e ordem de carregamento.
+    - Cada proposta DEVE indicar:
+      - qual custo elimina/reduz;
+      - mecanismo;
+      - arquivos/componentes atingidos;
+      - risco;
+      - dependências;
+      - efeito esperado sobre rotas distintas;
+      - possibilidade de interação positiva/negativa com outras propostas.
+
+  - **4. Experimentos individuais obrigatórios**
+    - Implementar/prototipar cada alternativa em ambiente controlado ou representação experimental segura, sem alterar irreversivelmente a norma vigente.
+    - Medir individualmente cada técnica contra o baseline.
+    - Registrar pelo menos:
+
+      ```text
+      tokens antes
+      tokens depois
+      redução absoluta
+      redução percentual
+      rotas afetadas
+      custo de recuperação/retomada
+      overhead introduzido
+      impacto em latência/leitura, quando pertinente
+      ```
+
+    - **NÃO aprovar nem descartar uma técnica apenas pelo resultado individual.**
+    - Ganho individual desprezível NÃO constitui motivo suficiente para eliminação, pois a técnica pode:
+      - potencializar outra;
+      - eliminar redundância somente após outra transformação;
+      - gerar efeito relevante em escala;
+      - melhorar rotas diferentes;
+      - compor combinação superior.
+
+  - **5. Experimentos combinatórios**
+    - Depois dos testes isolados, avaliar combinações de técnicas.
+    - NÃO limitar a pares se houver interação plausível entre 3+ soluções.
+    - Use método experimental adequado ao número de candidatos, como:
+      - matriz combinatória exaustiva quando pequena;
+      - desenho fatorial/fracionário;
+      - ablation;
+      - busca incremental/beam;
+      - Pareto/frontier;
+      - outro método justificável.
+    - Medir tanto **efeito aditivo** quanto **interações**:
+
+      ```text
+      ganho(A+B)
+      ≠ necessariamente
+      ganho(A) + ganho(B)
+      ```
+
+    - Uma solução individualmente fraca DEVE permanecer candidata quando melhorar materialmente uma combinação.
+    - Detectar também combinações antagônicas, redundantes ou cujo overhead anule benefícios.
+
+  - **6. Garantia de equivalência semântica/normativa**
+    - Toda variante experimental DEVE ser comparada com a fonte normativa anterior por uma matriz de **átomos normativos**, cobrindo no mínimo:
+      - `DEVE`;
+      - `NÃO DEVE`;
+      - `PODE`;
+      - `É PROIBIDO`;
+      - condições;
+      - exceções;
+      - precedências;
+      - escopos;
+      - critérios de aceite;
+      - consequências;
+      - exemplos que delimitam comportamento;
+      - requisitos de rastreabilidade/validação.
+    - A versão otimizada DEVE preservar **100% dos átomos materiais** e suas relações.
+    - Validar por múltiplos mecanismos quando possível:
+      - comparação estrutural;
+      - entailment/equivalência bidirecional;
+      - casos positivos/negativos;
+      - contraexemplos;
+      - execução de cenários reais;
+      - revisão humana para alterações normativas materiais.
+    - É PROIBIDO obter economia por:
+      - tornar obrigação implícita;
+      - remover exceção;
+      - reduzir intensidade;
+      - depender de inferência não garantida;
+      - deslocar conteúdo para arquivo que inevitavelmente continuará sendo lido;
+      - esconder custo em recuperação posterior;
+      - eliminar exemplo necessário para desambiguar comportamento.
+
+  - **7. Métricas end-to-end obrigatórias**
+    - Não medir apenas arquivos isolados. Avaliar cenários completos:
+      1. execução de cada rota/nó relevante;
+      2. primeira execução/cold context;
+      3. execução subsequente quando houver cache/reuso legítimo;
+      4. consulta de memória;
+      5. atualização de memória;
+      6. consulta/atualização de status;
+      7. criação/continuidade de FT;
+      8. recuperação de trabalho interrompido;
+      9. retomada em nova sessão sem contexto prévio;
+      10. consulta histórica específica.
+    - Para cada cenário, computar o **total de tokens realmente necessários até a IA estar apta a agir corretamente**.
+    - O resultado recomendado DEVE demonstrar redução no custo agregado de:
+      - rotas;
+      - memória;
+      - status;
+      - recuperação;
+      - retomada.
+    - NÃO aceitar otimização que melhore substancialmente um cenário às custas de regressão global injustificada.
+
+  - **8. Avaliação e ranking**
+    - Comparar todas as soluções isoladas e combinações por, no mínimo:
+      - economia absoluta de tokens;
+      - economia percentual;
+      - cobertura de rotas;
+      - custo de memória/status;
+      - custo de recovery/resume;
+      - complexidade de implementação/manutenção;
+      - risco de regressão;
+      - robustez semântica/normativa;
+      - compatibilidade;
+      - benefício acumulado.
+    - Identificar:
+      - melhor solução global;
+      - melhores alternativas;
+      - combinações Pareto-ótimas;
+      - soluções descartadas e motivo objetivo.
+    - NÃO privilegiar porcentagem elevada em rota rara sobre redução agregada significativamente superior sem justificar ponderação.
+
+  - **9. Relatório persistente**
+    - Salvar os resultados em arquivo `.md` na **localização normativamente apropriada do repositório**, determinada após inspeção; NÃO inventar path se houver convenção vigente.
+    - O relatório DEVE ser de alta densidade informacional e conter:
+      - baseline;
+      - metodologia;
+      - pesquisas/fontes relevantes;
+      - experimentos individuais;
+      - combinações testadas;
+      - tokens antes/depois;
+      - reduções absoluta/%;
+      - equivalência normativa/semântica;
+      - riscos;
+      - ranking;
+      - recomendação final.
+    - Incluir tabela compacta equivalente a:
+
+      ```text
+      solução/combinação | tokens | Δ tokens | Δ % | rotas | memória/status | resume | equivalência | risco | recomendação
+      ```
+
+    - A saída final DEVE informar diretamente:
+      - baseline;
+      - melhor combinação;
+      - ganho agregado;
+      - impacto por rota;
+      - impacto em memória/status;
+      - impacto em recovery/resume;
+      - opções alternativas em ordem;
+      - path do relatório;
+      - próximos passos.
+
+  - **10. FT de possível implementação**
+    - Se houver **qualquer recomendação de implementação**, criar FT apropriada, sem executar a mudança automaticamente quando a governança exigir etapa/autorização posterior.
+    - A FT DEVE conter:
+      - baseline e evidências;
+      - solução recomendada;
+      - alternativas viáveis em **ordem da melhor para a menos recomendada**;
+      - critérios objetivos para escolher entre elas;
+      - dependências;
+      - etapas de implementação;
+      - migração;
+      - testes;
+      - rollback;
+      - validação semântica/normativa;
+      - medição pós-implementação;
+      - critério de aceite.
+    - Havendo múltiplas opções tecnicamente válidas sem vencedor inequívoco, a FT DEVE explicitar o **ponto de decisão**, as opções e o critério comparativo, sem escolher arbitrariamente.
+
+  - **Critério absoluto de aceite**
+    - Somente concluir quando:
+      1. o estado atual e todas as rotas relevantes estiverem medidos;
+      2. houver pesquisa recente e verificável, com prioridade aos últimos 6 meses;
+      3. múltiplas alternativas tiverem sido propostas;
+      4. todas tiverem sido testadas isoladamente;
+      5. combinações relevantes tiverem sido empiricamente avaliadas;
+      6. nenhuma solução tiver sido descartada apenas por ganho isolado pequeno;
+      7. houver prova de **zero perda material semântica/normativa**;
+      8. os ganhos end-to-end incluírem rotas, memória, status, recovery e resume;
+      9. o relatório persistente contiver resultados comparáveis e reproduzíveis;
+      10. recomendações estiverem ordenadas e objetivamente justificadas;
+      11. FT de implementação tiver sido criada quando houver ação recomendada;
+      12. a solução final reduzir efetivamente tokens lidos sem reduzir informação, explicitude, intensidade, rigor ou força normativa.
