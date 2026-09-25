@@ -35,7 +35,8 @@ function main() {
   assert.equal(index.generation.tokenizer, "tiktoken");
   assert.equal(index.generation.tokenizerVersion, "0.13.0");
   assert.equal(index.generation.encoding, "o200k_base");
-  assert.equal(index.paths.length, 44);
+  assert.equal(index.paths.length, 45);
+  assert.equal(index.nodes.some((node) => node.id === "resource.editorial-review"), true);
   assert.equal(index.nodes.every((node) => Number.isInteger(node.tokens) && node.tokens > 0), true);
   for (const kind of ["leaf", "hybrid"]) {
     assert.equal(typeof index.metrics[kind].median, "number");

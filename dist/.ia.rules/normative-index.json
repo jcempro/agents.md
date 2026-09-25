@@ -494,15 +494,47 @@
         "preserved-editorial-result",
         "review-diagnostics"
       ],
-      "bytes": 3249,
+      "bytes": 3445,
       "guard": {
         "exceptions": 1,
         "modalities": 6,
         "prohibitions": 2,
-        "references": 5
+        "references": 6
       },
-      "sha256": "62c6882ede36db429565aa1ec6592018b110a486cb4bf883f520f08fba7d77a1",
-      "tokens": 684
+      "sha256": "62a64d52fd9ca490b98905c0055aa550e3fff628a0f4de2c051c9f43e323b380",
+      "tokens": 719
+    },
+    {
+      "id": "resource.editorial-review",
+      "path": ".ia.rules/resources/editorial-review.md",
+      "class": "resource",
+      "type": "leaf",
+      "roles": [
+        "final",
+        "constructor"
+      ],
+      "triggers": [
+        "changed-document-review",
+        "diff-editorial-review",
+        "editorial-review-package"
+      ],
+      "inputs": [
+        "validated-base-and-head",
+        "editorial-review-policy"
+      ],
+      "outputs": [
+        "deterministic-editorial-package",
+        "read-only-review-findings"
+      ],
+      "bytes": 3379,
+      "guard": {
+        "exceptions": 0,
+        "modalities": 0,
+        "prohibitions": 1,
+        "references": 12
+      },
+      "sha256": "ecc0d755e0ea9ce77da3dc462f24c6f48133cbb4399daf4e8154fa30bc4e439b",
+      "tokens": 728
     },
     {
       "id": "resource.spoken-normalization",
@@ -655,12 +687,12 @@
         "request-source"
       ],
       "outputs": [],
-      "bytes": 4006,
-      "sha256": "5d54eb70d82167ee26d08ac9fd7965b5d7ccbdead40225beff65f68c045ebc11",
-      "tokens": 888,
+      "bytes": 4385,
+      "sha256": "45740f1649894868af3974514fd18fc233cad38487a9ed60df5da891af95a273",
+      "tokens": 963,
       "guard": {
         "exceptions": 2,
-        "modalities": 2,
+        "modalities": 3,
         "prohibitions": 0,
         "references": 11
       }
@@ -690,15 +722,15 @@
         "state-route",
         "todo-transition"
       ],
-      "bytes": 4211,
+      "bytes": 4687,
       "guard": {
         "exceptions": 0,
         "modalities": 5,
         "prohibitions": 0,
-        "references": 21
+        "references": 19
       },
-      "sha256": "215a0006c44b00dbc1eea52ca526b78c64d1830e4b05be03544deebff2041807",
-      "tokens": 946
+      "sha256": "eee9153eaa84c65ada4c5ca1af63198b6acf324ebde8d03c076bdee0ec8af9f0",
+      "tokens": 1031
     },
     {
       "id": "scenario.refused-decisions",
@@ -809,14 +841,14 @@
         "explicit-authorization"
       ],
       "outputs": [],
-      "bytes": 2029,
-      "sha256": "09f85f690e60f936bb4c8c561e4af782211f8c877cd3451955c4f4fbfd97113d",
-      "tokens": 441,
+      "bytes": 2113,
+      "sha256": "62caed3d94ca2b3f46de65fe9ef44fbb8f535be5716190e4b6176c482e507dc6",
+      "tokens": 459,
       "guard": {
         "exceptions": 0,
         "modalities": 1,
         "prohibitions": 0,
-        "references": 5
+        "references": 4
       }
     },
     {
@@ -1660,6 +1692,13 @@
     },
     {
       "from": "core.agents",
+      "to": "resource.editorial-review",
+      "mode": "passive",
+      "condition": "changed-document editorial review, diff selection, editorial package or read-only review findings",
+      "order": 37
+    },
+    {
+      "from": "core.agents",
       "to": "resource.spoken-normalization",
       "mode": "passive",
       "condition": "spoken representation, TTS normalization, pronunciation, editorial delimiter or biblical reference",
@@ -1685,31 +1724,31 @@
     "action": "read-all-normative-nodes-by-precedence"
   },
   "generation": {
-    "commit": "5ab018b",
-    "commitDate": "2026-09-15T12:36:43-03:00",
+    "commit": "13d410f",
+    "commitDate": "2026-09-25T08:31:14-03:00",
     "encoding": "o200k_base",
     "model": "gpt-4o",
     "script": ".ia.rules/scenarios/governance/scripts/normative-graph.py",
     "serialization": "UTF-8; CRLF normalizado para LF; arquivo integral por nó",
-    "sourceDigest": "41f6fa8b1df14b8b06ed6926512bfb1b3d832e0ffa3dda0a2e4abed5efaf7aea",
+    "sourceDigest": "b9992969b0cb7174342d33712ffc2f9fef2f705dd13812ee28e9bcd9b28f875c",
     "tokenizer": "tiktoken",
     "tokenizerVersion": "0.13.0"
   },
   "metrics": {
     "leaf": {
-      "count": 38,
+      "count": 39,
       "min": 498,
-      "average": 1593.76,
-      "median": 1145.0,
-      "populationStandardDeviation": 1412.77,
+      "average": 1587.26,
+      "median": 1127,
+      "populationStandardDeviation": 1397.32,
       "max": 8593
     },
     "hybrid": {
       "count": 6,
       "min": 399,
-      "average": 1267.17,
-      "median": 1442.0,
-      "populationStandardDeviation": 518.32,
+      "average": 1279.67,
+      "median": 1479.5,
+      "populationStandardDeviation": 519.55,
       "max": 1866
     }
   },
@@ -1899,12 +1938,12 @@
         {
           "id": "scenario.request-lifecycle",
           "mode": "terminal",
-          "tokens": 888
+          "tokens": 963
         }
       ],
       "terminal": "scenario.request-lifecycle",
       "terminalType": "hybrid",
-      "tokens": 1287
+      "tokens": 1362
     },
     {
       "id": "path-009",
@@ -1926,7 +1965,7 @@
           "from": "scenario.request-lifecycle",
           "mode": "passive",
           "to": "scenario.refused-decisions",
-          "tokens": 888
+          "tokens": 963
         },
         {
           "id": "scenario.refused-decisions",
@@ -1936,7 +1975,7 @@
       ],
       "terminal": "scenario.refused-decisions",
       "terminalType": "leaf",
-      "tokens": 2488
+      "tokens": 2563
     },
     {
       "id": "path-010",
@@ -2011,12 +2050,12 @@
         {
           "id": "scenario.issue-lifecycle",
           "mode": "terminal",
-          "tokens": 441
+          "tokens": 459
         }
       ],
       "terminal": "scenario.issue-lifecycle",
       "terminalType": "leaf",
-      "tokens": 2038
+      "tokens": 2056
     },
     {
       "id": "path-013",
@@ -2699,12 +2738,12 @@
         {
           "id": "scenario.state-and-todo",
           "mode": "terminal",
-          "tokens": 946
+          "tokens": 1031
         }
       ],
       "terminal": "scenario.state-and-todo",
       "terminalType": "leaf",
-      "tokens": 1345
+      "tokens": 1430
     },
     {
       "id": "path-040",
@@ -2771,12 +2810,12 @@
         {
           "id": "resource.editorial-authoring",
           "mode": "terminal",
-          "tokens": 684
+          "tokens": 719
         }
       ],
       "terminal": "resource.editorial-authoring",
       "terminalType": "leaf",
-      "tokens": 1083
+      "tokens": 1118
     },
     {
       "id": "path-043",
@@ -2825,6 +2864,30 @@
       "terminal": "resource.context-cost-audit",
       "terminalType": "leaf",
       "tokens": 1227
+    },
+    {
+      "id": "path-045",
+      "nodes": [
+        "core.agents",
+        "resource.editorial-review"
+      ],
+      "segments": [
+        {
+          "condition": "changed-document editorial review, diff selection, editorial package or read-only review findings",
+          "from": "core.agents",
+          "mode": "passive",
+          "to": "resource.editorial-review",
+          "tokens": 399
+        },
+        {
+          "id": "resource.editorial-review",
+          "mode": "terminal",
+          "tokens": 728
+        }
+      ],
+      "terminal": "resource.editorial-review",
+      "terminalType": "leaf",
+      "tokens": 1127
     }
   ]
 }

@@ -5031,6 +5031,136 @@
       "sentenceSha256": "49483195fd1a6570ca854dec8ebfb00fe1a6cb6951f72011d1df99bdf2c057fb",
       "state": "synchronized",
       "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/issue-lifecycle.ts",
+        "src/.ia.rules/core/runtime/scripts/request-record.ts",
+        "src/.ia.rules/core/runtime/scripts/state-manager.ts",
+        "src/.ia.rules/core/runtime/scripts/todo-intake.ts",
+        "test/issue-lifecycle.test.js",
+        "test/request-record.test.js",
+        "test/todo-and-gate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-109",
+      "id": "36aa453fb4824a417f7f2522",
+      "line": 1774,
+      "rcf": "RCF.md",
+      "sentenceSha256": "7520320b4f655c2aced6c613ed40d5871ae99515a1b156197928f3d2d4d94d4a",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/issue-lifecycle.ts",
+        "src/.ia.rules/core/runtime/scripts/request-record.ts",
+        "src/.ia.rules/core/runtime/scripts/state-manager.ts",
+        "src/.ia.rules/core/runtime/scripts/todo-intake.ts",
+        "test/issue-lifecycle.test.js",
+        "test/request-record.test.js",
+        "test/todo-and-gate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-109",
+      "id": "6fff5b5a21d494c5501020b0",
+      "line": 1782,
+      "rcf": "RCF.md",
+      "sentenceSha256": "98701a08a1957654fbae7d4d425eb8d8ed8f58211667a2c4d0455537ea58733b",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/issue-lifecycle.ts",
+        "src/.ia.rules/core/runtime/scripts/request-record.ts",
+        "src/.ia.rules/core/runtime/scripts/state-manager.ts",
+        "src/.ia.rules/core/runtime/scripts/todo-intake.ts",
+        "test/issue-lifecycle.test.js",
+        "test/request-record.test.js",
+        "test/todo-and-gate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-109",
+      "id": "7adbc71cb759b789ba200643",
+      "line": 1784,
+      "rcf": "RCF.md",
+      "sentenceSha256": "e282f97eca9b527ea8b97c436637a4ac8f84a3821a43bd21a7baec6b9a866230",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/issue-lifecycle.ts",
+        "src/.ia.rules/core/runtime/scripts/request-record.ts",
+        "src/.ia.rules/core/runtime/scripts/state-manager.ts",
+        "src/.ia.rules/core/runtime/scripts/todo-intake.ts",
+        "test/issue-lifecycle.test.js",
+        "test/request-record.test.js",
+        "test/todo-and-gate.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-109",
+      "id": "3d2f3a2e3f9fb3e43ea3a05a",
+      "line": 1786,
+      "rcf": "RCF.md",
+      "sentenceSha256": "a35c1553d9ad826bd4b56165ded089e112cf5b4c382b4a9bad6ceec7a7013d5e",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/editorial-review.ts",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/workflows/github/editorial-review.yml",
+        "src/.ia.rules/workflows/index.json",
+        "test/editorial-review.test.js",
+        "test/workflow-manager.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-105",
+      "id": "51c4836d742075f45af2ef1d",
+      "line": 1794,
+      "rcf": "RCF.md",
+      "sentenceSha256": "e277b5fed7113af449fd13e500d269176f6c78291a8a8e9e862ae0f0799dda6a",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/editorial-review.ts",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/workflows/github/editorial-review.yml",
+        "src/.ia.rules/workflows/index.json",
+        "test/editorial-review.test.js",
+        "test/workflow-manager.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-105",
+      "id": "066085ff5a49c37810ee6e26",
+      "line": 1796,
+      "rcf": "RCF.md",
+      "sentenceSha256": "f3d283f87782fa2f4a4f4c25efca7857f7a258832f3d90a6c2ca346180151091",
+      "state": "pending",
+      "syncCommit": ""
+    },
+    {
+      "artifacts": [
+        "src/.ia.rules/core/runtime/scripts/editorial-review.ts",
+        "src/.ia.rules/distribution/source-manifest.json",
+        "src/.ia.rules/workflows/github/editorial-review.yml",
+        "src/.ia.rules/workflows/index.json",
+        "test/editorial-review.test.js",
+        "test/workflow-manager.test.js"
+      ],
+      "commit": "",
+      "ft": "FT-105",
+      "id": "710eb52075d107780e85fb33",
+      "line": 1800,
+      "rcf": "RCF.md",
+      "sentenceSha256": "abd3f0134e7c23d052fbf566709df199e573a11170994d2e9c61c87fddd24ce9",
+      "state": "pending",
+      "syncCommit": ""
     }
   ]
 }

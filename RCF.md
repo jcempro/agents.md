@@ -1766,3 +1766,35 @@ O relatório persistente DEVE usar localização canônica descoberta no reposit
 Qualquer recomendação de alteração material DEVE criar FT posterior com baseline/evidências, solução recomendada, alternativas viáveis ordenadas, critérios de escolha, dependências, implementação, migração, testes, rollback, equivalência, medição posterior e aceite. Empate material mantém ponto de decisão explícito; FT, relatório ou conclusão da Skill NÃO autorizam executar a recomendação. [22520b2]
 
 Aceite da FT-098 DEVE exigir estado e rotas medidos, pesquisa recente verificável, múltiplas alternativas, testes isolados e combinatórios, nenhuma eliminação prematura, prova de preservação material, ganhos end-to-end, relatório reproduzível, ranking objetivo e redução efetiva sem perda. Release, instalação externa ou mudança recomendada permanecem fora do escopo sem autorização própria. [3725de7]
+
+## 24. Solicitações compactas e revisão editorial por diff
+
+### 24.1 Fonte individual e superfícies globais
+
+Toda solicitação originada de TODO, issue, prompt ou equivalente DEVE receber ID estável e registro individual versionado que preserve integralmente o original, origem, data, hash, anexos/evidências, FTs e incorporação; correção ou expansão posterior é adendo ordenado e imutável, nunca reescrita retroativa. Solicitação local já versionada PODE ser vinculada ao blob/commit íntegro quando isso mantiver recuperação determinística e independência do histórico da ferramenta. [PENDENTE-CODIGO]
+
+`TODO.ia.md` na raiz é a única fila global canônica e perene; após inicialização, cada frente mantém somente status, síntese inequívoca, ID do histórico e FTs, com redução mínima de 70% quando materialmente possível. `handoff.md` na raiz é o único resumo global de solicitações em andamento, e `.ia.rules/continue.ia` é o único estado operacional global; arquivos segmentados sob `.ia.rules/state/` são históricos, índices ou detalhes carregados por ID, nunca autoridades concorrentes.
+
+Issue mantém corpo remoto intacto e relação bidirecional `issue ↔ registro ↔ FTs` quando tecnicamente viável. Prompt que corrige ou amplia solicitação existente torna-se adendo identificado; prompt independente não é vinculado por semelhança temática. Cada FT possui registro individual suficiente para execução sem carregar outras FTs e referencia a origem integral para auditoria/revalidação.
+
+### 24.2 Migração, retenção e custo
+
+Migração legado→novo DEVE produzir mapa de origem/destino/hash, preservar IDs e referências, aceitar reexecução e interrupção, detectar duplicidade/ausência/divergência e oferecer conversão fail-safe ou convivência temporária explicitamente roteada até convergência. Nenhum consumidor PODE perder estado ou quebrar silenciosamente. [PENDENTE-CODIGO]
+
+Retenção automática DEVE ser determinística, configurável, idempotente e auditável; prazo ou critério deriva do ciclo real e nunca remove solicitação ativa, pendente de validação, referenciada, vinculada a issue aberta/release pendente ou necessária à rastreabilidade. Dry-run e lista causal de preservação/remoção precedem qualquer exclusão. [PENDENTE-CODIGO]
+
+Arquivos rotineiramente carregados DEVEM ser medidos e segregados por ID/FT/solicitação quando isso reduzir custo total sem perder semântica, autoridade, rastreabilidade ou retrocompatibilidade. Aceite compara contexto médio antes/depois e comprova redução de 70% nos itens elegíveis de TODO, estabilidade dos IDs, imutabilidade/adendos, isolamento de FTs, unicidade de paths, retenção segura e recuperação de migração interrompida. [PENDENTE-CODIGO]
+
+CT-8 permanece a definição única de fail-safe: finalidade é concluída por alternativas seguras finitas sempre que contornável; esgotamento preserva integridade e retorna falha explícita com tentativas e causa, nunca sucesso fabricado. Documentação de toda fonte humana editável segue cumulativamente `resource.traceability`; derivado não mantido como source permanece fora dessa obrigação.
+
+### 24.3 Revisão editorial portável
+
+A revisão editorial portável é opt-in e read-only sobre o corpus: calcula alterações entre base/head validados, classifica somente arquivos regulares dentro de roots/extensões/limites declarados, prepara pacote determinístico e produz achados revisáveis; não altera corpus, Git, pull request, issue ou publicação.
+
+Seleção DEVE rejeitar path absoluto, NUL, traversal, symlink, não regular, escape físico após `realpath`, remoção, arquivo fora do root/extensão e limite individual/coletivo; base inválida bloqueia sem varredura integral. Limites de quantidade e bytes são aplicados antes de qualquer provedor externo. [PENDENTE-CODIGO]
+
+O pacote DEVE conter schema/versão, base, head, política, prompt normativo, limites, manifesto ordenado, selecionados/excluídos, tamanho e SHA-256, além de cópias somente dos documentos selecionados em diretório temporário autorizado. Mesmas entradas e configuração produzem bytes semanticamente equivalentes e manifesto reproduzível. [PENDENTE-CODIGO]
+
+Provedor é adaptador opcional sob CT-4: ausência, credencial ausente, timeout, falha ou saída inválida resulta em `pending`/diagnóstico, nunca aprovação. Achado válido declara arquivo, região, severidade, norma, explicação e sugestão; resultado automatizado não substitui revisão humana.
+
+Workflow distribuível usa `contents: read`, checkout sem credencial persistida, actions fixadas conforme política, timeout/concurrency e artifact temporário com retenção; `pull_request_target`, segredo implícito, escrita, push e envio externo não configurado são proibidos. Aceite cobre alteração/não alteração, draft, página, renomeação, remoção, traversal, symlink, base inválida, limites, provedor ausente, sanitização, reprodutibilidade e corpus/Git inalterados. [PENDENTE-CODIGO]

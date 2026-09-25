@@ -211,7 +211,7 @@ resultado=Fronteira CommonJS distribuída; regressão ESM aprovada; release v0.1
 verificacoes=npm test 31 suítes; agent:verify 160 arquivos; rastreabilidade 341/336; workflow 35037437346 aprovado.
 pendencias=Validação do desenvolvedor permanece externa.
 
-FT-104|nome=RCF e Norma da revisão editorial portável por diff|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=em_andamento|criado_em=2026-09-25T08:27:06Z|inicio=2026-09-25T08:27:06Z|atualizacao=2026-09-25T05:36:11-03:00
+FT-104|nome=RCF e Norma da revisão editorial portável por diff|tipo=implementacao_normativa|escopo=Tecnico|prioridade=alta|status=concluida|criado_em=2026-09-25T08:27:06Z|inicio=2026-09-25T08:27:06Z|atualizacao=2026-09-25T08:40:52-03:00|conclusao=2026-09-25T08:40:52-03:00|validacao=pendente_desenvolvedor
 objetivo=Normatizar a capacidade read-only da issue 14, com seleção mínima, pacote reproduzível, provedor opcional e achados estruturados.
 origem=.ia.rules/state/requests/FT-104/request.md.
 issue_id=github:jcempro/agents.md#14
@@ -219,9 +219,11 @@ issue_repo=jcempro/agents.md
 issue_number=14
 issue_url=https://github.com/jcempro/agents.md/issues/14
 issue_state=em_desenvolvimento
-1/2 Equalização e RCF [em_andamento]
-2/2 Norma Operacional em src [pendente]
-pendencias=Concluir fase normativa; FT-105 aguarda autorização humana posterior.
+1/2 Equalização e RCF [concluida]
+2/2 Norma Operacional em src [concluida]
+resultado=RCF 24.3 e resource.editorial-review normatizam seleção segura por diff, pacote determinístico, provedor opcional, resultado estruturado e workflow read-only; índice, manifesto e dist incluem a nova rota.
+verificacoes=RCF_OK 348/343; grafo 46 nós/45 rotas; DIST_OK 165 arquivos; testes dirigidos e npm test com 31 suítes passaram.
+pendencias=FT-105 aguarda commit desta fase e autorização humana posterior para código.
 
 FT-105|nome=Implementação da revisão editorial portável por diff|tipo=implementacao_codigo|escopo=Tecnico|prioridade=alta|status=pendente|criado_em=2026-09-25T05:36:11-03:00|atualizacao=2026-09-25T05:36:11-03:00|autorizacao=pendente_humana
 objetivo=Implementar seleção segura, pacote determinístico, estado pendente sem provedor, CLI/workflow opt-in e testes da issue 14.
@@ -238,15 +240,19 @@ issue_url=https://github.com/jcempro/agents.md/issues/13
 issue_state=aprovada_por_prompt
 pendencias=Executar após commit exclusivo de inicialização; release/publicação fora do escopo.
 
-FT-107|nome=Equalização e RCF de solicitações compactas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=em_andamento|criado_em=2026-09-25T05:36:11-03:00|inicio=2026-09-25T05:36:11-03:00|atualizacao=2026-09-25T05:36:11-03:00
+FT-107|nome=Equalização e RCF de solicitações compactas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-25T05:36:11-03:00|inicio=2026-09-25T05:36:11-03:00|atualizacao=2026-09-25T08:40:52-03:00|conclusao=2026-09-25T08:40:52-03:00|validacao=pendente_desenvolvedor
 objetivo=Equalizar histórico individual, TODO/handoff/continue canônicos, retenção, fail-safe, documentação nativa e carregamento sob demanda.
 origem=.ia.rules/state/requests/FT-107/request.md; TODO.ia.md@dd54c5c.
-pendencias=Concluir RCF antes da FT-108.
+resultado=RCF 24.1 e 24.2 equalizam registro individual imutável, adendos, superfícies globais únicas, migração, retenção, medição contextual e CT-8.
+verificacoes=Sete sentenças materiais registradas como pendentes do runtime FT-109; RCF e trace validate passaram.
+pendencias=Commit normativo pendente; implementação permanece na FT-109.
 
-FT-108|nome=Norma Operacional de solicitações compactas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-25T05:36:11-03:00|atualizacao=2026-09-25T05:36:11-03:00
+FT-108|nome=Norma Operacional de solicitações compactas|tipo=implementacao_normativa|escopo=Tecnico|prioridade=critica|status=concluida|criado_em=2026-09-25T05:36:11-03:00|inicio=2026-09-25T08:40:52-03:00|atualizacao=2026-09-25T08:40:52-03:00|conclusao=2026-09-25T08:40:52-03:00|validacao=pendente_desenvolvedor
 objetivo=Projetar em src os contratos e paths canônicos da FT-107 sem antecipar migração/runtime.
 origem=.ia.rules/state/requests/FT-107/request.md; depende=FT-107.
-pendencias=FT-107 concluída.
+resultado=Request lifecycle, issue lifecycle e state-and-todo projetam IDs estáveis, fonte/adendos, isolamento por FT, fila compacta e paths globais futuros sem antecipar runtime.
+verificacoes=Grafo e derivados regenerados; testes normative-graph, source-distribution, agents-entrypoint e suíte global passaram.
+pendencias=Commit normativo pendente; FT-109 aguarda autorização humana nova para código.
 
 FT-109|nome=Runtime e migração de solicitações compactas|tipo=implementacao_codigo|escopo=Tecnico|prioridade=critica|status=pendente|criado_em=2026-09-25T05:36:11-03:00|atualizacao=2026-09-25T05:36:11-03:00|autorizacao=pendente_humana
 objetivo=Implementar registros/adendos, compactação do TODO, estado global, retenção segura e migração retrocompatível.

@@ -1,6 +1,6 @@
 # Edição autoral e inteligibilidade
 
-Identidade normativa: `resource.editorial-authoring`; recurso; tipo: folha. Ler ao revisar, reordenar, simplificar, resumir, adaptar ou gerar texto editorial/autoral. Não carregar para correção mecânica isolada nem para normalização técnica de TTS sem edição. Depende de `../core/authority.md`, `MN-PRES`, `MN-DISC`, do RCF aplicável e, quando houver transformação por IA, da marcação autoral nele definida.
+Identidade normativa: `resource.editorial-authoring`; recurso; tipo: folha. Ler ao revisar, reordenar, simplificar, resumir, adaptar ou gerar texto editorial/autoral. Para selecionar documentos alterados e produzir parecer sem editar o corpus, carregar `./editorial-review.md` em vez deste corpo integral até que a política editorial material seja necessária. Não carregar para correção mecânica isolada nem para normalização técnica de TTS sem edição. Depende de `../core/authority.md`, `MN-PRES`, `MN-DISC`, do RCF aplicável e, quando houver transformação por IA, da marcação autoral nele definida.
 
 ## 1. Fonte, voz e intervenção
 

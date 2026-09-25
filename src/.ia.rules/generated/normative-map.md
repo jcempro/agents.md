@@ -1,6 +1,6 @@
 # Mapa normativo gerado
 
-Origem: `41f6fa8b1df14b8b06ed6926512bfb1b3d832e0ffa3dda0a2e4abed5efaf7aea`; revisão: `5ab018b`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
+Origem: `b9992969b0cb7174342d33712ffc2f9fef2f705dd13812ee28e9bcd9b28f875c`; revisão: `13d410f`; tokenizer: `tiktoken 0.13.0` / `o200k_base` / `gpt-4o`.
 
 Custos são tokens acumulados do conteúdo efetivamente carregado. Aresta passiva lê o nó integral; imediata lê até seu marcador inclusivo; folha e híbrido terminal incluem conteúdo integral; rotas distintas permanecem separadas e um nó compartilhado não é contado duas vezes na mesma rota.
 
@@ -21,17 +21,18 @@ flowchart TD
   resource_subagents["resource.subagents\nleaf\n516 tokens"]
   resource_long_running["resource.long-running\nleaf\n511 tokens"]
   resource_external_tools["resource.external-tools\nleaf\n425 tokens"]
-  resource_editorial_authoring["resource.editorial-authoring\nleaf\n684 tokens"]
+  resource_editorial_authoring["resource.editorial-authoring\nleaf\n719 tokens"]
+  resource_editorial_review["resource.editorial-review\nleaf\n728 tokens"]
   resource_spoken_normalization["resource.spoken-normalization\nleaf\n808 tokens"]
   resource_context_cost_audit["resource.context-cost-audit\nleaf\n828 tokens"]
   resource_workflows["resource.workflows\nleaf\n873 tokens"]
   resource_traceability["resource.traceability\nleaf\n965 tokens"]
-  scenario_request_lifecycle["scenario.request-lifecycle\nhybrid\n888 tokens"]
-  scenario_state_and_todo["scenario.state-and-todo\nleaf\n946 tokens"]
+  scenario_request_lifecycle["scenario.request-lifecycle\nhybrid\n963 tokens"]
+  scenario_state_and_todo["scenario.state-and-todo\nleaf\n1031 tokens"]
   scenario_refused_decisions["scenario.refused-decisions\nleaf\n1201 tokens"]
   scenario_official_gap["scenario.official-gap\nleaf\n555 tokens"]
   scenario_upstream_sharing["scenario.upstream-sharing\nhybrid\n1198 tokens"]
-  scenario_issue_lifecycle["scenario.issue-lifecycle\nleaf\n441 tokens"]
+  scenario_issue_lifecycle["scenario.issue-lifecycle\nleaf\n459 tokens"]
   scenario_release["scenario.release\nhybrid\n1268 tokens"]
   capability_package_registry["capability.package-registry\nleaf\n457 tokens"]
   scenario_application_update["scenario.application-update\nleaf\n398 tokens"]
@@ -93,6 +94,7 @@ flowchart TD
   core_agents -->|"passive: state, memory, fix, TODO, migration or resume"| scenario_state_and_todo
   core_agents -->|"passive: visual image, PDF, screenshot, render or responsive UI work"| scenario_visual_precision
   core_agents -->|"passive: editorial authoring, authorial revision or accessible text transformation"| resource_editorial_authoring
+  core_agents -->|"passive: changed-document editorial review, diff selection, editorial package or read-only review findings"| resource_editorial_review
   core_agents -->|"passive: spoken representation, TTS normalization, pronunciation, editorial delimiter or biblical reference"| resource_spoken_normalization
   core_agents -->|"passive: context token, route, memory, status, recovery or resume cost audit"| resource_context_cost_audit
 ```
@@ -103,8 +105,8 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 
 | Terminal | Rotas | Mínimo | Média | Mediana | Desvio padrão | Máximo |
 |---|---:|---:|---:|---:|---:|---:|
-| Folha | 38 | 498 | 1593.76 | 1145.0 | 1412.77 | 8593 |
-| Híbrido | 6 | 399 | 1267.17 | 1442.0 | 518.32 | 1866 |
+| Folha | 39 | 498 | 1587.26 | 1127 | 1397.32 | 8593 |
+| Híbrido | 6 | 399 | 1279.67 | 1479.5 | 519.55 | 1866 |
 
 ## Caminhos
 
@@ -117,11 +119,11 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 | path-005 | core.agents → core.contracts | leaf | 2468 |
 | path-006 | core.agents → role.final | leaf | 1062 |
 | path-007 | core.agents → role.constructor → scenario.constructor-operation | leaf | 2231 |
-| path-008 | core.agents → scenario.request-lifecycle | hybrid | 1287 |
-| path-009 | core.agents → scenario.request-lifecycle → scenario.refused-decisions | leaf | 2488 |
+| path-008 | core.agents → scenario.request-lifecycle | hybrid | 1362 |
+| path-009 | core.agents → scenario.request-lifecycle → scenario.refused-decisions | leaf | 2563 |
 | path-010 | core.agents → scenario.official-gap | leaf | 954 |
 | path-011 | core.agents → scenario.upstream-sharing | hybrid | 1597 |
-| path-012 | core.agents → scenario.upstream-sharing → scenario.issue-lifecycle | leaf | 2038 |
+| path-012 | core.agents → scenario.upstream-sharing → scenario.issue-lifecycle | leaf | 2056 |
 | path-013 | core.agents → core.update | leaf | 2571 |
 | path-014 | core.agents → resource.scripts | hybrid | 1866 |
 | path-015 | core.agents → resource.scripts → meta.cli | leaf | 2005 |
@@ -148,9 +150,10 @@ O desvio padrão é populacional e considera uma observação por rota válida.
 | path-036 | core.agents → resource.subagents | leaf | 915 |
 | path-037 | core.agents → resource.long-running | leaf | 910 |
 | path-038 | core.agents → resource.external-tools | leaf | 824 |
-| path-039 | core.agents → scenario.state-and-todo | leaf | 1345 |
+| path-039 | core.agents → scenario.state-and-todo | leaf | 1430 |
 | path-040 | core.agents → scenario.visual-precision | leaf | 852 |
 | path-041 | core.agents → core.agents-full | leaf | 8593 |
-| path-042 | core.agents → resource.editorial-authoring | leaf | 1083 |
+| path-042 | core.agents → resource.editorial-authoring | leaf | 1118 |
 | path-043 | core.agents → resource.spoken-normalization | leaf | 1207 |
 | path-044 | core.agents → resource.context-cost-audit | leaf | 1227 |
+| path-045 | core.agents → resource.editorial-review | leaf | 1127 |

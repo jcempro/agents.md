@@ -1263,6 +1263,16 @@
       "validation": ["source-exists", "destination-unique", "integrity-at-build"]
     },
     {
+      "path": ".ia.rules/resources/editorial-review.md",
+      "profile": "consumer-scenario",
+      "destination": ".ia.rules/resources/editorial-review.md",
+      "purpose": "contrato read-only de revisão editorial portável por diff",
+      "roles": ["final", "constructor"],
+      "condition": "changed-document-editorial-review",
+      "ownership": "managed",
+      "validation": ["source-exists", "destination-unique", "integrity-at-build"]
+    },
+    {
       "path": ".ia.rules/resources/spoken-normalization.md",
       "profile": "consumer-scenario",
       "destination": ".ia.rules/resources/spoken-normalization.md",

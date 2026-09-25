@@ -6,7 +6,7 @@ CONTRADIÇÃO DETECTADA: cenário legado de upstream determina uma FT por issue 
 
 ## Segregação e estado
 
-Demanda comportamental aprovada cria uma FT `implementacao_normativa` e uma FT `implementacao_codigo`, distintas em ID, `criado_em`, objetivo, escopo, dependências, estado e aceite. A FT técnica inicia pendente, aponta à norma futura e exige conclusão normativa mais autorização humana posterior. FT genérica legada é reclassificada sem renumeração e recebe a complementar ausente. `agents:in-development` indica ciclo ativo, não código iniciado; comentário de correlação lista ambas.
+Demanda comportamental aprovada cria registro individual imutável e uma FT `implementacao_normativa` e outra `implementacao_codigo`, distintas em ID, criação, objetivo, escopo, dependências, estado e aceite. A FT técnica inicia pendente, aponta à norma futura e exige conclusão normativa mais autorização humana posterior. FT genérica legada é reclassificada sem renumeração e recebe a complementar ausente. `agents:in-development` indica ciclo ativo, não código iniciado; comentário/metadado correlaciona issue, registro e todas as FTs sem reescrever o corpo remoto.
 
 ## Encerramento
 
