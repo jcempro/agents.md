@@ -219,3 +219,22 @@ release=0.1.14-rc5
 resultado=Fronteira CommonJS própria distribuída em .ia.rules/package.json, validação exaustiva do manifesto e regressão real de consumidor ESM implementadas; release v0.1.14-rc5 publicado.
 verificacoes=Worktree inicial limpo e dev alinhada a origin/dev; falha prévia da release vigente reproduzida; regressão literal npm run agents:update -- --check em consumidor type=module aprovada; grafo CommonJS entre subárvores aprovado; npm test aprovado com 31 suítes; agent:verify aprovado com TYPECHECK_OK, NORMATIVE_GRAPH_OK e VERIFY_OK para 160 arquivos; commits f3d74ef e 66c5f58; rastreabilidade 341/336 sincronizada; workflow 35037437346 concluído com sucesso; tag, artefatos e release v0.1.14-rc5 publicados; origin/dev e origin/main convergiram em 7780378.
 pendencias=Nenhuma pendência funcional; validação do desenvolvedor permanece externa.
+
+FT-104|nome=[AGENTS] Revisão editorial portável para documentos alterados|escopo=Tecnico|prioridade=alta|status=em_andamento|inicio=20260925.082706|atualizacao=20260925.082706
+objetivo=Implementar a issue aprovada github:jcempro/agents.md#14 com rastreabilidade ate o release.
+issue_id=github:jcempro/agents.md#14
+issue_repo=jcempro/agents.md
+issue_number=14
+issue_url=https://github.com/jcempro/agents.md/issues/14
+issue_state=aprovada
+release=pendente
+1/3 Analise e plano [pendente]
+  1/2 Validar escopo e criterios de aceite da issue [pendente]
+  2/2 Atualizar plano e contratos aplicaveis [pendente]
+2/3 Implementacao e validacao [pendente]
+  1/2 Implementar sem regressao [pendente]
+  2/2 Executar validacoes proporcionais [pendente]
+3/3 Entrega [pendente]
+  1/2 Commitar e publicar desenvolvimento [pendente]
+  2/2 Incluir em release e encerrar issue [pendente]
+pendencias=Iniciar desenvolvimento e executar o plano da issue.
