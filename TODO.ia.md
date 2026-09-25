@@ -256,7 +256,7 @@ Usar estas fontes primárias e acadêmicas como baseline, atualizando-as se houv
 - FTs convergentes: FT-095 (RCF), FT-096 (Norma), FT-097 (Skill/experimentos/relatório) e FT-098 (validação).
 - A execução funcional ocorre somente após as demais frentes e nova autorização; recomendação material gera FT posterior, sem aplicação automática.
 
-* [ ] **Reduzir estruturalmente consumo de tokens/contexto de solicitações, históricos e FTs, preservando integralmente semântica, rastreabilidade e retrocompatibilidade**
+📌 **Reduzir estruturalmente consumo de tokens/contexto de solicitações, históricos e FTs, preservando integralmente semântica, rastreabilidade e retrocompatibilidade**
   - **Princípios**
     - Inspecionar primeiro governança e implementação reais; NÃO presumir paths, formatos, IDs, hooks, automações ou estruturas inexistentes.
     - Cada operação DEVE carregar, por padrão, apenas o contexto materialmente necessário.

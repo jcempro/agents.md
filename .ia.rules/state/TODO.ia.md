@@ -241,3 +241,7 @@ Este marcador encerra a seção de governança e inicia exclusivamente as TO-DOs
   - Fonte integral e refinamentos: `.ia.rules/state/requests/FT-095/request.md` e histórico de `TODO.ia.md` até `7d72d56`.
   - FTs convergentes: FT-095 (RCF), FT-096 (Norma), FT-097 (Skill/experimentos/relatório) e FT-098 (validação).
   - A execução funcional ocorre somente após as demais frentes e nova autorização; recomendação material gera FT posterior, sem aplicação automática.
+
+📌 Reduzir contexto de solicitações e FTs sem perda semântica
+  - Histórico: `.ia.rules/state/requests/FT-107/request.md`.
+  - FTs: FT-107, FT-108, FT-109 e FT-110.

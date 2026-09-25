@@ -201,3 +201,15 @@ agents-governance-backups/
 /.ia.rules/agents-update.lock.json
 /agents-governance-backups/
 # END agents-governance managed
+
+# Solicitações locais canônicas preservadas e versionadas.
+!/.ia.rules/state/
+/.ia.rules/state/**
+!/.ia.rules/state/requests/
+/.ia.rules/state/requests/**
+!/.ia.rules/state/requests/FT-104/
+!/.ia.rules/state/requests/FT-104/request.md
+!/.ia.rules/state/requests/FT-106/
+!/.ia.rules/state/requests/FT-106/request.md
+!/.ia.rules/state/requests/FT-107/
+!/.ia.rules/state/requests/FT-107/request.md
